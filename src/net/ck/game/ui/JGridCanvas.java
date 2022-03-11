@@ -376,6 +376,10 @@ public class JGridCanvas extends JComponent
 			{
 				// BufferedImage img = ImageUtils.loadRandomBackgroundImage(tile.getType());
 				BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
+				if (img == null)
+				{
+					logger.error("tile has no image: {}", tile);
+				}
 				// logger.info("buffered image: {}", img.toString());
 				int absX = Math.abs(pX - screenPosition.x);
 				int absY = Math.abs(pY - screenPosition.y);

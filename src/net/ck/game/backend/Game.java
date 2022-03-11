@@ -78,7 +78,7 @@ public class Game
 	 */
 	private Hashtable<Integer, Armor> armorList;
 
-	private final String gameMapName = "testname";
+	private final String gameMapName = "Ultima4";
 	private ArrayList<Map> maps;
 
 	/**
@@ -372,34 +372,57 @@ public class Game
 
 		for (File file : listOfFiles)
 		{
-			Map map = null;
+
 			if (file.isFile())
 			{
-				logger.info("parsing map: {}", mapRootPath + File.separator + file.getName());
-				map = RunXMLParser.parseMap(mapRootPath + File.separator + file.getName());
+				logger.info("file name: {}", file.getName());
+				if (file.getName().contains("xml"))
+				{
+					Map map = null;
+					logger.info("parsing map: {}", mapRootPath + File.separator + file.getName());
+					map = RunXMLParser.parseMap(mapRootPath + File.separator + file.getName());
 
-				if (map.getName().equalsIgnoreCase(gameMapName))
-				{
-					map.initialize();
-					map.setVisibilityRange(2);
-					// not sure whether I actually want this or even need this, or even need
-					// the north/east/south/west
-					// MapUtils.calculateTileDirections(map.getTiles());
-					setCurrentMap(map);
-					// addManyNPCs(map);
-					addItemsToFloor(map);
+					if (map.getName().equalsIgnoreCase(gameMapName))
+					{
+						map.initialize();
+						map.setVisibilityRange(2);
+						// not sure whether I actually want this or even need this, or even need
+						// the north/east/south/west
+						// MapUtils.calculateTileDirections(map.getTiles());
+						setCurrentMap(map);
+						// addManyNPCs(map);
+						addItemsToFloor(map);
+					} else
+					{
+						map.setVisibilityRange(1);
+					}
+					if (map.getCurrentWeather() == null)
+					{
+						Weather weather = new Weather();
+						weather.setType(WeatherTypes.SUN);
+						map.setCurrentWeather(weather);
+					}
+					getMaps().add(map);
 				}
-				else
-				{
-					map.setVisibilityRange(1);
-				}
-				if (map.getCurrentWeather() == null)
-				{
-					Weather weather = new Weather();
-					weather.setType(WeatherTypes.SUN);
-					map.setCurrentWeather(weather);
-				}
-				getMaps().add(map);
+
+			}
+		}
+
+		getMaps().add(MapUtils.importUltima4MapFromCSV());
+		logger.info("maps: {}", getMaps());
+
+		for (Map m : getMaps())
+		{
+			if (m.getName().equalsIgnoreCase(gameMapName))
+			{
+				m.initialize();
+				m.setVisibilityRange(2);
+				// not sure whether I actually want this or even need this, or even need
+				// the north/east/south/west
+				// MapUtils.calculateTileDirections(map.getTiles());
+				setCurrentMap(m);
+				// addManyNPCs(map);
+				addItemsToFloor(m);
 			}
 		}
 		logger.info("end: initialize maps");

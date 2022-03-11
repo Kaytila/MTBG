@@ -157,7 +157,8 @@ public class InventoryPaneListener implements ActionListener, ItemListener, List
 		if (e.getClickCount() == 2 && !e.isConsumed() && e.getButton() == MouseEvent.BUTTON1)
 		{
 			if (getAction().getType().equals(KeyboardActionType.DROP))
-			{				
+			{
+				e.consume();
 				EventBus.getDefault().post(new CursorChangeEvent(CursorUtils.createCustomCursorFromImage(getInventoryPane().getSelectedValue().getItemImage())));
 				Game.getCurrent().getController().setCurrentItemInHand(getInventoryPane().getSelectedValue());
 				WindowClosingAction close = new WindowClosingAction(getInventoryPane().getParentDialog());

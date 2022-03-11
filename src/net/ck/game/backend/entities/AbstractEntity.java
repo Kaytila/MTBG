@@ -202,6 +202,7 @@ public abstract class AbstractEntity
 		{
 			Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction(), action.getEntity()));
 		}
+		Game.getCurrent().getController().setCurrentAction(null);
 	}
 
 	private void dropItem(AbstractItem affectedItem, MapTile tile)

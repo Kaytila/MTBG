@@ -358,7 +358,15 @@ adding animated tiles
 			something is amiss there but I dont know yet.
 			Something for the future to take care of.
 			Oh todos: setup git, setup intellij community edition.
-			
+2022-03-11: moved to intellij and git.
+            additional open topics: so a drop or a get for that matter does not "complete".
+            problem is that currently only another non-moving command is kind of ending the existing command.
+            not sure how to tackle this yet.
+            so i have converted the u4 map.
+            need to add a layer on top of map.
+            for towns and so on.
+            that way i can get caravans and moving things to enter.
+            write map to xml is almost done.
 			
 			
 			

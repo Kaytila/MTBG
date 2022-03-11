@@ -1,38 +1,5 @@
 package net.ck.game.ui;
 
-import java.awt.AWTException;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DropTarget;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.Timer;
-import javax.swing.TransferHandler;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.NPC;
@@ -43,6 +10,18 @@ import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
+import java.awt.event.*;
 
 /**
  * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
@@ -102,7 +81,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	Timer pressedTimer;
 
 	/**
-	 * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross hairs
+	 * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross-hairs
 	 */
 	private boolean selectTile;
 
@@ -403,7 +382,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		//logger.info("mouse pressed");
 		if (this.getCurrentAction() != null)
 		{
-			//logger.info("we have a running action, dont do drag!");
+			logger.info("current action: {}", this.getCurrentAction());
+			logger.info("we have a running action, dont do drag!");
 		}
 		else
 		{
@@ -459,7 +439,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			}
 		}
 		if (e.getButton() == MouseEvent.BUTTON1)
-		// this now only works for get
+		// this now only works for get/talk/drop
 		{
 			if (this.getCurrentAction() != null)
 			{

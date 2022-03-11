@@ -23,8 +23,9 @@ module myTurnedBasedGame
 	requires imgscalr.lib;
 	requires java.datatransfer;
 	requires org.apache.commons.io;
-	
-	exports net.ck.game.test;
+    requires opencsv;
+
+    exports net.ck.game.test;
 	exports net.ck.game.backend;
 	exports net.ck.game.backend.entities;
 	exports net.ck.game.ui;

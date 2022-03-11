@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 
+import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -104,7 +105,8 @@ public class RunGame
 		{
 			e.printStackTrace();
 		}*/
-		
+
+
 		if (game != null)
 		{
 			//ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
