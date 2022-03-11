@@ -1,0 +1,181 @@
+package net.ck.game.ui;
+
+import java.awt.Color;
+import java.awt.Frame;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.NPC;
+import net.ck.util.communication.keyboard.WindowClosingAction;
+
+public class TalkDialog extends AbstractDialog
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTextArea textArea;
+	private JTextField textField;
+	private NPC npc;
+	
+	public TalkDialog()
+	{
+		super();
+
+	}
+
+	public TalkDialog(Frame owner, String title, boolean modal, AbstractEntity target, NPC n)
+	{
+		setTitle(title);
+		setNpc(n);
+		this.setBounds(0, 0, 700, 700);
+		this.setLayout(null);	
+		this.setLocationRelativeTo(owner);
+		final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
+		root = this.getRootPane();
+		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
+		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 700, 700);
+		panel.setLayout(null);
+		this.setContentPane(panel);		
+	
+
+		textField = new JTextField();
+		textField.setBackground(Color.green);
+		textField.setVisible(true);
+		textField.requestFocus();
+		textField.setFocusable(true);
+		textField.setCaretPosition(0);
+		
+		this.add(textField);
+		
+		
+		textArea = new JTextArea();
+		textArea.setBackground(Color.blue);
+
+		textArea.setColumns(20);
+		textArea.setLineWrap(true);
+		textArea.setRows(5);
+		textArea.setWrapStyleWord(true);
+		textArea.setEditable(false);
+		textArea.setEnabled(false);
+		JScrollPane sp = new JScrollPane(textArea);
+		sp.setVisible(true);
+		this.add(sp);
+
+		textField.addActionListener(new InputFieldListener(textField, textArea, n));
+		
+		GroupLayout layout = new GroupLayout(getContentPane());
+		this.getContentPane().setLayout(layout);
+
+		// Create a parallel group for the horizontal axis
+		ParallelGroup hGroup = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
+
+		// Create a sequential and a parallel groups
+		SequentialGroup h1 = layout.createSequentialGroup();
+		ParallelGroup h2 = layout.createParallelGroup(GroupLayout.Alignment.TRAILING);
+
+		// Add a container gap to the sequential group h1
+		h1.addContainerGap();
+
+		// Add a scroll pane and a label to the parallel group h2
+		h2.addComponent(sp, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE);
+		
+
+		// Create a sequential group h3
+		SequentialGroup h3 = layout.createSequentialGroup();		
+		h3.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED);
+		h3.addComponent(textField, GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE);
+
+		// Add the group h3 to the group h2
+		h2.addGroup(h3);
+		// Add the group h2 to the group h1
+		h1.addGroup(h2);
+
+		h1.addContainerGap();
+
+		// Add the group h1 to the hGroup
+		hGroup.addGroup(GroupLayout.Alignment.TRAILING, h1);
+		// Create the horizontal group
+		layout.setHorizontalGroup(hGroup);
+
+		// Create a parallel group for the vertical axis
+		ParallelGroup vGroup = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
+		// Create a sequential group v1
+		SequentialGroup v1 = layout.createSequentialGroup();
+		// Add a container gap to the sequential group v1
+		v1.addContainerGap();
+		// Create a parallel group v2
+		ParallelGroup v2 = layout.createParallelGroup(GroupLayout.Alignment.BASELINE);
+	
+		v2.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE);
+		// Add the group v2 tp the group v1
+		v1.addGroup(v2);
+		v1.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+		v1.addComponent(sp, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE);
+		v1.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);		
+		v1.addContainerGap();
+
+		// Add the group v1 to the group vGroup
+		vGroup.addGroup(v1);
+		// Create the vertical group
+		layout.setVerticalGroup(vGroup);
+		pack();
+		this.setVisible(true);
+
+		
+		/*cancelButton = new CancelButton();
+		okButton = new OKButton();
+		okButton.setBounds(300 - 160, 300 - 70, 70, 30);
+		cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
+		this.add(cancelButton);
+		this.add(okButton);
+		this.setVisible(true);
+		*/
+	}
+
+	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+
+	public Class<?> getRealClass()
+	{
+		Class<?> enclosingClass = getClass().getEnclosingClass();
+		if (enclosingClass != null)
+		{
+			return enclosingClass;
+		}
+		else
+		{
+			return getClass();
+		}
+	}
+
+	public Logger getLogger()
+	{
+		return logger;
+	}
+
+	public NPC getNpc()
+	{
+		return npc;
+	}
+
+	public void setNpc(NPC npc)
+	{
+		this.npc = npc;
+	}
+}

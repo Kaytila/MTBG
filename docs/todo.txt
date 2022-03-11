@@ -1,0 +1,38 @@
+TODOs
+=====
+
+think about how to handle additional npc information - does this go into a separate file? Does this go into the map?
+think about how to persist game over time - save and restore
+adding additional commands - (a)ttack, (s)earch, save, restore, talk - need to figure out what command will change the cursor
+add additional cursors
+make cursor calculation more exact <-- done
+Make MainWindow to actual controller Class, have a WindowBuilder Class that does exactly that
+make wrapping on the overworld actually work :D
+define character, or rather, make configurable
+define dexterity to make more moves
+define additional tile types
+implement LoS
+implement character attributes <-- done
+implement containers <-- mostly done
+implement magic
+implement food
+implement food consumption
+implement illness
+implement poison
+implement experience points
+implement levels
+implement THACO
+implement parry
+implement block
+implement two handed weapons <-- done, there is only one slot :D
+implement ranged weapons
+implement attack :D
+implement visibility range with full darkness <-- done
+implement ray tracing
+implement triggers
+implement scripting
+implement dialog system
+implement drop <-- done
+implement get <-- done
+implement talk <-- halfway done
+implement drag'n'drop <-- done

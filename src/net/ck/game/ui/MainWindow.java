@@ -1,0 +1,912 @@
+package net.ck.game.ui;
+
+import java.awt.AWTException;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DropTarget;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+import javax.swing.TransferHandler;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import net.ck.game.backend.Game;
+import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.entities.NPC;
+import net.ck.game.items.AbstractItem;
+import net.ck.game.map.MapTile;
+import net.ck.util.CursorUtils;
+import net.ck.util.MapUtils;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.util.communication.keyboard.ActionFactory;
+import net.ck.util.communication.keyboard.KeyboardActionType;
+
+/**
+ * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
+ * encapsulated better
+ * 
+ * @author Claus
+ *
+ */
+public class MainWindow implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
+{
+
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings(value =
+	{"unused"})
+	public static void main(String[] args)
+	{
+		MainWindow window = new MainWindow();
+	}
+
+	/**
+	 * mainframe
+	 */
+	private JFrame frame;
+
+	/**
+	 * left part, GRID Canvas
+	 */
+	private JGridCanvas gridCanvas;
+
+	private AbstractKeyboardAction currentAction;
+
+	/**
+	 * inventoryDialog
+	 */
+	private InventoryDialog inventoryDialog;
+
+	/**
+	 * set if a dialog is opened. Game is supposed to pause here
+	 */
+	private boolean isDialogOpened = false;
+
+	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+
+	private AbstractItem currentItemInHand;
+	/**
+	 * mouse pressed is used for moving via mouse, there is a delay defined which is somewhere
+	 */
+	private boolean mousePressed;
+	/**
+	 * pressed mouse button timer
+	 */
+	Timer pressedTimer;
+
+	/**
+	 * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross hairs
+	 */
+	private boolean selectTile;
+
+	public boolean isSelectTile()
+	{
+		return selectTile;
+	}
+
+	public void setSelectTile(boolean selectTile)
+	{
+		this.selectTile = selectTile;
+	}
+
+	public Logger getLogger()
+	{
+		return logger;
+	}
+
+	/**
+	 * stats Dialog - there will be one dialog only with exchanging JPanels
+	 */
+	private StatsDialog statsDialog;
+
+	private TextList textArea;
+
+	private InputField textField;
+
+	private JButton undoButton;
+
+	/**
+	 * weather canvas
+	 */
+	private JWeatherCanvas weatherCanvas;
+
+	private boolean mouseOutsideOfGrid;
+
+	private boolean dragEnabled;
+
+	/**
+	 * standard constructor
+	 */
+	public MainWindow()
+	{
+		buildWindow();
+
+	}
+
+	@Override
+	/**
+	 * this is called when the undo button is clicked. the game retracts the last turn, clears the current turn, removes all content from the UI. if the game is at the first turn again, disable the
+	 * button
+	 */
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getActionCommand().equalsIgnoreCase("Undo"))
+		{
+			logger.info("undo");
+			Game.getCurrent().getIdleTimer().stop();
+			if (Game.getCurrent().retractTurn() == 0)
+			{
+				getUndoButton().setEnabled(false);
+			}
+			else
+			{
+				getUndoButton().setEnabled(true);
+			}
+		}
+
+		if (e.getActionCommand().equalsIgnoreCase("Cancel"))
+		{
+			logger.info("Cancel");
+		}
+
+		if (e.getActionCommand().equalsIgnoreCase("OK"))
+		{
+			logger.info("OK");
+		}
+	}
+
+	public void buildWindow()
+	{
+		logger.info("start: build window");
+		frame = new MainFrame();
+		undoButton = new UndoButton(new Point(700 - 200, 620));
+
+		frame.add(undoButton);
+
+		gridCanvas = new JGridCanvas();
+		frame.add(gridCanvas);
+
+		textArea = new TextList();
+		frame.add(textArea.initializeScrollPane());
+
+		textField = new InputField();
+		frame.add(textField);
+
+		weatherCanvas = new JWeatherCanvas();
+		frame.add(weatherCanvas);
+
+		logger.info("setting listeners");
+		frame.addWindowListener(this);
+
+		gridCanvas.addMouseListener(this);
+		gridCanvas.addMouseMotionListener(this);
+		undoButton.addActionListener(this);
+
+		setMouseOutsideOfGrid(true);
+		frame.setVisible(true);
+
+		DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
+		DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
+
+		/*
+		 * DropTarget droptarget = gridCanvas.getDropTarget(); try { droptarget.addDropTargetListener(new JGridCanvasDropTargetListener()); } catch (TooManyListenersException e) {
+		 * 
+		 * }
+		 */
+
+		logger.info("finish: build window");
+		logger.info("setting up event bus");
+		EventBus.getDefault().register(this);
+		Game.getCurrent().setController(this);
+	}
+
+	/**
+	 * so createMovement takes the mouse event and generates a keyboard action out of it. Keyboard action is posted on the EventBus. onMessageEvent catches it and makes an action out of it which is
+	 * then done by the actor.
+	 */
+	public void createMovement()
+	{
+		if (CursorUtils.getCursor() != null)
+		{
+			switch (CursorUtils.getCursor().getName())
+			{
+				case "westCursor" :
+					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.WEST));
+					break;
+				case "eastCursor" :
+					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.EAST));
+					break;
+				case "northCursor" :
+					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.NORTH));
+					break;
+				case "southCursor" :
+					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.SOUTH));
+					break;
+				default :
+					break;
+			}
+		}
+		else
+		{
+			logger.error("Cursor is null");
+			Game.getCurrent().stopGame();
+		}
+	}
+
+	public JFrame getFrame()
+	{
+		return frame;
+	}
+
+	public JGridCanvas getGridCanvas()
+	{
+		return this.gridCanvas;
+	}
+
+	public InventoryDialog getInventoryDialog()
+	{
+		return inventoryDialog;
+	}
+
+	public Timer getPressedTimer()
+	{
+		return pressedTimer;
+	}
+
+	public Class<?> getRealClass()
+	{
+		Class<?> enclosingClass = getClass().getEnclosingClass();
+		if (enclosingClass != null)
+		{
+			return enclosingClass;
+		}
+		else
+		{
+			return getClass();
+		}
+	}
+
+	public StatsDialog getStatsDialog()
+	{
+		return statsDialog;
+	}
+
+	public TextList getTextArea()
+	{
+		return textArea;
+	}
+
+	public InputField getTextField()
+	{
+		return textField;
+	}
+
+	public JButton getUndoButton()
+	{
+		return undoButton;
+	}
+
+	public JWeatherCanvas getWeatherCanvas()
+	{
+		return this.weatherCanvas;
+	}
+
+	public boolean isDialogOpened()
+	{
+		return isDialogOpened;
+	}
+
+	public boolean isMousePressed()
+	{
+		return mousePressed;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e)
+	{
+
+		logger.info("mouse dragged:");
+		/*
+		 * if (!isSelectTile()) { CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY())); }
+		 */
+		if (e.getButton() == MouseEvent.BUTTON3)
+		{
+			CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+		}
+
+		if (gridCanvas.isDragEnabled())
+		{
+			final TransferHandler transferHandler = gridCanvas.getTransferHandler();
+			if (transferHandler != null)
+			{
+				// TODO here could be more "logic" to initiate the drag
+				transferHandler.exportAsDrag(gridCanvas, e, DnDConstants.ACTION_MOVE);
+			}
+			else
+			{
+				logger.info("hmmm");
+			}
+		}
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// logger.info("mouse entered: {}", e.getPoint());
+		setMouseOutsideOfGrid(false);
+		// CursorUtils.setCursor(Cursor.getDefaultCursor());
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// logger.info("mouse exit: {}", e.getPoint());
+		// CursorUtils.setCursor(Cursor.getDefaultCursor());
+		setMouseOutsideOfGrid(true);
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+	}
+
+	public boolean isMouseOutsideOfGrid()
+	{
+		return mouseOutsideOfGrid;
+	}
+
+	public void setMouseOutsideOfGrid(boolean mouseOutsideOfGrid)
+	{
+		this.mouseOutsideOfGrid = mouseOutsideOfGrid;
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e)
+	{
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		//logger.info("mouse pressed");
+		if (this.getCurrentAction() != null)
+		{
+			//logger.info("we have a running action, dont do drag!");
+		}
+		else
+		{
+			//logger.info("if there is something draggable, drag");
+			if (e.getButton() == MouseEvent.BUTTON1)
+			{
+				var c = (JGridCanvas) e.getSource();
+				var handler = c.getTransferHandler();
+				handler.exportAsDrag(c, e, TransferHandler.MOVE);
+			}
+
+			if (e.getButton() == MouseEvent.BUTTON3)
+			{
+				if (!isSelectTile())
+				{
+					int delay = 500; // milliseconds
+					ActionListener taskPerformer = new MouseActionListener(this);
+
+					pressedTimer = new Timer(delay, taskPerformer);
+					pressedTimer.setRepeats(true);
+					pressedTimer.start();
+				}
+			}
+		}
+	}
+
+	@Override
+	/**
+	 * So mouseReleased creates a KeyboardAction depending on the cursor type. which is a string. which is not a safe way. but it works. ActionFactory included, this is mostly for show reasons,
+	 * functionality is zero https://stackoverflow.com/questions/44615276/thread-safe-find-and-remove-an-object-from-a-collection
+	 */
+	public void mouseReleased(MouseEvent e)
+	{		
+		// we are in movement mode
+		if (e.getButton() == MouseEvent.BUTTON3)
+		{
+			if (!isSelectTile())
+			{
+				if (pressedTimer != null) {
+					pressedTimer.stop();
+				}
+				//logger.info("mouse released");
+				if (isMousePressed())
+				{
+					// logger.info("do nothing");
+					setMousePressed(false);
+				}
+				else
+				{
+					// logger.info("do something");
+					createMovement();
+				}
+			}
+		}
+		if (e.getButton() == MouseEvent.BUTTON1)
+		// this now only works for get
+		{
+			if (this.getCurrentAction() != null)
+			{
+				if (this.getCurrentAction().getType().equals(KeyboardActionType.GET))
+				{
+
+					MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
+					/*
+					 * ArrayList<AbstractItem> found = new ArrayList<AbstractItem>(); for (AbstractItem i : tile.getItems()) { found.add(i); } Game.getCurrent().getCurrentPlayer().getItems(found);
+					 * tile.getItems().removeAll(found);
+					 */
+					setSelectTile(false);
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+					getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+					runActions(getCurrentAction(), true);
+				}
+
+				if (this.getCurrentAction().getType().equals(KeyboardActionType.DROP))
+				{
+
+					MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
+					/*
+					 * ArrayList<AbstractItem> found = new ArrayList<AbstractItem>(); for (AbstractItem i : tile.getItems()) { found.add(i); } Game.getCurrent().getCurrentPlayer().getItems(found);
+					 * tile.getItems().removeAll(found);
+					 */
+					setSelectTile(false);
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+					getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+					getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
+					runActions(getCurrentAction(), true);
+				}
+
+				if (this.getCurrentAction().getType().equals(KeyboardActionType.TALK))
+				{
+					logger.info("talk");
+					MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
+					for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+					{
+						logger.info("npc position: {}, crosshair position: {}", n.getMapPosition(), tile.getMapPosition());
+						if (n.getMapPosition().equals(tile.getMapPosition()))
+						{
+
+							logger.info("found the npc");
+							setSelectTile(false);
+							CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+							getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+							if (isDialogOpened == true)
+							{
+								break;
+							}
+							else
+							{
+								this.setDialogOpened(true);
+								AbstractDialog.createDialog(this.getFrame(), "Talk", false, getCurrentAction(), n);
+								logger.info("talk: {}", "");
+							}
+							runActions(getCurrentAction(), true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void runActions(AbstractKeyboardAction action, boolean hasNPCAction)
+	{
+		logger.info("Current action: {}", action);
+		Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action, Game.getCurrent().getCurrentPlayer()));
+		Game.getCurrent().getIdleTimer().stop();
+		textArea.append(action.getType().name());
+		textArea.append("\n");
+		textField.setText(action.getType().name());
+		// move to next player
+		if (Game.getCurrent().getCurrentPlayer().getNumber() < (Game.getCurrent().getPlayers().size() - 1))
+		{
+			Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(Game.getCurrent().getCurrentPlayer().getNumber() + 1));
+
+		}
+		// all players have moved - en is no player.
+		// NPCs are handled in game because the npcs on the current map
+		// are loaded into game
+		else
+		{
+			getUndoButton().setEnabled(true);
+			Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
+			Game.getCurrent().advanceTurn(hasNPCAction);
+		}
+
+	}
+
+	@Subscribe
+	public void onMessageEvent(AbstractKeyboardAction action)
+	{
+		logger.info("Event in MainWindow: {}", action.getType());
+		boolean haveNPCAction = true;
+		switch (action.getType())
+		{
+			case INVENTORY :
+			{
+				if (isDialogOpened == true)
+				{
+					break;
+				}
+				else
+				{
+					haveNPCAction = false;
+					logger.info("inventory as separate event type, lets not add this to the action queue");
+					Game.getCurrent().getIdleTimer().stop();
+					this.setDialogOpened(true);
+					AbstractDialog.createDialog(this.getFrame(), "Inventory", false, action);
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					break;
+				}
+			}
+
+			case ZSTATS :
+			{
+				if (isDialogOpened == true)
+				{
+					break;
+				}
+				else
+				{
+					haveNPCAction = false;
+					logger.info("zstats as separate event type, lets not add this to the action queue");
+					Game.getCurrent().getIdleTimer().stop();
+					this.setDialogOpened(true);
+					AbstractDialog.createDialog(this.getFrame(), "Z-Stats", false, action);
+					logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
+					break;
+				}
+			}
+
+			case DROP :
+			{
+				if (isDialogOpened == true)
+				{
+					break;
+				}
+				else
+				{
+					haveNPCAction = false;
+					Game.getCurrent().getIdleTimer().stop();
+					setSelectTile(true);
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					setCurrentAction(action);
+					AbstractDialog.createDialog(this.getFrame(), "Inventory", false, action);
+					break;
+				}
+			}
+
+			case ENTER :
+			{
+				haveNPCAction = false;
+				break;
+			}
+			/*
+			 * Game.getCurrent().switchMap(); Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action, Game.getCurrent().getCurrentPlayer())); Game.getCurrent().getIdleTimer().stop();
+			 * textArea.append(action.getType().name()); textArea.append("\n"); textField.setText(action.getType().name()); // move to next player if (getGame().getCurrentPlayer().getNumber() <
+			 * (getGame().getPlayers().size() - 1)) { getGame().setCurrentPlayer(getGame().getPlayers().get(getGame().getCurrentPlayer().getNumber() + 1));
+			 * 
+			 * } // all players have moved - en is no player. // NPCs are handled in game because the npcs on the current map // are loaded into game else { getUndoButton().setEnabled(true);
+			 * getGame().setCurrentPlayer(getGame().getPlayers().get(0)); } break; }
+			 */
+			case ESC :
+			{
+				if (isSelectTile() == true)
+				{
+					logger.info("selection is true");
+					setSelectTile(false);
+					Game.getCurrent().getIdleTimer().start();
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					break;
+				}
+				else
+				{
+					logger.info("stopping game");
+					getFrame().dispatchEvent(new WindowEvent(getFrame(), WindowEvent.WINDOW_CLOSING));
+					Game.getCurrent().stopGame();
+					break;
+				}
+			}
+
+			case GET :
+			{
+				if (isMouseOutsideOfGrid() == true)
+				{
+					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
+					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
+					Point relativePoint = getGridCanvas().getLocationOnScreen();
+					moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+					setMouseOutsideOfGrid(false);
+				}
+				haveNPCAction = false;
+				logger.info("get");
+				Game.getCurrent().getIdleTimer().stop();
+				setSelectTile(true);
+				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+				setCurrentAction(action);
+				break;
+			}
+
+			case TALK :
+			{
+				if (isDialogOpened == true)
+				{
+					break;
+				}
+				else
+				{
+					if (isMouseOutsideOfGrid() == true)
+					{
+						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
+						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
+						Point relativePoint = getGridCanvas().getLocationOnScreen();
+						moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+						setMouseOutsideOfGrid(false);
+					}
+					haveNPCAction = false;
+					logger.info("talk");
+					Game.getCurrent().getIdleTimer().stop();
+					setSelectTile(true);
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					setCurrentAction(action);
+					break;
+				}
+			}
+
+			// default is movement only
+			default :
+			{
+				break;
+			}
+		}
+
+		if (action.isActionimmediately() == true)
+		{
+			runActions(action, haveNPCAction);
+		}
+	}
+
+	public void setDialogOpened(boolean isDialogOpened)
+	{
+		logger.info("new value: {}", isDialogOpened);
+		this.isDialogOpened = isDialogOpened;
+	}
+
+	public void setFrame(JFrame frame)
+	{
+		this.frame = frame;
+	}
+
+	public void setGridCanvas(JGridCanvas gridCanvas)
+	{
+		this.gridCanvas = gridCanvas;
+	}
+
+	public void setInventoryDialog(InventoryDialog inventoryDialog)
+	{
+		this.inventoryDialog = inventoryDialog;
+	}
+
+	public void setMousePressed(boolean mousePressed)
+	{
+		this.mousePressed = mousePressed;
+	}
+
+	public void setPressedTimer(Timer pressedTimer)
+	{
+		this.pressedTimer = pressedTimer;
+	}
+
+	public void setStatsDialog(StatsDialog statsDialog)
+	{
+		this.statsDialog = statsDialog;
+	}
+
+	public void setTextArea(TextList textArea)
+	{
+		this.textArea = textArea;
+	}
+
+	public void setTextField(InputField textField)
+	{
+		this.textField = textField;
+	}
+
+	public void setUndoButton(JButton undo)
+	{
+		this.undoButton = undo;
+	}
+
+	public void setWeatherCanvas(JWeatherCanvas weatherCanvas)
+	{
+		this.weatherCanvas = weatherCanvas;
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+		logger.info("activated");
+		if (Game.getCurrent().isPlayMusic())
+		{
+			Game.getCurrent().getSoundSystem().startMusic();
+		}
+		Game.getCurrent().getIdleTimer().start();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e)
+	{
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		// logger.info("WindowListener method called: windowClosing.");
+		// can only be null for pure UI testing
+		if (Game.getCurrent() != null)
+		{
+			Game.getCurrent().stopGame();
+		}
+		// do a hard stop of the game when the UI exits
+		// how much sense does this make?
+		// doesnt matter for now
+		else
+		{
+			System.exit(0);
+		}
+
+	}
+
+	@Override
+	/**
+	 * 
+	 */
+	public void windowDeactivated(WindowEvent e)
+	{
+		logger.info("deactivated");
+		// if (Game.getCurrent().getSoundSystem().isMusicIsRunning())
+		// {
+		if (isDialogOpened() == false)
+		{
+			if (Game.getCurrent().isPlayMusic())
+			{
+				Game.getCurrent().getSoundSystem().stopMusic();
+			}
+		}
+		// }
+		Game.getCurrent().getIdleTimer().stop();
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+		logger.info("deiconified");
+		if (Game.getCurrent().isPlayMusic())
+		{
+			Game.getCurrent().getSoundSystem().startMusic();
+		}
+		Game.getCurrent().getIdleTimer().start();
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e)
+	{
+		logger.info("iconified");
+		if (Game.getCurrent().isPlayMusic())
+		{
+			Game.getCurrent().getSoundSystem().stopMusic();
+		}
+		Game.getCurrent().getIdleTimer().stop();
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e)
+	{
+		getGridCanvas().requestFocus();
+	}
+
+	@Override
+	public void focusGained(FocusEvent e)
+	{
+		logger.info(e.getComponent().getName());
+	}
+
+	@Override
+	public void focusLost(FocusEvent e)
+	{
+		logger.info(e.getComponent().getName());
+	}
+
+	public void moveMouse(Point p)
+	{
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+
+		// Search the devices for the one that draws the specified point.
+		for (GraphicsDevice device : gs)
+		{
+			GraphicsConfiguration[] configurations = device.getConfigurations();
+			for (GraphicsConfiguration config : configurations)
+			{
+				Rectangle bounds = config.getBounds();
+				if (bounds.contains(p))
+				{
+					// Set point to screen coordinates.
+					Point b = bounds.getLocation();
+					Point s = new Point(p.x - b.x, p.y - b.y);
+
+					try
+					{
+						Robot r = new Robot(device);
+						r.mouseMove(s.x, s.y);
+					}
+					catch (AWTException e)
+					{
+						e.printStackTrace();
+					}
+
+					return;
+				}
+			}
+		}
+		// Couldn't move to the point, it may be off screen.
+		return;
+	}
+
+	public AbstractKeyboardAction getCurrentAction()
+	{
+		return currentAction;
+	}
+
+	public void setCurrentAction(AbstractKeyboardAction currentAction)
+	{
+		this.currentAction = currentAction;
+	}
+
+	public AbstractItem getCurrentItemInHand()
+	{
+		return currentItemInHand;
+	}
+
+	public void setCurrentItemInHand(AbstractItem currentItemInHand)
+	{
+		this.currentItemInHand = currentItemInHand;
+	}
+
+}

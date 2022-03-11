@@ -1,0 +1,43 @@
+package net.ck.game.graphics;
+
+/**
+ * bloody hell, if you think of rivers and shorelines, ugh
+ * 
+ * so river:
+ * 
+ * | |
+ * 
+ * - |
+ * 
+ * - |
+ * 
+ * | -
+ * 
+ * --
+ * 
+ * - |
+ * 
+ * | |
+ * 
+ * | -
+ * 
+ * - |
+ * 
+ * --
+ * 
+ * | -
+ * 
+ * - |
+ * 
+ * 
+ * 
+ * @author Claus
+ *
+ */
+public enum TileTypes
+{
+	DESERT, GRASS, HILL, MOUNTAIN, OCEAN, RIVEREE, RIVEREN, RIVERES, RIVERNE, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW,
+	RIVERWN, RIVERWS, RIVERWW, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE,
+	CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATEOPEN, GATECLOSED, WOODDOOROPEN, WOODDOORCLOSED, STONEDOOROPEN, STONEDOORCLOSED, FOUNTAIN, WELL, DIRTROAD, PAVEDROAD,
+	WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, DENSEFOREST
+}

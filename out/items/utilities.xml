@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+<item><id>1</id>
+<name>Bag</name>
+<type>CLOTH</type>
+<value>1</value>
+<weight>1.0</weight>
+<capacity>10</capacity>
+<container>true</container>
+<image>bag</image>
+</item>
+</items>
