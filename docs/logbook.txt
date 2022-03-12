@@ -370,7 +370,8 @@ adding animated tiles
 2022-03-12: so I have successfully imported the u4 general terrain map as game map. Its also residing as XML.
             need to think about how to deal with the additional layers.
             So all tile types are blocking or not now.
-
+            reimplemented NPC xml parsing as separate class and lo and behold, if you do it correctly it works.
+            Also good point of doing switch statements instead of else if nonsense.
 			
 			
 			

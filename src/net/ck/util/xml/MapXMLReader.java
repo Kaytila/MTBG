@@ -82,7 +82,7 @@ public class MapXMLReader extends DefaultHandler
 		this.maptiles = maptiles;
 	}
 
-	public Class<?> getRealClass()
+	private Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
 		if (enclosingClass != null)

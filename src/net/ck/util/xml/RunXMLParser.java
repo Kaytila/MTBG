@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.ck.game.backend.entities.NPC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -146,5 +147,27 @@ public class RunXMLParser
 		return null;
 
 	}
-	
+
+	public static Hashtable<Integer, NPC> parseNPCs(String fileName)
+	{
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		try
+		{
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			NPCReader handler = new NPCReader();
+			saxParser.parse(new File(fileName), handler);
+
+			return handler.getNpcs();
+		}
+		catch (Exception e)
+		{
+			logger.error("hmmm");
+			e.printStackTrace();
+			Game.getCurrent().stopGame();
+		}
+		return null;
+
+	}
+
+
 }
