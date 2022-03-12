@@ -367,7 +367,10 @@ adding animated tiles
             for towns and so on.
             that way i can get caravans and moving things to enter.
             write map to xml is almost done.
-			
+2022-03-12: so I have successfully imported the u4 general terrain map as game map. Its also residing as XML.
+            need to think about how to deal with the additional layers.
+            So all tile types are blocking or not now.
+
 			
 			
 			

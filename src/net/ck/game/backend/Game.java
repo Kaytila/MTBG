@@ -3,6 +3,7 @@ package net.ck.game.backend;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
@@ -408,23 +409,8 @@ public class Game
 			}
 		}
 
-		getMaps().add(MapUtils.importUltima4MapFromCSV());
+		//getMaps().add(MapUtils.importUltima4MapFromCSV());
 		logger.info("maps: {}", getMaps());
-
-		for (Map m : getMaps())
-		{
-			if (m.getName().equalsIgnoreCase(gameMapName))
-			{
-				m.initialize();
-				m.setVisibilityRange(2);
-				// not sure whether I actually want this or even need this, or even need
-				// the north/east/south/west
-				// MapUtils.calculateTileDirections(map.getTiles());
-				setCurrentMap(m);
-				// addManyNPCs(map);
-				addItemsToFloor(m);
-			}
-		}
 		logger.info("end: initialize maps");
 	}
 
@@ -861,7 +847,7 @@ public class Game
 		getCurrentMap().getPlayers().add(p1);
 		// gameMap.getPlayers().add(p2);
 		// getCurrentMap().getNpcs().add(npc1);
-		p1.setMapPosition(new Point(2, 2));
+		p1.setMapPosition(new Point(42, 42));
 		// p2.setPosition(new Point(1, 0));
 		// npc1.setMapPosition(new Point(2, 3));
 

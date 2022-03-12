@@ -36,3 +36,4 @@ implement drop <-- done
 implement get <-- done
 implement talk <-- halfway done
 implement drag'n'drop <-- done
+implement monster spawn :D

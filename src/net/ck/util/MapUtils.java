@@ -1,28 +1,35 @@
 package net.ck.util;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import net.ck.game.backend.Game;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.AbstractMap;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
+import org.apache.commons.lang3.Range;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapUtils
 {
@@ -194,7 +201,8 @@ public class MapUtils
                 if (id % 2 == 0)
                 {
                     type = TileTypes.GRASS;
-                } else
+                }
+                else
                 {
                     type = TileTypes.OCEAN;
                 }
@@ -323,7 +331,8 @@ public class MapUtils
         {
             // logger.info("to the right");
             x = Math.abs(position.x - pP.x + middle);
-        } else
+        }
+        else
         {
             // logger.info("same X");
             x = middle;
@@ -339,7 +348,8 @@ public class MapUtils
         {
             // logger.info("to the bottom");
             y = Math.abs(position.y - pP.y + middle);
-        } else
+        }
+        else
         {
             // logger.info("same Y");
             y = middle;
@@ -485,7 +495,8 @@ public class MapUtils
                     tile.setX(column);
                     tile.setY(row);
                     tile.setId(id);
-
+                    tile.setTargetID(-1);
+                    tile.setTargetMap("");
                     switch (line[column])
                     {
                         case "1":
@@ -525,7 +536,7 @@ public class MapUtils
                             logger.info("value: {} still unknown", line[column]);
                             break;
                     }
-                    logger.info("tile: {}", tile);
+                    //logger.info("tile: {}", tile);
                     ultima4Map.getTiles().add(tile);
                     id++;
                 }
@@ -540,15 +551,24 @@ public class MapUtils
         {
             e.printStackTrace();
         }
+        try
+        {
+            MapUtils.writeMapToXML(ultima4Map);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         return ultima4Map;
     }
 
-    private static void writeMapToXML(Map map) throws IOException
+    public static void writeMapToXML(Map map) throws IOException
     {
         BufferedWriter writer = null;
+        String fileName = "maps" + File.separator + map.getName() + ".xml";
         try
         {
-            writer = new BufferedWriter(new FileWriter("maps" + File.separator + map.getName() + ".xml"));
+            writer = new BufferedWriter(new FileWriter(fileName));
         }
         catch (IOException e)
         {
@@ -558,7 +578,7 @@ public class MapUtils
         writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         writer.write("<map>");
         writer.write("<meta>");
-        writer.write("<weather>false</weather>");
+        writer.write("<weather>" + map.isWeatherSystem() + "</weather>");
         writer.write("<weatherrandomness>10</weatherrandomness>");
         writer.write("<wrapping>false</wrapping>");
         writer.write("<name>" + map.getName() + "</name>");
@@ -567,9 +587,108 @@ public class MapUtils
         writer.write("</meta>");
         writer.write("<tiles>");
         ArrayList<MapTile> tiles = map.getTiles();
+        /**
+         * <tile>
+         * 			<id>1</id>
+         * 			<type>LADDERUP</type>
+         * 			<x>0</x>
+         * 			<y>0</y>
+         * 			<east>2</east>
+         * 			<south>4</south>
+         * 			<targetMap>testname</targetMap>
+         * 			<targetID>2</targetID>
+         * 		</tile>
+         */
         for (MapTile tile : tiles)
         {
+            writer.write("<tile>");
+            writer.write("<id>" + tile.getId() + "</id>");
+            writer.write("<type>" + tile.getType() + "</type>");
+            writer.write("<x>" + tile.getX() + "</x>");
+            writer.write("<y>" + tile.getY() + "</y>");
+            if (tile.getNorth() != null)
+            {
+                writer.write("<north>" + tile.getNorth().getId() + "</north>");
+            }
+            else
+            {
+                writer.write("<north>" + "" + "</north>");
+            }
+            if (tile.getEast() != null)
+            {
+                writer.write("<east>" + tile.getEast().getId() + "</east>");
+            }
+            else
+            {
+                writer.write("<east>" + "" + "</east>");
+            }
+            if (tile.getSouth() != null)
+            {
+                writer.write("<south>" + tile.getSouth().getId() + "</south>");
+            }
+            else
+            {
+                writer.write("<south>" + "" + "</south>");
+            }
+            if (tile.getWest() != null)
+            {
+                writer.write("<west>" + tile.getWest().getId() + "</west>");
+            }
+            else
+            {
+                writer.write("<west>" + "" + "</west>");
+            }
+            writer.write("<targetMap>" + tile.getTargetMap() + "</targetMap>");
+            writer.write("<targetID>" + tile.getTargetID() + "</targetID>");
+            writer.write("</tile>");
         }
+        writer.write("</tiles>");
+        writer.write("</map>");
         writer.close();
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setValidating(false);
+        DocumentBuilder db = null;
+        try
+        {
+            db = dbf.newDocumentBuilder();
+        }
+        catch (ParserConfigurationException e)
+        {
+            e.printStackTrace();
+        }
+
+        Document doc = null;
+        try
+        {
+            doc = db.parse(new FileInputStream(new File(fileName)));
+        }
+        catch (SAXException e)
+        {
+            e.printStackTrace();
+        }
+        try
+        {
+            prettyPrint(doc, fileName);
+        }
+        catch (TransformerException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void prettyPrint(Document document, String fileName) throws TransformerException
+    {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        DOMSource source = new DOMSource(document);
+        StringWriter strWriter = new StringWriter(1000000);
+        StreamResult result = new StreamResult(new File(fileName));
+        transformer.transform(source, result);
     }
 }

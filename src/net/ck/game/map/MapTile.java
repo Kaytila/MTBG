@@ -1,268 +1,245 @@
 package net.ck.game.map;
 
-import java.awt.Point;
-
+import net.ck.game.backend.entities.Inventory;
+import net.ck.game.graphics.TileTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import net.ck.game.backend.entities.Inventory;
-import net.ck.game.graphics.TileTypes;
+import java.awt.*;
+import java.util.Objects;
 
 /**
- * 
  * @author Claus each individual tile, has x and y coordinates, connectors in
- *         each direction and a type
- * 
+ * each direction and a type
  */
 public class MapTile
 {
-	
-	
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
-		
-	private Inventory inventory;
-	
-	public Inventory getInventory()
-	{
-		return inventory;
-	}
-
-	public void setInventory(Inventory inventory)
-	{
-		this.inventory = inventory;
-	}
 
 
-	/**
-	 * is the tile blocked or not?
-	 * either via tile type,
-	 * or because other npc is there
-	 * or perhaps door or whatever,
-	 * needs to be mutable due to doors and other things.
-	 */
-	private boolean blocked;
-	
-	
-	/**
-	 * does this block the LoS?
-	 */
-	private boolean blocksLOS;
-	
-	/**
-	 * this refers to the map the tile points to for using (E)nter
-	 */
-	private String targetMap;
-	
-	/**
-	 * this refers to the ID of the tile
-	 * this is the tile the exit leads to
-	 */
-	private int targetID;
-	
-	
-	public String getTargetMap()
-	{
-		return targetMap;
-	}
+    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    /**
+     * x coordinate, not sure I need that at all
+     * basically position.getX()
+     */
+    public int x;
+    /**
+     * y coordinate, basically position.getY()
+     */
+    public int y;
+    private Inventory inventory;
+    /**
+     * is the tile blocked or not?
+     * either via tile type,
+     * or because other npc is there
+     * or perhaps door or whatever,
+     * needs to be mutable due to doors and other things.
+     */
+    private boolean blocked;
+    /**
+     * does this block the LoS?
+     */
+    private boolean blocksLOS;
+    /**
+     * this refers to the map the tile points to for using (E)nter
+     */
+    private String targetMap;
+    /**
+     * this refers to the ID of the tile
+     * this is the tile the exit leads to
+     */
+    private int targetID;
+    /**
+     * what maptile is to the east?
+     */
+    private MapTile east;
+    /**
+     * id is just the ID of the maptile, so we have three ways to find a tile:
+     * by ID, by listPosition, by coordinates
+     */
+    private int id;
+    /**
+     * describes the position in the Map's list, probably easier to handle than to
+     * iterating all the time
+     */
+    private int listPosition;
+    /**
+     * what is the maptile to the north?
+     */
+    private MapTile north;
+    /**
+     * describes the position on the map in x and y coordinates
+     * currently also have x and y as separate attributes, not sure yet which to use
+     */
+    private Point mapPosition;
+    /**
+     * what is the maptile to the south;
+     */
+    private MapTile south;
+    /**
+     * what type is the tile?
+     */
+    private TileTypes type;
+    /**
+     * what map tile is to the west?
+     */
+    private MapTile west;
 
-	public void setTargetMap(String string)
-	{
-		this.targetMap = string;
-	}
+    public MapTile()
+    {
+        super();
+        inventory = new Inventory();
+        setBlocked(false);
+    }
 
-	public int getTargetID()
-	{
-		return targetID;
-	}
+    public Class<?> getRealClass()
+    {
+        Class<?> enclosingClass = getClass().getEnclosingClass();
+        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
+    }
 
-	public void setTargetID(int targetID)
-	{
-		this.targetID = targetID;
-	}
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
 
-	/**
-	 * what maptile is to the east?
-	 */
-	private MapTile east;
-	
-	/**
-	 * id is just the ID of the maptile, so we have three ways to find a tile:
-	 * by ID, by listPosition, by coordinates
-	 */
-	private int id;
-	/**
-	 * describes the position in the Map's list, probably easier to handle than to
-	 * iterating all the time
-	 */
-	private int listPosition;
+    public void setInventory(Inventory inventory)
+    {
+        this.inventory = inventory;
+    }
 
-	/**
-	 * what is the maptile to the north?
-	 */
-	private MapTile north;
+    public String getTargetMap()
+    {
+        return targetMap;
+    }
 
-	/**
-	 * describes the position on the map in x and y coordinates
-	 * currently also have x and y as separate attributes, not sure yet which to use
-	 */
-	private Point mapPosition;
+    public void setTargetMap(String string)
+    {
+        this.targetMap = string;
+    }
 
-	/**
-	 * what is the maptile to the south;
-	 */
-	private MapTile south;
+    public int getTargetID()
+    {
+        return targetID;
+    }
 
-	/**
-	 * what type is the tile?
-	 */
-	private TileTypes type;
+    public void setTargetID(int targetID)
+    {
+        this.targetID = targetID;
+    }
 
-	/**
-	 * what map tile is to the west?
-	 */
-	private MapTile west;
+    public MapTile getEast()
+    {
+        return east;
+    }
 
-	/**
-	 * x coordinate, not sure I need that at all
-	 * basically position.getX()
-	 */
-	public int x;
+    public void setEast(MapTile east)
+    {
+        this.east = east;
+    }
 
-	/**
-	 * y coordinate, basically position.getY()
-	 */
-	public int y;
+    public int getId()
+    {
+        return id;
+    }
 
-	public MapTile()
-	{
-		super();
-		inventory = new Inventory();
-		setBlocked(false);
-	}
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
-	public MapTile getEast()
-	{
-		return east;
-	}
+    public int getListPosition()
+    {
+        return this.listPosition;
+    }
 
-	public int getId()
-	{
-		return id;
-	}
+    public void setListPosition(int listPosition)
+    {
+        this.listPosition = listPosition;
+    }
 
-	public int getListPosition()
-	{
-		return this.listPosition;
-	}
+    public MapTile getNorth()
+    {
+        return north;
+    }
 
-	public MapTile getNorth()
-	{
-		return north;
-	}
+    public void setNorth(MapTile north)
+    {
+        this.north = north;
+    }
 
-	public Point getMapPosition()
-	{
-		return this.mapPosition;
-	}
+    public Point getMapPosition()
+    {
+        return this.mapPosition;
+    }
 
-	public MapTile getSouth()
-	{
-		return south;
-	}
+    public void setMapPosition(Point position)
+    {
+        this.mapPosition = position;
+    }
 
-	public TileTypes getType()
-	{
-		return type;
-	}
+    public MapTile getSouth()
+    {
+        return south;
+    }
 
-	public MapTile getWest()
-	{
-		return west;
-	}
+    public void setSouth(MapTile south)
+    {
+        this.south = south;
+    }
 
-	public int getX()
-	{
-		if (getMapPosition() != null)
-		{
-			return getMapPosition().x;
-		}
-		else
-		{
-			return x;
-		}	
-	}
+    public TileTypes getType()
+    {
+        return type;
+    }
 
-	public int getY()
-	{
-		if (getMapPosition() != null)
-		{
-			return getMapPosition().y;
-		}
-		else
-		{
-			return y;
-		}	
-	}
+    public void setType(TileTypes type)
+    {
+        this.type = type;
+    }
 
-	public void setEast(MapTile east)
-	{
-		this.east = east;
-	}
+    public MapTile getWest()
+    {
+        return west;
+    }
 
-	public void setId(int id)
-	{
-		this.id = id;
-	}
+    public void setWest(MapTile west)
+    {
+        this.west = west;
+    }
 
-	public void setListPosition(int listPosition)
-	{
-		this.listPosition = listPosition;
-	}
+    public int getX()
+    {
+        if (getMapPosition() != null)
+        {
+            return getMapPosition().x;
+        }
+        else
+        {
+            return x;
+        }
+    }
 
-	public void setNorth(MapTile north)
-	{
-		this.north = north;
-	}
+    public void setX(int x)
+    {
+        this.x = x;
+    }
 
-	public void setMapPosition(Point position)
-	{
-		this.mapPosition = position;
-	}
+    public int getY()
+    {
+        if (getMapPosition() != null)
+        {
+            return getMapPosition().y;
+        }
+        else
+        {
+            return y;
+        }
+    }
 
-	public void setSouth(MapTile south)
-	{
-		this.south = south;
-	}
-	
-	public void setType(TileTypes type)
-	{
-		this.type = type;
-	}
-	public void setWest(MapTile west)
-	{
-		this.west = west;
-	}
-	public void setX(int x)
-	{
-		this.x = x;
-	}
-
-	public void setY(int y)
-	{
-		this.y = y;
-	}
+    public void setY(int y)
+    {
+        this.y = y;
+    }
 	
 	
 	/*public String toString()
@@ -290,167 +267,219 @@ public class MapTile
 		return ("id: " + getId() + ", " + "type: " + getType().name() + ", " + "x: " + getX() + ", " + "y: " + getY() + ", " + "north tile id: " + northID + ", " + "east tile id: " + eastID + ", " + "south tile id: " + southID + ", " + "west tile id: " + westID);
 	}
 */
-	
-	
-	
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 
 
+    public Logger getLogger()
+    {
+        return logger;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "MapTile [targetMap=" + targetMap + ", targetID=" + targetID + ", id=" + id + ", mapPosition=" + mapPosition + ", type=" + type + "]";
-	}
 
-	/**
-	 * helper method for using same protocol as Point 
-	 * @return
-	 */
-	public int y()
-	{
-		return getY();
-	}
-	
-	/**
-	 * helper method for using same protocol as Point
-	 * @return
-	 */
-	public int x()
-	{
-		return getX();
-	}
+    @Override
+    public String toString()
+    {
+        return "MapTile [targetMap=" + targetMap + ", targetID=" + targetID + ", id=" + id + ", mapPosition=" + mapPosition + ", type=" + type + "]";
+    }
 
-	public boolean isBlocked()
-	{
-		/*if (getType().getType() == TileTypes.OCEAN)
-		{
-			return true;
-		}
-		
-		if (getType().getType() == TileTypes.MOUNTAIN)
-		{
-			return true;
-		}*/
-		return blocked;
-	}
+    /**
+     * helper method for using same protocol as Point
+     *
+     * @return y coordinate
+     */
+    public int y()
+    {
+        return getY();
+    }
 
-	public void setBlocked(boolean blocked)
-	{
-		this.blocked = blocked;
-	}
+    /**
+     * helper method for using same protocol as Point
+     *
+     * @return x coordinate
+     */
+    public int x()
+    {
+        return getX();
+    }
 
-	public boolean isBlocksLOS()
-	{
-		
-		switch (getType())
-		{
-			case CASTLEEAST :
-				break;
-			case CASTLEENTRANCE :
-				break;
-			case CASTLEWEST :
-				break;
-			case CAVEENTRANCE :
-				break;
-			case DESERT :
-				break;
-			case DIRTFLOOR :
-				break;
-			case DIRTROAD :
-				break;
-			case FOUNTAIN :
-				break;
-			case GATECLOSED :
-				break;
-			case GATEOPEN :
-				break;
-			case GRASS :
-				break;
-			case HILL :
-				break;
-			case LADDERDOWN :
-				break;
-			case LADDERUP :
-				break;
-			case MARBLEFLOOR :
-				break;
-			case MOUNTAIN :
-				break;
-			case OCEAN :
-				break;
-			case PAVEDROAD :
-				break;
-			case RIVEREE :
-				break;
-			case RIVEREN :
-				break;
-			case RIVERES :
-				break;
-			case RIVERNE :
-				break;
-			case RIVERNS :
-				break;
-			case RIVERNW :
-				break;
-			case RIVERSE :
-				break;
-			case RIVERSS :
-				break;
-			case RIVERSW :
-				break;
-			case RIVERWN :
-				break;
-			case RIVERWS :
-				break;
-			case RIVERWW :
-				break;
-			case STAIRSDOWN :
-				break;
-			case STAIRSUP :
-				break;
-			case STONEDOORCLOSED :
-				break;
-			case STONEDOOROPEN :
-				break;
-			case STONEFLOOR :
-				break;
-			case STONEWALL :
-				break;
-			case STONEWINDOW :
-				break;
-			case SWAMP :
-				break;
-			case TOWNENTRANCE :
-				break;
-			case VILLAGEENTRANCE :
-				break;
-			case WELL :
-				break;
-			case WOODDOORCLOSED :
-				break;
-			case WOODDOOROPEN :
-				break;
-			case WOODFLOOR :
-				break;
-			case WOODWALL :
-				break;
-			case WOODWINDOW :
-				break;
-			default :
-				break;
-		
-		}
-		
-		return blocksLOS;
-	}
+    public boolean isBlocked()
+    {
 
-	public void setBlocksLOS(boolean blocksLOS)
-	{
-		this.blocksLOS = blocksLOS;
-	}
+        switch (getType())
+        {
+            case DESERT:
+            case HILL:
+            case GRASS:
+            case SWAMP:
+            case LADDERUP:
+            case LADDERDOWN:
+            case STAIRSUP:
+            case STAIRSDOWN:
+            case CASTLEENTRANCE:
+            case TOWNENTRANCE:
+            case VILLAGEENTRANCE:
+            case GATEOPEN:
+            case WOODDOOROPEN:
+            case STONEDOOROPEN:
+            case DIRTROAD:
+            case PAVEDROAD:
+            case WOODFLOOR:
+            case STONEFLOOR:
+            case MARBLEFLOOR:
+            case DIRTFLOOR:
+            case CAVEENTRANCE:
+            case LIGHTFOREST:
+            case BUSHES:
+            case BUSH:
+            case DENSEFOREST:
+               return false;
+
+            case MOUNTAIN:
+            case RIVERES:
+            case RIVEREE:
+            case RIVEREN:
+            case RIVERNE:
+            case OCEAN:
+            case RIVERNS:
+            case RIVERNW:
+            case RIVERSE:
+            case RIVERSS:
+            case RIVERSW:
+            case RIVERWN:
+            case RIVERWS:
+            case RIVERWW:
+            case CASTLEWEST:
+            case CASTLEEAST:
+            case STONEWALL:
+            case STONEWINDOW:
+            case WOODWALL:
+            case WOODWINDOW:
+            case GATECLOSED:
+            case WOODDOORCLOSED:
+            case STONEDOORCLOSED:
+            case FOUNTAIN:
+            case WELL:
+            case SHALLOWOCEAN:
+            case REEF:
+            case LAVA:
+            case STEEPMOUNTAIN:
+                return true;
+            default:
+                throw new IllegalStateException("Unexpected value: " + getType());
+        }
+    }
+
+    public void setBlocked(boolean blocked)
+    {
+        this.blocked = blocked;
+    }
+
+    public boolean isBlocksLOS()
+    {
+
+        switch (getType())
+        {
+            case CASTLEEAST:
+                break;
+            case CASTLEENTRANCE:
+                break;
+            case CASTLEWEST:
+                break;
+            case CAVEENTRANCE:
+                break;
+            case DESERT:
+                break;
+            case DIRTFLOOR:
+                break;
+            case DIRTROAD:
+                break;
+            case FOUNTAIN:
+                break;
+            case GATECLOSED:
+                break;
+            case GATEOPEN:
+                break;
+            case GRASS:
+                break;
+            case HILL:
+                break;
+            case LADDERDOWN:
+                break;
+            case LADDERUP:
+                break;
+            case MARBLEFLOOR:
+                break;
+            case MOUNTAIN:
+                break;
+            case OCEAN:
+                break;
+            case PAVEDROAD:
+                break;
+            case RIVEREE:
+                break;
+            case RIVEREN:
+                break;
+            case RIVERES:
+                break;
+            case RIVERNE:
+                break;
+            case RIVERNS:
+                break;
+            case RIVERNW:
+                break;
+            case RIVERSE:
+                break;
+            case RIVERSS:
+                break;
+            case RIVERSW:
+                break;
+            case RIVERWN:
+                break;
+            case RIVERWS:
+                break;
+            case RIVERWW:
+                break;
+            case STAIRSDOWN:
+                break;
+            case STAIRSUP:
+                break;
+            case STONEDOORCLOSED:
+                break;
+            case STONEDOOROPEN:
+                break;
+            case STONEFLOOR:
+                break;
+            case STONEWALL:
+                break;
+            case STONEWINDOW:
+                break;
+            case SWAMP:
+                break;
+            case TOWNENTRANCE:
+                break;
+            case VILLAGEENTRANCE:
+                break;
+            case WELL:
+                break;
+            case WOODDOORCLOSED:
+                break;
+            case WOODDOOROPEN:
+                break;
+            case WOODFLOOR:
+                break;
+            case WOODWALL:
+                break;
+            case WOODWINDOW:
+                break;
+            default:
+                break;
+
+        }
+
+        return blocksLOS;
+    }
+
+    public void setBlocksLOS(boolean blocksLOS)
+    {
+        this.blocksLOS = blocksLOS;
+    }
 }

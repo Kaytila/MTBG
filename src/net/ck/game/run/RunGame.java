@@ -95,6 +95,7 @@ public class RunGame
 		//ImageUtils.createOceanImages();		
 		CursorUtils.initializeCursors();
 		game = Game.getCurrent();
+		//MapUtils.importUltima4MapFromCSV();
 		//game.stopGame();
 		
 		/*try
