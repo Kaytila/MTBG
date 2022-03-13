@@ -19,7 +19,15 @@ public class NPC extends AbstractEntity
 	
 	private NPCTypes type;
 	private Hashtable<String, String> mobasks;
-	
+
+	public NPC(Integer i, Point p)
+	{
+		NPC master = Game.getCurrent().getNpcList().get(i);
+		setMapPosition(new Point(p.x, p.y));
+		setType(master.getType());
+		setMobasks(master.getMobasks());
+	}
+
 	public void setType(NPCTypes type)
 	{
 		this.type = type;

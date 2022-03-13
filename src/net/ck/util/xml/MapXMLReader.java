@@ -89,9 +89,9 @@ public class MapXMLReader extends DefaultHandler
 		for (NPC n : getNpcs())
 		{
 			// logger.info("adding npc: {} to map: {}", n, gameMap);
-			NPC standardNPC = Game.getCurrent().getNpcList().get(n.getNumber());
-			standardNPC.setMapPosition(n.getMapPosition());
-			gameMap.getNpcs().add(standardNPC);
+			NPC realNPC = new NPC(n.getNumber(), n.getMapPosition());
+			realNPC.initialize();
+			gameMap.getNpcs().add(realNPC);
 		}
 	}
 

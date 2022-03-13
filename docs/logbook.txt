@@ -378,6 +378,8 @@ adding animated tiles
             I *think* add() in Lists copies the object, so this would actually work fine.
             Fixed the talk dialog to work at least.
             Do not like the way this is structured yet - this has to change.
+            So list add() only adds copies, that means that I need to do a lot of new constructors :D
+            Already solved it for map and npcs. Lets see about items.
 			
 			
 			
