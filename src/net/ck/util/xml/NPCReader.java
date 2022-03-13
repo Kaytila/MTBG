@@ -9,8 +9,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Objects;
 
 /**
  * <npc>
@@ -40,7 +40,7 @@ import java.util.Hashtable;
  */
 public class NPCReader extends DefaultHandler
 {
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(getRealClass());
     private Hashtable<Integer, NPC> npcs;
     private StringBuilder data;
     private Hashtable<String, String> mobasks;
@@ -61,39 +61,33 @@ public class NPCReader extends DefaultHandler
     private Class<?> getRealClass()
     {
         Class<?> enclosingClass = getClass().getEnclosingClass();
-        if (enclosingClass != null)
-        {
-            return enclosingClass;
-        }
-        else
-        {
-            return getClass();
-        }
+        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     @Override
-    public void startDocument() throws SAXException
+    public void startDocument()
     {
-        npcs = new Hashtable<Integer, NPC>();
+        npcs = new Hashtable<>();
 
     }
 
     @Override
-    public void endDocument() throws SAXException
+    public void endDocument()
     {
 
     }
 
-    @Override
+
     /**
      * <tile> <id>4</id> <type>GRASS</type> <x>0</x> <y>1</y> <east>5</east> <west></west> <south></south> <north>1</north> </tile>
      */
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes)
     {
         switch (qName)
         {
             case "npcs":
-                npcs = new Hashtable<Integer, NPC>();
+                npcs = new Hashtable<>();
                 break;
             case "npc":
                 n = new NPC();
@@ -107,7 +101,7 @@ public class NPCReader extends DefaultHandler
             case "y":
                 break;
             case "mobasks":
-                mobasks = new Hashtable<String, String>();
+                mobasks = new Hashtable<>();
                 break;
             case "mobask":
                 break;
@@ -123,7 +117,7 @@ public class NPCReader extends DefaultHandler
      * <tile> <id>4</id> <type>GRASS</type> <x>0</x> <y>1</y> <east>5</east> <west></west> <south></south> <north>1</north> </tile>
      */
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException
+    public void endElement(String uri, String localName, String qName)
     {
         switch (qName)
         {

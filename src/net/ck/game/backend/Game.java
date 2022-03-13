@@ -370,7 +370,7 @@ public class Game
 		//getMaps().add(MapUtils.importUltima4MapFromCSV());
 		logger.info("maps: {}", getMaps());
 		logger.info("end: initialize maps");
-		this.stopGame();
+
 	}
 
 	private void addItemsToFloor(Map map)

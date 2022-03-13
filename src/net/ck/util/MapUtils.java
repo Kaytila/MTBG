@@ -404,6 +404,7 @@ public class MapUtils
     {
         for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
         {
+
             // same tile
             if ((t.x == p.x) && (t.y == p.y))
             {

@@ -1,11 +1,9 @@
 package net.ck.game.backend.entities;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.*;
 
+import net.ck.game.backend.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +14,7 @@ import net.ck.util.ImageUtils;
 public class NPC extends AbstractEntity
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private AbstractRepresentation appearance;
 	
 	private NPCTypes type;
@@ -30,37 +28,27 @@ public class NPC extends AbstractEntity
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public NPC()
 	{
 		super();
-		mobasks = new Hashtable<String, String>();
-		//setType(NPCTypes.WARRIOR);
-		//setNumber(Game.getCurrent().getNextNPCNumber());
+		mobasks = new Hashtable<>();
 	}
 
 	@Override
 	public String toString()
 	{
-		final int maxLen = 2;
-		return "NPC [type=" + type + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet(), maxLen) : null) + "]";
+		return "NPC [type=" + type + ", mapposition=" + mapPosition + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet()) : null) + "]";
 	}
 
-	private String toString(Collection<?> collection, int maxLen)
+	private String toString(Collection<?> collection)
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
 		int i = 0;
-		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++)
+		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < 2; i++)
 		{
 			if (i > 0)
 				builder.append(", ");
@@ -72,10 +60,10 @@ public class NPC extends AbstractEntity
 
 	public void initialize()
 	{
-		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
+		ArrayList<BufferedImage> images = new ArrayList<>();
 
-		BufferedImage standardImage = null;
-		ArrayList<BufferedImage> movingImages = new ArrayList<BufferedImage>();
+		BufferedImage standardImage;
+		ArrayList<BufferedImage> movingImages;
 
 		standardImage = ImageUtils.loadStandardPlayerImage(this);
 		movingImages = ImageUtils.loadMovingPlayerImages(this);
@@ -93,8 +81,6 @@ public class NPC extends AbstractEntity
 	public void setMapPosition(Point position)
 	{
 		this.mapPosition = position;
-		//MapUtils.getTileByCoordinates(position).setBlocked(true);
-		//logger.info("NPC number {}, position {}", getNumber(), mapPosition.toString());
 	}
 
 	@Override

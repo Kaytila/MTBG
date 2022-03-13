@@ -2,6 +2,7 @@ package net.ck.game.ui;
 
 import java.awt.Color;
 import java.awt.Frame;
+import java.util.Objects;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.ParallelGroup;
@@ -149,19 +150,12 @@ public class TalkDialog extends AbstractDialog
 		*/
 	}
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()

@@ -372,6 +372,12 @@ adding animated tiles
             So all tile types are blocking or not now.
             reimplemented NPC xml parsing as separate class and lo and behold, if you do it correctly it works.
             Also good point of doing switch statements instead of else if nonsense.
+2022-03-13: So I have fixed part of the XML nonsense by updating and changing the code and actually making it easier.
+            Lets see how this works out in the end.
+            Not sure if i do not need a "create instance from Prototype" way, or whether this works as it should.
+            I *think* add() in Lists copies the object, so this would actually work fine.
+            Fixed the talk dialog to work at least.
+            Do not like the way this is structured yet - this has to change.
 			
 			
 			

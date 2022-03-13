@@ -1,23 +1,19 @@
 package net.ck.game.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.text.BadLocationException;
-
+import net.ck.game.backend.entities.NPC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
 
-import net.ck.game.backend.entities.NPC;
-import net.ck.util.communication.graphics.TalkInputEvent;
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class InputFieldListener implements ActionListener
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private JTextField inputField;
 	private JTextArea textArea;
 	private NPC npc;
@@ -32,14 +28,7 @@ public class InputFieldListener implements ActionListener
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -60,8 +49,7 @@ public class InputFieldListener implements ActionListener
 				getInputField().getDocument().remove(0, getInputField().getDocument().getLength());
 				boolean found = false;
 				for (String q : getNpc().getMobasks().keySet())
-				{		
-					logger.info("question: {}, q: {}", question, q);
+				{
 					if (question.equalsIgnoreCase(q))
 					{
 						found = true;
@@ -69,7 +57,7 @@ public class InputFieldListener implements ActionListener
 					}
 				}
 				
-				if (found != false)
+				if (found == false)
 				{
 					getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "NPC says: " + "Hu?" + "\n", null);
 				}
@@ -77,7 +65,7 @@ public class InputFieldListener implements ActionListener
 			}
 			catch (BadLocationException e1)
 			{
-				// TODO Auto-generated catch block
+
 				e1.printStackTrace();
 			}
 		}
