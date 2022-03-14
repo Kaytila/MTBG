@@ -380,6 +380,13 @@ adding animated tiles
             Do not like the way this is structured yet - this has to change.
             So list add() only adds copies, that means that I need to do a lot of new constructors :D
             Already solved it for map and npcs. Lets see about items.
+2022-03-14: so talk dialog now closes when bye is uttered.
+            Will need to make sure that the action properly closes when this is done.
+            Same issue with get and drop and basically all two-step actions.
+            Talk and Get are somewhat fixed, but need more work.
+            Drop might work. Need to check: do not drop on blocked maptiles.
+            Where to do this?
+
 			
 			
 			

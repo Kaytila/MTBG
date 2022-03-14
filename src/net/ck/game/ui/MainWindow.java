@@ -441,64 +441,63 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		if (e.getButton() == MouseEvent.BUTTON1)
 		// this now only works for get/talk/drop
 		{
+			MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
 			if (this.getCurrentAction() != null)
 			{
-				if (this.getCurrentAction().getType().equals(KeyboardActionType.GET))
+				switch (this.getCurrentAction().getType())
 				{
-
-					MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
-					/*
-					 * ArrayList<AbstractItem> found = new ArrayList<AbstractItem>(); for (AbstractItem i : tile.getItems()) { found.add(i); } Game.getCurrent().getCurrentPlayer().getItems(found);
-					 * tile.getItems().removeAll(found);
-					 */
-					setSelectTile(false);
-					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
-					getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-					runActions(getCurrentAction(), true);
-				}
-
-				if (this.getCurrentAction().getType().equals(KeyboardActionType.DROP))
-				{
-
-					MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
-					/*
-					 * ArrayList<AbstractItem> found = new ArrayList<AbstractItem>(); for (AbstractItem i : tile.getItems()) { found.add(i); } Game.getCurrent().getCurrentPlayer().getItems(found);
-					 * tile.getItems().removeAll(found);
-					 */
-					setSelectTile(false);
-					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
-					getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-					getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
-					runActions(getCurrentAction(), true);
-				}
-
-				if (this.getCurrentAction().getType().equals(KeyboardActionType.TALK))
-				{
-					logger.info("talk");
-					MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
-					for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
-					{
-						logger.info("npc position: {}, crosshair position: {}", n.getMapPosition(), tile.getMapPosition());
-						if (n.getMapPosition().equals(tile.getMapPosition()))
+					case GET:
+						setSelectTile(false);
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+						runActions(getCurrentAction(), true);
+						break;
+					case DROP:
+						setSelectTile(false);
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+						getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
+						runActions(getCurrentAction(), true);
+						break;
+					case TALK:
+						boolean found = false;
+						NPC npc = null;
+						for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
 						{
-
-							logger.info("found the npc");
-							setSelectTile(false);
-							CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
-							getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-							if (isDialogOpened == true)
+							if (n.getMapPosition().equals(tile.getMapPosition()))
 							{
-								break;
+								found = true;
+								npc = n;
+							}
+						}
+							if (found)
+							{
+								logger.info("found the npc");
+								setSelectTile(false);
+								CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+								getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+								if (isDialogOpened == true)
+								{
+									break;
+								}
+								else
+								{
+									this.setDialogOpened(true);
+									AbstractDialog.createDialog(this.getFrame(), "Talk", false, getCurrentAction(), npc);
+									logger.info("talk: {}", "");
+								}
+								runActions(getCurrentAction(), true);
 							}
 							else
 							{
-								this.setDialogOpened(true);
-								AbstractDialog.createDialog(this.getFrame(), "Talk", false, getCurrentAction(), n);
-								logger.info("talk: {}", "");
+								logger.info("no NPC here!");
+								setCurrentAction(new AbstractKeyboardAction());
+								runActions(getCurrentAction(), true);
 							}
-							runActions(getCurrentAction(), true);
-						}
-					}
+						break;
+
+					default:
+						throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
 				}
 			}
 		}
@@ -527,7 +526,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
 			Game.getCurrent().advanceTurn(hasNPCAction);
 		}
-
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
 	}
 
 	@Subscribe

@@ -278,7 +278,7 @@ public class CursorUtils
 	/**
 	 * https://stackoverflow.com/questions/8639567/java-rotating-images
 	 * 
-	 * @param cursorImage
+	 *
 	 * @return roatedImagebydegree
 	 */
 	@Deprecated

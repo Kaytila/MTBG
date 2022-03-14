@@ -1,6 +1,7 @@
 package net.ck.game.ui;
 
 import net.ck.game.backend.entities.NPC;
+import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,11 +18,13 @@ public class InputFieldListener implements ActionListener
 	private JTextField inputField;
 	private JTextArea textArea;
 	private NPC npc;
+	private TalkDialog talkDialog;
 	
-	public InputFieldListener(JTextField textField, JTextArea textArea, NPC n)
+	public InputFieldListener(TalkDialog dialog, JTextField textField, JTextArea textArea, NPC n)
 	{
 		setInputField(textField);
 		setTextArea(textArea);
+		setTalkDialog(dialog);
 		setNpc(n);
 	}
 
@@ -54,6 +57,11 @@ public class InputFieldListener implements ActionListener
 					{
 						found = true;
 						getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "NPC says: " + getNpc().getMobasks().get(q) + "\n", null);
+						if (question.equalsIgnoreCase("bye"))
+						{
+							WindowClosingAction close = new WindowClosingAction(getTalkDialog());
+							close.actionPerformed(null);
+						}
 					}
 				}
 				
@@ -100,5 +108,15 @@ public class InputFieldListener implements ActionListener
 	public void setNpc(NPC npc)
 	{
 		this.npc = npc;
+	}
+
+	public TalkDialog getTalkDialog()
+	{
+		return talkDialog;
+	}
+
+	public void setTalkDialog(TalkDialog talkDialog)
+	{
+		this.talkDialog = talkDialog;
 	}
 }

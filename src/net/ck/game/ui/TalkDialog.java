@@ -79,7 +79,7 @@ public class TalkDialog extends AbstractDialog
 		sp.setVisible(true);
 		this.add(sp);
 
-		textField.addActionListener(new InputFieldListener(textField, textArea, n));
+		textField.addActionListener(new InputFieldListener(this, textField, textArea, n));
 		
 		GroupLayout layout = new GroupLayout(getContentPane());
 		this.getContentPane().setLayout(layout);

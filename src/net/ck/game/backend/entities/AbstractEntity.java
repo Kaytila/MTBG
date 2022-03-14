@@ -21,6 +21,8 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.GetAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 
+import javax.swing.*;
+
 /**
  * AbstractEntity is the abstract parent class known subclasses are: Player NPC World
  * 
@@ -403,10 +405,24 @@ public abstract class AbstractEntity
 	 */
 	public boolean getItem(MapTile tile)
 	{
-		getInventory().add(tile.getInventory().get(tile.getInventory().getSize() - 1));
-		Game.getCurrent().getCurrentMap().getItems().remove(tile.getInventory().get(tile.getInventory().getSize() - 1));
-		tile.getInventory().remove(tile.getInventory().get(tile.getInventory().getSize() - 1));
-		return true;
+		if (tile.getInventory() != null)
+		{
+			if (tile.getInventory().isEmpty())
+			{
+				return false;
+			}
+			else
+			{
+				getInventory().add(tile.getInventory().get(tile.getInventory().getSize() - 1));
+				Game.getCurrent().getCurrentMap().getItems().remove(tile.getInventory().get(tile.getInventory().getSize() - 1));
+				tile.getInventory().remove(tile.getInventory().get(tile.getInventory().getSize() - 1));
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public boolean getItems(ArrayList<AbstractItem> items)
