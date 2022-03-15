@@ -278,7 +278,7 @@ public class MapTile
     @Override
     public String toString()
     {
-        return "MapTile [targetMap=" + targetMap + ", targetID=" + targetID + ", id=" + id + ", mapPosition=" + mapPosition + ", type=" + type + "]";
+        return "MapTile [targetMap=" + targetMap + ", targetID=" + targetID + ", id=" + id + ", mapPosition=" + mapPosition + ", type=" + type + ", blocked=" + blocked + "]";
     }
 
     /**
@@ -331,7 +331,7 @@ public class MapTile
             case BUSHES:
             case BUSH:
             case DENSEFOREST:
-               return false;
+               return blocked;
 
             case MOUNTAIN:
             case RIVERES:

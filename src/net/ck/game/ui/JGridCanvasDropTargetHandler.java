@@ -66,8 +66,12 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 	@Override
 	public void dragOver(DropTargetDragEvent dtde)
 	{
-		// logger.info("dragOver");
-
+		logger.info("dragOver: {}", dtde.getLocation());
+		MapTile tile = MapUtils.calculateMapTileUnderCursor(dtde.getLocation());
+		if (tile.isBlocked())
+		{
+			dtde.rejectDrag();
+		}
 	}
 	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde)
@@ -110,7 +114,7 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 							int y = MouseInfo.getPointerInfo().getLocation().y - gridcanvas.getLocationOnScreen().y;
 							logger.info("mouse position: {}", new Point(x, y));
 							MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(x, y));
-
+							logger.info("map tile: {}", tile);
 							if (Game.getCurrent().getCurrentPlayer().getMapPosition().equals(tile.getMapPosition()))
 							{
 								logger.info("dragging on player");
@@ -118,8 +122,16 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 							}
 							else
 							{
-								logger.info("map tile: {}", tile);
-								tile.getInventory().add(item);
+								if (tile.isBlocked())
+								{
+									logger.info("tile is blocked, no drop");
+									dtde.rejectDrop();
+								}
+								else
+								{
+									logger.info("tile is available, drop");
+									tile.getInventory().add(item);
+								}
 							}
 							dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
 						}

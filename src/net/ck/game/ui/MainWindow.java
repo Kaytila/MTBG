@@ -193,12 +193,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 		DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
 		DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
-
-		/*
-		 * DropTarget droptarget = gridCanvas.getDropTarget(); try { droptarget.addDropTargetListener(new JGridCanvasDropTargetListener()); } catch (TooManyListenersException e) {
-		 * 
-		 * }
-		 */
+		gridCanvas.setDropTarget(dt);
 
 		logger.info("finish: build window");
 		logger.info("setting up event bus");
@@ -212,23 +207,29 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	 */
 	public void createMovement()
 	{
+		//logger.info("mouse position: {}", MouseInfo.getPointerInfo().getLocation());
 		if (CursorUtils.getCursor() != null)
 		{
 			switch (CursorUtils.getCursor().getName())
 			{
 				case "westCursor" :
 					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.WEST));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 				case "eastCursor" :
 					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.EAST));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 				case "northCursor" :
 					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.NORTH));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 				case "southCursor" :
 					EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.SOUTH));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 				default :
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 			}
 		}
@@ -317,13 +318,16 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public void mouseDragged(MouseEvent e)
 	{
 
-		logger.info("mouse dragged:");
+		//logger.info("mouse dragged:");
 		/*
 		 * if (!isSelectTile()) { CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY())); }
 		 */
 		if (e.getButton() == MouseEvent.BUTTON3)
 		{
-			CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+			if (!isSelectTile())
+			{
+				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+			}
 		}
 
 		if (gridCanvas.isDragEnabled())
@@ -348,7 +352,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		// logger.info("mouse entered: {}", e.getPoint());
 		setMouseOutsideOfGrid(false);
 		// CursorUtils.setCursor(Cursor.getDefaultCursor());
-		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
 	@Override
@@ -357,7 +361,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		// logger.info("mouse exit: {}", e.getPoint());
 		// CursorUtils.setCursor(Cursor.getDefaultCursor());
 		setMouseOutsideOfGrid(true);
-		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
 	public boolean isMouseOutsideOfGrid()
@@ -373,7 +377,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
 	@Override
@@ -382,7 +386,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		//logger.info("mouse pressed");
 		if (this.getCurrentAction() != null)
 		{
-			logger.info("current action: {}", this.getCurrentAction());
+			//logger.info("current action: {}", this.getCurrentAction());
 			logger.info("we have a running action, dont do drag!");
 		}
 		else
@@ -392,16 +396,25 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			{
 				var c = (JGridCanvas) e.getSource();
 				var handler = c.getTransferHandler();
-				handler.exportAsDrag(c, e, TransferHandler.MOVE);
+				MapTile tile = MapUtils.calculateMapTileUnderCursor(e.getPoint());
+				if (tile.getInventory().isEmpty())
+				{
+
+				}
+				else
+				{
+					handler.exportAsDrag(c, e, TransferHandler.MOVE);
+				}
 			}
 
 			if (e.getButton() == MouseEvent.BUTTON3)
 			{
+				//we are not in cross hair mode, need to figure out a way to identify drag drop!
 				if (!isSelectTile())
 				{
 					int delay = 500; // milliseconds
+					logger.info("we are in movement mode with mouse 3");
 					ActionListener taskPerformer = new MouseActionListener(this);
-
 					pressedTimer = new Timer(delay, taskPerformer);
 					pressedTimer.setRepeats(true);
 					pressedTimer.start();
@@ -420,6 +433,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		// we are in movement mode
 		if (e.getButton() == MouseEvent.BUTTON3)
 		{
+			logger.info("stop pressing mouse3");
 			if (!isSelectTile())
 			{
 				if (pressedTimer != null) {
@@ -437,6 +451,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					createMovement();
 				}
 			}
+			CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 		}
 		if (e.getButton() == MouseEvent.BUTTON1)
 		// this now only works for get/talk/drop
@@ -448,13 +463,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				{
 					case GET:
 						setSelectTile(false);
-						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						runActions(getCurrentAction(), true);
 						break;
 					case DROP:
 						setSelectTile(false);
-						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
 						runActions(getCurrentAction(), true);
@@ -474,7 +489,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 							{
 								logger.info("found the npc");
 								setSelectTile(false);
-								CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY()));
+								CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 								getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 								if (isDialogOpened == true)
 								{
@@ -526,13 +541,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
 			Game.getCurrent().advanceTurn(hasNPCAction);
 		}
-		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
 	@Subscribe
 	public void onMessageEvent(AbstractKeyboardAction action)
 	{
-		logger.info("Event in MainWindow: {}", action.getType());
+		//logger.info("Event in MainWindow: {}", action.getType());
 		boolean haveNPCAction = true;
 		switch (action.getType())
 		{
@@ -549,7 +564,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					Game.getCurrent().getIdleTimer().stop();
 					this.setDialogOpened(true);
 					AbstractDialog.createDialog(this.getFrame(), "Inventory", false, action);
-					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 				}
 			}
@@ -583,7 +599,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					haveNPCAction = false;
 					Game.getCurrent().getIdleTimer().stop();
 					setSelectTile(true);
-					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					setCurrentAction(action);
 					AbstractDialog.createDialog(this.getFrame(), "Inventory", false, action);
 					break;
@@ -610,7 +626,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					logger.info("selection is true");
 					setSelectTile(false);
 					Game.getCurrent().getIdleTimer().start();
-					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					break;
 				}
 				else
@@ -636,7 +652,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				logger.info("get");
 				Game.getCurrent().getIdleTimer().stop();
 				setSelectTile(true);
-				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 				setCurrentAction(action);
 				break;
 			}
@@ -661,7 +677,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					logger.info("talk");
 					Game.getCurrent().getIdleTimer().stop();
 					setSelectTile(true);
-					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(MouseInfo.getPointerInfo().getLocation()));
+					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					setCurrentAction(action);
 					break;
 				}
@@ -703,6 +719,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	public void setMousePressed(boolean mousePressed)
 	{
+		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+		logger.info("calling setMousePressed from: {} or: {}", stackTraceElements[1].getMethodName(), stackTraceElements[2].getMethodName());
 		this.mousePressed = mousePressed;
 	}
 

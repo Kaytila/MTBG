@@ -1,11 +1,5 @@
 package net.ck.util;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -15,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import net.ck.game.ui.JGridCanvas;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,6 +35,7 @@ public class CursorUtils
 	private static Cursor southCursor;
 	private static Cursor westCursor;
 	private static Cursor targetCursor;
+
 
 	public static void initializeCursors()
 	{
@@ -119,7 +115,8 @@ public class CursorUtils
 
 	/**
 	 * calculates where the mouse cursor is compared to the player icon (tile centered)
-	 * 
+	 *   ALWAYS USE MouseInfo.getPointerInfo().getLocation() instead of the mouse event locations. These might be easier to do but are relative already.
+	 *   sometimes, I have no event, therefore I need to construct the mouse position from the absolute and calculate.
 	 * @param currentPlayer
 	 * @param point
 	 * 
@@ -138,8 +135,10 @@ public class CursorUtils
 			int Px = (currentPlayer.getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
 			int Py = (currentPlayer.getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
 
-			int Mx = point.x;
-			int My = point.y;
+			int Mx = point.x - Game.getCurrent().getController().getGridCanvas().getLocationOnScreen().x;
+			int My = point.y - Game.getCurrent().getController().getGridCanvas().getLocationOnScreen().y;
+
+			//logger.info("player x:{}, player y:{}, mouse x:{}, mouse y: {}", Px, Py, Mx, My);
 
 			Range<Integer> rangeY = Range.between(Py - border, Py + border);
 			Range<Integer> rangeX = Range.between(Px - border, Px + border);

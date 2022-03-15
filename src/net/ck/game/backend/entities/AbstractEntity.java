@@ -100,11 +100,11 @@ public abstract class AbstractEntity
 					if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
 					{
 						this.move((p.x + 1), p.y);
-
+						success = true;
 					}
 					else
 					{
-						logger.info("east blocked");
+						//logger.info("EAST blocked");
 					}
 				}
 				else
@@ -123,12 +123,13 @@ public abstract class AbstractEntity
 				if (p.y > 0)
 				{
 					if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
-					{						
-						this.move((p.x), (p.y - 1));						
+					{
+						this.move((p.x), (p.y - 1));
+						success = true;
 					}
 					else
 					{
-						logger.info("NORTH blocked");
+						//logger.info("NORTH blocked");
 					}
 				}
 				else
@@ -145,10 +146,11 @@ public abstract class AbstractEntity
 					if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
 					{
 						this.move((p.x), (p.y + 1));
+						success = true;
 					}
 					else
 					{
-						logger.info("SOUTH blocked");
+						//logger.info("SOUTH blocked");
 					}
 
 				}
@@ -164,10 +166,11 @@ public abstract class AbstractEntity
 					if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
 					{
 						this.move((p.x - 1), (p.y));
+						success = true;
 					}
 					else
 					{
-						logger.info("WEST blocked");
+						//logger.info("WEST blocked");
 					}
 				}
 				else
@@ -179,15 +182,16 @@ public abstract class AbstractEntity
 				success = true;
 				break;
 			case GET :
-				this.getItem(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+				success = this.getItem(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
 				break;
 				
 			case DROP:
-				this.dropItem(action.getEvent().getAffectedItem(), MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+				success = this.dropItem(action.getEvent().getAffectedItem(), MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
 				break;
 			
 			case TALK:
-				logger.info("doing talk action");								
+				logger.info("doing talk action");
+				break;
 			default :
 				logger.info("doing default action, inventory does not need to be reverted for instance");
 				break;
@@ -204,13 +208,13 @@ public abstract class AbstractEntity
 		{
 			Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction(), action.getEntity()));
 		}
-		Game.getCurrent().getController().setCurrentAction(null);
+		//Game.getCurrent().getController().setCurrentAction(null);
 	}
 
-	private void dropItem(AbstractItem affectedItem, MapTile tile)
+	private boolean dropItem(AbstractItem affectedItem, MapTile tile)
 	{		
 		tile.getInventory().add(affectedItem);
-		this.dropItem(affectedItem);
+		return this.dropItem(affectedItem);
 	}
 
 	public abstract AbstractRepresentation getAppearance();
@@ -492,11 +496,16 @@ public abstract class AbstractEntity
 	}
 	
 	
-	public void move (int x, int y)	
+	public void move (int x, int y)
 	{
-		Point p = this.getMapPosition();
-		MapUtils.getTileByCoordinates(p).setBlocked(false);
-		p.move(x, y);
-		MapUtils.getTileByCoordinates(p).setBlocked(true);
+		MapUtils.getTileByCoordinates(this.getMapPosition()).setBlocked(false);
+		this.getMapPosition().move(x, y);
+		MapUtils.getTileByCoordinates(this.getMapPosition()).setBlocked(true);
+	}
+
+
+	public boolean talk (MapTile tile)
+	{
+		return false;
 	}
 }

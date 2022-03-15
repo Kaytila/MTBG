@@ -386,7 +386,15 @@ adding animated tiles
             Talk and Get are somewhat fixed, but need more work.
             Drop might work. Need to check: do not drop on blocked maptiles.
             Where to do this?
-
+2022-03-15: mouse movement via drag is fixed now.
+            refactored a bit the calculate cursor part.
+            I would like to make sure that this is called everywhere automatically.
+            with each command, with each click or release.
+            issue was that i had a mix of relative and absolute locations as input for the cursor calculation.
+            as as my own comment states: stupid to rely on the state of the cursor which command to do.
+            but it works again.
+            Next stop: fix some more drag and drop. I do not understand yet as to why a reject drag is ignored.
+            the item disappears sure, but this is a bit weird. why are there nice helper methods if they do squat.
 			
 			
 			

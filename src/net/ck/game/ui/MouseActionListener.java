@@ -33,7 +33,7 @@ public class MouseActionListener implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent evt)
 	{
-		//logger.info("mouse pressed");
+		logger.info("mouse pressed");
 		win.setMousePressed(true);
 		win.createMovement();
 	}
