@@ -330,17 +330,20 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			}
 		}
 
-		if (gridCanvas.isDragEnabled())
+		if (e.getButton() == MouseEvent.BUTTON1)
 		{
-			final TransferHandler transferHandler = gridCanvas.getTransferHandler();
-			if (transferHandler != null)
+			if (gridCanvas.isDragEnabled())
 			{
-				// TODO here could be more "logic" to initiate the drag
-				transferHandler.exportAsDrag(gridCanvas, e, DnDConstants.ACTION_MOVE);
-			}
-			else
-			{
-				logger.info("hmmm");
+				final TransferHandler transferHandler = gridCanvas.getTransferHandler();
+				if (transferHandler != null)
+				{
+					// TODO here could be more "logic" to initiate the drag
+					transferHandler.exportAsDrag(gridCanvas, e, DnDConstants.ACTION_MOVE);
+				}
+				else
+				{
+					logger.info("hmmm");
+				}
 			}
 		}
 
