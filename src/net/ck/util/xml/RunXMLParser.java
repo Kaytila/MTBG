@@ -8,6 +8,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.items.FurnitureItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -166,8 +167,25 @@ public class RunXMLParser
 			Game.getCurrent().stopGame();
 		}
 		return null;
-
 	}
 
-
+	public static Hashtable<Integer, FurnitureItem> parseFurniture(String fileName)
+	{
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		try
+		{
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			FurnitureReader handler = new FurnitureReader();
+			saxParser.parse(new File(fileName), handler);
+			logger.info("fu: {}", handler.getFurnitureList());
+			return handler.getFurnitureList();
+		}
+		catch (Exception e)
+		{
+			logger.error("hmmm");
+			e.printStackTrace();
+			Game.getCurrent().stopGame();
+		}
+		return null;
+	}
 }

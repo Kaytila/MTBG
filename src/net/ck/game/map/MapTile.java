@@ -2,10 +2,12 @@ package net.ck.game.map;
 
 import net.ck.game.backend.entities.Inventory;
 import net.ck.game.graphics.TileTypes;
+import net.ck.game.items.FurnitureItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -83,6 +85,12 @@ public class MapTile
      * what map tile is to the west?
      */
     private MapTile west;
+
+    /**
+     * furniture - items you can take, furniture you can only see
+     */
+    private FurnitureItem furniture;
+
 
     public MapTile()
     {
@@ -481,5 +489,16 @@ public class MapTile
     public void setBlocksLOS(boolean blocksLOS)
     {
         this.blocksLOS = blocksLOS;
+    }
+
+    public FurnitureItem getFurniture()
+    {
+        return furniture;
+    }
+
+    public void setFurniture(FurnitureItem furniture)
+    {
+        logger.info("setting furniture");
+        this.furniture = furniture;
     }
 }

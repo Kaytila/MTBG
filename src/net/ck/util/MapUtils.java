@@ -307,6 +307,27 @@ public class MapUtils
         return visibleTiles;
     }
 
+    public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range, Map map)
+    {
+        ArrayList<MapTile> visibleTiles = new ArrayList<MapTile>();
+        Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
+        Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
+        Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
+
+        for (MapTile t : map.getTiles())
+        {
+            if ((rangeY.contains(t.getY()) && (rangeX.contains(t.getX()))))
+            {
+                                    visibleTiles.add(t);
+
+            }
+        }
+
+        return visibleTiles;
+    }
+
+
+
     /**
      * there is a bug, but where????
      *

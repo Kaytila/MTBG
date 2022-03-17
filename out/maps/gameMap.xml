@@ -125455,23 +125455,23 @@
 	<npcs>
 		<npc>
 			<id>1</id>
-			<x>3</x>
+			<x>7</x>
 			<y>2</y>
 		</npc>
 		<npc>
 			<id>2</id>
-			<x>2</x>
-			<y>4</y>
+			<x>5</x>
+			<y>3</y>
 		</npc>	
 		<npc>
 			<id>3</id>
-			<x>3</x>
+			<x>5</x>
 			<y>4</y>
 		</npc>		
 		<npc>
 			<id>4</id>
-			<x>4</x>
-			<y>4</y>
+			<x>5</x>
+			<y>6</y>
 		</npc>			
 	</npcs>
 </map>

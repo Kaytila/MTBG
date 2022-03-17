@@ -8,10 +8,7 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.*;
 import net.ck.game.graphics.GraphicsSystem;
-import net.ck.game.items.Armor;
-import net.ck.game.items.ArmorPositions;
-import net.ck.game.items.Utility;
-import net.ck.game.items.Weapon;
+import net.ck.game.items.*;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.old.PressedTimer;
@@ -64,8 +61,22 @@ public class Game
 	 * how many frames per second
 	 */
 	public int FFPS = 60;
+
+	/**
+	 * list that contains all the NPC prototypes
+	 */
 	private Hashtable<Integer, NPC> npcList;
+
+	/**
+	 * list that contains all utility items
+	 */
 	private Hashtable<Integer, Utility> utilityList;
+
+	/**
+	 * list that contains all furniture items
+	 */
+	private Hashtable<Integer, FurnitureItem> furnitureList;
+
 	/**
 	 * so weaponList has two entries now, but as these are referenced, I need to make an item factory which gets a prototype from the list and creates a new instance with the values instead.
 	 */
@@ -74,6 +85,12 @@ public class Game
 	 * this is the list of all armor items that exist, ids will need to match the npc equipment. how much will this be used? not really sure
 	 */
 	private Hashtable<Integer, Armor> armorList;
+
+	/**
+	 * the arraylist holds all the maps
+	 * not sure if i do need to do that or can load from disk on demand,
+	 * but the average map wont be that big
+	 */
 	private ArrayList<Map> maps;
 	/**
 	 * holds the current map, might be game map, might be any map
@@ -333,7 +350,7 @@ public class Game
 
 			if (file.isFile())
 			{
-				logger.info("file name: {}", file.getName());
+				//logger.info("file name: {}", file.getName());
 				if (file.getName().contains("xml"))
 				{
 					Map map = null;
@@ -368,7 +385,7 @@ public class Game
 		}
 
 		//getMaps().add(MapUtils.importUltima4MapFromCSV());
-		logger.info("maps: {}", getMaps());
+		//logger.info("maps: {}", getMaps());
 		logger.info("end: initialize maps");
 
 	}
@@ -382,7 +399,9 @@ public class Game
 		//map.getItems().add(magicClub);
 		//map.getItems().add(club);
 		MapUtils.getTileByCoordinates(new Point(3, 0)).getInventory().add(club);
-		MapUtils.getTileByCoordinates(new Point(3, 1)).getInventory().add(magicClub);
+		MapUtils.getTileByCoordinates(new Point(9, 3)).getInventory().add(magicClub);
+		logger.info("furniture: {}", getFurnitureList().get(0));
+		MapUtils.getTileByCoordinates(new Point(9, 4)).setFurniture(getFurnitureList().get(1));
 	}
 
 	public void initializeAllItems()
@@ -414,6 +433,13 @@ public class Game
 					logger.info("parsing utilities: {}", mapRootPath + File.separator + file.getName());
 					setUtilityList(RunXMLParser.parseUtilities(mapRootPath + File.separator + file.getName()));
 				}
+
+				else if (file.getName().equalsIgnoreCase("furniture.xml"))
+				{
+					logger.info("parsing furniture: {}", mapRootPath + File.separator + file.getName());
+					setFurnitureList(RunXMLParser.parseFurniture(mapRootPath + File.separator + file.getName()));
+				}
+
 			}
 		}
 		logger.info("end: initialize items");
@@ -421,6 +447,15 @@ public class Game
 		//listWeapons();
 		//listUtilities();
 		//listArmor();
+		listFurniture();
+	}
+
+	private void listFurniture()
+	{
+		for (FurnitureItem t : getFurnitureList().values())
+		{
+			logger.info("furniture item: {} ", t.toString());
+		}
 	}
 
 	public void initializeNPCs()
@@ -1122,6 +1157,17 @@ public class Game
 		{
 			logger.info("npc: {}", i);
 		}
+	}
+
+	public Hashtable<Integer, FurnitureItem> getFurnitureList()
+	{
+		return furnitureList;
+	}
+
+	public void setFurnitureList(Hashtable<Integer, FurnitureItem> furnitureList)
+	{
+		logger.info("setting Furniture list");
+		this.furnitureList = furnitureList;
 	}
 }
 

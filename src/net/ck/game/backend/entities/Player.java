@@ -61,9 +61,8 @@ public class Player extends AbstractEntity
 	 * to check for caller of method:
 	 * https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection
 	 * 
-	 * @param game
-	 * @param player
-	 *            number
+	 *
+	 * parameters: player number
 	 */
 	public Player(int number)
 	{
@@ -71,7 +70,8 @@ public class Player extends AbstractEntity
 		
 		//StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();		
 		//logger.info("calling player constructor from: {} or: {}", stackTraceElements[1].getMethodName(), stackTraceElements[2].getMethodName());
-
+		setLightSource(true);
+		setLightRange(4);
 		setNumber(number);
 
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();

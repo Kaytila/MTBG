@@ -115,7 +115,7 @@ public class RunGame
 			//ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);			
 			game.initializeAllItems();
 			game.initializeNPCs();
-			game.listNPCs();
+			//game.listNPCs();
 			//game.stopGame();
 			
 			game.initializeMaps();				

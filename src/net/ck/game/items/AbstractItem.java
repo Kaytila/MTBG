@@ -1,15 +1,14 @@
 package net.ck.game.items;
 
-import java.awt.Point;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class AbstractItem implements Transferable
 {
@@ -17,7 +16,7 @@ public abstract class AbstractItem implements Transferable
 	private int id;
 	private boolean isContainer;
 	private BufferedImage itemImage;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private String name;
 	private double value;
 	private double weight;
@@ -56,14 +55,7 @@ public abstract class AbstractItem implements Transferable
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 	public double getValue()
 	{
@@ -134,10 +126,10 @@ public abstract class AbstractItem implements Transferable
 	@Override
 	public DataFlavor[] getTransferDataFlavors()
 	{
-
+		logger.info("getTransferDataFlavors used");
 		DataFlavor flavor1 = new DataFlavor(Object.class, "X-test/test; class=<java.lang.Object>; foo=bar");
 		DataFlavor flavor2 = new DataFlavor(Object.class, "X-test/test; class=<java.lang.Object>; x=y");
-		DataFlavor[] dataFlavor = new DataFlavor[1];
+		DataFlavor[] dataFlavor = new DataFlavor[2];
 		dataFlavor[0] = flavor1;
 		dataFlavor[1] = flavor2;
 		return dataFlavor;
@@ -146,12 +138,14 @@ public abstract class AbstractItem implements Transferable
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor)
 	{		
+		logger.info("this is used");
 		return false;
 	}
 
 	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+	public Object getTransferData(DataFlavor flavor)
 	{
+		logger.info("this is used");
 		return this;
 	}	
 }

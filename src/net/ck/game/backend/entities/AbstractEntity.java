@@ -64,10 +64,22 @@ public abstract class AbstractEntity
 	 */
 	private Inventory inventory;
 
-	
+	/**
+	 * each Abstract Entity has attributes
+	 */
 	private Attributes attributes;
-		
-	
+
+	/**
+	 * is the entity a lightsource
+	 */
+	private boolean lightSource;
+
+	/**
+	 * how far does the light range go
+	 */
+	private int lightRange;
+
+
 	public AbstractEntity()
 	{
 		inventory = new Inventory();
@@ -507,5 +519,25 @@ public abstract class AbstractEntity
 	public boolean talk (MapTile tile)
 	{
 		return false;
+	}
+
+	public boolean isLightSource()
+	{
+		return lightSource;
+	}
+
+	public void setLightSource(boolean lightSource)
+	{
+		this.lightSource = lightSource;
+	}
+
+	public int getLightRange()
+	{
+		return lightRange;
+	}
+
+	public void setLightRange(int lightRange)
+	{
+		this.lightRange = lightRange;
 	}
 }

@@ -395,8 +395,9 @@ adding animated tiles
             but it works again.
             Next stop: fix some more drag and drop. I do not understand yet as to why a reject drag is ignored.
             the item disappears sure, but this is a bit weird. why are there nice helper methods if they do squat.
-			
-			
-			
-			
-			
+2022-03-16: working on furniture - items are one thing furniture another. they can be a lightsource.
+2022-03-17: so I have a working furniture - which caused me to implement lighting and light ranges.
+            This is now working.
+            Next thing to do is to integrate this with darkness, which is going to be interesting.
+            need to completely rewrite this some day, currently i am writing on top of each other
+            where i could go tile by tile and write all whats necessary.

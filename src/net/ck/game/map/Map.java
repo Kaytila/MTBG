@@ -149,7 +149,7 @@ public class Map extends AbstractMap
 			connectEastTilesToWestTiles(getEastTiles());
 		}
 		// MapUtils.calculateTileDirections(getTiles());
-		listNPCs();
+		//listNPCs();
 	}
 
 	/**

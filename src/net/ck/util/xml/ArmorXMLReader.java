@@ -15,7 +15,7 @@ import net.ck.game.items.ArmorTypes;
 public class ArmorXMLReader extends DefaultHandler
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private StringBuilder data = null;
 
 	private Hashtable<Integer, Armor> armorList;
