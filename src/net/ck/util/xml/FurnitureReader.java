@@ -144,7 +144,7 @@ public class FurnitureReader extends DefaultHandler
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException
+    public void characters(char[] ch, int start, int length)
     {
         data.append(new String(ch, start, length));
     }

@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 //Property change stuff
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -137,13 +138,13 @@ public class DialogDemo extends JPanel
 				String command = group.getSelection().getActionCommand();
 
 				// ok dialog
-				if (command == defaultMessageCommand)
+				if (Objects.equals(command, defaultMessageCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.");
 
 					// yes/no dialog
 				}
-				else if (command == yesNoCommand)
+				else if (Objects.equals(command, yesNoCommand))
 				{
 					int n = JOptionPane.showConfirmDialog(frame, "Would you like green eggs and ham?", "An Inane Question", JOptionPane.YES_NO_OPTION);
 					if (n == JOptionPane.YES_OPTION)
@@ -161,7 +162,7 @@ public class DialogDemo extends JPanel
 
 					// yes/no (not in those words)
 				}
-				else if (command == yeahNahCommand)
+				else if (Objects.equals(command, yeahNahCommand))
 				{
 					Object[] options =
 					{"Yes, please", "No way!"};
@@ -182,7 +183,7 @@ public class DialogDemo extends JPanel
 
 					// yes/no/cancel (not in those words)
 				}
-				else if (command == yncCommand)
+				else if (Objects.equals(command, yncCommand))
 				{
 					Object[] options =
 					{"Yes, please", "No, thanks", "No eggs, no ham!"};
@@ -314,12 +315,12 @@ public class DialogDemo extends JPanel
 				String command = group.getSelection().getActionCommand();
 
 				// no icon
-				if (command == plainCommand)
+				if (Objects.equals(command, plainCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.", "A plain message", JOptionPane.PLAIN_MESSAGE);
 					// information icon
 				}
-				else if (command == infoCommand)
+				else if (Objects.equals(command, infoCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.", "Inane informational dialog", JOptionPane.INFORMATION_MESSAGE);
 
@@ -328,22 +329,22 @@ public class DialogDemo extends JPanel
 					// XXX: See "Yes/No (but not in those words)" for a better solution.
 					// question icon
 				}
-				else if (command == questionCommand)
+				else if (Objects.equals(command, questionCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "You shouldn't use a message dialog " + "(like this)\n" + "for a question, OK?", "Inane question", JOptionPane.QUESTION_MESSAGE);
 					// error icon
 				}
-				else if (command == errorCommand)
+				else if (Objects.equals(command, errorCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.", "Inane error", JOptionPane.ERROR_MESSAGE);
 					// warning icon
 				}
-				else if (command == warningCommand)
+				else if (Objects.equals(command, warningCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.", "Inane warning", JOptionPane.WARNING_MESSAGE);
 					// custom icon
 				}
-				else if (command == customCommand)
+				else if (Objects.equals(command, customCommand))
 				{
 					JOptionPane.showMessageDialog(frame, "Eggs aren't supposed to be green.", "Inane custom dialog", JOptionPane.INFORMATION_MESSAGE, icon);
 				}
@@ -397,7 +398,7 @@ public class DialogDemo extends JPanel
 				String command = group.getSelection().getActionCommand();
 
 				// pick one of many
-				if (command == pickOneCommand)
+				if (Objects.equals(command, pickOneCommand))
 				{
 					Object[] possibilities =
 					{"ham", "spam", "yam"};
@@ -416,7 +417,7 @@ public class DialogDemo extends JPanel
 
 					// text input
 				}
-				else if (command == textEnteredCommand)
+				else if (Objects.equals(command, textEnteredCommand))
 				{
 					String s = (String) JOptionPane.showInputDialog(frame, "Complete the sentence:\n" + "\"Green eggs and...\"", "Customized Dialog", JOptionPane.PLAIN_MESSAGE, icon, null, "ham");
 
@@ -432,7 +433,7 @@ public class DialogDemo extends JPanel
 
 					// non-auto-closing dialog
 				}
-				else if (command == nonAutoCommand)
+				else if (Objects.equals(command, nonAutoCommand))
 				{
 					final JOptionPane optionPane = new JOptionPane("The only way to close this dialog is by\n" + "pressing one of the following buttons.\n" + "Do you understand?",
 						JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
@@ -488,7 +489,7 @@ public class DialogDemo extends JPanel
 					// NOTE: if you don't intend to check the input,
 					// then just use showInputDialog instead.
 				}
-				else if (command == customOptionCommand)
+				else if (Objects.equals(command, customOptionCommand))
 				{
 					customDialog.setLocationRelativeTo(frame);
 					customDialog.setVisible(true);
@@ -502,7 +503,7 @@ public class DialogDemo extends JPanel
 
 					// non-modal dialog
 				}
-				else if (command == nonModalCommand)
+				else if (Objects.equals(command, nonModalCommand))
 				{
 					// Create the dialog.
 					final JDialog dialog = new JDialog(frame, "A Non-Modal Dialog");

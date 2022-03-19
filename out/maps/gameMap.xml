@@ -5,7 +5,8 @@
 		<weatherrandomness>10</weatherrandomness>
 		<wrapping>true</wrapping>
 		<name>testname</name>
-		<!-- <visibility>3</visibility>-->
+		<visibility>3</visibility>
+		<minutesperturn>35</minutesperturn>
 		<parent></parent>
 	</meta>
 	<tiles>

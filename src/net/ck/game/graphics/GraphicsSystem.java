@@ -47,7 +47,7 @@ public class GraphicsSystem extends Application implements Runnable
 	}
 
 	@Override
-	public void start(@SuppressWarnings("exports") Stage arg0) throws Exception
+	public void start(@SuppressWarnings("exports") Stage arg0)
 	{
 		logger.error("Thread {} executing method start", Thread.currentThread().getName());
 

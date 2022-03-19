@@ -64,7 +64,7 @@ public class ItemTransferable implements Transferable
 	}
 
 	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException
 	{
 		Object value = null;
 		if (ITEM_DATA_FLAVOR.equals(flavor))

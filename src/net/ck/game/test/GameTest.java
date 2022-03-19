@@ -22,7 +22,7 @@ public class GameTest
 
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
+	public static void setUpBeforeClass()
 	{
 		logger.info("GameTest: setupBeforeClass begin");
 		TestGameSetup.SetupGameForTest();
@@ -31,7 +31,7 @@ public class GameTest
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
+	public static void tearDownAfterClass()
 	{
 		logger.info("GameTest - shutting down everything hopefully");
 		game = null;
@@ -39,13 +39,13 @@ public class GameTest
 	}
 
 	@Before
-	public void setUp() throws Exception
+	public void setUp()
 	{
 
 	}
 
 	@After
-	public void tearDown() throws Exception
+	public void tearDown()
 	{
 
 	}

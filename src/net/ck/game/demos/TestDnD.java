@@ -164,7 +164,7 @@ public class TestDnD
 		}
 
 		@Override
-		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException
 		{
 			Object value = null;
 			if (USER_DATA_FLAVOR.equals(flavor))

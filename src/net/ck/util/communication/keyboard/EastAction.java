@@ -1,6 +1,7 @@
 package net.ck.util.communication.keyboard;
 
 import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,19 +14,12 @@ public class EastAction extends AbstractKeyboardAction
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()

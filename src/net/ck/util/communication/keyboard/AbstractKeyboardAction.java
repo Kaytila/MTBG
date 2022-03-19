@@ -2,6 +2,7 @@ package net.ck.util.communication.keyboard;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 import javax.swing.AbstractAction;
 
@@ -20,7 +21,7 @@ public class AbstractKeyboardAction extends AbstractAction
 	private static final long serialVersionUID = 1L;
 	private boolean actionimmediately = false;
 	private boolean done = false;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private Point getWhere;
 	private AbstractItem affectedItem;
 	
@@ -59,14 +60,7 @@ public class AbstractKeyboardAction extends AbstractAction
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 	
 	public  KeyboardActionType getType()

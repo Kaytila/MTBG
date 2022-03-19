@@ -214,7 +214,7 @@ public class ThreadController implements Runnable
 	}
 
 	@SuppressWarnings("static-access")
-	public void sleep(int ms, String threadName) throws Exception
+	public void sleep(int ms, String threadName)
 	{
 		for (Iterator<Thread> threadIterator = getThreads().iterator(); threadIterator.hasNext();)
 		{

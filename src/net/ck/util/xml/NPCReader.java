@@ -169,7 +169,7 @@ public class NPCReader extends DefaultHandler
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException
+    public void characters(char[] ch, int start, int length)
     {
         if (data == null)
         {

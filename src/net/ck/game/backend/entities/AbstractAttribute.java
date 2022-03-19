@@ -52,7 +52,7 @@ public abstract class AbstractAttribute
 
 	public void setType(AttributeTypes type)
 	{
-		setType(null);
+		type = null;
 	}
 
 	public Class<?> getRealClass()

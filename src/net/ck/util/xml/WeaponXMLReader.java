@@ -74,19 +74,19 @@ public class WeaponXMLReader extends DefaultHandler
 	
 
 	@Override
-	public void startDocument() throws SAXException
+	public void startDocument()
 	{
 		weaponList = new Hashtable<Integer, Weapon>();
 	}
 
 	@Override
-	public void endDocument() throws SAXException
+	public void endDocument()
 	{
 
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+	public void startElement(String uri, String localName, String qName, Attributes attributes)
 	{
 		//logger.info("qName: {}", qName);
 		
@@ -151,7 +151,7 @@ public class WeaponXMLReader extends DefaultHandler
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException
+	public void endElement(String uri, String localName, String qName)
 	{
 		if (weapons)
 		{
@@ -216,7 +216,7 @@ public class WeaponXMLReader extends DefaultHandler
 	}
 
 	@Override
-	public void characters(char ch[], int start, int length) throws SAXException
+	public void characters(char ch[], int start, int length)
 	{
 		data.append(new String(ch, start, length));
 	}

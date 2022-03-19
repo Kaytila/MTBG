@@ -11,13 +11,8 @@ module myTurnedBasedGame
 	requires java.xml;
 	requires java.sql;
     requires javafx.graphics;
-    requires javafx.controls;
-    requires javafx.media;
-    requires javafx.base;
-    requires javafx.web;
-    requires javafx.swing;
-    requires javafx.fxml;
-	requires eventbus.java;	
+	requires javafx.media;
+	requires eventbus.java;
 	requires org.apache.commons.lang3;
 	requires com.google.common;
 	requires imgscalr.lib;

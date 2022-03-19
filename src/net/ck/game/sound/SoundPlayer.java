@@ -107,10 +107,9 @@ public class SoundPlayer implements Runnable
 	/**
 	 * https://stackoverflow.com/questions/37034624/play-and-stop-music-java https://stackoverflow.com/questions/5529754/java-io-ioexception-mark-reset-not-supported/9324190
 	 * 
-	 * 
-	 * @throws FileNotFoundException
+	 *
 	 */
-	public SoundPlayer() throws FileNotFoundException
+	public SoundPlayer()
 	{
 		super();
 		logger.info("initialize sound player");

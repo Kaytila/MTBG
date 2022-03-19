@@ -73,11 +73,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 				{
 					logger.error("caught ConcurrentModificationException");
 				}
-				catch (InterruptedException e)
-				{
-					logger.error("something broke in the Foreground Animation System Thread");
-				}
-				catch (Exception e)
+                catch (Exception e)
 				{
 					e.printStackTrace();
 				}

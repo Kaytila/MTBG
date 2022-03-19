@@ -189,6 +189,9 @@ public class Game
 	 */
 	private SoundPlayer soundSystem;
 
+
+	private GameTime gameTime;
+
 	/**
 	 * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
 	 * depends on how far i wanna go
@@ -218,6 +221,8 @@ public class Game
 		setCurrentTurn(turn);
 		getTurns().add(turn);
 		en = new World();
+
+		setGameTime(new GameTime());
 
 		// Toolkit.getDefaultToolkit().getSystemEventQueue().
 		// java FX - perhaps in 2025
@@ -617,6 +622,8 @@ public class Game
 			Turn turn = new Turn(getTurnNumber());
 			getTurns().add(turn);
 			this.setCurrentTurn(turn);
+			getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
+			MapUtils.calculateDayOrNight();
 			// logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			// Game.getCurrent().initializeTurnTimer();
 		}
@@ -1043,15 +1050,7 @@ public class Game
 			if (isPlayMusic() == true)
 			{
 				logger.info("initializing sound system");
-				try
-				{
-					soundSystem = new SoundPlayer();
-				}
-				catch (FileNotFoundException e)
-				{
-					e.printStackTrace();
-					stopGame();
-				}
+				soundSystem = new SoundPlayer();
 				Thread soundSystemThread = new Thread(soundSystem);
 				soundSystemThread.setName("Sound System Thread");
 				threadController.add(soundSystemThread);
@@ -1168,6 +1167,16 @@ public class Game
 	{
 		logger.info("setting Furniture list");
 		this.furnitureList = furnitureList;
+	}
+
+	public GameTime getGameTime()
+	{
+		return gameTime;
+	}
+
+	public void setGameTime(GameTime gameTime)
+	{
+		this.gameTime = gameTime;
 	}
 }
 

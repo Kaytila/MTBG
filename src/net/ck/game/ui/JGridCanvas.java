@@ -148,13 +148,19 @@ public class JGridCanvas extends JComponent
         // here come the items on the map :D
         paintItems(g);
 
-        paintFurniture(g);
         // here comes the paintWeather part
         // this somehow needs to be doable faster
         paintWeather(g);
 
         // ring of darkness around the player
-        // paintDarkness(g);
+        paintDarkness(g);
+
+        //paint furniture
+        //also: paint light effects
+        paintFurniture(g);
+
+
+
 
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
@@ -231,6 +237,10 @@ public class JGridCanvas extends JComponent
                     //logger.info("no light source");
                     g.drawImage(tile.getFurniture().getItemImage(), (screenPosition.x * tileSize), (screenPosition.y * tileSize), this);
                 }
+                //TODO think about whether to add weather images to the lightened areas away from player
+                //img = ImageUtils.getWeatherTypeImages().get(Game.getCurrent().getCurrentMap().getCurrentWeather().getType()).get(getCurrentForegroundImage());
+                //logger.info("buffered image: {}", img.toString());
+                g.drawImage(img, (screenPosition.x * tileSize), (screenPosition.y * tileSize), this);
             }
         }
     }

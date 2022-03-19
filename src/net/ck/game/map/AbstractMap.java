@@ -98,7 +98,10 @@ public class AbstractMap
 	 * 1 = 
 	 */
 	private int visibilityRange;
-	
+
+
+	private int minutesPerTurn;
+
 	public ArrayList<AbstractItem> getItems()
 	{
 		return items;
@@ -212,4 +215,13 @@ public class AbstractMap
 		this.visibilityRange = visibilityRange;
 	}
 
+	public int getMinutesPerTurn()
+	{
+		return minutesPerTurn;
+	}
+
+	public void setMinutesPerTurn(int minutesPerTurn)
+	{
+		this.minutesPerTurn = minutesPerTurn;
+	}
 }

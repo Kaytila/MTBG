@@ -158,6 +158,8 @@ public class MapXMLReader extends DefaultHandler
 				}
 				npc = true;
 				break;
+			case "minutesperturn":
+				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);
 		}
@@ -243,7 +245,7 @@ public class MapXMLReader extends DefaultHandler
 			case "parent":
 				gameMap.setParentMap(data.toString());
 				break;
-			case "visbilility":
+			case "visibility":
 				//logger.info("data: {}", data.toString());
 				gameMap.setVisibilityRange(Integer.parseInt(data.toString()));
 				break;
@@ -252,6 +254,9 @@ public class MapXMLReader extends DefaultHandler
 			case "meta":
 				break;
 			case "map":
+				break;
+			case "minutesperturn":
+				gameMap.setMinutesPerTurn(Integer.parseInt(data.toString()));
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);

@@ -82,12 +82,7 @@ public class RandomAnimationSystem extends AnimationSystem
 			{
 				Game.getCurrent().getThreadController().sleep(200, "Animation System Thread");
 			}
-			catch (InterruptedException e)
-			{
-				logger.error("something broke in the animation thread");
-				e.printStackTrace();
-			}
-			catch (ConcurrentModificationException e)
+            catch (ConcurrentModificationException e)
 			{
 				logger.error("caught ConcurrentModificationException");
 			}

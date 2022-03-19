@@ -4,6 +4,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Objects;
 
 import javax.swing.AbstractAction;
 
@@ -26,7 +27,7 @@ public class WindowClosingAction extends AbstractAction implements WindowListene
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private Window component;
 
 	public WindowClosingAction(Window iD)
@@ -37,14 +38,7 @@ public class WindowClosingAction extends AbstractAction implements WindowListene
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -52,10 +46,11 @@ public class WindowClosingAction extends AbstractAction implements WindowListene
 		return logger;
 	}
 
-	@Override
+
 	/**
 	 * close the dialog window tell the Controller the dialog is closed. Tell the frame to request focus again for safety matters, tell the frame to repaint
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));

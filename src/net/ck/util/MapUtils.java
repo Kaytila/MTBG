@@ -683,7 +683,7 @@ public class MapUtils
         Document doc = null;
         try
         {
-            doc = db.parse(new FileInputStream(new File(fileName)));
+            doc = db.parse(new FileInputStream(fileName));
         }
         catch (SAXException e)
         {
@@ -712,5 +712,32 @@ public class MapUtils
         StringWriter strWriter = new StringWriter(1000000);
         StreamResult result = new StreamResult(new File(fileName));
         transformer.transform(source, result);
+    }
+
+    public static void calculateDayOrNight()
+    {
+        int hours = Game.getCurrent().getGameTime().getCurrentHour();
+
+        Range<Integer> rangeDay = Range.between(8, 18);
+        Range<Integer> rangeDawn = Range.between(5, 7);
+        Range<Integer> rangeDusk = Range.between(19, 21);
+        if (rangeDay.contains(hours))
+        {
+            Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles());
+            return;
+        }
+        if (rangeDawn.contains(hours))
+        {
+            Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles() / 4);
+            return;
+        }
+
+        if (rangeDusk.contains(hours))
+        {
+            Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles() / 4);
+            return;
+        }
+
+        Game.getCurrent().getCurrentMap().setVisibilityRange(2);
     }
 }
