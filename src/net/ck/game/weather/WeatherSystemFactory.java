@@ -14,21 +14,28 @@ public class WeatherSystemFactory
 
 	public static AbstractWeatherSystem createWeatherSystem(Map gameMap)
 	{
-		if (gameMap.isWeatherSystem())
+		if (gameMap.getFixedWeather() == null)
 		{
-			if (gameMap.isSyncedWeatherSystem())
+			if (gameMap.isWeatherSystem())
 			{
-				return new SyncWeatherSystem(gameMap.getWeatherRandomness());
+				if (gameMap.isSyncedWeatherSystem())
+				{
+					return new SyncWeatherSystem(gameMap.getWeatherRandomness());
+				}
+				else
+				{
+					return new AsyncWeatherSystem(gameMap.getWeatherRandomness());
+				}
 			}
+			// we are indoors!
 			else
 			{
-				return new AsyncWeatherSystem(gameMap.getWeatherRandomness());
+				return new NoWeatherSystem(0);
 			}
 		}
-		// we are indoors!
 		else
 		{
-			return new NoWeatherSystem(0);
+			return new FixedWeatherSystem(0, gameMap.getFixedWeather());
 		}
 	}
 }

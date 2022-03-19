@@ -59,7 +59,7 @@ public class GameMap extends Map
 		
 		setWeatherSystem(true);
 		// is it synchronized, i.e. only checking for change on turn end
-		setSyncedWeatherSystem(false);
+		setSyncedWeatherSystem(true);
 		// highly instable weather!
 		setWeatherRandomness(10);
 		setWrapping(true);

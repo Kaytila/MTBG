@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import net.ck.game.backend.Game;
+import net.ck.game.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -160,6 +161,10 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "minutesperturn":
 				break;
+			case "synchronweather":
+				break;
+			case "fixedWeather":
+				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);
 		}
@@ -235,6 +240,12 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "weatherrandomness":
 				gameMap.setWeatherRandomness(Integer.parseInt(data.toString()));
+				break;
+			case "synchronweather":
+				gameMap.setSyncedWeatherSystem(Boolean.parseBoolean(data.toString()));
+				break;
+			case "fixedWeather":
+				gameMap.setFixedWeather(WeatherTypes.valueOf(data.toString()));
 				break;
 			case "wrapping":
 				gameMap.setWrapping(Boolean.parseBoolean(data.toString()));

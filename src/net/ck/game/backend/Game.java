@@ -553,19 +553,28 @@ public class Game
 
 		public void initializeWeatherSystem ()
 		{
+			logger.info("BEGIN: initializing weather system");
 			weatherSystem = WeatherSystemFactory.createWeatherSystem(Game.getCurrent().getCurrentMap());
-			// is ThreadGroup an idea here?
-			// dont really know the stuff here
-			if (weatherSystem.isSynchronized() == false)
+
+			switch (weatherSystem.getClass().getName())
 			{
-				logger.info("initializing async weather system");
-				Thread weatherSystemThread = new Thread((AsyncWeatherSystem) weatherSystem);
-				weatherSystemThread.setName("Weather System Thread");
-				threadController.add(weatherSystemThread);
-				weatherSystemThread.start();
+				case "SyncWeatherSystem":
+					break;
+				case "AsyncWeatherSystem":
+					logger.info("initializing  async weather system");
+					Thread weatherSystemThread = new Thread((AsyncWeatherSystem) weatherSystem);
+					weatherSystemThread.setName("Weather System Thread");
+					threadController.add(weatherSystemThread);
+					weatherSystemThread.start();
+					break;
+				case "FixedWeatherSystem":
+					break;
+				case "NoWeatherSystem":
+					break;
+				default:
+					throw new IllegalStateException("Unexpected value: " + weatherSystem.getClass().getName());
 			}
 
-			// addManyNPCs(map);
 			if (Game.getCurrent().getCurrentMap().getCurrentWeather() == null)
 			{
 				Weather weather = new Weather();
@@ -573,6 +582,7 @@ public class Game
 				Game.getCurrent().getCurrentMap().setCurrentWeather(weather);
 			}
 
+			logger.info("END: initializing weather system");
 		}
 
 		public ThreadGroup getThreadGroup ()

@@ -3,6 +3,8 @@ package net.ck.game.weather;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
+import java.util.Objects;
+
 public class SyncWeatherSystem extends AbstractWeatherSystem
 {
 
@@ -11,14 +13,7 @@ public class SyncWeatherSystem extends AbstractWeatherSystem
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	/**
@@ -31,11 +26,9 @@ public class SyncWeatherSystem extends AbstractWeatherSystem
 		setSynchronized(true);
 	}
 
-	
 	public void getWeather()
 	{
 		checkWeather();
 		logger.info(getCurrentWeather().getType().name());
 	}
-
 }

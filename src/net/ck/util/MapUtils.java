@@ -714,6 +714,10 @@ public class MapUtils
         transformer.transform(source, result);
     }
 
+    /**
+     * so this will need to be a little bit more flexible to have more ranges for light dawn, heavy dawn
+     * and light dusk and heavy dusk
+     */
     public static void calculateDayOrNight()
     {
         int hours = Game.getCurrent().getGameTime().getCurrentHour();
@@ -737,7 +741,6 @@ public class MapUtils
             Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles() / 4);
             return;
         }
-
         Game.getCurrent().getCurrentMap().setVisibilityRange(2);
     }
 }

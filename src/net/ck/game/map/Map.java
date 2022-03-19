@@ -124,7 +124,7 @@ public class Map extends AbstractMap
 			setItems(new ArrayList<AbstractItem>());
 		}
 
-		setSyncedWeatherSystem(false);
+		setSyncedWeatherSystem(true);
 		if (getCurrentWeather() == null)
 		{
 			Weather weather = new Weather();

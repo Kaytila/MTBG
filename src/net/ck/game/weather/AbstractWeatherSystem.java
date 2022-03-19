@@ -1,12 +1,11 @@
 package net.ck.game.weather;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import net.ck.game.backend.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import net.ck.game.backend.Game;
+import java.util.Objects;
+import java.util.Random;
 
 public abstract class AbstractWeatherSystem
 {
@@ -16,19 +15,12 @@ public abstract class AbstractWeatherSystem
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	boolean isSynchronized;
 	int randomness;
-	protected ArrayList<Object> list;
+
 
 	public AbstractWeatherSystem(int randomness)
 	{
@@ -42,8 +34,7 @@ public abstract class AbstractWeatherSystem
 	/**
 	 * on turn rollover, or at x miliseconds, depending on selected implementation check the weather and update accordingly Randomness is set by the game map, so depending on map type, as implemented,
 	 * the higher the number, the less often the weather will change
-	 */
-	/**
+	 *
 	 * switch the weather here
 	 */
 	public void switchWeather()
@@ -123,6 +114,9 @@ public abstract class AbstractWeatherSystem
 		this.isSynchronized = isSynchronized;
 	}
 
+	/**
+	 *
+	 */
 	public void checkWeather()
 	{
 		if (Game.getCurrent().getCurrentMap().isWeatherSystem())
@@ -142,6 +136,5 @@ public abstract class AbstractWeatherSystem
 			logger.info("no weather, setting weather to none");
 			getCurrentWeather().setType(WeatherTypes.NONE);
 		}
-		
 	}
 }

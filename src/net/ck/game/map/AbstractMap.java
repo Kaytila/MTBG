@@ -3,6 +3,7 @@ package net.ck.game.map;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import net.ck.game.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -99,8 +100,13 @@ public class AbstractMap
 	 */
 	private int visibilityRange;
 
-
+	/**
+	 * how many minutes pass per turn
+	 */
 	private int minutesPerTurn;
+
+	private WeatherTypes fixedWeather;
+
 
 	public ArrayList<AbstractItem> getItems()
 	{
@@ -223,5 +229,15 @@ public class AbstractMap
 	public void setMinutesPerTurn(int minutesPerTurn)
 	{
 		this.minutesPerTurn = minutesPerTurn;
+	}
+
+	public WeatherTypes getFixedWeather()
+	{
+		return fixedWeather;
+	}
+
+	public void setFixedWeather(WeatherTypes fixedWeather)
+	{
+		this.fixedWeather = fixedWeather;
 	}
 }

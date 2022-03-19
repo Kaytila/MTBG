@@ -5,6 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
+/**
+ * So Game Time starts with 0:0:0 at day 1, month 1, year 1.
+ * An hour has 60 minutes,
+ * a day has 24 hours,
+ * a month has 30 days.
+ * a year has 12 months.
+ * No need for more, this is good enough anyhow.
+ */
 public class GameTime
 {
 
@@ -39,9 +47,9 @@ public class GameTime
     public String toString()
     {
         return "GameTime{" +
-                "currentHour=" + currentHour +
+                "currentDay=" + currentDay +
+                ", currentHour=" + currentHour +
                 ", currentMinute=" + currentMinute +
-                ", currentDay=" + currentDay +
                 ", currentMonth=" + currentMonth +
                 ", currentYear=" + currentYear +
                 '}';

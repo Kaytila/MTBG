@@ -2,6 +2,8 @@
 <map>
 	<meta>
 		<weather>true</weather>
+		<synchronweather>false</synchronweather>
+		<fixedWeather>SUN</fixedWeather>
 		<weatherrandomness>10</weatherrandomness>
 		<wrapping>true</wrapping>
 		<name>testname</name>

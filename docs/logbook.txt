@@ -400,10 +400,10 @@ adding animated tiles
             This is now working.
             Next thing to do is to integrate this with darkness, which is going to be interesting.
             need to completely rewrite this some day, currently i am writing on top of each other
-            where i could go tile by tile and write all whats necessary.
+            where I could go tile by tile and write all what's necessary.
 2022-03-18: So I have added visibility again and made it work with the light effects. In essence:
             all is dark apart from the area around the player and the area around the light source.
 2022-03-19: Did some Intellij refactoring.
             Implemented Game time and map values for that.
-            Also implemented visibliity range based on game time.
-            Will probably need to adjust the ranges a little bit to look nicer, currently its flat int ranges.
+            Also implemented visibility range based on game time.
+            Will probably need to adjust the ranges a little to look nicer, currently its flat int ranges.
