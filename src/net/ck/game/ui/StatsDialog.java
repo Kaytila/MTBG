@@ -1,13 +1,11 @@
 package net.ck.game.ui;
 
-import java.awt.Frame;
-
-import javax.swing.JComponent;
-
+import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.util.communication.keyboard.WindowClosingAction;
+import javax.swing.*;
+import java.awt.*;
 
 public class StatsDialog extends AbstractDialog
 {
@@ -44,6 +42,7 @@ public class StatsDialog extends AbstractDialog
 		this.setLayout(null);	
 		this.setLocationRelativeTo(owner);
 		final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
+
 		root = this.getRootPane();
 		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
 		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);

@@ -1,16 +1,13 @@
 package net.ck.game.ui;
 
-import java.awt.Frame;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.WindowClosingAction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class InventoryDialog extends AbstractDialog
 {
@@ -29,7 +26,7 @@ public class InventoryDialog extends AbstractDialog
 		this.setLayout(null);	
 		this.setLocationRelativeTo(owner);
 		final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
-		this.addWindowListener(dispatchClosing);
+
 		root = this.getRootPane();
 		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
 		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);

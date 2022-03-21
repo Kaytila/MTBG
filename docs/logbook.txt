@@ -416,3 +416,4 @@ adding animated tiles
             But will make sure to have it returned to Gridcanvas.
             Next stop: finish implementing talk.
             Based on talk, will need to think about checkpoints: how to define them, how to add them, how to remove them?
+            Small code reduction: removed pointless window listener from WindowClosingAction.
