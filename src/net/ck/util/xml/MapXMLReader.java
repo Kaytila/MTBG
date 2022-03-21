@@ -245,6 +245,7 @@ public class MapXMLReader extends DefaultHandler
 				gameMap.setSyncedWeatherSystem(Boolean.parseBoolean(data.toString()));
 				break;
 			case "fixedWeather":
+				//https://stackoverflow.com/questions/604424/how-to-get-an-enum-value-from-a-string-value-in-java
 				gameMap.setFixedWeather(WeatherTypes.valueOf(data.toString()));
 				break;
 			case "wrapping":

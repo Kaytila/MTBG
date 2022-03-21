@@ -1,12 +1,11 @@
 package net.ck.game.ui;
 
-import java.awt.Point;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JButton;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class UndoButton extends JButton 
 {
@@ -41,7 +40,7 @@ public class UndoButton extends JButton
 		this.setActionCommand("Undo");
 		this.setEnabled(false);
 		this.setDoubleBuffered(true);
-		this.setToolTipText(getLogger().getName());
+		//this.setToolTipText(getLogger().getName());
 	}
 
 	public Logger getLogger()

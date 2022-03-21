@@ -1,19 +1,15 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
-
-import javax.swing.BorderFactory;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
+import com.google.common.collect.Iterables;
+import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.collect.Iterables;
-
-import net.ck.util.GameUtils;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class InputField extends JTextField
 {
@@ -51,7 +47,7 @@ public class InputField extends JTextField
 		this.setFont(GameUtils.getFont());
 		this.setFocusable(false);
 		this.setBorder(blackline);
-		this.setToolTipText(getLogger().getName());
+		//this.setToolTipText(getLogger().getName());
 	}
 
 	/**

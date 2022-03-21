@@ -407,3 +407,12 @@ adding animated tiles
             Implemented Game time and map values for that.
             Also implemented visibility range based on game time.
             Will probably need to adjust the ranges a little to look nicer, currently its flat int ranges.
+2022-03-20: Reworked the weather system, will probably disable the async weather system, although
+            it is more like ultima IV and V.
+            Not sure how to do this though yet - the weather system is global but whether there is a fixed weather
+            (in towns or desert maps for instance or in caves), this I need to figure out better.
+2022-03-21: So I fixed a "bug" with ESC handling - tooltips were the culprit.
+            Removed all tooltips and lo and behold, no focuslosing anymore.
+            But will make sure to have it returned to Gridcanvas.
+            Next stop: finish implementing talk.
+            Based on talk, will need to think about checkpoints: how to define them, how to add them, how to remove them?

@@ -30,7 +30,6 @@ import org.apache.logging.log4j.core.Logger;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
@@ -377,11 +376,11 @@ public class Game
 					{
 						map.setVisibilityRange(1);
 					}
-					if (map.getCurrentWeather() == null)
+					if (map.getWeather() == null)
 					{
 						Weather weather = new Weather();
 						weather.setType(WeatherTypes.SUN);
-						map.setCurrentWeather(weather);
+						map.setWeather(weather);
 					}
 					getMaps().add(map);
 				}
@@ -556,9 +555,10 @@ public class Game
 			logger.info("BEGIN: initializing weather system");
 			weatherSystem = WeatherSystemFactory.createWeatherSystem(Game.getCurrent().getCurrentMap());
 
-			switch (weatherSystem.getClass().getName())
+			switch (weatherSystem.getRealClass().getSimpleName())
 			{
 				case "SyncWeatherSystem":
+					logger.info("initializing sync weather system");
 					break;
 				case "AsyncWeatherSystem":
 					logger.info("initializing  async weather system");
@@ -568,18 +568,20 @@ public class Game
 					weatherSystemThread.start();
 					break;
 				case "FixedWeatherSystem":
+					logger.info("initializing fixed weather system");
 					break;
 				case "NoWeatherSystem":
+					logger.info("initializing no weather system");
 					break;
 				default:
 					throw new IllegalStateException("Unexpected value: " + weatherSystem.getClass().getName());
 			}
 
-			if (Game.getCurrent().getCurrentMap().getCurrentWeather() == null)
+			if (Game.getCurrent().getCurrentMap().getWeather() == null)
 			{
 				Weather weather = new Weather();
 				weather.setType(WeatherTypes.SUN);
-				Game.getCurrent().getCurrentMap().setCurrentWeather(weather);
+				Game.getCurrent().getCurrentMap().setWeather(weather);
 			}
 
 			logger.info("END: initializing weather system");

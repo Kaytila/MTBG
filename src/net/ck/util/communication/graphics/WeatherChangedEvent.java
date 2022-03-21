@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class WeatherChangedEvent extends ChangedEvent
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	public final String message;
 
 	public Class<?> getRealClass()

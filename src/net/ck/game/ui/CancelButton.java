@@ -1,21 +1,16 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import net.ck.game.backend.Game;
+import net.ck.util.ImageUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
-
-import javax.swing.JButton;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import net.ck.game.backend.Game;
-import net.ck.util.ImageUtils;
 
 public class CancelButton extends JButton implements MouseListener
 {
@@ -47,7 +42,7 @@ public class CancelButton extends JButton implements MouseListener
 		setIcon(ImageUtils.createImageIcon(ImageUtils.getAdditionalimagespath() + File.separator + "BUTTONS" + File.separator + "cleanButton.png", ""));
 		this.setFont(getFont());
 		setText("Cancel");
-		this.setToolTipText(getLogger().getName());
+		//this.setToolTipText(getLogger().getName());
 		this.setActionCommand("Cancel");
 		this.addActionListener(Game.getCurrent().getController());
 		hovered = false;

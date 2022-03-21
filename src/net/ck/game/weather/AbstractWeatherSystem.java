@@ -86,7 +86,7 @@ public abstract class AbstractWeatherSystem
 
 	public Weather getCurrentWeather()
 	{
-		return Game.getCurrent().getCurrentMap().getCurrentWeather();
+		return Game.getCurrent().getCurrentMap().getWeather();
 	}
 
 	public int getRandomness()
@@ -101,7 +101,7 @@ public abstract class AbstractWeatherSystem
 
 	public void setCurrentWeather(Weather currentWeather)
 	{
-		Game.getCurrent().getCurrentMap().setCurrentWeather(currentWeather);
+		Game.getCurrent().getCurrentMap().setWeather(currentWeather);
 	}
 
 	public void setRandomness(int randomness)
@@ -121,9 +121,9 @@ public abstract class AbstractWeatherSystem
 	{
 		if (Game.getCurrent().getCurrentMap().isWeatherSystem())
 		{
-			if (Game.getCurrent().getCurrentMap().getCurrentWeather() == null)
+			if (Game.getCurrent().getCurrentMap().getWeather() == null)
 			{
-				getCurrentWeather().setType(WeatherTypes.SUN);
+				getCurrentWeather().setType(WeatherTypes.NONE);
 			}
 			else
 			{

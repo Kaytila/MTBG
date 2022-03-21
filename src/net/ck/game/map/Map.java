@@ -1,16 +1,15 @@
 package net.ck.game.map;
 
-import java.util.ArrayList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.MapUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+import java.util.ArrayList;
 
 /**
  * Map can be any map in the game but the main Map, so to speak. That is handled by GameMap
@@ -116,6 +115,10 @@ public class Map extends AbstractMap
 		this.weatherSystem = weatherSystem;
 	}
 
+	/**
+	 * initializing the map before use - to make sure all moving parts are set properly.
+	 * most of it shuold have already been done by loading the map from XML.
+	 */
 	public void initialize()
 	{
 		//should not be necessary, but better be safe than sorry
@@ -124,19 +127,32 @@ public class Map extends AbstractMap
 			setItems(new ArrayList<AbstractItem>());
 		}
 
-		setSyncedWeatherSystem(true);
-		if (getCurrentWeather() == null)
+		if (getWeather() == null)
 		{
+			logger.info("setting weather");
 			Weather weather = new Weather();
 			if (isWeatherSystem() == true)
 			{
-				setCurrentWeather(weather);
+				setWeather(weather);
 				weather.setType(WeatherTypes.SUN);
+				logger.info("setting weather to sun");
 			}
 			else
 			{
-				setCurrentWeather(weather);
+				setWeather(weather);
 				weather.setType(WeatherTypes.NONE);
+				logger.info("setting weather to none");
+			}
+		}
+		else
+		{
+			if (isWeatherSystem() == true)
+			{
+				//getWeather().setType(WeatherTypes.SUN);
+			}
+			else
+			{
+				getWeather().setType(WeatherTypes.NONE);
 			}
 		}
 

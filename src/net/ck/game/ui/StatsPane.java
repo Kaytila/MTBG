@@ -1,18 +1,14 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.border.Border;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.entities.AbstractAttribute;
 import net.ck.util.GameUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 
 public class StatsPane extends JList<AbstractAttribute>
 {
@@ -31,7 +27,7 @@ public class StatsPane extends JList<AbstractAttribute>
 		
 		this.setAutoscrolls(true);
 		this.setBorder(blackline);
-		this.setToolTipText(getLogger().getName());
+		//this.setToolTipText(getLogger().getName());
 		this.requestFocus();
 		this.setVisibleRowCount(-1);						
 		this.setModel(Game.getCurrent().getCurrentPlayer().getAttributes());

@@ -31,7 +31,7 @@ public class NoWeatherSystem extends AbstractWeatherSystem
 		super(0);
 		setRandomness(0);
 		setSynchronized(false);
-
+		getCurrentWeather().setType(WeatherTypes.NONE);
 	}
 
 	@Override

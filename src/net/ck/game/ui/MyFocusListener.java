@@ -1,11 +1,12 @@
-package net.ck.util.communication.graphics;
+package net.ck.game.ui;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.event.FocusEvent;
 import java.util.Objects;
 
-abstract public class ChangedEvent
+public class MyFocusListener implements java.awt.event.FocusListener
 {
 
     private final Logger logger = LogManager.getLogger(getRealClass());
@@ -16,8 +17,15 @@ abstract public class ChangedEvent
         return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
-    public Logger getLogger()
+    @Override
+    public void focusGained(FocusEvent e)
     {
-        return logger;
+        logger.info("focus gained: {}", e.getComponent());
+    }
+
+    @Override
+    public void focusLost(FocusEvent e)
+    {
+        logger.info("focus lost: {}", e.getComponent());
     }
 }

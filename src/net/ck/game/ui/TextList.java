@@ -1,15 +1,12 @@
 package net.ck.game.ui;
-import java.awt.Color;
 
-import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
-
+import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.util.GameUtils;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 
 public class TextList extends JTextArea {
 
@@ -42,7 +39,7 @@ public class TextList extends JTextArea {
 		this.setFocusable(false);
 		this.setAutoscrolls(true);
 		this.setBorder(blackline);
-		this.setToolTipText(getLogger().getName());
+		//this.setToolTipText(getLogger().getName());
 	}
 	
 	

@@ -1,24 +1,15 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-import java.awt.Frame;
-
-import javax.swing.BorderFactory;
-import javax.swing.DropMode;
-import javax.swing.JList;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.entities.Inventory;
 import net.ck.game.items.AbstractItem;
 import net.ck.util.GameUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 
 public class InventoryPane extends JList<AbstractItem>
 {
@@ -48,8 +39,8 @@ public class InventoryPane extends JList<AbstractItem>
 		
 		this.setAutoscrolls(true);
 		this.setBorder(blackline);
-		this.setToolTipText(getLogger().getName());
-		this.requestFocus();
+		//this.setToolTipText(getLogger().getName());
+		this.requestFocusInWindow();
 		// one way of doing drag and drop
 		this.setDragEnabled(true);
 		this.setDropMode(DropMode.ON);

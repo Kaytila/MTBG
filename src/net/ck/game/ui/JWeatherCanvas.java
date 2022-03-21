@@ -1,20 +1,17 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-
+import net.ck.game.backend.Game;
+import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import net.ck.game.backend.Game;
-import net.ck.util.communication.graphics.WeatherChangedEvent;
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 /**
  * 
@@ -28,7 +25,7 @@ public class JWeatherCanvas extends JPanel
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private BufferedImage image;
 
 	public JWeatherCanvas()
@@ -38,24 +35,17 @@ public class JWeatherCanvas extends JPanel
 		Border blackline = BorderFactory.createLineBorder(Color.MAGENTA);
 		this.setBorder(blackline);
 		this.setFocusable(false);
-		setImage(Game.getCurrent().getCurrentMap().getCurrentWeather().getWeatherImage());
+		setImage(Game.getCurrent().getCurrentMap().getWeather().getWeatherImage());
 		EventBus.getDefault().register(this);
 		this.setVisible(true);
-		this.setToolTipText(getLogger().getName());
+		//this.setToolTipText(getLogger().getName());
 		this.repaint();
 	}
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public BufferedImage getImage()
@@ -80,29 +70,24 @@ public class JWeatherCanvas extends JPanel
 		}
 	}
 
-	@Override
+
 	/**
 	 * get the image, resize as appropriate and draw on the screen, hopefully to scale.
 	 */
+	@Override
 	public void paintComponent(Graphics g)
 	{
 		g.clearRect(0, 0, this.getWidth(), this.getHeight());
-		BufferedImage img = Game.getCurrent().getCurrentMap().getCurrentWeather().getWeatherImage();
+		BufferedImage img = Game.getCurrent().getCurrentMap().getWeather().getWeatherImage();
 		if (img != null)
 		{
 			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), 0, 0, img.getWidth(), img.getHeight(), null);
 		}
-		/*
-		 * if (getImage() != null) { g.drawImage(getImage(),0, 0, this.getWidth(), this.getHeight(), 0 , 0, getImage().getWidth(), getImage().getHeight(), null);
-		 * //logger.info("trying to draw image rectangle: {} {} onto canvas: {}", getImage().getWidth(), getImage().getHeight(), this.getBounds()); //g.drawImage(getImage(), 0, 0, this); }
-		 */
 	}
 
 	@Subscribe // (threadMode = ThreadMode.MAIN)
 	public void onMessageEvent(WeatherChangedEvent event)
 	{
-		//logger.info("Weather {} image has changed", Game.getCurrent().getCurrentMap().getCurrentWeather());
-		// setImage(Game.getCurrent().getCurrentMap().getCurrentWeather().getWeatherImage());
 		this.repaint();
 	}
 

@@ -1,11 +1,11 @@
 package net.ck.game.map;
 
-import java.util.ArrayList;
-
+import net.ck.game.backend.Game;
+import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import net.ck.util.MapUtils;
+import java.util.ArrayList;
 
 /**
  * 
@@ -53,7 +53,9 @@ public class GameMap extends Map
 	 * loaded maps, random generated maps and so on can come later
 	 */
 	public GameMap()
-	{		
+	{
+		logger.error("WATCH OUT GAME MAP LAUNCHED");
+		Game.getCurrent().stopGame();
 		tiles = new ArrayList<MapTile>();
 		// small size
 		
@@ -86,6 +88,7 @@ public class GameMap extends Map
 	 * as the play constructor is bogus, lets try it this way
 	 * 
 	 */
+	@Override
 	public void initialize()
 	{
 		setSize(MapUtils.calculateMapSize(this));

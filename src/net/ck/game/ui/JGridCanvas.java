@@ -58,9 +58,9 @@ public class JGridCanvas extends JComponent
         this.setOpaque(false);
         this.setVisible(true);
         this.setFocusable(true);
-        this.requestFocus();
+        this.requestFocusInWindow();
         this.setKeyboardInput();
-        this.setToolTipText(getLogger().getName());
+        //this.setToolTipText(getLogger().getName());
 
         this.setTransferHandler(new JGridCanvasTransferHandler(this));
     }
@@ -263,12 +263,12 @@ public class JGridCanvas extends JComponent
 
     private void paintWeather(Graphics g)
     {
-        if (Game.getCurrent().getCurrentMap().getCurrentWeather().getType() == WeatherTypes.SUN)
+        if (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SUN)
         {
             // brighten up the world more perhaps?
         }
-        else if ((Game.getCurrent().getCurrentMap().getCurrentWeather().getType() == WeatherTypes.RAIN) || (Game.getCurrent().getCurrentMap().getCurrentWeather().getType() == WeatherTypes.HAIL)
-                || (Game.getCurrent().getCurrentMap().getCurrentWeather().getType() == WeatherTypes.SNOW))
+        else if ((Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.RAIN) || (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.HAIL)
+                || (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SNOW))
         {
             for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
             {
@@ -276,14 +276,12 @@ public class JGridCanvas extends JComponent
                 if (rangeX.contains(screenPosition.x) && rangeY.contains(screenPosition.y))
                 {
                     // BufferedImage img = ImageUtils.loadRandomBackgroundImage(tile.getType());
-                    BufferedImage img = ImageUtils.getWeatherTypeImages().get(Game.getCurrent().getCurrentMap().getCurrentWeather().getType()).get(getCurrentForegroundImage());
+                    BufferedImage img = ImageUtils.getWeatherTypeImages().get(Game.getCurrent().getCurrentMap().getWeather().getType()).get(getCurrentForegroundImage());
                     // logger.info("buffered image: {}", img.toString());
                     g.drawImage(img, (screenPosition.x * tileSize), (screenPosition.y * tileSize), this);
                 }
             }
-
         }
-
     }
 
     /**

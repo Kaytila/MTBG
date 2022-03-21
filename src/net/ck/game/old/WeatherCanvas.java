@@ -1,18 +1,16 @@
 package net.ck.game.old;
 
-import java.awt.Canvas;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
+import net.ck.game.weather.Weather;
+import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import net.ck.game.backend.Game;
-import net.ck.game.weather.Weather;
-import net.ck.util.communication.graphics.WeatherChangedEvent;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 /**
  * 
@@ -26,7 +24,7 @@ public class WeatherCanvas extends Canvas
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private BufferedImage image;
 	private Weather weather;
 
@@ -42,14 +40,7 @@ public class WeatherCanvas extends Canvas
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public BufferedImage getImage()
@@ -86,16 +77,13 @@ public class WeatherCanvas extends Canvas
 			g.drawImage(image, 250, 0, this);
 
 		}
-		/*
-		 * else { logger.error("image {} not available", image.toString()); }
-		 */
+
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onMessageEvent(WeatherChangedEvent event)
 	{
-		// logger.info("Weather image has changed - so I catch this in WeatherCanvas and repaint");
+		//logger.info("Weather image has changed - so I catch this in WeatherCanvas and repaint");
 		setImage(weather.getWeatherImage());
 	}
-
 }

@@ -1,16 +1,15 @@
 package net.ck.game.map;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
-import net.ck.game.weather.WeatherTypes;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
+import net.ck.game.weather.WeatherTypes;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Abstract Map, to define the most basic properties of a map extension parent
@@ -51,7 +50,7 @@ public class AbstractMap
 	 * holds the weather on the map. it will either continue running, or it will be frozen
 	 * but it will be peristed with the map
 	 */
-	private Weather currentWeather;
+	private Weather weather;
 	
 	private String name;
 	
@@ -92,7 +91,7 @@ public class AbstractMap
 	 * takeable items, the map only knows about the items
 	 * the item knows where it is on the map
 	 */
-	private ArrayList<AbstractItem> items = new ArrayList<AbstractItem>();
+	private ArrayList<AbstractItem> items = new ArrayList<>();
 		
 	/**
 	 * defines standard visibility range in tile rings around the player
@@ -105,8 +104,10 @@ public class AbstractMap
 	 */
 	private int minutesPerTurn;
 
+	/**
+	 * if the map has a fixed weather, then store it here.
+	 */
 	private WeatherTypes fixedWeather;
-
 
 	public ArrayList<AbstractItem> getItems()
 	{
@@ -201,14 +202,14 @@ public class AbstractMap
 		return logger;
 	}
 
-	public Weather getCurrentWeather()
+	public Weather getWeather()
 	{
-		return currentWeather;
+		return weather;
 	}
 
-	public void setCurrentWeather(Weather currentWeather)
+	public void setWeather(Weather currentWeather)
 	{
-		this.currentWeather = currentWeather;
+		this.weather = currentWeather;
 	}
 
 	public int getVisibilityRange()

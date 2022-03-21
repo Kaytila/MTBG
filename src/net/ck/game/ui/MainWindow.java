@@ -9,6 +9,7 @@ import net.ck.util.CursorUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
+import net.ck.util.communication.keyboard.EscapeAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -22,6 +23,7 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
+import java.awt.event.FocusListener;
 
 /**
  * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
@@ -120,6 +122,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	private boolean dragEnabled;
 
+
+	private KeyboardFocusManager focusManager;
+
+	private EscapeAction escapeAction;
+
 	/**
 	 * standard constructor
 	 */
@@ -165,20 +172,28 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	{
 		logger.info("start: build window");
 		frame = new MainFrame();
+		MyFocusListener myFocusListener = new MyFocusListener();
 		undoButton = new UndoButton(new Point(700 - 200, 620));
-
+		undoButton.addFocusListener(myFocusListener);
 		frame.add(undoButton);
 
+
+
+
 		gridCanvas = new JGridCanvas();
+		gridCanvas.addFocusListener(myFocusListener);
 		frame.add(gridCanvas);
 
 		textArea = new TextList();
+		textArea.addFocusListener(myFocusListener);
 		frame.add(textArea.initializeScrollPane());
 
 		textField = new InputField();
+		textField.addFocusListener(myFocusListener);
 		frame.add(textField);
 
 		weatherCanvas = new JWeatherCanvas();
+		weatherCanvas.addFocusListener(myFocusListener);
 		frame.add(weatherCanvas);
 
 		logger.info("setting listeners");
@@ -354,6 +369,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	{
 		// logger.info("mouse entered: {}", e.getPoint());
 		setMouseOutsideOfGrid(false);
+		getGridCanvas().requestFocusInWindow();
 		// CursorUtils.setCursor(Cursor.getDefaultCursor());
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
@@ -624,6 +640,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			 */
 			case ESC :
 			{
+				logger.info("ESC Pressed");
 				if (isSelectTile() == true)
 				{
 					logger.info("selection is true");
@@ -766,6 +783,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			Game.getCurrent().getSoundSystem().startMusic();
 		}
 		Game.getCurrent().getIdleTimer().start();
+		//focusManager.dispatchEvent(new FocusEvent(gridCanvas, FocusEvent.FOCUS_GAINED, false));
 	}
 
 	@Override
