@@ -19,6 +19,7 @@ public class InputFieldListener implements ActionListener
 	private JTextArea textArea;
 	private NPC npc;
 	private TalkDialog talkDialog;
+	private boolean endDialog;
 	
 	public InputFieldListener(TalkDialog dialog, JTextField textField, JTextArea textArea, NPC n)
 	{
@@ -47,6 +48,13 @@ public class InputFieldListener implements ActionListener
 			try
 			{
 				String question = getInputField().getDocument().getText(0, getInputField().getDocument().getLength());
+
+				if (question.length() == 0 && endDialog == true)
+				{
+					WindowClosingAction close = new WindowClosingAction(getTalkDialog());
+					close.actionPerformed(null);
+				}
+
 				//EventBus.getDefault().post(new TalkInputEvent(getInputField().getDocument().getText(0, getInputField().getDocument().getLength())));
 				getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "You ask: " + getInputField().getDocument().getText(0, getInputField().getDocument().getLength()) + "?" + "\n", null);				
 				getInputField().getDocument().remove(0, getInputField().getDocument().getLength());
@@ -59,8 +67,7 @@ public class InputFieldListener implements ActionListener
 						getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "NPC says: " + getNpc().getMobasks().get(q) + "\n", null);
 						if (question.equalsIgnoreCase("bye"))
 						{
-							WindowClosingAction close = new WindowClosingAction(getTalkDialog());
-							close.actionPerformed(null);
+							endDialog = true;
 						}
 					}
 				}

@@ -1,25 +1,16 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.util.Objects;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.NPC;
 import net.ck.util.communication.keyboard.WindowClosingAction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
+import java.awt.*;
+import java.util.Objects;
 
 public class TalkDialog extends AbstractDialog
 {
@@ -42,19 +33,21 @@ public class TalkDialog extends AbstractDialog
 	{
 		setTitle(title);
 		setNpc(n);
-		this.setBounds(0, 0, 700, 700);
+		this.setBounds(0, 100, 700, 700);
 		this.setLayout(null);	
 		this.setLocationRelativeTo(owner);
 		final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
 		root = this.getRootPane();
 		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
 		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
-		
+		root.setOpaque(false);
+
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 700, 700);
+		panel.setBounds(0, 100, 700, 700);
 		panel.setLayout(null);
-		this.setContentPane(panel);		
-	
+		this.setContentPane(panel);
+		this.setUndecorated(true);
+		this.setOpacity(0.3f);
 
 		textField = new JTextField();
 		textField.setBackground(Color.green);
