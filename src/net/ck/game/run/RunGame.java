@@ -121,6 +121,7 @@ public class RunGame
 			game.initializeForegroundAnimationSystem();
 			game.initializeWeatherSystem();
 			game.initializeTurnTimerTimer();
+			game.initializeQuequeTimer();
 			game.initializeMusic();
 			
 			ImageUtils.initializeBackgroundImages();

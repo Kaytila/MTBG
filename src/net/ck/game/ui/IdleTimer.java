@@ -1,10 +1,11 @@
 package net.ck.game.ui;
 
-import java.awt.event.ActionListener;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.swing.Timer;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class IdleTimer extends Timer
 {
@@ -13,34 +14,25 @@ public class IdleTimer extends Timer
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void start()
 	{
-		//StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();		
-		//logger.info("calling start: {} or: {}", stackTraceElements[1].getMethodName(), stackTraceElements[2].getMethodName());
-		//logger.info("IdleTimer: start");
 		super.start();
 	}
 
 	@Override
 	public void stop()
 	{
-		//logger.info("IdleTimer: stop");
 		super.stop();
 	}
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()

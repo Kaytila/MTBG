@@ -18,6 +18,7 @@ import net.ck.game.sound.SoundPlayer;
 import net.ck.game.ui.IdleActionListener;
 import net.ck.game.ui.IdleTimer;
 import net.ck.game.ui.MainWindow;
+import net.ck.game.ui.QuequeTimer;
 import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
@@ -32,6 +33,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -188,8 +190,31 @@ public class Game
 	 */
 	private SoundPlayer soundSystem;
 
-
+	/**
+	 * this holds the actual game time which is increasing with time
+	 */
 	private GameTime gameTime;
+
+	/**
+	 * so if we have a go to command, this needs to go into a command queue
+	 */
+	private CommandQueue commandQueue;
+
+	public QuequeTimer getQuequeTimer()
+	{
+		return quequeTimer;
+	}
+
+	public void setQuequeTimer(QuequeTimer quequeTimer)
+	{
+		this.quequeTimer = quequeTimer;
+	}
+
+	/**
+	 * so how long is the time between movements being run from the command queue?
+	 */
+	private QuequeTimer quequeTimer;
+
 
 	/**
 	 * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -221,6 +246,7 @@ public class Game
 		getTurns().add(turn);
 		en = new World();
 
+		setCommandQueue(new CommandQueue());
 		setGameTime(new GameTime());
 
 		// Toolkit.getDefaultToolkit().getSystemEventQueue().
@@ -292,14 +318,7 @@ public class Game
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public boolean isRunning()
@@ -869,6 +888,10 @@ public class Game
 			return getNpcNumber();
 		}
 
+	/**
+	 * so the game starts so the first player has the first movement action. Then it goes to the second player ... when all players have moved, roll over turn there only will be one player without
+	 * heavy extension, interesting, lets see whether i can make this work
+	 */
 		public void addPlayers ()
 		{
 			logger.info("adding players");
@@ -886,10 +909,7 @@ public class Game
 			// p2.setPosition(new Point(1, 0));
 			// npc1.setMapPosition(new Point(2, 3));
 
-			/**
-			 * so the game starts so the first player has the first movement action. Then it goes to the second player ... when all players have moved, roll over turn there only will be one player without
-			 * heavy extension, interesting, lets see whether i can make this work
-			 */
+
 			setCurrentPlayer(getPlayers().get(0));
 
 			Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
@@ -1009,6 +1029,16 @@ public class Game
 			idleTimer.setRepeats(true);
 			idleTimer.start();
 		}
+
+		public void initializeQuequeTimer()
+		{
+			logger.info("initializing Movement Timer as Swing Timer");
+			QuequeTimerActionListener quequeTimerActionListener = new QuequeTimerActionListener();
+			quequeTimer = new QuequeTimer(500, quequeTimerActionListener);
+			quequeTimer.setRepeats(true);
+			//quequeTimer.start();
+		}
+
 
 		public boolean isMoved ()
 		{
@@ -1189,6 +1219,16 @@ public class Game
 	public void setGameTime(GameTime gameTime)
 	{
 		this.gameTime = gameTime;
+	}
+
+	public CommandQueue getCommandQueue()
+	{
+		return commandQueue;
+	}
+
+	public void setCommandQueue(CommandQueue commandQueue)
+	{
+		this.commandQueue = commandQueue;
 	}
 }
 

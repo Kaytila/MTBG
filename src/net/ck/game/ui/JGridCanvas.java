@@ -37,13 +37,13 @@ public class JGridCanvas extends JComponent
      */
     private static final long serialVersionUID = 1L;
     private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-    private int numberOfTiles = Game.getCurrent().getNumberOfTiles();
-    private Range<Integer> rangeX = Range.between(0, numberOfTiles - 1);
-    private Range<Integer> rangeY = Range.between(0, numberOfTiles - 1);
-    private BufferedImage blackImage = ImageUtils.createImage((Color.black));
+    private final int numberOfTiles = Game.getCurrent().getNumberOfTiles();
+    private final Range<Integer> rangeX = Range.between(0, numberOfTiles - 1);
+    private final Range<Integer> rangeY = Range.between(0, numberOfTiles - 1);
+    private final BufferedImage blackImage = ImageUtils.createImage((Color.black));
     private int currentBackgroundImage;
     private int currentForegroundImage;
-    private int tileSize = Game.getCurrent().getTileSize();
+    private final int tileSize = Game.getCurrent().getTileSize();
     private boolean dragEnabled;
 
     public JGridCanvas()
@@ -119,6 +119,9 @@ public class JGridCanvas extends JComponent
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0), "talk");
         this.getActionMap().put("talk", new TalkAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M, 0), "move");
+        this.getActionMap().put("move", new MoveAction());
     }
 
     public void paintComponent(Graphics g)
@@ -287,7 +290,7 @@ public class JGridCanvas extends JComponent
     /**
      * clears th visible rectangle and also clears the lense
      *
-     * @param g
+     * @param g - graphics context
      */
     private void emptySlate(Graphics g)
     {
@@ -295,24 +298,26 @@ public class JGridCanvas extends JComponent
         UILense.getCurrent().initialize();
     }
 
-    @Subscribe
+
     /**
      *
      * @param event
      *            an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
      */
+    @Subscribe
     public void onMessageEvent(AnimatedRepresentationChanged event)
     {
         this.repaint();
     }
 
-    @Subscribe
+
     /**
      *
      * @param event
      *            an animatedRepresentation has changed, repaint the canvas
      *
      */
+    @Subscribe
     public void onMessageEvent(BackgroundRepresentationChanged event)
     {
         setCurrentBackgroundImage(event.getCurrentNumber());
@@ -320,13 +325,14 @@ public class JGridCanvas extends JComponent
         // this.repaint();
     }
 
-    @Subscribe
+
     /**
      *
      * @param event
      *            an animatedRepresentation has changed, repaint the canvas
      *
      */
+    @Subscribe
     public void onMessageEvent(ForegroundRepresentationChanged event)
     {
         setCurrentForegroundImage(event.getCurrentNumber());
@@ -334,13 +340,14 @@ public class JGridCanvas extends JComponent
         // this.repaint();
     }
 
-    @Subscribe
+
     /**
      *
      * @param event
      *            an animatedRepresentation has changed, repaint the canvas
      *
      */
+    @Subscribe
     public void onMessageEvent(CursorChangeEvent event)
     {
         setCursor(event.getCursor());
@@ -415,7 +422,7 @@ public class JGridCanvas extends JComponent
     /**
      * this method paints the background, i.e. the tiles of the maptiles. I should keep screenposition seperately, but the visible tiles number is small enough as not to matter much
      *
-     * @param g
+     * @param g - Graphics
      */
     private void paintBackground(Graphics g)
     {
@@ -446,7 +453,7 @@ public class JGridCanvas extends JComponent
     /**
      * so these is the method paints the black tiles at the border where the map ends
      *
-     * @param g
+     * @param g - graphics g
      */
     private void paintBlackTiles(Graphics g)
     {

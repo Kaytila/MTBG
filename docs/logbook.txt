@@ -418,3 +418,8 @@ adding animated tiles
             Based on talk, will need to think about checkpoints: how to define them, how to add them, how to remove them?
             Small code reduction: removed pointless window listener from WindowClosingAction.
 2022-03-22: so talk dialog now closes only after bye has been said and enter is pressed again.
+2022-03-30: vacation break over. so what did i do? Implemented move command. teleporting will not work.
+            moving first x then y works, a* implementation needs work, also need to check look ahead and make sure i
+            can open blocked doors again, but for that i need a better map.
+            move also does not have a delay yet, so the commands are run but instantly performed.
+            no matter, good progress.

@@ -1,12 +1,5 @@
 package net.ck.game.backend.entities;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
@@ -17,11 +10,13 @@ import net.ck.game.items.ArmorPositions;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
-import net.ck.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.util.communication.keyboard.GetAction;
-import net.ck.util.communication.keyboard.KeyboardActionType;
+import net.ck.util.communication.keyboard.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**
  * AbstractEntity is the abstract parent class known subclasses are: Player NPC World
@@ -204,6 +199,11 @@ public abstract class AbstractEntity
 			case TALK:
 				logger.info("doing talk action");
 				break;
+
+			case MOVE :
+				success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+				break;
+
 			default :
 				logger.info("doing default action, inventory does not need to be reverted for instance");
 				break;
@@ -221,6 +221,47 @@ public abstract class AbstractEntity
 			Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction(), action.getEntity()));
 		}
 		//Game.getCurrent().getController().setCurrentAction(null);
+	}
+
+	/**
+	 * so this is the method where the a* algorithm needs to go into.
+	 * TBD.
+	 *
+	 * @param tileByCoordinates
+	 * @return success or not
+	 */
+	private boolean moveTo(MapTile tileByCoordinates)
+	{
+		logger.info("tile: {}", tileByCoordinates);
+		Point p = new Point(getMapPosition().x, getMapPosition().y);
+		while (p.x < tileByCoordinates.getMapPosition().x)
+		{
+			p.move((p.x + 1), p.y);
+			Game.getCurrent().getCommandQueue().addEntry(new EastAction());
+			logger.info("move east");
+		}
+
+		while (p.x > tileByCoordinates.getMapPosition().x)
+		{
+			Game.getCurrent().getCommandQueue().addEntry(new WestAction());
+			p.move((p.x - 1), p.y);
+			logger.info("move west");
+		}
+
+		while (p.y < tileByCoordinates.getMapPosition().y)
+		{
+			p.move((p.x), p.y + 1);
+			Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
+			logger.info("move south");
+		}
+
+		while (p.y > tileByCoordinates.getMapPosition().y)
+		{
+			p.move((p.x), p.y - 1);
+			Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
+			logger.info("move north");
+		}
+		return true;
 	}
 
 	private boolean dropItem(AbstractItem affectedItem, MapTile tile)

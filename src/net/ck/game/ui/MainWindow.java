@@ -530,11 +530,31 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 							}
 						break;
 
+					case MOVE:
+						setSelectTile(false);
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+						runActions(getCurrentAction(), false);
+						runQueue();
+
+						break;
 					default:
 						throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
 				}
 			}
 		}
+	}
+
+	private void runQueue()
+	{
+		//Game.getCurrent().getQuequeTimer().start();
+		for (AbstractKeyboardAction ac : Game.getCurrent().getCommandQueue().getActionList())
+		{
+			logger.info("ac: {}", ac);
+			runActions(ac, true);
+		}
+		//Game.getCurrent().getQuequeTimer().stop();
+		Game.getCurrent().getCommandQueue().getActionList().clear();
 	}
 
 	private void runActions(AbstractKeyboardAction action, boolean hasNPCAction)
@@ -702,6 +722,26 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					break;
 				}
 			}
+
+			case MOVE :
+			{
+				if (isMouseOutsideOfGrid() == true)
+				{
+					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+					Point relativePoint = getGridCanvas().getLocationOnScreen();
+					moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+					setMouseOutsideOfGrid(false);
+				}
+				haveNPCAction = false;
+				logger.info("move");
+				Game.getCurrent().getIdleTimer().stop();
+				setSelectTile(true);
+				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+				setCurrentAction(action);
+				break;
+			}
+
 
 			// default is movement only
 			default :
