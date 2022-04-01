@@ -248,6 +248,7 @@ public class Game
 
 		setCommandQueue(new CommandQueue());
 		setGameTime(new GameTime());
+		getGameTime().setCurrentHour(9);
 
 		// Toolkit.getDefaultToolkit().getSystemEventQueue().
 		// java FX - perhaps in 2025
@@ -1034,7 +1035,7 @@ public class Game
 		{
 			logger.info("initializing Movement Timer as Swing Timer");
 			QuequeTimerActionListener quequeTimerActionListener = new QuequeTimerActionListener();
-			quequeTimer = new QuequeTimer(500, quequeTimerActionListener);
+			quequeTimer = new QuequeTimer(300, quequeTimerActionListener);
 			quequeTimer.setRepeats(true);
 			//quequeTimer.start();
 		}

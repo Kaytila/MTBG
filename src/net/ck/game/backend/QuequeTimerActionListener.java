@@ -23,8 +23,14 @@ public class QuequeTimerActionListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        logger.info("action in queue timer");
+        //logger.info("action in queue timer");
+        if (Game.getCurrent().getCommandQueue().getActionList().isEmpty())
+        {
+            Game.getCurrent().getQuequeTimer().stop();
+            return;
+        }
         EventBus.getDefault().post(ActionFactory.createAction(Game.getCurrent().getCommandQueue().getActionList().get(0).getType()));
+        Game.getCurrent().getCommandQueue().getActionList().remove(0);
     }
 
     public Logger getLogger()

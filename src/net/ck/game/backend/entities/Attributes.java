@@ -1,30 +1,23 @@
 package net.ck.game.backend.entities;
 
-import java.util.ArrayList;
-
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Attributes implements ListModel<AbstractAttribute>
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-	private ArrayList<AbstractAttribute> attributes;
+	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final ArrayList<AbstractAttribute> attributes;
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -34,7 +27,7 @@ public class Attributes implements ListModel<AbstractAttribute>
 
 	public Attributes()
 	{
-		attributes = new ArrayList<AbstractAttribute>();
+		attributes = new ArrayList<>();
 		attributes.add(new Strength());
 		attributes.add(new Dexterity());
 		attributes.add(new Intelligence());

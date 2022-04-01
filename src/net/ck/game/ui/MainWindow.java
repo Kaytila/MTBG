@@ -547,14 +547,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	private void runQueue()
 	{
-		//Game.getCurrent().getQuequeTimer().start();
+		Game.getCurrent().getQuequeTimer().start();
 		for (AbstractKeyboardAction ac : Game.getCurrent().getCommandQueue().getActionList())
 		{
 			logger.info("ac: {}", ac);
-			runActions(ac, true);
+			//runActions(ac, true);
 		}
 		//Game.getCurrent().getQuequeTimer().stop();
-		Game.getCurrent().getCommandQueue().getActionList().clear();
+		//Game.getCurrent().getCommandQueue().getActionList().clear();
 	}
 
 	private void runActions(AbstractKeyboardAction action, boolean hasNPCAction)

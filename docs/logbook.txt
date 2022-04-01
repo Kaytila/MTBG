@@ -423,3 +423,7 @@ adding animated tiles
             can open blocked doors again, but for that i need a better map.
             move also does not have a delay yet, so the commands are run but instantly performed.
             no matter, good progress.
+2022-04-01: did not do much yesterday and today apart from some minor updating code to modern versions.
+            oh, the main thing i did is to make move work properly. command queue is filled and cleared with a timer with
+            a proper delay. So move to is kind of finished.
+            Now I have everything in place for a proper a* implementation or at least an approximation and schedules.

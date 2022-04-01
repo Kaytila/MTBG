@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Objects;
 
 /**
  * AbstractEntity is the abstract parent class known subclasses are: Player NPC World
@@ -27,7 +28,7 @@ import java.util.Hashtable;
 public abstract class AbstractEntity
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	/**
 	 * the position on the map, filled for NPC and Player, not filled for World
@@ -47,12 +48,12 @@ public abstract class AbstractEntity
 	/**
 	 * hashtable with weapon, not sure whether this is one or two slots. TBD
 	 */
-	private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<Weapon, AbstractItem>();
+	private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
 
 	/**
 	 * armortypes contains all the armor positions, so this is the way to go.
 	 */
-	private Hashtable<ArmorPositions, AbstractItem> wearEquipment = new Hashtable<ArmorPositions, AbstractItem>();
+	private Hashtable<ArmorPositions, AbstractItem> wearEquipment = new Hashtable<>();
 
 	/**
 	 * each AbstractEntity has an inventory.
@@ -189,11 +190,11 @@ public abstract class AbstractEntity
 				success = true;
 				break;
 			case GET :
-				success = this.getItem(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+				success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
 				break;
 				
 			case DROP:
-				success = this.dropItem(action.getEvent().getAffectedItem(), MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+				success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
 				break;
 			
 			case TALK:
@@ -227,7 +228,7 @@ public abstract class AbstractEntity
 	 * so this is the method where the a* algorithm needs to go into.
 	 * TBD.
 	 *
-	 * @param tileByCoordinates
+	 * @param tileByCoordinates the target map tile
 	 * @return success or not
 	 */
 	private boolean moveTo(MapTile tileByCoordinates)
@@ -295,14 +296,7 @@ public abstract class AbstractEntity
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Point getUIPosition()
@@ -314,10 +308,6 @@ public abstract class AbstractEntity
 	{
 		return wearEquipment;
 	}
-
-	// public abstract Point getPosition();
-
-	// public abstract void setPosition(Point p);
 
 	public void setHoldEquipment(Hashtable<Weapon, AbstractItem> holdEquipment)
 	{
@@ -351,6 +341,15 @@ public abstract class AbstractEntity
 
 	public boolean wearItemAtPosition(Armor armor, ArmorPositions pos)
 	{
+		if (getInventory().contains(armor))
+		{
+			if (getWearEquipment().get(pos) == null)
+			{
+				getWearEquipment().put(pos, armor);
+				getInventory().remove(armor);
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -457,8 +456,8 @@ public abstract class AbstractEntity
 	/**
 	 * gets the top item from the maptile
 	 * 
-	 * @param tile
-	 * @return
+	 * @param tile the map tile under the cursor
+	 * @return success or false
 	 */
 	public boolean getItem(MapTile tile)
 	{
@@ -519,19 +518,19 @@ public abstract class AbstractEntity
 		Point west = new Point(getMapPosition().x - 1, (getMapPosition().y));
 		GetAction getAction = null;
 
-		if ((north.x >= 0 && north.y >= 0) && (!(MapUtils.getTileByCoordinates(north).getInventory().isEmpty())))
+		if ((north.x >= 0 && north.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(north)).getInventory().isEmpty())))
 		{
 			getAction = new GetAction(north);
 		}
-		else if ((east.x >= 0 && east.y >= 0) && (!(MapUtils.getTileByCoordinates(east).getInventory().isEmpty())))
+		else if ((east.x >= 0 && east.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(east)).getInventory().isEmpty())))
 		{
 			getAction = new GetAction(east);
 		}
-		else if ((south.x >= 0 && south.y >= 0) && (!(MapUtils.getTileByCoordinates(south).getInventory().isEmpty())))
+		else if ((south.x >= 0 && south.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(south)).getInventory().isEmpty())))
 		{
 			getAction = new GetAction(south);
 		}
-		else if ((west.x >= 0 && west.y >= 0) && (!(MapUtils.getTileByCoordinates(west).getInventory().isEmpty())))
+		else if ((west.x >= 0 && west.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(west)).getInventory().isEmpty())))
 		{
 			getAction = new GetAction(west);
 		}
@@ -551,9 +550,9 @@ public abstract class AbstractEntity
 	
 	public void move (int x, int y)
 	{
-		MapUtils.getTileByCoordinates(this.getMapPosition()).setBlocked(false);
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(this.getMapPosition())).setBlocked(false);
 		this.getMapPosition().move(x, y);
-		MapUtils.getTileByCoordinates(this.getMapPosition()).setBlocked(true);
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(this.getMapPosition())).setBlocked(true);
 	}
 
 

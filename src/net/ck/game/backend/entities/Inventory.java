@@ -1,15 +1,14 @@
 package net.ck.game.backend.entities;
 
-import java.util.ArrayList;
-
-import javax.swing.AbstractListModel;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Armor;
 import net.ck.game.items.Weapon;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Inventory extends AbstractListModel<AbstractItem> //implements ListModel<AbstractItem>
 {
@@ -18,7 +17,7 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	private ArrayList<AbstractItem> inventory;
 	private double maxWeight;
@@ -27,14 +26,7 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -44,7 +36,7 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 
 	public Inventory()
 	{
-		inventory = new ArrayList<AbstractItem>();
+		inventory = new ArrayList<>();
 	}
 
 	@Override
