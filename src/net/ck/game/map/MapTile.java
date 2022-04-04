@@ -7,14 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * @author Claus each individual tile, has x and y coordinates, connectors in
  * each direction and a type
  */
-public class MapTile
+public class MapTile implements Comparable<MapTile>
 {
 
 
@@ -91,10 +90,63 @@ public class MapTile
      */
     private FurnitureItem furniture;
 
+    /**
+     * parent tile for a* calculation
+     */
+    public MapTile parent;
+
+
+
+    // Evaluation functions
+    public int finalCost;
+
+    public int getFinalCost()
+    {
+        return finalCost;
+    }
+
+    public void setFinalCost(int finalCost)
+    {
+        this.finalCost = finalCost;
+    }
+
+    public int getG()
+    {
+        return g;
+    }
+
+    public void setG(int g)
+    {
+        this.g = g;
+    }
+
+    public int getH()
+    {
+        return h;
+    }
+
+    public void setH(int h)
+    {
+        this.h = h;
+    }
+
+    public int g;
+    // Hardcoded heuristic
+    public int h;
+
 
     public MapTile()
     {
         super();
+        inventory = new Inventory();
+        setBlocked(false);
+        this.h = 1;
+    }
+
+    public MapTile(int i, int j)
+    {
+        setX(i);
+        setY(j);
         inventory = new Inventory();
         setBlocked(false);
     }
@@ -500,5 +552,60 @@ public class MapTile
     {
         logger.info("setting furniture");
         this.furniture = furniture;
+    }
+
+    public void calculateHeuristic(MapTile finalNode)
+    {
+        this.h = Math.abs(finalNode.getY() - getY()) + Math.abs(finalNode.getX() - getX());
+    }
+
+    public void setNodeData(MapTile currentNode, int cost)
+    {
+        int gCost = currentNode.getG() + cost;
+        setParent(currentNode);
+        setG(gCost);
+        calculateFinalCost();
+    }
+
+    public boolean checkBetterPath(MapTile currentNode, int cost)
+    {
+        int gCost = currentNode.getG() + cost;
+        if (gCost < getG())
+        {
+            setNodeData(currentNode, cost);
+            return true;
+        }
+        return false;
+    }
+
+    public MapTile getParent()
+    {
+        return parent;
+    }
+
+    public void setParent(MapTile parent)
+    {
+        //logger.info("set parent: {}", parent);
+        this.parent = parent;
+    }
+
+    private void calculateFinalCost()
+    {
+        //logger.info("g: {}, h: {}", g, h);
+        int finalCost = g + h;
+        setFinalCost(finalCost);
+    }
+
+
+    public boolean equals(MapTile arg0)
+    {
+        //logger.info("final tile: {} ", this.getId() == arg0.getId());
+        return this.getId() == arg0.getId(); //this.getY() == other.getY() && this.getX() == other.getX();
+    }
+
+
+    @Override
+    public int compareTo(MapTile n) {
+        return Integer.compare(this.finalCost, n.finalCost);
     }
 }

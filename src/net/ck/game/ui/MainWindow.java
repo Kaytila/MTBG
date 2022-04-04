@@ -545,7 +545,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		}
 	}
 
-	private void runQueue()
+	public void runQueue()
 	{
 		Game.getCurrent().getQuequeTimer().start();
 		for (AbstractKeyboardAction ac : Game.getCurrent().getCommandQueue().getActionList())

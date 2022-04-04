@@ -427,3 +427,19 @@ adding animated tiles
             oh, the main thing i did is to make move work properly. command queue is filled and cleared with a timer with
             a proper delay. So move to is kind of finished.
             Now I have everything in place for a proper a* implementation or at least an approximation and schedules.
+2022-04-03: so i took a astar implementation which works from github. it now works also the second time it is run.
+            problem was as usually my own code. Now I need to figure out, where the issue is for sometimes, the correct
+            list of actions is not created.
+            I probably should create a priorityqueue instead of my command queue, or rather subclass it.
+            Oh, and I just realized that I need to re-asses the move to after each command for the reality might have
+            changed (npcs move, doors close and so on). need to either have just accept the clashes, or I do a full
+            recursive approach. Probably the former.
+            Ok, played around with it way more than I should have. Not working the way I would like it to have,
+            therefore I will go back to the easy way and try to get this running, tomorrow.
+            I.e. fill up the queue, run the queue and hope for no collisions on the way.
+2022-04-04: so i had yet another bug in the way of setting up the queue - I always took the current map position.
+            This of course does not work, need to take future map position into account.
+            This now works. I am so good, if I do not stumble over my own feet.
+            Does this always work? No, of course not. Will it always work? No, of course not.
+            Lets see how this will turn out with NPC schedules. Need to think of a way there.
+            I guess I will have to hardcode a few of these.
