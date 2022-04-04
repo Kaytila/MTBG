@@ -552,6 +552,7 @@ public class MapTile implements Comparable<MapTile>
     {
         logger.info("setting furniture");
         this.furniture = furniture;
+        setBlocked(true);
     }
 
     public void calculateHeuristic(MapTile finalNode)
@@ -585,7 +586,6 @@ public class MapTile implements Comparable<MapTile>
 
     public void setParent(MapTile parent)
     {
-        //logger.info("set parent: {}", parent);
         this.parent = parent;
     }
 
@@ -599,8 +599,7 @@ public class MapTile implements Comparable<MapTile>
 
     public boolean equals(MapTile arg0)
     {
-        //logger.info("final tile: {} ", this.getId() == arg0.getId());
-        return this.getId() == arg0.getId(); //this.getY() == other.getY() && this.getX() == other.getX();
+        return this.getId() == arg0.getId();
     }
 
 

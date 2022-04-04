@@ -443,3 +443,5 @@ adding animated tiles
             Does this always work? No, of course not. Will it always work? No, of course not.
             Lets see how this will turn out with NPC schedules. Need to think of a way there.
             I guess I will have to hardcode a few of these.
+            Oh, and with lighting and furniture drawing, I had forgotten to check the PC, as it is not an NPC.
+            Easy fix, luckily, my tools and systems work very well by now.

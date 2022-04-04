@@ -232,6 +232,12 @@ public class JGridCanvas extends JComponent
                             {
                                 g.drawImage(ImageUtils.brightenUpImage(n.getAppearance().getCurrentImage(), 1, 1), ((screenPosition.x * tileSize) + (tileSize / 4)), ((screenPosition.y * tileSize) + (tileSize / 4)), this);
                             }
+
+                            //PC !!!
+                            if (t.getMapPosition().equals(Game.getCurrent().getCurrentPlayer().getMapPosition()))
+                            {
+                                g.drawImage(ImageUtils.brightenUpImage(Game.getCurrent().getCurrentPlayer().getAppearance().getCurrentImage(), 1, 1), ((screenPosition.x * tileSize) + (tileSize / 4)), ((screenPosition.y * tileSize) + (tileSize / 4)), this);
+                            }
                         }
                     }
                 }
