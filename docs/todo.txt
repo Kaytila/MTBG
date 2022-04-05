@@ -34,6 +34,8 @@ implement scripting
 implement dialog system
 implement drop <-- done
 implement get <-- done
-implement talk <-- halfway done
+implement basic talk <-- done
 implement drag'n'drop <-- done
 implement monster spawn :D
+implement move <-- done
+implement checkpoints

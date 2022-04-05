@@ -1,7 +1,10 @@
 package net.ck.game.backend;
 
+import net.ck.util.communication.time.GameTimeChangeType;
+import net.ck.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Objects;
 
@@ -19,14 +22,67 @@ public class GameTime
     private final Logger logger = LogManager.getLogger(getRealClass());
 
     private int currentHour;
-
     private int currentMinute;
-
     private int currentDay;
-
     private int currentMonth;
-
     private int currentYear;
+
+    private int oldHour;
+    private int oldMinute;
+    private int oldDay;
+    private int oldMonth;
+
+    public Logger getLogger()
+    {
+        return logger;
+    }
+
+    public int getOldHour()
+    {
+        return oldHour;
+    }
+
+    public void setOldHour(int oldHour)
+    {
+        this.oldHour = oldHour;
+    }
+
+    public int getOldMinute()
+    {
+        return oldMinute;
+    }
+
+    public void setOldMinute(int oldMinute)
+    {
+        this.oldMinute = oldMinute;
+    }
+
+    public int getOldDay()
+    {
+        return oldDay;
+    }
+
+    public void setOldDay(int oldDay)
+    {
+        this.oldDay = oldDay;
+    }
+
+    public int getOldMonth()
+    {
+        return oldMonth;
+    }
+
+    public void setOldMonth(int oldMonth)
+    {
+        this.oldMonth = oldMonth;
+    }
+
+    public void setOldYear(int oldYear)
+    {
+        this.oldYear = oldYear;
+    }
+
+    private int oldYear;
 
     public GameTime()
     {
@@ -35,6 +91,12 @@ public class GameTime
         setCurrentDay(1);
         setCurrentMonth(1);
         setCurrentYear(0);
+
+        setOldMinute(0);
+        setOldHour(0);
+        setOldDay(1);
+        setOldMonth(1);
+        setOldYear(0);
     }
 
     public Class<?> getRealClass()
@@ -58,7 +120,7 @@ public class GameTime
     /**
      * advance the game time by amount minutes
      *
-     * @param minutes
+     * @param minutes - the minutes that have passed
      * @return the current game time
      */
     public GameTime advanceTime(int minutes)
@@ -122,6 +184,39 @@ public class GameTime
         }
         //logger.info("minutes: {}, hours: {}, days: {}, months: {}, years: {}, remainingMinutes: {}, remaining hours: {}, remaining days: {}, remaining months: {},", minutes, hours, days, months, years, remainingMinutes, remainingHours, remainingDays, remainingMonths);
         logger.info("current time: {}", this);
+
+        GameTimeChangeType type = null;
+        if (currentMinute != oldMinute)
+        {
+            type = GameTimeChangeType.MINUTE;
+            logger.info("minute changed");
+        }
+
+        if (currentHour != oldHour)
+        {
+            type = GameTimeChangeType.HOUR;
+            logger.info("hour changed");
+        }
+
+        if (currentDay != oldDay)
+        {
+            type = GameTimeChangeType.DAY;
+            logger.info("day changed");
+        }
+
+        if (currentMonth != oldMonth)
+        {
+            type = GameTimeChangeType.MONTH;
+            logger.info("month changed");
+        }
+
+        if (currentYear != oldYear)
+        {
+            type = GameTimeChangeType.YEAR;
+            logger.info("year changed");
+        }
+        EventBus.getDefault().post(new GameTimeChanged(type));
+
         return this;
     }
 
@@ -173,5 +268,10 @@ public class GameTime
     public void setCurrentHour(int currentHour)
     {
         this.currentHour = currentHour;
+    }
+
+    public int getOldYear()
+    {
+        return oldYear;
     }
 }

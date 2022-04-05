@@ -36,7 +36,7 @@ public class CommandQueue implements Queue
     @Override
     public int size()
     {
-        return 0;
+        return getActionList().size();
     }
 
     public boolean isEmpty()
@@ -81,43 +81,43 @@ public class CommandQueue implements Queue
     @Override
     public boolean add(Object o)
     {
-        return false;
+        return getActionList().add((AbstractKeyboardAction) o);
     }
 
     @Override
     public boolean remove(Object o)
     {
-        return false;
+        return getActionList().remove((AbstractKeyboardAction) o);
     }
 
     @Override
     public boolean addAll(Collection c)
     {
-        return false;
+         return getActionList().addAll(c);
     }
 
     @Override
     public void clear()
     {
-
+        getActionList().clear();
     }
 
     @Override
     public boolean retainAll(Collection c)
     {
-        return false;
+        return getActionList().retainAll(c);
     }
 
     @Override
     public boolean removeAll(Collection c)
     {
-        return false;
+         return getActionList().removeAll(c);
     }
 
     @Override
     public boolean containsAll(Collection c)
     {
-        return false;
+        return getActionList().containsAll(c);
     }
 
     @Override
@@ -129,24 +129,24 @@ public class CommandQueue implements Queue
     @Override
     public Object remove()
     {
-        return null;
+        return getActionList().remove(0);
     }
 
     @Override
     public Object poll()
     {
-        return null;
+        return getActionList().remove(0);
     }
 
     @Override
     public Object element()
     {
-        return null;
+        return  getActionList().get(0);
     }
 
     @Override
     public Object peek()
     {
-        return null;
+        return getActionList().get(0);
     }
 }

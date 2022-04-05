@@ -1,15 +1,21 @@
 package net.ck.game.backend.entities;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.util.*;
 
+import net.ck.game.backend.CommandQueue;
 import net.ck.game.backend.Game;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.ImageUtils;
+import net.ck.util.communication.keyboard.MoveAction;
+import net.ck.util.communication.time.GameTimeChanged;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.*;
 
 public class NPC extends AbstractEntity
 {
@@ -20,12 +26,20 @@ public class NPC extends AbstractEntity
 	private NPCTypes type;
 	private Hashtable<String, String> mobasks;
 
+
+	private ArrayList<NPCSchedule> npcSchedules;
+	private CommandQueue queuedActions;
+
 	public NPC(Integer i, Point p)
 	{
 		NPC master = Game.getCurrent().getNpcList().get(i);
 		setMapPosition(new Point(p.x, p.y));
 		setType(master.getType());
 		setMobasks(master.getMobasks());
+		setNpcSchedules(new ArrayList<>());
+		setQueuedActions(new CommandQueue());
+		EventBus.getDefault().register(this);
+		logger.info("npc: {}", this);
 	}
 
 	public void setType(NPCTypes type)
@@ -124,4 +138,49 @@ public class NPC extends AbstractEntity
 		this.mobasks = mobasks;
 	}
 
+	public ArrayList<NPCSchedule> getNpcSchedules()
+	{
+		return npcSchedules;
+	}
+
+	public void setNpcSchedules(ArrayList<NPCSchedule> npcSchedules)
+	{
+		this.npcSchedules = npcSchedules;
+	}
+
+	public CommandQueue getQueuedActions()
+	{
+		return queuedActions;
+	}
+
+	public void setQueuedActions(CommandQueue queuedActions)
+	{
+		this.queuedActions = queuedActions;
+	}
+
+	/**
+	 *
+	 * @param event
+	 *            an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
+	 */
+	@Subscribe
+	public void onMessageEvent(GameTimeChanged event)
+	{
+		this.checkSchedules(event);
+	}
+
+	private void checkSchedules(GameTimeChanged event)
+	{
+		if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 10)
+		{
+			logger.info("check schedule");
+			if (getMobasks().size() > 0)
+			{
+				logger.info("running");
+				MoveAction action = new MoveAction();
+				action.setGetWhere(new Point (1, 0));
+				doAction(new PlayerAction(action, this));
+			}
+		}
+	}
 }

@@ -156,7 +156,7 @@ public class Game
 	/**
 	 * list of players
 	 */
-	private ArrayList<AbstractEntity> players = new ArrayList<AbstractEntity>();
+	private ArrayList<AbstractEntity> players = new ArrayList<>();
 	/**
 	 * threadController
 	 */
@@ -168,7 +168,7 @@ public class Game
 	/**
 	 * the list of turn objects
 	 */
-	private ArrayList<Turn> turns = new ArrayList<Turn>();
+	private ArrayList<Turn> turns = new ArrayList<>();
 	/**
 	 * this is the weather system
 	 */
@@ -180,7 +180,7 @@ public class Game
 	/**
 	 * animated entities, contains everything that has changing images, i.e. NPCs, PCs, also other items. will probably also contain all inanimated objects. Perhaps these will go on a separate thread
 	 */
-	private ArrayList<AbstractEntity> animatedEntities = new ArrayList<AbstractEntity>();
+	private ArrayList<AbstractEntity> animatedEntities = new ArrayList<>();
 	/**
 	 * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
 	 */
@@ -363,13 +363,13 @@ public class Game
 	public void initializeMaps()
 	{
 		logger.info("start: initialize maps");
-		maps = new ArrayList<Map>();
+		maps = new ArrayList<>();
 		String mapRootPath = "maps";
 
 		File folder = new File(mapRootPath);
 		File[] listOfFiles = folder.listFiles();
 
-		for (File file : listOfFiles)
+		for (File file : Objects.requireNonNull(listOfFiles))
 		{
 
 			if (file.isFile())
@@ -377,11 +377,11 @@ public class Game
 				//logger.info("file name: {}", file.getName());
 				if (file.getName().contains("xml"))
 				{
-					Map map = null;
+					Map map;
 					logger.info("parsing map: {}", mapRootPath + File.separator + file.getName());
 					map = RunXMLParser.parseMap(mapRootPath + File.separator + file.getName());
 
-					if (map.getName().equalsIgnoreCase(gameMapName))
+					if (Objects.requireNonNull(map).getName().equalsIgnoreCase(gameMapName))
 					{
 						map.initialize();
 						map.setVisibilityRange(2);
@@ -422,10 +422,10 @@ public class Game
 		//magicClub.setMapPosition(new Point(3, 1));
 		//map.getItems().add(magicClub);
 		//map.getItems().add(club);
-		MapUtils.getTileByCoordinates(new Point(3, 0)).getInventory().add(club);
-		MapUtils.getTileByCoordinates(new Point(9, 3)).getInventory().add(magicClub);
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(3, 0))).getInventory().add(club);
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 3))).getInventory().add(magicClub);
 		logger.info("furniture: {}", getFurnitureList().get(0));
-		MapUtils.getTileByCoordinates(new Point(9, 4)).setFurniture(getFurnitureList().get(1));
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 4))).setFurniture(getFurnitureList().get(1));
 	}
 
 	public void initializeAllItems()
@@ -546,7 +546,7 @@ public class Game
 						m.getPlayers().add(getCurrentPlayer());
 					}
 					getCurrentPlayer().setMapPosition(new Point(targetTile.x, targetTile.y));
-					setAnimatedEntities(animatedEntities = new ArrayList<AbstractEntity>());
+					setAnimatedEntities(animatedEntities = new ArrayList<>());
 					addAnimatedEntities();
 				}
 			}
@@ -620,7 +620,7 @@ public class Game
 		/**
 		 * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
 		 *
-		 * @param haveNPCAction
+		 * @param haveNPCAction is a npc action allowed or not
 		 */
 		public void advanceTurn ( boolean haveNPCAction)
 		{
@@ -758,7 +758,7 @@ public class Game
 				GameUtils.invertActions(turn);
 				for (AbstractAction e : turn.getActions())
 				{
-					e.getEntity().doAction((PlayerAction) e);
+					e.getEntity().doAction(e);
 				}
 
 				getController().getTextField().retractTurn();

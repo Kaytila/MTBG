@@ -31,10 +31,6 @@ import java.util.Objects;
 public class JGridCanvas extends JComponent
 {
 
-    static final String newline = System.getProperty("line.separator");
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
     private final int numberOfTiles = Game.getCurrent().getNumberOfTiles();
@@ -133,7 +129,7 @@ public class JGridCanvas extends JComponent
 
         // identify which tiles are visible at first!
 
-        identifyVisibleTiles(g);
+        identifyVisibleTiles();
 
         // here comes the LoS Part
 
@@ -227,7 +223,7 @@ public class JGridCanvas extends JComponent
                                     break;
                                 }
                             }
-                            //so npc on the tile
+                            //there is a npc on the tile
                             if (filled)
                             {
                                 g.drawImage(ImageUtils.brightenUpImage(n.getAppearance().getCurrentImage(), 1, 1), ((screenPosition.x * tileSize) + (tileSize / 4)), ((screenPosition.y * tileSize) + (tileSize / 4)), this);
@@ -411,7 +407,7 @@ public class JGridCanvas extends JComponent
         }
     }
 
-    private void identifyVisibleTiles(Graphics g)
+    private void identifyVisibleTiles()
     {
         for (MapTile tile : Game.getCurrent().getCurrentMap().getTiles())
         {

@@ -5,22 +5,19 @@ import org.apache.logging.log4j.Logger;
 
 import net.ck.game.backend.entities.AbstractEntity;
 
+import java.util.Objects;
+
 
 public class AnimatedRepresentationChanged extends ChangedEvent {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private AbstractEntity player;
-	
+
+
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 	
 	public AnimatedRepresentationChanged(AbstractEntity p)

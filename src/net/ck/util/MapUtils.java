@@ -30,11 +30,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MapUtils
 {
 
-    private static final Logger logger = (Logger) LogManager.getLogger(MapUtils.class);
+    private static final Logger logger = LogManager.getLogger(MapUtils.class);
 
     private static int middle = (int) Math.floor(Game.getCurrent().getNumberOfTiles() / 2);
 
@@ -182,11 +183,11 @@ public class MapUtils
     public static void createMap(int x, int y, TileTypes type)
     {
         logger.info("begin creating Map with (zero-indexed) x: {} and y: {} and type: {}", x, y, type);
-        int id = 1;
-        String north = "";
-        String south = "";
-        String east = "";
-        String west = "";
+        int id;
+        String north;
+        String south;
+        String east;
+        String west;
 
         String fileName = ("maps" + File.separator + "Testmap2.xml");
         String contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<map>\r\n" + "\t<meta>\r\n" + "\t\t<weather>true</weather>\r\n" + "\t\t<weatherrandomness>10</weatherrandomness>\r\n"
@@ -290,7 +291,7 @@ public class MapUtils
 
     public static ArrayList<MapTile> calculateVisibleTiles(Rectangle visibleRect, Map map)
     {
-        ArrayList<MapTile> visibleTiles = new ArrayList<MapTile>();
+        ArrayList<MapTile> visibleTiles = new ArrayList<>();
 
         Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
         Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
@@ -309,7 +310,7 @@ public class MapUtils
 
     public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range, Map map)
     {
-        ArrayList<MapTile> visibleTiles = new ArrayList<MapTile>();
+        ArrayList<MapTile> visibleTiles = new ArrayList<>();
         Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
         Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
         Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
@@ -331,16 +332,16 @@ public class MapUtils
     /**
      * there is a bug, but where????
      *
-     * @param position
-     * @return
+     * @param position the position not the player
+     * @return the offset in tiles
      */
     public static Point calculateOffsetFromPlayerBug(Point position)
     {
         Point pP = Game.getCurrent().getCurrentPlayer().getMapPosition();
         // logger.info("maptile x: {}, y: {}", tile.getX(), tile.getY());
         // logger.info("player position: {} {}", pP.x, pP.y);
-        int x = 0;
-        int y = 0;
+        int x;
+        int y;
         // the tile is to the left
         if (position.x < pP.x)
         {
@@ -380,7 +381,7 @@ public class MapUtils
     }
 
     /**
-     * @param position
+     * @param position describes the point the mouse is at
      * @return Point with the offset as point from the player position. In case of player, this is 0,0 of course.
      */
     public static Point calculateMapOffsetFromPlayerMapPosition(Point position)
@@ -417,8 +418,7 @@ public class MapUtils
                 return t.isBlocked();
             }
         }
-        // return false;
-        return null != null;
+        return false;
     }
 
     public static MapTile getTileByCoordinates(Point p)
@@ -448,19 +448,19 @@ public class MapUtils
      *
      * @param start  a point, probably player position
      * @param target an end point
-     * @return
+     * @return returns the list of points calculated by the diret line.
      */
     public static ArrayList<Point> getLine(Point start, Point target)
     {
-        ArrayList<Point> ret = new ArrayList<Point>();
+        ArrayList<Point> ret = new ArrayList<>();
         int x0 = start.x;
         int y0 = start.y;
 
         int x1 = target.x;
         int y1 = target.y;
 
-        int sx = 0;
-        int sy = 0;
+        int sx;
+        int sy;
 
         int dx = Math.abs(x1 - x0);
         sx = x0 < x1 ? 1 : -1;
@@ -565,10 +565,6 @@ public class MapUtils
                 row++;
             }
         }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
         catch (IOException | CsvException e)
         {
             e.printStackTrace();
@@ -583,7 +579,18 @@ public class MapUtils
         }
         return ultima4Map;
     }
-
+    /**
+     * <tile>
+     * 			<id>1</id>
+     * 			<type>LADDERUP</type>
+     * 			<x>0</x>
+     * 			<y>0</y>
+     * 			<east>2</east>
+     * 			<south>4</south>
+     * 			<targetMap>testname</targetMap>
+     * 			<targetID>2</targetID>
+     * 		</tile>
+     */
     public static void writeMapToXML(Map map) throws IOException
     {
         BufferedWriter writer = null;
@@ -597,7 +604,7 @@ public class MapUtils
             e.printStackTrace();
         }
 
-        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        Objects.requireNonNull(writer).write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         writer.write("<map>");
         writer.write("<meta>");
         writer.write("<weather>" + map.isWeatherSystem() + "</weather>");
@@ -609,18 +616,7 @@ public class MapUtils
         writer.write("</meta>");
         writer.write("<tiles>");
         ArrayList<MapTile> tiles = map.getTiles();
-        /**
-         * <tile>
-         * 			<id>1</id>
-         * 			<type>LADDERUP</type>
-         * 			<x>0</x>
-         * 			<y>0</y>
-         * 			<east>2</east>
-         * 			<south>4</south>
-         * 			<targetMap>testname</targetMap>
-         * 			<targetID>2</targetID>
-         * 		</tile>
-         */
+
         for (MapTile tile : tiles)
         {
             writer.write("<tile>");
@@ -683,7 +679,7 @@ public class MapUtils
         Document doc = null;
         try
         {
-            doc = db.parse(new FileInputStream(fileName));
+            doc = Objects.requireNonNull(db).parse(new FileInputStream(fileName));
         }
         catch (SAXException e)
         {

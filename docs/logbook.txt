@@ -445,3 +445,8 @@ adding animated tiles
             I guess I will have to hardcode a few of these.
             Oh, and with lighting and furniture drawing, I had forgotten to check the PC, as it is not an NPC.
             Easy fix, luckily, my tools and systems work very well by now.
+2022-04-05: started working on scheduling engine - I can post events with changed events based on minute and so on.
+            now need a way to define schedules. perhaps use game times? perhaps use a game time? not sure yet.
+            And I have at least a basic running schedule. The framework is a little bit icky and I might need to
+            remove the distinction between action and event sooner or later, but for now it still holds :D
+            And perhaps it will. Everything was working apart from a damned auto-generated method which returned 0.

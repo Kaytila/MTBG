@@ -234,7 +234,7 @@ public abstract class AbstractEntity
         logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
         logger.info("finish: {}", tileByCoordinates);
 
-        while (!(MapUtils.getTileByCoordinates(getMapPosition()).equals(tileByCoordinates)))
+        while (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(getMapPosition())).equals(tileByCoordinates)))
         {
             AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
             ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
@@ -269,7 +269,7 @@ public abstract class AbstractEntity
                     Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
                 }
 
-                else if(nextTile.y < getMapPosition().y)
+                else if (nextTile.y < getMapPosition().y)
                 {
                     logger.info("add north");
                     Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
@@ -316,7 +316,7 @@ public abstract class AbstractEntity
         return true;
     }
 
-    private boolean moveTo(MapTile tileByCoordinates)
+    public boolean moveTo(MapTile tileByCoordinates)
     {
 
 
@@ -337,29 +337,65 @@ public abstract class AbstractEntity
                 logger.info(node);
                 if (node.x > futureMapposition.x)
                 {
-                    logger.info("add east");
-                    Game.getCurrent().getCommandQueue().addEntry(new EastAction());
+
+                    if (this instanceof Player)
+                    {
+                        Game.getCurrent().getCommandQueue().addEntry(new EastAction());
+                    }
+                    else if (this instanceof NPC)
+                    {
+                        logger.info("add east");
+                        NPC n = (NPC) this;
+                        n.getQueuedActions().add(new EastAction());
+                    }
                     futureMapposition.move(futureMapposition.x + 1, futureMapposition.y);
                 }
 
                 else if (node.x < futureMapposition.x)
                 {
-                    logger.info("add west");
-                    Game.getCurrent().getCommandQueue().addEntry(new WestAction());
+
+                    if (this instanceof Player)
+                    {
+                        Game.getCurrent().getCommandQueue().addEntry(new WestAction());
+                    }
+                    else if (this instanceof NPC)
+                    {
+                        logger.info("add west");
+                        NPC n = (NPC) this;
+                        n.getQueuedActions().add(new WestAction());
+                    }
                     futureMapposition.move(futureMapposition.x - 1, futureMapposition.y);
                 }
 
                 else if (node.y > futureMapposition.y)
                 {
-                    logger.info("add south");
-                    Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
+
+                    if (this instanceof Player)
+                    {
+                        Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
+                    }
+                    else if (this instanceof NPC)
+                    {
+                        logger.info("add south");
+                        NPC n = (NPC) this;
+                        n.getQueuedActions().add(new SouthAction());
+                    }
                     futureMapposition.move(futureMapposition.x, futureMapposition.y + 1);
                 }
 
                 else if (node.y < futureMapposition.y)
                 {
-                    logger.info("add north");
-                    Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
+
+                    if (this instanceof Player)
+                    {
+                        Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
+                    }
+                    else if (this instanceof NPC)
+                    {
+                        logger.info("add north");
+                        NPC n = (NPC) this;
+                        n.getQueuedActions().add(new NorthAction());
+                    }
                     futureMapposition.move(futureMapposition.x, futureMapposition.y - 1);
                 }
             }
@@ -496,6 +532,7 @@ public abstract class AbstractEntity
         logger.info("should not be reachable");
         return false;
     }
+
 
     public boolean removeItem(Armor armor)
     {
