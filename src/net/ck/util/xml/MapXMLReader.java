@@ -1,10 +1,9 @@
 package net.ck.util.xml;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Objects;
-
-import net.ck.game.backend.Game;
+import net.ck.game.backend.entities.NPC;
+import net.ck.game.graphics.TileTypes;
+import net.ck.game.map.Map;
+import net.ck.game.map.MapTile;
 import net.ck.game.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,11 +11,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import net.ck.game.backend.entities.NPC;
-import net.ck.game.backend.entities.NPCTypes;
-import net.ck.game.graphics.TileTypes;
-import net.ck.game.map.Map;
-import net.ck.game.map.MapTile;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class MapXMLReader extends DefaultHandler
 {

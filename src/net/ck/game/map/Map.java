@@ -1,6 +1,7 @@
 package net.ck.game.map;
 
 import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
@@ -83,6 +84,7 @@ public class Map extends AbstractMap
 		setPlayers(new ArrayList<AbstractEntity>());
 		setNpcs(new ArrayList<NPC>());
 		setTiles(new ArrayList<MapTile>());
+		setMissiles(new ArrayList<Missile>());
 	}
 
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());

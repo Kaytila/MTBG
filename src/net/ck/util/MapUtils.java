@@ -448,7 +448,7 @@ public class MapUtils
      *
      * @param start  a point, probably player position
      * @param target an end point
-     * @return returns the list of points calculated by the diret line.
+     * @return returns the list of points calculated by the direct line.
      */
     public static ArrayList<Point> getLine(Point start, Point target)
     {

@@ -1,16 +1,14 @@
 package net.ck.util.communication.keyboard;
 
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.util.Objects;
-
-import javax.swing.AbstractAction;
-
+import net.ck.game.items.AbstractItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
-import net.ck.game.items.AbstractItem;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 public class AbstractKeyboardAction extends AbstractAction
 {
@@ -22,9 +20,39 @@ public class AbstractKeyboardAction extends AbstractAction
 	private boolean actionimmediately = false;
 	private boolean done = false;
 	private final Logger logger = LogManager.getLogger(getRealClass());
+	/**
+	 * this is the tile where the crosshair clicked on
+	 */
 	private Point getWhere;
 	private AbstractItem affectedItem;
-	
+
+	private Point sourceCoordinates;
+
+	private Point targetCoordinates;
+
+	public Point getOldMousePosition()
+	{
+		return oldMousePosition;
+	}
+
+	public void setOldMousePosition(Point oldMousePosition)
+	{
+		this.oldMousePosition = oldMousePosition;
+	}
+
+	private Point oldMousePosition;
+
+
+	public Point getSourceCoordinates()
+	{
+		return sourceCoordinates;
+	}
+
+	public void setSourceCoordinates(Point sourceCoordinates)
+	{
+		this.sourceCoordinates = sourceCoordinates;
+	}
+
 	public AbstractItem getAffectedItem()
 	{
 		return affectedItem;
@@ -92,5 +120,15 @@ public class AbstractKeyboardAction extends AbstractAction
 	{
 		this.affectedItem = currentItemInHand;
 		
-	}	
+	}
+
+	public Point getTargetCoordinates()
+	{
+		return targetCoordinates;
+	}
+
+	public void setTargetCoordinates(Point targetCoordinates)
+	{
+		this.targetCoordinates = targetCoordinates;
+	}
 }

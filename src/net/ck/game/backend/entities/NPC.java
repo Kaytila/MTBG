@@ -26,12 +26,44 @@ public class NPC extends AbstractEntity
 	private NPCTypes type;
 	private Hashtable<String, String> mobasks;
 
+	/**
+	 * describes whether a npc is moving or not (outside of schedules)
+	 * @return true - meaning static, or false, meaning moving
+	 */
+	public boolean isStatic()
+	{
+		return isStatic;
+	}
+
+	public void setStatic(boolean aStatic)
+	{
+		isStatic = aStatic;
+	}
+
+	private boolean isStatic;
 
 	private ArrayList<NPCSchedule> npcSchedules;
 	private CommandQueue queuedActions;
 
+	public Point getOriginalMapPosition()
+	{
+		return originalMapPosition;
+	}
+
+	public void setOriginalMapPosition(Point originalMapPosition)
+	{
+		this.originalMapPosition = originalMapPosition;
+	}
+
+	/**
+	 * original position on the map - remember the placement that the npc does not wander off too much
+	 */
+	private Point originalMapPosition;
+
 	public NPC(Integer i, Point p)
 	{
+		setStatic(false);
+		setOriginalMapPosition(new Point (p.x, p.y));
 		NPC master = Game.getCurrent().getNpcList().get(i);
 		setMapPosition(new Point(p.x, p.y));
 		setType(master.getType());
@@ -182,5 +214,18 @@ public class NPC extends AbstractEntity
 				doAction(new PlayerAction(action, this));
 			}
 		}
+
+		if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 30)
+		{
+			logger.info("check schedule");
+			if (getMobasks().size() > 0)
+			{
+				logger.info("running");
+				MoveAction action = new MoveAction();
+				action.setGetWhere(getOriginalMapPosition());
+				doAction(new PlayerAction(action, this));
+			}
+		}
+
 	}
 }

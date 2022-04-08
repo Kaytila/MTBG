@@ -31,7 +31,7 @@ implement visibility range with full darkness <-- done
 implement ray tracing
 implement triggers
 implement scripting
-implement dialog system
+implement dialog system <-- basic done
 implement drop <-- done
 implement get <-- done
 implement basic talk <-- done
@@ -39,3 +39,5 @@ implement drag'n'drop <-- done
 implement monster spawn :D
 implement move <-- done
 implement checkpoints
+implement basic scheduling
+

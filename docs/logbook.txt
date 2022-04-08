@@ -450,3 +450,5 @@ adding animated tiles
             And I have at least a basic running schedule. The framework is a little bit icky and I might need to
             remove the distinction between action and event sooner or later, but for now it still holds :D
             And perhaps it will. Everything was working apart from a damned auto-generated method which returned 0.
+2022-04-08: so now I have two ways of ranged attack - one that follows tiles (might actually be good enough already)
+            and one that follows strictly pixels :D

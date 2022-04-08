@@ -9,7 +9,6 @@ import net.ck.util.CursorUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
-import net.ck.util.communication.keyboard.EscapeAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -23,7 +22,7 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
-import java.awt.event.FocusListener;
+import java.util.Objects;
 
 /**
  * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
@@ -125,8 +124,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	private KeyboardFocusManager focusManager;
 
-	private EscapeAction escapeAction;
-
 	/**
 	 * standard constructor
 	 */
@@ -136,11 +133,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	}
 
-	@Override
+
 	/**
 	 * this is called when the undo button is clicked. the game retracts the last turn, clears the current turn, removes all content from the UI. if the game is at the first turn again, disable the
 	 * button
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand().equalsIgnoreCase("Undo"))
@@ -278,14 +276,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public StatsDialog getStatsDialog()
@@ -396,6 +387,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
+		//logger.info("mouse move relative: {}, mouse move absolute: {}", e.getPoint(), MouseInfo.getPointerInfo().getLocation());
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
@@ -442,11 +434,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		}
 	}
 
-	@Override
+
 	/**
 	 * So mouseReleased creates a KeyboardAction depending on the cursor type. which is a string. which is not a safe way. but it works. ActionFactory included, this is mostly for show reasons,
 	 * functionality is zero https://stackoverflow.com/questions/44615276/thread-safe-find-and-remove-an-object-from-a-collection
 	 */
+	@Override
 	public void mouseReleased(MouseEvent e)
 	{		
 		// we are in movement mode
@@ -476,6 +469,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		// this now only works for get/talk/drop
 		{
 			MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
+			if (tile == null)
+			{
+				throw new RuntimeException("no maptile found, mouse click must have been outside of grid");
+			}
 			if (this.getCurrentAction() != null)
 			{
 				switch (this.getCurrentAction().getType())
@@ -536,7 +533,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						runActions(getCurrentAction(), false);
 						runQueue();
+						break;
 
+					case ATTACK:
+						setSelectTile(false);
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+						logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
+						getCurrentAction().setTargetCoordinates(new Point(e.getX(), e.getY()));
+						runActions(getCurrentAction(), false);
 						break;
 					default:
 						throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
@@ -740,6 +745,35 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				break;
 			}
 
+			case ATTACK:
+				if (isMouseOutsideOfGrid() == true)
+				{
+					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+					Point relativePoint = getGridCanvas().getLocationOnScreen();
+					moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+					setMouseOutsideOfGrid(false);
+				}
+				haveNPCAction = false;
+				logger.info("attack");
+				Game.getCurrent().getIdleTimer().stop();
+
+				action.setOldMousePosition(MouseInfo.getPointerInfo().getLocation());
+				int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+				int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+				Point relativePoint = getGridCanvas().getLocationOnScreen();
+				moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+				action.setSourceCoordinates(new Point(Px , Py ));
+				moveMouse(action.getOldMousePosition());
+
+				setSelectTile(true);
+				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+				setCurrentAction(action);
+				break;
+
+			case SEARCH:
+				setCurrentAction(action);
+				break;
 
 			// default is movement only
 			default :
@@ -849,10 +883,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	}
 
-	@Override
+
 	/**
 	 * 
 	 */
+	@Override
 	public void windowDeactivated(WindowEvent e)
 	{
 		logger.info("deactivated");
@@ -942,7 +977,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			}
 		}
 		// Couldn't move to the point, it may be off screen.
-		return;
 	}
 
 	public AbstractKeyboardAction getCurrentAction()

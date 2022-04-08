@@ -76,6 +76,7 @@ public abstract class AbstractEntity
     private int lightRange;
 
 
+
     public AbstractEntity()
     {
         inventory = new Inventory();
@@ -203,6 +204,13 @@ public abstract class AbstractEntity
                 success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
                 break;
 
+            case SEARCH:
+                this.search();
+                break;
+
+            case ATTACK:
+                this.attack(action.getEvent());
+                break;
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
                 break;
@@ -222,6 +230,26 @@ public abstract class AbstractEntity
         //Game.getCurrent().getController().setCurrentAction(null);
     }
 
+    private void attack(AbstractKeyboardAction action)
+    {
+        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(action.getSourceCoordinates(), action.getTargetCoordinates()));
+    }
+
+    private void attack(MapTile tileByCoordinates)
+    {
+        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
+    }
+
+    private void search()
+    {
+        for (int xStart = getMapPosition().x - 1; xStart <= getMapPosition().x +1; xStart++)
+        {
+            for (int yStart = getMapPosition().y - 1; yStart <= getMapPosition().y +1; yStart++)
+            {
+                logger.info("searching maptile: {}", MapUtils.getTileByCoordinates(new Point(xStart, yStart)));
+            }
+        }
+    }
     /**
      * so this is the method where the a* algorithm needs to go into.
      * TBD.

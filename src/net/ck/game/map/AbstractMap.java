@@ -1,6 +1,7 @@
 package net.ck.game.map;
 
 import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
@@ -129,6 +130,9 @@ public class AbstractMap
 		this.players = players;
 	}
 
+	private ArrayList<Missile> missiles;
+
+
 	/**
 	 * 
 	 */
@@ -240,5 +244,15 @@ public class AbstractMap
 	public void setFixedWeather(WeatherTypes fixedWeather)
 	{
 		this.fixedWeather = fixedWeather;
+	}
+
+	public ArrayList<Missile> getMissiles()
+	{
+		return missiles;
+	}
+
+	public void setMissiles(ArrayList<Missile> missiles)
+	{
+		this.missiles = missiles;
 	}
 }

@@ -2,6 +2,7 @@ package net.ck.game.ui;
 
 import net.ck.game.backend.Game;
 import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.FurnitureItem;
 import net.ck.game.map.MapTile;
@@ -118,6 +119,12 @@ public class JGridCanvas extends JComponent
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M, 0), "move");
         this.getActionMap().put("move", new MoveAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "attack");
+        this.getActionMap().put("attack", new AttackAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "search");
+        this.getActionMap().put("search", new SearchAction());
     }
 
     public void paintComponent(Graphics g)
@@ -159,7 +166,8 @@ public class JGridCanvas extends JComponent
         paintFurniture(g);
 
 
-
+        paintMissiles(g);
+        paintMissilesTileBased(g);
 
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
@@ -265,6 +273,55 @@ public class JGridCanvas extends JComponent
             g.drawLine(i * tileSize, 0, i * tileSize, this.getHeight());
         }
     }
+
+    private void paintMissilesTileBased(Graphics g)
+    {
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
+        {
+            if (m.getCurrentPosition() == null)
+            {
+                m.setCurrentPosition(MapUtils.calculateUIPositionFromMapOffset(m.getSourceTile().getMapPosition()));
+            }
+            int x = m.getCurrentPosition().x;
+            int y = m.getCurrentPosition().y;
+
+            ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), MapUtils.calculateUIPositionFromMapOffset(m.getTargetTile().getMapPosition()));
+            for (Point p: line)
+            {
+                logger.info("p:{}", p );
+                g.drawImage(m.getAppearance().getStandardImage(), ((tileSize * p.x) + (tileSize / 2)), ((tileSize * p.y) + (tileSize / 2)), this);
+                m.setCurrentPosition(p);
+            }
+        }
+    }
+
+    private void paintMissiles(Graphics g)
+    {
+        ArrayList<Missile> finishedMissiles = new ArrayList<Missile>();
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
+        {
+            if (m.getCurrentPosition() == null)
+            {
+                m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
+            }
+
+            ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates());
+            for (Point p: line)
+            {
+                //logger.info("p:{}", p );
+                g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
+                m.setCurrentPosition(p);
+                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
+                {
+                    m.setFinished(true);
+                    finishedMissiles.add(m);
+                }
+            }
+        }
+        Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
+    }
+
+
 
     private void paintWeather(Graphics g)
     {

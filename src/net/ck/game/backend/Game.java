@@ -629,7 +629,7 @@ public class Game
 			// logger.info("npc actions");
 			if (haveNPCAction == true)
 			{
-				for (AbstractEntity e : Game.getCurrent().getCurrentMap().getNpcs())
+				for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
 				{
 					GetAction action = e.lookAroundForItems();
 					//GetAction action = null;
@@ -779,7 +779,7 @@ public class Game
 		 */
 		public void runTurn ()
 		{
-			for (AbstractEntity p : getPlayers())
+			for (NPC p : Game.getCurrent().getCurrentMap().getNpcs())
 			{
 				p.doAction(NPCUtils.calculateAction(p));
 				getEn().createRandomEvent();

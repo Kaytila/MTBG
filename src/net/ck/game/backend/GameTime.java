@@ -189,31 +189,31 @@ public class GameTime
         if (currentMinute != oldMinute)
         {
             type = GameTimeChangeType.MINUTE;
-            logger.info("minute changed");
+            //logger.info("minute changed");
         }
 
         if (currentHour != oldHour)
         {
             type = GameTimeChangeType.HOUR;
-            logger.info("hour changed");
+            //logger.info("hour changed");
         }
 
         if (currentDay != oldDay)
         {
             type = GameTimeChangeType.DAY;
-            logger.info("day changed");
+            //logger.info("day changed");
         }
 
         if (currentMonth != oldMonth)
         {
             type = GameTimeChangeType.MONTH;
-            logger.info("month changed");
+            //logger.info("month changed");
         }
 
         if (currentYear != oldYear)
         {
             type = GameTimeChangeType.YEAR;
-            logger.info("year changed");
+            //logger.info("year changed");
         }
         EventBus.getDefault().post(new GameTimeChanged(type));
 

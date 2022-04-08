@@ -1,11 +1,11 @@
 package net.ck.util.communication.keyboard;
 
-import java.awt.event.ActionEvent;
-import java.util.Objects;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
+
+import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 
 
@@ -17,6 +17,8 @@ public class AttackAction extends AbstractKeyboardAction
 	 */
 	private static final long serialVersionUID = 1L;
 	private final Logger logger = LogManager.getLogger(getRealClass());
+
+
 
 	public Class<?> getRealClass()
 	{
@@ -46,5 +48,5 @@ public class AttackAction extends AbstractKeyboardAction
 		return false;
 	}
 
-	
+
 }
