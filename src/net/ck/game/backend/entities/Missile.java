@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Missile
@@ -28,6 +29,25 @@ public class Missile
     private Point sourceCoordinates;
     private Point targetCoordinates;
     private boolean finished;
+
+    public ArrayList<Point> getLine()
+    {
+        return line;
+    }
+
+    private ArrayList<Point> line;
+
+    public boolean isSuccess()
+    {
+        return success;
+    }
+
+    public void setSuccess(boolean success)
+    {
+        this.success = success;
+    }
+
+    private boolean success;
 
     public Missile(Point source, Point target)
     {
@@ -64,6 +84,7 @@ public class Missile
 
     public void setFinished(boolean finished)
     {
+        logger.info("finished missile");
         this.finished = finished;
     }
 
@@ -121,5 +142,10 @@ public class Missile
     public void setTargetCoordinates(Point targetCoordinates)
     {
         this.targetCoordinates = targetCoordinates;
+    }
+
+    public void setLine(ArrayList<Point> line)
+    {
+        this.line = line;
     }
 }

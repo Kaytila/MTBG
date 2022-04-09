@@ -1,10 +1,9 @@
 package net.ck.util.communication.keyboard;
-import java.awt.event.ActionEvent;
-import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
+
+import java.util.Objects;
 
 public class TalkAction extends AbstractKeyboardAction
 {
@@ -26,13 +25,6 @@ public class TalkAction extends AbstractKeyboardAction
 		return logger;
 	}
 	
-	
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		logger.info(getType() + " pressed");
-		EventBus.getDefault().post(this);
-	}
 
 	public KeyboardActionType getType()
 	{

@@ -71,7 +71,7 @@ public class NPC extends AbstractEntity
 		setNpcSchedules(new ArrayList<>());
 		setQueuedActions(new CommandQueue());
 		EventBus.getDefault().register(this);
-		logger.info("npc: {}", this);
+		//logger.info("npc: {}", this);
 	}
 
 	public void setType(NPCTypes type)

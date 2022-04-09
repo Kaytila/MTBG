@@ -1,14 +1,14 @@
-package net.ck.util.communication.keyboard;
+package net.ck.util.communication.graphics;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
-public class EQAction extends AbstractKeyboardAction
+public class MissilePositionChanged extends ChangedEvent
 {
-    private final Logger logger = LogManager.getLogger(getRealClass());
 
+    private final Logger logger = LogManager.getLogger(getRealClass());
 
     public Class<?> getRealClass()
     {
@@ -21,9 +21,4 @@ public class EQAction extends AbstractKeyboardAction
         return logger;
     }
 
-    @Override
-    public KeyboardActionType getType()
-    {
-        return KeyboardActionType.EQ;
-    }
 }

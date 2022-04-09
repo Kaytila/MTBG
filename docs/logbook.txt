@@ -452,3 +452,9 @@ adding animated tiles
             And perhaps it will. Everything was working apart from a damned auto-generated method which returned 0.
 2022-04-08: so now I have two ways of ranged attack - one that follows tiles (might actually be good enough already)
             and one that follows strictly pixels :D
+2022-04-09: ranged attack works kind of - will need to optimize it, will need to extend missile to have a miss and hit
+            image that is drawn over the target.
+            there still is a bug that the state is not finished, i.e. the other NPCs do not move. not sure where that is
+            but I will find it. There will come a time where I need to refactor a lot of things, this is going to be
+            painful but I will move this to a later date.
+            Now I can draw basically firebreath as well, or lasers :D

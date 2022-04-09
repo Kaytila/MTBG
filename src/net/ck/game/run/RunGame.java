@@ -122,6 +122,7 @@ public class RunGame
 			game.initializeWeatherSystem();
 			game.initializeTurnTimerTimer();
 			game.initializeQuequeTimer();
+			game.initializeMissileTimer();
 			game.initializeMusic();
 			
 			ImageUtils.initializeBackgroundImages();

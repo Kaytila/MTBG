@@ -1,9 +1,6 @@
 package net.ck.game.backend;
 
-import net.ck.game.animation.AnimationSystem;
-import net.ck.game.animation.AnimationSystemFactory;
-import net.ck.game.animation.BackgroundAnimationSystem;
-import net.ck.game.animation.ForegroundAnimationSystem;
+import net.ck.game.animation.*;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.*;
@@ -215,6 +212,21 @@ public class Game
 	 */
 	private QuequeTimer quequeTimer;
 
+
+	public MissileTimer getMissileTimer()
+	{
+		return missileTimer;
+	}
+
+	public void setMissileTimer(MissileTimer missileTimer)
+	{
+		this.missileTimer = missileTimer;
+	}
+
+	/**
+	 * how long is the time period between missiles being drawn on the map?
+	 */
+	private MissileTimer missileTimer;
 
 	/**
 	 * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -1039,6 +1051,14 @@ public class Game
 			quequeTimer.setRepeats(true);
 			//quequeTimer.start();
 		}
+
+	public void initializeMissileTimer()
+	{
+		logger.info("initializing Missile Timer as Swing Timer");
+		MissileTimerActionListener missileTimerActionListener = new MissileTimerActionListener();
+		missileTimer = new MissileTimer(30, missileTimerActionListener);
+		missileTimer.setRepeats(true);
+	}
 
 
 		public boolean isMoved ()

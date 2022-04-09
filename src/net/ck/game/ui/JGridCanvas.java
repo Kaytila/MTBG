@@ -10,10 +10,7 @@ import net.ck.game.weather.WeatherTypes;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.UILense;
-import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
-import net.ck.util.communication.graphics.BackgroundRepresentationChanged;
-import net.ck.util.communication.graphics.CursorChangeEvent;
-import net.ck.util.communication.graphics.ForegroundRepresentationChanged;
+import net.ck.util.communication.graphics.*;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
@@ -38,9 +35,9 @@ public class JGridCanvas extends JComponent
     private final Range<Integer> rangeX = Range.between(0, numberOfTiles - 1);
     private final Range<Integer> rangeY = Range.between(0, numberOfTiles - 1);
     private final BufferedImage blackImage = ImageUtils.createImage((Color.black));
+    private final int tileSize = Game.getCurrent().getTileSize();
     private int currentBackgroundImage;
     private int currentForegroundImage;
-    private final int tileSize = Game.getCurrent().getTileSize();
     private boolean dragEnabled;
 
     public JGridCanvas()
@@ -74,9 +71,10 @@ public class JGridCanvas extends JComponent
     }
 
     /**
-     * convenience method to encapsulate KeyboardInput Map and Action Map definition https://stackoverflow.com/questions/642925/swing-how-do-i-close-a-dialog-when-the-esc-key-is-pressed
+     * convenience method to encapsulate KeyboardInput Map and Action Map definition
+     * https://stackoverflow.com/questions/642925/swing-how-do-i-close-a-dialog-when-the-esc-key-is-pressed
      */
-    public void setKeyboardInput()
+    private void setKeyboardInput()
     {
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD2, 0), "south");
         this.getActionMap().put("south", new SouthAction());
@@ -165,9 +163,9 @@ public class JGridCanvas extends JComponent
         //also: paint light effects
         paintFurniture(g);
 
-
+        //paint the missiles on the screen
         paintMissiles(g);
-        paintMissilesTileBased(g);
+
 
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
@@ -286,16 +284,80 @@ public class JGridCanvas extends JComponent
             int y = m.getCurrentPosition().y;
 
             ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), MapUtils.calculateUIPositionFromMapOffset(m.getTargetTile().getMapPosition()));
-            for (Point p: line)
+            for (Point p : line)
             {
-                logger.info("p:{}", p );
+                logger.info("p:{}", p);
                 g.drawImage(m.getAppearance().getStandardImage(), ((tileSize * p.x) + (tileSize / 2)), ((tileSize * p.y) + (tileSize / 2)), this);
                 m.setCurrentPosition(p);
             }
         }
     }
 
+
     private void paintMissiles(Graphics g)
+    {
+        ArrayList<Missile> finishedMissiles = new ArrayList<>();
+        if (Game.getCurrent().getCurrentMap().getMissiles() == null)
+        {
+            Game.getCurrent().getMissileTimer().stop();
+        }
+        if (Game.getCurrent().getCurrentMap().getMissiles().size() == 0)
+        {
+            //logger.info("no more missiles");
+            Game.getCurrent().getMissileTimer().stop();
+        }
+
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
+        {
+            if (m.getLine() == null)
+            {
+                if (m.getCurrentPosition() == null)
+                {
+                    m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
+                }
+                m.setLine(MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates()));
+            }
+
+            if (m.getLine().size() == 0)
+            {
+
+            }
+            else
+            {
+                Point p = m.getLine().get(0);
+                g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
+                m.setCurrentPosition(p);
+
+                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
+                {
+
+                    m.setFinished(true);
+                    finishedMissiles.add(m);
+                }
+                if (m.getLine().size() > 0)
+                {
+                    m.getLine().remove(0);
+                }
+
+                if (m.getLine().size() > 0)
+                {
+                    m.getLine().remove(0);
+                }
+                if (m.getLine().size() > 0)
+                {
+                    m.getLine().remove(0);
+                }
+                if (m.getLine().size() > 0)
+                {
+                    m.getLine().remove(0);
+                }
+            }
+        }
+        logger.info("finished missiles: {}", finishedMissiles);
+        Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
+    }
+
+    private void paintMissilesFullLineAtOnce(Graphics g)
     {
         ArrayList<Missile> finishedMissiles = new ArrayList<Missile>();
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
@@ -306,7 +368,7 @@ public class JGridCanvas extends JComponent
             }
 
             ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates());
-            for (Point p: line)
+            for (Point p : line)
             {
                 //logger.info("p:{}", p );
                 g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
@@ -320,7 +382,6 @@ public class JGridCanvas extends JComponent
         }
         Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
     }
-
 
 
     private void paintWeather(Graphics g)
@@ -359,9 +420,7 @@ public class JGridCanvas extends JComponent
 
 
     /**
-     *
-     * @param event
-     *            an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
+     * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
      */
     @Subscribe
     public void onMessageEvent(AnimatedRepresentationChanged event)
@@ -371,10 +430,18 @@ public class JGridCanvas extends JComponent
 
 
     /**
-     *
-     * @param event
-     *            an animatedRepresentation has changed, repaint the canvas
-     *
+     * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
+     */
+    @Subscribe
+    public void onMessageEvent(MissilePositionChanged event)
+    {
+        //logger.info("catching message");
+        this.repaint();
+    }
+
+
+    /**
+     * @param event an animatedRepresentation has changed, repaint the canvas
      */
     @Subscribe
     public void onMessageEvent(BackgroundRepresentationChanged event)
@@ -386,10 +453,7 @@ public class JGridCanvas extends JComponent
 
 
     /**
-     *
-     * @param event
-     *            an animatedRepresentation has changed, repaint the canvas
-     *
+     * @param event an animatedRepresentation has changed, repaint the canvas
      */
     @Subscribe
     public void onMessageEvent(ForegroundRepresentationChanged event)
@@ -401,10 +465,7 @@ public class JGridCanvas extends JComponent
 
 
     /**
-     *
-     * @param event
-     *            an animatedRepresentation has changed, repaint the canvas
-     *
+     * @param event an animatedRepresentation has changed, repaint the canvas
      */
     @Subscribe
     public void onMessageEvent(CursorChangeEvent event)

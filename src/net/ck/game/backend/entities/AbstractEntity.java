@@ -209,7 +209,7 @@ public abstract class AbstractEntity
                 break;
 
             case ATTACK:
-                this.attack(action.getEvent());
+                success = this.attack(action.getEvent());
                 break;
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
@@ -230,9 +230,10 @@ public abstract class AbstractEntity
         //Game.getCurrent().getController().setCurrentAction(null);
     }
 
-    private void attack(AbstractKeyboardAction action)
+    private boolean attack(AbstractKeyboardAction action)
     {
         Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(action.getSourceCoordinates(), action.getTargetCoordinates()));
+        return true;
     }
 
     private void attack(MapTile tileByCoordinates)

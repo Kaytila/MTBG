@@ -175,9 +175,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		undoButton.addFocusListener(myFocusListener);
 		frame.add(undoButton);
 
-
-
-
 		gridCanvas = new JGridCanvas();
 		gridCanvas.addFocusListener(myFocusListener);
 		frame.add(gridCanvas);
@@ -469,10 +466,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		// this now only works for get/talk/drop
 		{
 			MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(e.getX(), e.getY()));
+
 			if (tile == null)
 			{
 				throw new RuntimeException("no maptile found, mouse click must have been outside of grid");
 			}
+
 			if (this.getCurrentAction() != null)
 			{
 				switch (this.getCurrentAction().getType())
@@ -542,6 +541,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
 						getCurrentAction().setTargetCoordinates(new Point(e.getX(), e.getY()));
 						runActions(getCurrentAction(), false);
+						Game.getCurrent().getMissileTimer().start();
 						break;
 					default:
 						throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());

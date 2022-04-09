@@ -1,5 +1,6 @@
 package net.ck.util.communication.keyboard;
 
+import net.ck.game.backend.Game;
 import net.ck.game.items.AbstractItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,8 +77,15 @@ public class AbstractKeyboardAction extends AbstractAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		logger.info(getType() + " pressed");
-		EventBus.getDefault().post(this);
+		if (Game.getCurrent().getMissileTimer().isRunning())
+		{
+			logger.info("dont run, ignore command");
+		}
+		else
+		{
+			logger.info(getType() + " pressed");
+			EventBus.getDefault().post(this);
+		}
 	}
 
 	public Logger getLogger()
