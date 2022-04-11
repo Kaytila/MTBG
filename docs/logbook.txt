@@ -458,3 +458,7 @@ adding animated tiles
             but I will find it. There will come a time where I need to refactor a lot of things, this is going to be
             painful but I will move this to a later date.
             Now I can draw basically firebreath as well, or lasers :D
+2022-04-11: a day off for programming really - so I found a bug that the missiles were not removed properly.
+            this was because the line calculation is trimmed to draw every 5 entries. if the last entry was removed,
+            the missile never finished its run so to speak. this is now fixed, if the line is empty, the missile is done
+            as well.

@@ -540,7 +540,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
 						getCurrentAction().setTargetCoordinates(new Point(e.getX(), e.getY()));
-						runActions(getCurrentAction(), false);
+						runActions(getCurrentAction(), true);
 						Game.getCurrent().getMissileTimer().start();
 						break;
 					default:

@@ -296,16 +296,14 @@ public class JGridCanvas extends JComponent
 
     private void paintMissiles(Graphics g)
     {
+        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
+        {
+            Game.getCurrent().getMissileTimer().stop();
+            return;
+        }
+
+        //logger.info(" missiles: {}", Game.getCurrent().getCurrentMap().getMissiles());
         ArrayList<Missile> finishedMissiles = new ArrayList<>();
-        if (Game.getCurrent().getCurrentMap().getMissiles() == null)
-        {
-            Game.getCurrent().getMissileTimer().stop();
-        }
-        if (Game.getCurrent().getCurrentMap().getMissiles().size() == 0)
-        {
-            //logger.info("no more missiles");
-            Game.getCurrent().getMissileTimer().stop();
-        }
 
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
         {
@@ -320,7 +318,9 @@ public class JGridCanvas extends JComponent
 
             if (m.getLine().size() == 0)
             {
-
+                //logger.info("finished missile");
+                m.setFinished(true);
+                finishedMissiles.add(m);
             }
             else
             {
@@ -330,31 +330,27 @@ public class JGridCanvas extends JComponent
 
                 if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
                 {
-
+                    //logger.info("finished missile");
                     m.setFinished(true);
                     finishedMissiles.add(m);
                 }
-                if (m.getLine().size() > 0)
-                {
-                    m.getLine().remove(0);
-                }
 
-                if (m.getLine().size() > 0)
+                //only paint missile every 5 pixels
+                for (int i = 0; i <= 5; i++)
                 {
-                    m.getLine().remove(0);
-                }
-                if (m.getLine().size() > 0)
-                {
-                    m.getLine().remove(0);
-                }
-                if (m.getLine().size() > 0)
-                {
-                    m.getLine().remove(0);
+                    if (m.getLine().size() > 0)
+                    {
+                        m.getLine().remove(0);
+                    }
                 }
             }
         }
-        logger.info("finished missiles: {}", finishedMissiles);
-        Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
+
+        if (finishedMissiles.size() > 0)
+        {
+            //logger.info("finished missiles: {}", finishedMissiles);
+            Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
+        }
     }
 
     private void paintMissilesFullLineAtOnce(Graphics g)

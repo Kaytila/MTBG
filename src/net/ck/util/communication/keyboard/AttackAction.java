@@ -16,8 +16,6 @@ public class AttackAction extends AbstractKeyboardAction
 	private static final long serialVersionUID = 1L;
 	private final Logger logger = LogManager.getLogger(getRealClass());
 
-
-
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
@@ -38,6 +36,4 @@ public class AttackAction extends AbstractKeyboardAction
 	{
 		return false;
 	}
-
-
 }
