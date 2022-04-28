@@ -10,6 +10,7 @@ import net.ck.game.items.ArmorPositions;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
+import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
@@ -88,6 +89,7 @@ public abstract class AbstractEntity
      */
     public void doAction(AbstractAction action)
     {
+
         //logger.info("do action: {}", action.toString());
         Point p = getMapPosition();
         Point mapsize = Game.getCurrent().getCurrentMap().getSize();
@@ -232,7 +234,32 @@ public abstract class AbstractEntity
 
     private boolean attack(AbstractKeyboardAction action)
     {
-        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(action.getSourceCoordinates(), action.getTargetCoordinates()));
+
+        MapTile tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
+        if (tile != null)
+        {
+            Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
+            Game.getCurrent().getCurrentMap().getMissiles().add(m);
+            logger.info("tile: {}", tile);
+            if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
+            {
+                for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+                {
+                    if (n.getMapPosition().equals(tile.getMapPosition()))
+                    {
+                        logger.info ("hitting NPC: {}", n);
+
+                        m.setSuccess(NPCUtils.calculateHit(this, n));
+                        logger.info("hit or no hit: {}", m.isSuccess());
+                        break;
+                    }
+                }
+            }
+            else
+            {
+
+            }
+        }
         return true;
     }
 

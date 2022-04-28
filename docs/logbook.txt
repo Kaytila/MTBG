@@ -462,3 +462,7 @@ adding animated tiles
             this was because the line calculation is trimmed to draw every 5 entries. if the last entry was removed,
             the missile never finished its run so to speak. this is now fixed, if the line is empty, the missile is done
             as well.
+2022-04-28: so I had a two week break - still have not solved the missile issue. Not sure currently as to how I could.
+            but: implemented some attack calculation, solely based on DEX. Guess armor will have to have a point in
+            reducing damage only.
+            But hey, progress, again.

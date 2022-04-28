@@ -632,10 +632,21 @@ public class Game
 		/**
 		 * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
 		 *
+		 * https://stackoverflow.com/questions/30989558/java-8-retry-a-method-until-a-condition-is-fulfilled-in-intervals
+		 *
 		 * @param haveNPCAction is a npc action allowed or not
 		 */
 		public void advanceTurn ( boolean haveNPCAction)
 		{
+
+			/*if (Game.getCurrent().getCurrentMap().getMissiles() != null)
+			{
+				while (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
+				{
+
+				}
+			}*/
+
 			// logger.info("current turn number 1: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			//
 			// logger.info("npc actions");

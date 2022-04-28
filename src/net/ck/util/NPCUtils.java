@@ -1,6 +1,8 @@
 package net.ck.util;
 
 import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.NPC;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
@@ -111,6 +113,44 @@ public class NPCUtils
                 return new PlayerAction(new SpaceAction(), e);
         }
 
+    }
+
+    public static boolean calculateHit(AbstractEntity attacker, AbstractEntity defender)
+    {
+        int baseHitChance = 50;
+        int attackDex = attacker.getAttributes().get(AttributeTypes.DEXTERITY).getValue();
+        int defendDex = defender.getAttributes().get(AttributeTypes.DEXTERITY).getValue();
+
+        logger.info("attack dex: {}", attackDex);
+        logger.info("defendDex dex: {}", defendDex);
+
+        int diff = attackDex - defendDex;
+
+        if (diff > 0)
+        {
+            //more nimble attacker
+            baseHitChance = baseHitChance + (diff * 4);
+        }
+        else if (diff == 0)
+        {
+            //equal
+        }
+        else
+        {
+            //defender more nimble
+            baseHitChance = baseHitChance - (diff * 4);
+        }
+
+        Random rand = new Random();
+        int random = rand.nextInt(100);
+        logger.info("random: {}", random);
+        logger.info("hit chance: {}", baseHitChance);
+        if (baseHitChance > random)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public Class<?> getRealClass()

@@ -28,13 +28,17 @@ public class MissileTimerActionListener implements ActionListener
         {
             if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
             {
-                logger.info("posting message");
+                //logger.info("posting message");
                 EventBus.getDefault().post(new MissilePositionChanged());
             }
             else
             {
                 Game.getCurrent().getMissileTimer().stop();
             }
+        }
+        else
+        {
+            Game.getCurrent().getMissileTimer().stop();
         }
     }
 

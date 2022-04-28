@@ -44,6 +44,7 @@ public class Missile
 
     public void setSuccess(boolean success)
     {
+        logger.info("setting success: {}", success);
         this.success = success;
     }
 
@@ -80,6 +81,22 @@ public class Missile
     public boolean isFinished()
     {
         return finished;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Missile{" +
+                "sourceTile=" + sourceTile +
+                ", targetTile=" + targetTile +
+                ", currentPosition=" + currentPosition +
+                ", appearance=" + appearance +
+                ", sourceCoordinates=" + sourceCoordinates +
+                ", targetCoordinates=" + targetCoordinates +
+                ", finished=" + finished +
+                ", line=" + line +
+                ", success=" + success +
+                '}';
     }
 
     public void setFinished(boolean finished)

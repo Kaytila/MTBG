@@ -307,6 +307,8 @@ public class JGridCanvas extends JComponent
 
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
         {
+            logger.info("m: {}", m);
+            //logger.info("m image: {}", m.getAppearance().getStandardImage());
             if (m.getLine() == null)
             {
                 if (m.getCurrentPosition() == null)
@@ -318,6 +320,10 @@ public class JGridCanvas extends JComponent
 
             if (m.getLine().size() == 0)
             {
+                if (m.isSuccess())
+                {
+                    m.getAppearance().setStandardImage(ImageUtils.loadImage("combat", "explosion"));
+                }
                 //logger.info("finished missile");
                 m.setFinished(true);
                 finishedMissiles.add(m);
@@ -325,12 +331,14 @@ public class JGridCanvas extends JComponent
             else
             {
                 Point p = m.getLine().get(0);
-                g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
                 m.setCurrentPosition(p);
 
                 if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
                 {
-                    //logger.info("finished missile");
+                    if (m.isSuccess())
+                    {
+                        m.getAppearance().setStandardImage(ImageUtils.loadImage("combat", "explosion"));
+                    }
                     m.setFinished(true);
                     finishedMissiles.add(m);
                 }
@@ -343,6 +351,7 @@ public class JGridCanvas extends JComponent
                         m.getLine().remove(0);
                     }
                 }
+                g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
             }
         }
 
