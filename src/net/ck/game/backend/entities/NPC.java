@@ -71,7 +71,12 @@ public class NPC extends AbstractEntity
 		setNpcSchedules(new ArrayList<>());
 		setQueuedActions(new CommandQueue());
 		EventBus.getDefault().register(this);
-		//logger.info("npc: {}", this);
+		getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
+		getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
+		getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
+		getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
+		setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
+		setArmorClass(0);
 	}
 
 	public void setType(NPCTypes type)
@@ -192,8 +197,8 @@ public class NPC extends AbstractEntity
 
 	/**
 	 *
-	 * @param event
-	 *            an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
+	 * @param event GameTime has changed, check if there is a defined schedule for the npc
+	 *
 	 */
 	@Subscribe
 	public void onMessageEvent(GameTimeChanged event)
@@ -201,6 +206,10 @@ public class NPC extends AbstractEntity
 		this.checkSchedules(event);
 	}
 
+	/**
+	 *
+	 * @param event
+	 */
 	private void checkSchedules(GameTimeChanged event)
 	{
 		if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 10)

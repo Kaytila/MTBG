@@ -76,12 +76,27 @@ public abstract class AbstractEntity
      */
     private int lightRange;
 
+    /**
+     * what level does the entity have?
+     */
+    private int level;
+
+    /**
+     * how much health does the entity have?
+     */
+    private int health;
+
+    /**
+     * armor class - we just add ac on top of each other, no bodyparts and so on
+     */
+    private int armorClass;
 
 
     public AbstractEntity()
     {
         inventory = new Inventory();
         attributes = new Attributes();
+        setLevel(1);
     }
 
     /**
@@ -775,5 +790,35 @@ public abstract class AbstractEntity
     public void setLightRange(int lightRange)
     {
         this.lightRange = lightRange;
+    }
+
+    public int getHealth()
+    {
+        return health;
+    }
+
+    public void setHealth(int health)
+    {
+        this.health = health;
+    }
+
+    public int getLevel()
+    {
+        return level;
+    }
+
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+
+    public int getArmorClass()
+    {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass)
+    {
+        this.armorClass = armorClass;
     }
 }

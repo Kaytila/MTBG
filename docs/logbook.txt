@@ -466,3 +466,8 @@ adding animated tiles
             but: implemented some attack calculation, solely based on DEX. Guess armor will have to have a point in
             reducing damage only.
             But hey, progress, again.
+            The last commit also includes drawing the explosion png upon successful hit - i will need make this more
+            active, or even have a line of images.
+2022-05-06: so a small thing - I updated the missile target to always hit the middle of the tile in order to center the
+            target animation - will need to think of a way to have target animation extended with pauses.
+            Also, implemented a basic health and level system with some attack calculation.

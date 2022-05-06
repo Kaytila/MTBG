@@ -228,6 +228,9 @@ public class Game
 	 */
 	private MissileTimer missileTimer;
 
+
+	private int baseHealth;
+
 	/**
 	 * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
 	 * depends on how far i wanna go
@@ -254,6 +257,7 @@ public class Game
 		Turn turn = new Turn(getTurnNumber());
 		setAnimated(true);
 		setAnimationCycles(7);
+		setBaseHealth(100);
 		setCurrentTurn(turn);
 		getTurns().add(turn);
 		en = new World();
@@ -1261,6 +1265,16 @@ public class Game
 	public void setCommandQueue(CommandQueue commandQueue)
 	{
 		this.commandQueue = commandQueue;
+	}
+
+	public int getBaseHealth()
+	{
+		return baseHealth;
+	}
+
+	public void setBaseHealth(int baseHealth)
+	{
+		this.baseHealth = baseHealth;
 	}
 }
 

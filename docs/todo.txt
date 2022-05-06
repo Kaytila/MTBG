@@ -21,16 +21,17 @@ implement illness
 implement poison
 implement experience points
 implement levels
-implement THACO
-implement parry
-implement block
+implement THACO <-- do I need that?
+implement parry <-- how to implement?
+implement block <-- how to implement?
+implement damage substraction <-- how?
 implement two handed weapons <-- done, there is only one slot :D
-implement ranged weapons
-implement attack :D
+implement ranged weapons <-- almost
+implement attack :D <-- almost
 implement visibility range with full darkness <-- done
-implement ray tracing
+implement rays <--
 implement triggers
-implement scripting
+implement scripting <-
 implement dialog system <-- basic done
 implement drop <-- done
 implement get <-- done
@@ -39,5 +40,5 @@ implement drag'n'drop <-- done
 implement monster spawn :D
 implement move <-- done
 implement checkpoints
-implement basic scheduling
+implement basic scheduling <-- done
 

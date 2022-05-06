@@ -307,7 +307,7 @@ public class JGridCanvas extends JComponent
 
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
         {
-            logger.info("m: {}", m);
+            //logger.info("m: {}", m);
             //logger.info("m image: {}", m.getAppearance().getStandardImage());
             if (m.getLine() == null)
             {

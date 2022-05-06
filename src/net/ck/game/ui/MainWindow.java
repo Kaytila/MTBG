@@ -539,7 +539,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
-						getCurrentAction().setTargetCoordinates(new Point(e.getX(), e.getY()));
+						Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+						getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+						logger.info("taget coordinates: {}", getCurrentAction().getTargetCoordinates());
 						runActions(getCurrentAction(), true);
 						Game.getCurrent().getMissileTimer().start();
 						break;
