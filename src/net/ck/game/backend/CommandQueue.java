@@ -47,25 +47,25 @@ public class CommandQueue implements Queue
     @Override
     public boolean contains(Object o)
     {
-        return false;
+        return getActionList().contains(o);
     }
 
     @Override
     public Iterator iterator()
     {
-        return null;
+        return getActionList().iterator();
     }
 
     @Override
     public Object[] toArray()
     {
-        return new Object[0];
+        return getActionList().toArray();
     }
 
     @Override
     public Object[] toArray(Object[] a)
     {
-        return new Object[0];
+        return getActionList().toArray(a);
     }
 
     public void addEntry(AbstractKeyboardAction action)
