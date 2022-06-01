@@ -472,3 +472,6 @@ adding animated tiles
             target animation - will need to think of a way to have target animation extended with pauses.
             Also, implemented a basic health and level system with some attack calculation.
 2022-05-08: Updated CommandQueue to fully support the Queue protocol.
+2022-06-01: holdequipment needs to go, replaced by a shield and a weapon slot.
+            wield weapon now does that.
+            implemented calculate damage.

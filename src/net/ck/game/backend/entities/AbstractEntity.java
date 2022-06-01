@@ -51,6 +51,11 @@ public abstract class AbstractEntity
      */
     private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
 
+
+    private Weapon weapon;
+
+    private AbstractItem shield;
+
     /**
      * armortypes contains all the armor positions, so this is the way to go.
      */
@@ -586,16 +591,16 @@ public abstract class AbstractEntity
     {
         if (getInventory().contains(weapon))
         {
-            if (getHoldEquipment().isEmpty())
+            if (getWeapon() == null)
             {
                 logger.info("wield weapon");
-                getHoldEquipment().put(weapon, weapon);
+                setWeapon(weapon);
                 getInventory().remove(weapon);
                 return true;
             }
             else
             {
-                logger.info("hold equipment: {}", getHoldEquipment());
+                logger.info("weapon: {}", getWeapon());
                 logger.info("cannot wield weapon");
                 return false;
             }
@@ -820,5 +825,25 @@ public abstract class AbstractEntity
     public void setArmorClass(int armorClass)
     {
         this.armorClass = armorClass;
+    }
+
+    public Weapon getWeapon()
+    {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon)
+    {
+        this.weapon = weapon;
+    }
+
+    public AbstractItem getShield()
+    {
+        return shield;
+    }
+
+    public void setShield(AbstractItem shield)
+    {
+        this.shield = shield;
     }
 }

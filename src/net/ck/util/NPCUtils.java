@@ -153,6 +153,29 @@ public class NPCUtils
         return false;
     }
 
+    /**
+     * damage calculation:
+     * take strength (direct value) + random weapon damage (high - low) + low)
+     * in club 1d4 => rand(4 - 1) + 1. This should be correct. I hope.
+     * - AC
+     * equals damage. this makes strength too important, but it is good enough for now.
+     */
+    public static int calculcateDamage(AbstractEntity attacker, AbstractEntity defender)
+    {
+        int attackStr = attacker.getAttributes().get(AttributeTypes.STRENGTH).getValue();
+        Range<Integer> attackWeapon = attacker.getWeapon().getWeaponDamage();
+        int low = attackWeapon.getMinimum().intValue();
+        int high = attackWeapon.getMaximum().intValue();
+        Random rand = new Random();
+
+        int defendAC = defender.getArmorClass();
+
+        return (attackStr + (rand.nextInt(high - low ) + low)) - defendAC;
+    }
+
+
+
+
     public Class<?> getRealClass()
     {
         Class<?> enclosingClass = getClass().getEnclosingClass();
