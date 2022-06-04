@@ -1,23 +1,21 @@
 package net.ck.util;
+
+import net.ck.game.backend.Game;
+import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.util.communication.graphics.CursorChangeEvent;
+import org.apache.commons.lang3.Range;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
-import net.ck.game.ui.JGridCanvas;
-import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
-
-import net.ck.game.backend.Game;
-import net.ck.game.backend.entities.AbstractEntity;
-import net.ck.util.communication.graphics.CursorChangeEvent;
 
 public class CursorUtils
 {
@@ -98,6 +96,28 @@ public class CursorUtils
 	public static String getAdditionalimagespath()
 	{
 		return additionalImagesPath;
+	}
+
+	/**
+	 * we want to limit the crosshairs to one tile if its melee
+	 * how to do this:
+	 * 1. calcuate center position (copy from move mouse to center)
+	 * 2. depending on range of the weapon (1 for melee of course)
+	 * do not allow mouse movement outside of it
+	 * if its outside of the position check last position then go back?
+	 * @param i
+	 */
+	public static void limitMouseMovementToRange(int i)
+	{
+		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+		int playerCenterX = Px + relativePoint.x;
+		int playerCenterY = Py + relativePoint.y;
+
+		Range<Integer> rangeX = Range.between(playerCenterX - (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2),playerCenterX + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
+		Range<Integer> rangeY = Range.between(playerCenterY - (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2),playerCenterY + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
+		MouseInfo.getPointerInfo().getLocation();
 	}
 
 	public Class<?> getRealClass()
@@ -381,5 +401,15 @@ public class CursorUtils
 		Dimension bestSize = Toolkit.getDefaultToolkit().getBestCursorSize(0, 0);
 		return Toolkit.getDefaultToolkit().createCustomCursor(img, new Point(bestSize.width / 2, bestSize.height / 2), "item");
 	}
-	
+
+	public static void centerCursorOnPlayer()
+	{
+		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+		Game.getCurrent().getController().moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+		Game.getCurrent().getController().setMouseOutsideOfGrid(false);
+	}
+
+
 }

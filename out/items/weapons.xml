@@ -20,4 +20,14 @@
 <weight>1.0</weight>
 <value>1.0</value>
 </weapon>
+<weapon>
+<id>3</id>
+<name>Sling</name>
+<type>RANGED</type>
+<damage>BLUNT</damage>
+<image>sling</image>
+<weaponDamage>1-4</weaponDamage>
+<weight>1.0</weight>
+<value>1.0</value>
+</weapon>
 </weapons>

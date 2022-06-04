@@ -4,6 +4,7 @@ import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
+import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.CursorUtils;
 import net.ck.util.MapUtils;
@@ -385,6 +386,17 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public void mouseMoved(MouseEvent e)
 	{
 		//logger.info("mouse move relative: {}, mouse move absolute: {}", e.getPoint(), MouseInfo.getPointerInfo().getLocation());
+		if (getCurrentAction() != null)
+		{
+			if (getCurrentAction().getType().equals(KeyboardActionType.ATTACK))
+			{
+				if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.MELEE))
+				{
+					logger.info("wielding melee weapon");
+					CursorUtils.limitMouseMovementToRange(1);
+				}
+			}
+		}
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
@@ -750,27 +762,42 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			case ATTACK:
 				if (isMouseOutsideOfGrid() == true)
 				{
-					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-					Point relativePoint = getGridCanvas().getLocationOnScreen();
-					moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-					setMouseOutsideOfGrid(false);
+					CursorUtils.centerCursorOnPlayer();
 				}
 				haveNPCAction = false;
 				logger.info("attack");
 				Game.getCurrent().getIdleTimer().stop();
+				//ranged
+				if (Game.getCurrent().getCurrentPlayer().getWeapon() != null)
+				{
+					if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.RANGED))
+					{
+						action.setOldMousePosition(MouseInfo.getPointerInfo().getLocation());
+						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+						Point relativePoint = getGridCanvas().getLocationOnScreen();
+						moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+						action.setSourceCoordinates(new Point(Px, Py));
+						moveMouse(action.getOldMousePosition());
 
-				action.setOldMousePosition(MouseInfo.getPointerInfo().getLocation());
-				int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-				int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-				Point relativePoint = getGridCanvas().getLocationOnScreen();
-				moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-				action.setSourceCoordinates(new Point(Px , Py ));
-				moveMouse(action.getOldMousePosition());
-
-				setSelectTile(true);
-				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-				setCurrentAction(action);
+						setSelectTile(true);
+						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+						setCurrentAction(action);
+					}
+					//melee
+					else
+					{
+						setSelectTile(true);
+						setCurrentAction(action);
+					}
+				}
+				//no weapon, also use melee for now
+				else
+				{
+					setSelectTile(true);
+					CursorUtils.limitMouseMovementToRange(1);
+					setCurrentAction(action);
+				}
 				break;
 
 			case SEARCH:

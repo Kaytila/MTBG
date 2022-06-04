@@ -474,4 +474,10 @@ adding animated tiles
 2022-05-08: Updated CommandQueue to fully support the Queue protocol.
 2022-06-01: holdequipment needs to go, replaced by a shield and a weapon slot.
             wield weapon now does that.
-            implemented calculate damage.
+            implemented basic attack damage calculation.
+2022-06-02: need to think how to differentiate between ranged and melee attacks. Where to store this? check the item type?
+            store it on entity?
+2022-06-04: today worked on melee attacks and limiting the crosshair movement outside of the tile limit. might be a topic
+            for mid-range weapons (infamous U4 halberd, or U5 halberd) later on. Not finished, but I think I have the
+            idea how to do it.
+

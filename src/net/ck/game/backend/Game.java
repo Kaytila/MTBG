@@ -434,6 +434,8 @@ public class Game
 	{
 		Weapon club = getWeaponList().get(1);
 		Weapon magicClub = getWeaponList().get(2);
+		Weapon sling = getWeaponList().get(3);
+
 		//club.setMapPosition(new Point(3, 0));
 		//magicClub.setMapPosition(new Point(3, 1));
 		//map.getItems().add(magicClub);
@@ -924,6 +926,9 @@ public class Game
 		{
 			logger.info("adding players");
 			Player p1 = new Player(0);
+			Weapon club = getWeaponList().get(1);
+			p1.setWeapon(club);
+
 			// Player p2 = new Player(this, 1);
 			// NPC npc1 = new NPC();
 			getPlayers().add(p1);
@@ -936,8 +941,6 @@ public class Game
 			p1.setMapPosition(new Point(2, 2));
 			// p2.setPosition(new Point(1, 0));
 			// npc1.setMapPosition(new Point(2, 3));
-
-
 			setCurrentPlayer(getPlayers().get(0));
 
 			Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
@@ -945,6 +948,7 @@ public class Game
 			{
 				//logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
 			}
+
 		}
 
 		public void initializeAnimationSystem ()
