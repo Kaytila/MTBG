@@ -385,14 +385,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		//logger.info("mouse move relative: {}, mouse move absolute: {}", e.getPoint(), MouseInfo.getPointerInfo().getLocation());
 		if (getCurrentAction() != null)
 		{
 			if (getCurrentAction().getType().equals(KeyboardActionType.ATTACK))
 			{
 				if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.MELEE))
 				{
-					logger.info("wielding melee weapon");
 					CursorUtils.limitMouseMovementToRange(1);
 				}
 			}
@@ -702,7 +700,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
 					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
 					Point relativePoint = getGridCanvas().getLocationOnScreen();
-					moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+					CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 					setMouseOutsideOfGrid(false);
 				}
 				haveNPCAction = false;
@@ -727,7 +725,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
 						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
 						Point relativePoint = getGridCanvas().getLocationOnScreen();
-						moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+						CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 						setMouseOutsideOfGrid(false);
 					}
 					haveNPCAction = false;
@@ -747,7 +745,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 					Point relativePoint = getGridCanvas().getLocationOnScreen();
-					moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+					CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 					setMouseOutsideOfGrid(false);
 				}
 				haveNPCAction = false;
@@ -776,9 +774,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 						Point relativePoint = getGridCanvas().getLocationOnScreen();
-						moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+						CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 						action.setSourceCoordinates(new Point(Px, Py));
-						moveMouse(action.getOldMousePosition());
+						CursorUtils.moveMouse(action.getOldMousePosition());
 
 						setSelectTile(true);
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -973,40 +971,40 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		logger.info(e.getComponent().getName());
 	}
 
-	public void moveMouse(Point p)
-	{
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice[] gs = ge.getScreenDevices();
-
-		// Search the devices for the one that draws the specified point.
-		for (GraphicsDevice device : gs)
-		{
-			GraphicsConfiguration[] configurations = device.getConfigurations();
-			for (GraphicsConfiguration config : configurations)
-			{
-				Rectangle bounds = config.getBounds();
-				if (bounds.contains(p))
-				{
-					// Set point to screen coordinates.
-					Point b = bounds.getLocation();
-					Point s = new Point(p.x - b.x, p.y - b.y);
-
-					try
-					{
-						Robot r = new Robot(device);
-						r.mouseMove(s.x, s.y);
-					}
-					catch (AWTException e)
-					{
-						e.printStackTrace();
-					}
-
-					return;
-				}
-			}
-		}
-		// Couldn't move to the point, it may be off screen.
-	}
+//	public void moveMouse(Point p)
+//	{
+//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		GraphicsDevice[] gs = ge.getScreenDevices();
+//
+//		// Search the devices for the one that draws the specified point.
+//		for (GraphicsDevice device : gs)
+//		{
+//			GraphicsConfiguration[] configurations = device.getConfigurations();
+//			for (GraphicsConfiguration config : configurations)
+//			{
+//				Rectangle bounds = config.getBounds();
+//				if (bounds.contains(p))
+//				{
+//					// Set point to screen coordinates.
+//					Point b = bounds.getLocation();
+//					Point s = new Point(p.x - b.x, p.y - b.y);
+//
+//					try
+//					{
+//						Robot r = new Robot(device);
+//						r.mouseMove(s.x, s.y);
+//					}
+//					catch (AWTException e)
+//					{
+//						e.printStackTrace();
+//					}
+//
+//					return;
+//				}
+//			}
+//		}
+//		// Couldn't move to the point, it may be off screen.
+//	}
 
 	public AbstractKeyboardAction getCurrentAction()
 	{

@@ -34,6 +34,7 @@ public class CursorUtils
 	private static Cursor westCursor;
 	private static Cursor targetCursor;
 
+	private static Point lastMousePosition;
 
 	public static void initializeCursors()
 	{
@@ -115,10 +116,63 @@ public class CursorUtils
 		int playerCenterX = Px + relativePoint.x;
 		int playerCenterY = Py + relativePoint.y;
 
-		Range<Integer> rangeX = Range.between(playerCenterX - (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2),playerCenterX + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
-		Range<Integer> rangeY = Range.between(playerCenterY - (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2),playerCenterY + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
-		MouseInfo.getPointerInfo().getLocation();
+		Range<Integer> rangeX = Range.between(playerCenterX - ((Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2)),playerCenterX + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
+		Range<Integer> rangeY = Range.between(playerCenterY - ((Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2)),playerCenterY + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
+
+		Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+
+		if (lastMousePosition == null)
+		{
+			lastMousePosition = MouseInfo.getPointerInfo().getLocation();
+		}
+
+		if (rangeX.contains(mousePosition.x) && (rangeY.contains(mousePosition.y)))
+		{
+			lastMousePosition = MouseInfo.getPointerInfo().getLocation();
+		}
+		else
+		{
+			//get back to last position
+			moveMouse(lastMousePosition);
+		}
 	}
+
+
+	public static void moveMouse(Point p)
+	{
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+
+		// Search the devices for the one that draws the specified point.
+		for (GraphicsDevice device : gs)
+		{
+			GraphicsConfiguration[] configurations = device.getConfigurations();
+			for (GraphicsConfiguration config : configurations)
+			{
+				Rectangle bounds = config.getBounds();
+				if (bounds.contains(p))
+				{
+					// Set point to screen coordinates.
+					Point b = bounds.getLocation();
+					Point s = new Point(p.x - b.x, p.y - b.y);
+
+					try
+					{
+						Robot r = new Robot(device);
+						r.mouseMove(s.x, s.y);
+					}
+					catch (AWTException e)
+					{
+						e.printStackTrace();
+					}
+
+					return;
+				}
+			}
+		}
+		// Couldn't move to the point, it may be off screen.
+	}
+
 
 	public Class<?> getRealClass()
 	{
@@ -407,7 +461,7 @@ public class CursorUtils
 		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
-		Game.getCurrent().getController().moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
+		CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 		Game.getCurrent().getController().setMouseOutsideOfGrid(false);
 	}
 

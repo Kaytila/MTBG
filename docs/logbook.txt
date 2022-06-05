@@ -480,4 +480,8 @@ adding animated tiles
 2022-06-04: today worked on melee attacks and limiting the crosshair movement outside of the tile limit. might be a topic
             for mid-range weapons (infamous U4 halberd, or U5 halberd) later on. Not finished, but I think I have the
             idea how to do it.
+2022-06-05: implemented melee attack range. This is working now, the crosshair stays inside the correct tiles.
+            also works with bigger range for short range or mid range weapons. I like that my frameworks kind of work already.
+            Also refactored moveMouse to CursorUtils, has nothing to do with Controller.
+
 
