@@ -1,18 +1,18 @@
 package net.ck.game.backend.entities;
 
-import java.awt.Point;
-import java.util.Random;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.RandomAction;
 import net.ck.game.graphics.AnimatedRepresentation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+import java.awt.*;
+import java.util.Objects;
+import java.util.Random;
 
 /**
- * environment is the counter part to player, the AI so to speak
+ * environment is the counterpart to player, the AI so to speak
  * 
  * @author Claus
  *
@@ -24,14 +24,7 @@ public class World extends AbstractEntity
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 
@@ -50,6 +43,9 @@ public class World extends AbstractEntity
 		{
 			case 0 :
 				event.setTitle("BINGO test" + result);
+
+			case 1:
+				event.setTitle("Bla " + result);
 			default :
 				event.setTitle("test " + result);
 		}

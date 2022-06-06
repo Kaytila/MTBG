@@ -1,19 +1,19 @@
 package net.ck.game.backend.entities;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-
+import net.ck.util.GameUtils;
+import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
 
-import net.ck.util.GameUtils;
-import net.ck.util.ImageUtils;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Objects;
 
 public abstract class AbstractAttribute
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	protected AttributeTypes type;
 	protected int value;
@@ -58,14 +58,7 @@ public abstract class AbstractAttribute
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()

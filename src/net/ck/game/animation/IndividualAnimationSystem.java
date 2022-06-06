@@ -1,8 +1,9 @@
 package net.ck.game.animation;
 
+import net.ck.game.backend.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.ck.game.backend.Game;
+
 
 public class IndividualAnimationSystem extends AnimationSystem
 {
@@ -22,9 +23,9 @@ public class IndividualAnimationSystem extends AnimationSystem
 		}
 	}
 
-	public IndividualAnimationSystem(Game game)
+	public IndividualAnimationSystem()
 	{
-		super(game);
+
 	}
 
 	/**
@@ -35,9 +36,9 @@ public class IndividualAnimationSystem extends AnimationSystem
 	@Override
 	public void run()
 	{
-		while (getGame().isRunning() == true)
+		while (Game.getCurrent().isRunning() == true)
 		{
-			for (i = 1; i < getGame().getAnimationCycles(); i++)
+			for (i = 1; i < Game.getCurrent().getAnimationCycles(); i++)
 			{
 				try
 				{
@@ -49,14 +50,14 @@ public class IndividualAnimationSystem extends AnimationSystem
 
 				try
 				{
-					getGame().getThreadController().sleep(200, "Animation System Thread");
+					Game.getCurrent().getThreadController().sleep(200, "Animation System Thread");
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				if (getGame().getAnimationCycles() - i == 1)
+				if (Game.getCurrent().getAnimationCycles() - i == 1)
 				{
 					i = 1;
 				}

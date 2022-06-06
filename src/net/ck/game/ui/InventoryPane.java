@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Objects;
 
 public class InventoryPane extends JList<AbstractItem>
 {
@@ -23,7 +24,7 @@ public class InventoryPane extends JList<AbstractItem>
 	private JPopupMenu menu;
 	private ListSelectionModel listSelectionModel;
 	private int selectionIndex;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private InventoryPaneListener generalListener;
 	private Frame owner;
 	private AbstractDialog parentDialog;
@@ -46,7 +47,7 @@ public class InventoryPane extends JList<AbstractItem>
 		this.setDropMode(DropMode.ON);
 		this.setTransferHandler(new InventoryPaneTransferHandler());
 		 
-		/** this is another way to do drag and drop
+		/* this is another way to do drag and drop
 		DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY_OR_MOVE, new InventoryPaneDragGestureHandler(this));
 
 		DropTarget dt = new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, new InventoryPaneDropTargetHandler(this), true);
@@ -82,14 +83,7 @@ public class InventoryPane extends JList<AbstractItem>
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	

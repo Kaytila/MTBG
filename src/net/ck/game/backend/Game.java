@@ -953,7 +953,7 @@ public class Game
 
 		public void initializeAnimationSystem ()
 		{
-			AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem(this);
+			AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem();
 			if (isAnimated() == true)
 			{
 				logger.info("initializing animation system");
@@ -969,7 +969,7 @@ public class Game
 			if (isAnimated() == true)
 			{
 				logger.info("initializing BackgroundAnimationSystem animation system");
-				BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem(this);
+				BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem();
 
 				Thread backgroundAnimationSystemThread = new Thread(backgroundAnimationSystem);
 				backgroundAnimationSystemThread.setName("Background Animation System Thread");
@@ -984,7 +984,7 @@ public class Game
 			if (isAnimated() == true)
 			{
 				logger.info("initializing ForegroundAnimationSystem animation system");
-				ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem(this);
+				ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem();
 
 				Thread foregroundAnimationSystemThread = new Thread(foregroundAnimationSystem);
 				foregroundAnimationSystemThread.setName("Foreground Animation System Thread");

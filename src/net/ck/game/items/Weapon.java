@@ -4,6 +4,8 @@ import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Objects;
+
 public class Weapon extends AbstractItem
 {
 
@@ -14,7 +16,7 @@ public class Weapon extends AbstractItem
 		return "Weapon: " + super.toString();
 	}
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	private WeaponTypes type;
 	private WeaponDamageTypes damageType;
@@ -24,14 +26,7 @@ public class Weapon extends AbstractItem
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -45,7 +40,6 @@ public class Weapon extends AbstractItem
 
 	public Weapon(int iD)
 	{
-		
 		setContainer(false);
 	}
 

@@ -417,7 +417,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				MapTile tile = MapUtils.calculateMapTileUnderCursor(e.getPoint());
 				if (tile.getInventory().isEmpty())
 				{
-
+					logger.info("no inventory");
 				}
 				else
 				{
@@ -697,11 +697,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			{
 				if (isMouseOutsideOfGrid() == true)
 				{
-					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
-					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
-					Point relativePoint = getGridCanvas().getLocationOnScreen();
-					CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-					setMouseOutsideOfGrid(false);
+					CursorUtils.centerCursorOnPlayer();
 				}
 				haveNPCAction = false;
 				logger.info("get");
@@ -714,6 +710,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case TALK :
 			{
+				logger.info("talk");
 				if (isDialogOpened == true)
 				{
 					break;
@@ -722,14 +719,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				{
 					if (isMouseOutsideOfGrid() == true)
 					{
-						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
-						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
-						Point relativePoint = getGridCanvas().getLocationOnScreen();
-						CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-						setMouseOutsideOfGrid(false);
+						CursorUtils.centerCursorOnPlayer();
 					}
 					haveNPCAction = false;
-					logger.info("talk");
+
 					Game.getCurrent().getIdleTimer().stop();
 					setSelectTile(true);
 					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -740,16 +733,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case MOVE :
 			{
+				logger.info("move");
 				if (isMouseOutsideOfGrid() == true)
 				{
-					int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-					int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-					Point relativePoint = getGridCanvas().getLocationOnScreen();
-					CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-					setMouseOutsideOfGrid(false);
+					CursorUtils.centerCursorOnPlayer();
 				}
 				haveNPCAction = false;
-				logger.info("move");
 				Game.getCurrent().getIdleTimer().stop();
 				setSelectTile(true);
 				CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());

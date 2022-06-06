@@ -1,13 +1,12 @@
 package net.ck.game.animation;
 
-import java.util.ConcurrentModificationException;
-
+import net.ck.game.backend.Game;
+import net.ck.util.communication.graphics.ForegroundRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
-import net.ck.game.backend.Game;
-import net.ck.util.communication.graphics.ForegroundRepresentationChanged;
+import java.util.ConcurrentModificationException;
 
 public class ForegroundAnimationSystem extends IndividualAnimationSystem
 {
@@ -44,9 +43,8 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 		return logger;
 	}
 
-	public ForegroundAnimationSystem(Game game)
+	public ForegroundAnimationSystem()
 	{
-		super(game);
 		setCurrentForegroundImage(0);
 	}
 

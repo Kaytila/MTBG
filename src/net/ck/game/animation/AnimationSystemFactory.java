@@ -34,18 +34,18 @@ public class AnimationSystemFactory
 	/**
 	 * If no animations, then there is no animation system, is there?
 	 */
-	public static AnimationSystem createAnymationSystem(Game game)
+	public static AnimationSystem createAnymationSystem()
 	{
 
-		if (game.isAnimated() == true)
+		if (Game.getCurrent().isAnimated() == true)
 		{
-			if (game.getAnimationCycles() > 0)
+			if (Game.getCurrent().getAnimationCycles() > 0)
 			{
-				return new RandomAnimationSystem(game);
+				return new RandomAnimationSystem();
 			}
 			else
 			{
-				return new IndividualAnimationSystem(game);
+				return new IndividualAnimationSystem();
 			}
 		}
 		return null;

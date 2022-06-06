@@ -1,18 +1,16 @@
 package net.ck.game.ui;
-import java.awt.Component;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.SwingConstants;
-
+import net.ck.game.items.AbstractItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.items.AbstractItem;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Objects;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html#renderer https://docs.oracle.com/javase/tutorial/uiswing/components/list.html#mutable
+ * https://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html#renderer
+ * https://docs.oracle.com/javase/tutorial/uiswing/components/list.html#mutable
  * 
  * @author Claus
  *
@@ -32,19 +30,12 @@ public class InventoryPaneListCellRenderer extends JLabel implements javax.swing
 		setVerticalAlignment(SwingConstants.CENTER);
 	}
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()

@@ -193,7 +193,7 @@ public class JGridCanvas extends JComponent
 
                 if (item.isLightSource())
                 {
-                    //identify maptiles within range.
+                    //identify map tiles within range.
                     int lightrange = item.getLightRange();
                     ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(tile, lightrange, Game.getCurrent().getCurrentMap());
                     for (MapTile t : tiles)
@@ -576,7 +576,7 @@ public class JGridCanvas extends JComponent
     }
 
     /**
-     * so these is the method paints the black tiles at the border where the map ends
+     * so these are the method paints the black tiles at the border where the map ends
      *
      * @param g - graphics g
      */

@@ -1,16 +1,15 @@
 package net.ck.game.animation;
 
-import java.util.ConcurrentModificationException;
-import java.util.Random;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ConcurrentModificationException;
+import java.util.Random;
 
 public class RandomAnimationSystem extends AnimationSystem
 {
@@ -42,25 +41,24 @@ public class RandomAnimationSystem extends AnimationSystem
 		}
 	}
 
-	public RandomAnimationSystem(Game game)
+	public RandomAnimationSystem()
 	{
-		super(game);
 		// logger.info("initializing RandomAnimationSystem");
 	}
 
 	public void run()
 	{
-		while (getGame().isRunning() == true)
+		while (Game.getCurrent().isRunning() == true)
 		{ // i hate 0 index //if I make the standard
 			// image part of the animation list, then I dont need the default
 			// state at all.
 			// that means, 2 animation cycles, no +1 needed.
 
 			// random variant
-			for (AbstractEntity p : getGame().getAnimatedEntities())
+			for (AbstractEntity p : Game.getCurrent().getAnimatedEntities())
 			{
 				// logger.info("player: {}", p.toString());
-				setRandomNumber(rand.nextInt(getGame().getAnimationCycles()));
+				setRandomNumber(rand.nextInt(Game.getCurrent().getAnimationCycles()));
 				// logger.info("rand: {}", getRandomNumber());
 
 				if (p.getAppearance().getCurrentImage() != ((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()))
