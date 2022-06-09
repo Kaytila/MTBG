@@ -307,6 +307,11 @@ public class JGridCanvas extends JComponent
 
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
         {
+            if (m.getSourceCoordinates() == null)
+            {
+                logger.error("missile has no source");
+                Game.getCurrent().stopGame();
+            }
             //logger.info("m: {}", m);
             //logger.info("m image: {}", m.getAppearance().getStandardImage());
             if (m.getLine() == null)

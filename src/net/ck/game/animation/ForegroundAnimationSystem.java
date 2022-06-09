@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
+import java.util.Objects;
 
 public class ForegroundAnimationSystem extends IndividualAnimationSystem
 {
@@ -23,19 +24,12 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 		this.currentForegroundImage = currentForegroundImage;
 	}
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -48,8 +42,6 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 		setCurrentForegroundImage(0);
 	}
 
-	private int i = 0;
-
 	/**
 	 * just trying to iterate over i to get a same looking animation for background images
 	 */
@@ -58,6 +50,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 	{
 		while (Game.getCurrent().isRunning() == true)
 		{
+			int i;
 			for (i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
 			{
 				setCurrentForegroundImage(i);

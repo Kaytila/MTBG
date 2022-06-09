@@ -1,13 +1,12 @@
 package net.ck.util;
 
-import java.awt.Font;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
 
 public class GameUtils
 {
@@ -15,6 +14,13 @@ public class GameUtils
 	private static final Logger logger = (Logger) LogManager.getLogger(GameUtils.class);
 	private static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
 	private static final int padding = 5;
+
+	public static void showStackTrace(String methodName)
+	{
+		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+		logger.info("calling " + methodName + " from: {} or: {}", stackTraceElements[1].getMethodName(), stackTraceElements[2].getMethodName());
+	}
+
 
 	public static void invertActions(Turn turn)
 	{

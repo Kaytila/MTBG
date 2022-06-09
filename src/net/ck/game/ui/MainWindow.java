@@ -7,6 +7,7 @@ import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.CursorUtils;
+import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
@@ -596,6 +597,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			Game.getCurrent().advanceTurn(hasNPCAction);
 		}
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+		setCurrentAction(null);
 	}
 
 	@Subscribe
@@ -682,6 +684,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					setSelectTile(false);
 					Game.getCurrent().getIdleTimer().start();
 					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+					setCurrentAction(null);
 					break;
 				}
 				else
@@ -827,8 +830,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	public void setMousePressed(boolean mousePressed)
 	{
-		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		logger.info("calling setMousePressed from: {} or: {}", stackTraceElements[1].getMethodName(), stackTraceElements[2].getMethodName());
+		GameUtils.showStackTrace("setMousePressed");
 		this.mousePressed = mousePressed;
 	}
 

@@ -8,6 +8,8 @@ import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 
+import java.util.Objects;
+
 public class AbstractAction
 {
 
@@ -16,14 +18,7 @@ public class AbstractAction
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	private Result result;

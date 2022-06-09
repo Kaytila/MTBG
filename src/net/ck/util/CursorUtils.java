@@ -16,11 +16,12 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class CursorUtils
 {
 
-	private static final Logger logger = (Logger) LogManager.getLogger(CursorUtils.class);
+	private static final Logger logger = LogManager.getLogger(CursorUtils.class);
 	private static final String additionalImagesPath = "graphics" + File.separator + "misc";
 	private static final int border = Game.getCurrent().getTileSize() / 2;
 	private static BufferedImage cursorImageNorth;
@@ -106,10 +107,11 @@ public class CursorUtils
 	 * 2. depending on range of the weapon (1 for melee of course)
 	 * do not allow mouse movement outside of it
 	 * if its outside of the position check last position then go back?
-	 * @param i
+	 * @param i - the range of the weapon
 	 */
 	public static void limitMouseMovementToRange(int i)
 	{
+		logger.info("limit mouse movement");
 		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
@@ -177,22 +179,15 @@ public class CursorUtils
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	/**
 	 * calculates where the mouse cursor is compared to the player icon (tile centered)
 	 *   ALWAYS USE MouseInfo.getPointerInfo().getLocation() instead of the mouse event locations. These might be easier to do but are relative already.
 	 *   sometimes, I have no event, therefore I need to construct the mouse position from the absolute and calculate.
-	 * @param currentPlayer
-	 * @param point
+	 * @param currentPlayer - current player
+	 * @param point - absolute position on the grid
 	 * 
 	 *            https://stackoverflow.com/questions/40592495/how-to-create-custom-cursor-images-in-java I can redo this in pixels now instead of tiles which are incorrect anyhow :D
 	 * 
@@ -249,7 +244,6 @@ public class CursorUtils
 				setCursor(Cursor.getDefaultCursor());
 			}
 		}
-		return;
 	}
 
 	@Deprecated

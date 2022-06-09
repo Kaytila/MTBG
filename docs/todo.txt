@@ -41,4 +41,7 @@ implement monster spawn :D
 implement move <-- done
 implement checkpoints
 implement basic scheduling <-- done
+implement melee attack <-- almost done
+
+
 

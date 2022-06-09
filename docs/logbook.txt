@@ -485,3 +485,6 @@ adding animated tiles
             Also refactored moveMouse to CursorUtils, has nothing to do with Controller.
 2022-06-06: some minor refactoring - removed Game reference from animation system.
             removed cursor centering code and replaced with cursorUtils method.
+2022-06-09: currentAction in MainWindow was not emptied if the command was cancelled. This lead to limitCurorRange
+            staying active. Also was not cancelled after attack was done, so movement was hindered.
+

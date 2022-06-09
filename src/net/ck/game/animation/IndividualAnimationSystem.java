@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 public class IndividualAnimationSystem extends AnimationSystem
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	protected int i;
 
 	public Class<?> getRealClass()

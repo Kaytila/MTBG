@@ -62,7 +62,7 @@ public class PlayerAction extends AbstractAction
 
 	/**
 	 * what type is the action?
-	 * @return the keyboard action type, as basically all actions an npc can do
+	 * @return the keyboard action type, as basically all actions a npc can do
 	 * can be done by a player as well.
 	 */
 	public KeyboardActionType getType()

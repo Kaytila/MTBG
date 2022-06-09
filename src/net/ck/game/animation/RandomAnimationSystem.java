@@ -9,12 +9,13 @@ import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
+import java.util.Objects;
 import java.util.Random;
 
 public class RandomAnimationSystem extends AnimationSystem
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	private Random rand = new Random();
 	private int randomNumber;	
@@ -31,14 +32,7 @@ public class RandomAnimationSystem extends AnimationSystem
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public RandomAnimationSystem()

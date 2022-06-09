@@ -1,19 +1,18 @@
 package net.ck.util;
 
 
-import java.awt.image.BufferedImage;
-import java.util.Hashtable;
-
+import net.ck.game.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.weather.WeatherTypes;
+import java.awt.image.BufferedImage;
+import java.util.Hashtable;
 
 public class WeatherUtils 
 {
 
 
-	private static final Logger logger =  (Logger) LogManager.getLogger(WeatherUtils.class);
+	private static final Logger logger = LogManager.getLogger(WeatherUtils.class);
 
 	public Class<?> getRealClass()
 	{

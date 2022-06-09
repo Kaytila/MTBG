@@ -1,12 +1,11 @@
 package net.ck.game.backend;
 
-import java.util.ArrayList;
-
+import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.actions.RandomAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import net.ck.game.backend.actions.PlayerAction;
-import net.ck.game.backend.actions.RandomAction;
+import java.util.ArrayList;
 
 /**
  * so  a turn is a turn.
@@ -35,8 +34,8 @@ public class Turn
 		}
 	}
 	
-	private ArrayList<PlayerAction> actions = new ArrayList<PlayerAction>();
-	private ArrayList<RandomAction> events = new ArrayList<RandomAction>();
+	private ArrayList<PlayerAction> actions = new ArrayList<>();
+	private ArrayList<RandomAction> events = new ArrayList<>();
 	private int turnNumber;
 
 	public Turn(int turnNumber)

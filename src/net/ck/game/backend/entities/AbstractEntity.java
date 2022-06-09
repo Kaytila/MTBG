@@ -4,10 +4,7 @@ import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
-import net.ck.game.items.AbstractItem;
-import net.ck.game.items.Armor;
-import net.ck.game.items.ArmorPositions;
-import net.ck.game.items.Weapon;
+import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
@@ -258,26 +255,49 @@ public abstract class AbstractEntity
         MapTile tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
         if (tile != null)
         {
-            Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
-            Game.getCurrent().getCurrentMap().getMissiles().add(m);
-            logger.info("tile: {}", tile);
-            if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
+            if (getWeapon().getType().equals(WeaponTypes.RANGED))
             {
-                for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+                Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
+                Game.getCurrent().getCurrentMap().getMissiles().add(m);
+                logger.info("tile: {}", tile);
+                if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
                 {
-                    if (n.getMapPosition().equals(tile.getMapPosition()))
+                    for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
                     {
-                        logger.info ("hitting NPC: {}", n);
+                        if (n.getMapPosition().equals(tile.getMapPosition()))
+                        {
+                            logger.info("hitting NPC: {}", n);
 
-                        m.setSuccess(NPCUtils.calculateHit(this, n));
-                        logger.info("hit or no hit: {}", m.isSuccess());
-                        break;
+                            m.setSuccess(NPCUtils.calculateHit(this, n));
+                            logger.info("hit or no hit: {}", m.isSuccess());
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    //No NPCs
                 }
             }
             else
             {
+                if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
+                {
+                    for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+                    {
+                        if (n.getMapPosition().equals(tile.getMapPosition()))
+                        {
+                            logger.info("hitting NPC: {}", n);
 
+                            logger.info("hit or no hit: {}", (NPCUtils.calculateHit(this, n)));
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    //No NPCs
+                }
             }
         }
         return true;
