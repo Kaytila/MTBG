@@ -111,7 +111,7 @@ public class CursorUtils
 	 */
 	public static void limitMouseMovementToRange(int i)
 	{
-		logger.info("limit mouse movement");
+		//logger.info("limit mouse movement");
 		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
 		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();

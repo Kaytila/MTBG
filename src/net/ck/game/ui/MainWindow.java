@@ -357,18 +357,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		// logger.info("mouse entered: {}", e.getPoint());
 		setMouseOutsideOfGrid(false);
 		getGridCanvas().requestFocusInWindow();
-		// CursorUtils.setCursor(Cursor.getDefaultCursor());
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		// logger.info("mouse exit: {}", e.getPoint());
-		// CursorUtils.setCursor(Cursor.getDefaultCursor());
 		setMouseOutsideOfGrid(true);
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 	}
@@ -667,14 +663,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				haveNPCAction = false;
 				break;
 			}
-			/*
-			 * Game.getCurrent().switchMap(); Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action, Game.getCurrent().getCurrentPlayer())); Game.getCurrent().getIdleTimer().stop();
-			 * textArea.append(action.getType().name()); textArea.append("\n"); textField.setText(action.getType().name()); // move to next player if (getGame().getCurrentPlayer().getNumber() <
-			 * (getGame().getPlayers().size() - 1)) { getGame().setCurrentPlayer(getGame().getPlayers().get(getGame().getCurrentPlayer().getNumber() + 1));
-			 * 
-			 * } // all players have moved - en is no player. // NPCs are handled in game because the npcs on the current map // are loaded into game else { getUndoButton().setEnabled(true);
-			 * getGame().setCurrentPlayer(getGame().getPlayers().get(0)); } break; }
-			 */
+
 			case ESC :
 			{
 				logger.info("ESC Pressed");
@@ -750,12 +739,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			}
 
 			case ATTACK:
+				logger.info("attack");
 				if (isMouseOutsideOfGrid() == true)
 				{
 					CursorUtils.centerCursorOnPlayer();
 				}
 				haveNPCAction = false;
-				logger.info("attack");
+
 				Game.getCurrent().getIdleTimer().stop();
 				//ranged
 				if (Game.getCurrent().getCurrentPlayer().getWeapon() != null)
@@ -777,6 +767,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					//melee
 					else
 					{
+						logger.info("real melee");
+						CursorUtils.centerCursorOnPlayer();
 						setSelectTile(true);
 						setCurrentAction(action);
 					}
@@ -784,8 +776,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				//no weapon, also use melee for now
 				else
 				{
+					logger.info("unarmed melee");
+					CursorUtils.centerCursorOnPlayer();
 					setSelectTile(true);
-					CursorUtils.limitMouseMovementToRange(1);
+					//CursorUtils.limitMouseMovementToRange(1);
 					setCurrentAction(action);
 				}
 				break;

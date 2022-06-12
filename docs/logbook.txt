@@ -487,4 +487,12 @@ adding animated tiles
             removed cursor centering code and replaced with cursorUtils method.
 2022-06-09: currentAction in MainWindow was not emptied if the command was cancelled. This lead to limitCurorRange
             staying active. Also was not cancelled after attack was done, so movement was hindered.
+2022-06-12: updated attack to also work for NPCs, have found out that making a difference between players and npcs is
+            a problem. now npc is looking for a npc on the map where the player is but does not find anything.
+            i need to update this to also include player. but if i work through this, I can have npcs attack each other.
+            But it does not crash anymore.
+            Also, bugfix for setting attack crosshair and tile for melee attack.
+            Need to think of how to switch the image and for how long.
+            I think not the missile needs to switch the image, but the target needs to depending on whether it is hit or
+            miss.
 

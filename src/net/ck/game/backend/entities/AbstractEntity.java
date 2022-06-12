@@ -251,10 +251,24 @@ public abstract class AbstractEntity
 
     private boolean attack(AbstractKeyboardAction action)
     {
+        MapTile tile;
+        if (action.getTargetCoordinates() == null)
+        {
+            //this is a npc attacking
+            tile = MapUtils.getTileByCoordinates(Game.getCurrent().getCurrentPlayer().getMapPosition());
+        }
+        else
+        {
+            tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
+        }
 
-        MapTile tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
         if (tile != null)
         {
+            if (getWeapon() == null)
+            {
+                setWeapon(Game.getCurrent().getWeaponList().get(1));
+            }
+
             if (getWeapon().getType().equals(WeaponTypes.RANGED))
             {
                 Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
@@ -267,7 +281,7 @@ public abstract class AbstractEntity
                         if (n.getMapPosition().equals(tile.getMapPosition()))
                         {
                             logger.info("hitting NPC: {}", n);
-
+                            n.setAgressive(true);
                             m.setSuccess(NPCUtils.calculateHit(this, n));
                             logger.info("hit or no hit: {}", m.isSuccess());
                             break;
@@ -288,7 +302,7 @@ public abstract class AbstractEntity
                         if (n.getMapPosition().equals(tile.getMapPosition()))
                         {
                             logger.info("hitting NPC: {}", n);
-
+                            n.setAgressive(true);
                             logger.info("hit or no hit: {}", (NPCUtils.calculateHit(this, n)));
                             break;
                         }
@@ -310,14 +324,15 @@ public abstract class AbstractEntity
 
     private void search()
     {
-        for (int xStart = getMapPosition().x - 1; xStart <= getMapPosition().x +1; xStart++)
+        for (int xStart = getMapPosition().x - 1; xStart <= getMapPosition().x + 1; xStart++)
         {
-            for (int yStart = getMapPosition().y - 1; yStart <= getMapPosition().y +1; yStart++)
+            for (int yStart = getMapPosition().y - 1; yStart <= getMapPosition().y + 1; yStart++)
             {
                 logger.info("searching maptile: {}", MapUtils.getTileByCoordinates(new Point(xStart, yStart)));
             }
         }
     }
+
     /**
      * so this is the method where the a* algorithm needs to go into.
      * TBD.

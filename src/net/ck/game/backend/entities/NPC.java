@@ -40,6 +40,21 @@ public class NPC extends AbstractEntity
 		isStatic = aStatic;
 	}
 
+
+	public boolean isAgressive()
+	{
+		return agressive;
+	}
+
+	public void setAgressive(boolean agressive)
+	{
+		this.agressive = agressive;
+	}
+
+	private boolean agressive;
+	
+	
+
 	private boolean isStatic;
 
 	private ArrayList<NPCSchedule> npcSchedules;

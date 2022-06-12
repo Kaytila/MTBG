@@ -20,6 +20,7 @@ import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
+import net.ck.util.communication.keyboard.AttackAction;
 import net.ck.util.communication.keyboard.GetAction;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.xml.RunXMLParser;
@@ -660,6 +661,12 @@ public class Game
 			{
 				for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
 				{
+					//npc is aggressive
+					if (e.isAgressive())
+					{
+						logger.info("attacking player");
+						e.doAction(new PlayerAction(new AttackAction(), e));
+					}
 					GetAction action = e.lookAroundForItems();
 					//GetAction action = null;
 					if (action != null)
