@@ -495,4 +495,9 @@ adding animated tiles
             Need to think of how to switch the image and for how long.
             I think not the missile needs to switch the image, but the target needs to depending on whether it is hit or
             miss.
-
+2022-06-14: so i have updated attack in a way that the victim has an image change for a hit (not yet for a miss).
+            still dont like the way this is set up.
+            added animation cycles a bit and added event for movement to update graphics.
+            wonder how many repaints i can do or need to do, current for each movement of each entity a repaint is called.
+            this should not hurt with modern double buffering, but still it feels icky.
+            updated space action to post a playermoved event to trigger repaint instead of relying on the animation repaint.

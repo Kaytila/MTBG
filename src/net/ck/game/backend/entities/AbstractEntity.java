@@ -6,12 +6,16 @@ import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
+import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
+import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -249,6 +253,14 @@ public abstract class AbstractEntity
         //Game.getCurrent().getController().setCurrentAction(null);
     }
 
+    /**
+     *
+     * @param action keyboard action (attack action)
+     * @return returns whether it is a hit
+     *
+     * currently this method works for both PC and NPC.
+     *
+     */
     private boolean attack(AbstractKeyboardAction action)
     {
         MapTile tile;
@@ -303,7 +315,16 @@ public abstract class AbstractEntity
                         {
                             logger.info("hitting NPC: {}", n);
                             n.setAgressive(true);
-                            logger.info("hit or no hit: {}", (NPCUtils.calculateHit(this, n)));
+                            if (NPCUtils.calculateHit(this, n))
+                            {
+                                logger.info("hit");
+                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                            }
+                            else
+                            {
+                                logger.info("miss");
+                            }
                             break;
                         }
                     }
@@ -804,6 +825,7 @@ public abstract class AbstractEntity
         Objects.requireNonNull(MapUtils.getTileByCoordinates(this.getMapPosition())).setBlocked(false);
         this.getMapPosition().move(x, y);
         Objects.requireNonNull(MapUtils.getTileByCoordinates(this.getMapPosition())).setBlocked(true);
+        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 
 

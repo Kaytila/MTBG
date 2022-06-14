@@ -1,38 +1,24 @@
 package net.ck.util;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.Transparency;
-import java.awt.geom.QuadCurve2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageFilter;
-import java.awt.image.ImageProducer;
-import java.awt.image.RGBImageFilter;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.MapTile;
 import net.ck.game.weather.WeatherTypes;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.QuadCurve2D;
+import java.awt.image.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Random;
 
 /**
  * Util class for images, what a useful comment I write
@@ -48,6 +34,9 @@ public class ImageUtils
 	private static final Logger logger = (Logger) LogManager.getLogger();
 
 	private static final String imagerootpath = "graphics" + File.separator + "players" + File.separator + "player";
+
+
+	private static BufferedImage hitImage;
 
 	public static String getImagerootpath()
 	{
@@ -778,5 +767,16 @@ public class ImageUtils
 		GraphicsConfiguration configuration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		return configuration.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
 	}
+
+	public static BufferedImage	getHitImage()
+	{
+		if (hitImage == null)
+		{
+			hitImage = ImageUtils.loadImage("combat", "explosion");
+		}
+
+		return hitImage;
+	}
+
 
 }

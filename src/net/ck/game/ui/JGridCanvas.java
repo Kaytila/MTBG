@@ -428,6 +428,17 @@ public class JGridCanvas extends JComponent
         UILense.getCurrent().initialize();
     }
 
+    /**
+     * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
+     */
+    @Subscribe
+    public void onMessageEvent(PlayerPositionChanged event)
+    {
+        logger.info("player position changed, lets see whether this is also called for NPCs");
+        this.repaint();
+    }
+
+
 
     /**
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity

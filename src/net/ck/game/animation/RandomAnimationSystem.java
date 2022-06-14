@@ -72,7 +72,7 @@ public class RandomAnimationSystem extends AnimationSystem
 
 			try
 			{
-				Game.getCurrent().getThreadController().sleep(200, "Animation System Thread");
+				Game.getCurrent().getThreadController().sleep(2000, "Animation System Thread");
 			}
             catch (ConcurrentModificationException e)
 			{

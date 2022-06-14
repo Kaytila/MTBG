@@ -56,6 +56,7 @@ public class Missile
         setSourceCoordinates(source);
         setTargetCoordinates(target);
     }
+
     public Missile(MapTile source, MapTile target)
     {
         setSourceTile(source);
