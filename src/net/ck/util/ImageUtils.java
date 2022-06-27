@@ -101,7 +101,7 @@ public class ImageUtils
 
 	/**
 	 * 
-	 * @param fileName
+	 * @param fileName contains the file name
 	 * @return BufferedImage with white turned into transparent
 	 * 
 	 *         https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java
@@ -135,7 +135,6 @@ public class ImageUtils
 
 	/**
 	 * 
-	 * @param fileName
 	 * @return BufferedImage with white turned into transparent
 	 * 
 	 *         https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java
@@ -334,13 +333,7 @@ public class ImageUtils
 	}
 
 	/**
-	 * 
-	 * @param standardImage
-	 *            - the standard image for each player
-	 * 
-	 *            this method is used to compare the image sizes for each player in order to check whether this actually works correctly. the assumption is that the standard image is the same size as
-	 *            all the others. if this is not the case, well, we will deal with this later. for the time being, this is being done in order to figure out how to center the images in the grid if the
-	 *            image size and tile size do not match
+	 *
 	 */
 	public static void checkImageSize(Player player)
 	{

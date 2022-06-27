@@ -190,8 +190,8 @@ public class MapUtils
         String west;
 
         String fileName = ("maps" + File.separator + "Testmap2.xml");
-        String contents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<map>\r\n" + "\t<meta>\r\n" + "\t\t<weather>true</weather>\r\n" + "\t\t<weatherrandomness>10</weatherrandomness>\r\n"
-                + "\t\t<wrapping>true</wrapping>\r\n" + "\t\t<name>testname</name>\r\n" + "\t\t<parent></parent>\r\n" + "\t</meta>\r\n" + "\t<tiles>\n";
+        StringBuilder contents = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<map>\r\n" + "\t<meta>\r\n" + "\t\t<weather>true</weather>\r\n" + "\t\t<weatherrandomness>10</weatherrandomness>\r\n"
+                + "\t\t<wrapping>true</wrapping>\r\n" + "\t\t<name>testname</name>\r\n" + "\t\t<parent></parent>\r\n" + "\t</meta>\r\n" + "\t<tiles>\n");
 
         for (int j = 0; j <= y; j++)
         {
@@ -233,17 +233,15 @@ public class MapUtils
                     south = "";
                 }
 
-                contents = contents + "\t\t<tile>\r\n" + "\t\t\t<id>" + id + "</id>\r\n" + "\t\t\t<type>" + type + "</type>\r\n" + "\t\t\t<x>" + i + "</x>\r\n" + "\t\t\t<y>" + j + "</y>\r\n"
-                        + "\t\t\t<east>" + east + "</east>\r\n" + "\t\t\t<west>" + west + "</west>\r\n" + "\t\t\t<south>" + south + "</south>\r\n" + "\t\t\t<north>" + north + "</north>\r\n"
-                        + "\t\t</tile>\r\n";
+                contents.append("\t\t<tile>\r\n").append("\t\t\t<id>").append(id).append("</id>\r\n").append("\t\t\t<type>").append(type).append("</type>\r\n").append("\t\t\t<x>").append(i).append("</x>\r\n").append("\t\t\t<y>").append(j).append("</y>\r\n").append("\t\t\t<east>").append(east).append("</east>\r\n").append("\t\t\t<west>").append(west).append("</west>\r\n").append("\t\t\t<south>").append(south).append("</south>\r\n").append("\t\t\t<north>").append(north).append("</north>\r\n").append("\t\t</tile>\r\n");
             }
         }
 
-        contents = contents + "	</tiles>\r\n" + "</map>";
+        contents.append("	</tiles>\r\n").append("</map>");
 
         try
         {
-            Files.writeString(Paths.get(fileName), contents, StandardCharsets.UTF_8);
+            Files.writeString(Paths.get(fileName), contents.toString(), StandardCharsets.UTF_8);
         }
         catch (IOException e)
         {
