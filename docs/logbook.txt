@@ -503,3 +503,5 @@ adding animated tiles
             updated space action to post a playermoved event to trigger repaint instead of relying on the animation repaint.
 2022-06-27: holiday break over. updated splash screen to actually run during the loading time of the game instead of fake
             before. also updated splash screen to have a shiny :D progress bar thats kind of calculated properly :D
+2022-06-28: so I have moved attack to NPC and AbstractEntity, this will need to be disentangled some more. But basically,
+            NPC will attack the player once set to aggressive. will need to implement moving towards the player.

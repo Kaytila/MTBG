@@ -2,10 +2,17 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.CommandQueue;
 import net.ck.game.backend.Game;
+import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.game.items.WeaponTypes;
+import net.ck.game.map.MapTile;
 import net.ck.util.ImageUtils;
+import net.ck.util.MapUtils;
+import net.ck.util.NPCUtils;
+import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.MoveAction;
 import net.ck.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
@@ -250,6 +257,230 @@ public class NPC extends AbstractEntity
 				doAction(new PlayerAction(action, this));
 			}
 		}
-
 	}
+
+
+	/**
+	 * @param action KeyboardAction.type
+	 */
+	public void doAction(AbstractAction action)
+	{
+
+		//logger.info("do action: {}", action.toString());
+		Point p = getMapPosition();
+		Point mapsize = Game.getCurrent().getCurrentMap().getSize();
+
+		int xBorder = mapsize.x;
+		int yBorder = mapsize.y;
+
+		boolean success = false;
+
+		switch (action.getType())
+		{
+			case EAST:
+				// logger.info("p: {}", p.toString());
+
+				if (p.x + 1 <= xBorder)
+				{
+					if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
+					{
+						this.move((p.x + 1), p.y);
+						success = true;
+					}
+					else
+					{
+						//logger.info("EAST blocked");
+					}
+				}
+				else
+				{
+					logger.info("eastern border, ignore wrapping for now");
+				}
+				break;
+			case ENTER:
+				logger.info("loading new map");
+				Game.getCurrent().switchMap();
+				break;
+			case ESC:
+				break;
+			case NORTH:
+				// logger.info("p: {}", p.toString());
+				if (p.y > 0)
+				{
+					if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
+					{
+						this.move((p.x), (p.y - 1));
+						success = true;
+					}
+					else
+					{
+						//logger.info("NORTH blocked");
+					}
+				}
+				else
+				{
+					logger.info("already at zero y");
+				}
+				break;
+			case NULL:
+				break;
+			case SOUTH:
+				// logger.info("p: {}", p.toString());
+				if (p.y + 1 <= yBorder)
+				{
+					if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
+					{
+						this.move((p.x), (p.y + 1));
+						success = true;
+					}
+					else
+					{
+						//logger.info("SOUTH blocked");
+					}
+
+				}
+				else
+				{
+					logger.info("southern border, ignore wrapping for now");
+				}
+				break;
+			case WEST:
+				// logger.info("p: {}", p.toString());
+				if (p.x > 0)
+				{
+					if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
+					{
+						this.move((p.x - 1), (p.y));
+						success = true;
+					}
+					else
+					{
+						//logger.info("WEST blocked");
+					}
+				}
+				else
+				{
+					logger.info("already at zero x");
+				}
+				break;
+			case SPACE:
+				success = true;
+				break;
+			case GET:
+				success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+				break;
+
+			case DROP:
+				success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+				break;
+
+			case TALK:
+				logger.info("doing talk action");
+				break;
+
+			case MOVE:
+				success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+				break;
+
+			case SEARCH:
+				search();
+				break;
+
+			case ATTACK:
+				success = attack(action.getEvent());
+				break;
+			default:
+				logger.info("doing default action, inventory does not need to be reverted for instance");
+				break;
+
+		}
+	}
+	/**
+	 *
+	 * @param action keyboard action (attack action)
+	 * @return returns whether it is a hit
+	 *
+	 * currently this method works for both PC and NPC.
+	 * this needs a rewrite. npcs and players are kept separate
+	 * guess one implementation in player and one in entity or in NPC should do the trick
+	 *
+	 */
+
+	private boolean attack(AbstractKeyboardAction action)
+	{
+		logger.info("NPC Attacking");
+		MapTile tile;
+		if (action.getTargetCoordinates() == null)
+		{
+			//this is a npc attacking
+			tile = MapUtils.getTileByCoordinates(Game.getCurrent().getCurrentPlayer().getMapPosition());
+		}
+		else
+		{
+			tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
+		}
+
+		if (tile != null)
+		{
+			if (getWeapon() == null)
+			{
+				setWeapon(Game.getCurrent().getWeaponList().get(1));
+			}
+
+			if (getWeapon().getType().equals(WeaponTypes.RANGED))
+			{
+				Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
+				Game.getCurrent().getCurrentMap().getMissiles().add(m);
+
+				if (Game.getCurrent().getCurrentMap().getPlayers().size() > 0)
+				{
+					for (AbstractEntity n : Game.getCurrent().getCurrentMap().getPlayers())
+					{
+						if (n.getMapPosition().equals(tile.getMapPosition()))
+						{
+							logger.info("hitting player: {}", n);
+							m.setSuccess(NPCUtils.calculateHit(this, n));
+							logger.info("hit or no hit: {}", m.isSuccess());
+							break;
+						}
+					}
+				}
+				else
+				{
+					//No NPCs
+				}
+			}
+			else
+			{
+				if (Game.getCurrent().getCurrentMap().getPlayers().size() > 0)
+				{
+					for (AbstractEntity n : Game.getCurrent().getCurrentMap().getPlayers())
+					{
+						if (n.getMapPosition().equals(tile.getMapPosition()))
+						{
+							logger.info("hitting player: {}", n);
+
+							if (NPCUtils.calculateHit(this, n))
+							{
+								logger.info("hit");
+								n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+								EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+							}
+							else
+							{
+								logger.info("miss");
+							}
+							break;
+						}
+					}
+				}
+				else
+				{
+					//No NPCs
+				}
+			}
+		}
+		return true;
+	}
+
 }

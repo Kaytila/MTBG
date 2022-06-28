@@ -667,17 +667,20 @@ public class Game
 						logger.info("attacking player");
 						e.doAction(new PlayerAction(new AttackAction(), e));
 					}
-					GetAction action = e.lookAroundForItems();
-					//GetAction action = null;
-					if (action != null)
-					{
-						logger.info("trying to get");
-						PlayerAction ac = new PlayerAction(action, e);
-						e.doAction(ac);
-					}
 					else
 					{
-						e.doAction(NPCUtils.calculateAction(e));
+						GetAction action = e.lookAroundForItems();
+						//GetAction action = null;
+						if (action != null)
+						{
+							logger.info("trying to get");
+							PlayerAction ac = new PlayerAction(action, e);
+							e.doAction(ac);
+						}
+						else
+						{
+							e.doAction(NPCUtils.calculateAction(e));
+						}
 					}
 				}
 				// logger.info("environment action");

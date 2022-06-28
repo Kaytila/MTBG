@@ -237,7 +237,6 @@ public abstract class AbstractEntity
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
                 break;
-
         }
 
         // so if the action was done successful, add the action to the turn
@@ -259,10 +258,13 @@ public abstract class AbstractEntity
      * @return returns whether it is a hit
      *
      * currently this method works for both PC and NPC.
+     * this needs a rewrite. npcs and players are kept separate
+     * guess one implementation in player and one in entity or in NPC should do the trick
      *
      */
     private boolean attack(AbstractKeyboardAction action)
     {
+        logger.info("player attacking");
         MapTile tile;
         if (action.getTargetCoordinates() == null)
         {
@@ -273,7 +275,7 @@ public abstract class AbstractEntity
         {
             tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
         }
-
+        logger.info("tile: {}", tile);
         if (tile != null)
         {
             if (getWeapon() == null)
@@ -343,7 +345,7 @@ public abstract class AbstractEntity
         Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
     }
 
-    private void search()
+    void search()
     {
         for (int xStart = getMapPosition().x - 1; xStart <= getMapPosition().x + 1; xStart++)
         {
@@ -536,7 +538,7 @@ public abstract class AbstractEntity
     }
 
 
-    private boolean dropItem(AbstractItem affectedItem, MapTile tile)
+    boolean dropItem(AbstractItem affectedItem, MapTile tile)
     {
         tile.getInventory().add(affectedItem);
         return this.dropItem(affectedItem);
