@@ -296,6 +296,7 @@ public abstract class AbstractEntity
                         {
                             logger.info("hitting NPC: {}", n);
                             n.setAgressive(true);
+                            n.setVictim(this);
                             m.setSuccess(NPCUtils.calculateHit(this, n));
                             logger.info("hit or no hit: {}", m.isSuccess());
                             break;
@@ -317,6 +318,7 @@ public abstract class AbstractEntity
                         {
                             logger.info("hitting NPC: {}", n);
                             n.setAgressive(true);
+                            n.setVictim(this);
                             if (NPCUtils.calculateHit(this, n))
                             {
                                 logger.info("hit");

@@ -67,6 +67,9 @@ public class NPC extends AbstractEntity
 	private ArrayList<NPCSchedule> npcSchedules;
 	private CommandQueue queuedActions;
 
+	private AbstractEntity victim;
+
+
 	public Point getOriginalMapPosition()
 	{
 		return originalMapPosition;
@@ -413,7 +416,7 @@ public class NPC extends AbstractEntity
 		if (action.getTargetCoordinates() == null)
 		{
 			//this is a npc attacking
-			tile = MapUtils.getTileByCoordinates(Game.getCurrent().getCurrentPlayer().getMapPosition());
+			tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
 		}
 		else
 		{
@@ -483,4 +486,13 @@ public class NPC extends AbstractEntity
 		return true;
 	}
 
+	public AbstractEntity getVictim()
+	{
+		return victim;
+	}
+
+	public void setVictim(AbstractEntity victim)
+	{
+		this.victim = victim;
+	}
 }

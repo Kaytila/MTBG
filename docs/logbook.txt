@@ -505,3 +505,5 @@ adding animated tiles
             before. also updated splash screen to have a shiny :D progress bar thats kind of calculated properly :D
 2022-06-28: so I have moved attack to NPC and AbstractEntity, this will need to be disentangled some more. But basically,
             NPC will attack the player once set to aggressive. will need to implement moving towards the player.
+2022-07-01: just a few minor changes, but NPC now sets attacking player as victim and will attack back.
+            need to implement moving towards the player for instance if player moves away or uses ranged weapon.
