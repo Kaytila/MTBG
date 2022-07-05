@@ -664,8 +664,18 @@ public class Game
 					//npc is aggressive
 					if (e.isAgressive())
 					{
-						logger.info("attacking player");
-						e.doAction(new PlayerAction(new AttackAction(), e));
+						logger.info("trying to attack");
+						if (MapUtils.isAdjacient(e.getMapPosition(), e.getVictim().getMapPosition()))
+						{
+							logger.info("attacking");
+							e.doAction(new PlayerAction(new AttackAction(), e));
+						}
+						else
+						{
+							logger.info("out of range move towards victim");
+
+							e.doAction((NPCUtils.calculateVictimDirection(e)));
+						}
 					}
 					else
 					{

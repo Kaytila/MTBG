@@ -737,4 +737,22 @@ public class MapUtils
         }
         Game.getCurrent().getCurrentMap().setVisibilityRange(2);
     }
+
+    /**
+     * method calculates whether a point is adjacient to another one.
+     * @param source - source coordinates
+     * @param target - target coordinates
+     * @return true if in the range or false
+     */
+    public static boolean isAdjacient(Point source, Point target)
+    {
+        Range<Integer> range = Range.between(-1, 1);
+
+        if ((range.contains(source.x - target.x)) && (range.contains(source.y - target.y)))
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

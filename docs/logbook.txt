@@ -507,3 +507,5 @@ adding animated tiles
             NPC will attack the player once set to aggressive. will need to implement moving towards the player.
 2022-07-01: just a few minor changes, but NPC now sets attacking player as victim and will attack back.
             need to implement moving towards the player for instance if player moves away or uses ranged weapon.
+2022-07-05: calculated map adjaciency for deciding between attack and move towards victim.
+            added simple "move towards victim". This still has a bug.

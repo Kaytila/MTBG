@@ -9,6 +9,7 @@ import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
@@ -181,4 +182,56 @@ public class NPCUtils
         Class<?> enclosingClass = getClass().getEnclosingClass();
 		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
+
+    /**
+     *  dumb calculation, move towards the victim, still a bug there.
+     *  TODO: still a problem there, need to recalculate.
+     */
+    public static PlayerAction calculateVictimDirection(NPC n)
+    {
+        logger.error("Fix me");
+        Point sourcePoint = n.getMapPosition();
+        Point targetPoint = n.getVictim().getMapPosition();
+
+        // more to the east
+        if (sourcePoint.x > targetPoint.x)
+        {
+            if (MapUtils.lookAhead(sourcePoint.x, targetPoint.x - 1))
+            {
+                return new PlayerAction(new WestAction(), n);
+            }
+        }
+
+        // more to the west
+        if (sourcePoint.x < targetPoint.x)
+        {
+            if (MapUtils.lookAhead(sourcePoint.x, targetPoint.x + 1))
+            {
+                return new PlayerAction(new EastAction(), n);
+            }
+        }
+
+        // more to the south
+        if (sourcePoint.y > targetPoint.y)
+        {
+            if (MapUtils.lookAhead(sourcePoint.y, targetPoint.y - 1))
+            {
+                return new PlayerAction(new NorthAction(), n);
+            }
+        }
+
+        // more to the north
+        if (sourcePoint.y < targetPoint.y)
+        {
+            if (MapUtils.lookAhead(sourcePoint.y, targetPoint.y + 1))
+            {
+                return new PlayerAction(new SouthAction(), n);
+            }
+        }
+
+        return new PlayerAction(new SpaceAction(), n);
+    }
+
+
+
 }
