@@ -665,16 +665,48 @@ public class Game
 					if (e.isAgressive())
 					{
 						logger.info("trying to attack");
-						if (MapUtils.isAdjacient(e.getMapPosition(), e.getVictim().getMapPosition()))
+						//attack with melee
+						if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
 						{
 							logger.info("attacking");
 							e.doAction(new PlayerAction(new AttackAction(), e));
+							return;
 						}
+						//victim is not adjacent
 						else
 						{
-							logger.info("out of range move towards victim");
+							logger.info("out of melee range, what to do");
+							//Weapon sling = getWeaponList().get(3);
+							//e.getItem(sling);
+							//npc has ranged weapon wielded or has one in inventory
+							if (e.isRanged())
+							{
+								logger.info("NPC has ranged capabilities");
+								//wielded attack
+								if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
+								{
+									logger.info("npc already wields ranged weapon, attack!");
+									PlayerAction action = new PlayerAction(new AttackAction(), e);
+									action.getEvent().setSourceCoordinates(e.getMapPosition());
+									action.getEvent().setTargetCoordinates(e.getVictim().getMapPosition());
+									e.doAction(action);
+									return;
+								}
+								//in inventory, wield
+								else
+								{
+									logger.info("ranged weapon in inventory");
+									e.switchWeapon(WeaponTypes.RANGED);
+									return;
+								}
+							}
+							else
+							{
 
+							}
+							logger.info("out of range move towards victim");
 							e.doAction((NPCUtils.calculateVictimDirection(e)));
+							return;
 						}
 					}
 					else
@@ -705,6 +737,7 @@ public class Game
 			this.setCurrentTurn(turn);
 			getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
 			MapUtils.calculateDayOrNight();
+			logger.info("============================================================================");
 			// logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			// Game.getCurrent().initializeTurnTimer();
 		}
@@ -946,8 +979,8 @@ public class Game
 		{
 			logger.info("adding players");
 			Player p1 = new Player(0);
-			Weapon club = getWeaponList().get(1);
-			p1.setWeapon(club);
+			Weapon sling = getWeaponList().get(3);
+			p1.setWeapon(sling);
 
 			// Player p2 = new Player(this, 1);
 			// NPC npc1 = new NPC();

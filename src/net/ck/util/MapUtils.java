@@ -412,10 +412,11 @@ public class MapUtils
             // same tile
             if ((t.getX() == x) && (t.getY() == y))
             {
-                // logger.info("found tile: {}, blocked: {}", t.toString(), t.isBlocked());
+                //logger.info("found tile: {}, blocked: {}", t.toString(), t.isBlocked());
                 return t.isBlocked();
             }
         }
+        logger.info("returning false");
         return false;
     }
 
@@ -423,7 +424,6 @@ public class MapUtils
     {
         for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
         {
-
             // same tile
             if ((t.x == p.x) && (t.y == p.y))
             {
@@ -744,7 +744,7 @@ public class MapUtils
      * @param target - target coordinates
      * @return true if in the range or false
      */
-    public static boolean isAdjacient(Point source, Point target)
+    public static boolean isAdjacent(Point source, Point target)
     {
         Range<Integer> range = Range.between(-1, 1);
 

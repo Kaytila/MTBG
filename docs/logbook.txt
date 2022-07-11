@@ -509,3 +509,7 @@ adding animated tiles
             need to implement moving towards the player for instance if player moves away or uses ranged weapon.
 2022-07-05: calculated map adjaciency for deciding between attack and move towards victim.
             added simple "move towards victim". This still has a bug.
+2022-07-11: players now can range attack npcs and npcs can at least shoot back at the player if out of melee range
+            (and has a ranged weapon). open todos: draw missiles one after the other. have turn really end after the
+            missile has struck. definitely need to fix the AI behaviour in order to make npc with melee move towards
+            player.

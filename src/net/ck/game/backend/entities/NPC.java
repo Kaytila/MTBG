@@ -6,6 +6,8 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.game.items.AbstractItem;
+import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.ImageUtils;
@@ -69,6 +71,7 @@ public class NPC extends AbstractEntity
 
 	private AbstractEntity victim;
 
+	private boolean ranged;
 
 	public Point getOriginalMapPosition()
 	{
@@ -102,6 +105,8 @@ public class NPC extends AbstractEntity
 		getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
 		setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
 		setArmorClass(0);
+		getInventory().add(Game.getCurrent().getWeaponList().get(3));
+		wieldWeapon(Game.getCurrent().getWeaponList().get(1));
 	}
 
 	public void setType(NPCTypes type)
@@ -423,8 +428,20 @@ public class NPC extends AbstractEntity
 			tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
 		}
 
+		tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
+
+		Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+		action.setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+		logger.info("taget coordinates: {}", action.getTargetCoordinates());
+
+		//source
+		screenPosition = MapUtils.calculateUIPositionFromMapOffset(MapUtils.getTileByCoordinates(this.getMapPosition()).getMapPosition());
+		action.setSourceCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+		logger.info("source coordinates: {}", action.getSourceCoordinates());
+
 		if (tile != null)
 		{
+			logger.info("we found the file, its the players: {}", tile);
 			if (getWeapon() == null)
 			{
 				setWeapon(Game.getCurrent().getWeaponList().get(1));
@@ -432,6 +449,7 @@ public class NPC extends AbstractEntity
 
 			if (getWeapon().getType().equals(WeaponTypes.RANGED))
 			{
+				logger.info("here at ranged attack");
 				Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
 				Game.getCurrent().getCurrentMap().getMissiles().add(m);
 
@@ -442,8 +460,16 @@ public class NPC extends AbstractEntity
 						if (n.getMapPosition().equals(tile.getMapPosition()))
 						{
 							logger.info("hitting player: {}", n);
-							m.setSuccess(NPCUtils.calculateHit(this, n));
-							logger.info("hit or no hit: {}", m.isSuccess());
+							if (NPCUtils.calculateHit(this, n))
+							{
+								logger.info("hit");
+								n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+								EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+							}
+							else
+							{
+								logger.info("miss");
+							}
 							break;
 						}
 					}
@@ -455,6 +481,7 @@ public class NPC extends AbstractEntity
 			}
 			else
 			{
+				logger.info("meleee");
 				if (Game.getCurrent().getCurrentMap().getPlayers().size() > 0)
 				{
 					for (AbstractEntity n : Game.getCurrent().getCurrentMap().getPlayers())
@@ -477,11 +504,12 @@ public class NPC extends AbstractEntity
 						}
 					}
 				}
-				else
-				{
-					//No NPCs
-				}
+
 			}
+		}
+		else
+		{
+			logger.info("here, tile is null");
 		}
 		return true;
 	}
@@ -495,4 +523,61 @@ public class NPC extends AbstractEntity
 	{
 		this.victim = victim;
 	}
+
+	public boolean isRanged()
+	{
+		if (this.getWeapon() == null)
+		{
+			return false;
+		}
+		if (this.getWeapon().getType().equals(WeaponTypes.RANGED))
+		{
+			return true;
+		}
+
+		for (AbstractItem item : this.getInventory().getInventory())
+		{
+			if (item instanceof Weapon)
+			{
+				if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	public void setRanged(boolean ranged)
+	{
+		this.ranged = ranged;
+	}
+
+	/**
+	 *
+	 * @param ranged - switch to this weapon type
+	 */
+	public void switchWeapon(WeaponTypes ranged)
+	{
+		logger.info("switching weapon");
+		this.setWeapon(null);
+		for (int i = 0; i <= getInventory().getSize();i++)
+		{
+			if (getInventory().getElementAt(i) instanceof Weapon)
+
+			{
+				if (((Weapon) getInventory().getElementAt(i)).getType().equals(ranged))
+				{
+					this.wieldWeapon((Weapon) getInventory().getElementAt(i));
+				}
+			}
+		}
+	}
+
+	private void attack(MapTile tileByCoordinates)
+	{
+		Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
+	}
+
 }

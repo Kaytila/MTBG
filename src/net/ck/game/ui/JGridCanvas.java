@@ -164,7 +164,8 @@ public class JGridCanvas extends JComponent
         paintFurniture(g);
 
         //paint the missiles on the screen
-        paintMissiles(g);
+        //paintMissiles(g);
+        paintMissilesFullLineAtOnce(g);
 
 
         // take component size and draw lines every $tileSize pixels.
@@ -434,7 +435,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public void onMessageEvent(PlayerPositionChanged event)
     {
-        logger.info("player position changed, lets see whether this is also called for NPCs");
+        //logger.info("player position changed, lets see whether this is also called for NPCs");
         this.repaint();
     }
 

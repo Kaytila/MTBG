@@ -62,7 +62,7 @@ public class NPCUtils
         final Range<Integer> rangeY = Range.between(e.getOriginalMapPosition().y - 2, e.getOriginalMapPosition().y + 2);
 
         Random rand = new Random();
-        logger.info("npc {}, original position {}, map position: {}",e,  e.getOriginalMapPosition(), e.getMapPosition());
+        //logger.info("npc {}, original position {}, map position: {}",e,  e.getOriginalMapPosition(), e.getMapPosition());
 
         switch (rand.nextInt(4))
         {
@@ -189,16 +189,18 @@ public class NPCUtils
      */
     public static PlayerAction calculateVictimDirection(NPC n)
     {
+
         logger.error("Fix me");
         Point sourcePoint = n.getMapPosition();
         Point targetPoint = n.getVictim().getMapPosition();
-
+        //logger.info("source Point: {}", sourcePoint);
+        //logger.info("target Point: {}", targetPoint);
         // more to the east
         if (sourcePoint.x > targetPoint.x)
         {
             if (MapUtils.lookAhead(sourcePoint.x, targetPoint.x - 1))
             {
-                return new PlayerAction(new WestAction(), n);
+                return new PlayerAction(new EastAction(), n);
             }
         }
 
@@ -207,7 +209,7 @@ public class NPCUtils
         {
             if (MapUtils.lookAhead(sourcePoint.x, targetPoint.x + 1))
             {
-                return new PlayerAction(new EastAction(), n);
+                return new PlayerAction(new WestAction(), n);
             }
         }
 
@@ -216,7 +218,7 @@ public class NPCUtils
         {
             if (MapUtils.lookAhead(sourcePoint.y, targetPoint.y - 1))
             {
-                return new PlayerAction(new NorthAction(), n);
+                return new PlayerAction(new SouthAction(), n);
             }
         }
 
@@ -225,13 +227,10 @@ public class NPCUtils
         {
             if (MapUtils.lookAhead(sourcePoint.y, targetPoint.y + 1))
             {
-                return new PlayerAction(new SouthAction(), n);
+                return new PlayerAction(new NorthAction(), n);
             }
         }
 
         return new PlayerAction(new SpaceAction(), n);
     }
-
-
-
 }

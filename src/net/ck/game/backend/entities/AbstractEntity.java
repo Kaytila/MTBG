@@ -294,11 +294,18 @@ public abstract class AbstractEntity
                     {
                         if (n.getMapPosition().equals(tile.getMapPosition()))
                         {
-                            logger.info("hitting NPC: {}", n);
                             n.setAgressive(true);
                             n.setVictim(this);
-                            m.setSuccess(NPCUtils.calculateHit(this, n));
-                            logger.info("hit or no hit: {}", m.isSuccess());
+                            if (NPCUtils.calculateHit(this, n))
+                            {
+                                logger.info("hit");
+                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                            }
+                            else
+                            {
+                                logger.info("miss");
+                            }
                             break;
                         }
                     }
