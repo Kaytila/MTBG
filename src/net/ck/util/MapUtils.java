@@ -405,6 +405,12 @@ public class MapUtils
         return new Point(xDiff, yDiff);
     }
 
+    /**
+     *
+     * @param x x coordinate of the tile
+     * @param y y coordinate of the tile
+     * @return if the tile is blocked, so need to check for FALSE instead of TRUE
+     */
     public static boolean lookAhead(int x, int y)
     {
         for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
@@ -420,6 +426,12 @@ public class MapUtils
         return false;
     }
 
+    /**
+     * Helper Method - returns the tile at coordinates point on the currently active map
+     *
+     * @param p Point
+     * @return the maptile which is found with P coordinates
+     */
     public static MapTile getTileByCoordinates(Point p)
     {
         for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())

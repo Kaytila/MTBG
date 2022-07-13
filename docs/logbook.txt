@@ -513,3 +513,5 @@ adding animated tiles
             (and has a ranged weapon). open todos: draw missiles one after the other. have turn really end after the
             missile has struck. definitely need to fix the AI behaviour in order to make npc with melee move towards
             player.
+2022-07-13: movement towards the player in case of melee finally works. Oh, and I had a bug that advancing the turn did
+            not work due to a few return statements, I need to look at some basic java syntax I think.

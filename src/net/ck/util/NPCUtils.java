@@ -184,8 +184,8 @@ public class NPCUtils
     }
 
     /**
-     *  dumb calculation, move towards the victim, still a bug there.
-     *  TODO: still a problem there, need to recalculate.
+     *  Helper method, dumb calculation - move towards the player for attacking in melee
+     *  need to write the opposite for fleeing
      */
     public static PlayerAction calculateVictimDirection(NPC n)
     {
@@ -193,41 +193,49 @@ public class NPCUtils
         logger.error("Fix me");
         Point sourcePoint = n.getMapPosition();
         Point targetPoint = n.getVictim().getMapPosition();
-        //logger.info("source Point: {}", sourcePoint);
-        //logger.info("target Point: {}", targetPoint);
-        // more to the east
+        logger.info("source Point: {}", sourcePoint);
+        logger.info("target Point: {}", targetPoint);
+        // NPC is more to the east
         if (sourcePoint.x > targetPoint.x)
         {
-            if (MapUtils.lookAhead(sourcePoint.x, targetPoint.x - 1))
+            logger.info("NPC is more to the east, move west.");
+            if (!(MapUtils.lookAhead(sourcePoint.x - 1, sourcePoint.y)))
             {
-                return new PlayerAction(new EastAction(), n);
-            }
-        }
-
-        // more to the west
-        if (sourcePoint.x < targetPoint.x)
-        {
-            if (MapUtils.lookAhead(sourcePoint.x, targetPoint.x + 1))
-            {
+                logger.info("tile to the west is free, move");
                 return new PlayerAction(new WestAction(), n);
             }
         }
 
-        // more to the south
-        if (sourcePoint.y > targetPoint.y)
+        // NPC is more to the west, move east
+        if (sourcePoint.x < targetPoint.x)
         {
-            if (MapUtils.lookAhead(sourcePoint.y, targetPoint.y - 1))
+            logger.info("NPC is more to the west, move east");
+            if (!(MapUtils.lookAhead(sourcePoint.x + 1 , sourcePoint.y)))
             {
-                return new PlayerAction(new SouthAction(), n);
+                logger.info("Tile to the east is free, move east");
+                return new PlayerAction(new EastAction(), n);
             }
         }
 
-        // more to the north
+        // NPC is more to the south, move north
+        if (sourcePoint.y > targetPoint.y)
+        {
+            logger.info("npc is more to the south, move north");
+            if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y - 1)))
+            {
+                logger.info("tile to the north is free, move north");
+                return new PlayerAction(new NorthAction(), n);
+            }
+        }
+
+        // NPC is more to the north, move south
         if (sourcePoint.y < targetPoint.y)
         {
-            if (MapUtils.lookAhead(sourcePoint.y, targetPoint.y + 1))
+            logger.info("npc is more to the north, move south");
+            if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y + 1)))
             {
-                return new PlayerAction(new NorthAction(), n);
+                logger.info("tile to the south is free, move south");
+                return new PlayerAction(new SouthAction(), n);
             }
         }
 

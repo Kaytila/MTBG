@@ -670,7 +670,7 @@ public class Game
 						{
 							logger.info("attacking");
 							e.doAction(new PlayerAction(new AttackAction(), e));
-							return;
+							//return;
 						}
 						//victim is not adjacent
 						else
@@ -690,23 +690,22 @@ public class Game
 									action.getEvent().setSourceCoordinates(e.getMapPosition());
 									action.getEvent().setTargetCoordinates(e.getVictim().getMapPosition());
 									e.doAction(action);
-									return;
+									//return;
 								}
 								//in inventory, wield
 								else
 								{
 									logger.info("ranged weapon in inventory");
 									e.switchWeapon(WeaponTypes.RANGED);
-									return;
+									//return;
 								}
 							}
 							else
 							{
-
+								logger.info("out of range move towards victim");
+								e.doAction((NPCUtils.calculateVictimDirection(e)));
+								//return;
 							}
-							logger.info("out of range move towards victim");
-							e.doAction((NPCUtils.calculateVictimDirection(e)));
-							return;
 						}
 					}
 					else
@@ -737,7 +736,7 @@ public class Game
 			this.setCurrentTurn(turn);
 			getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
 			MapUtils.calculateDayOrNight();
-			logger.info("============================================================================");
+			logger.info("=======================================================================================");
 			// logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			// Game.getCurrent().initializeTurnTimer();
 		}
