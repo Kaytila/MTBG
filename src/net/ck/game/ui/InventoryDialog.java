@@ -77,5 +77,9 @@ public class InventoryDialog extends AbstractDialog
 		return logger;
 	}
 	
-	
+	public void paintBorder(Graphics g)
+	{
+
+	}
+
 }

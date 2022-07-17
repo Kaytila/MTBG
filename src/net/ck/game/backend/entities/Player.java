@@ -1,16 +1,5 @@
 package net.ck.game.backend.entities;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.PlayerAction;
@@ -18,8 +7,14 @@ import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
-public class Player extends AbstractEntity
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+public class Player extends AbstractEntity implements LifeForm
 {
 
 	/**
@@ -113,59 +108,6 @@ public class Player extends AbstractEntity
 		getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);		
 	}
 
-	@SuppressWarnings("unused")
-	/**
-	 * old way of loading images - unused
-	 */
-	private void oldImageLoading()
-	{
-		logger.error("called by accident");
-		System.exit(-1);
-		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-		BufferedImage standardImage = null;
-		BufferedImage movingImage = null;
-		String imageRootPath = "graphics/players/player";
-		try
-		{
-			standardImage = ImageIO.read(new File(imageRootPath + getNumber() + "/image1.png"));
-		}
-		catch (IOException e1)
-		{
-			logger.error("problem loading standard image {}", imageRootPath + getNumber() + "/image1.png");
-			e1.printStackTrace();
-		}
-		catch (java.security.AccessControlException e2)
-		{
-			logger.error("caught it");
-		}
-
-		for (int i = 1; i < Game.getCurrent().getAnimationCycles(); i++)
-		{
-			try
-			{
-				logger.info("images: {} ", imageRootPath + getNumber() + "/image" + i + ".png");
-				movingImage = ImageIO.read(new File(imageRootPath + getNumber() + "/image" + i + ".png"));
-				animationCycles++;
-
-			}
-			catch (IOException e)
-			{
-				logger.error("problem loading image {}", imageRootPath + getNumber() + "/image" + i + ".png");
-
-			}
-			catch (java.security.AccessControlException e2)
-			{
-				logger.error("caught it");
-			}
-
-			images.add(movingImage);
-		}
-		images.add(standardImage);
-
-	}
-
-
-
 	public int getAnimationCycles()
 	{
 		return this.animationCycles;
@@ -201,4 +143,18 @@ public class Player extends AbstractEntity
 	{
 		return new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
 	}
+
+
+	@Override
+	public void search()
+	{
+		for (int xStart = getMapPosition().x - 1; xStart <= getMapPosition().x + 1; xStart++)
+		{
+			for (int yStart = getMapPosition().y - 1; yStart <= getMapPosition().y + 1; yStart++)
+			{
+				logger.info("searching maptile: {}", MapUtils.getTileByCoordinates(new Point(xStart, yStart)));
+			}
+		}
+	}
+
 }

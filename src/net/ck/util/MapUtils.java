@@ -422,7 +422,7 @@ public class MapUtils
                 return t.isBlocked();
             }
         }
-        logger.info("returning false");
+        logger.info("Big Problem, did not find the tile on the map - returning false");
         return false;
     }
 

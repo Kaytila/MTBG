@@ -262,7 +262,7 @@ public abstract class AbstractEntity
      * guess one implementation in player and one in entity or in NPC should do the trick
      *
      */
-    private boolean attack(AbstractKeyboardAction action)
+    public boolean attack(AbstractKeyboardAction action)
     {
         logger.info("player attacking");
         MapTile tile;
@@ -275,7 +275,7 @@ public abstract class AbstractEntity
         {
             tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
         }
-        logger.info("tile: {}", tile);
+        //logger.info("tile: {}", tile);
         if (tile != null)
         {
             if (getWeapon() == null)
@@ -287,7 +287,7 @@ public abstract class AbstractEntity
             {
                 Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
                 Game.getCurrent().getCurrentMap().getMissiles().add(m);
-                logger.info("tile: {}", tile);
+                //logger.info("tile: {}", tile);
                 if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
                 {
                     for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())

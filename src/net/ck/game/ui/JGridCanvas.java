@@ -392,6 +392,7 @@ public class JGridCanvas extends JComponent
             }
         }
         Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
+        //Game.getCurrent().getMissileTimer().stop();
     }
 
 
@@ -663,5 +664,15 @@ public class JGridCanvas extends JComponent
             firePropertyChange("dragEnabled", !dragEnabled, dragEnabled);
         }
     }
+
+    /**
+     * TODO this is where I will paint the borders
+     * @param g
+     */
+    public void paintBorder(Graphics g)
+    {
+        super.paintBorder(g);
+    }
+
 
 }

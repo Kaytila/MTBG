@@ -26,7 +26,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-public class NPC extends AbstractEntity
+public class NPC extends AbstractEntity implements LifeForm
 {
 
 	private final Logger logger = LogManager.getLogger(getRealClass());
@@ -414,7 +414,7 @@ public class NPC extends AbstractEntity
 	 *
 	 */
 
-	private boolean attack(AbstractKeyboardAction action)
+	public boolean attack(AbstractKeyboardAction action)
 	{
 		logger.info("NPC Attacking");
 		MapTile tile;
@@ -514,6 +514,12 @@ public class NPC extends AbstractEntity
 		return true;
 	}
 
+	@Override
+	public void search()
+	{
+		LifeForm.super.search();
+	}
+
 	public AbstractEntity getVictim()
 	{
 		return victim;
@@ -565,7 +571,6 @@ public class NPC extends AbstractEntity
 		for (int i = 0; i <= getInventory().getSize();i++)
 		{
 			if (getInventory().getElementAt(i) instanceof Weapon)
-
 			{
 				if (((Weapon) getInventory().getElementAt(i)).getType().equals(ranged))
 				{

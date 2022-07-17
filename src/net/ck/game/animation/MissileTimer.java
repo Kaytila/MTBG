@@ -12,6 +12,7 @@ public class MissileTimer extends Timer
 
     private final Logger logger = LogManager.getLogger(getRealClass());
 
+    private boolean running;
     /**
      * Creates a {@code Timer} and initializes both the initial delay and
      * between-event delay to {@code delay} milliseconds. If {@code delay}
@@ -41,6 +42,7 @@ public class MissileTimer extends Timer
     public void start()
     {
         logger.info("starting missile queue timer");
+        setRunning(true);
         super.start();
     }
 
@@ -50,8 +52,19 @@ public class MissileTimer extends Timer
         if (this.isRunning())
         {
             logger.info("stopping missile queue timer");
+            setRunning(false);
             super.stop();
         }
     }
 
+    @Override
+    public boolean isRunning()
+    {
+        return running;
+    }
+
+    public void setRunning(boolean running)
+    {
+        this.running = running;
+    }
 }

@@ -515,3 +515,6 @@ adding animated tiles
             player.
 2022-07-13: movement towards the player in case of melee finally works. Oh, and I had a bug that advancing the turn did
             not work due to a few return statements, I need to look at some basic java syntax I think.
+2022-07-17: started on LifeForm interface in order to iterate over interface instead of entities and needing to cast
+            those or reimplement or even care about the actual type.
+            I hope this works :D Clean Commit to be safe. Sorry later :D

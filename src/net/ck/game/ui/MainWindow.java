@@ -545,12 +545,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						setSelectTile(false);
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-						logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
+						//logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
 						Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
 						getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
-						logger.info("taget coordinates: {}", getCurrentAction().getTargetCoordinates());
-						runActions(getCurrentAction(), true);
+						//logger.info("taget coordinates: {}", getCurrentAction().getTargetCoordinates());
 						Game.getCurrent().getMissileTimer().start();
+						runActions(getCurrentAction(), true);
+
 						break;
 					default:
 						throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());

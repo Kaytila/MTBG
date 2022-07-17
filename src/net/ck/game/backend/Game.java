@@ -654,6 +654,21 @@ public class Game
 				}
 			}*/
 
+			/*if (Game.getCurrent().getMissileTimer() != null)
+			{
+				while (Game.getCurrent().getMissileTimer().isRunning())
+				{
+					try
+					{
+						Thread.sleep(5);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}*/
+
 			// logger.info("current turn number 1: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			//
 			// logger.info("npc actions");
