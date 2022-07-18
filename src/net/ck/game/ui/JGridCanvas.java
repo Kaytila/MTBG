@@ -1,7 +1,7 @@
 package net.ck.game.ui;
 
 import net.ck.game.backend.Game;
-import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.FurnitureItem;
@@ -609,7 +609,7 @@ public class JGridCanvas extends JComponent
 
     private void paintNPCs(Graphics g)
     {
-        for (AbstractEntity entity : Game.getCurrent().getAnimatedEntities())
+        for (LifeForm entity : Game.getCurrent().getAnimatedEntities())
         {
 
             entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));

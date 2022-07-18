@@ -1,16 +1,15 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.backend.CommandQueue;
 import net.ck.game.backend.Game;
-import net.ck.game.backend.actions.AbstractAction;
-import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
-import net.ck.game.items.*;
+import net.ck.game.items.AbstractItem;
+import net.ck.game.items.Armor;
+import net.ck.game.items.ArmorPositions;
+import net.ck.game.items.Weapon;
 import net.ck.game.map.MapTile;
-import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
-import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
@@ -105,249 +104,10 @@ public abstract class AbstractEntity
         setLevel(1);
     }
 
-    /**
-     * @param action KeyboardAction.type
-     */
-    public void doAction(AbstractAction action)
-    {
 
-        //logger.info("do action: {}", action.toString());
-        Point p = getMapPosition();
-        Point mapsize = Game.getCurrent().getCurrentMap().getSize();
-
-        int xBorder = mapsize.x;
-        int yBorder = mapsize.y;
-
-        boolean success = false;
-
-        switch (action.getType())
-        {
-            case EAST:
-                // logger.info("p: {}", p.toString());
-
-                if (p.x + 1 <= xBorder)
-                {
-                    if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
-                    {
-                        this.move((p.x + 1), p.y);
-                        success = true;
-                    }
-                    else
-                    {
-                        //logger.info("EAST blocked");
-                    }
-                }
-                else
-                {
-                    logger.info("eastern border, ignore wrapping for now");
-                }
-                break;
-            case ENTER:
-                logger.info("loading new map");
-                Game.getCurrent().switchMap();
-                break;
-            case ESC:
-                break;
-            case NORTH:
-                // logger.info("p: {}", p.toString());
-                if (p.y > 0)
-                {
-                    if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
-                    {
-                        this.move((p.x), (p.y - 1));
-                        success = true;
-                    }
-                    else
-                    {
-                        //logger.info("NORTH blocked");
-                    }
-                }
-                else
-                {
-                    logger.info("already at zero y");
-                }
-                break;
-            case NULL:
-                break;
-            case SOUTH:
-                // logger.info("p: {}", p.toString());
-                if (p.y + 1 <= yBorder)
-                {
-                    if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
-                    {
-                        this.move((p.x), (p.y + 1));
-                        success = true;
-                    }
-                    else
-                    {
-                        //logger.info("SOUTH blocked");
-                    }
-
-                }
-                else
-                {
-                    logger.info("southern border, ignore wrapping for now");
-                }
-                break;
-            case WEST:
-                // logger.info("p: {}", p.toString());
-                if (p.x > 0)
-                {
-                    if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
-                    {
-                        this.move((p.x - 1), (p.y));
-                        success = true;
-                    }
-                    else
-                    {
-                        //logger.info("WEST blocked");
-                    }
-                }
-                else
-                {
-                    logger.info("already at zero x");
-                }
-                break;
-            case SPACE:
-                success = true;
-                break;
-            case GET:
-                success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
-                break;
-
-            case DROP:
-                success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
-                break;
-
-            case TALK:
-                logger.info("doing talk action");
-                break;
-
-            case MOVE:
-                success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
-                break;
-
-            case SEARCH:
-                this.search();
-                break;
-
-            case ATTACK:
-                success = this.attack(action.getEvent());
-                break;
-            default:
-                logger.info("doing default action, inventory does not need to be reverted for instance");
-                break;
-        }
-
-        // so if the action was done successful, add the action to the turn
-        // if not, create a null action and add this to the turn.
-        if (success == true)
-        {
-            Game.getCurrent().getCurrentTurn().getActions().add((PlayerAction) action);
-        }
-        else
-        {
-            Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction(), action.getEntity()));
-        }
-        //Game.getCurrent().getController().setCurrentAction(null);
-    }
 
     /**
-     *
-     * @param action keyboard action (attack action)
-     * @return returns whether it is a hit
-     *
-     * currently this method works for both PC and NPC.
-     * this needs a rewrite. npcs and players are kept separate
-     * guess one implementation in player and one in entity or in NPC should do the trick
-     *
-     */
-    public boolean attack(AbstractKeyboardAction action)
-    {
-        logger.info("player attacking");
-        MapTile tile;
-        if (action.getTargetCoordinates() == null)
-        {
-            //this is a npc attacking
-            tile = MapUtils.getTileByCoordinates(Game.getCurrent().getCurrentPlayer().getMapPosition());
-        }
-        else
-        {
-            tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
-        }
-        //logger.info("tile: {}", tile);
-        if (tile != null)
-        {
-            if (getWeapon() == null)
-            {
-                setWeapon(Game.getCurrent().getWeaponList().get(1));
-            }
 
-            if (getWeapon().getType().equals(WeaponTypes.RANGED))
-            {
-                Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
-                Game.getCurrent().getCurrentMap().getMissiles().add(m);
-                //logger.info("tile: {}", tile);
-                if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
-                {
-                    for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
-                    {
-                        if (n.getMapPosition().equals(tile.getMapPosition()))
-                        {
-                            n.setAgressive(true);
-                            n.setVictim(this);
-                            if (NPCUtils.calculateHit(this, n))
-                            {
-                                logger.info("hit");
-                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                            }
-                            else
-                            {
-                                logger.info("miss");
-                            }
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    //No NPCs
-                }
-            }
-            else
-            {
-                if (Game.getCurrent().getCurrentMap().getNpcs().size() > 0)
-                {
-                    for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
-                    {
-                        if (n.getMapPosition().equals(tile.getMapPosition()))
-                        {
-                            logger.info("hitting NPC: {}", n);
-                            n.setAgressive(true);
-                            n.setVictim(this);
-                            if (NPCUtils.calculateHit(this, n))
-                            {
-                                logger.info("hit");
-                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                            }
-                            else
-                            {
-                                logger.info("miss");
-                            }
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    //No NPCs
-                }
-            }
-        }
-        return true;
-    }
 
     private void attack(MapTile tileByCoordinates)
     {
@@ -459,92 +219,7 @@ public abstract class AbstractEntity
         return true;
     }
 
-    public boolean moveTo(MapTile tileByCoordinates)
-    {
 
-
-        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
-        logger.info("finish: {}", tileByCoordinates);
-
-        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
-        ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
-        Point futureMapposition = new Point(getMapPosition().x, getMapPosition().y);
-        for (MapTile node : path)
-        {
-            if (node.getMapPosition().equals(getMapPosition()))
-            {
-                logger.info("start node");
-            }
-            else
-            {
-                logger.info(node);
-                if (node.x > futureMapposition.x)
-                {
-
-                    if (this instanceof Player)
-                    {
-                        Game.getCurrent().getCommandQueue().addEntry(new EastAction());
-                    }
-                    else if (this instanceof NPC)
-                    {
-                        logger.info("add east");
-                        NPC n = (NPC) this;
-                        n.getQueuedActions().add(new EastAction());
-                    }
-                    futureMapposition.move(futureMapposition.x + 1, futureMapposition.y);
-                }
-
-                else if (node.x < futureMapposition.x)
-                {
-
-                    if (this instanceof Player)
-                    {
-                        Game.getCurrent().getCommandQueue().addEntry(new WestAction());
-                    }
-                    else if (this instanceof NPC)
-                    {
-                        logger.info("add west");
-                        NPC n = (NPC) this;
-                        n.getQueuedActions().add(new WestAction());
-                    }
-                    futureMapposition.move(futureMapposition.x - 1, futureMapposition.y);
-                }
-
-                else if (node.y > futureMapposition.y)
-                {
-
-                    if (this instanceof Player)
-                    {
-                        Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
-                    }
-                    else if (this instanceof NPC)
-                    {
-                        logger.info("add south");
-                        NPC n = (NPC) this;
-                        n.getQueuedActions().add(new SouthAction());
-                    }
-                    futureMapposition.move(futureMapposition.x, futureMapposition.y + 1);
-                }
-
-                else if (node.y < futureMapposition.y)
-                {
-
-                    if (this instanceof Player)
-                    {
-                        Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
-                    }
-                    else if (this instanceof NPC)
-                    {
-                        logger.info("add north");
-                        NPC n = (NPC) this;
-                        n.getQueuedActions().add(new NorthAction());
-                    }
-                    futureMapposition.move(futureMapposition.x, futureMapposition.y - 1);
-                }
-            }
-        }
-        return true;
-    }
 
 
     boolean dropItem(AbstractItem affectedItem, MapTile tile)
@@ -914,4 +589,60 @@ public abstract class AbstractEntity
     {
         this.shield = shield;
     }
+
+    /**
+     *
+     * @param tileByCoordinates target tile
+     */
+    public boolean moveTo(MapTile tileByCoordinates)
+    {
+        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
+        logger.info("finish: {}", tileByCoordinates);
+
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
+        ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
+        Point futureMapposition = new Point(getMapPosition().x, getMapPosition().y);
+        for (MapTile node : path)
+        {
+            if (node.getMapPosition().equals(getMapPosition()))
+            {
+                logger.info("start node");
+            }
+            else
+            {
+                logger.info(node);
+                if (node.x > futureMapposition.x)
+                {
+                    getQueuedActions().addEntry(new EastAction());
+                    futureMapposition.move(futureMapposition.x + 1, futureMapposition.y);
+                }
+
+                else if (node.x < futureMapposition.x)
+                {
+                    getQueuedActions().addEntry(new WestAction());
+                    futureMapposition.move(futureMapposition.x - 1, futureMapposition.y);
+                }
+
+                else if (node.y > futureMapposition.y)
+                {
+                    getQueuedActions().addEntry(new SouthAction());
+                    futureMapposition.move(futureMapposition.x, futureMapposition.y + 1);
+                }
+
+                else if (node.y < futureMapposition.y)
+                {
+                    getQueuedActions().addEntry(new NorthAction());
+                    futureMapposition.move(futureMapposition.x, futureMapposition.y - 1);
+                }
+            }
+            if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
+            {
+                logger.info("target can be reached");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected abstract CommandQueue getQueuedActions();
 }

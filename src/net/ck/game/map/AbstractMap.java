@@ -1,6 +1,5 @@
 package net.ck.game.map;
 
-import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
@@ -28,7 +27,7 @@ public class AbstractMap
 	@Override
 	public String toString()
 	{
-		return "AbstractMap [name=" + name + ", childMaps=" + childMaps + ", parentMap=" + parentMap + ", size=" + size + ", players=" + players + "]";
+		return "AbstractMap [name=" + name + ", childMaps=" + childMaps + ", parentMap=" + parentMap + ", size=" + size  + "]";
 	}
 
 
@@ -75,12 +74,6 @@ public class AbstractMap
 	 */
 	protected ArrayList<MapTile> tiles;
 
-	
-	/**
-	 * the list of players who are on the current map
-	 */
-	private ArrayList<AbstractEntity> players;
-	
 	/**
 	 * npc is close to player but not quite the same :D
 	 */
@@ -118,16 +111,6 @@ public class AbstractMap
 	public void setItems(ArrayList<AbstractItem> items)
 	{
 		this.items = items;
-	}
-
-	public ArrayList<AbstractEntity> getPlayers()
-	{
-		return this.players;
-	}
-
-	public void setPlayers(ArrayList<AbstractEntity> players)
-	{
-		this.players = players;
 	}
 
 	private ArrayList<Missile> missiles;

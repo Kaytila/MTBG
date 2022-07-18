@@ -1,9 +1,8 @@
 package net.ck.game.map;
 
-import net.ck.game.backend.entities.AbstractEntity;
-import net.ck.game.backend.entities.Missile;
+import net.ck.game.backend.Game;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.NPC;
-import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.MapUtils;
@@ -11,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Map can be any map in the game but the main Map, so to speak. That is handled by GameMap
@@ -22,9 +22,8 @@ import java.util.ArrayList;
  */
 public class Map extends AbstractMap
 {
-
 	/**
-	 * if the map wraps, calulate the eastern most tiles and connect them to the western most stores the ids
+	 * if the map wraps, calculate the easternmost tiles and connect them to the westernmost stores the ids
 	 */
 	private ArrayList<MapTile> eastTiles;
 
@@ -39,7 +38,7 @@ public class Map extends AbstractMap
 	private int weatherRandomness;
 
 	/**
-	 * is there a weather system? is the weather system changing on a separate thread or not? lets try for synced and asynched
+	 * is there a weather system? is the weather system changing on a separate thread or not? let us try for synced and asynchronous
 	 */
 	private boolean weatherSystem;
 
@@ -78,13 +77,14 @@ public class Map extends AbstractMap
 		this.weatherRandomness = weatherRandomness;
 	}
 
+	private ArrayList<LifeForm> lifeForms;
+
 	public Map()
 	{
 		setName(null);
-		setPlayers(new ArrayList<AbstractEntity>());
-		setNpcs(new ArrayList<NPC>());
-		setTiles(new ArrayList<MapTile>());
-		setMissiles(new ArrayList<Missile>());
+		setNpcs(new ArrayList<>());
+		setTiles(new ArrayList<>());
+		setMissiles(new ArrayList<>());
 	}
 
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
@@ -92,14 +92,7 @@ public class Map extends AbstractMap
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -119,14 +112,14 @@ public class Map extends AbstractMap
 
 	/**
 	 * initializing the map before use - to make sure all moving parts are set properly.
-	 * most of it shuold have already been done by loading the map from XML.
+	 * most of it should have already been done by loading the map from XML.
 	 */
 	public void initialize()
 	{
 		//should not be necessary, but better be safe than sorry
 		if (getItems() == null)
 		{
-			setItems(new ArrayList<AbstractItem>());
+			setItems(new ArrayList<>());
 		}
 
 		if (getWeather() == null)
@@ -148,11 +141,7 @@ public class Map extends AbstractMap
 		}
 		else
 		{
-			if (isWeatherSystem() == true)
-			{
-				//getWeather().setType(WeatherTypes.SUN);
-			}
-			else
+			if (isWeatherSystem() != true)
 			{
 				getWeather().setType(WeatherTypes.NONE);
 			}
@@ -166,30 +155,24 @@ public class Map extends AbstractMap
 			setEastTiles(calculateEasternEdge());
 			connectEastTilesToWestTiles(getEastTiles());
 		}
-		// MapUtils.calculateTileDirections(getTiles());
-		//listNPCs();
+
+		listNPCs();
 	}
 
 	/**
 	 * Calculates the eastern edge map tiles
 	 * 
-	 * @return the list of maptiles which are the eastern edge
+	 * @return the list of map tiles which are the eastern edge
 	 */
 	public ArrayList<MapTile> calculateEasternEdge()
 	{
-		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
+		ArrayList<MapTile> tiles = new ArrayList<>();
 
 		for (MapTile tile : getTiles())
 		{
-			// you have an eastern map tile, ignore
-			if (tile.getEast() != null)
+			// no tile east, we have found an eastern edge
+			if (tile.getEast() == null)
 			{
-				// logger.info("eastern tile: " + tile.toString());
-			}
-			// we have a winner
-			else
-			{
-				// logger.info("has no eastern connection: " + tile.toString());
 				tiles.add(tile);
 			}
 		}
@@ -208,12 +191,11 @@ public class Map extends AbstractMap
 	}
 
 	/**
-	 * this is a pretty dumb implementation I think but it should work:
+	 * this is a pretty dumb implementation, I think, but it should work:
 	 * 
 	 * 1. we have calculated the eastern tiles, now take each tile, check the y coordinates and set the east tile to the one with x=0 and the same y coordinate. also take the x=0, y1=y2 tile and
 	 * connect it via west to the easternmost tile
-	 * 
-	 * @param eastTiles2
+	 * @param eastTiles2 - array list of all easternmost tiles
 	 */
 	public void connectEastTilesToWestTiles(ArrayList<MapTile> eastTiles2)
 	{
@@ -243,7 +225,7 @@ public class Map extends AbstractMap
 	public String toString()
 	{
 		return "Map [syncedWeatherSystem=" + syncedWeatherSystem + ", weatherRandomness=" + weatherRandomness + ", weatherSystem=" + weatherSystem + ", wrapping=" + wrapping + " , toString()="
-			+ super.toString() + "]";
+			+ super.toString() +  "]";
 	}
 
 	
@@ -254,5 +236,16 @@ public class Map extends AbstractMap
 			logger.info("npc: {}", n);
 		}
 	}
-	
+
+	public ArrayList<LifeForm> getLifeForms()
+	{
+		if (lifeForms == null)
+		{
+			lifeForms = new ArrayList<>();
+			lifeForms.addAll(getNpcs());
+			lifeForms.add(Game.getCurrent().getCurrentPlayer());
+		}
+		return lifeForms;
+	}
+
 }

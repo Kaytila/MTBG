@@ -1,9 +1,8 @@
 package net.ck.util.communication.graphics;
 
+import net.ck.game.backend.entities.LifeForm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import net.ck.game.backend.entities.AbstractEntity;
 
 import java.util.Objects;
 
@@ -11,7 +10,7 @@ import java.util.Objects;
 public class AnimatedRepresentationChanged extends ChangedEvent {
 
 	private final Logger logger = LogManager.getLogger(getRealClass());
-	private AbstractEntity player;
+	private LifeForm player;
 
 
 	public Class<?> getRealClass()
@@ -20,17 +19,17 @@ public class AnimatedRepresentationChanged extends ChangedEvent {
 		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 	
-	public AnimatedRepresentationChanged(AbstractEntity p)
+	public AnimatedRepresentationChanged(LifeForm p)
 	{
 		this.player = p;
 	}
 
-	public AbstractEntity getPlayer()
+	public LifeForm getPlayer()
 	{
 		return this.player;
 	}
 
-	public void setPlayer(AbstractEntity player)
+	public void setPlayer(LifeForm player)
 	{
 		this.player = player;
 	}

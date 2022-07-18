@@ -56,7 +56,7 @@ public class GameMap extends Map
 	{
 		logger.error("WATCH OUT GAME MAP LAUNCHED");
 		Game.getCurrent().stopGame();
-		tiles = new ArrayList<MapTile>();
+		tiles = new ArrayList<>();
 		// small size
 		
 		setWeatherSystem(true);
@@ -68,7 +68,7 @@ public class GameMap extends Map
 		if (isWrapping())
 		{
 			logger.info("wrapping map initliazing");
-			setEastTiles(new ArrayList<MapTile>());
+			setEastTiles(new ArrayList<>());
 			setEastTiles(calculateEasternEdge());
 			connectEastTilesToWestTiles(getEastTiles());
 		}

@@ -1,12 +1,11 @@
 package net.ck.game.backend.actions;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
 import net.ck.game.backend.Result;
-import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import java.util.Objects;
 
@@ -27,7 +26,7 @@ public class AbstractAction
 	/**
 	 * who does the action?
 	 */
-	private AbstractEntity entity;
+	private LifeForm entity;
 	
 	/**
 	 * what type of event is it?
@@ -56,12 +55,12 @@ public class AbstractAction
 		this.title = title;
 	}
 
-	public AbstractEntity getEntity()
+	public LifeForm getEntity()
 	{
 		return entity;
 	}
 
-	public void setEntity(AbstractEntity ent)
+	public void setEntity(LifeForm ent)
 	{
 		this.entity = ent;
 	}

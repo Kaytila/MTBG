@@ -1,7 +1,7 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
-import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +49,7 @@ public class RandomAnimationSystem extends AnimationSystem
 			// that means, 2 animation cycles, no +1 needed.
 
 			// random variant
-			for (AbstractEntity p : Game.getCurrent().getAnimatedEntities())
+			for (LifeForm p : Game.getCurrent().getAnimatedEntities())
 			{
 				// logger.info("player: {}", p.toString());
 				setRandomNumber(rand.nextInt(Game.getCurrent().getAnimationCycles()));

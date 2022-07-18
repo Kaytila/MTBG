@@ -1,9 +1,13 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.backend.CommandQueue;
 import net.ck.game.backend.Game;
 import net.ck.game.backend.Turn;
+import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.RandomAction;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.game.map.MapTile;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -17,7 +21,7 @@ import java.util.Random;
  * @author Claus
  *
  */
-public class World extends AbstractEntity
+public class World extends AbstractEntity implements LifeForm
 {
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
@@ -74,6 +78,18 @@ public class World extends AbstractEntity
 	}
 
 	@Override
+	public boolean attack(AbstractKeyboardAction action)
+	{
+		return false;
+	}
+
+	@Override
+	public void search()
+	{
+
+	}
+
+	@Override
 	public AnimatedRepresentation getAppearance()
 	{
 		logger.error("world does not have a graphical appearance");
@@ -84,7 +100,7 @@ public class World extends AbstractEntity
 	public int getNumber()
 	{
 		logger.error("world does not have a number");
-		return 0;
+		return -1;
 	}
 
 	@Override
@@ -104,4 +120,45 @@ public class World extends AbstractEntity
 		return new Point(-1, -1);
 	}
 
+	@Override
+	public boolean moveTo(MapTile tileByCoordinates)
+	{
+		return false;
+	}
+
+	@Override
+	public void setAgressive(boolean b)
+	{
+
+	}
+
+	@Override
+	public void setVictim(LifeForm npc)
+	{
+
+	}
+
+	@Override
+	public LifeForm getVictim()
+	{
+		return null;
+	}
+
+	@Override
+	public Point getOriginalMapPosition()
+	{
+		return null;
+	}
+
+	@Override
+	protected CommandQueue getQueuedActions()
+	{
+		logger.error("world does not need a command queue - yet");
+		return null;
+	}
+
+	public void doAction(AbstractAction action)
+	{
+
+	}
 }

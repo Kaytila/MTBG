@@ -1,9 +1,12 @@
 package net.ck.util;
 
+import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.AttributeTypes;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.map.MapTile;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
@@ -55,7 +58,7 @@ public class NPCUtils
      * @return PlayerAction which direction the NPC will move to
      * only move 2 squares in any direction
      */
-    private static PlayerAction initializeWanderer(NPC e)
+    private static PlayerAction initializeWanderer(LifeForm e)
     {
 
         final Range<Integer> rangeX = Range.between(e.getOriginalMapPosition().x - 2, e.getOriginalMapPosition().x + 2);
@@ -116,7 +119,7 @@ public class NPCUtils
 
     }
 
-    public static boolean calculateHit(AbstractEntity attacker, AbstractEntity defender)
+    public static boolean calculateHit(LifeForm attacker, LifeForm defender)
     {
         int baseHitChance = 50;
         int attackDex = attacker.getAttributes().get(AttributeTypes.DEXTERITY).getValue();
@@ -187,10 +190,8 @@ public class NPCUtils
      *  Helper method, dumb calculation - move towards the player for attacking in melee
      *  need to write the opposite for fleeing
      */
-    public static PlayerAction calculateVictimDirection(NPC n)
+    public static PlayerAction calculateVictimDirection(LifeForm n)
     {
-
-        logger.error("Fix me");
         Point sourcePoint = n.getMapPosition();
         Point targetPoint = n.getVictim().getMapPosition();
         logger.info("source Point: {}", sourcePoint);
@@ -238,7 +239,22 @@ public class NPCUtils
                 return new PlayerAction(new SouthAction(), n);
             }
         }
-
         return new PlayerAction(new SpaceAction(), n);
     }
+
+
+    public static AbstractKeyboardAction calculateCoordinatesFromActionAndTile(AbstractKeyboardAction action, MapTile tile, LifeForm form)
+    {
+        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+        action.setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2), screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+        logger.info("taget coordinates: {}", action.getTargetCoordinates());
+
+        //source
+        screenPosition = MapUtils.calculateUIPositionFromMapOffset(MapUtils.getTileByCoordinates(form.getMapPosition()).getMapPosition());
+        action.setSourceCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2), screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+        logger.info("source coordinates: {}", action.getSourceCoordinates());
+        return action;
+    }
+
+
 }

@@ -29,560 +29,528 @@ import java.util.*;
 public class NPC extends AbstractEntity implements LifeForm
 {
 
-	private final Logger logger = LogManager.getLogger(getRealClass());
-	private AbstractRepresentation appearance;
-	
-	private NPCTypes type;
-	private Hashtable<String, String> mobasks;
+    private final Logger logger = LogManager.getLogger(getRealClass());
+    private AbstractRepresentation appearance;
 
-	/**
-	 * describes whether a npc is moving or not (outside of schedules)
-	 * @return true - meaning static, or false, meaning moving
-	 */
-	public boolean isStatic()
-	{
-		return isStatic;
-	}
+    private NPCTypes type;
+    private Hashtable<String, String> mobasks;
+    private boolean agressive;
+    private boolean isStatic;
+    private ArrayList<NPCSchedule> npcSchedules;
+    private CommandQueue queuedActions;
+    private LifeForm victim;
+    private boolean ranged;
+    /**
+     * original position on the map - remember the placement that the npc does not wander off too much
+     */
+    private Point originalMapPosition;
+    public NPC(Integer i, Point p)
+    {
+        setStatic(false);
+        setOriginalMapPosition(new Point(p.x, p.y));
+        NPC master = Game.getCurrent().getNpcList().get(i);
+        setMapPosition(new Point(p.x, p.y));
+        setType(master.getType());
+        setMobasks(master.getMobasks());
+        setNpcSchedules(new ArrayList<>());
+        setQueuedActions(new CommandQueue());
+        EventBus.getDefault().register(this);
+        getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
+        getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
+        getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
+        getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
+        setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
+        setArmorClass(0);
+        getInventory().add(Game.getCurrent().getWeaponList().get(3));
+        wieldWeapon(Game.getCurrent().getWeaponList().get(1));
+    }
 
-	public void setStatic(boolean aStatic)
-	{
-		isStatic = aStatic;
-	}
+    public NPC()
+    {
+        super();
+        mobasks = new Hashtable<>();
+    }
 
+    /**
+     * describes whether a npc is moving or not (outside of schedules)
+     *
+     * @return true - meaning static, or false, meaning moving
+     */
+    public boolean isStatic()
+    {
+        return isStatic;
+    }
 
-	public boolean isAgressive()
-	{
-		return agressive;
-	}
+    public void setStatic(boolean aStatic)
+    {
+        isStatic = aStatic;
+    }
 
-	public void setAgressive(boolean agressive)
-	{
-		this.agressive = agressive;
-	}
+    public boolean isAgressive()
+    {
+        return agressive;
+    }
 
-	private boolean agressive;
-	
-	
+    public void setAgressive(boolean agressive)
+    {
+        this.agressive = agressive;
+    }
 
-	private boolean isStatic;
+    public Point getOriginalMapPosition()
+    {
+        return originalMapPosition;
+    }
 
-	private ArrayList<NPCSchedule> npcSchedules;
-	private CommandQueue queuedActions;
+    public void setOriginalMapPosition(Point originalMapPosition)
+    {
+        this.originalMapPosition = originalMapPosition;
+    }
 
-	private AbstractEntity victim;
+    public Class<?> getRealClass()
+    {
+        Class<?> enclosingClass = getClass().getEnclosingClass();
+        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
+    }
 
-	private boolean ranged;
+    @Override
+    public String toString()
+    {
+        return "NPC [type=" + type + ", mapposition=" + mapPosition + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet()) : null) + "]";
+    }
 
-	public Point getOriginalMapPosition()
-	{
-		return originalMapPosition;
-	}
-
-	public void setOriginalMapPosition(Point originalMapPosition)
-	{
-		this.originalMapPosition = originalMapPosition;
-	}
-
-	/**
-	 * original position on the map - remember the placement that the npc does not wander off too much
-	 */
-	private Point originalMapPosition;
-
-	public NPC(Integer i, Point p)
-	{
-		setStatic(false);
-		setOriginalMapPosition(new Point (p.x, p.y));
-		NPC master = Game.getCurrent().getNpcList().get(i);
-		setMapPosition(new Point(p.x, p.y));
-		setType(master.getType());
-		setMobasks(master.getMobasks());
-		setNpcSchedules(new ArrayList<>());
-		setQueuedActions(new CommandQueue());
-		EventBus.getDefault().register(this);
-		getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
-		getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
-		getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
-		getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
-		setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
-		setArmorClass(0);
-		getInventory().add(Game.getCurrent().getWeaponList().get(3));
-		wieldWeapon(Game.getCurrent().getWeaponList().get(1));
-	}
-
-	public void setType(NPCTypes type)
-	{
-		this.type = type;
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public NPC()
-	{
-		super();
-		mobasks = new Hashtable<>();
-	}
-
-	@Override
-	public String toString()
-	{
-		return "NPC [type=" + type + ", mapposition=" + mapPosition + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet()) : null) + "]";
-	}
-
-	private String toString(Collection<?> collection)
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("[");
-		int i = 0;
-		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < 2; i++)
-		{
+    private String toString(Collection<?> collection)
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        int i = 0;
+        for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < 2; i++)
+        {
 			if (i > 0)
+			{
 				builder.append(", ");
-			builder.append(iterator.next());
-		}
-		builder.append("]");
-		return builder.toString();
-	}
-
-	public void initialize()
-	{
-		ArrayList<BufferedImage> images = new ArrayList<>();
-
-		BufferedImage standardImage;
-		ArrayList<BufferedImage> movingImages;
-
-		standardImage = ImageUtils.loadStandardPlayerImage(this);
-		movingImages = ImageUtils.loadMovingPlayerImages(this);
-
-		images.add(standardImage);
-		images.addAll(movingImages);
-		setAppearance(new AnimatedRepresentation(standardImage, images));
-	}
-	
-	public Point getMapPosition()
-	{
-		return mapPosition;
-	}
-
-	public void setMapPosition(Point position)
-	{
-		this.mapPosition = position;
-	}
-
-	@Override
-	public AbstractRepresentation getAppearance()
-	{
-		return appearance;
-	}
-
-
-
-	public void setAppearance(AbstractRepresentation appearance)
-	{
-		this.appearance = appearance;
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	public NPCTypes getType()
-	{
-		return type;
-	}
-
-	public Hashtable<String, String> getMobasks()
-	{
-		return mobasks;
-	}
-
-	public void setMobasks(Hashtable<String, String> mobasks)
-	{
-		this.mobasks = mobasks;
-	}
-
-	public ArrayList<NPCSchedule> getNpcSchedules()
-	{
-		return npcSchedules;
-	}
-
-	public void setNpcSchedules(ArrayList<NPCSchedule> npcSchedules)
-	{
-		this.npcSchedules = npcSchedules;
-	}
-
-	public CommandQueue getQueuedActions()
-	{
-		return queuedActions;
-	}
-
-	public void setQueuedActions(CommandQueue queuedActions)
-	{
-		this.queuedActions = queuedActions;
-	}
-
-	/**
-	 *
-	 * @param event GameTime has changed, check if there is a defined schedule for the npc
-	 *
-	 */
-	@Subscribe
-	public void onMessageEvent(GameTimeChanged event)
-	{
-		this.checkSchedules(event);
-	}
-
-	/**
-	 *
-	 * @param event
-	 */
-	private void checkSchedules(GameTimeChanged event)
-	{
-		if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 10)
-		{
-			logger.info("check schedule");
-			if (getMobasks().size() > 0)
-			{
-				logger.info("running");
-				MoveAction action = new MoveAction();
-				action.setGetWhere(new Point (1, 0));
-				doAction(new PlayerAction(action, this));
 			}
-		}
+            builder.append(iterator.next());
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
-		if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 30)
-		{
-			logger.info("check schedule");
-			if (getMobasks().size() > 0)
-			{
-				logger.info("running");
-				MoveAction action = new MoveAction();
-				action.setGetWhere(getOriginalMapPosition());
-				doAction(new PlayerAction(action, this));
-			}
-		}
-	}
+    public void initialize()
+    {
+        ArrayList<BufferedImage> images = new ArrayList<>();
 
+        BufferedImage standardImage;
+        ArrayList<BufferedImage> movingImages;
 
-	/**
-	 * @param action KeyboardAction.type
-	 */
-	public void doAction(AbstractAction action)
-	{
+        standardImage = ImageUtils.loadStandardPlayerImage(this);
+        movingImages = ImageUtils.loadMovingPlayerImages(this);
 
-		//logger.info("do action: {}", action.toString());
-		Point p = getMapPosition();
-		Point mapsize = Game.getCurrent().getCurrentMap().getSize();
+        images.add(standardImage);
+        images.addAll(movingImages);
+        setAppearance(new AnimatedRepresentation(standardImage, images));
+    }
 
-		int xBorder = mapsize.x;
-		int yBorder = mapsize.y;
+    public Point getMapPosition()
+    {
+        return mapPosition;
+    }
 
-		boolean success = false;
+    public void setMapPosition(Point position)
+    {
+        this.mapPosition = position;
+    }
 
-		switch (action.getType())
-		{
-			case EAST:
-				// logger.info("p: {}", p.toString());
+    @Override
+    public AbstractRepresentation getAppearance()
+    {
+        return appearance;
+    }
 
-				if (p.x + 1 <= xBorder)
-				{
-					if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
-					{
-						this.move((p.x + 1), p.y);
-						success = true;
-					}
-					else
-					{
-						//logger.info("EAST blocked");
-					}
-				}
-				else
-				{
-					logger.info("eastern border, ignore wrapping for now");
-				}
-				break;
-			case ENTER:
-				logger.info("loading new map");
-				Game.getCurrent().switchMap();
-				break;
-			case ESC:
-				break;
-			case NORTH:
-				// logger.info("p: {}", p.toString());
-				if (p.y > 0)
-				{
-					if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
-					{
-						this.move((p.x), (p.y - 1));
-						success = true;
-					}
-					else
-					{
-						//logger.info("NORTH blocked");
-					}
-				}
-				else
-				{
-					logger.info("already at zero y");
-				}
-				break;
-			case NULL:
-				break;
-			case SOUTH:
-				// logger.info("p: {}", p.toString());
-				if (p.y + 1 <= yBorder)
-				{
-					if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
-					{
-						this.move((p.x), (p.y + 1));
-						success = true;
-					}
-					else
-					{
-						//logger.info("SOUTH blocked");
-					}
+    public void setAppearance(AbstractRepresentation appearance)
+    {
+        this.appearance = appearance;
+    }
 
-				}
-				else
-				{
-					logger.info("southern border, ignore wrapping for now");
-				}
-				break;
-			case WEST:
-				// logger.info("p: {}", p.toString());
-				if (p.x > 0)
-				{
-					if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
-					{
-						this.move((p.x - 1), (p.y));
-						success = true;
-					}
-					else
-					{
-						//logger.info("WEST blocked");
-					}
-				}
-				else
-				{
-					logger.info("already at zero x");
-				}
-				break;
-			case SPACE:
-				success = true;
-				break;
-			case GET:
-				success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
-				break;
+    public Logger getLogger()
+    {
+        return logger;
+    }
 
-			case DROP:
-				success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
-				break;
+    public NPCTypes getType()
+    {
+        return type;
+    }
 
-			case TALK:
-				logger.info("doing talk action");
-				break;
+    public void setType(NPCTypes type)
+    {
+        this.type = type;
+    }
 
-			case MOVE:
-				success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
-				break;
+    public Hashtable<String, String> getMobasks()
+    {
+        return mobasks;
+    }
 
-			case SEARCH:
-				search();
-				break;
+    public void setMobasks(Hashtable<String, String> mobasks)
+    {
+        this.mobasks = mobasks;
+    }
 
-			case ATTACK:
-				success = attack(action.getEvent());
-				break;
-			default:
-				logger.info("doing default action, inventory does not need to be reverted for instance");
-				break;
+    public ArrayList<NPCSchedule> getNpcSchedules()
+    {
+        return npcSchedules;
+    }
 
-		}
-	}
-	/**
-	 *
-	 * @param action keyboard action (attack action)
-	 * @return returns whether it is a hit
-	 *
-	 * currently this method works for both PC and NPC.
-	 * this needs a rewrite. npcs and players are kept separate
-	 * guess one implementation in player and one in entity or in NPC should do the trick
-	 *
-	 */
+    public void setNpcSchedules(ArrayList<NPCSchedule> npcSchedules)
+    {
+        this.npcSchedules = npcSchedules;
+    }
 
-	public boolean attack(AbstractKeyboardAction action)
-	{
-		logger.info("NPC Attacking");
-		MapTile tile;
-		if (action.getTargetCoordinates() == null)
-		{
-			//this is a npc attacking
-			tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
-		}
-		else
-		{
-			tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
-		}
+    public CommandQueue getQueuedActions()
+    {
+        return queuedActions;
+    }
 
-		tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
+    public void setQueuedActions(CommandQueue queuedActions)
+    {
+        this.queuedActions = queuedActions;
+    }
 
-		Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-		action.setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
-		logger.info("taget coordinates: {}", action.getTargetCoordinates());
+    /**
+     * @param event GameTime has changed, check if there is a defined schedule for the npc
+     */
+    @Subscribe
+    public void onMessageEvent(GameTimeChanged event)
+    {
+        this.checkSchedules(event);
+    }
 
-		//source
-		screenPosition = MapUtils.calculateUIPositionFromMapOffset(MapUtils.getTileByCoordinates(this.getMapPosition()).getMapPosition());
-		action.setSourceCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
-		logger.info("source coordinates: {}", action.getSourceCoordinates());
+    /**
+     * @param event Game Time has changed
+     */
+    private void checkSchedules(GameTimeChanged event)
+    {
+        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 10)
+        {
+            logger.info("check schedule");
+            if (getMobasks().size() > 0)
+            {
+                logger.info("running");
+                MoveAction action = new MoveAction();
+                action.setGetWhere(new Point(1, 0));
+                doAction(new PlayerAction(action, this));
+            }
+        }
 
-		if (tile != null)
-		{
-			logger.info("we found the file, its the players: {}", tile);
-			if (getWeapon() == null)
-			{
-				setWeapon(Game.getCurrent().getWeaponList().get(1));
-			}
-
-			if (getWeapon().getType().equals(WeaponTypes.RANGED))
-			{
-				logger.info("here at ranged attack");
-				Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
-				Game.getCurrent().getCurrentMap().getMissiles().add(m);
-
-				if (Game.getCurrent().getCurrentMap().getPlayers().size() > 0)
-				{
-					for (AbstractEntity n : Game.getCurrent().getCurrentMap().getPlayers())
-					{
-						if (n.getMapPosition().equals(tile.getMapPosition()))
-						{
-							logger.info("hitting player: {}", n);
-							if (NPCUtils.calculateHit(this, n))
-							{
-								logger.info("hit");
-								n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
-								EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-							}
-							else
-							{
-								logger.info("miss");
-							}
-							break;
-						}
-					}
-				}
-				else
-				{
-					//No NPCs
-				}
-			}
-			else
-			{
-				logger.info("meleee");
-				if (Game.getCurrent().getCurrentMap().getPlayers().size() > 0)
-				{
-					for (AbstractEntity n : Game.getCurrent().getCurrentMap().getPlayers())
-					{
-						if (n.getMapPosition().equals(tile.getMapPosition()))
-						{
-							logger.info("hitting player: {}", n);
-
-							if (NPCUtils.calculateHit(this, n))
-							{
-								logger.info("hit");
-								n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
-								EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-							}
-							else
-							{
-								logger.info("miss");
-							}
-							break;
-						}
-					}
-				}
-
-			}
-		}
-		else
-		{
-			logger.info("here, tile is null");
-		}
-		return true;
-	}
-
-	@Override
-	public void search()
-	{
-		LifeForm.super.search();
-	}
-
-	public AbstractEntity getVictim()
-	{
-		return victim;
-	}
-
-	public void setVictim(AbstractEntity victim)
-	{
-		this.victim = victim;
-	}
-
-	public boolean isRanged()
-	{
-		if (this.getWeapon() == null)
-		{
-			return false;
-		}
-		if (this.getWeapon().getType().equals(WeaponTypes.RANGED))
-		{
-			return true;
-		}
-
-		for (AbstractItem item : this.getInventory().getInventory())
-		{
-			if (item instanceof Weapon)
-			{
-				if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 30)
+        {
+            logger.info("check schedule");
+            if (getMobasks().size() > 0)
+            {
+                logger.info("running");
+                MoveAction action = new MoveAction();
+                action.setGetWhere(getOriginalMapPosition());
+                doAction(new PlayerAction(action, this));
+            }
+        }
+    }
 
 
-	public void setRanged(boolean ranged)
-	{
-		this.ranged = ranged;
-	}
+    /**
+     * @param action KeyboardAction.type
+     */
+    public void doAction(AbstractAction action)
+    {
 
-	/**
-	 *
-	 * @param ranged - switch to this weapon type
-	 */
-	public void switchWeapon(WeaponTypes ranged)
-	{
-		logger.info("switching weapon");
-		this.setWeapon(null);
-		for (int i = 0; i <= getInventory().getSize();i++)
-		{
-			if (getInventory().getElementAt(i) instanceof Weapon)
-			{
-				if (((Weapon) getInventory().getElementAt(i)).getType().equals(ranged))
-				{
-					this.wieldWeapon((Weapon) getInventory().getElementAt(i));
-				}
-			}
-		}
-	}
+        //logger.info("do action: {}", action.toString());
+        Point p = getMapPosition();
+        Point mapsize = Game.getCurrent().getCurrentMap().getSize();
 
-	private void attack(MapTile tileByCoordinates)
-	{
-		Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
-	}
+        int xBorder = mapsize.x;
+        int yBorder = mapsize.y;
+
+        boolean success = false;
+
+        switch (action.getType())
+        {
+            case EAST:
+                // logger.info("p: {}", p.toString());
+
+                if (p.x + 1 <= xBorder)
+                {
+                    if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
+                    {
+                        this.move((p.x + 1), p.y);
+                        success = true;
+                    }
+                    else
+                    {
+                        //logger.info("EAST blocked");
+                    }
+                }
+                else
+                {
+                    logger.info("eastern border, ignore wrapping for now");
+                }
+                break;
+            case ENTER:
+                logger.info("loading new map");
+                Game.getCurrent().switchMap();
+                break;
+            case ESC:
+                break;
+            case NORTH:
+                // logger.info("p: {}", p.toString());
+                if (p.y > 0)
+                {
+                    if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
+                    {
+                        this.move((p.x), (p.y - 1));
+                        success = true;
+                    }
+                    else
+                    {
+                        //logger.info("NORTH blocked");
+                    }
+                }
+                else
+                {
+                    logger.info("already at zero y");
+                }
+                break;
+            case NULL:
+                break;
+            case SOUTH:
+                // logger.info("p: {}", p.toString());
+                if (p.y + 1 <= yBorder)
+                {
+                    if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
+                    {
+                        this.move((p.x), (p.y + 1));
+                        success = true;
+                    }
+                    else
+                    {
+                        //logger.info("SOUTH blocked");
+                    }
+
+                }
+                else
+                {
+                    logger.info("southern border, ignore wrapping for now");
+                }
+                break;
+            case WEST:
+                // logger.info("p: {}", p.toString());
+                if (p.x > 0)
+                {
+                    if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
+                    {
+                        this.move((p.x - 1), (p.y));
+                        success = true;
+                    }
+                    else
+                    {
+                        //logger.info("WEST blocked");
+                    }
+                }
+                else
+                {
+                    logger.info("already at zero x");
+                }
+                break;
+            case SPACE:
+                success = true;
+                break;
+            case GET:
+                success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+                break;
+
+            case DROP:
+                success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+                break;
+
+            case TALK:
+                logger.info("doing talk action");
+                break;
+
+            case MOVE:
+                success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+                break;
+
+            case SEARCH:
+                search();
+                break;
+
+            case ATTACK:
+                success = attack(action.getEvent());
+                break;
+            default:
+                logger.info("doing default action, inventory does not need to be reverted for instance");
+                break;
+
+        }
+    }
+
+    /**
+     * @param action keyboard action (attack action)
+     * @return returns whether it is a hit
+     * <p>
+     *
+     */
+
+    public boolean attack(AbstractKeyboardAction action)
+    {
+        logger.info("NPC Attacking");
+        MapTile tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
+
+        action = NPCUtils.calculateCoordinatesFromActionAndTile(action, tile, this);
+
+        if (tile != null)
+        {
+            logger.info("we found the file, its the players: {}", tile);
+            if (getWeapon() == null)
+            {
+                setWeapon(Game.getCurrent().getWeaponList().get(1));
+            }
+
+            if (getWeapon().getType().equals(WeaponTypes.RANGED))
+            {
+                logger.info("here at ranged attack");
+                Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
+                Game.getCurrent().getCurrentMap().getMissiles().add(m);
+
+                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
+                {
+                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+                    {
+                        if (n.getMapPosition().equals(tile.getMapPosition()))
+                        {
+                            logger.info("hitting player: {}", n);
+                            if (NPCUtils.calculateHit(this, n))
+                            {
+                                logger.info("hit");
+                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                            }
+                            else
+                            {
+                                logger.info("miss");
+                            }
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    //No NPCs
+                }
+            }
+            else
+            {
+                logger.info("meleee");
+                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
+                {
+                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+                    {
+                        if (n.getMapPosition().equals(tile.getMapPosition()))
+                        {
+                            logger.info("hitting player: {}", n);
+                            n.setAgressive(true);
+                            n.setVictim(this);
+                            if (NPCUtils.calculateHit(this, n))
+                            {
+                                logger.info("hit");
+                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                            }
+                            else
+                            {
+                                logger.info("miss");
+                            }
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            logger.info("here, tile is null");
+        }
+        return true;
+    }
+
+    @Override
+    public void search()
+    {
+
+    }
+
+    public LifeForm getVictim()
+    {
+        return victim;
+    }
+
+    @Override
+    public void setVictim(LifeForm victim)
+    {
+        this.victim = victim;
+    }
+
+    public boolean isRanged()
+    {
+        if (this.getWeapon() == null)
+        {
+            return false;
+        }
+        if (this.getWeapon().getType().equals(WeaponTypes.RANGED))
+        {
+            return true;
+        }
+
+        for (AbstractItem item : this.getInventory().getInventory())
+        {
+            if (item instanceof Weapon)
+            {
+                if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public void setRanged(boolean ranged)
+    {
+        this.ranged = ranged;
+    }
+
+    /**
+     * @param ranged - switch to this weapon type
+     */
+    public void switchWeapon(WeaponTypes ranged)
+    {
+        logger.info("switching weapon");
+        this.setWeapon(null);
+        for (int i = 0; i <= getInventory().getSize(); i++)
+        {
+            if (getInventory().getElementAt(i) instanceof Weapon)
+            {
+                if (((Weapon) getInventory().getElementAt(i)).getType().equals(ranged))
+                {
+                    this.wieldWeapon((Weapon) getInventory().getElementAt(i));
+                }
+            }
+        }
+    }
+
+    private void attack(MapTile tileByCoordinates)
+    {
+        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
+    }
 
 }

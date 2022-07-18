@@ -126,7 +126,7 @@ public class Game
 	/**
 	 * which is the currently active player, PC, NPCs are treated differently, but same :D
 	 */
-	private AbstractEntity currentPlayer;
+	private Player currentPlayer;
 	/**
 	 * Tile Size
 	 */
@@ -154,7 +154,7 @@ public class Game
 	/**
 	 * list of players
 	 */
-	private ArrayList<AbstractEntity> players = new ArrayList<>();
+	private ArrayList<Player> players = new ArrayList<>();
 	/**
 	 * threadController
 	 */
@@ -178,7 +178,7 @@ public class Game
 	/**
 	 * animated entities, contains everything that has changing images, i.e. NPCs, PCs, also other items. will probably also contain all inanimated objects. Perhaps these will go on a separate thread
 	 */
-	private ArrayList<AbstractEntity> animatedEntities = new ArrayList<>();
+	private ArrayList<LifeForm> animatedEntities = new ArrayList<>();
 	/**
 	 * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
 	 */
@@ -388,7 +388,6 @@ public class Game
 
 		for (File file : Objects.requireNonNull(listOfFiles))
 		{
-
 			if (file.isFile())
 			{
 				//logger.info("file name: {}", file.getName());
@@ -552,7 +551,6 @@ public class Game
 			String mapName = exit.getTargetMap();
 			int targetTileID = exit.getTargetID();
 
-			Game.getCurrent().getCurrentMap().getPlayers().remove(Game.getCurrent().getCurrentPlayer());
 			for (Map m : getMaps())
 			{
 				if (m.getName().equalsIgnoreCase(mapName))
@@ -560,10 +558,6 @@ public class Game
 					MapTile targetTile = MapUtils.getMapTileByID(m, targetTileID);
 					setCurrentMap(m);
 					m.initialize();
-					if (m.getPlayers().size() == 0)
-					{
-						m.getPlayers().add(getCurrentPlayer());
-					}
 					getCurrentPlayer().setMapPosition(new Point(targetTile.x, targetTile.y));
 					setAnimatedEntities(animatedEntities = new ArrayList<>());
 					addAnimatedEntities();
@@ -702,8 +696,6 @@ public class Game
 								{
 									logger.info("npc already wields ranged weapon, attack!");
 									PlayerAction action = new PlayerAction(new AttackAction(), e);
-									action.getEvent().setSourceCoordinates(e.getMapPosition());
-									action.getEvent().setTargetCoordinates(e.getVictim().getMapPosition());
 									e.doAction(action);
 									//return;
 								}
@@ -782,7 +774,7 @@ public class Game
 		}
 
 
-		public ArrayList<AbstractEntity> getPlayers ()
+		public ArrayList<Player> getPlayers ()
 		{
 			return players;
 		}
@@ -908,7 +900,7 @@ public class Game
 			this.en = en;
 		}
 
-		public void setPlayers (ArrayList < AbstractEntity > players)
+		public void setPlayers (ArrayList <Player> players)
 		{
 			this.players = players;
 		}
@@ -949,12 +941,12 @@ public class Game
 			this.tileSize = tileSize;
 		}
 
-		public AbstractEntity getCurrentPlayer ()
+		public Player getCurrentPlayer ()
 		{
 			return currentPlayer;
 		}
 
-		public void setCurrentPlayer (AbstractEntity abstractEntity)
+		public void setCurrentPlayer (Player abstractEntity)
 		{
 			this.currentPlayer = abstractEntity;
 		}
@@ -1001,7 +993,7 @@ public class Game
 			getPlayers().add(p1);
 			// getPlayers().add(p2);
 			// getPlayers().add(npc1);
-			getCurrentMap().getPlayers().add(p1);
+
 			// gameMap.getPlayers().add(p2);
 			// getCurrentMap().getNpcs().add(npc1);
 			//p1.setMapPosition(new Point(42, 42));
@@ -1061,12 +1053,12 @@ public class Game
 			}
 		}
 
-		public ArrayList<AbstractEntity> getAnimatedEntities ()
+		public ArrayList<LifeForm> getAnimatedEntities ()
 		{
 			return animatedEntities;
 		}
 
-		public void setAnimatedEntities (ArrayList < AbstractEntity > animatedEntities)
+		public void setAnimatedEntities (ArrayList <LifeForm> animatedEntities)
 		{
 			this.animatedEntities = animatedEntities;
 		}
@@ -1075,13 +1067,10 @@ public class Game
 		{
 			//logger.info("number of players: {}", Game.getCurrent().getCurrentMap().getPlayers().size());
 			//logger.info("number of npcs: {}", Game.getCurrent().getCurrentMap().getNpcs().size());
-			for (AbstractEntity e : Game.getCurrent().getCurrentMap().getPlayers())
-			{
-				// logger.info("adding player: {}", e);
-				getAnimatedEntities().add(e);
-			}
 
-			for (AbstractEntity e : Game.getCurrent().getCurrentMap().getNpcs())
+				getAnimatedEntities().add(Game.getCurrent().getCurrentPlayer());
+
+			for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
 			{
 				// logger.info("adding npc: {}", e);
 				getAnimatedEntities().add(e);
