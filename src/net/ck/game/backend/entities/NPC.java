@@ -238,7 +238,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 logger.info("running");
                 MoveAction action = new MoveAction();
                 action.setGetWhere(new Point(1, 0));
-                doAction(new PlayerAction(action, this));
+                doAction(new PlayerAction(action));
             }
         }
 
@@ -250,7 +250,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 logger.info("running");
                 MoveAction action = new MoveAction();
                 action.setGetWhere(getOriginalMapPosition());
-                doAction(new PlayerAction(action, this));
+                doAction(new PlayerAction(action));
             }
         }
     }

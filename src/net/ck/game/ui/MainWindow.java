@@ -573,7 +573,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	private void runActions(AbstractKeyboardAction action, boolean hasNPCAction)
 	{
 		//logger.info("Current action: {}", action);
-		Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action, Game.getCurrent().getCurrentPlayer()));
+		Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
 		Game.getCurrent().getIdleTimer().stop();
 		textArea.append(action.getType().name());
 		textArea.append("\n");

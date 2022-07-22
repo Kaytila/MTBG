@@ -1,6 +1,5 @@
 package net.ck.game.backend.actions;
 
-import net.ck.game.backend.entities.LifeForm;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
@@ -22,14 +21,13 @@ public class PlayerAction extends AbstractAction
 {
 	
 
-	private KeyboardActionType type;
+	//private KeyboardActionType type;
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
-	public PlayerAction(AbstractKeyboardAction ev, LifeForm e)
+	public PlayerAction(AbstractKeyboardAction ev)
 	{
 		setEvent(ev);
-		setType(ev.getType());
-		setEntity(e);
+		//setType(ev.getType());
 	}
 
 	public Class<?> getRealClass()
@@ -66,13 +64,13 @@ public class PlayerAction extends AbstractAction
 	 */
 	public KeyboardActionType getType()
 	{
-		return type;
+		return getEvent().getType();
 	}
 
-	public void setType(KeyboardActionType type)
+	/*public void setType(KeyboardActionType type)
 	{
 		this.type = type;
-	}
+	}*/
 	
 
 	public Logger getLogger()

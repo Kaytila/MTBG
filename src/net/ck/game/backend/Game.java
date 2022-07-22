@@ -678,7 +678,7 @@ public class Game
 						if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
 						{
 							logger.info("attacking");
-							e.doAction(new PlayerAction(new AttackAction(), e));
+							e.doAction(new PlayerAction(new AttackAction()));
 							//return;
 						}
 						//victim is not adjacent
@@ -695,7 +695,7 @@ public class Game
 								if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
 								{
 									logger.info("npc already wields ranged weapon, attack!");
-									PlayerAction action = new PlayerAction(new AttackAction(), e);
+									PlayerAction action = new PlayerAction(new AttackAction());
 									e.doAction(action);
 									//return;
 								}
@@ -722,7 +722,7 @@ public class Game
 						if (action != null)
 						{
 							logger.info("trying to get");
-							PlayerAction ac = new PlayerAction(action, e);
+							PlayerAction ac = new PlayerAction(action);
 							e.doAction(ac);
 						}
 						else

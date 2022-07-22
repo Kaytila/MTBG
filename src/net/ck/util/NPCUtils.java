@@ -40,7 +40,7 @@ public class NPCUtils
         if (e.getQueuedActions().size() > 0)
         {
             //logger.info("action in queue: {}", npc.getQueuedActions().peek());
-            return new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll(),e);
+            return new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll());
         }
         else
         {
@@ -48,7 +48,7 @@ public class NPCUtils
             {
                 return initializeWanderer(e);
             }
-            return new PlayerAction(new SpaceAction(), e);
+            return new PlayerAction(new SpaceAction());
         }
     }
 
@@ -73,48 +73,48 @@ public class NPCUtils
             case 0:
                 if (rangeY.contains(e.getMapPosition().y))
                 {
-                    return new PlayerAction(new NorthAction(), e);
+                    return new PlayerAction(new NorthAction());
                 }
                 else
                 {
                     logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
-                    return new PlayerAction(new SouthAction(), e);
+                    return new PlayerAction(new SouthAction());
                 }
             // east
             case 1:
                 if (rangeX.contains(e.getMapPosition().x))
                 {
-                    return new PlayerAction(new EastAction(), e);
+                    return new PlayerAction(new EastAction());
                 }
                 else
                 {
                     logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
-                    return new PlayerAction(new WestAction(), e);
+                    return new PlayerAction(new WestAction());
                 }
             // south
             case 2:
                 if (rangeY.contains(e.getMapPosition().y))
                 {
-                    return new PlayerAction(new SouthAction(), e);
+                    return new PlayerAction(new SouthAction());
                 }
                 else
                 {
                     logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
-                    return new PlayerAction(new NorthAction(), e);
+                    return new PlayerAction(new NorthAction());
                 }
             // west
             case 3:
                 if (rangeX.contains(e.getMapPosition().x))
                 {
-                    return new PlayerAction(new WestAction(), e);
+                    return new PlayerAction(new WestAction());
                 }
                 else
                 {
                     logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
-                    return new PlayerAction(new EastAction(), e);
+                    return new PlayerAction(new EastAction());
                 }
             default:
-                return new PlayerAction(new SpaceAction(), e);
+                return new PlayerAction(new SpaceAction());
         }
 
     }
@@ -203,7 +203,7 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x - 1, sourcePoint.y)))
             {
                 logger.info("tile to the west is free, move");
-                return new PlayerAction(new WestAction(), n);
+                return new PlayerAction(new WestAction());
             }
         }
 
@@ -214,7 +214,7 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x + 1 , sourcePoint.y)))
             {
                 logger.info("Tile to the east is free, move east");
-                return new PlayerAction(new EastAction(), n);
+                return new PlayerAction(new EastAction());
             }
         }
 
@@ -225,7 +225,7 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y - 1)))
             {
                 logger.info("tile to the north is free, move north");
-                return new PlayerAction(new NorthAction(), n);
+                return new PlayerAction(new NorthAction());
             }
         }
 
@@ -236,10 +236,10 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y + 1)))
             {
                 logger.info("tile to the south is free, move south");
-                return new PlayerAction(new SouthAction(), n);
+                return new PlayerAction(new SouthAction());
             }
         }
-        return new PlayerAction(new SpaceAction(), n);
+        return new PlayerAction(new SpaceAction());
     }
 
 

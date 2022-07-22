@@ -160,6 +160,18 @@ public class Player extends AbstractEntity implements LifeForm
 		//nothing to do, this is player
 	}
 
+	@Override
+	public LifeForm getVictim()
+	{
+		return null;
+	}
+
+	@Override
+	public Point getOriginalMapPosition()
+	{
+		return null;
+	}
+
 
 	@Override
 	public void search()
@@ -315,7 +327,7 @@ public class Player extends AbstractEntity implements LifeForm
 		}
 		else
 		{
-			Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction(), action.getEntity()));
+			Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction()));
 		}
 		//Game.getCurrent().getController().setCurrentAction(null);
 	}

@@ -18,17 +18,40 @@ public class AbstractKeyboardAction extends AbstractAction
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * can the action be run immediately (NORTH, WEST ....) ,
+	 * or is this a two step action (get -> where)
+	 */
 	private boolean actionimmediately = false;
+
+	/**
+	 * has the action finished
+	 */
 	private boolean done = false;
+
+
 	private final Logger logger = LogManager.getLogger(getRealClass());
+
 	/**
 	 * this is the tile where the crosshair clicked on
+	 * getWhere is the tile where something happens
 	 */
 	private Point getWhere;
+
+	/**
+	 * the item affected by the action, can be get, can be drop, can be equip
+	 */
 	private AbstractItem affectedItem;
 
+	/**
+	 * sourceCoordinates refers to a UI position (in relative pixels inside the UI)
+	 */
 	private Point sourceCoordinates;
 
+	/**
+	 * targetCoordinates refers to a UI position (in relative pixels inside the UI)
+	 */
 	private Point targetCoordinates;
 
 	public Point getOldMousePosition()
