@@ -546,6 +546,11 @@ public class JGridCanvas extends JComponent
         }
     }
 
+    /**
+     * identify which tiles of the map are currently visible
+     * also set back hidden state cause this is calculated again
+     *
+     */
     private void identifyVisibleTiles()
     {
         for (MapTile tile : Game.getCurrent().getCurrentMap().getTiles())
@@ -556,6 +561,7 @@ public class JGridCanvas extends JComponent
             {
                 UILense.getCurrent().add(screenPosition);
                 UILense.getCurrent().getVisibleMapTiles().add(tile);
+                tile.setHidden(false);
             }
         }
     }
@@ -675,7 +681,7 @@ public class JGridCanvas extends JComponent
     {
         for (Point point : UILense.getCurrent().getEntries())
         {
-            logger.info("point: {}", point);
+            //logger.info("point: {}", point);
             boolean blocked = false;
 
             ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), point);
@@ -685,9 +691,9 @@ public class JGridCanvas extends JComponent
 
             for (Point p : line)
             {
-                logger.info("calculated route: {}", p);
+                //logger.info("calculated route: {}", p);
                MapTile t = MapUtils.getTileByCoordinates(new Point(p.x - offSet.x, p.y - offSet.y));
-               logger.info("maptile: {}", t);
+               //logger.info("maptile: {}", t);
                if (t == null)
                {
                    continue;
@@ -700,6 +706,7 @@ public class JGridCanvas extends JComponent
                }
                if (blocked)
                {
+                   t.setHidden(true);
                    g.drawImage(blackImage, (p.x * tileSize), (p.y * tileSize), this);
                }
             }

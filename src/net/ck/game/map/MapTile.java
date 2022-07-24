@@ -101,6 +101,10 @@ public class MapTile implements Comparable<MapTile>
     public MapTile parent;
 
 
+    /**
+     * is the tile currently hidden from view? If so, dont allow it to be selected.
+     */
+    private boolean hidden;
 
     // Evaluation functions
     public int finalCost;
@@ -567,5 +571,15 @@ public class MapTile implements Comparable<MapTile>
     @Override
     public int compareTo(MapTile n) {
         return Integer.compare(this.finalCost, n.finalCost);
+    }
+
+    public boolean isHidden()
+    {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden)
+    {
+        this.hidden = hidden;
     }
 }

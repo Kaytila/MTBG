@@ -479,6 +479,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				throw new RuntimeException("no maptile found, mouse click must have been outside of grid");
 			}
 
+			if (tile.isHidden())
+			{
+				logger.info("tile {} is not visible right now", tile);
+				return;
+			}
+
+
 			if (this.getCurrentAction() != null)
 			{
 				switch (this.getCurrentAction().getType())

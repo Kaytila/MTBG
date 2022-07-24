@@ -526,3 +526,5 @@ adding animated tiles
             working. Things to do here: proper calculation for the LoS. Also making it impossible to attack something
             that you cannot see. Perhaps a "hidden" property is needed for the maptile instead and then just draw the
             tile as black instead of doing it purely on UI level.
+2022-07-24: added hidden property to the maptile which is check at mouse click for the target tile. You cannot interact
+            with hidden tiles now.
