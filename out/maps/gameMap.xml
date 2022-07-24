@@ -3406,7 +3406,7 @@
 		</tile>
 		<tile>
 			<id>340</id>
-			<type>GRASS</type>
+			<type>MOUNTAIN</type>
 			<x>3</x>
 			<y>3</y>
 			<east>341</east>

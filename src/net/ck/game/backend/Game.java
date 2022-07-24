@@ -46,7 +46,6 @@ public class Game
 	 * Singleton
 	 */
 	private static final Game game = new Game();
-	private final String gameMapName = "testname";
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 	/**
 	 * sync object for animation
@@ -397,6 +396,7 @@ public class Game
 					logger.info("parsing map: {}", mapRootPath + File.separator + file.getName());
 					map = RunXMLParser.parseMap(mapRootPath + File.separator + file.getName());
 
+					String gameMapName = "testname";
 					if (Objects.requireNonNull(map).getName().equalsIgnoreCase(gameMapName))
 					{
 						map.initialize();
@@ -406,7 +406,7 @@ public class Game
 						// MapUtils.calculateTileDirections(map.getTiles());
 						setCurrentMap(map);
 						// addManyNPCs(map);
-						addItemsToFloor(map);
+						addItemsToFloor();
 					}
 					else
 					{
@@ -430,7 +430,7 @@ public class Game
 
 	}
 
-	private void addItemsToFloor(Map map)
+	private void addItemsToFloor()
 	{
 		Weapon club = getWeaponList().get(1);
 		Weapon magicClub = getWeaponList().get(2);
@@ -454,6 +454,7 @@ public class Game
 		File folder = new File(mapRootPath);
 		File[] listOfFiles = folder.listFiles();
 
+		assert listOfFiles != null;
 		for (File file : listOfFiles)
 		{
 			if (file.isFile())
@@ -508,6 +509,7 @@ public class Game
 		File folder = new File(mapRootPath);
 		File[] listOfFiles = folder.listFiles();
 
+		assert listOfFiles != null;
 		for (File file : listOfFiles)
 		{
 			if (file.isFile())
@@ -558,6 +560,7 @@ public class Game
 					MapTile targetTile = MapUtils.getMapTileByID(m, targetTileID);
 					setCurrentMap(m);
 					m.initialize();
+					assert targetTile != null;
 					getCurrentPlayer().setMapPosition(new Point(targetTile.x, targetTile.y));
 					setAnimatedEntities(animatedEntities = new ArrayList<>());
 					addAnimatedEntities();
@@ -666,7 +669,7 @@ public class Game
 			// logger.info("current turn number 1: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			//
 			// logger.info("npc actions");
-			if (haveNPCAction == true)
+			if (haveNPCAction)
 			{
 				for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
 				{
@@ -846,7 +849,8 @@ public class Game
 				GameUtils.invertActions(turn);
 				for (AbstractAction e : turn.getActions())
 				{
-					e.getEntity().doAction(e);
+					//e.getEntity().doAction(e);
+					logger.error("this does not work anymore");
 				}
 
 				getController().getTextField().retractTurn();
@@ -865,7 +869,7 @@ public class Game
 		 *
 		 *
 		 */
-		public void runTurn ()
+		/*public void runTurn ()
 		{
 			for (NPC p : Game.getCurrent().getCurrentMap().getNpcs())
 			{
@@ -878,7 +882,7 @@ public class Game
 				logger.info("thread: {}", t.getName());
 				logger.info(t.getState().toString());
 			}
-		}
+		}*/
 
 		public void setAnimated ( boolean animated)
 		{

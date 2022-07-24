@@ -11,7 +11,7 @@ make wrapping on the overworld actually work :D
 define character, or rather, make configurable
 define dexterity to make more moves
 define additional tile types
-implement LoS
+implement LoS <-- basic done, algorithmn probably has an error
 implement character attributes <-- done
 implement containers <-- mostly done
 implement magic

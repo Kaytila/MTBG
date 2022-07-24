@@ -3,6 +3,9 @@
   <groupId>MyTurnBasedGame</groupId>
   <artifactId>MyTurnBasedGame</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+    <properties>
+        <jts.version>1.16.1</jts.version>
+    </properties>
   <repositories>
     <repository>
       <id>central</id>
@@ -162,6 +165,11 @@
           <groupId>com.opencsv</groupId>
           <artifactId>opencsv</artifactId>
           <version>5.3</version>
+      </dependency>
+      <dependency>
+          <groupId>org.locationtech.jts</groupId>
+          <artifactId>jts-core</artifactId>
+          <version>${jts.version}</version>
       </dependency>
   </dependencies>
 </project>

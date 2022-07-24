@@ -159,6 +159,8 @@ public class JGridCanvas extends JComponent
         // ring of darkness around the player
         paintDarkness(g);
 
+        paintLoS(g);
+
         //paint furniture
         //also: paint light effects
         paintFurniture(g);
@@ -177,11 +179,7 @@ public class JGridCanvas extends JComponent
     {
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {
-            if (tile.getFurniture() == null)
-            {
-                //logger.info("no furniture");
-            }
-            else
+            if (tile.getFurniture() != null)
             {
                 //logger.info("furniture");
                 FurnitureItem item = tile.getFurniture();
@@ -370,7 +368,7 @@ public class JGridCanvas extends JComponent
 
     private void paintMissilesFullLineAtOnce(Graphics g)
     {
-        ArrayList<Missile> finishedMissiles = new ArrayList<Missile>();
+        ArrayList<Missile> finishedMissiles = new ArrayList<>();
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
         {
             if (m.getCurrentPosition() == null)
@@ -400,7 +398,7 @@ public class JGridCanvas extends JComponent
     {
         if (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SUN)
         {
-            // brighten up the world more perhaps?
+            logger.info("the weather is shining");
         }
         else if ((Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.RAIN) || (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.HAIL)
                 || (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SNOW))
@@ -611,7 +609,6 @@ public class JGridCanvas extends JComponent
     {
         for (LifeForm entity : Game.getCurrent().getAnimatedEntities())
         {
-
             entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));
 
             int x = entity.getUIPosition().x;
@@ -639,11 +636,7 @@ public class JGridCanvas extends JComponent
     {
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {
-            if (tile.getInventory().isEmpty())
-            {
-
-            }
-            else
+            if (tile.getInventory().isEmpty() == false)
             {
                 Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                 g.drawImage(tile.getInventory().get(0).getItemImage(), (screenPosition.x * tileSize), (screenPosition.y * tileSize), this);
@@ -667,12 +660,50 @@ public class JGridCanvas extends JComponent
 
     /**
      * TODO this is where I will paint the borders
-     * @param g
+     * @param g graphics object
      */
     public void paintBorder(Graphics g)
     {
         super.paintBorder(g);
     }
 
+    /**
+     * use the Bresenhaim algorithm to calculate LoS
+     * @param g standard graphics context
+     */
+    private void paintLoS(Graphics g)
+    {
+        for (Point point : UILense.getCurrent().getEntries())
+        {
+            logger.info("point: {}", point);
+            boolean blocked = false;
+
+            ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), point);
+
+            Point offSet = MapUtils.calculateUIOffsetFromMapPoint();
+
+
+            for (Point p : line)
+            {
+                logger.info("calculated route: {}", p);
+               MapTile t = MapUtils.getTileByCoordinates(new Point(p.x - offSet.x, p.y - offSet.y));
+               logger.info("maptile: {}", t);
+               if (t == null)
+               {
+                   continue;
+               }
+
+               if (t.isBlocksLOS())
+               {
+                   blocked = true;
+                    continue;
+               }
+               if (blocked)
+               {
+                   g.drawImage(blackImage, (p.x * tileSize), (p.y * tileSize), this);
+               }
+            }
+        }
+    }
 
 }

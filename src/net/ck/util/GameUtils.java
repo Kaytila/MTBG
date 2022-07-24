@@ -2,7 +2,7 @@ package net.ck.util;
 
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.PlayerAction;
-import net.ck.util.communication.keyboard.KeyboardActionType;
+import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,22 +32,22 @@ public class GameUtils
 			{
 				case NORTH :
 				{
-					p.setType(KeyboardActionType.SOUTH);
+					p.setEvent(new SouthAction());
 					break;
 				}
 				case SOUTH :
 				{
-					p.setType(KeyboardActionType.NORTH);
+					p.setEvent(new NorthAction());
 					break;
 				}
 				case EAST :
 				{
-					p.setType(KeyboardActionType.WEST);
+					p.setEvent(new WestAction());
 					break;
 				}
 				case WEST :
 				{
-					p.setType(KeyboardActionType.EAST);
+					p.setEvent(new EastAction());
 					break;
 				}
 				case ENTER :
@@ -67,7 +67,7 @@ public class GameUtils
 				}
 				case SPACE :
 				{
-					p.setType(KeyboardActionType.SPACE);
+					p.setEvent(new SpaceAction());
 					break;
 				}
 				default :

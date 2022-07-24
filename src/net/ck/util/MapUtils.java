@@ -279,6 +279,16 @@ public class MapUtils
      * return getTileByCoordinates(new Point(uiTile.x - offSet.x, uiTile.y - offSet.y)); }
      */
 
+
+    public static MapTile calculateMapTileFromUIPosition()
+    {
+        MapTile tile = null;
+        Point p = MapUtils.calculateUIOffsetFromMapPoint();
+        logger.info("uioffsetfrommappoint: {}", p);
+
+        return tile;
+    }
+
     public static Rectangle calculateVisibleRectangle(Player p)
     {
         Point playerPosition = p.getMapPosition();

@@ -1,10 +1,10 @@
 package net.ck.util;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * https://www.codeproject.com/Articles/15604/Ray-casting-in-a-2D-tile-based-environment
@@ -35,8 +35,7 @@ public class LineOfSight
 	{
 		return logger;
 	}
-	
-	
+
 	// Swap the values of A and B
 	//private void swap<T>(ref T a, ref T b) {
 	 //   T c = a;
@@ -85,8 +84,6 @@ public class LineOfSight
 	            error -= deltax;
 	        }
 	    }
-
 	    return result;
 	}
-	
 }

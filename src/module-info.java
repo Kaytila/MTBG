@@ -8,6 +8,8 @@ module myTurnedBasedGame
 	requires transitive org.apache.logging.log4j;
 
 
+	requires org.locationtech.jts;
+
 	requires java.xml;
 	requires java.sql;
     requires javafx.graphics;

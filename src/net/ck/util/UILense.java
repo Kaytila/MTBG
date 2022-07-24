@@ -1,13 +1,13 @@
 package net.ck.util;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
+import net.ck.game.backend.Game;
+import net.ck.game.map.MapTile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.backend.Game;
-import net.ck.game.map.MapTile;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * So the UI Lense is the Class which acts as "Lense" over the map to figure out which
@@ -36,10 +36,10 @@ public class UILense
 		return UILense;
 	}
 	
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 
-	private ArrayList<Boolean> xCoordinateSystem;
-	private ArrayList<Boolean> yCoordinateSystem;
+	private final ArrayList<Boolean> xCoordinateSystem;
+	private final ArrayList<Boolean> yCoordinateSystem;
 	
 	/**
 	 * contains the visible map tiles, as the UI Tiles are calculated
@@ -49,14 +49,7 @@ public class UILense
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -69,10 +62,10 @@ public class UILense
 	 */
 	public UILense()
 	{
-		visibleMapTiles = new ArrayList<MapTile>();
+		visibleMapTiles = new ArrayList<>();
 		
-		xCoordinateSystem = new ArrayList<Boolean>(Game.getCurrent().getNumberOfTiles());
-		yCoordinateSystem = new ArrayList<Boolean>(Game.getCurrent().getNumberOfTiles());
+		xCoordinateSystem = new ArrayList<>(Game.getCurrent().getNumberOfTiles());
+		yCoordinateSystem = new ArrayList<>(Game.getCurrent().getNumberOfTiles());
 
 		logger.info("initializing lense");
 		for (int i = 0; i < Game.getCurrent().getNumberOfTiles(); i++)
@@ -100,7 +93,7 @@ public class UILense
 	/**
 	 * add a point hence maptile to both coordinate lists
 	 * this says, yes, this tile is in the visible area.
-	 * @param p
+	 * @param p adding a UI point
 	 */
 	public void add(Point p)
 	{
@@ -115,7 +108,7 @@ public class UILense
 	 */
 	public ArrayList<Point> identifyEmptyCoordinates()
 	{
-		ArrayList<Point> emptyTiles = new ArrayList<Point>();
+		ArrayList<Point> emptyTiles = new ArrayList<>();
 
 		for (int row = 0; row < Game.getCurrent().getNumberOfTiles(); row++)
 		{
@@ -153,8 +146,9 @@ public class UILense
 	
 	public  ArrayList<Point> getEntries()
 	{
-		ArrayList<Point> list = new ArrayList<Point>();
-	
+		ArrayList<Point> list;
+		list = new ArrayList<>();
+
 		for (int row = 0; row < Game.getCurrent().getNumberOfTiles(); row++)
 		{
 			for (int column = 0; column < Game.getCurrent().getNumberOfTiles(); column++)

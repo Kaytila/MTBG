@@ -522,3 +522,7 @@ adding animated tiles
 2022-07-18: so learned something new about java. abstract method in an abstract class. very useful.
             not much new functionality, but a lot of refactoring today.
 2022-07-22: refactored entity out of the keyboardaction area.
+2022-07-24: LoS does work in a simple implementation, I need a different algorithm for that, but the basic is
+            working. Things to do here: proper calculation for the LoS. Also making it impossible to attack something
+            that you cannot see. Perhaps a "hidden" property is needed for the maptile instead and then just draw the
+            tile as black instead of doing it purely on UI level.

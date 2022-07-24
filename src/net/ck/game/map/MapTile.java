@@ -27,6 +27,10 @@ public class MapTile implements Comparable<MapTile>
      * y coordinate, basically position.getY()
      */
     public int y;
+
+    /**
+     * what things are piled on the tile?
+     */
     private Inventory inventory;
     /**
      * is the tile blocked or not?
@@ -58,6 +62,7 @@ public class MapTile implements Comparable<MapTile>
      * by ID, by listPosition, by coordinates
      */
     private int id;
+
     /**
      * describes the position in the Map's list, probably easier to handle than to
      * iterating all the time
@@ -439,103 +444,59 @@ public class MapTile implements Comparable<MapTile>
         switch (getType())
         {
             case CASTLEEAST:
-                break;
             case CASTLEENTRANCE:
-                break;
             case CASTLEWEST:
-                break;
             case CAVEENTRANCE:
-                break;
-            case DESERT:
-                break;
-            case DIRTFLOOR:
-                break;
-            case DIRTROAD:
-                break;
             case FOUNTAIN:
-                break;
             case GATECLOSED:
-                break;
-            case GATEOPEN:
-                break;
-            case GRASS:
-                break;
-            case HILL:
-                break;
-            case LADDERDOWN:
-                break;
-            case LADDERUP:
-                break;
-            case MARBLEFLOOR:
-                break;
             case MOUNTAIN:
-                break;
-            case OCEAN:
-                break;
-            case PAVEDROAD:
-                break;
-            case RIVEREE:
-                break;
-            case RIVEREN:
-                break;
-            case RIVERES:
-                break;
-            case RIVERNE:
-                break;
-            case RIVERNS:
-                break;
-            case RIVERNW:
-                break;
-            case RIVERSE:
-                break;
-            case RIVERSS:
-                break;
-            case RIVERSW:
-                break;
-            case RIVERWN:
-                break;
-            case RIVERWS:
-                break;
-            case RIVERWW:
-                break;
             case STAIRSDOWN:
-                break;
             case STAIRSUP:
-                break;
             case STONEDOORCLOSED:
-                break;
-            case STONEDOOROPEN:
-                break;
-            case STONEFLOOR:
-                break;
             case STONEWALL:
-                break;
-            case STONEWINDOW:
-                break;
-            case SWAMP:
-                break;
-            case TOWNENTRANCE:
-                break;
-            case VILLAGEENTRANCE:
-                break;
-            case WELL:
-                break;
             case WOODDOORCLOSED:
-                break;
-            case WOODDOOROPEN:
-                break;
-            case WOODFLOOR:
-                break;
             case WOODWALL:
-                break;
+            return true;
+
+            case DESERT:
+            case DIRTFLOOR:
+            case DIRTROAD:
+            case GATEOPEN:
+            case GRASS:
+            case HILL:
+            case LADDERDOWN:
+            case LADDERUP:
+            case MARBLEFLOOR:
+            case OCEAN:
+            case PAVEDROAD:
+            case RIVEREE:
+            case RIVEREN:
+            case RIVERES:
+            case RIVERNE:
+            case RIVERNS:
+            case RIVERNW:
+            case RIVERSE:
+            case RIVERSS:
+            case RIVERSW:
+            case RIVERWN:
+            case RIVERWS:
+            case RIVERWW:
+            case STONEDOOROPEN:
+            case STONEFLOOR:
+            case STONEWINDOW:
+            case TOWNENTRANCE:
+            case VILLAGEENTRANCE:
+            case SWAMP:
+            case WELL:
+            case WOODDOOROPEN:
             case WOODWINDOW:
-                break;
+            case WOODFLOOR:
+            return false;
+
             default:
-                break;
-
+            logger.error("forgotten a tile type - how?");
+            return false;
         }
-
-        return blocksLOS;
     }
 
     public void setBlocksLOS(boolean blocksLOS)
