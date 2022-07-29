@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -31,7 +32,12 @@ public class ImageUtils
 
 	private static final String rootPath = "graphics";
 
-	private static final Logger logger = (Logger) LogManager.getLogger();
+	private static final Logger logger;
+
+	static
+	{
+		logger = LogManager.getLogger();
+	}
 
 	private static final String imagerootpath = "graphics" + File.separator + "players" + File.separator + "player";
 
@@ -49,19 +55,12 @@ public class ImageUtils
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
-	private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<TileTypes, ArrayList<BufferedImage>>();
+	private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>();
 
-	private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<WeatherTypes, ArrayList<BufferedImage>>();
+	private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>();
 
 	/**
 	 * Compares two images pixel by pixel.

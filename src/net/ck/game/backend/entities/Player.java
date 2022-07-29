@@ -2,6 +2,7 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.CommandQueue;
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameState;
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
@@ -37,7 +38,7 @@ public class Player extends AbstractEntity implements LifeForm
 	public void setMapPosition(Point position)
 	{
 		this.mapPosition = position;
-		MapUtils.getTileByCoordinates(position).setBlocked(true);		
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(position)).setBlocked(true);
 		//logger.info("player number {}, map position {}", getNumber(), mapPosition.toString());
 	}
 
@@ -46,14 +47,7 @@ public class Player extends AbstractEntity implements LifeForm
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	/**
@@ -71,17 +65,14 @@ public class Player extends AbstractEntity implements LifeForm
 	public Player(int number)
 	{
 		super();
-		
-		//StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();		
-		//logger.info("calling player constructor from: {} or: {}", stackTraceElements[1].getMethodName(), stackTraceElements[2].getMethodName());
 		setLightSource(true);
 		setLightRange(4);
 		setNumber(number);
 
-		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
+		ArrayList<BufferedImage> images = new ArrayList<>();
 
-		BufferedImage standardImage = null;
-		ArrayList<BufferedImage> movingImages = new ArrayList<BufferedImage>();
+		BufferedImage standardImage;
+		ArrayList<BufferedImage> movingImages;
 
 		standardImage = ImageUtils.loadStandardPlayerImage(this);
 		movingImages = ImageUtils.loadMovingPlayerImages(this);
@@ -344,7 +335,8 @@ public class Player extends AbstractEntity implements LifeForm
 	{
 		logger.info("player attacking");
 		MapTile	tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
-
+		Game.getCurrent().setGameState(GameState.COMBAT);
+		Game.getCurrent().getSoundSystem().restartMusic();
 
 		if (tile != null)
 		{

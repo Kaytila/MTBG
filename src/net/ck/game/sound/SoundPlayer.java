@@ -1,32 +1,22 @@
 package net.ck.game.sound;
 
-import java.io.BufferedInputStream;
+import net.ck.game.backend.Game;
+import net.ck.game.backend.GameState;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.sound.sampled.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.SourceDataLine;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import net.ck.game.backend.Game;
-import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 
 /**
  * SoundPlayer is a threaded system which basically takes a list of songs and randomly plays one. TODO here: add an event "combat" or "town" or "exploring", tag songs accordingly and play the music
@@ -38,7 +28,7 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 public class SoundPlayer implements Runnable
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private static String basePath = "music";
 	public static String getBasePath()
 	{
@@ -58,6 +48,10 @@ public class SoundPlayer implements Runnable
 	private ArrayList<Path> result = new ArrayList<Path>();
 	private Clip clip;
 	private SourceDataLine line;
+
+	private GameState gameState;
+
+
 	public ArrayList<Path> getResult()
 	{
 		return result;
@@ -162,20 +156,81 @@ public class SoundPlayer implements Runnable
 	{
 		while (Game.getCurrent().isRunning() == true)
 		{
+			if (gameState == null)
+			{
+				gameState = Game.getCurrent().getGameState();
+			}
+
+
+
 			if (line != null)
 			{
+				logger.info("line is not null");
 				if (line.isRunning())
 				{
-
+					logger.info("line is running");
+					if (gameState.equals(Game.getCurrent().getGameState()))
+					{
+						logger.info("same state - keep playing");
+					}
+					else
+					{
+						logger.info("different state");
+						gameState = Game.getCurrent().getGameState();
+					}
 				}
 				else
 				{
-					betterPlaySong(getResult().get(selectRandomSong()));
+					logger.info("line is not running");
+					switch(Game.getCurrent().getGameState())
+					{
+						case WORLD:
+							betterPlaySong(getResult().get(7));
+							break;
+						case TOWN:
+							betterPlaySong(getResult().get(6));
+							break;
+						case CASTLE:
+							betterPlaySong(getResult().get(0));
+							break;
+						case COMBAT:
+							betterPlaySong(getResult().get(1));
+							break;
+						case DUNGEON:
+							betterPlaySong(getResult().get(2));
+							break;
+						default:
+							betterPlaySong(getResult().get(selectRandomSong()));
+							break;
+					}
+
 				}
 			}
 			else
 			{
-				betterPlaySong(getResult().get(selectRandomSong()));
+				logger.info("line == null");
+				switch(Game.getCurrent().getGameState())
+				{
+					case WORLD:
+						betterPlaySong(getResult().get(7));
+						break;
+					case TOWN:
+						betterPlaySong(getResult().get(6));
+						break;
+					case CASTLE:
+						betterPlaySong(getResult().get(0));
+						break;
+					case COMBAT:
+						betterPlaySong(getResult().get(1));
+						break;
+					case DUNGEON:
+						betterPlaySong(getResult().get(2));
+						break;
+					default:
+						betterPlaySong(getResult().get(selectRandomSong()));
+						break;
+				}
+				//betterPlaySong(getResult().get(selectRandomSong()));
 			}
 		}
 	}
@@ -221,58 +276,7 @@ public class SoundPlayer implements Runnable
 		}
 	}
 
-	@SuppressWarnings("unused")
-	@Deprecated
-	private void playSong(Path filePath)
-	{
-		if (musicIsRunning == false)
-		{
-			logger.info("playing song: {}", filePath.toString());
-			try
-			{
-				inputStream = Files.newInputStream(filePath, StandardOpenOption.READ);
-				bufferedIn = new BufferedInputStream(inputStream);
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
 
-			try
-			{
-				Mixer mixer = AudioSystem.getMixer(null);
-				logger.info(mixer.toString());
-				clip = AudioSystem.getClip();
-				if (clip != null)
-				{
-
-					audioinputStream = AudioSystem.getAudioInputStream(bufferedIn);
-				}
-				else
-				{
-					logger.error("clip is null");
-				}
-
-				if (inputStream != null)
-				{
-					clip.open(audioinputStream);
-					clip.start();
-					logger.info("setting music to true");
-					musicIsRunning = true;
-				}
-				else
-				{
-					logger.error("inputstream is null");
-				}
-			}
-			catch (Exception e)
-			{
-				logger.error("problem running sound");
-				e.printStackTrace();
-				Game.getCurrent().stopGame();
-			}
-		}
-	}
 
 	/**
 	 * https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback
@@ -310,6 +314,18 @@ public class SoundPlayer implements Runnable
 		}
 		// playSong(getResult().get(selectRandomSong()));
 	}
+
+	public void restartMusic()
+	{
+		if (Game.getCurrent().isPlayMusic())
+		{
+			if (line != null)
+			{
+				line.flush();
+			}
+		}
+	}
+
 
 	/**
 	 * https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java

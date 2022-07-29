@@ -58,7 +58,9 @@ public class Game
 	/**
 	 * how many frames per second
 	 */
-	public int FFPS = 60;
+	private int FFPS = 60;
+
+	private GameState gameState;
 
 	/**
 	 * list that contains all the NPC prototypes
@@ -250,7 +252,7 @@ public class Game
 		threadController = new ThreadController(this);
 		threadController.add(Thread.currentThread());
 
-		setPlayMusic(false);
+		setPlayMusic(true);
 
 		setTileSize(32);
 		setTurnNumber(0);
@@ -266,6 +268,7 @@ public class Game
 		setGameTime(new GameTime());
 		getGameTime().setCurrentHour(9);
 
+		setGameState(GameState.WORLD);
 		// Toolkit.getDefaultToolkit().getSystemEventQueue().
 		// java FX - perhaps in 2025
 		// graphicsSystem = new GraphicsSystem();
@@ -571,6 +574,15 @@ public class Game
 			getWeatherSystem().checkWeather();
 			getController().getGridCanvas().repaint();
 			// logger.info("current map: {}", Game.getCurrent().getCurrentMap());
+			if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("INDOORS"))
+			{
+				Game.getCurrent().setGameState(GameState.DUNGEON);
+			}
+			if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("testname"))
+			{
+				Game.getCurrent().setGameState(GameState.WORLD);
+			}
+			getIdleTimer().start();
 			logger.info("end: switching map");
 		}
 
@@ -1339,6 +1351,16 @@ public class Game
 	public void setBaseHealth(int baseHealth)
 	{
 		this.baseHealth = baseHealth;
+	}
+
+	public GameState getGameState()
+	{
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState)
+	{
+		this.gameState = gameState;
 	}
 }
 

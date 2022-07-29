@@ -528,3 +528,5 @@ adding animated tiles
             tile as black instead of doing it purely on UI level.
 2022-07-24: added hidden property to the maptile which is check at mouse click for the target tile. You cannot interact
             with hidden tiles now.
+2022-07-29: worked some more on music. Music now changes based on game state, only thing is, need to figure out a good
+            way how to carry game state changes.

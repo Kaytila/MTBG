@@ -412,6 +412,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				var c = (JGridCanvas) e.getSource();
 				var handler = c.getTransferHandler();
 				MapTile tile = MapUtils.calculateMapTileUnderCursor(e.getPoint());
+
+				if (tile.isHidden())
+				{
+					logger.info("tile {} is not visible right now", tile);
+					return;
+				}
+
 				if (tile.getInventory().isEmpty())
 				{
 					logger.info("no inventory");
@@ -581,7 +588,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	{
 		//logger.info("Current action: {}", action);
 		Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
-		Game.getCurrent().getIdleTimer().stop();
+		//Game.getCurrent().getIdleTimer().stop();
 		textArea.append(action.getType().name());
 		textArea.append("\n");
 		textField.setText(action.getType().name());
@@ -669,6 +676,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			case ENTER :
 			{
 				haveNPCAction = false;
+				//Game.getCurrent().getIdleTimer().start();
 				break;
 			}
 

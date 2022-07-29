@@ -10,7 +10,7 @@ Make MainWindow to actual controller Class, have a WindowBuilder Class that does
 make wrapping on the overworld actually work :D
 define character, or rather, make configurable
 define dexterity to make more moves
-define additional tile types
+define additional tile types <-- done
 implement LoS <-- basic done, algorithmn probably has an error
 implement character attributes <-- done
 implement containers <-- mostly done
@@ -29,9 +29,9 @@ implement two handed weapons <-- done, there is only one slot :D
 implement ranged weapons <-- almost
 implement attack :D <-- almost
 implement visibility range with full darkness <-- done
-implement rays <--
+implement rays <-- doneish
 implement triggers
-implement scripting <-
+implement scripting
 implement dialog system <-- basic done
 implement drop <-- done
 implement get <-- done
@@ -42,6 +42,5 @@ implement move <-- done
 implement checkpoints
 implement basic scheduling <-- done
 implement melee attack <-- almost done
-
-
+implement game state depending music
 

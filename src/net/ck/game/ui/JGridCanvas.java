@@ -133,10 +133,7 @@ public class JGridCanvas extends JComponent
         emptySlate(g);
 
         // identify which tiles are visible at first!
-
         identifyVisibleTiles();
-
-        // here comes the LoS Part
 
         // this somehow needs to be doable faster
         // draw the background images
@@ -159,20 +156,20 @@ public class JGridCanvas extends JComponent
         // ring of darkness around the player
         paintDarkness(g);
 
-        paintLoS(g);
-
         //paint furniture
         //also: paint light effects
         paintFurniture(g);
+
+        //paint line of sight or rather, paint black the tiles that are not visible
+        //based on the calculations which are not completely fitting but good enough
+        paintLoS(g);
 
         //paint the missiles on the screen
         //paintMissiles(g);
         paintMissilesFullLineAtOnce(g);
 
-
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
-
     }
 
     private void paintFurniture(Graphics g)
@@ -398,7 +395,7 @@ public class JGridCanvas extends JComponent
     {
         if (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SUN)
         {
-            logger.info("the weather is shining");
+            //logger.info("the weather is shining");
         }
         else if ((Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.RAIN) || (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.HAIL)
                 || (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SNOW))
@@ -675,6 +672,7 @@ public class JGridCanvas extends JComponent
 
     /**
      * use the Bresenhaim algorithm to calculate LoS
+     * should investigate https://www.redblobgames.com/articles/visibility/
      * @param g standard graphics context
      */
     private void paintLoS(Graphics g)

@@ -1,28 +1,23 @@
 package net.ck.game.ui;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.io.IOException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.*;
+import java.io.IOException;
+import java.util.Objects;
 
 public class JGridCanvasDropTargetHandler implements DropTargetListener
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private JGridCanvas gridcanvas;
 
 	public JGridCanvas getGridcanvas()
@@ -43,14 +38,7 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()
@@ -99,10 +87,11 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 		// logger.info("dragExit");
 
 	}
-	@Override
+
 	/**
 	 * https://stackoverflow.com/questions/29187546/java-get-mouse-coordinates-within-window helped with the mouse locations as I am forgetful and dont actually want to remember things like that.
 	 */
+	@Override
 	public void drop(DropTargetDropEvent dtde)
 	{
 		logger.info("drop");
@@ -129,6 +118,11 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 							logger.info("mouse position: {}", new Point(x, y));
 							MapTile tile = MapUtils.calculateMapTileUnderCursor(new Point(x, y));
 							logger.info("map tile: {}", tile);
+							if (tile.isHidden())
+							{
+								logger.info("tile {} is not visible right now", tile);
+								return;
+							}
 							if (Game.getCurrent().getCurrentPlayer().getMapPosition().equals(tile.getMapPosition()))
 							{
 								logger.info("dragging on player");

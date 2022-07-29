@@ -2,6 +2,7 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.CommandQueue;
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameState;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
@@ -403,7 +404,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         logger.info("NPC Attacking");
         MapTile tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
-
+        Game.getCurrent().setGameState(GameState.COMBAT);
         action = NPCUtils.calculateCoordinatesFromActionAndTile(action, tile, this);
 
         if (tile != null)
