@@ -541,3 +541,4 @@ adding animated tiles
             Need to think how to implement options menu.
             finally got rid of the exception with the missing weather images for foreground animation.
             also some clean up in image utils.
+            small bug in sound player fixed.

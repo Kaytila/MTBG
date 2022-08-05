@@ -333,8 +333,6 @@ public class SoundPlayer implements Runnable
             if (getGameState().equals(gameStat.getGameState()))
             {
                 logger.info("same state, dont stop");
-                line.stop();
-                line.flush();
             }
             else
             {
