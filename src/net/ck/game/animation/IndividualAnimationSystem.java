@@ -1,6 +1,7 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.ThreadNames;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +51,7 @@ public class IndividualAnimationSystem extends AnimationSystem
 
 				try
 				{
-					Game.getCurrent().getThreadController().sleep(200, "Animation System Thread");
+					Game.getCurrent().getThreadController().sleep(200, ThreadNames.LIFEFORM_ANIMATION);
 				} catch (Exception e)
 				{
 					// TODO Auto-generated catch block

@@ -1,12 +1,12 @@
 package net.ck.game.backend;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 
 /**
  *  So I want to do proper thread handling:
@@ -42,7 +42,7 @@ public class ThreadController implements Runnable
 	public ThreadController(Game game)
 	{
 		setGame(game);
-		threads = Collections.synchronizedList(new ArrayList<Thread>());
+		threads = Collections.synchronizedList(new ArrayList<>());
 	}
 
 	public Game getGame()
@@ -87,11 +87,6 @@ public class ThreadController implements Runnable
 			t.interrupt();
 
 		}
-	}
-
-	public void setThreads(ArrayList<Thread> threads)
-	{
-		this.threads = threads;
 	}
 
 	public void reanimateAnimation()
@@ -214,12 +209,11 @@ public class ThreadController implements Runnable
 	}
 
 	@SuppressWarnings("static-access")
-	public void sleep(int ms, String threadName)
+	public void sleep(int ms, ThreadNames threadName)
 	{
-		for (Iterator<Thread> threadIterator = getThreads().iterator(); threadIterator.hasNext();)
+		for (Thread t : List.copyOf(getThreads()))
 		{
-			Thread t = threadIterator.next();
-			if (t.getName().equalsIgnoreCase(threadName))
+			if (t.getName().equalsIgnoreCase(String.valueOf(threadName)))
 			{
 				try
 				{
@@ -229,6 +223,30 @@ public class ThreadController implements Runnable
 				{
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+
+	public void startThreads()
+	{
+		for (Thread t : List.copyOf(getThreads()))
+		{
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
+			}
+
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.FOREGROUND_ANIMATION)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
+			}
+
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.BACKGROUND_ANIMATION)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
 			}
 		}
 	}

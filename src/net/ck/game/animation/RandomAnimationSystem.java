@@ -1,6 +1,7 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.ThreadNames;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
@@ -72,7 +73,7 @@ public class RandomAnimationSystem extends AnimationSystem
 
 			try
 			{
-				Game.getCurrent().getThreadController().sleep(2000, "Animation System Thread");
+				Game.getCurrent().getThreadController().sleep(2000, ThreadNames.LIFEFORM_ANIMATION);
 			}
             catch (ConcurrentModificationException e)
 			{

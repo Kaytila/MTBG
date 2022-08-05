@@ -15,6 +15,7 @@ import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -335,8 +336,8 @@ public class Player extends AbstractEntity implements LifeForm
 	{
 		logger.info("player attacking");
 		MapTile	tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
-		Game.getCurrent().setGameState(GameState.COMBAT);
-		Game.getCurrent().getSoundSystem().restartMusic();
+		EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
+		//Game.getCurrent().getSoundSystem().restartMusic();
 
 		if (tile != null)
 		{

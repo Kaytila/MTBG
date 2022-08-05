@@ -1,6 +1,7 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.ThreadNames;
 import net.ck.util.communication.graphics.ForegroundRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,7 +59,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 
 				try
 				{
-					Game.getCurrent().getThreadController().sleep(500, "Foreground Animation System Thread");
+					Game.getCurrent().getThreadController().sleep(500, ThreadNames.FOREGROUND_ANIMATION);
 				}
 				catch (ConcurrentModificationException e)
 				{

@@ -429,21 +429,10 @@ public class JGridCanvas extends JComponent
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
      */
     @Subscribe
-    public void onMessageEvent(PlayerPositionChanged event)
+    public synchronized void onMessageEvent(PlayerPositionChanged event)
     {
         //logger.info("player position changed, lets see whether this is also called for NPCs");
-        this.repaint();
-    }
-
-
-
-    /**
-     * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
-     */
-    @Subscribe
-    public void onMessageEvent(AnimatedRepresentationChanged event)
-    {
-        this.repaint();
+        this.paint();
     }
 
 
@@ -451,10 +440,25 @@ public class JGridCanvas extends JComponent
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
      */
     @Subscribe
-    public void onMessageEvent(MissilePositionChanged event)
+    public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
-        //logger.info("catching message");
-        this.repaint();
+        this.paint();
+    }
+
+
+    private void paint()
+    {
+        /*System.out.println(SwingUtilities.isEventDispatchThread());*/
+        javax.swing.SwingUtilities.invokeLater(this::repaint);
+    }
+
+    /**
+     * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
+     */
+    @Subscribe
+    public synchronized void onMessageEvent(MissilePositionChanged event)
+    {
+        this.paint();
     }
 
 
@@ -462,11 +466,12 @@ public class JGridCanvas extends JComponent
      * @param event an animatedRepresentation has changed, repaint the canvas
      */
     @Subscribe
-    public void onMessageEvent(BackgroundRepresentationChanged event)
+    public synchronized void onMessageEvent(BackgroundRepresentationChanged event)
     {
-        setCurrentBackgroundImage(event.getCurrentNumber());
-        // logger.info("current background number: {}", getCurrentBackgroundImage());
-        // this.repaint();
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            setCurrentBackgroundImage(event.getCurrentNumber());/*logger.info(SwingUtilities.isEventDispatchThread());*/
+        });
     }
 
 
@@ -474,11 +479,12 @@ public class JGridCanvas extends JComponent
      * @param event an animatedRepresentation has changed, repaint the canvas
      */
     @Subscribe
-    public void onMessageEvent(ForegroundRepresentationChanged event)
+    public synchronized void onMessageEvent(ForegroundRepresentationChanged event)
     {
-        setCurrentForegroundImage(event.getCurrentNumber());
-        // logger.info("current Foreground number: {}", event.getCurrentNumber());
-        // this.repaint();
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            setCurrentForegroundImage(event.getCurrentNumber());/*logger.info(SwingUtilities.isEventDispatchThread());*/
+        });
     }
 
 
@@ -486,9 +492,12 @@ public class JGridCanvas extends JComponent
      * @param event an animatedRepresentation has changed, repaint the canvas
      */
     @Subscribe
-    public void onMessageEvent(CursorChangeEvent event)
+    public synchronized void onMessageEvent(CursorChangeEvent event)
     {
-        setCursor(event.getCursor());
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            setCursor(event.getCursor());/*logger.info(SwingUtilities.isEventDispatchThread());*/
+        });
     }
 
     public int getCurrentBackgroundImage()
@@ -546,7 +555,6 @@ public class JGridCanvas extends JComponent
     /**
      * identify which tiles of the map are currently visible
      * also set back hidden state cause this is calculated again
-     *
      */
     private void identifyVisibleTiles()
     {
@@ -663,6 +671,7 @@ public class JGridCanvas extends JComponent
 
     /**
      * TODO this is where I will paint the borders
+     *
      * @param g graphics object
      */
     public void paintBorder(Graphics g)
@@ -673,6 +682,7 @@ public class JGridCanvas extends JComponent
     /**
      * use the Bresenhaim algorithm to calculate LoS
      * should investigate https://www.redblobgames.com/articles/visibility/
+     *
      * @param g standard graphics context
      */
     private void paintLoS(Graphics g)
@@ -690,23 +700,23 @@ public class JGridCanvas extends JComponent
             for (Point p : line)
             {
                 //logger.info("calculated route: {}", p);
-               MapTile t = MapUtils.getTileByCoordinates(new Point(p.x - offSet.x, p.y - offSet.y));
-               //logger.info("maptile: {}", t);
-               if (t == null)
-               {
-                   continue;
-               }
-
-               if (t.isBlocksLOS())
-               {
-                   blocked = true;
+                MapTile t = MapUtils.getTileByCoordinates(new Point(p.x - offSet.x, p.y - offSet.y));
+                //logger.info("maptile: {}", t);
+                if (t == null)
+                {
                     continue;
-               }
-               if (blocked)
-               {
-                   t.setHidden(true);
-                   g.drawImage(blackImage, (p.x * tileSize), (p.y * tileSize), this);
-               }
+                }
+
+                if (t.isBlocksLOS())
+                {
+                    blocked = true;
+                    continue;
+                }
+                if (blocked)
+                {
+                    t.setHidden(true);
+                    g.drawImage(blackImage, (p.x * tileSize), (p.y * tileSize), this);
+                }
             }
         }
     }

@@ -119,14 +119,9 @@ public class RunGame
 					ImageUtils.initializeForegroundImages();
 					renderSplashFrame(g, size);
 					renderSplashFrame(g, 100, size);
-					javax.swing.SwingUtilities.invokeLater(new Runnable()
-					{
-						public void run()
-						{
-							setWindow(new MainWindow());
-						}
-					});
-
+					javax.swing.SwingUtilities.invokeLater(() -> setWindow(new MainWindow()));
+					//TODO add method about UI being open here and send events only then
+					game.startThreads();
 					// Thread ga = new Thread(game);
 					// ga.start();
 				}

@@ -17,6 +17,7 @@ import net.ck.util.NPCUtils;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.MoveAction;
+import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -404,7 +405,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         logger.info("NPC Attacking");
         MapTile tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
-        Game.getCurrent().setGameState(GameState.COMBAT);
+        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
         action = NPCUtils.calculateCoordinatesFromActionAndTile(action, tile, this);
 
         if (tile != null)

@@ -1,6 +1,7 @@
 package net.ck.game.ui;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameState;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
@@ -12,6 +13,7 @@ import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -123,6 +125,16 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 	private boolean dragEnabled;
 
+	/**
+	 * button for stopping music - will need to move into options menu once music works properly
+	 */
+	private StopMusicButton stopMusicButton;
+
+	/**
+	 * button for starting music - will need to move into options menu once music works properly
+	 */
+	private StartMusicButton startMusicButton;
+
 
 	private KeyboardFocusManager focusManager;
 
@@ -166,6 +178,27 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		{
 			logger.info("OK");
 		}
+
+		if (e.getActionCommand().equalsIgnoreCase("StartMusic"))
+		{
+			logger.info("start music");
+			if (Game.getCurrent().isPlayMusic())
+			{
+				Game.getCurrent().getSoundSystem().startMusic();
+				EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
+			}
+
+		}
+
+		if (e.getActionCommand().equalsIgnoreCase("StopMusic"))
+		{
+			logger.info("stop music");
+			if (Game.getCurrent().isPlayMusic())
+			{
+				Game.getCurrent().getSoundSystem().stopMusic();
+			}
+		}
+
 	}
 
 	public void buildWindow()
@@ -176,6 +209,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		undoButton = new UndoButton(new Point(700 - 200, 620));
 		undoButton.addFocusListener(myFocusListener);
 		frame.add(undoButton);
+
+		stopMusicButton = new StopMusicButton(new Point(700 - 300, 620));
+		stopMusicButton.addActionListener(this);
+		frame.add(stopMusicButton);
+
+		startMusicButton = new StartMusicButton(new Point(700 - 400, 620));
+		startMusicButton.addActionListener(this);
+		frame.add(startMusicButton);
 
 		gridCanvas = new JGridCanvas();
 		gridCanvas.addFocusListener(myFocusListener);
@@ -1027,4 +1068,23 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		this.currentItemInHand = currentItemInHand;
 	}
 
+	public StopMusicButton getStopMusicButton()
+	{
+		return stopMusicButton;
+	}
+
+	public void setStopMusicButton(StopMusicButton stopMusicButton)
+	{
+		this.stopMusicButton = stopMusicButton;
+	}
+
+	public StartMusicButton getStartMusicButton()
+	{
+		return startMusicButton;
+	}
+
+	public void setStartMusicButton(StartMusicButton startMusicButton)
+	{
+		this.startMusicButton = startMusicButton;
+	}
 }

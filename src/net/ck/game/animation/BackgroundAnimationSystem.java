@@ -1,6 +1,7 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.ThreadNames;
 import net.ck.util.communication.graphics.BackgroundRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,13 +49,13 @@ public class BackgroundAnimationSystem extends IndividualAnimationSystem
 
 				try
 				{
-					Game.getCurrent().getThreadController().sleep(1500, "Background Animation System Thread");
+					Game.getCurrent().getThreadController().sleep(1500, ThreadNames.BACKGROUND_ANIMATION);
 				}
 				catch (ConcurrentModificationException e)
 				{
 					logger.error("caught ConcurrentModificationException");
 				}
-                catch (Exception e)
+                catch (Throwable e)
 				{
 					e.printStackTrace();
 				}

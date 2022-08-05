@@ -22,10 +22,13 @@ import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.communication.keyboard.AttackAction;
 import net.ck.util.communication.keyboard.GetAction;
+import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.xml.RunXMLParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
 import java.io.File;
@@ -576,11 +579,11 @@ public class Game
 			// logger.info("current map: {}", Game.getCurrent().getCurrentMap());
 			if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("INDOORS"))
 			{
-				Game.getCurrent().setGameState(GameState.DUNGEON);
+				EventBus.getDefault().post(new GameStateChanged(GameState.DUNGEON));
 			}
 			if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("testname"))
 			{
-				Game.getCurrent().setGameState(GameState.WORLD);
+				EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
 			}
 			getIdleTimer().start();
 			logger.info("end: switching map");
@@ -597,6 +600,12 @@ public class Game
 		 * logger.error("Application Terminating ..."); setRunning(false); if (threadController != null) { for (Thread t : threadController.getThreads()) { // how the heck is this supposed to work?
 		 * logger.error("shutdown: " + t.getName()); t.interrupt(); } } }
 		 */
+
+		@Subscribe
+		public void onMessageEvent(GameStateChanged gameState)
+		{
+			this.setGameState(gameState.getGameState());
+		}
 
 		public void initializeWeatherSystem ()
 		{
@@ -901,7 +910,7 @@ public class Game
 			this.animated = animated;
 		}
 
-		public void setAnimationCycles ( int animationCycles)
+		private void setAnimationCycles ( int animationCycles)
 		{
 			this.animationCycles = animationCycles;
 		}
@@ -1033,9 +1042,9 @@ public class Game
 			{
 				logger.info("initializing animation system");
 				Thread animationSystemThread = new Thread(animationSystem);
-				animationSystemThread.setName("Animation System Thread");
+				animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
 				threadController.add(animationSystemThread);
-				animationSystemThread.start();
+				//animationSystemThread.start();
 			}
 		}
 
@@ -1047,10 +1056,10 @@ public class Game
 				BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem();
 
 				Thread backgroundAnimationSystemThread = new Thread(backgroundAnimationSystem);
-				backgroundAnimationSystemThread.setName("Background Animation System Thread");
+				backgroundAnimationSystemThread.setName(String.valueOf(ThreadNames.BACKGROUND_ANIMATION));
 
 				threadController.add(backgroundAnimationSystemThread);
-				backgroundAnimationSystemThread.start();
+				//backgroundAnimationSystemThread.start();
 			}
 		}
 
@@ -1062,10 +1071,10 @@ public class Game
 				ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem();
 
 				Thread foregroundAnimationSystemThread = new Thread(foregroundAnimationSystem);
-				foregroundAnimationSystemThread.setName("Foreground Animation System Thread");
+				foregroundAnimationSystemThread.setName(String.valueOf(ThreadNames.FOREGROUND_ANIMATION));
 
 				threadController.add(foregroundAnimationSystemThread);
-				foregroundAnimationSystemThread.start();
+				//foregroundAnimationSystemThread.start();
 			}
 		}
 
@@ -1361,6 +1370,11 @@ public class Game
 	public void setGameState(GameState gameState)
 	{
 		this.gameState = gameState;
+	}
+
+	public void startThreads()
+	{
+		getThreadController().startThreads();
 	}
 }
 

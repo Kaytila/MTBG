@@ -1,5 +1,6 @@
 package net.ck.game.weather;
 
+import net.ck.game.backend.ThreadNames;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -42,7 +43,7 @@ public class AsyncWeatherSystem extends AbstractWeatherSystem implements Runnabl
 				{
 					if (t.getName().equalsIgnoreCase("Weather System Thread"))
 					{
-						Game.getCurrent().getThreadController().sleep(10000, "Weather System Thread");
+						Game.getCurrent().getThreadController().sleep(10000, ThreadNames.WEATHER_ANIMATION);
 					}
 				}
 

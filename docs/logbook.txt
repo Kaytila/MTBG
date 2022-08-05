@@ -530,3 +530,4 @@ adding animated tiles
             with hidden tiles now.
 2022-07-29: worked some more on music. Music now changes based on game state, only thing is, need to figure out a good
             way how to carry game state changes.
+2022-08-05: lots of things changed - got rid of thread issues, got rid of concurrent modifications. music still not working.

@@ -108,28 +108,35 @@ public class ImageUtils
 	public static BufferedImage makeImageTransparent(String fileName)
 	{
 		// logger.info("filename: {}", fileName);
-		ImageIcon originalIcon = createImageIcon(fileName, "");
+		//  (Files.exists(Paths.get(fileName)))
+		//{
+			ImageIcon originalIcon = createImageIcon(fileName, "");
 
-		ImageFilter filter = new RGBImageFilter()
-		{
-			int transparentColor = Color.white.getRGB() | 0xFF000000;
-
-			public final int filterRGB(int x, int y, int rgb)
+			ImageFilter filter = new RGBImageFilter()
 			{
-				if ((rgb | 0xFF000000) == transparentColor)
-				{
-					return 0x00FFFFFF & rgb;
-				}
-				else
-				{
-					return rgb;
-				}
-			}
-		};
+				int transparentColor = Color.white.getRGB() | 0xFF000000;
 
-		ImageProducer filteredImgProd = new FilteredImageSource(originalIcon.getImage().getSource(), filter);
-		Image transparentImage = Toolkit.getDefaultToolkit().createImage(filteredImgProd);
-		return toBufferedImage(transparentImage);
+				public final int filterRGB(int x, int y, int rgb)
+				{
+					if ((rgb | 0xFF000000) == transparentColor)
+					{
+						return 0x00FFFFFF & rgb;
+					}
+					else
+					{
+						return rgb;
+					}
+				}
+			};
+
+			ImageProducer filteredImgProd = new FilteredImageSource(originalIcon.getImage().getSource(), filter);
+			Image transparentImage = Toolkit.getDefaultToolkit().createImage(filteredImgProd);
+			return toBufferedImage(transparentImage);
+		//}
+		//else
+		//{
+		//	return null;
+		//}
 	}
 
 	/**

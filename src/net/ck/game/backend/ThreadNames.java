@@ -1,0 +1,6 @@
+package net.ck.game.backend;
+
+public enum ThreadNames
+{
+    LIFEFORM_ANIMATION, FOREGROUND_ANIMATION, BACKGROUND_ANIMATION, WEATHER_ANIMATION
+}
