@@ -539,3 +539,5 @@ adding animated tiles
             finally got soundplayer to work, guess two synchronized for the getter/setter were all that was missing.
             Also implemented increase/decrease Volume now.
             Need to think how to implement options menu.
+            finally got rid of the exception with the missing weather images for foreground animation.
+            also some clean up in image utils.
