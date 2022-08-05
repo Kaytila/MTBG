@@ -45,8 +45,10 @@ public class BackgroundAnimationSystem extends IndividualAnimationSystem
 			for (i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
 			{
 				setCurrentBackgroundImage(i);
-				EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
-
+				if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
+				{
+					EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
+				}
 				try
 				{
 					Game.getCurrent().getThreadController().sleep(1500, ThreadNames.BACKGROUND_ANIMATION);

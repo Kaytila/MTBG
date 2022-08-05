@@ -1,5 +1,6 @@
 package net.ck.game.weather;
 
+import net.ck.game.backend.Game;
 import net.ck.util.WeatherUtils;
 import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,10 @@ public class Weather
     public void setType(WeatherTypes typ)
     {
         this.type = typ;
-        EventBus.getDefault().post(new WeatherChangedEvent("imageChanged"));
+        if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
+        {
+            EventBus.getDefault().post(new WeatherChangedEvent("imageChanged"));
+        }
         try
         {
             setWeatherImage(WeatherUtils.getWeatherImage(type));

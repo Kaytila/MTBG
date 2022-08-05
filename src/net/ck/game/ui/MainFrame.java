@@ -1,20 +1,14 @@
 package net.ck.game.ui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.HeadlessException;
-import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
+import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.util.ImageUtils;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * This is the main frame of the application
@@ -103,7 +97,7 @@ public class MainFrame extends JFrame
 		this.setTitle("My Demo");		
 		this.setResizable(false);
 		this.toFront();
-		this.setLayout(null);				
+		this.setLayout(null);
 	}
 
 	/*

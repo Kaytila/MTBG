@@ -55,8 +55,10 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 			for (i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
 			{
 				setCurrentForegroundImage(i);
-				EventBus.getDefault().post(new ForegroundRepresentationChanged(getCurrentForegroundImage()));
-
+				if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
+				{
+					EventBus.getDefault().post(new ForegroundRepresentationChanged(getCurrentForegroundImage()));
+				}
 				try
 				{
 					Game.getCurrent().getThreadController().sleep(500, ThreadNames.FOREGROUND_ANIMATION);

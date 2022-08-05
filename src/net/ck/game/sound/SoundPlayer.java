@@ -38,8 +38,7 @@ public class SoundPlayer implements Runnable
 
     private SourceDataLine line;
     private GameState gameState;
-    private boolean musicIsRunning = false;
-    private int a = 0;
+    private boolean musicIsRunning;
 
     /**
      * https://stackoverflow.com/questions/37034624/play-and-stop-music-java https://stackoverflow.com/questions/5529754/java-io-ioexception-mark-reset-not-supported/9324190
@@ -93,15 +92,16 @@ public class SoundPlayer implements Runnable
         this.line = line;
     }
 
-    public boolean isMusicIsRunning()
+    public synchronized boolean isMusicIsRunning()
     {
+        //System.out.println(musicIsRunning);
         return musicIsRunning;
     }
 
-    public void setMusicIsRunning(boolean musicIsRunning)
+    public synchronized void setMusicIsRunning(boolean music)
     {
-        logger.info("Music is running: {}", musicIsRunning);
-        this.musicIsRunning = musicIsRunning;
+        logger.info("Music is running: {}", music);
+        this.musicIsRunning = music;
     }
 
     public Class<?> getRealClass()
@@ -166,36 +166,39 @@ public class SoundPlayer implements Runnable
         {
             try
             {
-                if (a == 0)
-                {
-                    logger.info("running");
-                    a++;
-                }
                 if (getGameState() == null)
                 {
                     logger.debug("game state is null yet, default to WORLD");
                     setGameState(GameState.WORLD);
                 }
-                switch (getGameState())
+
+                if (isMusicIsRunning() == true)
                 {
-                    case WORLD:
-                        betterPlaySong(getResult().get(7));
-                        break;
-                    case TOWN:
-                        betterPlaySong(getResult().get(6));
-                        break;
-                    case CASTLE:
-                        betterPlaySong(getResult().get(0));
-                        break;
-                    case COMBAT:
-                        betterPlaySong(getResult().get(1));
-                        break;
-                    case DUNGEON:
-                        betterPlaySong(getResult().get(2));
-                        break;
-                    default:
-                        betterPlaySong(getResult().get(selectRandomSong()));
-                        break;
+                    switch (getGameState())
+                    {
+                        case WORLD:
+                            betterPlaySong(getResult().get(7));
+                            break;
+                        case TOWN:
+                            betterPlaySong(getResult().get(6));
+                            break;
+                        case CASTLE:
+                            betterPlaySong(getResult().get(0));
+                            break;
+                        case COMBAT:
+                            betterPlaySong(getResult().get(1));
+                            break;
+                        case DUNGEON:
+                            betterPlaySong(getResult().get(2));
+                            break;
+                        default:
+                            betterPlaySong(getResult().get(selectRandomSong()));
+                            break;
+                    }
+                }
+                else
+                {
+                    //logger.info("quiet, no music");
                 }
             }
             catch (Exception e)
@@ -205,93 +208,6 @@ public class SoundPlayer implements Runnable
         }
     }
 
-    public void runOLD()
-    {
-        while (Game.getCurrent().isRunning() == true)
-        {
-            if (gameState == null)
-            {
-                gameState = Game.getCurrent().getGameState();
-            }
-
-
-            if (line != null)
-            {
-                logger.info("line is not null");
-                if (line.isRunning())
-                {
-                    logger.info("line is running");
-                    if (gameState.equals(Game.getCurrent().getGameState()))
-                    {
-                        logger.info("same state - keep playing");
-                    }
-                    else
-                    {
-                        logger.info("different state");
-                        gameState = Game.getCurrent().getGameState();
-                    }
-                }
-                else
-                {
-                    logger.info("line is not running");
-                    switch (Game.getCurrent().getGameState())
-                    {
-                        case WORLD:
-                            betterPlaySong(getResult().get(7));
-                            break;
-                        case TOWN:
-                            betterPlaySong(getResult().get(6));
-                            break;
-                        case CASTLE:
-                            betterPlaySong(getResult().get(0));
-                            break;
-                        case COMBAT:
-                            betterPlaySong(getResult().get(1));
-                            break;
-                        case DUNGEON:
-                            betterPlaySong(getResult().get(2));
-                            break;
-                        default:
-                            betterPlaySong(getResult().get(selectRandomSong()));
-                            break;
-                    }
-
-                }
-            }
-            else
-            {
-                logger.info("line is null");
-                GameState oldGameState = null;
-                if (gameState.equals(oldGameState))
-                {
-                    logger.info("same state, dont stop");
-
-                    switch (Game.getCurrent().getGameState())
-                    {
-                        case WORLD:
-                            betterPlaySong(getResult().get(7));
-                            break;
-                        case TOWN:
-                            betterPlaySong(getResult().get(6));
-                            break;
-                        case CASTLE:
-                            betterPlaySong(getResult().get(0));
-                            break;
-                        case COMBAT:
-                            betterPlaySong(getResult().get(1));
-                            break;
-                        case DUNGEON:
-                            betterPlaySong(getResult().get(2));
-                            break;
-                        default:
-                            betterPlaySong(getResult().get(selectRandomSong()));
-                            break;
-                    }
-                }
-
-            }
-        }
-    }
 
     private int selectRandomSong()
     {
@@ -301,45 +217,35 @@ public class SoundPlayer implements Runnable
     /**
      * https://stackoverflow.com/questions/22741988/java-playing-sounds-in-order
      *
-     * @param filePath
+     * @param filePath - song selection
      */
     private void betterPlaySong(Path filePath)
     {
         try
         {
-            if (isMusicIsRunning() == true)
-            {
-                System.err.println("1");
-                logger.info("playing song: {}", filePath.toString());
+               logger.info("playing song: {}", filePath.toString());
                 byte[] buffer = new byte[4096];
-                System.err.println("1+");
+
                 File file = new File(filePath.toString());
-                System.err.println("1++");
+
 
                 AudioInputStream is = AudioSystem.getAudioInputStream(file);
-                System.err.println("1");
+
                 AudioFormat format = is.getFormat();
-                System.err.println("2");
+
                 line = AudioSystem.getSourceDataLine(format);
-                System.err.println("3");
+
                 line.open(format);
                 line.start();
-                System.err.println("4");
+
                 while (is.available() > 0)
                 {
-                    System.err.println("5");
+
                     int len = is.read(buffer);
                     line.write(buffer, 0, len);
                 }
                 line.drain();
                 line.close();
-                System.err.println("6");
-            }
-
-            else
-            {
-                //logger.info("dont play song");
-            }
         }
         catch (Throwable ex)
         {
@@ -382,7 +288,6 @@ public class SoundPlayer implements Runnable
                 }
             }
         }
-        // playSong(getResult().get(selectRandomSong()));
     }
 
     public void restartMusic()
@@ -403,7 +308,8 @@ public class SoundPlayer implements Runnable
     public void decreaseVolume()
     {
         FloatControl gainControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+        //logger.info("Current value: {}", gainControl.getValue());
+        gainControl.setValue(gainControl.getValue() - 1.0f); // Reduce volume by 10 decibels.
     }
 
     /**
@@ -412,7 +318,11 @@ public class SoundPlayer implements Runnable
     public void increaseVolume()
     {
         FloatControl gainControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(+10.0f); // increase volume by 10 decibels.
+        //logger.info("Current value: {}", gainControl.getValue());
+        if ((gainControl.getValue() + 1.0f) < 6.0f)
+        {
+            gainControl.setValue(gainControl.getValue() + 1.0f); // increase volume by 10 decibels.
+        }
     }
 
     @Subscribe
@@ -423,6 +333,8 @@ public class SoundPlayer implements Runnable
             if (getGameState().equals(gameStat.getGameState()))
             {
                 logger.info("same state, dont stop");
+                line.stop();
+                line.flush();
             }
             else
             {

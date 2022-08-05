@@ -60,7 +60,7 @@ public class RandomAnimationSystem extends AnimationSystem
 				{
 					// logger.info("player {} image has changed, pass message on to the bus", p.toString());
 					p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()));
-					if (Game.getCurrent().getController() != null)
+					if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
 					{
 						EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
 					}

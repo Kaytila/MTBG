@@ -252,7 +252,7 @@ public class Game
 		// thread handling
 		logger.info("setting up thread system");
 		setRunning(true);
-		threadController = new ThreadController(this);
+		threadController = new ThreadController();
 		threadController.add(Thread.currentThread());
 
 		setPlayMusic(true);
@@ -620,9 +620,9 @@ public class Game
 				case "AsyncWeatherSystem":
 					logger.info("initializing  async weather system");
 					Thread weatherSystemThread = new Thread((AsyncWeatherSystem) weatherSystem);
-					weatherSystemThread.setName("Weather System Thread");
+					weatherSystemThread.setName(String.valueOf(ThreadNames.WEATHER_ANIMATION));
 					threadController.add(weatherSystemThread);
-					weatherSystemThread.start();
+					//weatherSystemThread.start();
 					break;
 				case "FixedWeatherSystem":
 					logger.info("initializing fixed weather system");
@@ -1214,10 +1214,11 @@ public class Game
 			{
 				logger.info("initializing sound system");
 				soundSystem = new SoundPlayer();
+				soundSystem.setMusicIsRunning(true);
 				Thread soundSystemThread = new Thread(soundSystem);
-				soundSystemThread.setName("Sound System Thread");
+				soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
 				threadController.add(soundSystemThread);
-				soundSystemThread.start();
+				//soundSystemThread.start();
 			}
 		}
 

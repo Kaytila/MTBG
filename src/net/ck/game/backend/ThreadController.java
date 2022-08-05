@@ -3,10 +3,7 @@ package net.ck.game.backend;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  *  So I want to do proper thread handling:
@@ -20,40 +17,22 @@ public class ThreadController implements Runnable
 {
 
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-	private Game game;
 
 	public Class<?> getRealClass()
 	{
 		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
+		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	private volatile boolean exit = false;
 	private boolean wakeupNeeded;
 	private List<Thread> threads;
 
-	public ThreadController(Game game)
+	public ThreadController()
 	{
-		setGame(game);
 		threads = Collections.synchronizedList(new ArrayList<>());
 	}
 
-	public Game getGame()
-	{
-		return this.game;
-	}
-
-	public void setGame(Game game)
-	{
-		this.game = game;
-	}
 
 	public synchronized void add(Thread thread)
 	{
@@ -92,35 +71,34 @@ public class ThreadController implements Runnable
 	public void reanimateAnimation()
 	{
 
-		for (Iterator<Thread> threadIterator = getThreads().iterator(); threadIterator.hasNext();)
+		for (Thread t : List.copyOf(getThreads()))
 		{
-			Thread t = threadIterator.next();
 			// logger.info("thread: {}", t.getName());
-			if (t.getName().equalsIgnoreCase("Animation System Thread"))
-			{		
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
+			{
 				//t.notify();
-				synchronized (getGame().getLock())
+				synchronized (Game.getCurrent().getLock())
 				{
 					logger.info("restart animation - animations");
 					makeWakeupNeeded();
-					getGame().getLock().notifyAll();
+					Game.getCurrent().getLock().notifyAll();
 				}
 
 			}
-			
-			if (t.getName().equalsIgnoreCase("Weather System Thread"))
-			{		
+
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
+			{
 				//t.notify();
-				synchronized (getGame().getLock())
+				synchronized (Game.getCurrent().getLock())
 				{
 					logger.info("restart animation - weather");
 					makeWakeupNeeded();
-					getGame().getLock().notifyAll();
+					Game.getCurrent().getLock().notifyAll();
 				}
 
 			}
-			
-			
+
+
 		}
 	}
 	/*
@@ -144,19 +122,18 @@ public class ThreadController implements Runnable
 		 * try { game.getLock().wait(); } catch (InterruptedException e1) { //
 		 * 
 		 */
-		for (Iterator<Thread> threadIterator = getThreads().iterator(); threadIterator.hasNext();)
+		for (Thread t : List.copyOf(getThreads()))
 		{
-			Thread t = threadIterator.next();
 			// logger.info("thread: {}", t.getName());
-			if (t.getName().equalsIgnoreCase("Animation System Thread"))
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
 			{
-				synchronized (getGame().getLock())
+				synchronized (Game.getCurrent().getLock())
 				{
 					while (!isWakeupNeeded())
 					{
 						try
 						{
-							getGame().getLock().wait();
+							Game.getCurrent().getLock().wait();
 							logger.info("suspend animation");
 						}
 						catch (InterruptedException e)
@@ -178,15 +155,15 @@ public class ThreadController implements Runnable
 				 * logger.error("caught IllegalMonitorStateException"); } }
 				 */
 			}
-			if (t.getName().equalsIgnoreCase("Weather System Thread"))
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
 			{
-				synchronized (getGame().getLock())
+				synchronized (Game.getCurrent().getLock())
 				{
 					while (!isWakeupNeeded())
 					{
 						try
 						{
-							getGame().getLock().wait();
+							Game.getCurrent().getLock().wait();
 							logger.info("suspend weather");
 						}
 						catch (InterruptedException e)
@@ -248,6 +225,19 @@ public class ThreadController implements Runnable
 				logger.info("starting thread: {}", t);
 				t.start();
 			}
+
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.SOUND_SYSTEM)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
+			}
+
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
+			}
+
 		}
 	}
 }

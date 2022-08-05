@@ -136,6 +136,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	private StartMusicButton startMusicButton;
 
 
+	private IncreaseVolumeButton increaseVolumeButton;
+
+	private DecreaseVolumeButton decreaseVolumeButton;
+
+
 	private KeyboardFocusManager focusManager;
 
 	/**
@@ -199,6 +204,23 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			}
 		}
 
+		if (e.getActionCommand().equalsIgnoreCase("Louder"))
+		{
+			logger.info("louder");
+			if (Game.getCurrent().isPlayMusic())
+			{
+				Game.getCurrent().getSoundSystem().increaseVolume();
+			}
+		}
+
+		if (e.getActionCommand().equalsIgnoreCase("Leiser"))
+		{
+			logger.info("leiser");
+			if (Game.getCurrent().isPlayMusic())
+			{
+				Game.getCurrent().getSoundSystem().decreaseVolume();
+			}
+		}
 	}
 
 	public void buildWindow()
@@ -217,6 +239,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		startMusicButton = new StartMusicButton(new Point(700 - 400, 620));
 		startMusicButton.addActionListener(this);
 		frame.add(startMusicButton);
+
+		increaseVolumeButton = new IncreaseVolumeButton(new Point(700 - 500, 620));
+		increaseVolumeButton.addActionListener(this);
+		frame.add(increaseVolumeButton);
+
+		decreaseVolumeButton = new DecreaseVolumeButton(new Point(700 - 600, 620));
+		decreaseVolumeButton.addActionListener(this);
+		frame.add(decreaseVolumeButton);
 
 		gridCanvas = new JGridCanvas();
 		gridCanvas.addFocusListener(myFocusListener);

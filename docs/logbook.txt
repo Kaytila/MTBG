@@ -530,4 +530,12 @@ adding animated tiles
             with hidden tiles now.
 2022-07-29: worked some more on music. Music now changes based on game state, only thing is, need to figure out a good
             way how to carry game state changes.
-2022-08-05: lots of things changed - got rid of thread issues, got rid of concurrent modifications. music still not working.
+2022-08-05: lots of things changed - got rid of thread issues, got rid of concurrent modifications.
+            music still not working.
+            Ok, changed minor things in Animation Threads to have all only send messages if there is an ui.
+            Changed all threads to do that.
+            extended threadnames to have all thread names.
+            extend thread controller to handle all threads.
+            finally got soundplayer to work, guess two synchronized for the getter/setter were all that was missing.
+            Also implemented increase/decrease Volume now.
+            Need to think how to implement options menu.
