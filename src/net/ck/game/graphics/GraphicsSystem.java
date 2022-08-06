@@ -1,5 +1,5 @@
 package net.ck.game.graphics;
-import org.apache.logging.log4j.LogManager;
+/*import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
@@ -29,9 +29,7 @@ public class GraphicsSystem extends Application implements Runnable
 
 	}
 
-	/**
-	 * just tries to initialize the damned graphics system
-	 */
+
 	public void startUp()
 	{
 		logger.error("starting graphics system now");
@@ -53,3 +51,4 @@ public class GraphicsSystem extends Application implements Runnable
 
 	}
 }
+*/

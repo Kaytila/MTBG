@@ -1,4 +1,5 @@
 package net.ck.game.test;
+/*
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.application.Application;
@@ -86,3 +87,4 @@ public class ImageViewer extends Application
 	            return view;
 	    }   
 	}	
+*/

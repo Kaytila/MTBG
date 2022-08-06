@@ -5,12 +5,15 @@ import net.ck.game.backend.GameState;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tika.config.TikaConfig;
+import org.apache.tika.io.TikaInputStream;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MediaType;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import javax.sound.sampled.*;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -77,6 +80,7 @@ public class SoundPlayer implements Runnable
         return result;
     }
 
+
     public void setResult(ArrayList<Path> result)
     {
         this.result = result;
@@ -117,14 +121,29 @@ public class SoundPlayer implements Runnable
         }
     }
 
+    /**
+     * reads all the files from the basePath2 directory variable.
+     * @param basePath2 - currently - it is "music", so all files below music are being read
+     */
     private void readSoundDirectories(String basePath2)
     {
+        TikaConfig tika = null;
+
+        try
+        {
+            tika = new TikaConfig();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         try
         {
             songDirectories = Files.list(Paths.get(basePath2)).map(Path::toFile).collect(Collectors.toList());
 
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -135,13 +154,27 @@ public class SoundPlayer implements Runnable
             {
                 songDirectory = Files.newDirectoryStream(f.toPath());
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
 
             for (Path entry : songDirectory)
             {
+                try
+                {
+                    Metadata metadata = new Metadata();
+                    //TODO check mime type properly that only real music is added to the result list
+                    //TODO result list needs organizing
+                    //TODO result lists need organizing and some mapping to game types somehow
+                    MediaType mimetype = tika.getDetector().detect(TikaInputStream.get(entry, metadata), metadata);
+                    System.out.println("File " + entry + " is " + mimetype);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
                 result.add(entry);
             }
         }
@@ -150,7 +183,7 @@ public class SoundPlayer implements Runnable
         {
             logger.info("adding sound file {} ", e.toString());
         }
-
+        Game.getCurrent().stopGame();
     }
 
     public Logger getLogger()

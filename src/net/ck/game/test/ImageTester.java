@@ -1,5 +1,5 @@
 package net.ck.game.test;
-
+/*
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -74,3 +74,4 @@ public class ImageTester extends Application implements Runnable
 		path = imgPath;
 	}
 }
+*/

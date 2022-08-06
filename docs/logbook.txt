@@ -542,3 +542,7 @@ adding animated tiles
             finally got rid of the exception with the missing weather images for foreground animation.
             also some clean up in image utils.
             small bug in sound player fixed.
+2022-08-07: removed java FX. updated intelliJ, learned about the dependencies stuff in intellij.
+            awesome. there is some log4j issue there which i do not comprehend yet, as i am on 2.x.
+            added tika to parse files to figure out content type, probably useful for checking contents.
+            using it for checking whether music is music at the moment.

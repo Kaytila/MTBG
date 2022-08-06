@@ -12,17 +12,17 @@ module myTurnedBasedGame
 
 	requires java.xml;
 	requires java.sql;
-    requires javafx.graphics;
-	requires javafx.media;
-	requires eventbus.java;
+    requires eventbus.java;
 	requires org.apache.commons.lang3;
 	requires com.google.common;
 	requires imgscalr.lib;
 	requires java.datatransfer;
 	requires org.apache.commons.io;
-    requires opencsv;
 
-    exports net.ck.game.test;
+    requires org.apache.tika.core;
+	requires com.opencsv;
+
+	exports net.ck.game.test;
 	exports net.ck.game.backend;
 	exports net.ck.game.backend.entities;
 	exports net.ck.game.ui;
@@ -34,4 +34,5 @@ module myTurnedBasedGame
 	exports net.ck.game.backend.actions;
 	exports net.ck.game.sound;
 	exports net.ck.game.items;
+	exports net.ck.util.communication.sound;
 }

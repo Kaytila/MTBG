@@ -4,7 +4,7 @@ import net.ck.game.animation.*;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.*;
-import net.ck.game.graphics.GraphicsSystem;
+
 import net.ck.game.items.*;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
@@ -178,7 +178,7 @@ public class Game
 	/**
 	 * graphicsSystem for initializing Java FX
 	 */
-	private GraphicsSystem graphicsSystem = null;
+	//private GraphicsSystem graphicsSystem = null;
 	/**
 	 * animated entities, contains everything that has changing images, i.e. NPCs, PCs, also other items. will probably also contain all inanimated objects. Perhaps these will go on a separate thread
 	 */
@@ -359,7 +359,7 @@ public class Game
 		return lock;
 	}
 
-	public GraphicsSystem getGraphicsSystem()
+	/*public GraphicsSystem getGraphicsSystem()
 	{
 		return this.graphicsSystem;
 	}
@@ -367,7 +367,7 @@ public class Game
 	public void setGraphicsSystem(GraphicsSystem graphicsSystem)
 	{
 		this.graphicsSystem = graphicsSystem;
-	}
+	}*/
 
 	public SoundPlayer getSoundSystem()
 	{
