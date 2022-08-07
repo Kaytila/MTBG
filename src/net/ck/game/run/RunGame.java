@@ -139,6 +139,7 @@ public class RunGame
 				}
 			}
 			logger.info("splash finished");
+			System.gc();
 		}
 
 	}

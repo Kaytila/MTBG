@@ -443,10 +443,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         }
                     }
                 }
-                else
-                {
-                    //No NPCs
-                }
+                //No NPCs
             }
             else
             {

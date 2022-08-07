@@ -548,3 +548,10 @@ adding animated tiles
             using it for checking whether music is music at the moment.
 2022-08-07: moved code to SoundUtils to make sure that something is only added when it is audio.
             cleaned up some classes.
+            converted Ultima 7 OGG to wav for playing through sound system.
+            every game state will need a directory with songs.
+            these songs will be stored in separate lists.
+            based on the game state, a map will point to the coresponding song.
+            or so,
+            i.e. Gamestate as key -> arraylist of paths to play.
+
