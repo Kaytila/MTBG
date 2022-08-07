@@ -2,13 +2,10 @@ package net.ck.game.sound;
 
 import net.ck.game.backend.Game;
 import net.ck.game.backend.GameState;
+import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tika.config.TikaConfig;
-import org.apache.tika.io.TikaInputStream;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.mime.MediaType;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -127,17 +124,6 @@ public class SoundPlayer implements Runnable
      */
     private void readSoundDirectories(String basePath2)
     {
-        TikaConfig tika = null;
-
-        try
-        {
-            tika = new TikaConfig();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
         try
         {
             songDirectories = Files.list(Paths.get(basePath2)).map(Path::toFile).collect(Collectors.toList());
@@ -161,29 +147,16 @@ public class SoundPlayer implements Runnable
 
             for (Path entry : songDirectory)
             {
-                try
+                if (SoundUtils.detectFileType(entry).getBaseType().toString().contains("audio"))
                 {
-                    Metadata metadata = new Metadata();
-                    //TODO check mime type properly that only real music is added to the result list
                     //TODO result list needs organizing
                     //TODO result lists need organizing and some mapping to game types somehow
-                    MediaType mimetype = tika.getDetector().detect(TikaInputStream.get(entry, metadata), metadata);
-                    System.out.println("File " + entry + " is " + mimetype);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                    result.add(entry);
+                    logger.info("adding sound file {} ", entry.toString());
                 }
 
-                result.add(entry);
             }
         }
-
-        for (Path e : result)
-        {
-            logger.info("adding sound file {} ", e.toString());
-        }
-        Game.getCurrent().stopGame();
     }
 
     public Logger getLogger()

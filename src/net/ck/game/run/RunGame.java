@@ -1,8 +1,8 @@
 package net.ck.game.run;
 
 import net.ck.game.backend.Game;
-import net.ck.game.backend.entities.Player;
 import net.ck.game.ui.MainWindow;
+import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CursorUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +31,10 @@ public class RunGame
 
 	final static SplashScreen splash = SplashScreen.getSplashScreen();
 
+	/**
+	 * generate is used to create images or not. As these are already created, no need to do this
+	 */
+	final static boolean generate = false;
 	public static Game getGame()
 	{
 		return game;
@@ -81,10 +85,12 @@ public class RunGame
 				renderSplashFrame(g, size);
 				if (game != null)
 				{
-					//ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
-					//ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
-					//ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
-
+					if (generate)
+					{
+						ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
+						ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
+						ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
+					}
 					game.initializeAllItems();
 					renderSplashFrame(g, size);
 					game.initializeNPCs();
@@ -94,7 +100,7 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.addPlayers();
 					renderSplashFrame(g, size);
-					ImageUtils.checkImageSize((Player) Game.getCurrent().getCurrentPlayer());
+					ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 					renderSplashFrame(g, size);
 					game.addAnimatedEntities();
 					renderSplashFrame(g, size);
@@ -118,95 +124,23 @@ public class RunGame
 					renderSplashFrame(g, size);
 					ImageUtils.initializeForegroundImages();
 					renderSplashFrame(g, size);
-					renderSplashFrame(g, 100, size);
 					javax.swing.SwingUtilities.invokeLater(() -> setWindow(new MainWindow()));
-					//TODO add method about UI being open here and send events only then
+					renderSplashFrame(g, size);
 					game.startThreads();
-					// Thread ga = new Thread(game);
-					// ga.start();
+					renderSplashFrame(g, size);
+					if (progress < 100)
+					{
+						renderSplashFrame(g, 100, size);
+					}
 				}
 				else
 				{
 					logger.error("game is null, how did this happen?");
 				}
-				/*for (int i = 0; i < 100; i++)
-				{
-					renderSplashFrame(g, i, size);
-					splash.update();
-					try
-					{
-						Thread.sleep(8);
-					}
-					catch (InterruptedException e)
-					{
-					}
-				}*/
 			}
 			logger.info("splash finished");
 		}
-		//logger.info("initialize game");
-		
-		//ImageUtils.createImage(Color.black, new Point(200, 200), "graphics" + File.separator + "weathertypes" + File.separator + "NONE.png");
-		//MapUtils.createMap(111, 111, TileTypes.OCEAN);
-		//ImageUtils.createOceanImages();
 
-		//CursorUtils.initializeCursors();
-		//game = Game.getCurrent();
-
-		//MapUtils.importUltima4MapFromCSV();
-		//game.stopGame();
-		
-		/*try
-		{
-			logger.info(Thread.currentThread().getName());
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}*/
-
-
-		//if (game != null)
-		//{
-			//ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
-			//ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
-			//ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
-
-		//	game.initializeAllItems();
-		//	game.initializeNPCs();
-
-			
-		//	game.initializeMaps();
-		//	game.addPlayers();
-		//	ImageUtils.checkImageSize((Player) Game.getCurrent().getCurrentPlayer());
-		//	game.addAnimatedEntities();
-		//	game.initializeAnimationSystem();
-		//	game.initializeBackgroundAnimationSystem();
-		//	game.initializeForegroundAnimationSystem();
-		//	game.initializeWeatherSystem();
-		//	game.initializeTurnTimerTimer();
-		//	game.initializeQuequeTimer();
-		//	game.initializeMissileTimer();
-		//	game.initializeMusic();
-			
-		//	ImageUtils.initializeBackgroundImages();
-		//	ImageUtils.initializeForegroundImages();
-			
-		//	javax.swing.SwingUtilities.invokeLater(new Runnable()
-		//	{
-		//		public void run()
-		//		{
-		//			setWindow(new MainWindow());
-		//		}
-		//	});
-			
-			// Thread ga = new Thread(game);
-			// ga.start();
-		//}
-		//else
-		//{
-		//	logger.error("game is null, how did this happen?");
-		//}
 	}
 
 	public static void setGame(Game game)
@@ -214,6 +148,11 @@ public class RunGame
 		RunGame.game = game;
 	}
 
+	/**
+	 * @param g graphics context
+	 * @param frame percentage to move to (i.e. move to 100 (%))
+	 * @param size dimension of the size of the splash
+	 */
 	public static void renderSplashFrame(Graphics2D g, int frame, Dimension size)
 	{
 		// logger.info("dimension: " + size);
@@ -231,6 +170,11 @@ public class RunGame
 		splash.update();
 	}
 
+	/**
+	 * renders the splash frame again with an addition in progress + 5 increments
+	 * @param g graphics context
+	 * @param size splash screen size
+	 */
 	public static void renderSplashFrame(Graphics2D g, Dimension size)
 	{
 		// logger.info("dimension: " + size);
@@ -253,6 +197,7 @@ public class RunGame
 		}
 		catch (InterruptedException e)
 		{
+			logger.error("exception");
 		}
 	}
 

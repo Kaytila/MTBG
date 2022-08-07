@@ -546,3 +546,5 @@ adding animated tiles
             awesome. there is some log4j issue there which i do not comprehend yet, as i am on 2.x.
             added tika to parse files to figure out content type, probably useful for checking contents.
             using it for checking whether music is music at the moment.
+2022-08-07: moved code to SoundUtils to make sure that something is only added when it is audio.
+            cleaned up some classes.

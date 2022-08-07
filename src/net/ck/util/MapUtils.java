@@ -75,7 +75,7 @@ public class MapUtils
     }
 
     /**
-     * Helper Method cause I am lazy not actually sure how useful this in a real context is, but for testing purposes
+     * Helper Method because I am lazy not actually sure how useful this in a real context is, but for testing purposes
      *
      * @param map the map to search
      * @param ID  the id
@@ -175,7 +175,8 @@ public class MapUtils
     }
 
     /**
-     * creates a map, all of type grassland or ocean in random with a little help from stackoverflow: https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio
+     * creates a map, all of type grassland or ocean in random with a little help from stackoverflow:
+     * https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio
      *
      * @param x size (zero indexed, so size 12 is 11)
      * @param y size (zero indexed, so size 12 is 11)
@@ -770,11 +771,7 @@ public class MapUtils
     {
         Range<Integer> range = Range.between(-1, 1);
 
-        if ((range.contains(source.x - target.x)) && (range.contains(source.y - target.y)))
-        {
-            return true;
-        }
-        return false;
+        return (range.contains(source.x - target.x)) && (range.contains(source.y - target.y));
     }
 
 }
