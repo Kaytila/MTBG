@@ -554,4 +554,13 @@ adding animated tiles
             based on the game state, a map will point to the coresponding song.
             or so,
             i.e. Gamestate as key -> arraylist of paths to play.
+2022-08-08: implemented songListMap as songbook basically that just takes all songs in different array lists.
+            as the songs are classified already, this works like a charm.
+            implemented additional game states, that were missing.
+            moved a method from game to threadcontroller.
+            updated soundplayer to do as it should do (even if the code looks unwieldly atm).
+            need to implement better game state that tracks, how many npcs on the current map are aggressive to me.
+            or alive? or both? and dependent on that, the music will need to change, to check for victory or combat
+            (if NPC is naturally aggro)
+
 

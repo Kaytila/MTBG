@@ -240,4 +240,13 @@ public class ThreadController implements Runnable
 
 		}
 	}
+
+	public void listThreads ()
+	{
+		for (Thread t : getThreads())
+		{
+			logger.info("Thread running: {}, priority: {}, state: {}", t.getName(), t.getPriority(), t.getState());
+		}
+	}
+
 }

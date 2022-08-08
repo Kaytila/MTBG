@@ -952,7 +952,9 @@ public class Game
 
 		public void stopGame ()
 		{
+			logger.info("stopping game");
 			setRunning(false);
+			getThreadController().listThreads();
 			System.exit(0);
 		}
 
@@ -1222,13 +1224,7 @@ public class Game
 			}
 		}
 
-		public void listThreads ()
-		{
-			for (Thread t : getThreadController().getThreads())
-			{
-				logger.info("Thread running: {}, priority: {}, state: {}", t.getName(), t.getPriority(), t.getState());
-			}
-		}
+
 
 		public void listArmor ()
 		{

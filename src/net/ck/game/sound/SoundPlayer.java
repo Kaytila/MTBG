@@ -40,6 +40,38 @@ public class SoundPlayer implements Runnable
     private GameState gameState;
     private boolean musicIsRunning;
 
+    public DirectoryStream<Path> getSongDirectory()
+    {
+        return songDirectory;
+    }
+
+    public void setSongDirectory(DirectoryStream<Path> songDirectory)
+    {
+        this.songDirectory = songDirectory;
+    }
+
+    public List<File> getSongDirectories()
+    {
+        return songDirectories;
+    }
+
+    public void setSongDirectories(List<File> songDirectories)
+    {
+        this.songDirectories = songDirectories;
+    }
+
+    public SongListMap getResultMap()
+    {
+        return resultMap;
+    }
+
+    public void setResultMap(SongListMap resultMap)
+    {
+        this.resultMap = resultMap;
+    }
+
+    private SongListMap resultMap = new SongListMap();
+
     /**
      * https://stackoverflow.com/questions/37034624/play-and-stop-music-java https://stackoverflow.com/questions/5529754/java-io-ioexception-mark-reset-not-supported/9324190
      */
@@ -136,6 +168,7 @@ public class SoundPlayer implements Runnable
 
         for (File f : songDirectories)
         {
+
             try
             {
                 songDirectory = Files.newDirectoryStream(f.toPath());
@@ -147,16 +180,60 @@ public class SoundPlayer implements Runnable
 
             for (Path entry : songDirectory)
             {
-                if (SoundUtils.detectFileType(entry).getBaseType().toString().contains("audio"))
-                {
-                    //TODO result list needs organizing
-                    //TODO result lists need organizing and some mapping to game types somehow
-                    result.add(entry);
-                    logger.info("adding sound file {} ", entry.toString());
-                }
+             if (SoundUtils.detectFileType(entry).getBaseType().toString().contains("audio"))
+             {
+                 GameState state = GameState.WORLD;
+                 switch (f.getName())
+                 {
+                     case "WORLD":
+                         state = GameState.WORLD;
+                        break;
+                     case "TOWN":
+                         state = GameState.TOWN;
+                         break;
+                     case "CASTLE":
+                         state = GameState.CASTLE;
+                         break;
+                     case "COMBAT":
+                         state = GameState.COMBAT;
+                         break;
+                     case "DUNGEON":
+                         state = GameState.DUNGEON;
+                         break;
+                     case "VICTORY":
+                         state = GameState.VICTORY;
+                         break;
+                     case "CRITICAL":
+                         state = GameState.CRITICAL;
+                         break;
+                     case "OCEAN":
+                         state = GameState.OCEAN;
+                         break;
+                     case "SHRINE":
+                         state = GameState.SHRINE;
+                         break;
+                     case "SHOP":
+                         state = GameState.SHOP;
+                         break;
+                     case "STONES":
+                         state = GameState.STONES;
+                         break;
+                     case "DAWN":
+                         state = GameState.DAWN;
+                         break;
+                     case "DUSK":
+                         state = GameState.DUSK;
+                         break;
+                     default:
+                         logger.error("unknown directory: {}", f.getName());
+                 }
+                    resultMap.addSong(state, entry);
+                    logger.info("adding sound file {} to gamestate {}", entry.toString(), state);
+               }
 
             }
         }
+        //Game.getCurrent().stopGame();
     }
 
     public Logger getLogger()
@@ -183,22 +260,46 @@ public class SoundPlayer implements Runnable
                     switch (getGameState())
                     {
                         case WORLD:
-                            betterPlaySong(getResult().get(7));
+                            betterPlaySong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
                             break;
                         case TOWN:
-                            betterPlaySong(getResult().get(6));
+                            betterPlaySong(getResultMap().get(GameState.TOWN).get(betterSelectRandomSong(getResultMap().get(GameState.TOWN))));
                             break;
                         case CASTLE:
-                            betterPlaySong(getResult().get(0));
+                            betterPlaySong(getResultMap().get(GameState.CASTLE).get(betterSelectRandomSong(getResultMap().get(GameState.CASTLE))));
                             break;
                         case COMBAT:
-                            betterPlaySong(getResult().get(1));
+                            betterPlaySong(getResultMap().get(GameState.COMBAT).get(betterSelectRandomSong(getResultMap().get(GameState.COMBAT))));
                             break;
                         case DUNGEON:
-                            betterPlaySong(getResult().get(2));
+                            betterPlaySong(getResultMap().get(GameState.DUNGEON).get(betterSelectRandomSong(getResultMap().get(GameState.DUNGEON))));
+                            break;
+                        case VICTORY:
+                            betterPlaySong(getResultMap().get(GameState.VICTORY).get(betterSelectRandomSong(getResultMap().get(GameState.VICTORY))));
+                            break;
+                        case CRITICAL:
+                            betterPlaySong(getResultMap().get(GameState.CRITICAL).get(betterSelectRandomSong(getResultMap().get(GameState.CRITICAL))));
+                            break;
+                        case OCEAN:
+                            betterPlaySong(getResultMap().get(GameState.OCEAN).get(betterSelectRandomSong(getResultMap().get(GameState.OCEAN))));
+                            break;
+                        case SHRINE:
+                            betterPlaySong(getResultMap().get(GameState.SHRINE).get(betterSelectRandomSong(getResultMap().get(GameState.SHRINE))));
+                            break;
+                        case SHOP:
+                            betterPlaySong(getResultMap().get(GameState.SHOP).get(betterSelectRandomSong(getResultMap().get(GameState.SHOP))));
+                            break;
+                        case STONES:
+                            betterPlaySong(getResultMap().get(GameState.STONES).get(betterSelectRandomSong(getResultMap().get(GameState.STONES))));
+                            break;
+                        case DAWN:
+                            betterPlaySong(getResultMap().get(GameState.DAWN).get(betterSelectRandomSong(getResultMap().get(GameState.DAWN))));
+                            break;
+                        case DUSK:
+                            betterPlaySong(getResultMap().get(GameState.DUSK).get(betterSelectRandomSong(getResultMap().get(GameState.DUSK))));
                             break;
                         default:
-                            betterPlaySong(getResult().get(selectRandomSong()));
+                            betterPlaySong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
                             break;
                     }
                 }
@@ -218,6 +319,11 @@ public class SoundPlayer implements Runnable
     private int selectRandomSong()
     {
         return (int) Math.floor(Math.random() * result.size());
+    }
+
+    private int betterSelectRandomSong(ArrayList<Path> list)
+    {
+        return (int) Math.floor(Math.random() * list.size());
     }
 
     /**

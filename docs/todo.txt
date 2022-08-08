@@ -43,4 +43,5 @@ implement checkpoints
 implement basic scheduling <-- done
 implement melee attack <-- almost done
 implement game state depending music <-- DONE
+implement better game state (
 
