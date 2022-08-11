@@ -2,7 +2,6 @@ package net.ck.util;
 
 import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.PlayerAction;
-import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.NPC;
@@ -164,7 +163,7 @@ public class NPCUtils
      * - AC
      * equals damage. this makes strength too important, but it is good enough for now.
      */
-    public static int calculcateDamage(AbstractEntity attacker, AbstractEntity defender)
+    public static int calculcateDamage(LifeForm attacker, LifeForm defender)
     {
         int attackStr = attacker.getAttributes().get(AttributeTypes.STRENGTH).getValue();
         Range<Integer> attackWeapon = attacker.getWeapon().getWeaponDamage();

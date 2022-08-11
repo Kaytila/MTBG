@@ -52,7 +52,7 @@ public abstract class AbstractEntity
     private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
 
 
-    private Weapon weapon;
+    protected Weapon weapon;
 
     private AbstractItem shield;
 
@@ -94,8 +94,12 @@ public abstract class AbstractEntity
     /**
      * armor class - we just add ac on top of each other, no bodyparts and so on
      */
-    private int armorClass;
+    protected int armorClass;
 
+    /**
+     * state of the PC/NPC - alive or dead or any other really.
+     */
+    protected LifeFormState state;
 
     public AbstractEntity()
     {
@@ -329,28 +333,7 @@ public abstract class AbstractEntity
         return false;
     }
 
-    public boolean wieldWeapon(Weapon weapon)
-    {
-        if (getInventory().contains(weapon))
-        {
-            if (getWeapon() == null)
-            {
-                logger.info("wield weapon");
-                setWeapon(weapon);
-                getInventory().remove(weapon);
-                return true;
-            }
-            else
-            {
-                logger.info("weapon: {}", getWeapon());
-                logger.info("cannot wield weapon");
-                return false;
-            }
-        }
-        //logger.info("should not be reachable");
-        return false;
-    }
-
+    public abstract boolean wieldWeapon(Weapon weapon);
 
     public boolean removeItem(Armor armor)
     {
@@ -540,16 +523,6 @@ public abstract class AbstractEntity
         this.lightRange = lightRange;
     }
 
-    public int getHealth()
-    {
-        return health;
-    }
-
-    public void setHealth(int health)
-    {
-        this.health = health;
-    }
-
     public int getLevel()
     {
         return level;
@@ -560,25 +533,7 @@ public abstract class AbstractEntity
         this.level = level;
     }
 
-    public int getArmorClass()
-    {
-        return armorClass;
-    }
 
-    public void setArmorClass(int armorClass)
-    {
-        this.armorClass = armorClass;
-    }
-
-    public Weapon getWeapon()
-    {
-        return weapon;
-    }
-
-    public void setWeapon(Weapon weapon)
-    {
-        this.weapon = weapon;
-    }
 
     public AbstractItem getShield()
     {

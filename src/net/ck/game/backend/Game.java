@@ -63,6 +63,11 @@ public class Game
 	 */
 	private int FFPS = 60;
 
+	/**
+	 * contains the current game state,
+	 * is also used by soundplayer, is also persisted with each turn
+	 * and used for checking for music change
+ 	 */
 	private GameState gameState;
 
 	/**
@@ -202,10 +207,16 @@ public class Game
 	 */
 	private CommandQueue commandQueue;
 
+
+	private int waitTurns;
+
 	public QuequeTimer getQuequeTimer()
 	{
 		return quequeTimer;
 	}
+
+	private GameState previousGameState;
+
 
 	public void setQuequeTimer(QuequeTimer quequeTimer)
 	{
@@ -257,12 +268,14 @@ public class Game
 
 		setPlayMusic(true);
 
+		setWaitTurns(3);
+
 		setTileSize(32);
 		setTurnNumber(0);
 		Turn turn = new Turn(getTurnNumber());
 		setAnimated(true);
 		setAnimationCycles(7);
-		setBaseHealth(100);
+		setBaseHealth(10);
 		setCurrentTurn(turn);
 		getTurns().add(turn);
 		en = new World();
@@ -271,11 +284,12 @@ public class Game
 		setGameTime(new GameTime());
 		getGameTime().setCurrentHour(9);
 
-		setGameState(GameState.WORLD);
+		setGameState(GameState.DUSK);
 		// Toolkit.getDefaultToolkit().getSystemEventQueue().
 		// java FX - perhaps in 2025
 		// graphicsSystem = new GraphicsSystem();
 		// graphicsSystem.startUp();
+		EventBus.getDefault().register(this);
 		logger.info("game start with default settings finished");
 
 	}
@@ -604,7 +618,20 @@ public class Game
 		@Subscribe
 		public void onMessageEvent(GameStateChanged gameState)
 		{
-			this.setGameState(gameState.getGameState());
+			logger.info("caught game state change in game: {}", gameState.getGameState());
+
+			if (gameState.getGameState() == GameState.COMBAT)
+			{
+				logger.info("setting previous game state to: {}", this.getGameState());
+				setPreviousGameState(this.getGameState());
+			}
+
+			if (gameState.getGameState() != this.getGameState())
+			{
+				this.setGameState(gameState.getGameState());
+			}
+
+
 		}
 
 		public void initializeWeatherSystem ()
@@ -644,16 +671,6 @@ public class Game
 			logger.info("END: initializing weather system");
 		}
 
-		public ThreadGroup getThreadGroup ()
-		{
-			return this.threadGroup;
-		}
-
-		public void setThreadGroup (ThreadGroup threadGroup)
-		{
-			this.threadGroup = threadGroup;
-		}
-
 		/**
 		 * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
 		 *
@@ -663,7 +680,8 @@ public class Game
 		 */
 		public void advanceTurn ( boolean haveNPCAction)
 		{
-
+			this.getCurrentTurn().setGameState(this.getGameState());
+			//logger.info("turn game state: {}", this.getCurrentTurn().getGameState());
 			/*if (Game.getCurrent().getCurrentMap().getMissiles() != null)
 			{
 				while (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
@@ -695,7 +713,7 @@ public class Game
 				for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
 				{
 					//npc is aggressive
-					if (e.isAgressive())
+					if (e.isHostile())
 					{
 						logger.info("trying to attack");
 						//attack with melee
@@ -759,8 +777,36 @@ public class Game
 				Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent());
 				getIdleTimer().start();
 			}
-			// logger.info("advance turn!");
+			//logger.info("advance turn!");
 			setTurnNumber(getTurnNumber() + 1);
+
+			//logger.info("game game state: {}", Game.getCurrent().getGameState());
+			if (Game.getCurrent().getGameState() == GameState.COMBAT)
+			{
+				boolean stillaggro = false;
+				for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
+				{
+					if (e.isHostile())
+					{
+						stillaggro = true;
+					}
+				}
+
+				//logger.info("still aggro: {}", stillaggro);
+
+				if (stillaggro == false)
+				{
+					EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
+				}
+			}
+
+			if (Game.getCurrent().getGameState() == GameState.VICTORY)
+			{
+				if (GameUtils.checkVictoryGameStateDuration())
+				{
+					EventBus.getDefault().post(new GameStateChanged(this.getPreviousGameState()));
+				}
+			}
 
 			Turn turn = new Turn(getTurnNumber());
 			getTurns().add(turn);
@@ -821,11 +867,6 @@ public class Game
 		public AbstractWeatherSystem getWeatherSystem ()
 		{
 			return weatherSystem;
-		}
-
-		public void incrementTurnNumber ()
-		{
-			this.setTurnNumber(getTurnNumber() + 1);
 		}
 
 		public boolean isAnimated ()
@@ -1369,9 +1410,35 @@ public class Game
 		this.gameState = gameState;
 	}
 
+
+
+
+
 	public void startThreads()
 	{
 		getThreadController().startThreads();
+	}
+
+
+	public int getWaitTurns()
+	{
+		return waitTurns;
+	}
+
+	public void setWaitTurns(int waitTurns)
+	{
+		this.waitTurns = waitTurns;
+	}
+
+	public GameState getPreviousGameState()
+	{
+		return previousGameState;
+	}
+
+	public void setPreviousGameState(GameState previousGameState)
+	{
+		logger.info("setting previous game state: {}", previousGameState);
+		this.previousGameState = previousGameState;
 	}
 }
 

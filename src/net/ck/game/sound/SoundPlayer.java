@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -73,7 +74,7 @@ public class SoundPlayer implements Runnable
     private SongListMap resultMap = new SongListMap();
 
     /**
-     * https://stackoverflow.com/questions/37034624/play-and-stop-music-java https://stackoverflow.com/questions/5529754/java-io-ioexception-mark-reset-not-supported/9324190
+     * <a href="https://stackoverflow.com/questions/37034624/play-and-stop-music-java">...</a> <a href="https://stackoverflow.com/questions/5529754/java-io-ioexception-mark-reset-not-supported/9324190">...</a>
      */
     public SoundPlayer()
     {
@@ -140,14 +141,7 @@ public class SoundPlayer implements Runnable
     public Class<?> getRealClass()
     {
         Class<?> enclosingClass = getClass().getEnclosingClass();
-        if (enclosingClass != null)
-        {
-            return enclosingClass;
-        }
-        else
-        {
-            return getClass();
-        }
+        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     /**
@@ -252,7 +246,7 @@ public class SoundPlayer implements Runnable
                 if (getGameState() == null)
                 {
                     logger.debug("game state is null yet, default to WORLD");
-                    setGameState(GameState.WORLD);
+                    setGameState(GameState.DUSK);
                 }
 
                 if (isMusicIsRunning() == true)
@@ -327,7 +321,7 @@ public class SoundPlayer implements Runnable
     }
 
     /**
-     * https://stackoverflow.com/questions/22741988/java-playing-sounds-in-order
+     * <a href="https://stackoverflow.com/questions/22741988/java-playing-sounds-in-order">...</a>
      *
      * @param filePath - song selection
      */
@@ -367,7 +361,7 @@ public class SoundPlayer implements Runnable
 
 
     /**
-     * https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback
+     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">...</a>
      */
     public void stopMusic()
     {
@@ -385,7 +379,7 @@ public class SoundPlayer implements Runnable
     }
 
     /**
-     * https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback
+     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">...</a>
      */
     public void startMusic()
     {
@@ -402,20 +396,8 @@ public class SoundPlayer implements Runnable
         }
     }
 
-    public void restartMusic()
-    {
-        if (Game.getCurrent().isPlayMusic())
-        {
-            if (line != null)
-            {
-                line.flush();
-            }
-        }
-    }
-
-
     /**
-     * https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java
+     * <a href="https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java">audio-volume-control-increase-or-decrease-in-java</a>
      */
     public void decreaseVolume()
     {
@@ -425,7 +407,7 @@ public class SoundPlayer implements Runnable
     }
 
     /**
-     * https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java
+     * <a href="https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java">audio-volume-control-increase-or-decrease-in-java</a>
      */
     public void increaseVolume()
     {

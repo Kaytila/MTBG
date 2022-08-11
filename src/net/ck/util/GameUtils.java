@@ -1,5 +1,8 @@
 package net.ck.util;
 
+import com.google.common.collect.Lists;
+import net.ck.game.backend.Game;
+import net.ck.game.backend.GameState;
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.util.communication.keyboard.*;
@@ -95,4 +98,22 @@ public class GameUtils
 		return padding;
 	}
 
+    public static boolean checkVictoryGameStateDuration()
+    {
+		int i = 0;
+		for (Turn t : Lists.reverse(Game.getCurrent().getTurns()))
+		{
+			if (t.getGameState() == GameState.VICTORY)
+			{
+				i++;
+			}
+
+			if (i == Game.getCurrent().getWaitTurns())
+			{
+				return true;
+			}
+		}
+
+		return false;
+    }
 }

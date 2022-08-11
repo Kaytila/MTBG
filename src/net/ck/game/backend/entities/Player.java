@@ -8,6 +8,7 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.ImageUtils;
@@ -55,12 +56,9 @@ public class Player extends AbstractEntity implements LifeForm
 	 * constructor for the player player has two images types defined now.
 	 * standard image is what is used if animation is turned off moving image is
 	 * for whatever images is used to catch all images for the animation cycles.
-	 * there needs to be an image per animation cycle per player.
-	 * 
+	 * there needs to be an image per animation cycle per player
 	 * to check for caller of method:
-	 * https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection
-	 * 
-	 *
+	 * <a href="https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection">...</a>
 	 * parameters: player number
 	 */
 	public Player(int number)
@@ -141,7 +139,7 @@ public class Player extends AbstractEntity implements LifeForm
 	}
 
 	@Override
-	public void setAgressive(boolean b)
+	public void setHostile(boolean b)
 	{
 		//nothing to do, this is player
 	}
@@ -162,6 +160,18 @@ public class Player extends AbstractEntity implements LifeForm
 	public Point getOriginalMapPosition()
 	{
 		return null;
+	}
+
+	@Override
+	public LifeFormState getState()
+	{
+		return state;
+	}
+
+	@Override
+	public void setState(LifeFormState state)
+	{
+		this.state = state;
 	}
 
 
@@ -357,11 +367,13 @@ public class Player extends AbstractEntity implements LifeForm
 					{
 						if (n.getMapPosition().equals(tile.getMapPosition()))
 						{
-							n.setAgressive(true);
+							n.setHostile(true);
 							n.setVictim(this);
+							this.setVictim(n);
 							if (NPCUtils.calculateHit(this, n))
 							{
 								logger.info("hit");
+								n.decreaseHealth(5);
 								n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
 								EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
 							}
@@ -387,7 +399,7 @@ public class Player extends AbstractEntity implements LifeForm
 						if (n.getMapPosition().equals(tile.getMapPosition()))
 						{
 							logger.info("hitting NPC: {}", n);
-							n.setAgressive(true);
+							n.setHostile(true);
 							n.setVictim(this);
 							if (NPCUtils.calculateHit(this, n))
 							{
@@ -412,9 +424,75 @@ public class Player extends AbstractEntity implements LifeForm
 		return true;
 	}
 
+	@Override
+	public int getHealth()
+	{
+		return 0;
+	}
+
+	@Override
+	public void setHealth(int i)
+	{
+
+	}
+
+	@Override
+	public void increaseHealth(int i)
+	{
+
+	}
+
+	@Override
+	public void decreaseHealth(int i)
+	{
+
+	}
+
 	public CommandQueue getQueuedActions()
 	{
 		return Game.getCurrent().getCommandQueue();
+	}
+
+	public int getArmorClass()
+	{
+		return armorClass;
+	}
+
+	public void setArmorClass(int armorClass)
+	{
+		this.armorClass = armorClass;
+	}
+
+	public Weapon getWeapon()
+	{
+		return weapon;
+	}
+
+	public void setWeapon(Weapon weapon)
+	{
+		this.weapon = weapon;
+	}
+
+	public boolean wieldWeapon(Weapon weapon)
+	{
+		if (getInventory().contains(weapon))
+		{
+			if (getWeapon() == null)
+			{
+				logger.info("wield weapon");
+				setWeapon(weapon);
+				getInventory().remove(weapon);
+				return true;
+			}
+			else
+			{
+				logger.info("weapon: {}", getWeapon());
+				logger.info("cannot wield weapon");
+				return false;
+			}
+		}
+		//logger.info("should not be reachable");
+		return false;
 	}
 
 }

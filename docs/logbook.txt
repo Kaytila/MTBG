@@ -562,5 +562,15 @@ adding animated tiles
             need to implement better game state that tracks, how many npcs on the current map are aggressive to me.
             or alive? or both? and dependent on that, the music will need to change, to check for victory or combat
             (if NPC is naturally aggro)
-
+2022-08-11: did some more changes to lifeform, to have more logic via interface than inheritance.
+            soundplayer now works for victory.
+            victory is implemented, meaning no hostile npc is on the map anymore. will need to sketch this out better,
+            to have hostile within vicinity.
+            oh, and npc death and death state is implemented. not in a good way yet, but there it is.
+            and gamestate currently is within sound player and game which is not good and needs to go.
+            implemented previousGameState for going back to the original music before battle/critical/Victory.
+            need to implement critical :D
+            implemented reverse check in turns to figure out whether the border of 3 turns to switch back music is
+            fullfilled. not sure whether it is worth to trying to figure out a fluent change with fade out/fade in
+            over time, as this will break the turn concept completely.
 

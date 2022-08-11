@@ -36,7 +36,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
     private NPCTypes type;
     private Hashtable<String, String> mobasks;
-    private boolean agressive;
+    private boolean hostile;
     private boolean isStatic;
     private ArrayList<NPCSchedule> npcSchedules;
     private CommandQueue queuedActions;
@@ -88,19 +88,31 @@ public class NPC extends AbstractEntity implements LifeForm
         isStatic = aStatic;
     }
 
-    public boolean isAgressive()
+    public boolean isHostile()
     {
-        return agressive;
+        return hostile;
     }
 
-    public void setAgressive(boolean agressive)
+    public void setHostile(boolean hostile)
     {
-        this.agressive = agressive;
+        this.hostile = hostile;
     }
 
     public Point getOriginalMapPosition()
     {
         return originalMapPosition;
+    }
+
+    @Override
+    public LifeFormState getState()
+    {
+        return state;
+    }
+
+    @Override
+    public void setState(LifeFormState state)
+    {
+        this.state = state;
     }
 
     public void setOriginalMapPosition(Point originalMapPosition)
@@ -118,6 +130,35 @@ public class NPC extends AbstractEntity implements LifeForm
     public String toString()
     {
         return "NPC [type=" + type + ", mapposition=" + mapPosition + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet()) : null) + "]";
+    }
+
+    @Override
+    public boolean wieldWeapon(Weapon weapon)
+    {
+        if (getInventory().contains(weapon))
+        {
+            if (getWeapon() == null)
+            {
+                logger.info("wield weapon");
+                setWeapon(weapon);
+                getInventory().remove(weapon);
+                return true;
+            }
+            else
+            {
+                logger.info("weapon: {}", getWeapon());
+                logger.info("cannot wield weapon");
+                return false;
+            }
+        }
+        //logger.info("should not be reachable");
+        return false;
+    }
+
+    @Override
+    public void setWeapon(Weapon weapon)
+    {
+        this.weapon = weapon;
     }
 
     private String toString(Collection<?> collection)
@@ -263,7 +304,11 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     public void doAction(AbstractAction action)
     {
-
+        if (getState() == LifeFormState.DEAD)
+        {
+            logger.info("npc dead");
+            return;
+        }
         //logger.info("do action: {}", action.toString());
         Point p = getMapPosition();
         Point mapsize = Game.getCurrent().getCurrentMap().getSize();
@@ -403,6 +448,11 @@ public class NPC extends AbstractEntity implements LifeForm
 
     public boolean attack(AbstractKeyboardAction action)
     {
+        if (getState() == LifeFormState.DEAD)
+        {
+            logger.info("NPC Dead");
+            return false;
+        }
         logger.info("NPC Attacking");
         MapTile tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
         EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
@@ -455,7 +505,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         if (n.getMapPosition().equals(tile.getMapPosition()))
                         {
                             logger.info("hitting player: {}", n);
-                            n.setAgressive(true);
+                            n.setHostile(true);
                             n.setVictim(this);
                             if (NPCUtils.calculateHit(this, n))
                             {
@@ -479,6 +529,63 @@ public class NPC extends AbstractEntity implements LifeForm
             logger.info("here, tile is null");
         }
         return true;
+    }
+
+    @Override
+    public int getHealth()
+    {
+        return 0;
+    }
+
+    @Override
+    public void setHealth(int i)
+    {
+
+    }
+
+    @Override
+    public void increaseHealth(int i)
+    {
+
+    }
+
+    @Override
+    public void decreaseHealth(int i)
+    {
+        if (getHealth() - i > 0)
+        {
+            setHealth(getHealth() - i);
+        }
+        else if (getHealth() - i == 0)
+        {
+            setHealth(0);
+            setState(LifeFormState.UNCONSCIOUS);
+            setHostile(false);
+        }
+        else {
+            setHealth(-1);
+            setState(LifeFormState.DEAD);
+            setHostile(false);
+            //TODO set image to skeleton or pool of blood or anything really
+        }
+    }
+
+    @Override
+    public int getArmorClass()
+    {
+        return this.armorClass;
+    }
+
+    @Override
+    public void setArmorClass(int armorClass)
+    {
+        this.armorClass = armorClass;
+    }
+
+    @Override
+    public Weapon getWeapon()
+    {
+        return this.weapon;
     }
 
     @Override

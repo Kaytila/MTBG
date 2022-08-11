@@ -38,6 +38,9 @@ public class Turn
 	private ArrayList<RandomAction> events = new ArrayList<>();
 	private int turnNumber;
 
+	private GameState gameState;
+
+
 	public Turn(int turnNumber)
 	{
 		setTurnNumber(turnNumber);
@@ -76,5 +79,15 @@ public class Turn
 	public Logger getLogger()
 	{
 		return logger;
+	}
+
+	public GameState getGameState()
+	{
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState)
+	{
+		this.gameState = gameState;
 	}
 }
