@@ -1,4 +1,4 @@
-package net.ck.game.animation;
+package net.ck.game.old;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +30,7 @@ public class MissileObjectTimer extends Timer
     public void cancel()
     {
         super.cancel();
+        logger.debug("cancelling timer");
         setRunning(false);
     }
 
@@ -44,12 +45,12 @@ public class MissileObjectTimer extends Timer
         super(name, isDaemon);
     }
 
-    public boolean isRunning()
+    public synchronized boolean isRunning()
     {
         return running;
     }
 
-    public void setRunning(boolean running)
+    public synchronized void setRunning(boolean running)
     {
         this.running = running;
     }

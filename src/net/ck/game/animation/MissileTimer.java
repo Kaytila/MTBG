@@ -1,18 +1,21 @@
 package net.ck.game.animation;
 
+import net.ck.game.backend.Game;
+import net.ck.util.communication.graphics.MissilePositionChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class MissileTimer extends Timer
+public class MissileTimer implements Runnable
 {
 
     private final Logger logger = LogManager.getLogger(getRealClass());
 
     private boolean running;
+    private int delay;
+
     /**
      * Creates a {@code Timer} and initializes both the initial delay and
      * between-event delay to {@code delay} milliseconds. If {@code delay}
@@ -21,14 +24,10 @@ public class MissileTimer extends Timer
      * it's registered as an action listener on the timer.
      *
      * @param delay    milliseconds for the initial and between-event delay
-     * @param listener an initial listener; can be <code>null</code>
-     * @see #addActionListener
-     * @see #setInitialDelay
-     * @see #setRepeats
      */
-    public MissileTimer(int delay, ActionListener listener)
+    public MissileTimer(int delay)
     {
-        super(delay, listener);
+        setDelay(delay);
     }
 
     public Class<?> getRealClass()
@@ -37,27 +36,6 @@ public class MissileTimer extends Timer
         return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
-
-    @Override
-    public void start()
-    {
-        logger.info("starting missile queue timer");
-        setRunning(true);
-        super.start();
-    }
-
-    @Override
-    public void stop()
-    {
-        if (this.isRunning())
-        {
-            logger.info("stopping missile queue timer");
-            setRunning(false);
-            super.stop();
-        }
-    }
-
-    @Override
     public synchronized boolean isRunning()
     {
         return running;
@@ -66,5 +44,55 @@ public class MissileTimer extends Timer
     public synchronized void setRunning(boolean running)
     {
         this.running = running;
+    }
+
+    @Override
+    public void run()
+    {
+        while (Game.getCurrent().isRunning())
+        {
+            if (Game.getCurrent().getCurrentMap().getMissiles() != null)
+            {
+                if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
+                {
+                    //logger.info("posting message");
+                    setRunning(true);
+                    EventBus.getDefault().post(new MissilePositionChanged());
+                }
+                else
+                {
+                    setRunning(false);
+                    continue;
+                }
+            }
+            else
+            {
+                setRunning(false);
+                continue;
+            }
+            try
+            {
+                Thread.sleep(getDelay());
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public int getDelay()
+    {
+        return delay;
+    }
+
+    public void setDelay(int delay)
+    {
+        this.delay = delay;
+    }
+
+    public void stop()
+    {
+
     }
 }

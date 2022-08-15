@@ -575,4 +575,10 @@ adding animated tiles
             over time, as this will break the turn concept completely.
 2022-08-12: thinking whether appearance cannot just be removed. Will I have a GUIless game? will I have an ascii
             interface? think not. What for?
+2022-08-15: so the missile topic is solved for now. I have two additional threads, one for game loop and one for missile.
+            this now works together with probably a lot of overhead, but this can be tackled later.
+            next test: will a ranged attack by an npc also work? it should block PC movements as well.
+            fine tuning of missile trajectory is luckily only settings and not code anymore.
+            realized that storing game state does not really work properly with the sound selection.
+
 

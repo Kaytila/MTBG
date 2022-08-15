@@ -42,7 +42,7 @@ import java.util.Set;
  *
  * @author Claus
  */
-public class Game
+public class Game implements Runnable
 {
 
 	/**
@@ -207,7 +207,9 @@ public class Game
 	 */
 	private CommandQueue commandQueue;
 
-
+	/**
+	 * wait turns defines how many turns sound engine will wait until it switches music
+	 */
 	private int waitTurns;
 
 	public QuequeTimer getQuequeTimer()
@@ -244,12 +246,24 @@ public class Game
 	 */
 	private MissileTimer missileTimer;
 
+	/**
+	 * missile object timer is the better timer as it runs on its own thread.
+	 */
 
-	private MissileObjectTimer missileObjectTimer;
-
-
+	/**
+	 * base health is the basic health points number, i.e. does a NPC start with 10, 100, 1000 - depending on how far you want to go
+	 */
 	private int baseHealth;
 
+	/**
+	 * ready for next turn?
+	 */
+	private boolean nextTurn;
+
+	/**
+	 * npc action?
+	 */
+	private boolean npcAction;
 	/**
 	 * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
 	 * depends on how far i wanna go
@@ -640,8 +654,9 @@ public class Game
 	@Subscribe
 	public void onMessageEvent(AdvanceTurnEvent event)
 	{
-		//TODO
-		nextTurn = true;
+		logger.info("advance turn");
+		setNpcAction(event.isNpcAction());
+		setNextTurn(true);
 	}
 
 
@@ -692,21 +707,14 @@ public class Game
 		public synchronized void advanceTurn ( boolean haveNPCAction)
 		{
 			this.getCurrentTurn().setGameState(this.getGameState());
-			//logger.info("turn game state: {}", this.getCurrentTurn().getGameState());
-
-			if (Game.getCurrent().getMissileObjectTimer() != null)
+			if (Game.getCurrent().getMissileTimer() != null)
 			{
-				while (Game.getCurrent().getMissileObjectTimer().isRunning())
+				while (Game.getCurrent().getMissileTimer().isRunning())
 				{
-					//logger.info("running?");
-					logger.info("EDT: {}",  javax.swing.SwingUtilities.isEventDispatchThread());
-					stopGame();
+
 				}
 			}
 
-			// logger.info("current turn number 1: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
-			//
-			// logger.info("npc actions");
 			if (haveNPCAction)
 			{
 				for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
@@ -1195,21 +1203,15 @@ public class Game
 			//quequeTimer.start();
 		}
 
-	@Deprecated
+
 	public void initializeMissileTimer()
 	{
-		logger.info("initializing Missile Timer as Swing Timer");
-		MissileTimerActionListener missileTimerActionListener = new MissileTimerActionListener();
-		missileTimer = new MissileTimer(30, missileTimerActionListener);
-		missileTimer.setRepeats(true);
+		logger.info("initializing Missile Timer as Thread");
+		missileTimer = new MissileTimer(10);
+		Thread missileTimerThread = new Thread(missileTimer);
+		missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
+		threadController.add(missileTimerThread);
 	}
-
-	public void intializeMissileObjectTimer()
-	{
-		logger.info("initializing Missile Timer as Object Timer with Timer Task");
-		MissileObjectTimer missileObjectTimer = new MissileObjectTimer("MissileObjectTimer", false);
-	}
-
 
 		public boolean isMoved ()
 		{
@@ -1225,7 +1227,7 @@ public class Game
 		/**
 		 * https://www.youtube.com/watch?v=VpH33Uw-_0E
 		 */
-		public void run ()
+		public void runOLD ()
 		{
 			double drawInterval = 1000000000 / 60;
 			double nextDrawTime = System.nanoTime() + drawInterval;
@@ -1246,6 +1248,21 @@ public class Game
 				e.printStackTrace();
 			}
 		}
+
+		public void run()
+		{
+			while (this.isRunning() == true)
+			{
+				if (isNextTurn() == true)
+				{
+					logger.info("running advance turn");
+					advanceTurn(isNpcAction());
+					setNextTurn(false);
+					setNpcAction(false);
+				}
+			}
+		}
+
 
 		private void update ()
 		{
@@ -1422,6 +1439,10 @@ public class Game
 
 	public void startThreads()
 	{
+		logger.info("initializing game thread");
+		Thread gameThread = new Thread(this);
+		gameThread.setName(String.valueOf(ThreadNames.GAME_THREAD));
+		threadController.add(gameThread);
 		getThreadController().startThreads();
 	}
 
@@ -1447,14 +1468,26 @@ public class Game
 		this.previousGameState = previousGameState;
 	}
 
-	public MissileObjectTimer getMissileObjectTimer()
+	public synchronized boolean isNextTurn()
 	{
-		return missileObjectTimer;
+		return nextTurn;
 	}
 
-	public void setMissileObjectTimer(MissileObjectTimer missileObjectTimer)
+	public synchronized  void setNextTurn(boolean nextTurn)
 	{
-		this.missileObjectTimer = missileObjectTimer;
+		logger.info("setting next turn to: {}", nextTurn);
+		this.nextTurn = nextTurn;
+	}
+
+	public synchronized boolean isNpcAction()
+	{
+		return npcAction;
+	}
+
+	public synchronized void setNpcAction(boolean npcAction)
+	{
+		logger.info("setting npcAction to: {}", npcAction);
+		this.npcAction = npcAction;
 	}
 }
 

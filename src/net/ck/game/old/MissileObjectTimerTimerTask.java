@@ -1,4 +1,4 @@
-package net.ck.game.animation;
+package net.ck.game.old;
 
 import net.ck.game.backend.Game;
 import net.ck.util.communication.graphics.MissilePositionChanged;
@@ -6,11 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
+import java.util.TimerTask;
 
-public class MissileTimerActionListener implements ActionListener
+public class MissileObjectTimerTimerTask extends TimerTask
 {
 
     private final Logger logger = LogManager.getLogger(getRealClass());
@@ -22,29 +21,29 @@ public class MissileTimerActionListener implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void run()
     {
-        if (Game.getCurrent().getCurrentMap().getMissiles() != null)
+        //Game.getCurrent().getMissileObjectTimer().setRunning(true);
+        while (Game.getCurrent().getCurrentMap().getMissiles() != null)
         {
             if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
             {
                 //logger.info("posting message");
                 EventBus.getDefault().post(new MissilePositionChanged());
+                try
+                {
+                    Thread.sleep(30);
+                }
+                catch (InterruptedException e)
+                {
+                    throw new RuntimeException(e);
+                }
             }
             else
             {
-                Game.getCurrent().getMissileTimer().stop();
+                //logger.info("Cancelling missile timer task");
+          //      Game.getCurrent().getMissileObjectTimer().setRunning(false);
             }
         }
-        else
-        {
-            Game.getCurrent().getMissileTimer().stop();
-        }
     }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
 }

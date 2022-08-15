@@ -292,21 +292,10 @@ public class JGridCanvas extends JComponent
 
     private void paintMissiles(Graphics g)
     {
-        /*if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
+        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
         {
-            if (Game.getCurrent().getMissileObjectTimer() != null)
-            {
-                try
-                {
-                    Game.getCurrent().getMissileObjectTimer().wait();
-                }
-                catch (InterruptedException e)
-                {
-                    throw new RuntimeException(e);
-                }
-                return;
-            }
-        }*/
+            return;
+        }
 
         //logger.info(" missiles: {}", Game.getCurrent().getCurrentMap().getMissiles());
         ArrayList<Missile> finishedMissiles = new ArrayList<>();

@@ -8,6 +8,13 @@ import java.util.Objects;
 public class AdvanceTurnEvent extends ChangedEvent
 {
 
+    private boolean npcAction;
+
+    public AdvanceTurnEvent(boolean npcAction)
+    {
+        setNpcAction(npcAction);
+    }
+
     private final Logger logger = LogManager.getLogger(getRealClass());
 
     public Class<?> getRealClass()
@@ -16,4 +23,13 @@ public class AdvanceTurnEvent extends ChangedEvent
         return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
+    public boolean isNpcAction()
+    {
+        return npcAction;
+    }
+
+    public void setNpcAction(boolean npcAction)
+    {
+        this.npcAction = npcAction;
+    }
 }

@@ -104,19 +104,7 @@ public class AbstractKeyboardAction extends AbstractAction
         {
             if (Game.getCurrent().getMissileTimer().isRunning())
             {
-                logger.info("dont run, ignore command");
-            }
-            else
-            {
-                logger.info(getType() + " pressed");
-                EventBus.getDefault().post(this);
-            }
-        }
-        else if (Game.getCurrent().getMissileObjectTimer() != null)
-        {
-            if (Game.getCurrent().getMissileObjectTimer().isRunning())
-            {
-                logger.info("dont run, ignore command");
+                logger.info("missile timer dont run, ignore command");
             }
             else
             {

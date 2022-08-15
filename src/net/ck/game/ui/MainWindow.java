@@ -1,7 +1,6 @@
 package net.ck.game.ui;
 
-import net.ck.game.animation.MissileObjectTimer;
-import net.ck.game.animation.MissileObjectTimerTimerTask;
+
 import net.ck.game.backend.Game;
 import net.ck.game.backend.GameState;
 import net.ck.game.backend.actions.PlayerAction;
@@ -638,15 +637,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
 						//logger.info("taget coordinates: {}", getCurrentAction().getTargetCoordinates());
 
-						if (Game.getCurrent().getMissileTimer() != null)
-						{
-							Game.getCurrent().getMissileTimer().start();
-						}
-						else
-						{
-							Game.getCurrent().setMissileObjectTimer(new MissileObjectTimer("Missile Timer", false));
-							Game.getCurrent().getMissileObjectTimer().schedule(new MissileObjectTimerTimerTask(), 0);
-						}
 						runActions(getCurrentAction(), true);
 
 						break;
@@ -689,7 +679,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			getUndoButton().setEnabled(true);
 			Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
 			//Game.getCurrent().advanceTurn(hasNPCAction);
-			EventBus.getDefault().post(new AdvanceTurnEvent());
+			EventBus.getDefault().post(new AdvanceTurnEvent(hasNPCAction));
 		}
 		CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 		setCurrentAction(null);

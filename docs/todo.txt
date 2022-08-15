@@ -45,7 +45,7 @@ implement melee attack <-- almost done
 implement game state depending music <-- DONE
 implement better game state
 implement UI Model
-think about adding game loop not to block EDT
-remove timer from EDT
+think about adding game loop not to block EDT <-- DONE
+remove timer from EDT <-- DONE
 
 

@@ -238,6 +238,17 @@ public class ThreadController implements Runnable
 				t.start();
 			}
 
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.GAME_THREAD)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
+			}
+
+			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.MISSILE)))
+			{
+				logger.info("starting thread: {}", t);
+				t.start();
+			}
 		}
 	}
 
