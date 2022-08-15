@@ -165,8 +165,8 @@ public class JGridCanvas extends JComponent
         paintLoS(g);
 
         //paint the missiles on the screen
-        //paintMissiles(g);
-        paintMissilesFullLineAtOnce(g);
+        paintMissiles(g);
+        //paintMissilesFullLineAtOnce(g);
 
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
@@ -292,11 +292,21 @@ public class JGridCanvas extends JComponent
 
     private void paintMissiles(Graphics g)
     {
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
+        /*if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
         {
-            Game.getCurrent().getMissileTimer().stop();
-            return;
-        }
+            if (Game.getCurrent().getMissileObjectTimer() != null)
+            {
+                try
+                {
+                    Game.getCurrent().getMissileObjectTimer().wait();
+                }
+                catch (InterruptedException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                return;
+            }
+        }*/
 
         //logger.info(" missiles: {}", Game.getCurrent().getCurrentMap().getMissiles());
         ArrayList<Missile> finishedMissiles = new ArrayList<>();

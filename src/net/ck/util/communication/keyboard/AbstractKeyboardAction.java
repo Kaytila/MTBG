@@ -14,152 +14,172 @@ import java.util.Objects;
 public class AbstractKeyboardAction extends AbstractAction
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * can the action be run immediately (NORTH, WEST ....) ,
-	 * or is this a two step action (get -> where)
-	 */
-	private boolean actionimmediately = false;
+    /**
+     * can the action be run immediately (NORTH, WEST ....) ,
+     * or is this a two step action (get -> where)
+     */
+    private boolean actionimmediately = false;
 
-	/**
-	 * has the action finished
-	 */
-	private boolean done = false;
-
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
-
-	/**
-	 * this is the tile where the crosshair clicked on
-	 * getWhere is the tile where something happens
-	 */
-	private Point getWhere;
-
-	/**
-	 * the item affected by the action, can be get, can be drop, can be equip
-	 */
-	private AbstractItem affectedItem;
-
-	/**
-	 * sourceCoordinates refers to a UI position (in relative pixels inside the UI)
-	 */
-	private Point sourceCoordinates;
-
-	/**
-	 * targetCoordinates refers to a UI position (in relative pixels inside the UI)
-	 */
-	private Point targetCoordinates;
-
-	public Point getOldMousePosition()
-	{
-		return oldMousePosition;
-	}
-
-	public void setOldMousePosition(Point oldMousePosition)
-	{
-		this.oldMousePosition = oldMousePosition;
-	}
-
-	private Point oldMousePosition;
+    /**
+     * has the action finished
+     */
+    private boolean done = false;
 
 
-	public Point getSourceCoordinates()
-	{
-		return sourceCoordinates;
-	}
+    private final Logger logger = LogManager.getLogger(getRealClass());
 
-	public void setSourceCoordinates(Point sourceCoordinates)
-	{
-		this.sourceCoordinates = sourceCoordinates;
-	}
+    /**
+     * this is the tile where the crosshair clicked on
+     * getWhere is the tile where something happens
+     */
+    private Point getWhere;
 
-	public AbstractItem getAffectedItem()
-	{
-		return affectedItem;
-	}
+    /**
+     * the item affected by the action, can be get, can be drop, can be equip
+     */
+    private AbstractItem affectedItem;
 
-	public Point getGetWhere()
-	{
-		return getWhere;
-	}
+    /**
+     * sourceCoordinates refers to a UI position (in relative pixels inside the UI)
+     */
+    private Point sourceCoordinates;
 
-	public void setGetWhere(Point getWhere)
-	{
-		this.getWhere = getWhere;
-	}
+    /**
+     * targetCoordinates refers to a UI position (in relative pixels inside the UI)
+     */
+    private Point targetCoordinates;
 
-	public AbstractKeyboardAction()
-	{
-		setActionimmediately(false);
-	}
+    public Point getOldMousePosition()
+    {
+        return oldMousePosition;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		if (Game.getCurrent().getMissileTimer().isRunning())
-		{
-			logger.info("dont run, ignore command");
-		}
+    public void setOldMousePosition(Point oldMousePosition)
+    {
+        this.oldMousePosition = oldMousePosition;
+    }
+
+    private Point oldMousePosition;
+
+
+    public Point getSourceCoordinates()
+    {
+        return sourceCoordinates;
+    }
+
+    public void setSourceCoordinates(Point sourceCoordinates)
+    {
+        this.sourceCoordinates = sourceCoordinates;
+    }
+
+    public AbstractItem getAffectedItem()
+    {
+        return affectedItem;
+    }
+
+    public Point getGetWhere()
+    {
+        return getWhere;
+    }
+
+    public void setGetWhere(Point getWhere)
+    {
+        this.getWhere = getWhere;
+    }
+
+    public AbstractKeyboardAction()
+    {
+        setActionimmediately(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (Game.getCurrent().getMissileTimer() != null)
+        {
+            if (Game.getCurrent().getMissileTimer().isRunning())
+            {
+                logger.info("dont run, ignore command");
+            }
+            else
+            {
+                logger.info(getType() + " pressed");
+                EventBus.getDefault().post(this);
+            }
+        }
+        else if (Game.getCurrent().getMissileObjectTimer() != null)
+        {
+            if (Game.getCurrent().getMissileObjectTimer().isRunning())
+            {
+                logger.info("dont run, ignore command");
+            }
+            else
+            {
+                logger.info(getType() + " pressed");
+                EventBus.getDefault().post(this);
+            }
+        }
 		else
-		{
-			logger.info(getType() + " pressed");
-			EventBus.getDefault().post(this);
-		}
-	}
+        {
+            logger.info(getType() + " pressed");
+            EventBus.getDefault().post(this);
+        }
+    }
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
+    public Logger getLogger()
+    {
+        return logger;
+    }
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-	
-	public  KeyboardActionType getType()
-	{
-		return KeyboardActionType.NULL;
-	}
+    public Class<?> getRealClass()
+    {
+        Class<?> enclosingClass = getClass().getEnclosingClass();
+        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
+    }
 
-	public boolean isActionimmediately()
-	{
-		return actionimmediately;
-	}
+    public KeyboardActionType getType()
+    {
+        return KeyboardActionType.NULL;
+    }
 
-	public boolean isDone()
-	{
-		return done;
-	}
+    public boolean isActionimmediately()
+    {
+        return actionimmediately;
+    }
 
-	public void setActionimmediately(boolean actionimmediately)
-	{
-		this.actionimmediately = actionimmediately;
-	}
+    public boolean isDone()
+    {
+        return done;
+    }
 
-	public void setDone(boolean done)
-	{
-		this.done = done;
-	}
+    public void setActionimmediately(boolean actionimmediately)
+    {
+        this.actionimmediately = actionimmediately;
+    }
 
-	public void setAffectedItem(AbstractItem currentItemInHand)
-	{
-		this.affectedItem = currentItemInHand;
-		
-	}
+    public void setDone(boolean done)
+    {
+        this.done = done;
+    }
 
-	public Point getTargetCoordinates()
-	{
-		return targetCoordinates;
-	}
+    public void setAffectedItem(AbstractItem currentItemInHand)
+    {
+        this.affectedItem = currentItemInHand;
 
-	public void setTargetCoordinates(Point targetCoordinates)
-	{
-		this.targetCoordinates = targetCoordinates;
-	}
+    }
+
+    public Point getTargetCoordinates()
+    {
+        return targetCoordinates;
+    }
+
+    public void setTargetCoordinates(Point targetCoordinates)
+    {
+        this.targetCoordinates = targetCoordinates;
+    }
 }

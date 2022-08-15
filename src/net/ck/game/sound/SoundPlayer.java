@@ -79,7 +79,7 @@ public class SoundPlayer implements Runnable
     public SoundPlayer()
     {
         super();
-        logger.info("initialize sound player");
+        getLogger().info("initialize sound player");
         EventBus.getDefault().register(this);
         readSoundDirectories(getBasePath());
         //betterPlaySong(getResult().get(selectRandomSong()));
@@ -98,6 +98,7 @@ public class SoundPlayer implements Runnable
     public GameState getGameState()
     {
         return gameState;
+        //return Game.getCurrent().getGameState();
     }
 
     public void setGameState(GameState gameState)
@@ -152,7 +153,7 @@ public class SoundPlayer implements Runnable
     {
         try
         {
-            songDirectories = Files.list(Paths.get(basePath2)).map(Path::toFile).collect(Collectors.toList());
+            setSongDirectories(Files.list(Paths.get(basePath2)).map(Path::toFile).collect(Collectors.toList()));
 
         }
         catch (Exception e)
@@ -160,19 +161,19 @@ public class SoundPlayer implements Runnable
             e.printStackTrace();
         }
 
-        for (File f : songDirectories)
+        for (File f : getSongDirectories())
         {
 
             try
             {
-                songDirectory = Files.newDirectoryStream(f.toPath());
+                setSongDirectory(Files.newDirectoryStream(f.toPath()));
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
 
-            for (Path entry : songDirectory)
+            for (Path entry : getSongDirectory())
             {
              if (SoundUtils.detectFileType(entry).getBaseType().toString().contains("audio"))
              {
@@ -180,7 +181,6 @@ public class SoundPlayer implements Runnable
                  switch (f.getName())
                  {
                      case "WORLD":
-                         state = GameState.WORLD;
                         break;
                      case "TOWN":
                          state = GameState.TOWN;
@@ -219,10 +219,10 @@ public class SoundPlayer implements Runnable
                          state = GameState.DUSK;
                          break;
                      default:
-                         logger.error("unknown directory: {}", f.getName());
+                         getLogger().error("unknown directory: {}", f.getName());
                  }
-                    resultMap.addSong(state, entry);
-                    logger.info("adding sound file {} to gamestate {}", entry.toString(), state);
+                    getResultMap().addSong(state, entry);
+                    getLogger().info("adding sound file {} to gamestate {}", entry.toString(), state);
                }
 
             }
@@ -243,9 +243,11 @@ public class SoundPlayer implements Runnable
         {
             try
             {
+                //TODO get game state out of here I think.
+                //or perhaps not.
                 if (getGameState() == null)
                 {
-                    logger.debug("game state is null yet, default to WORLD");
+                    getLogger().debug("game state is null yet, default to WORLD");
                     setGameState(GameState.DUSK);
                 }
 
@@ -329,7 +331,7 @@ public class SoundPlayer implements Runnable
     {
         try
         {
-               logger.info("playing song: {}", filePath.toString());
+               getLogger().info("playing song: {}", filePath.toString());
                 byte[] buffer = new byte[4096];
 
                 File file = new File(filePath.toString());

@@ -58,12 +58,12 @@ public class MissileTimer extends Timer
     }
 
     @Override
-    public boolean isRunning()
+    public synchronized boolean isRunning()
     {
         return running;
     }
 
-    public void setRunning(boolean running)
+    public synchronized void setRunning(boolean running)
     {
         this.running = running;
     }

@@ -328,11 +328,9 @@ public class MapUtils
         {
             if ((rangeY.contains(t.getY()) && (rangeX.contains(t.getX()))))
             {
-                                    visibleTiles.add(t);
-
+                visibleTiles.add(t);
             }
         }
-
         return visibleTiles;
     }
 
@@ -465,7 +463,7 @@ public class MapUtils
     }
 
     /**
-     * Bresehhams Algorithm
+     * Bresenhams Algorithm
      *
      * @param start  a point, probably player position
      * @param target an end point

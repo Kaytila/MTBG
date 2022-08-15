@@ -4,7 +4,6 @@ import net.ck.game.animation.*;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.*;
-
 import net.ck.game.items.*;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
@@ -20,6 +19,7 @@ import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
+import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AttackAction;
 import net.ck.util.communication.keyboard.GetAction;
 import net.ck.util.communication.sound.GameStateChanged;
@@ -243,6 +243,9 @@ public class Game
 	 * how long is the time period between missiles being drawn on the map?
 	 */
 	private MissileTimer missileTimer;
+
+
+	private MissileObjectTimer missileObjectTimer;
 
 
 	private int baseHealth;
@@ -634,6 +637,14 @@ public class Game
 
 		}
 
+	@Subscribe
+	public void onMessageEvent(AdvanceTurnEvent event)
+	{
+		//TODO
+		nextTurn = true;
+	}
+
+
 		public void initializeWeatherSystem ()
 		{
 			logger.info("BEGIN: initializing weather system");
@@ -678,32 +689,20 @@ public class Game
 		 *
 		 * @param haveNPCAction is a npc action allowed or not
 		 */
-		public void advanceTurn ( boolean haveNPCAction)
+		public synchronized void advanceTurn ( boolean haveNPCAction)
 		{
 			this.getCurrentTurn().setGameState(this.getGameState());
 			//logger.info("turn game state: {}", this.getCurrentTurn().getGameState());
-			/*if (Game.getCurrent().getCurrentMap().getMissiles() != null)
-			{
-				while (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
-				{
 
-				}
-			}*/
-
-			/*if (Game.getCurrent().getMissileTimer() != null)
+			if (Game.getCurrent().getMissileObjectTimer() != null)
 			{
-				while (Game.getCurrent().getMissileTimer().isRunning())
+				while (Game.getCurrent().getMissileObjectTimer().isRunning())
 				{
-					try
-					{
-						Thread.sleep(5);
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					//logger.info("running?");
+					logger.info("EDT: {}",  javax.swing.SwingUtilities.isEventDispatchThread());
+					stopGame();
 				}
-			}*/
+			}
 
 			// logger.info("current turn number 1: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			//
@@ -813,6 +812,7 @@ public class Game
 			this.setCurrentTurn(turn);
 			getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
 			MapUtils.calculateDayOrNight();
+			logger.info("TURN ENDS");
 			logger.info("=======================================================================================");
 			// logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			// Game.getCurrent().initializeTurnTimer();
@@ -1195,12 +1195,19 @@ public class Game
 			//quequeTimer.start();
 		}
 
+	@Deprecated
 	public void initializeMissileTimer()
 	{
 		logger.info("initializing Missile Timer as Swing Timer");
 		MissileTimerActionListener missileTimerActionListener = new MissileTimerActionListener();
 		missileTimer = new MissileTimer(30, missileTimerActionListener);
 		missileTimer.setRepeats(true);
+	}
+
+	public void intializeMissileObjectTimer()
+	{
+		logger.info("initializing Missile Timer as Object Timer with Timer Task");
+		MissileObjectTimer missileObjectTimer = new MissileObjectTimer("MissileObjectTimer", false);
 	}
 
 
@@ -1238,7 +1245,6 @@ public class Game
 			{
 				e.printStackTrace();
 			}
-
 		}
 
 		private void update ()
@@ -1439,6 +1445,16 @@ public class Game
 	{
 		logger.info("setting previous game state: {}", previousGameState);
 		this.previousGameState = previousGameState;
+	}
+
+	public MissileObjectTimer getMissileObjectTimer()
+	{
+		return missileObjectTimer;
+	}
+
+	public void setMissileObjectTimer(MissileObjectTimer missileObjectTimer)
+	{
+		this.missileObjectTimer = missileObjectTimer;
 	}
 }
 

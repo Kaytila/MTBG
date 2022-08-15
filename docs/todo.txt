@@ -43,5 +43,9 @@ implement checkpoints
 implement basic scheduling <-- done
 implement melee attack <-- almost done
 implement game state depending music <-- DONE
-implement better game state (
+implement better game state
+implement UI Model
+think about adding game loop not to block EDT
+remove timer from EDT
+
 

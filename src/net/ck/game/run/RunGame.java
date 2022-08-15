@@ -116,7 +116,7 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.initializeQuequeTimer();
 					renderSplashFrame(g, size);
-					game.initializeMissileTimer();
+					//game.initializeMissileTimer();
 					renderSplashFrame(g, size);
 					game.initializeMusic();
 					renderSplashFrame(g, size);
