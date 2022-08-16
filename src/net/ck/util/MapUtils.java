@@ -3,6 +3,7 @@ package net.ck.util;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.AbstractMap;
@@ -37,7 +38,7 @@ public class MapUtils
 
     private static final Logger logger = LogManager.getLogger(MapUtils.class);
 
-    private static int middle = (int) Math.floor(Game.getCurrent().getNumberOfTiles() / 2);
+    private static int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
 
     public static int getMiddle()
     {
@@ -263,8 +264,8 @@ public class MapUtils
 
     public static MapTile calculateMapTileUnderCursor(Point mousePosition)
     {
-        int x = Math.floorDiv(mousePosition.x, Game.getCurrent().getTileSize());
-        int y = Math.floorDiv(mousePosition.y, Game.getCurrent().getTileSize());
+        int x = Math.floorDiv(mousePosition.x, GameConfiguration.tileSize);
+        int y = Math.floorDiv(mousePosition.y, GameConfiguration.tileSize);
         Point offSet = calculateUIOffsetFromMapPoint();
         return getTileByCoordinates(new Point(x - offSet.x, y - offSet.y));
     }
@@ -742,18 +743,18 @@ public class MapUtils
         Range<Integer> rangeDusk = Range.between(19, 21);
         if (rangeDay.contains(hours))
         {
-            Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles());
+            Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
             return;
         }
         if (rangeDawn.contains(hours))
         {
-            Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles() / 4);
+            Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
             return;
         }
 
         if (rangeDusk.contains(hours))
         {
-            Game.getCurrent().getCurrentMap().setVisibilityRange(Game.getCurrent().getNumberOfTiles() / 4);
+            Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
             return;
         }
         Game.getCurrent().getCurrentMap().setVisibilityRange(2);

@@ -1,9 +1,5 @@
 package net.ck.game.items;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +37,7 @@ public class Armor extends AbstractItem
 	}
 	public Armor()
 	{
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public ArmorTypes getType()

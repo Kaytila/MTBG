@@ -1,7 +1,8 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
-import net.ck.game.backend.ThreadNames;
+import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.graphics.AnimatedRepresentation;
 import org.apache.logging.log4j.LogManager;
@@ -12,13 +13,12 @@ import java.util.Objects;
 /**
  * animation system on separate thread, lets see how bad this implementation
  * will be in a year or two or three or more or ever never ?
- * 
+ *
  * @author Claus
  *
- *         TODO: add java fx graphics, initialize java fx graphics system and
- *         then use it
- *         https://stackoverflow.com/questions/17940329/javafx-for-server-side-image-generation
- *         https://stackoverflow.com/questions/20370888/generating-image-at-server-side-using-java-fx
+ *
+ *         <a href="https://stackoverflow.com/questions/17940329/javafx-for-server-side-image-generation">https://stackoverflow.com/questions/17940329/javafx-for-server-side-image-generation</a>
+ *         <a href="https://stackoverflow.com/questions/20370888/generating-image-at-server-side-using-java-fx">https://stackoverflow.com/questions/20370888/generating-image-at-server-side-using-java-fx</a>
  *
  */
 public class AnimationSystem implements Runnable
@@ -46,11 +46,6 @@ public class AnimationSystem implements Runnable
 	public AnimationSystem()
 	{
 		logger.info("initializing Animation system");
-		// we only have one now, good enough for testing
-
-		// setPlayer(getGame().getPlayers().get(0));
-		// app = (AnimatedRepresentation) getPlayer().getAppearance();
-		// app.setCurrentImage(app.getStandardImage());
 	}
 
 
@@ -86,7 +81,7 @@ public class AnimationSystem implements Runnable
 			// getPlayer().getAppearance().setCurrentImage(app.getAnimationImageList().get(number));
 
 			// fluid variant :DDD
-			for (i = 1; i < Game.getCurrent().getAnimationCycles(); i++)
+			for (i = 1; i < GameConfiguration.animationCycles; i++)
 			{
 				try
 				{
@@ -106,7 +101,7 @@ public class AnimationSystem implements Runnable
 					e.printStackTrace();
 				}
 
-				if (Game.getCurrent().getAnimationCycles() - i == 1)
+				if (GameConfiguration.animationCycles - i == 1)
 				{
 					i = 1;
 				}

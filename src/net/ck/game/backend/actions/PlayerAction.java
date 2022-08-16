@@ -14,8 +14,7 @@ import org.apache.logging.log4j.core.Logger;
  *         necessary to implement some kind of input and some kind of output.
  *         output comes via AbstractEvent
  * 
- *         TODO: add actions which do not take up the players turn (i.e.
- *         settings and information and other things
+ *         TODO: add actions which do not take up the players turn (i.e. settings and information and other things)
  */
 public class PlayerAction extends AbstractAction
 {
@@ -27,7 +26,6 @@ public class PlayerAction extends AbstractAction
 	public PlayerAction(AbstractKeyboardAction ev)
 	{
 		setEvent(ev);
-		//setType(ev.getType());
 	}
 
 	public Class<?> getRealClass()

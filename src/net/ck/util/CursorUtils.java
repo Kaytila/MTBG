@@ -1,6 +1,7 @@
 package net.ck.util;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import org.apache.commons.lang3.Range;
@@ -23,7 +24,7 @@ public class CursorUtils
 
 	private static final Logger logger = LogManager.getLogger(CursorUtils.class);
 	private static final String additionalImagesPath = "graphics" + File.separator + "misc";
-	private static final int border = Game.getCurrent().getTileSize() / 2;
+	private static final int border = GameConfiguration.tileSize / 2;
 	private static BufferedImage cursorImageNorth;
 	private static BufferedImage cursorImageEast;
 	private static BufferedImage cursorImageSouth;
@@ -112,14 +113,14 @@ public class CursorUtils
 	public static void limitMouseMovementToRange(int i)
 	{
 		//logger.info("limit mouse movement");
-		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
 		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
 		int playerCenterX = Px + relativePoint.x;
 		int playerCenterY = Py + relativePoint.y;
 
-		Range<Integer> rangeX = Range.between(playerCenterX - ((Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2)),playerCenterX + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
-		Range<Integer> rangeY = Range.between(playerCenterY - ((Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2)),playerCenterY + (Game.getCurrent().getTileSize() * i) + (Game.getCurrent().getTileSize() / 2));
+		Range<Integer> rangeX = Range.between(playerCenterX - ((GameConfiguration.tileSize * i) + (GameConfiguration.tileSize / 2)),playerCenterX + (GameConfiguration.tileSize * i) + (GameConfiguration.tileSize / 2));
+		Range<Integer> rangeY = Range.between(playerCenterY - ((GameConfiguration.tileSize * i) + (GameConfiguration.tileSize / 2)),playerCenterY + (GameConfiguration.tileSize * i) + (GameConfiguration.tileSize / 2));
 
 		Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 
@@ -201,8 +202,8 @@ public class CursorUtils
 		else
 		{
 			// this is the position on the grid, tile x and y + half tile size to each
-			int Px = (currentPlayer.getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
-			int Py = (currentPlayer.getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);// + border;
+			int Px = (currentPlayer.getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
+			int Py = (currentPlayer.getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
 
 			int Mx = point.x - Game.getCurrent().getController().getGridCanvas().getLocationOnScreen().x;
 			int My = point.y - Game.getCurrent().getController().getGridCanvas().getLocationOnScreen().y;
@@ -452,8 +453,8 @@ public class CursorUtils
 
 	public static void centerCursorOnPlayer()
 	{
-		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
 		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
 		CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 		Game.getCurrent().getController().setMouseOutsideOfGrid(false);

@@ -24,6 +24,5 @@ public class Log4J2Test
 
 	public Log4J2Test()
 	{
-		// TODO Auto-generated constructor stub
 	}
 }

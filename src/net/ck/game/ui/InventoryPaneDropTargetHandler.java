@@ -1,19 +1,13 @@
 package net.ck.game.ui;
 
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.io.IOException;
-
+import net.ck.game.items.AbstractItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.items.AbstractItem;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.*;
+import java.io.IOException;
 
 public class InventoryPaneDropTargetHandler implements DropTargetListener
 {
@@ -22,8 +16,6 @@ public class InventoryPaneDropTargetHandler implements DropTargetListener
 
 	public InventoryPaneDropTargetHandler(InventoryPane inventoryPane)
 	{
-		// TODO Auto-generated constructor stub
-		//DragSource.getDefaultDragSource()
 	}
 
 	
@@ -65,22 +57,16 @@ public class InventoryPaneDropTargetHandler implements DropTargetListener
 	@Override
 	public void dragOver(DropTargetDragEvent dtde)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dragExit(DropTargetEvent dte)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

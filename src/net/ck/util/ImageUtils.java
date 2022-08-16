@@ -1,6 +1,7 @@
 package net.ck.util;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.graphics.TileTypes;
@@ -220,7 +221,7 @@ public class ImageUtils
     {
         BufferedImage movingImage = null;
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < Game.getCurrent().getAnimationCycles(); i++)
+        for (int i = 1; i < GameConfiguration.animationCycles; i++)
         {
             try
             {
@@ -244,7 +245,7 @@ public class ImageUtils
      */
     public static BufferedImage createImage(Color color)
     {
-        BufferedImage img = new BufferedImage(Game.getCurrent().getTileSize(), Game.getCurrent().getTileSize(), BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage img = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_4BYTE_ABGR);
 
         for (int px1 = 0; px1 < (img.getWidth()); px1++)
         {
@@ -319,18 +320,12 @@ public class ImageUtils
     {
         // first player
         Point p = new Point(player.getAppearance().getStandardImage().getWidth(), player.getAppearance().getStandardImage().getHeight());
-        if (Game.getCurrent().getImageSize() == null)
-        {
-            Game.getCurrent().setImageSize(p);
-        }
-        // all other players
-        else
-        {
+
             // check if the dimensions match, first x
-            if (Game.getCurrent().getImageSize().x == p.x)
+            if (GameConfiguration.imageSize.x == p.x)
             {
                 // then y
-                if (Game.getCurrent().getImageSize().y == p.y)
+                if (GameConfiguration.imageSize.y == p.y)
                 {
                     logger.info("sizes add up");
                 }
@@ -344,7 +339,6 @@ public class ImageUtils
                 logger.error("standard image does not match in width");
             }
 
-        }
     }
 
     public static BufferedImage loadStandardPlayerImage(NPC npc)
@@ -367,7 +361,7 @@ public class ImageUtils
     {
         BufferedImage movingImage = null;
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < Game.getCurrent().getAnimationCycles(); i++)
+        for (int i = 1; i < GameConfiguration.animationCycles; i++)
         {
             try
             {
@@ -390,8 +384,8 @@ public class ImageUtils
      */
     public static void createOceanImages()
     {
-        BufferedImage img = new BufferedImage(Game.getCurrent().getTileSize(), Game.getCurrent().getTileSize(), BufferedImage.TYPE_4BYTE_ABGR);
-        for (int i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
+        BufferedImage img = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_4BYTE_ABGR);
+        for (int i = 0; i <= GameConfiguration.animationCycles; i++)
         {
             for (int px1 = 0; px1 < (img.getWidth()); px1++)
             {
@@ -424,7 +418,7 @@ public class ImageUtils
     public static BufferedImage loadRandomBackgroundImage(TileTypes tileType)
     {
         Random rand = new Random();
-        int i = rand.nextInt(Game.getCurrent().getAnimationCycles());
+        int i = rand.nextInt(GameConfiguration.animationCycles);
         String filePath = additionalImagesPath + File.separator + tileType + File.separator + i + ".png";
 
         try
@@ -456,13 +450,13 @@ public class ImageUtils
         for (TileTypes t : TileTypes.values())
         {
             ArrayList<BufferedImage> list = new ArrayList<>();
-            for (int i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
+            for (int i = 0; i <= GameConfiguration.animationCycles; i++)
             {
                 list.add(i, null);
             }
 
             int j;
-            for (j = 0; j <= Game.getCurrent().getAnimationCycles(); j++)
+            for (j = 0; j <= GameConfiguration.animationCycles; j++)
             {
                 String filePath = additionalImagesPath + File.separator + t + File.separator + j + ".png";
 				if(Files.exists(Paths.get(filePath)))
@@ -532,13 +526,13 @@ public class ImageUtils
         for (WeatherTypes t : WeatherTypes.values())
         {
             ArrayList<BufferedImage> list = new ArrayList<>();
-            for (int i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
+            for (int i = 0; i <= GameConfiguration.animationCycles; i++)
             {
                 list.add(i, null);
             }
 
             int j;
-            for (j = 0; j <= Game.getCurrent().getAnimationCycles(); j++)
+            for (j = 0; j <= GameConfiguration.animationCycles; j++)
             {
                 BufferedImage img;
                 String filePath = weatherImagesPath + File.separator + t + File.separator + j + ".png";
@@ -573,11 +567,11 @@ public class ImageUtils
 
     public static void createWeatherTypesImages(WeatherTypes type)
     {
-        BufferedImage img = new BufferedImage(Game.getCurrent().getTileSize(), Game.getCurrent().getTileSize(), BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage img = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_4BYTE_ABGR);
         Color color = null;
 
         int spaceBetweenColumns = img.getWidth() / 3;
-        int spaceBetweenRows = img.getHeight() / Game.getCurrent().getAnimationCycles();
+        int spaceBetweenRows = img.getHeight() / GameConfiguration.animationCycles;
 
         logger.info("columns: {}, rows: {}", spaceBetweenColumns, spaceBetweenRows);
         ArrayList<Integer> rows = new ArrayList<>();
@@ -589,7 +583,7 @@ public class ImageUtils
             logger.info("column to add: {}", 4 + i * spaceBetweenColumns);
         }
 
-        for (int i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
+        for (int i = 0; i <= GameConfiguration.animationCycles; i++)
         {
             rows.add(4 + i * spaceBetweenRows);
             logger.info("row to add: {}", 4 + i * spaceBetweenRows);
@@ -610,7 +604,7 @@ public class ImageUtils
                 break;
         }
 
-        for (int i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
+        for (int i = 0; i <= GameConfiguration.animationCycles; i++)
         {
             // make image white;
             for (int px1 = 0; px1 < (img.getWidth()); px1++)
@@ -670,7 +664,7 @@ public class ImageUtils
         Graphics g = img.getGraphics();
         float percentage = 1.0f;
         int max = Math.max(x, y);
-        int half = Math.floorDiv(Game.getCurrent().getNumberOfTiles(), 2);
+        int half = Math.floorDiv(GameConfiguration.numberOfTiles, 2);
 
         if (max <= 2)
         {

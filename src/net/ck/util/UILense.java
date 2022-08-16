@@ -1,6 +1,6 @@
 package net.ck.util;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.map.MapTile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,11 +64,11 @@ public class UILense
 	{
 		visibleMapTiles = new ArrayList<>();
 		
-		xCoordinateSystem = new ArrayList<>(Game.getCurrent().getNumberOfTiles());
-		yCoordinateSystem = new ArrayList<>(Game.getCurrent().getNumberOfTiles());
+		xCoordinateSystem = new ArrayList<>(GameConfiguration.numberOfTiles);
+		yCoordinateSystem = new ArrayList<>(GameConfiguration.numberOfTiles);
 
 		logger.info("initializing lense");
-		for (int i = 0; i < Game.getCurrent().getNumberOfTiles(); i++)
+		for (int i = 0; i < GameConfiguration.numberOfTiles; i++)
 		{
 			xCoordinateSystem.add(i, false);
 			yCoordinateSystem.add(i, false);
@@ -83,7 +83,7 @@ public class UILense
 	public void initialize()
 	{
 		getVisibleMapTiles().clear();
-		for (int i = 0; i < Game.getCurrent().getNumberOfTiles(); i++)
+		for (int i = 0; i < GameConfiguration.numberOfTiles; i++)
 		{
 			xCoordinateSystem.set(i, false);
 			yCoordinateSystem.set(i, false);
@@ -110,9 +110,9 @@ public class UILense
 	{
 		ArrayList<Point> emptyTiles = new ArrayList<>();
 
-		for (int row = 0; row < Game.getCurrent().getNumberOfTiles(); row++)
+		for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
 		{
-			for (int column = 0; column < Game.getCurrent().getNumberOfTiles(); column++)
+			for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
 			{		
 				if (xCoordinateSystem.get(column) == false)
 				{					
@@ -134,9 +134,9 @@ public class UILense
 	 */
 	public void listEntries()
 	{
-		for (int row = 0; row < Game.getCurrent().getNumberOfTiles(); row++)
+		for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
 		{
-			for (int column = 0; column < Game.getCurrent().getNumberOfTiles(); column++)
+			for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
 			{
 				logger.info("X: {}, value: {}, Y: {}, value: {}", column, xCoordinateSystem.get(column), row, yCoordinateSystem.get(row));
 			}
@@ -149,9 +149,9 @@ public class UILense
 		ArrayList<Point> list;
 		list = new ArrayList<>();
 
-		for (int row = 0; row < Game.getCurrent().getNumberOfTiles(); row++)
+		for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
 		{
-			for (int column = 0; column < Game.getCurrent().getNumberOfTiles(); column++)
+			for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
 			{
 				list.add(new Point(column, row));
 			}

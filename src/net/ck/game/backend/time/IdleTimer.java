@@ -1,4 +1,4 @@
-package net.ck.game.ui;
+package net.ck.game.backend.time;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,23 +7,24 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
+/**
+ * idletime does exactly this - after PC has done a turn, idle timer starts
+ * for N milliseconds, until a space, i.e. pass is being sent.
+ */
 public class IdleTimer extends Timer
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void start()
 	{
+		//logger.info("starting idle timer");
 		super.start();
 	}
 
 	@Override
 	public void stop()
 	{
+		//logger.info("stopping idle timer");
 		super.stop();
 	}
 

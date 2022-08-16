@@ -47,5 +47,9 @@ implement better game state
 implement UI Model
 think about adding game loop not to block EDT <-- DONE
 remove timer from EDT <-- DONE
+implement real game state from game mechanics
+extract game configuration <-- DONE
+bugs: NPC will first move to melee, then if you move away, NPC will switch to ranged
+
 
 

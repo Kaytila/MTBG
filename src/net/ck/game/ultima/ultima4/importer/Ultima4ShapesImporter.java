@@ -1,15 +1,14 @@
 package net.ck.game.ultima.ultima4.importer;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * https://github.com/jtauber/ultima4/blob/master/shapes.py
@@ -72,7 +71,6 @@ public class Ultima4ShapesImporter
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

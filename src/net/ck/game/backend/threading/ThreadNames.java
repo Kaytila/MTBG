@@ -1,4 +1,4 @@
-package net.ck.game.backend;
+package net.ck.game.backend.threading;
 
 public enum ThreadNames
 {

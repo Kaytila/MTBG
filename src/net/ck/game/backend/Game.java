@@ -2,26 +2,28 @@ package net.ck.game.backend;
 
 import net.ck.game.animation.*;
 import net.ck.game.backend.actions.AbstractAction;
-import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.*;
-import net.ck.game.items.*;
+import net.ck.game.backend.threading.ThreadController;
+import net.ck.game.backend.threading.ThreadNames;
+import net.ck.game.backend.time.GameTime;
+import net.ck.game.backend.time.QuequeTimerActionListener;
+import net.ck.game.items.Armor;
+import net.ck.game.items.FurnitureItem;
+import net.ck.game.items.Utility;
+import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
-import net.ck.game.old.PressedTimer;
-import net.ck.game.old.PressedTimerTask;
-import net.ck.game.old.TurnTimer;
+import net.ck.game.sound.MusicTimer;
+import net.ck.game.sound.MusicTimerActionListener;
 import net.ck.game.sound.SoundPlayer;
-import net.ck.game.ui.IdleActionListener;
-import net.ck.game.ui.IdleTimer;
+import net.ck.game.backend.time.IdleActionListener;
+import net.ck.game.backend.time.IdleTimer;
 import net.ck.game.ui.MainWindow;
-import net.ck.game.ui.QuequeTimer;
+import net.ck.game.backend.time.QuequeTimer;
 import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
-import net.ck.util.communication.keyboard.AttackAction;
-import net.ck.util.communication.keyboard.GetAction;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.xml.RunXMLParser;
@@ -35,7 +37,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Game Main class also Y6MU+=A7B=NpmQSs
@@ -50,18 +51,6 @@ public class Game implements Runnable
 	 */
 	private static final Game game = new Game();
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-	/**
-	 * sync object for animation
-	 */
-	final private Lock lock = new Lock();
-	/**
-	 * how long shall the game wait until sending a pass message in ms
-	 */
-	public long turnwait = 10000;
-	/**
-	 * how many frames per second
-	 */
-	private int FFPS = 60;
 
 	/**
 	 * contains the current game state,
@@ -96,34 +85,21 @@ public class Game implements Runnable
 
 	/**
 	 * the arraylist holds all the maps
-	 * not sure if i do need to do that or can load from disk on demand,
-	 * but the average map wont be that big
+	 * not sure if I do need to do that or can load from disk on demand,
+	 * but the average map won't be that big
 	 */
 	private ArrayList<Map> maps;
 	/**
 	 * holds the current map, might be game map, might be any map
 	 */
 	private Map currentMap;
-	/**
-	 * show how many rows and columns of tiles in the UI
-	 */
-	private int numberOfTiles = 15;
-	/**
-	 * shall music be played?
-	 */
-	private boolean playMusic;
+
+
 	/**
 	 * how many milliseconds until the turn is passed?
 	 */
 	private IdleTimer idleTimer;
-	/**
-	 * thread group for all of the threads of the game. Currently there should be three: Main Weather Animation. Mouse pressed timer IdleTimer are handled with swing timers.
-	 */
-	private ThreadGroup threadGroup;
-	/**
-	 * how big are the images, check this somewhere.
-	 */
-	private Point imageSize;
+
 	/**
 	 * the player has moved
 	 */
@@ -136,18 +112,7 @@ public class Game implements Runnable
 	 * which is the currently active player, PC, NPCs are treated differently, but same :D
 	 */
 	private Player currentPlayer;
-	/**
-	 * Tile Size
-	 */
-	private int tileSize;
-	/**
-	 * are there animations?
-	 */
-	private boolean animated;
-	/**
-	 * how many animation cycles are there?
-	 */
-	private int animationCycles;
+
 	/**
 	 * which turn is the current turn, filled up with each doAction(), rolled over in advanceTurn() or retractTurn()
 	 */
@@ -180,10 +145,7 @@ public class Game implements Runnable
 	 * this is the weather system
 	 */
 	private AbstractWeatherSystem weatherSystem;
-	/**
-	 * graphicsSystem for initializing Java FX
-	 */
-	//private GraphicsSystem graphicsSystem = null;
+
 	/**
 	 * animated entities, contains everything that has changing images, i.e. NPCs, PCs, also other items. will probably also contain all inanimated objects. Perhaps these will go on a separate thread
 	 */
@@ -203,14 +165,21 @@ public class Game implements Runnable
 	private GameTime gameTime;
 
 	/**
-	 * so if we have a go to command, this needs to go into a command queue
+	 * so if we have a goto command, this needs to go into a command queue
 	 */
 	private CommandQueue commandQueue;
 
-	/**
-	 * wait turns defines how many turns sound engine will wait until it switches music
-	 */
-	private int waitTurns;
+	public MusicTimer getMusicTimer()
+	{
+		return musicTimer;
+	}
+
+	public void setMusicTimer(MusicTimer musicTimer)
+	{
+		this.musicTimer = musicTimer;
+	}
+
+	private MusicTimer musicTimer;
 
 	public QuequeTimer getQuequeTimer()
 	{
@@ -247,10 +216,6 @@ public class Game implements Runnable
 	private MissileTimer missileTimer;
 
 	/**
-	 * missile object timer is the better timer as it runs on its own thread.
-	 */
-
-	/**
 	 * base health is the basic health points number, i.e. does a NPC start with 10, 100, 1000 - depending on how far you want to go
 	 */
 	private int baseHealth;
@@ -266,48 +231,43 @@ public class Game implements Runnable
 	private boolean npcAction;
 	/**
 	 * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
-	 * depends on how far i wanna go
+	 * depends on how far I want to go
 	 */
 	private Game()
 	{
 		// do this here, the access denied error for the jaxp.properties gets on
 		// my nerves
-		logger.info("setting up security manager");
+		getLogger().info("setting up security manager");
 		System.setProperty("java.security.policy", "policy.txt");
 		SecurityManagerExtension secMan = new SecurityManagerExtension();
 		java.lang.System.setSecurityManager(secMan);
 
 		// thread handling
-		logger.info("setting up thread system");
+		getLogger().info("setting up thread system");
 		setRunning(true);
-		threadController = new ThreadController();
-		threadController.add(Thread.currentThread());
+		setThreadController(new ThreadController());
+		getThreadController().add(Thread.currentThread());
 
-		setPlayMusic(true);
 
-		setWaitTurns(3);
 
-		setTileSize(32);
+
+
 		setTurnNumber(0);
 		Turn turn = new Turn(getTurnNumber());
-		setAnimated(true);
-		setAnimationCycles(7);
+
 		setBaseHealth(10);
 		setCurrentTurn(turn);
 		getTurns().add(turn);
-		en = new World();
+		setEn(new World());
 
 		setCommandQueue(new CommandQueue());
 		setGameTime(new GameTime());
 		getGameTime().setCurrentHour(9);
 
 		setGameState(GameState.DUSK);
-		// Toolkit.getDefaultToolkit().getSystemEventQueue().
-		// java FX - perhaps in 2025
-		// graphicsSystem = new GraphicsSystem();
-		// graphicsSystem.startUp();
+
 		EventBus.getDefault().register(this);
-		logger.info("game start with default settings finished");
+		getLogger().info("game start with default settings finished");
 
 	}
 
@@ -329,15 +289,6 @@ public class Game implements Runnable
 		this.utilityList = utilityList;
 	}
 
-	public int getFFPS()
-	{
-		return FFPS;
-	}
-
-	public void setFFPS(int fFPS)
-	{
-		FFPS = fFPS;
-	}
 
 	public IdleTimer getIdleTimer()
 	{
@@ -349,25 +300,6 @@ public class Game implements Runnable
 		this.idleTimer = idleTimer;
 	}
 
-	public boolean isPlayMusic()
-	{
-		return playMusic;
-	}
-
-	public void setPlayMusic(boolean playMusic)
-	{
-		this.playMusic = playMusic;
-	}
-
-	public long getTurnwait()
-	{
-		return turnwait;
-	}
-
-	public void setTurnwait(long turnwait)
-	{
-		this.turnwait = turnwait;
-	}
 
 	public Class<?> getRealClass()
 	{
@@ -385,21 +317,6 @@ public class Game implements Runnable
 		this.running = running;
 	}
 
-	public Lock getLock()
-	{
-		return lock;
-	}
-
-	/*public GraphicsSystem getGraphicsSystem()
-	{
-		return this.graphicsSystem;
-	}
-
-	public void setGraphicsSystem(GraphicsSystem graphicsSystem)
-	{
-		this.graphicsSystem = graphicsSystem;
-	}*/
-
 	public SoundPlayer getSoundSystem()
 	{
 		return soundSystem;
@@ -412,6 +329,10 @@ public class Game implements Runnable
 
 	/**
 	 * initialize the maps, cleanup later
+	 * 	not sure whether I actually want this or even need this, or even need
+	 * 	the north/east/south/west
+	 * 	MapUtils.calculateTileDirections(map.getTiles());
+	 * 	To be identified later
 	 */
 	public void initializeMaps()
 	{
@@ -438,9 +359,7 @@ public class Game implements Runnable
 					{
 						map.initialize();
 						map.setVisibilityRange(2);
-						// not sure whether I actually want this or even need this, or even need
-						// the north/east/south/west
-						// MapUtils.calculateTileDirections(map.getTiles());
+
 						setCurrentMap(map);
 						// addManyNPCs(map);
 						addItemsToFloor();
@@ -472,14 +391,10 @@ public class Game implements Runnable
 		Weapon club = getWeaponList().get(1);
 		Weapon magicClub = getWeaponList().get(2);
 		Weapon sling = getWeaponList().get(3);
-
-		//club.setMapPosition(new Point(3, 0));
-		//magicClub.setMapPosition(new Point(3, 1));
-		//map.getItems().add(magicClub);
-		//map.getItems().add(club);
 		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(3, 0))).getInventory().add(club);
 		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 3))).getInventory().add(magicClub);
-		logger.info("furniture: {}", getFurnitureList().get(0));
+		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(6, 6))).getInventory().add(sling);
+		//logger.info("furniture: {}", getFurnitureList().get(0));
 		Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 4))).setFurniture(getFurnitureList().get(1));
 	}
 
@@ -587,6 +502,7 @@ public class Game implements Runnable
 			logger.info("start: switching map");
 
 			MapTile exit = MapUtils.getTileByCoordinates(getCurrentPlayer().getMapPosition());
+			assert exit != null;
 			String mapName = exit.getTargetMap();
 			int targetTileID = exit.getTargetID();
 
@@ -603,7 +519,7 @@ public class Game implements Runnable
 					addAnimatedEntities();
 				}
 			}
-			//these two are ugly and need to be done better somehow
+			//these two are ugly and need to be done better somehow,
 			//but they make the switch faster, way faster
 			getWeatherSystem().checkWeather();
 			getController().getGridCanvas().repaint();
@@ -621,8 +537,7 @@ public class Game implements Runnable
 		}
 
 		/**
-		 * https://stackoverflow.com/questions/9317461/get-the-application-closing-event
-		 *
+		 * <a href="https://stackoverflow.com/questions/9317461/get-the-application-closing-event">...</a>
 		 * it appears you can only do it this way not really necessary, but I guess can be used for later on but its interesting that in order to get the shutdown event, you need yet another thread also,
 		 * when the fuck is this running? ThreadController is initialized way before
 		 */
@@ -635,17 +550,16 @@ public class Game implements Runnable
 		@Subscribe
 		public void onMessageEvent(GameStateChanged gameState)
 		{
-			logger.info("caught game state change in game: {}", gameState.getGameState());
-
+			//logger.info("caught game state change in game: {}", gameState.getGameState());
 			if (gameState.getGameState() == GameState.COMBAT)
 			{
-				logger.info("setting previous game state to: {}", this.getGameState());
-				setPreviousGameState(this.getGameState());
+				logger.info("setting previous game state to: {}", Game.getCurrent().getGameState());
+				setPreviousGameState(Game.getCurrent().getGameState());
 			}
 
-			if (gameState.getGameState() != this.getGameState())
+			if (gameState.getGameState() != Game.getCurrent().getGameState())
 			{
-				this.setGameState(gameState.getGameState());
+				Game.getCurrent().setGameState(gameState.getGameState());
 			}
 
 
@@ -654,7 +568,7 @@ public class Game implements Runnable
 	@Subscribe
 	public void onMessageEvent(AdvanceTurnEvent event)
 	{
-		logger.info("advance turn");
+		//logger.info("advance turn");
 		setNpcAction(event.isNpcAction());
 		setNextTurn(true);
 	}
@@ -699,14 +613,15 @@ public class Game implements Runnable
 
 		/**
 		 * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
-		 *
-		 * https://stackoverflow.com/questions/30989558/java-8-retry-a-method-until-a-condition-is-fulfilled-in-intervals
+		 * <p>
+		 * <a href="https://stackoverflow.com/questions/30989558/java-8-retry-a-method-until-a-condition-is-fulfilled-in-intervals">...</a>
 		 *
 		 * @param haveNPCAction is a npc action allowed or not
 		 */
 		public synchronized void advanceTurn ( boolean haveNPCAction)
 		{
-			this.getCurrentTurn().setGameState(this.getGameState());
+			Game.getCurrent().getCurrentTurn().setGameState(Game.getCurrent().getGameState());
+			Game.getCurrent().getIdleTimer().stop();
 			if (Game.getCurrent().getMissileTimer() != null)
 			{
 				while (Game.getCurrent().getMissileTimer().isRunning())
@@ -722,67 +637,17 @@ public class Game implements Runnable
 					//npc is aggressive
 					if (e.isHostile())
 					{
-						logger.info("trying to attack");
-						//attack with melee
-						if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
-						{
-							logger.info("attacking");
-							e.doAction(new PlayerAction(new AttackAction()));
-							//return;
-						}
-						//victim is not adjacent
-						else
-						{
-							logger.info("out of melee range, what to do");
-							//Weapon sling = getWeaponList().get(3);
-							//e.getItem(sling);
-							//npc has ranged weapon wielded or has one in inventory
-							if (e.isRanged())
-							{
-								logger.info("NPC has ranged capabilities");
-								//wielded attack
-								if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
-								{
-									logger.info("npc already wields ranged weapon, attack!");
-									PlayerAction action = new PlayerAction(new AttackAction());
-									e.doAction(action);
-									//return;
-								}
-								//in inventory, wield
-								else
-								{
-									logger.info("ranged weapon in inventory");
-									e.switchWeapon(WeaponTypes.RANGED);
-									//return;
-								}
-							}
-							else
-							{
-								logger.info("out of range move towards victim");
-								e.doAction((NPCUtils.calculateVictimDirection(e)));
-								//return;
-							}
-						}
+						AIBehaviour.determineCombat(e);
+
 					}
 					else
 					{
-						GetAction action = e.lookAroundForItems();
-						//GetAction action = null;
-						if (action != null)
-						{
-							logger.info("trying to get");
-							PlayerAction ac = new PlayerAction(action);
-							e.doAction(ac);
-						}
-						else
-						{
-							e.doAction(NPCUtils.calculateAction(e));
-						}
+						AIBehaviour.determineRandom(e);
+
 					}
 				}
 				// logger.info("environment action");
 				Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent());
-				getIdleTimer().start();
 			}
 			//logger.info("advance turn!");
 			setTurnNumber(getTurnNumber() + 1);
@@ -796,6 +661,7 @@ public class Game implements Runnable
 					if (e.isHostile())
 					{
 						stillaggro = true;
+						break;
 					}
 				}
 
@@ -804,6 +670,7 @@ public class Game implements Runnable
 				if (stillaggro == false)
 				{
 					EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
+					getMusicTimer().start();
 				}
 			}
 
@@ -811,17 +678,23 @@ public class Game implements Runnable
 			{
 				if (GameUtils.checkVictoryGameStateDuration())
 				{
-					EventBus.getDefault().post(new GameStateChanged(this.getPreviousGameState()));
+					EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getPreviousGameState()));
+					if (getMusicTimer().isRunning() == false)
+					{
+						getMusicTimer().start();
+					}
 				}
 			}
 
 			Turn turn = new Turn(getTurnNumber());
 			getTurns().add(turn);
-			this.setCurrentTurn(turn);
+			Game.getCurrent().setCurrentTurn(turn);
 			getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
 			MapUtils.calculateDayOrNight();
-			logger.info("TURN ENDS");
-			logger.info("=======================================================================================");
+			getLogger().info("TURN ENDS");
+			getLogger().info("=======================================================================================");
+			//TODO idletimer fails to stop in certain conditions
+			getIdleTimer().start();
 			// logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
 			// Game.getCurrent().initializeTurnTimer();
 		}
@@ -833,12 +706,7 @@ public class Game implements Runnable
 
 		public void decrementTurnNumber ()
 		{
-			this.setTurnNumber(getTurnNumber() - 1);
-		}
-
-		public int getAnimationCycles ()
-		{
-			return animationCycles;
+			Game.getCurrent().setTurnNumber(getTurnNumber() - 1);
 		}
 
 		public Turn getCurrentTurn ()
@@ -877,18 +745,13 @@ public class Game implements Runnable
 			return weatherSystem;
 		}
 
-		public boolean isAnimated ()
-		{
-			return animated;
-		}
-
 		/**
 		 * go back one turn in history
-		 *
+		 * <p>
 		 * three ideas how to implement this:
-		 *
+		 * <p>
 		 * 1. get the last turn, just add it in front 2. get the last turn, delete it from the list, then replay it. 3. get the last turn, play it, just overwrite.
-		 *
+		 * <p>
 		 * I went for option 2, which gets the last turn and then replays it hoping the implementation is correct
 		 */
 		public int retractTurn ()
@@ -926,42 +789,9 @@ public class Game implements Runnable
 				getController().getTextField().retractTurn();
 
 				turn.getActions().clear();
-				this.setCurrentTurn(turn);
+				Game.getCurrent().setCurrentTurn(turn);
 			}
 			return getTurnNumber();
-		}
-
-		/**
-		 * run the turn: this is a legacy method which might be used to test automation without the ui - or with it?
-		 *
-		 *
-		 * then it is the next turn
-		 *
-		 *
-		 */
-		/*public void runTurn ()
-		{
-			for (NPC p : Game.getCurrent().getCurrentMap().getNpcs())
-			{
-				p.doAction(NPCUtils.calculateAction(p));
-				getEn().createRandomEvent();
-			}
-			advanceTurn(false);
-			for (Thread t : this.getThreadController().getThreads())
-			{
-				logger.info("thread: {}", t.getName());
-				logger.info(t.getState().toString());
-			}
-		}*/
-
-		public void setAnimated ( boolean animated)
-		{
-			this.animated = animated;
-		}
-
-		private void setAnimationCycles ( int animationCycles)
-		{
-			this.animationCycles = animationCycles;
 		}
 
 		public void setCurrentTurn (Turn currentTurn)
@@ -1007,16 +837,6 @@ public class Game implements Runnable
 			System.exit(0);
 		}
 
-		public int getTileSize ()
-		{
-			return tileSize;
-		}
-
-		public void setTileSize ( int tileSize)
-		{
-			this.tileSize = tileSize;
-		}
-
 		public Player getCurrentPlayer ()
 		{
 			return currentPlayer;
@@ -1025,16 +845,6 @@ public class Game implements Runnable
 		public void setCurrentPlayer (Player abstractEntity)
 		{
 			this.currentPlayer = abstractEntity;
-		}
-
-		public Point getImageSize ()
-		{
-			return imageSize;
-		}
-
-		public void setImageSize (Point imageSize)
-		{
-			this.imageSize = imageSize;
 		}
 
 		public int getNpcNumber ()
@@ -1055,7 +865,7 @@ public class Game implements Runnable
 
 	/**
 	 * so the game starts so the first player has the first movement action. Then it goes to the second player ... when all players have moved, roll over turn there only will be one player without
-	 * heavy extension, interesting, lets see whether i can make this work
+	 * heavy extension, interesting, lets see whether I can make this work
 	 */
 		public void addPlayers ()
 		{
@@ -1063,45 +873,33 @@ public class Game implements Runnable
 			Player p1 = new Player(0);
 			Weapon sling = getWeaponList().get(3);
 			p1.setWeapon(sling);
-
-			// Player p2 = new Player(this, 1);
-			// NPC npc1 = new NPC();
 			getPlayers().add(p1);
-			// getPlayers().add(p2);
-			// getPlayers().add(npc1);
-
-			// gameMap.getPlayers().add(p2);
-			// getCurrentMap().getNpcs().add(npc1);
-			//p1.setMapPosition(new Point(42, 42));
 			p1.setMapPosition(new Point(2, 2));
-			// p2.setPosition(new Point(1, 0));
-			// npc1.setMapPosition(new Point(2, 3));
 			setCurrentPlayer(getPlayers().get(0));
 
-			Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
+			/*Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
 			for (ArmorPositions pos : positions)
 			{
-				//logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
-			}
+				logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
+			}*/
 
 		}
 
 		public void initializeAnimationSystem ()
 		{
 			AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem();
-			if (isAnimated() == true)
+			if (GameConfiguration.animated == true)
 			{
 				logger.info("initializing animation system");
 				Thread animationSystemThread = new Thread(animationSystem);
 				animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
 				threadController.add(animationSystemThread);
-				//animationSystemThread.start();
 			}
 		}
 
 		public void initializeBackgroundAnimationSystem ()
 		{
-			if (isAnimated() == true)
+			if (GameConfiguration.animated == true)
 			{
 				logger.info("initializing BackgroundAnimationSystem animation system");
 				BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem();
@@ -1110,13 +908,12 @@ public class Game implements Runnable
 				backgroundAnimationSystemThread.setName(String.valueOf(ThreadNames.BACKGROUND_ANIMATION));
 
 				threadController.add(backgroundAnimationSystemThread);
-				//backgroundAnimationSystemThread.start();
 			}
 		}
 
 		public void initializeForegroundAnimationSystem ()
 		{
-			if (isAnimated() == true)
+			if (GameConfiguration.animated == true)
 			{
 				logger.info("initializing ForegroundAnimationSystem animation system");
 				ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem();
@@ -1125,7 +922,6 @@ public class Game implements Runnable
 				foregroundAnimationSystemThread.setName(String.valueOf(ThreadNames.FOREGROUND_ANIMATION));
 
 				threadController.add(foregroundAnimationSystemThread);
-				//foregroundAnimationSystemThread.start();
 			}
 		}
 
@@ -1164,53 +960,41 @@ public class Game implements Runnable
 			this.controller = controller;
 		}
 
-		@Deprecated
-		public void initializeTurnTimerThread ()
+		public void initializeIdleTimer()
 		{
-			logger.info("initializing Turn Timer Thread");
-			TurnTimer turnTimer = new TurnTimer();
-			Thread turnTimerThread = new Thread(turnTimer);
-			turnTimerThread.setName("Turn Timer Thread");
-			threadController.add(turnTimerThread);
-			turnTimerThread.start();
-		}
-
-		@Deprecated
-		public void initializeTurnTimer ()
-		{
-			logger.info("initializing Turn Timer as Timer");
-			PressedTimerTask timerTask = new PressedTimerTask();
-			PressedTimer timer = new PressedTimer("Turn Timer Task");
-			timer.schedule(timerTask, getTurnwait(), getTurnwait());
-		}
-
-		public void initializeTurnTimerTimer ()
-		{
-			logger.info("initializing Turn Timer as Swing Timer");
-			// Game.getCurrent().setMoved(false);
+			getLogger().info("initializing Turn Timer as Swing Timer");
 			IdleActionListener idleActionListener = new IdleActionListener();
-			idleTimer = new IdleTimer((int) getTurnwait(), idleActionListener);
-			idleTimer.setRepeats(true);
-			idleTimer.start();
+			setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
+			getIdleTimer().setRepeats(true);
+			getIdleTimer().start();
 		}
+
+	public void initializeMusicTimer ()
+	{
+		getLogger().info("initializing Music Timer as Swing Timer");
+		MusicTimerActionListener actionListener = new MusicTimerActionListener();
+		setMusicTimer(new MusicTimer(7000, actionListener));
+		getMusicTimer().setRepeats(false);
+	}
+
 
 		public void initializeQuequeTimer()
 		{
-			logger.info("initializing Movement Timer as Swing Timer");
+			getLogger().info("initializing Movement Timer as Swing Timer");
 			QuequeTimerActionListener quequeTimerActionListener = new QuequeTimerActionListener();
-			quequeTimer = new QuequeTimer(300, quequeTimerActionListener);
-			quequeTimer.setRepeats(true);
+			setQuequeTimer(new QuequeTimer(300, quequeTimerActionListener));
+			getQuequeTimer().setRepeats(true);
 			//quequeTimer.start();
 		}
 
 
 	public void initializeMissileTimer()
 	{
-		logger.info("initializing Missile Timer as Thread");
-		missileTimer = new MissileTimer(10);
-		Thread missileTimerThread = new Thread(missileTimer);
+		getLogger().info("initializing Missile Timer as Thread");
+		setMissileTimer(new MissileTimer(10));
+		Thread missileTimerThread = new Thread(getMissileTimer());
 		missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
-		threadController.add(missileTimerThread);
+		getThreadController().add(missileTimerThread);
 	}
 
 		public boolean isMoved ()
@@ -1224,38 +1008,40 @@ public class Game implements Runnable
 			this.moved = moved;
 		}
 
-		/**
-		 * https://www.youtube.com/watch?v=VpH33Uw-_0E
-		 */
-		public void runOLD ()
+	/**
+	 * <a href="https://www.youtube.com/watch?v=VpH33Uw-_0E">https://www.youtube.com/watch?v=VpH33Uw-_0E</a>
+	 * <p>
+	 * public void runOLD ()
+	 *                {
+	 * 			double drawInterval = Math.floorDiv(1000000000, 60);
+	 * 			double nextDrawTime = System.nanoTime() + drawInterval;
+	 * <p>
+	 * 			update();
+	 * 			repaint();
+	 * <p>
+	 * 			Game.getCurrent().getController().getFrame().repaint();
+	 * <p>
+	 * 			double remainingTime = nextDrawTime - System.nanoTime();
+	 * 			try
+	 *            {
+	 * 				logger.info("sleep");
+	 * 				Thread.sleep((long) remainingTime);
+	 *            }
+	 * 			catch (InterruptedException e)
+	 *            {
+	 * 				e.printStackTrace();
+	 *            }
+	 *        }
+	 * <p>
+	 * This is the run method, i.e. the big cheese or the main game loop.
+	 */
+	public void run()
 		{
-			double drawInterval = 1000000000 / 60;
-			double nextDrawTime = System.nanoTime() + drawInterval;
-
-			update();
-			repaint();
-
-			this.getController().getFrame().repaint();
-
-			double remainingTime = nextDrawTime - System.nanoTime();
-			try
-			{
-				logger.info("sleep");
-				Thread.sleep((long) remainingTime);
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-		public void run()
-		{
-			while (this.isRunning() == true)
+			while (Game.getCurrent().isRunning() == true)
 			{
 				if (isNextTurn() == true)
 				{
-					logger.info("running advance turn");
+					//logger.info("running advance turn");
 					advanceTurn(isNpcAction());
 					setNextTurn(false);
 					setNpcAction(false);
@@ -1274,17 +1060,16 @@ public class Game implements Runnable
 
 		}
 
-		public void initializeMusic ()
+		public void initializeSoundSystem()
 		{
-			if (isPlayMusic() == true)
+			if (GameConfiguration.playMusic == true)
 			{
-				logger.info("initializing sound system");
-				soundSystem = new SoundPlayer();
-				soundSystem.setMusicIsRunning(true);
-				Thread soundSystemThread = new Thread(soundSystem);
+				getLogger().info("initializing sound system");
+				setSoundSystem(new SoundPlayer());
+				getSoundSystem().setMusicIsRunning(true);
+				Thread soundSystemThread = new Thread(getSoundSystem());
 				soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
-				threadController.add(soundSystemThread);
-				//soundSystemThread.start();
+				getThreadController().add(soundSystemThread);
 			}
 		}
 
@@ -1313,16 +1098,6 @@ public class Game implements Runnable
 			{
 				logger.info("utility item: {} ", t.toString());
 			}
-		}
-
-		public int getNumberOfTiles ()
-		{
-			return numberOfTiles;
-		}
-
-		public void setNumberOfTiles ( int numberOfTiles)
-		{
-			this.numberOfTiles = numberOfTiles;
 		}
 
 		public Map getCurrentMap ()
@@ -1446,17 +1221,6 @@ public class Game implements Runnable
 		getThreadController().startThreads();
 	}
 
-
-	public int getWaitTurns()
-	{
-		return waitTurns;
-	}
-
-	public void setWaitTurns(int waitTurns)
-	{
-		this.waitTurns = waitTurns;
-	}
-
 	public GameState getPreviousGameState()
 	{
 		return previousGameState;
@@ -1475,7 +1239,7 @@ public class Game implements Runnable
 
 	public synchronized  void setNextTurn(boolean nextTurn)
 	{
-		logger.info("setting next turn to: {}", nextTurn);
+		//logger.info("setting next turn to: {}", nextTurn);
 		this.nextTurn = nextTurn;
 	}
 
@@ -1486,7 +1250,7 @@ public class Game implements Runnable
 
 	public synchronized void setNpcAction(boolean npcAction)
 	{
-		logger.info("setting npcAction to: {}", npcAction);
+		//logger.info("setting npcAction to: {}", npcAction);
 		this.npcAction = npcAction;
 	}
 }

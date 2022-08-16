@@ -1,4 +1,4 @@
-package net.ck.game.ui;
+package net.ck.game.backend.time;
 
 import net.ck.game.backend.Game;
 import net.ck.util.communication.graphics.PlayerPositionChanged;

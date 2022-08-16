@@ -1,7 +1,8 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
-import net.ck.game.backend.ThreadNames;
+import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
@@ -18,7 +19,7 @@ public class RandomAnimationSystem extends AnimationSystem
 
 	private final Logger logger = LogManager.getLogger(getRealClass());
 
-	private Random rand = new Random();
+	private final Random rand = new Random();
 	private int randomNumber;	
 	public int getRandomNumber()
 	{
@@ -44,8 +45,8 @@ public class RandomAnimationSystem extends AnimationSystem
 	public void run()
 	{
 		while (Game.getCurrent().isRunning() == true)
-		{ // i hate 0 index //if I make the standard
-			// image part of the animation list, then I dont need the default
+		{ // I hate 0 index //if I make the standard
+			// image part of the animation list, then I don't need the default
 			// state at all.
 			// that means, 2 animation cycles, no +1 needed.
 
@@ -53,7 +54,7 @@ public class RandomAnimationSystem extends AnimationSystem
 			for (LifeForm p : Game.getCurrent().getAnimatedEntities())
 			{
 				// logger.info("player: {}", p.toString());
-				setRandomNumber(rand.nextInt(Game.getCurrent().getAnimationCycles()));
+				setRandomNumber(rand.nextInt(GameConfiguration.animationCycles));
 				// logger.info("rand: {}", getRandomNumber());
 
 				if (p.getAppearance().getCurrentImage() != ((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()))

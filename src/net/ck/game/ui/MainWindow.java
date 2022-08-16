@@ -2,6 +2,7 @@ package net.ck.game.ui;
 
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.GameState;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.NPC;
@@ -189,7 +190,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		if (e.getActionCommand().equalsIgnoreCase("StartMusic"))
 		{
 			logger.info("start music");
-			if (Game.getCurrent().isPlayMusic())
+			if (GameConfiguration.playMusic)
 			{
 				Game.getCurrent().getSoundSystem().startMusic();
 				EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
@@ -200,7 +201,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		if (e.getActionCommand().equalsIgnoreCase("StopMusic"))
 		{
 			logger.info("stop music");
-			if (Game.getCurrent().isPlayMusic())
+			if (GameConfiguration.playMusic)
 			{
 				Game.getCurrent().getSoundSystem().stopMusic();
 			}
@@ -209,7 +210,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		if (e.getActionCommand().equalsIgnoreCase("Louder"))
 		{
 			logger.info("louder");
-			if (Game.getCurrent().isPlayMusic())
+			if (GameConfiguration.playMusic)
 			{
 				Game.getCurrent().getSoundSystem().increaseVolume();
 			}
@@ -218,7 +219,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		if (e.getActionCommand().equalsIgnoreCase("Leiser"))
 		{
 			logger.info("leiser");
-			if (Game.getCurrent().isPlayMusic())
+			if (GameConfiguration.playMusic)
 			{
 				Game.getCurrent().getSoundSystem().decreaseVolume();
 			}
@@ -634,7 +635,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						//logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
 						Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-						getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2) , screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+						getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2) , screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
 						//logger.info("taget coordinates: {}", getCurrentAction().getTargetCoordinates());
 
 						runActions(getCurrentAction(), true);
@@ -843,8 +844,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.RANGED))
 					{
 						action.setOldMousePosition(MouseInfo.getPointerInfo().getLocation());
-						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
-						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * Game.getCurrent().getTileSize()) + (Game.getCurrent().getTileSize() / 2);
+						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
 						Point relativePoint = getGridCanvas().getLocationOnScreen();
 						CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 						action.setSourceCoordinates(new Point(Px, Py));
@@ -952,7 +953,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public void windowActivated(WindowEvent e)
 	{
 		logger.info("activated");
-		if (Game.getCurrent().isPlayMusic())
+		if (GameConfiguration.playMusic)
 		{
 			Game.getCurrent().getSoundSystem().startMusic();
 		}
@@ -997,7 +998,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		// {
 		if (isDialogOpened() == false)
 		{
-			if (Game.getCurrent().isPlayMusic())
+			if (GameConfiguration.playMusic)
 			{
 				Game.getCurrent().getSoundSystem().stopMusic();
 			}
@@ -1010,7 +1011,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public void windowDeiconified(WindowEvent e)
 	{
 		logger.info("deiconified");
-		if (Game.getCurrent().isPlayMusic())
+		if (GameConfiguration.playMusic)
 		{
 			Game.getCurrent().getSoundSystem().startMusic();
 		}
@@ -1021,7 +1022,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public void windowIconified(WindowEvent e)
 	{
 		logger.info("iconified");
-		if (Game.getCurrent().isPlayMusic())
+		if (GameConfiguration.playMusic)
 		{
 			Game.getCurrent().getSoundSystem().stopMusic();
 		}

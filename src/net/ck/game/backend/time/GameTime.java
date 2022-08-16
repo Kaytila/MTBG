@@ -1,4 +1,4 @@
-package net.ck.game.backend;
+package net.ck.game.backend.time;
 
 import net.ck.util.communication.time.GameTimeChangeType;
 import net.ck.util.communication.time.GameTimeChanged;

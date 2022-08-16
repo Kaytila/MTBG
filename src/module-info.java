@@ -35,4 +35,8 @@ module myTurnedBasedGame
 	exports net.ck.game.sound;
 	exports net.ck.game.items;
 	exports net.ck.util.communication.sound;
+	exports net.ck.game.animation;
+    exports net.ck.game.backend.threading;
+	exports net.ck.game.old;
+	exports net.ck.game.backend.time;
 }

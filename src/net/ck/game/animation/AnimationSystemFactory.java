@@ -1,11 +1,11 @@
 package net.ck.game.animation;
 
+import net.ck.game.backend.GameConfiguration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-import net.ck.game.backend.Game;
 
 /**
- * factory which decides which appearence class to choose heavy TODO here
+ * factory which decides which appearence class to choose heavy
  * :D:D:D:D:D https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html
  * https://docs.oracle.com/javase/8/javafx/graphics-tutorial/javafx-3d-graphics.htm
  * https://openjfx.io/javadoc/13/ https://gluonhq.com/products/javafx/
@@ -37,9 +37,9 @@ public class AnimationSystemFactory
 	public static AnimationSystem createAnymationSystem()
 	{
 
-		if (Game.getCurrent().isAnimated() == true)
+		if (GameConfiguration.animated == true)
 		{
-			if (Game.getCurrent().getAnimationCycles() > 0)
+			if (GameConfiguration.animationCycles > 0)
 			{
 				return new RandomAnimationSystem();
 			}

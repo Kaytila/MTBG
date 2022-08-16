@@ -1,6 +1,7 @@
 package net.ck.game.sound;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.GameState;
 import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
@@ -147,6 +148,7 @@ public class SoundPlayer implements Runnable
 
     /**
      * reads all the files from the basePath2 directory variable.
+     *
      * @param basePath2 - currently - it is "music", so all files below music are being read
      */
     private void readSoundDirectories(String basePath2)
@@ -175,55 +177,55 @@ public class SoundPlayer implements Runnable
 
             for (Path entry : getSongDirectory())
             {
-             if (SoundUtils.detectFileType(entry).getBaseType().toString().contains("audio"))
-             {
-                 GameState state = GameState.WORLD;
-                 switch (f.getName())
-                 {
-                     case "WORLD":
-                        break;
-                     case "TOWN":
-                         state = GameState.TOWN;
-                         break;
-                     case "CASTLE":
-                         state = GameState.CASTLE;
-                         break;
-                     case "COMBAT":
-                         state = GameState.COMBAT;
-                         break;
-                     case "DUNGEON":
-                         state = GameState.DUNGEON;
-                         break;
-                     case "VICTORY":
-                         state = GameState.VICTORY;
-                         break;
-                     case "CRITICAL":
-                         state = GameState.CRITICAL;
-                         break;
-                     case "OCEAN":
-                         state = GameState.OCEAN;
-                         break;
-                     case "SHRINE":
-                         state = GameState.SHRINE;
-                         break;
-                     case "SHOP":
-                         state = GameState.SHOP;
-                         break;
-                     case "STONES":
-                         state = GameState.STONES;
-                         break;
-                     case "DAWN":
-                         state = GameState.DAWN;
-                         break;
-                     case "DUSK":
-                         state = GameState.DUSK;
-                         break;
-                     default:
-                         getLogger().error("unknown directory: {}", f.getName());
-                 }
+                if (SoundUtils.detectFileType(entry).getBaseType().toString().contains("audio"))
+                {
+                    GameState state = GameState.WORLD;
+                    switch (f.getName())
+                    {
+                        case "WORLD":
+                            break;
+                        case "TOWN":
+                            state = GameState.TOWN;
+                            break;
+                        case "CASTLE":
+                            state = GameState.CASTLE;
+                            break;
+                        case "COMBAT":
+                            state = GameState.COMBAT;
+                            break;
+                        case "DUNGEON":
+                            state = GameState.DUNGEON;
+                            break;
+                        case "VICTORY":
+                            state = GameState.VICTORY;
+                            break;
+                        case "CRITICAL":
+                            state = GameState.CRITICAL;
+                            break;
+                        case "OCEAN":
+                            state = GameState.OCEAN;
+                            break;
+                        case "SHRINE":
+                            state = GameState.SHRINE;
+                            break;
+                        case "SHOP":
+                            state = GameState.SHOP;
+                            break;
+                        case "STONES":
+                            state = GameState.STONES;
+                            break;
+                        case "DAWN":
+                            state = GameState.DAWN;
+                            break;
+                        case "DUSK":
+                            state = GameState.DUSK;
+                            break;
+                        default:
+                            getLogger().error("unknown directory: {}", f.getName());
+                    }
                     getResultMap().addSong(state, entry);
                     getLogger().info("adding sound file {} to gamestate {}", entry.toString(), state);
-               }
+                }
 
             }
         }
@@ -323,7 +325,7 @@ public class SoundPlayer implements Runnable
     }
 
     /**
-     * <a href="https://stackoverflow.com/questions/22741988/java-playing-sounds-in-order">...</a>
+     * <a href="https://stackoverflow.com/questions/22741988/java-playing-sounds-in-order">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
      *
      * @param filePath - song selection
      */
@@ -331,29 +333,30 @@ public class SoundPlayer implements Runnable
     {
         try
         {
-               getLogger().info("playing song: {}", filePath.toString());
-                byte[] buffer = new byte[4096];
+            getLogger().info("playing song: {}", filePath.toString());
+            byte[] buffer = new byte[4096];
 
-                File file = new File(filePath.toString());
+            File file = new File(filePath.toString());
 
 
-                AudioInputStream is = AudioSystem.getAudioInputStream(file);
+            AudioInputStream is = AudioSystem.getAudioInputStream(file);
 
-                AudioFormat format = is.getFormat();
+            AudioFormat format = is.getFormat();
 
-                line = AudioSystem.getSourceDataLine(format);
+            line = AudioSystem.getSourceDataLine(format);
 
-                line.open(format);
-                line.start();
+            line.open(format);
+            line.start();
 
-                while (is.available() > 0)
-                {
+            while (is.available() > 0)
+            {
 
-                    int len = is.read(buffer);
-                    line.write(buffer, 0, len);
-                }
-                line.drain();
-                line.close();
+                int len = is.read(buffer);
+                line.write(buffer, 0, len);
+            }
+
+            line.drain();
+            line.close();
         }
         catch (Throwable ex)
         {
@@ -363,11 +366,11 @@ public class SoundPlayer implements Runnable
 
 
     /**
-     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">...</a>
+     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
      */
     public void stopMusic()
     {
-        if (Game.getCurrent().isPlayMusic())
+        if (GameConfiguration.playMusic)
         {
             setMusicIsRunning(false);
             if (line != null)
@@ -381,11 +384,11 @@ public class SoundPlayer implements Runnable
     }
 
     /**
-     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">...</a>
+     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
      */
     public void startMusic()
     {
-        if (Game.getCurrent().isPlayMusic())
+        if (GameConfiguration.playMusic)
         {
             setMusicIsRunning(true);
             if (line != null)

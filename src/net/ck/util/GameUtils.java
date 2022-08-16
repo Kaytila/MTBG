@@ -2,6 +2,7 @@ package net.ck.util;
 
 import com.google.common.collect.Lists;
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.GameState;
 import net.ck.game.backend.Turn;
 import net.ck.game.backend.actions.PlayerAction;
@@ -108,7 +109,7 @@ public class GameUtils
 				i++;
 			}
 
-			if (i == Game.getCurrent().getWaitTurns())
+			if (i == GameConfiguration.waitTurns)
 			{
 				return true;
 			}

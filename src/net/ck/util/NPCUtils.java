@@ -1,10 +1,9 @@
 package net.ck.util;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.LifeForm;
-import net.ck.game.backend.entities.NPC;
 import net.ck.game.map.MapTile;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
@@ -32,7 +31,7 @@ public class NPCUtils
      * @param e the abstract entity, npc probably
      * @return an action that is done once the npc is doing action
      */
-    public static PlayerAction calculateAction(NPC e)
+    public static PlayerAction calculateAction(LifeForm e)
     {
         //logger.info("calculate action");
 
@@ -245,12 +244,12 @@ public class NPCUtils
     public static AbstractKeyboardAction calculateCoordinatesFromActionAndTile(AbstractKeyboardAction action, MapTile tile, LifeForm form)
     {
         Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-        action.setTargetCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2), screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+        action.setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
         logger.info("taget coordinates: {}", action.getTargetCoordinates());
 
         //source
         screenPosition = MapUtils.calculateUIPositionFromMapOffset(MapUtils.getTileByCoordinates(form.getMapPosition()).getMapPosition());
-        action.setSourceCoordinates(new Point(screenPosition.x * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2), screenPosition.y * Game.getCurrent().getTileSize() + (Game.getCurrent().getTileSize() / 2)));
+        action.setSourceCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
         logger.info("source coordinates: {}", action.getSourceCoordinates());
         return action;
     }

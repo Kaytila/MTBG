@@ -1,7 +1,8 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.Game;
-import net.ck.game.backend.ThreadNames;
+import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.threading.ThreadNames;
 import net.ck.util.communication.graphics.ForegroundRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +53,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 		while (Game.getCurrent().isRunning() == true)
 		{
 			int i;
-			for (i = 0; i <= Game.getCurrent().getAnimationCycles(); i++)
+			for (i = 0; i <= GameConfiguration.animationCycles; i++)
 			{
 				setCurrentForegroundImage(i);
 				if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())

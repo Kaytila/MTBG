@@ -1,25 +1,20 @@
 package net.ck.game.old;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
+import net.ck.game.backend.Game;
+import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import net.ck.game.backend.Game;
-import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 
 public class GridCanvas extends Canvas implements KeyListener, FocusListener
 {
@@ -137,7 +132,6 @@ public class GridCanvas extends Canvas implements KeyListener, FocusListener
 	public void onMessageEvent(AnimatedRepresentationChanged event)
 	{
 		logger.info("player image has changed - so I catch this in GridCanvas and repaint");
-		// TODO
 		// have player position added here and update the position on the grid
 		// accordingly.
 		setImage(event.getPlayer().getAppearance().getCurrentImage());

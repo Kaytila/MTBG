@@ -7,6 +7,7 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.RandomAction;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.Weapon;
+import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
@@ -206,6 +207,24 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public boolean isRanged()
+	{
+		return false;
+	}
+
+	@Override
+	public void switchWeapon(WeaponTypes ranged)
+	{
+
+	}
+
+	@Override
+	public boolean isStatic()
+	{
+		return true;
+	}
+
+	@Override
 	public LifeFormState getState()
 	{
 		return null;
@@ -218,7 +237,7 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
-	protected CommandQueue getQueuedActions()
+	public CommandQueue getQueuedActions()
 	{
 		logger.error("world does not need a command queue - yet");
 		return null;

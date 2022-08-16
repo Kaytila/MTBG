@@ -29,7 +29,7 @@ public class Food extends AbstractItem
 	}
 	public Food()
 	{
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getNutritionValue()

@@ -4,10 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.ck.game.backend.Game;
 import net.ck.game.backend.entities.Player;
-import net.ck.game.map.GameMap;
-import net.ck.game.run.RunGame;
-import net.ck.game.ui.MainWindow;
-import net.ck.util.CursorUtils;
 import net.ck.util.ImageUtils;
 
 public class TestGameSetup
@@ -57,8 +53,8 @@ public class TestGameSetup
 			game.initializeBackgroundAnimationSystem();
 			game.initializeForegroundAnimationSystem();
 			game.initializeWeatherSystem();
-			game.initializeTurnTimerTimer();
-			game.initializeMusic();
+			game.initializeIdleTimer();
+			game.initializeSoundSystem();
 
 			ImageUtils.initializeBackgroundImages();
 			ImageUtils.initializeForegroundImages();

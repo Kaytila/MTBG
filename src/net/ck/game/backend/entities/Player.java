@@ -335,7 +335,25 @@ public class Player extends AbstractEntity implements LifeForm
 	}
 
 
-	  /*
+	@Override
+	public boolean isRanged()
+	{
+		return false;
+	}
+
+	@Override
+	public void switchWeapon(WeaponTypes ranged)
+	{
+
+	}
+
+	@Override
+	public boolean isStatic()
+	{
+		return false;
+	}
+
+	/*
 	* @param action keyboard action (attack action)
      * @return returns whether it is a hit
      * different implementation for player and NPC now.

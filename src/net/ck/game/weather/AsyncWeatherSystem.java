@@ -1,6 +1,6 @@
 package net.ck.game.weather;
 
-import net.ck.game.backend.ThreadNames;
+import net.ck.game.backend.threading.ThreadNames;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 

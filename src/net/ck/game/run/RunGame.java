@@ -100,8 +100,7 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.addPlayers();
 					renderSplashFrame(g, size);
-					ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
-					renderSplashFrame(g, size);
+					//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 					game.addAnimatedEntities();
 					renderSplashFrame(g, size);
 					game.initializeAnimationSystem();
@@ -112,13 +111,15 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.initializeWeatherSystem();
 					renderSplashFrame(g, size);
-					game.initializeTurnTimerTimer();
+					game.initializeIdleTimer();
 					renderSplashFrame(g, size);
 					game.initializeQuequeTimer();
 					renderSplashFrame(g, size);
 					game.initializeMissileTimer();
 					renderSplashFrame(g, size);
-					game.initializeMusic();
+					game.initializeMusicTimer();
+					renderSplashFrame(g, size);
+					game.initializeSoundSystem();
 					renderSplashFrame(g, size);
 					ImageUtils.initializeBackgroundImages();
 					renderSplashFrame(g, size);
@@ -129,6 +130,10 @@ public class RunGame
 					game.startThreads();
 					renderSplashFrame(g, size);
 					if (progress < 100)
+					{
+						renderSplashFrame(g, 100, size);
+					}
+					else
 					{
 						renderSplashFrame(g, 100, size);
 					}

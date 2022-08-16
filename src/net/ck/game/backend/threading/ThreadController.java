@@ -1,5 +1,6 @@
-package net.ck.game.backend;
+package net.ck.game.backend.threading;
 
+import net.ck.game.backend.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -7,13 +8,13 @@ import java.util.*;
 
 /**
  *  So I want to do proper thread handling:
- *  https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume/45786529#45786529
+ *  <a href="https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume/45786529#45786529">...</a>
  *  and
- *  https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume
+ *  <a href="https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume">...</a>
  * @author Claus
  *
  */
-public class ThreadController implements Runnable
+public class ThreadController
 {
 
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
@@ -24,13 +25,13 @@ public class ThreadController implements Runnable
 		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
-	private volatile boolean exit = false;
+
 	private boolean wakeupNeeded;
-	private List<Thread> threads;
+	private final List<Thread> threads;
 
 	public ThreadController()
 	{
-		threads = Collections.synchronizedList(new ArrayList<>());
+		threads = Collections.synchronizedList(new ArrayList<>(10));
 	}
 
 
@@ -44,30 +45,6 @@ public class ThreadController implements Runnable
 		return threads;
 	}
 
-	@Override
-	public void run()
-	{
-		while (!exit)
-		{
-			logger.debug("running running");
-			try
-			{
-				Thread.sleep(2000);
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		for (Thread t : getThreads())
-		{
-			// Todo how the heck is this supposed to work?
-			logger.debug("shutdown: " + t.getName());
-			t.interrupt();
-
-		}
-	}
-
 	public void reanimateAnimation()
 	{
 
@@ -77,11 +54,11 @@ public class ThreadController implements Runnable
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
 			{
 				//t.notify();
-				synchronized (Game.getCurrent().getLock())
+				synchronized (Game.getCurrent())
 				{
 					logger.info("restart animation - animations");
 					makeWakeupNeeded();
-					Game.getCurrent().getLock().notifyAll();
+					Game.getCurrent().notifyAll();
 				}
 
 			}
@@ -89,11 +66,11 @@ public class ThreadController implements Runnable
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
 			{
 				//t.notify();
-				synchronized (Game.getCurrent().getLock())
+				synchronized (Game.getCurrent())
 				{
 					logger.info("restart animation - weather");
 					makeWakeupNeeded();
-					Game.getCurrent().getLock().notifyAll();
+					Game.getCurrent().notifyAll();
 				}
 
 			}
@@ -127,13 +104,13 @@ public class ThreadController implements Runnable
 			// logger.info("thread: {}", t.getName());
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
 			{
-				synchronized (Game.getCurrent().getLock())
+				synchronized (Game.getCurrent())
 				{
 					while (!isWakeupNeeded())
 					{
 						try
 						{
-							Game.getCurrent().getLock().wait();
+							Game.getCurrent().wait();
 							logger.info("suspend animation");
 						}
 						catch (InterruptedException e)
@@ -157,13 +134,13 @@ public class ThreadController implements Runnable
 			}
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
 			{
-				synchronized (Game.getCurrent().getLock())
+				synchronized (Game.getCurrent())
 				{
 					while (!isWakeupNeeded())
 					{
 						try
 						{
-							Game.getCurrent().getLock().wait();
+							Game.getCurrent().wait();
 							logger.info("suspend weather");
 						}
 						catch (InterruptedException e)
@@ -212,36 +189,42 @@ public class ThreadController implements Runnable
 			{
 				logger.info("starting thread: {}", t);
 				t.start();
+				continue;
 			}
 
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.FOREGROUND_ANIMATION)))
 			{
 				logger.info("starting thread: {}", t);
 				t.start();
+				continue;
 			}
 
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.BACKGROUND_ANIMATION)))
 			{
 				logger.info("starting thread: {}", t);
 				t.start();
+				continue;
 			}
 
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.SOUND_SYSTEM)))
 			{
 				logger.info("starting thread: {}", t);
 				t.start();
+				continue;
 			}
 
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
 			{
 				logger.info("starting thread: {}", t);
 				t.start();
+				continue;
 			}
 
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.GAME_THREAD)))
 			{
 				logger.info("starting thread: {}", t);
 				t.start();
+				continue;
 			}
 
 			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.MISSILE)))

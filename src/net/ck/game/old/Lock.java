@@ -1,10 +1,11 @@
-package net.ck.game.backend;
+package net.ck.game.old;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
-public class Input
+public final class Lock
 {
+
 	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
 	public Class<?> getRealClass()
@@ -13,10 +14,11 @@ public class Input
 		if (enclosingClass != null)
 		{
 			return enclosingClass;
-		} else
+		}
+		else
 		{
 			return getClass();
 		}
 	}
-	
+
 }

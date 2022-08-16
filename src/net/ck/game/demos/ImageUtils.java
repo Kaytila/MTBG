@@ -15,7 +15,7 @@ public class ImageUtils
 	Image image;
 	public ImageUtils()
 	{
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Image getImage()
