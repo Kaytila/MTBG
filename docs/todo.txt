@@ -49,7 +49,13 @@ think about adding game loop not to block EDT <-- DONE
 remove timer from EDT <-- DONE
 implement real game state from game mechanics
 extract game configuration <-- DONE
-bugs: NPC will first move to melee, then if you move away, NPC will switch to ranged
+bug: NPC will first move to melee, then if you move away, NPC will switch to ranged
 
+make music stop victory, once the song is done. how to do this?
+perhaps just state variable will take care of this?
+
+figure out a good way to get corpse drawn and not rely on logic during drawing.
+i.e. have a trigger once state is dead, update current image and do not update it again.
+same thing for poisoned or sleeping. poisoned could be current image rendered slightly green.
 
 

@@ -1,5 +1,6 @@
 package net.ck.util;
 
+import net.ck.game.backend.Game;
 import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.AttributeTypes;
@@ -254,5 +255,10 @@ public class NPCUtils
         return action;
     }
 
-
+    public static Point calculatePlayerPosition()
+    {
+        int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+        int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+        return new Point(Px, Py);
+    }
 }

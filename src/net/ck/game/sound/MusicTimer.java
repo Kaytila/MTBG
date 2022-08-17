@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
+/**
+ * music timer takes care of timing when a song will be finished if in VICTORY state.
+ *
+ */
 public class MusicTimer extends Timer
 {
 

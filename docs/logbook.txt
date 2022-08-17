@@ -589,5 +589,13 @@ adding animated tiles
             Game looks a little bit more cleaned up.
             Need to implement a better way how to store ideas and bugs and so on, but I am too lazy to set up anything
             real.
+2022-08-17: so what did I do today? I implemented that you can move the cross-hair at least one tile on the grid.
+            need to think where to put the switch of the mode change. and how to track it.
+            Quequetimer was 7 seconds, wayy too long.
+            reduced some code in main window. the mouse released/onmessageevent(Keyboard) methods are way too long.
+            need to remove complexity and really switch out pure UI stuff (i.e. where is the mouse? what is under
+            mouse cursor), just write this once, use everywhere.
+            get rid of mouse event usage, work with standard way for standard problem.
+            did some refactoring on game and mainwindow.
 
 

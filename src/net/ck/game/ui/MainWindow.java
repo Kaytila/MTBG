@@ -12,6 +12,7 @@ import net.ck.game.map.MapTile;
 import net.ck.util.CursorUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
+import net.ck.util.NPCUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
@@ -569,23 +570,25 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			if (this.getCurrentAction() != null)
 			{
+				boolean npcAction;
 				switch (this.getCurrentAction().getType())
 				{
 					case GET:
 						setSelectTile(false);
+						npcAction = true;
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-						runActions(getCurrentAction(), true);
 						break;
 					case DROP:
 						setSelectTile(false);
+						npcAction = true;
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
 						getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
-						runActions(getCurrentAction(), true);
 						break;
 					case TALK:
 						boolean found = false;
+						npcAction = true;
 						NPC npc = null;
 						for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
 						{
@@ -611,38 +614,45 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 									AbstractDialog.createDialog(this.getFrame(), "Talk", false, getCurrentAction(), npc);
 									logger.info("talk: {}", "");
 								}
-								runActions(getCurrentAction(), true);
 							}
 							else
 							{
 								logger.info("no NPC here!");
 								setCurrentAction(new AbstractKeyboardAction());
-								runActions(getCurrentAction(), true);
 							}
 						break;
 
 					case MOVE:
 						setSelectTile(false);
+						npcAction = false;
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-						runActions(getCurrentAction(), false);
-						runQueue();
 						break;
 
 					case ATTACK:
 						setSelectTile(false);
+						npcAction = true;
 						CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 						getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-						//logger.info("targetPx: {}, targetPy: {}", e.getX(), e.getY());
 						Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
 						getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2) , screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
-						//logger.info("taget coordinates: {}", getCurrentAction().getTargetCoordinates());
-
-						runActions(getCurrentAction(), true);
-
 						break;
 					default:
 						throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
+				}
+
+				/**
+				 * special case for movement, queque needs to be filled up and run
+				 * not sure I like this
+				 */
+				if (getCurrentAction().getType().equals(KeyboardActionType.MOVE))
+				{
+					runActions(getCurrentAction(), false);
+					runQueue();
+				}
+				else
+				{
+					runActions(getCurrentAction(), npcAction);
 				}
 			}
 		}
@@ -732,6 +742,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case DROP :
 			{
+				if (isSelectTile() == true)
+				{
+					logger.info("select tile is active, dont do anything");
+					break;
+				}
 				if (isDialogOpened == true)
 				{
 					break;
@@ -778,6 +793,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case GET :
 			{
+				if (isSelectTile() == true)
+				{
+					logger.info("select tile is active, dont do anything");
+					break;
+				}
 				if (isMouseOutsideOfGrid() == true)
 				{
 					CursorUtils.centerCursorOnPlayer();
@@ -793,6 +813,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case TALK :
 			{
+				if (isSelectTile() == true)
+				{
+					logger.info("select tile is active, dont do anything");
+					break;
+				}
 				logger.info("talk");
 				if (isDialogOpened == true)
 				{
@@ -816,6 +841,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case MOVE :
 			{
+				if (isSelectTile() == true)
+				{
+					logger.info("select tile is active, dont do anything");
+					break;
+				}
 				logger.info("move");
 				if (isMouseOutsideOfGrid() == true)
 				{
@@ -830,6 +860,19 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 			}
 
 			case ATTACK:
+				if (isSelectTile() == true)
+				{
+					logger.info("select tile is active, allow attack");
+					setSelectTile(false);
+					MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+					getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+					Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+					getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2) , screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+					haveNPCAction = false;
+					Game.getCurrent().getIdleTimer().stop();
+					runActions(getCurrentAction(), true);
+					break;
+				}
 				logger.info("attack");
 				if (isMouseOutsideOfGrid() == true)
 				{
@@ -844,11 +887,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 					if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.RANGED))
 					{
 						action.setOldMousePosition(MouseInfo.getPointerInfo().getLocation());
-						int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-						int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-						Point relativePoint = getGridCanvas().getLocationOnScreen();
-						CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-						action.setSourceCoordinates(new Point(Px, Py));
+						Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+						CursorUtils.moveMouse(new Point(NPCUtils.calculatePlayerPosition().x + relativePoint.x, NPCUtils.calculatePlayerPosition().y + relativePoint.y));
+						action.setSourceCoordinates(NPCUtils.calculatePlayerPosition());
 						CursorUtils.moveMouse(action.getOldMousePosition());
 
 						setSelectTile(true);
@@ -879,9 +920,29 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				setCurrentAction(action);
 				break;
 
-			// default is movement only
+
+			//for movement: if its selectTile(),
+			//then move cursor grid by grid :D
+			case NORTH:
+			case EAST:
+			case SOUTH:
+			case WEST:
+				if (isSelectTile())
+				{
+					logger.info("select tile");
+					moveCursorOnGrid(action);
+					action = new AbstractKeyboardAction();
+					break;
+				}
+				else
+				{
+					logger.info("movement");
+					break;
+				}
+			// default is what?
 			default :
 			{
+				logger.info ("remaining action: {}", action.getType());
 				break;
 			}
 		}
@@ -890,6 +951,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 		{
 			runActions(action, haveNPCAction);
 		}
+	}
+
+	private void moveCursorOnGrid(AbstractKeyboardAction action)
+	{
+		//CursorUtils.centerCursorOnPlayer();
+		CursorUtils.moveCursorByOneTile(action);
 	}
 
 	public void setDialogOpened(boolean isDialogOpened)

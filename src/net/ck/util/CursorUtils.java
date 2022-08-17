@@ -4,6 +4,7 @@ import net.ck.game.backend.Game;
 import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.util.communication.graphics.CursorChangeEvent;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -174,6 +175,48 @@ public class CursorUtils
 			}
 		}
 		// Couldn't move to the point, it may be off screen.
+	}
+
+	public static void moveCursorByOneTile(AbstractKeyboardAction action)
+	{
+		int addX = 0;
+		int addY = 0;
+		switch (action.getType())
+		{
+			case NORTH:
+				addY = Math.negateExact(GameConfiguration.tileSize);
+				break;
+			case SOUTH:
+				addY = GameConfiguration.tileSize;
+				break;
+			case WEST:
+				addX = Math.negateExact(GameConfiguration.tileSize);
+				break;
+			case EAST:
+				addX = GameConfiguration.tileSize;
+				break;
+			default:
+				logger.error("This cannot be happening!");
+				break;
+		}
+
+		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+		CursorUtils.moveMouse(new Point(Px + relativePoint.x + addX, Py + relativePoint.y + addY));
+
+
+	}
+
+	/**
+	 *
+	 * @param location absolute mouse position
+	 * @return returns relativ mouse position
+	 */
+	public static Point calculateRelativeMousePosition(Point location)
+	{
+		Point relativeOffset = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+		return new Point (location.x - relativeOffset.x, location.y - relativeOffset.y);
 	}
 
 
