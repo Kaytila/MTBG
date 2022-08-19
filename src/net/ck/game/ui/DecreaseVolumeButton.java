@@ -14,7 +14,7 @@ public class DecreaseVolumeButton extends JButton
 
     public DecreaseVolumeButton(Point p)
     {
-        logger.info("creating button");
+        //logger.info("creating button");
         this.setText("Leiser");
         setBounds(p.x, p.y, 70, 30);
         this.setVisible(true);

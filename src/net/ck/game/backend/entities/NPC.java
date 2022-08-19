@@ -46,8 +46,10 @@ public class NPC extends AbstractEntity implements LifeForm
      * original position on the map - remember the placement that the npc does not wander off too much
      */
     private Point originalMapPosition;
+
     public NPC(Integer i, Point p)
     {
+        logger.info("initialize properly");
         setStatic(false);
         setOriginalMapPosition(new Point(p.x, p.y));
         NPC master = Game.getCurrent().getNpcList().get(i);
@@ -139,7 +141,7 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             if (getWeapon() == null)
             {
-                logger.info("wield weapon");
+                logger.info("wield weapon: {}", weapon);
                 setWeapon(weapon);
                 getInventory().remove(weapon);
                 return true;
@@ -158,6 +160,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void setWeapon(Weapon weapon)
     {
+        logger.info("weapon for npc: {}", weapon);
         this.weapon = weapon;
     }
 
@@ -168,10 +171,10 @@ public class NPC extends AbstractEntity implements LifeForm
         int i = 0;
         for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < 2; i++)
         {
-			if (i > 0)
-			{
-				builder.append(", ");
-			}
+            if (i > 0)
+            {
+                builder.append(", ");
+            }
             builder.append(iterator.next());
         }
         builder.append("]");
@@ -443,7 +446,6 @@ public class NPC extends AbstractEntity implements LifeForm
      * @param action keyboard action (attack action)
      * @return returns whether it is a hit
      * <p>
-     *
      */
 
     public boolean attack(AbstractKeyboardAction action)
@@ -562,7 +564,8 @@ public class NPC extends AbstractEntity implements LifeForm
             setState(LifeFormState.UNCONSCIOUS);
             setHostile(false);
         }
-        else {
+        else
+        {
             setHealth(-1);
             setState(LifeFormState.DEAD);
             setHostile(false);
@@ -609,21 +612,27 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (this.getWeapon() == null)
         {
-            return false;
-        }
-        if (this.getWeapon().getType().equals(WeaponTypes.RANGED))
-        {
-            return true;
-        }
-
-        for (AbstractItem item : this.getInventory().getInventory())
-        {
-            if (item instanceof Weapon)
+            for (AbstractItem item : this.getInventory().getInventory())
             {
-                if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+                if (item instanceof Weapon)
                 {
-                    return true;
+                    if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+                    {
+                        return true;
+                    }
                 }
+            }
+        }
+        else
+        {
+            if (this.getWeapon().getType().equals(WeaponTypes.RANGED))
+            {
+                return true;
+            }
+
+            if (this.getWeapon().getType().equals(WeaponTypes.MELEE))
+            {
+                return false;
             }
         }
         return false;

@@ -224,7 +224,7 @@ public class SoundPlayer implements Runnable
                             getLogger().error("unknown directory: {}", f.getName());
                     }
                     getResultMap().addSong(state, entry);
-                    getLogger().info("adding sound file {} to gamestate {}", entry.toString(), state);
+                    //getLogger().info("adding sound file {} to gamestate {}", entry.toString(), state);
                 }
 
             }

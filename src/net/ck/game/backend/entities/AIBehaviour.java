@@ -1,6 +1,8 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.backend.Game;
 import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
@@ -36,19 +38,27 @@ public class AIBehaviour
             {
                 logger.info("NPC has ranged capabilities");
                 //wielded attack
-                if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
+                if (e.getWeapon() != null)
                 {
-                    logger.info("npc already wields ranged weapon, attack!");
-                    PlayerAction action = new PlayerAction(new AttackAction());
-                    e.doAction(action);
-                    //return;
+                    if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
+                    {
+                        logger.info("npc already wields ranged weapon, attack!");
+                        PlayerAction action = new PlayerAction(new AttackAction());
+                        e.doAction(action);
+                        //return;
+                    }
+                    //in inventory, wield
+                    else
+                    {
+                        logger.info("ranged weapon in inventory");
+                        e.switchWeapon(WeaponTypes.RANGED);
+                        //return;
+                    }
                 }
-                //in inventory, wield
                 else
                 {
-                    logger.info("ranged weapon in inventory");
-                    e.switchWeapon(WeaponTypes.RANGED);
-                    //return;
+                    Weapon club = Game.getCurrent().getWeaponList().get(1);
+                    e.wieldWeapon(club);
                 }
             }
             else

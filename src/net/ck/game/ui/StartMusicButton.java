@@ -24,7 +24,7 @@ public class StartMusicButton extends JButton
 
     public StartMusicButton(Point p)
     {
-        logger.info("creating button");
+        //logger.info("creating button");
         this.setText("Start Music");
         setBounds(p.x, p.y, 70, 30);
         this.setVisible(true);

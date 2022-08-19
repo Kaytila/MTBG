@@ -43,19 +43,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 {
 
 	/**
-	 * 
-	 */
-	@SuppressWarnings("unused")
-	private static final long serialVersionUID = 1L;
-
-	@SuppressWarnings(value =
-	{"unused"})
-	public static void main(String[] args)
-	{
-		MainWindow window = new MainWindow();
-	}
-
-	/**
 	 * mainframe
 	 */
 	private JFrame frame;
@@ -93,6 +80,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	 * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross-hairs
 	 */
 	private boolean selectTile;
+
+
+	private boolean movementForSelectTile = false;
 
 	public boolean isSelectTile()
 	{
@@ -777,6 +767,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				{
 					logger.info("selection is true");
 					setSelectTile(false);
+					setMovementForSelectTile(false);
 					Game.getCurrent().getIdleTimer().start();
 					CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
 					setCurrentAction(null);
@@ -793,9 +784,16 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 			case GET :
 			{
+				//TODO
 				if (isSelectTile() == true)
 				{
-					logger.info("select tile is active, dont do anything");
+					//logger.info("select tile is active, dont do anything");
+					setSelectTile(false);
+					haveNPCAction = true;
+					MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+					getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+					Game.getCurrent().getIdleTimer().stop();
+					runActions(getCurrentAction(), haveNPCAction);
 					break;
 				}
 				if (isMouseOutsideOfGrid() == true)
@@ -931,6 +929,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 				{
 					logger.info("select tile");
 					moveCursorOnGrid(action);
+					setMovementForSelectTile(true);
 					action = new AbstractKeyboardAction();
 					break;
 				}
@@ -956,7 +955,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	private void moveCursorOnGrid(AbstractKeyboardAction action)
 	{
 		//CursorUtils.centerCursorOnPlayer();
-		CursorUtils.moveCursorByOneTile(action);
+		CursorUtils.moveCursorByOneTile(action, isMovementForSelectTile());
 	}
 
 	public void setDialogOpened(boolean isDialogOpened)
@@ -1187,5 +1186,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 	public void setStartMusicButton(StartMusicButton startMusicButton)
 	{
 		this.startMusicButton = startMusicButton;
+	}
+
+	public boolean isMovementForSelectTile()
+	{
+		return movementForSelectTile;
+	}
+
+	public void setMovementForSelectTile(boolean movementForSelectTile)
+	{
+		this.movementForSelectTile = movementForSelectTile;
 	}
 }

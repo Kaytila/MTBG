@@ -20,12 +20,12 @@ public class MyFocusListener implements java.awt.event.FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {
-        logger.info("focus gained: {}", e.getComponent());
+        //logger.info("focus gained: {}", e.getComponent());
     }
 
     @Override
     public void focusLost(FocusEvent e)
     {
-        logger.info("focus lost: {}", e.getComponent());
+        //logger.info("focus lost: {}", e.getComponent());
     }
 }

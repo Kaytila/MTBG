@@ -1,14 +1,14 @@
 package net.ck.game.ui;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 public class DialogPopupListener extends MouseAdapter
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	private InventoryPane component;
 
 	public Class<?> getRealClass()
@@ -35,19 +35,19 @@ public class DialogPopupListener extends MouseAdapter
 
 	public void mousePressed(MouseEvent e)
 	{
-		logger.info("pressed");
+		getLogger().info("pressed");
 		maybeShowPopup(e);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		logger.info("clicked");
+		getLogger().info("clicked");
 	}
 
 	public void mouseReleased(MouseEvent e)
 	{
-		logger.info("released");
+		getLogger().info("released");
 		maybeShowPopup(e);
 	}
 
@@ -59,7 +59,7 @@ public class DialogPopupListener extends MouseAdapter
 		}
 		else
 		{
-			logger.info(component.getParent().toString());
+			getLogger().info(getComponent().getParent().toString());
 		}
 	}
 

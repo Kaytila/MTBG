@@ -14,7 +14,7 @@ public class IncreaseVolumeButton extends JButton
 
     public IncreaseVolumeButton(Point p)
     {
-        logger.info("creating button");
+        //logger.info("creating button");
         this.setText("Louder");
         setBounds(p.x, p.y, 70, 30);
         this.setVisible(true);

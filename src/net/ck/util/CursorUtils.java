@@ -177,7 +177,7 @@ public class CursorUtils
 		// Couldn't move to the point, it may be off screen.
 	}
 
-	public static void moveCursorByOneTile(AbstractKeyboardAction action)
+	public static void moveCursorByOneTile(AbstractKeyboardAction action, boolean movementForSelectTile)
 	{
 		int addX = 0;
 		int addY = 0;
@@ -200,12 +200,21 @@ public class CursorUtils
 				break;
 		}
 
-		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		int Px;
+		int Py;
+		if (movementForSelectTile == false)
+		{
+			 Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+			 Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		}
+		else
+		{
+			Point p  = CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation());
+			Px = p.x;
+			Py = p.y;
+		}
 		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
 		CursorUtils.moveMouse(new Point(Px + relativePoint.x + addX, Py + relativePoint.y + addY));
-
-
 	}
 
 	/**

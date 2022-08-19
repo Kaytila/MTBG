@@ -1,15 +1,10 @@
 Logbook, aka what did I do, a bit late to start this but here we go:
 
 previously:
-
 switched to maven
 implemented eventbus to at least show the weather images
-
-small TODO:
 animation system for weather async might be working properly.
 how to do this for sync? does the code work as well?
-
-Huge TODO:
 animating players - how could this even work? Does the thread know all animateable objects and just iterate over them and do the switch case?
 Getting Tiles defined properly on the screen, not as simple graph lines, but as objects whith tool tips
 moving the player around the screen as turn action
@@ -18,6 +13,7 @@ adding sound
 adding map changes
 adding animated tiles
 
+History of the changes:
 2020-05-24: finally made log4j2 work at least in the basic version. what was wrong? I just did not read the tutorial very carefully.
 2020-05-25: just added eventbus to randomanimationsystem. will need to use this one, everything else is not feasible at all.
 2020-05-26: i was being lazy today, only added positon to player as I will need to get a position on the map somehow.
@@ -35,7 +31,8 @@ adding animated tiles
 			during the same animation cycles.
 			the position of the player - not the image will decide where to draw the image in the end.
 2021-05-29:	So I played around some time again with threading and keyboard/mouse interface - and i dont really understand either.
-			There are no mouse events caught, no keyboard events caught, this is interesting. Threading is a huge todo of course, but it does not really matter much,
+			There are no mouse events caught, no keyboard events caught, this is interesting.
+			Threading is a huge topic of course, but it does not matter much really.
 			performance and things like that are a million years from being important.
 2021-09-16:	So the days are getting shorter and I have a little bit of more time - switched gridcanvas to swing, probably a better way to do things.
 			It appears I do not comprehend my setup anymore. I have a Game, the game has players, I can iterate over them, but the toString method returns zilch?
@@ -103,7 +100,7 @@ adding animated tiles
 2022-01-17:	So EventBus events are being called only if the UI exists.
 			moved weather system into its own startup method.
 			Need to figure out how to start with weather already called and visible instead of having null weather and then adding it later on.
-			Big Todo: always have pc in center at 2x2, move this over the map, or rather move the map below.
+			Big to do: always have pc center in the center.
 			So Ocean Images are created with curvedlines in a function.
 			Might need to do this only once at startup and add to maptile as representation?
 2022-01-19:	So tried changing the UI Code to actually standard Swing. I have no idea why this was working in the first place.
@@ -114,11 +111,11 @@ adding animated tiles
 			So MainWindow is now controller class and also UI Building Class - strikes me as very odd, but hey its working.
 			Also, the minor changes to Weather/WeatherSystem/JWeatherCanvas lead to the weather appearing right away.
 			Perhaps there needs to be a check whether the UI is completely there, before firing messages over EventBus.
-			But that is todo. Still need to ask someone as to how the build order for a swing UI should actually be,
+			But that is to do. Still need to ask someone as to how the build order for a swing UI should actually be,
 			or perhaps what to use for stuff like this anyhow. AWT is out, SWT is also out. JavaFX is ... weird.
 			So on a positive note, I have learned a few things how not to do it for now.
 			Added Minimal cursor change for the mouse and added mouselisteners and mousemove listeners.
-			TODO Cursor: calculate where the cursor is compared to the center of the tile the player is on.
+			To do Cursor: calculate where the cursor is compared to the center of the tile the player is on.
 			Either mathematical or with if, else and then update the cursor to the correct arrow.
 			So, inital cursorDraw was a little bit too small, but in theory, everything works.
 			So, I can either find icons, or draw all 8 on my own, or draw one and rotate it in 45 degree steps, either 
@@ -161,9 +158,9 @@ adding animated tiles
 			Something for tomorrow. I am content with the progress.
 2022-01-29:	So music is now running. Clips does not help, needed to switch to code creating SourceDataLine instead.
 			Why? clip is probably not thread-safe or anything. This works.
-			Todo here is to tag songs and have certain actions in the game also trigger a change of music.
+			To do here is to tag songs and have certain actions in the game also trigger a change of music.
 			But much progress with little stackoverflow lookup.
-			Small Todo here: stop music when deactivated or iconofied and restart when active again.
+			Small To do here: stop music when deactivated or iconofied and restart when active again.
 2022-01-30:	So the solution for WeatherCanvas misbehaving was the default LayoutManager.
 			Setting this to null worked wonders. Still not working for the dialogs.
 			So music is only stopped if the game is deactivated / iconofied, not if a dialog is opened.
@@ -240,7 +237,7 @@ adding animated tiles
 			But I solved the issue, opaque is the issue, this of course needs to be true, not false.
 			Still to fix: why do the buttons not always appear right away in a fucking three control dialog?
 			OK, me being stupid again.
-			Todo soon: https://stackoverflow.com/questions/22266506/how-to-add-image-in-jlist
+			To do soon: https://stackoverflow.com/questions/22266506/how-to-add-image-in-jlist
 2022-02-16:	so I worked some more on inventory & items yesterday. 
 2022-02-17:	inventory dialog list is showing item + item name now.
 			i can place items on the ground now.
@@ -597,5 +594,9 @@ adding animated tiles
             mouse cursor), just write this once, use everywhere.
             get rid of mouse event usage, work with standard way for standard problem.
             did some refactoring on game and mainwindow.
+2022-08-19: so moving the cross-hair cursor with arrow keys now works so far. Attacking finishes it, ESC stops it.
+            Need to think how many commands need this kind of navigation.
+            Done for get.
+            Definitely need to get code out of main window, this is way too much.
 
 
