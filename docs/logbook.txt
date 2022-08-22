@@ -605,4 +605,6 @@ History of the changes:
             MOVE might stay seperate.
 2022-08-21: So player around a bit with sound and also combining keyboard and mouse input. Nothing committable though.
 2022-08-22: trying to figure out how to reduce code for actions.
+            Refactoring for keyboard and mouse input is done. haveNPCAction is moved to action itself.
+            Worth a commit.
 

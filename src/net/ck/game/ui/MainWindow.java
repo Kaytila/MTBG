@@ -560,25 +560,24 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             if (this.getCurrentAction() != null)
             {
-                boolean npcAction;
                 switch (this.getCurrentAction().getType())
                 {
                     case GET:
                         setSelectTile(false);
-                        npcAction = true;
+                        getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         break;
                     case DROP:
                         setSelectTile(false);
-                        npcAction = true;
+                        getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
                         break;
                     case TALK:
                         boolean found = false;
-                        npcAction = true;
+                        getCurrentAction().setHaveNPCAction(true);
                         NPC npc = null;
                         for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
                         {
@@ -614,14 +613,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
                     case MOVE:
                         setSelectTile(false);
-                        npcAction = false;
+                        getCurrentAction().setHaveNPCAction(false);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         break;
 
                     case ATTACK:
                         setSelectTile(false);
-                        npcAction = true;
+                        getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
@@ -637,12 +636,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                  */
                 if (getCurrentAction().getType().equals(KeyboardActionType.MOVE))
                 {
-                    runActions(getCurrentAction(), false);
+                    runActions(getCurrentAction());
                     runQueue();
                 }
                 else
                 {
-                    runActions(getCurrentAction(), npcAction);
+                    runActions(getCurrentAction());
                 }
             }
         }
@@ -658,7 +657,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         }
     }
 
-    private void runActions(AbstractKeyboardAction action, boolean hasNPCAction)
+    private void runActions(AbstractKeyboardAction action)
     {
         //logger.info("Current action: {}", action);
         Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
@@ -680,7 +679,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             getUndoButton().setEnabled(true);
             Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
             //Game.getCurrent().advanceTurn(hasNPCAction);
-            EventBus.getDefault().post(new AdvanceTurnEvent(hasNPCAction));
+            EventBus.getDefault().post(new AdvanceTurnEvent(action.isHaveNPCAction()));
         }
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         setCurrentAction(null);
@@ -690,7 +689,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public void onMessageEvent(AbstractKeyboardAction action)
     {
         //logger.info("Event in MainWindow: {}", action.getType());
-        boolean haveNPCAction = true;
         switch (action.getType())
         {
             case INVENTORY:
@@ -701,7 +699,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    haveNPCAction = false;
+                    action.setHaveNPCAction(false);
+
                     logger.info("inventory as separate event type, lets not add this to the action queue");
                     Game.getCurrent().getIdleTimer().stop();
                     this.setDialogOpened(true);
@@ -720,7 +719,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    haveNPCAction = false;
+                    action.setHaveNPCAction(false);
+
                     logger.info("zstats as separate event type, lets not add this to the action queue");
                     Game.getCurrent().getIdleTimer().stop();
                     this.setDialogOpened(true);
@@ -743,8 +743,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    haveNPCAction = false;
-                    Game.getCurrent().getIdleTimer().stop();
+                    action.setHaveNPCAction(false);
+                     Game.getCurrent().getIdleTimer().stop();
                     setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
@@ -755,7 +755,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case ENTER:
             {
-                haveNPCAction = false;
+                action.setHaveNPCAction(false);
                 //Game.getCurrent().getIdleTimer().start();
                 break;
             }
@@ -788,18 +788,18 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 {
                     //logger.info("select tile is active, dont do anything");
                     setSelectTile(false);
-                    haveNPCAction = true;
+                    getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                     Game.getCurrent().getIdleTimer().stop();
-                    runActions(getCurrentAction(), haveNPCAction);
+                    runActions(getCurrentAction());
                     break;
                 }
                 if (isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
-                haveNPCAction = false;
+                action.setHaveNPCAction(false);
                 //logger.info("get");
                 Game.getCurrent().getIdleTimer().stop();
                 setSelectTile(true);
@@ -826,8 +826,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     {
                         CursorUtils.centerCursorOnPlayer();
                     }
-                    haveNPCAction = false;
-
+                    action.setHaveNPCAction(false);
                     Game.getCurrent().getIdleTimer().stop();
                     setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -842,11 +841,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 {
                     //logger.info("select tile is active, dont do anything");
                     setSelectTile(false);
-                    haveNPCAction = true;
+                    getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     action.setGetWhere(new Point(tile.getX(), tile.getY()));
                     Game.getCurrent().getIdleTimer().stop();
-                    runActions(getCurrentAction(), haveNPCAction);
+                    runActions(getCurrentAction());
                     logger.info("move here");
                     break;
                 }
@@ -855,7 +854,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
-                haveNPCAction = false;
+                action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
                 setSelectTile(true);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -875,13 +874,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 {
                     logger.info("select tile is active, allow attack");
                     setSelectTile(false);
+                    getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                     Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                     getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
-                    haveNPCAction = false;
                     Game.getCurrent().getIdleTimer().stop();
-                    runActions(getCurrentAction(), true);
+                    runActions(getCurrentAction());
                     break;
                 }
                 //logger.info("attack");
@@ -889,8 +888,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
-                haveNPCAction = false;
-
+                action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
                 //ranged
                 if (Game.getCurrent().getCurrentPlayer().getWeapon() != null)
@@ -928,6 +926,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 break;
 
             case SEARCH:
+                action.setHaveNPCAction(false);
                 setCurrentAction(action);
                 break;
 
@@ -940,13 +939,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case WEST:
                 if (isSelectTile())
                 {
-                    if (action.getType() == KeyboardActionType.ATTACK)
-                    {
-                        if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.MELEE))
-                        {
-                            CursorUtils.limitMouseMovementToRange(1);
-                        }
-                    }
                     logger.info("select tile");
                     moveCursorOnGrid(action);
                     setMovementForSelectTile(true);
@@ -957,6 +949,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 else
                 {
                     logger.info("movement");
+                    action.setHaveNPCAction(true);
                     break;
                 }
                 // default is what?
@@ -971,7 +964,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         if (action.getType().equals(KeyboardActionType.MOVE))
         {
 
-            runActions(action, false);
+            runActions(action);
             runQueue();
         }
         else
@@ -979,7 +972,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             if (action.isActionimmediately() == true)
             {
-                runActions(action, haveNPCAction);
+                runActions(action);
             }
         }
     }
