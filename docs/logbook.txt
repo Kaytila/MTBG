@@ -598,5 +598,11 @@ History of the changes:
             Need to think how many commands need this kind of navigation.
             Done for get.
             Definitely need to get code out of main window, this is way too much.
-
+            Oh yeah, did turn off some useless logging in UI build. This is to be handled seperately.
+            Big Todo: make actions handled better indepdendent whether they are done via mouse released or keyboard.
+            Make more of the action framework there.
+            Both mouse and keyboard deliver actions which are then run, but only in one way and not about three.
+            MOVE might stay seperate.
+2022-08-21: So player around a bit with sound and also combining keyboard and mouse input. Nothing committable though.
+2022-08-22: trying to figure out how to reduce code for actions.
 

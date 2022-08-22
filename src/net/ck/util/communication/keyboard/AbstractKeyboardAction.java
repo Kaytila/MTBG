@@ -54,6 +54,9 @@ public class AbstractKeyboardAction extends AbstractAction
      */
     private Point targetCoordinates;
 
+    private boolean haveNPCAction;
+
+
     public Point getOldMousePosition()
     {
         return oldMousePosition;
@@ -108,13 +111,13 @@ public class AbstractKeyboardAction extends AbstractAction
             }
             else
             {
-                logger.info(getType() + " pressed");
+                //logger.info(getType() + " pressed");
                 EventBus.getDefault().post(this);
             }
         }
 		else
         {
-            logger.info(getType() + " pressed");
+            //logger.info(getType() + " pressed");
             EventBus.getDefault().post(this);
         }
     }
@@ -169,5 +172,15 @@ public class AbstractKeyboardAction extends AbstractAction
     public void setTargetCoordinates(Point targetCoordinates)
     {
         this.targetCoordinates = targetCoordinates;
+    }
+
+    public boolean isHaveNPCAction()
+    {
+        return haveNPCAction;
+    }
+
+    public void setHaveNPCAction(boolean haveNPCAction)
+    {
+        this.haveNPCAction = haveNPCAction;
     }
 }

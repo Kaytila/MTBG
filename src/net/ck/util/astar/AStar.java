@@ -22,7 +22,7 @@ public class AStar
 {
     private static final int DEFAULT_HV_COST = 1; // Horizontal - Vertical Cost
     private static final int DEFAULT_DIAGONAL_COST = 1000;
-    private static final Logger logger = (Logger) LogManager.getLogger(AStar.class);
+    private static final Logger logger = LogManager.getLogger(AStar.class);
     private static int hvCost;
     private static int diagonalCost;
     private static MapTile[][] searchArea;
@@ -31,30 +31,6 @@ public class AStar
     private static MapTile initialNode;
     private static MapTile finalNode;
     private static net.ck.game.map.AbstractMap currentMap;
-
-    /*public AStar (int rows, int cols, MapTile initialNode, MapTile finalNode, int hvCost, int diagonalCost)
-    {
-        this.hvCost = hvCost;
-        this.diagonalCost = diagonalCost;
-        setInitialNode(initialNode);
-        setFinalNode(finalNode);
-        this.searchArea = new MapTile[rows][cols];
-        this.openList = new PriorityQueue<>(new Comparator<>()
-        {
-            @Override
-            public int compare(MapTile node0, MapTile node1)
-            {
-                return Integer.compare(node0.getFinalCost(), node1.getFinalCost());
-            }
-        });
-        setNodes();
-        this.closedSet = new HashSet<>();
-    }*/
-
-    /*public AStar(int rows, int cols, MapTile initialNode, MapTile finalNode)
-    {
-        this(rows, cols, initialNode, finalNode, DEFAULT_HV_COST, DEFAULT_DIAGONAL_COST);
-    }*/
 
     public static void initialize(int rows, int cols, MapTile initialNode, MapTile finalNode, net.ck.game.map.Map map)
     {

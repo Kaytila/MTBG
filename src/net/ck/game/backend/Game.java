@@ -76,6 +76,7 @@ public class Game implements Runnable
 
     /**
      * so weaponList has two entries now, but as these are referenced, I need to make an item factory which gets a prototype from the list and creates a new instance with the values instead.
+     * weapon list get returns ID, not position.
      */
     private Hashtable<Integer, Weapon> weaponList;
     /**
@@ -437,9 +438,9 @@ public class Game implements Runnable
         }
         logger.info("end: initialize items");
 
-        //listWeapons();
-        //listUtilities();
-        //listArmor();
+        listWeapons();
+        listUtilities();
+        listArmor();
         listFurniture();
     }
 
@@ -874,7 +875,9 @@ public class Game implements Runnable
         logger.info("adding players");
         Player p1 = new Player(0);
         Weapon sling = getWeaponList().get(3);
-        p1.setWeapon(sling);
+        Weapon club = getWeaponList().get(1);
+        p1.getInventory().add(sling);
+        p1.setWeapon(club);
         getPlayers().add(p1);
         p1.setMapPosition(new Point(2, 2));
         setCurrentPlayer(getPlayers().get(0));
@@ -1047,6 +1050,7 @@ public class Game implements Runnable
                 setNextTurn(false);
                 setNpcAction(false);
             }
+
         }
     }
 
@@ -1064,7 +1068,7 @@ public class Game implements Runnable
     }
 
 
-    @SuppressWarnings("unused")
+
     public void listArmor()
     {
         for (Armor t : getArmorList().values())
@@ -1073,7 +1077,7 @@ public class Game implements Runnable
         }
     }
 
-    @SuppressWarnings("unused")
+
     public void listWeapons()
     {
         for (Weapon t : getWeaponList().values())
@@ -1082,7 +1086,7 @@ public class Game implements Runnable
         }
     }
 
-    @SuppressWarnings("unused")
+
     public void listUtilities()
     {
         for (Utility t : getUtilityList().values())
@@ -1158,7 +1162,7 @@ public class Game implements Runnable
 
     public void setFurnitureList(Hashtable<Integer, FurnitureItem> furnitureList)
     {
-        logger.info("setting Furniture list");
+        //logger.info("setting Furniture list");
         this.furnitureList = furnitureList;
     }
 

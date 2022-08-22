@@ -561,11 +561,11 @@ public abstract class AbstractEntity
         {
             if (node.getMapPosition().equals(getMapPosition()))
             {
-                logger.info("start node");
+                //logger.info("start node");
             }
             else
             {
-                logger.info(node);
+                //logger.info(node);
                 if (node.x > futureMapposition.x)
                 {
                     getQueuedActions().addEntry(new EastAction());

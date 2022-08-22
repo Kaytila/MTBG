@@ -331,6 +331,12 @@ public class SoundPlayer implements Runnable
      */
     private void betterPlaySong(Path filePath)
     {
+
+        if (line != null && line.isActive())
+        {
+            logger.info("line still active");
+        }
+
         try
         {
             getLogger().info("playing song: {}", filePath.toString());
@@ -344,7 +350,7 @@ public class SoundPlayer implements Runnable
             AudioFormat format = is.getFormat();
 
             line = AudioSystem.getSourceDataLine(format);
-
+            line.addLineListener(new SoundLineListener());
             line.open(format);
             line.start();
 
@@ -355,8 +361,8 @@ public class SoundPlayer implements Runnable
                 line.write(buffer, 0, len);
             }
 
-            line.drain();
-            line.close();
+            //line.drain();
+            //line.close();
         }
         catch (Throwable ex)
         {
@@ -372,7 +378,7 @@ public class SoundPlayer implements Runnable
     {
         if (GameConfiguration.playMusic)
         {
-            setMusicIsRunning(false);
+           setMusicIsRunning(false);
             if (line != null)
             {
                 if (line.isActive())

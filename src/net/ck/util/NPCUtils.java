@@ -20,11 +20,6 @@ public class NPCUtils
 
     private static final Logger logger = LogManager.getLogger(NPCUtils.class);
 
-    public NPCUtils()
-    {
-        logger.info("creating npc");
-    }
-
     /**
      * this is the pseudo AI which calculates actions done by NPCs. There probably needs to be a difference between hostile and friendly NPCs meaning that there will need to be a separate class for
      * that instead of having this in a Utils class.

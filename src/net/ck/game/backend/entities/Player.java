@@ -488,6 +488,7 @@ public class Player extends AbstractEntity implements LifeForm
 
 	public void setWeapon(Weapon weapon)
 	{
+		//logger.info("setting weapon: {}", weapon);
 		this.weapon = weapon;
 	}
 
