@@ -1,0 +1,4 @@
+BUGS:
+- paint furniture has a bug, it renders furniture twice, light effects are correct though.
+- raytracing for LoS has a bug where too many tiles are hidden
+-

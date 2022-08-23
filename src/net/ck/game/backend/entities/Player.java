@@ -8,6 +8,7 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
@@ -316,6 +317,10 @@ public class Player extends AbstractEntity implements LifeForm
 			case ATTACK:
 				success = this.attack(action.getEvent());
 				break;
+
+			case LOOK:
+				this.look(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+				break;
 			default:
 				logger.info("doing default action, inventory does not need to be reverted for instance");
 				break;
@@ -332,6 +337,19 @@ public class Player extends AbstractEntity implements LifeForm
 			Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction()));
 		}
 		//Game.getCurrent().getController().setCurrentAction(null);
+	}
+
+	private void look(MapTile maptile)
+	{
+		logger.info("looking:");
+		logger.info("maptile: {}", maptile);
+		logger.info("maptile furniture: {}", maptile.getFurniture());
+		logger.info("maptile inventory: {}", maptile.getInventory());
+		for (AbstractItem item : maptile.getInventory().getInventory())
+		{
+			logger.info("item: {}", item);
+		}
+
 	}
 
 

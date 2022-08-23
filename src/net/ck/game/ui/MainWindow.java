@@ -51,6 +51,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     private JGridCanvas gridCanvas;
 
+    /**
+     * currentAction is used for the two-step actions.
+     * standard action is handled in onMessageEvent (AbstractKeyboardAction), i.e. movement.
+     * Anything that needs a cross-hair is a two action event, first action only triggers
+     * state change and sets some variables like currentAction.
+     * currentAction is then taken in the second step and actually performed.
+     * This can be with either mouse input (i.e. mouse released) or
+     * keyboard input (movement keys or even pressing "a" again)
+     */
     private AbstractKeyboardAction currentAction;
 
     /**
@@ -66,21 +75,29 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
     private AbstractItem currentItemInHand;
+
     /**
-     * mouse pressed is used for moving via mouse, there is a delay defined which is somewhere
+     * mouse pressed is used for moving via mouse, there is a delay defined in the timer
+     * that is started pressedTimer.
      */
     private boolean mousePressed;
+
     /**
      * pressed mouse button timer
      */
     Timer pressedTimer;
 
     /**
-     * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross-hairs
+     * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross-hairs.
+     * this is always used for two-step actions.
      */
     private boolean selectTile;
 
-
+    /**
+     * this variable is being set if the numpad movement keys
+     * are used for moving the cross-hairs currently.
+     * i.e. it switched keyboard movement to cross-hair movement.
+     */
     private boolean movementForSelectTile = false;
 
     public boolean isSelectTile()
@@ -114,6 +131,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     private JWeatherCanvas weatherCanvas;
 
+    /**
+     * is the mouse outside of the grid?
+     * used for centering on player to make the mouse ways shorter
+     */
     private boolean mouseOutsideOfGrid;
 
     private boolean dragEnabled;
@@ -128,13 +149,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     private StartMusicButton startMusicButton;
 
-
+    /**
+     * button for increasing volume
+     */
     private IncreaseVolumeButton increaseVolumeButton;
 
+    /**
+     * button for decreasing volume
+     */
     private DecreaseVolumeButton decreaseVolumeButton;
-
-
-    private KeyboardFocusManager focusManager;
 
     /**
      * standard constructor
@@ -147,8 +170,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
 
     /**
-     * this is called when the undo button is clicked. the game retracts the last turn, clears the current turn, removes all content from the UI. if the game is at the first turn again, disable the
-     * button
+     * this is called when any button is clicked.
+     *
+     * undo button is a little bit not working anymore
+     *
      */
     @Override
     public void actionPerformed(ActionEvent e)
@@ -216,6 +241,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         }
     }
 
+    /**
+     * in smalltalk fashion, using buildWindow: :D
+     * for creating the actual ui
+     */
     public void buildWindow()
     {
         logger.info("start: build window");
@@ -278,8 +307,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     }
 
     /**
-     * so createMovement takes the mouse event and generates a keyboard action out of it. Keyboard action is posted on the EventBus. onMessageEvent catches it and makes an action out of it which is
-     * then done by the actor.
+     * so createMovement takes the mouse event and generates a keyboard action out of it.
+     * Keyboard action is posted on the EventBus.
+     * onMessageEvent catches it and makes an action out of it which is then done by the actor.
      */
     public void createMovement()
     {
@@ -384,6 +414,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     }
 
     @Override
+    /**
+     * mouse dragged is being used for dragging the mouse
+     * if right click, then only show cursor
+     * if left click, its drag and drop, perhaps.
+     */
     public void mouseDragged(MouseEvent e)
     {
 
@@ -568,6 +603,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         break;
+                    case LOOK:
+                        setSelectTile(false);
+                        getCurrentAction().setHaveNPCAction(true);
+                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                        break;
+
                     case DROP:
                         setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);
@@ -807,6 +849,30 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 setCurrentAction(action);
                 break;
             }
+
+            case LOOK:
+                if (isSelectTile() == true)
+                {
+                    //logger.info("select tile is active, dont do anything");
+                    setSelectTile(false);
+                    getCurrentAction().setHaveNPCAction(true);
+                    MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+                    getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    Game.getCurrent().getIdleTimer().stop();
+                    runActions(getCurrentAction());
+                    break;
+                }
+                if (isMouseOutsideOfGrid() == true)
+                {
+                    CursorUtils.centerCursorOnPlayer();
+                }
+                action.setHaveNPCAction(false);
+                //logger.info("get");
+                Game.getCurrent().getIdleTimer().stop();
+                setSelectTile(true);
+                CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                setCurrentAction(action);
+                break;
 
             case TALK:
             {

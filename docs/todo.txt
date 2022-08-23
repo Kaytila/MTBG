@@ -58,4 +58,9 @@ figure out a good way to get corpse drawn and not rely on logic during drawing.
 i.e. have a trigger once state is dead, update current image and do not update it again.
 same thing for poisoned or sleeping. poisoned could be current image rendered slightly green.
 
+want to implement tiny tool tips next to cross-hairs to indicate something about target.
+
+want to implement changing cursors
+
+need to implement attack remembering last target.
 

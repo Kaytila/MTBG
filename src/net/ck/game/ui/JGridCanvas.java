@@ -123,6 +123,9 @@ public class JGridCanvas extends JComponent
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "search");
         this.getActionMap().put("search", new SearchAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "look");
+        this.getActionMap().put("look", new LookAction());
     }
 
     public void paintComponent(Graphics g)
@@ -174,6 +177,7 @@ public class JGridCanvas extends JComponent
 
     private void paintFurniture(Graphics g)
     {
+        //TODO bug in drawing here
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {
             if (tile.getFurniture() != null)

@@ -607,4 +607,7 @@ History of the changes:
 2022-08-22: trying to figure out how to reduce code for actions.
             Refactoring for keyboard and mouse input is done. haveNPCAction is moved to action itself.
             Worth a commit.
+2022-08-23: introduced Look command, this now only pipes to log, found that there is a bug in draw furniture.
+            Bug needs to be fixed. introduced bug file for keeping bugs.
+            added a few new ideas.
 
