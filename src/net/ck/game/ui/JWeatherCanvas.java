@@ -1,6 +1,7 @@
 package net.ck.game.ui;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +32,7 @@ public class JWeatherCanvas extends JPanel
 	public JWeatherCanvas()
 	{
 		this.setBackground(Color.DARK_GRAY);
-		this.setBounds(700 - 220, 0, 150, 150);
+		this.setBounds(GameConfiguration.UIwidth - 220, 0, 150, 150);
 		Border blackline = BorderFactory.createLineBorder(Color.MAGENTA);
 		this.setBorder(blackline);
 		this.setFocusable(false);

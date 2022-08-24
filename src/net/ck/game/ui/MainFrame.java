@@ -1,5 +1,6 @@
 package net.ck.game.ui;
 
+import net.ck.game.backend.GameConfiguration;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +92,10 @@ public class MainFrame extends JFrame
 			logger.error("issue loading icon: {}", e.toString());
 		}
 
-		this.setBounds(0, 0, 700, 700);
+
+
+		this.setBounds(0, 0, GameConfiguration.UIwidth, GameConfiguration.UIheight);
+		logger.info("bound: {}", this.getBounds());
 		this.setLocationRelativeTo(null);
 		this.setFocusable(false);
 		this.setTitle("My Demo");		

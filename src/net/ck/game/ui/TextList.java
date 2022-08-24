@@ -1,5 +1,6 @@
 package net.ck.game.ui;
 
+import net.ck.game.backend.GameConfiguration;
 import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,7 +47,7 @@ public class TextList extends JTextArea {
 	public JScrollPane initializeScrollPane()
 	{
 		sp = new JScrollPane(this);
-		sp.setBounds(700 - 200, 200, 150, (GameUtils.getLineHeight() * numberOfLines));
+		sp.setBounds(GameConfiguration.UIwidth - 200, 200, 150, (GameUtils.getLineHeight() * numberOfLines));
 		sp.setVisible(true);
 		return sp;
 	}

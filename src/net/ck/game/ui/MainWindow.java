@@ -100,11 +100,19 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     private boolean movementForSelectTile = false;
 
+    /**
+     *
+     * @return are we selecting a tile currently?
+     */
     public boolean isSelectTile()
     {
         return selectTile;
     }
 
+    /**
+     *
+     * @param selectTile - we are selecting a tile for a command
+     */
     public void setSelectTile(boolean selectTile)
     {
         this.selectTile = selectTile;
@@ -120,10 +128,19 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     private StatsDialog statsDialog;
 
+    /**
+     * text area is the textlist where all the actions are stored
+     */
     private TextList textArea;
 
+    /**
+     * shows the last command
+     */
     private InputField textField;
 
+    /**
+     * undo button for retracting turns
+     */
     private JButton undoButton;
 
     /**
@@ -137,6 +154,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     private boolean mouseOutsideOfGrid;
 
+    /**
+     * is drag Enabled
+     */
     private boolean dragEnabled;
 
     /**
@@ -250,23 +270,23 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("start: build window");
         frame = new MainFrame();
         MyFocusListener myFocusListener = new MyFocusListener();
-        undoButton = new UndoButton(new Point(700 - 200, 620));
+        undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
         undoButton.addFocusListener(myFocusListener);
         frame.add(undoButton);
 
-        stopMusicButton = new StopMusicButton(new Point(700 - 300, 620));
+        stopMusicButton = new StopMusicButton(new Point(GameConfiguration.UIwidth - 400, GameConfiguration.UIheight - 100));
         stopMusicButton.addActionListener(this);
         frame.add(stopMusicButton);
 
-        startMusicButton = new StartMusicButton(new Point(700 - 400, 620));
+        startMusicButton = new StartMusicButton(new Point(GameConfiguration.UIwidth - 500, GameConfiguration.UIheight - 100));
         startMusicButton.addActionListener(this);
         frame.add(startMusicButton);
 
-        increaseVolumeButton = new IncreaseVolumeButton(new Point(700 - 500, 620));
+        increaseVolumeButton = new IncreaseVolumeButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 100));
         increaseVolumeButton.addActionListener(this);
         frame.add(increaseVolumeButton);
 
-        decreaseVolumeButton = new DecreaseVolumeButton(new Point(700 - 600, 620));
+        decreaseVolumeButton = new DecreaseVolumeButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 100));
         decreaseVolumeButton.addActionListener(this);
         frame.add(decreaseVolumeButton);
 

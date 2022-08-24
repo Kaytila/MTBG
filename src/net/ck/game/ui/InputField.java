@@ -1,6 +1,7 @@
 package net.ck.game.ui;
 
 import com.google.common.collect.Iterables;
+import net.ck.game.backend.GameConfiguration;
 import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +42,7 @@ public class InputField extends JTextField
 	{
 		super();
 		Border blackline = BorderFactory.createLineBorder(Color.red);
-		this.setBounds(700 - 200, 580, 150, GameUtils.getLineHeight());
+		this.setBounds(GameConfiguration.UIwidth - 200, 580, 150, GameUtils.getLineHeight());
 		
 		this.setVisible(true);
 		this.setFont(GameUtils.getFont());

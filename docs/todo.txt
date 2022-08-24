@@ -64,3 +64,7 @@ want to implement changing cursors
 
 need to implement attack remembering last target.
 
+Map stuff -
+so maps have layers kind of with furniture and inventory. how about I have map tile that have other contents?
+Or I just draw village completely without second layer.
+

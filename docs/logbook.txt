@@ -612,4 +612,5 @@ History of the changes:
             added a few new ideas.
 2022-08-24: fixed furniture draw bug. it was a remnant of drawing weather on top of it which still worked.
             awesome isnt it?
+2022-08-24: kind of made the UI relative based on the amount of tiles to be shown.
 
