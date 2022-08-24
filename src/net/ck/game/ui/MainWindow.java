@@ -410,7 +410,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     @Override
     public void mouseClicked(MouseEvent e)
     {
-
+        //logger.info("mouse clicked at: {}, {}", e.getX(), e.getY());
     }
 
     @Override

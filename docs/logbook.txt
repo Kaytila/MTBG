@@ -287,7 +287,7 @@ History of the changes:
 			These lead to game actions which can also be called by NPCs or test cases.
 2022-02-21:	so move all item handling from map to tile? how about creating an item factory today?
 			the item does not need to know where it is, the tile needs to know.
-			also todo: need to fix the XML parser bug. Ok, this does not work, why? 
+			also need to fix the XML parser bug. Ok, this does not work, why?
 			the item does not know any longer, as does map. only the tile knows.
 			so i did not achieve much today apart from breaking some things and then mending them.
 			foreground and background animation use the full range of images now. there were two errors there. 
@@ -599,7 +599,7 @@ History of the changes:
             Done for get.
             Definitely need to get code out of main window, this is way too much.
             Oh yeah, did turn off some useless logging in UI build. This is to be handled seperately.
-            Big Todo: make actions handled better indepdendent whether they are done via mouse released or keyboard.
+            Big make actions handled better indepdendent whether they are done via mouse released or keyboard.
             Make more of the action framework there.
             Both mouse and keyboard deliver actions which are then run, but only in one way and not about three.
             MOVE might stay seperate.
@@ -610,4 +610,6 @@ History of the changes:
 2022-08-23: introduced Look command, this now only pipes to log, found that there is a bug in draw furniture.
             Bug needs to be fixed. introduced bug file for keeping bugs.
             added a few new ideas.
+2022-08-24: fixed furniture draw bug. it was a remnant of drawing weather on top of it which still worked.
+            awesome isnt it?
 

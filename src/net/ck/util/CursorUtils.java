@@ -141,7 +141,10 @@ public class CursorUtils
 		}
 	}
 
-
+	/**
+	 * move the mouse cursor to position p
+	 * @param p contains the target position as point
+	 */
 	public static void moveMouse(Point p)
 	{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -177,6 +180,11 @@ public class CursorUtils
 		// Couldn't move to the point, it may be off screen.
 	}
 
+	/**
+	 * move the cursor to the middle of the next tile into direction x.
+	 * @param action the keyboard action indicating the direction, currently only N,E,S,W
+	 * @param movementForSelectTile
+	 */
 	public static void moveCursorByOneTile(AbstractKeyboardAction action, boolean movementForSelectTile)
 	{
 		int addX = 0;

@@ -13,8 +13,7 @@ import org.apache.logging.log4j.core.Logger;
  *         No real idea yet as to how to structure this any further probably
  *         necessary to implement some kind of input and some kind of output.
  *         output comes via AbstractEvent
- * 
- *         TODO: add actions which do not take up the players turn (i.e. settings and information and other things)
+ *
  */
 public class PlayerAction extends AbstractAction
 {

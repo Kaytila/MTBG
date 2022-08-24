@@ -177,7 +177,6 @@ public class JGridCanvas extends JComponent
 
     private void paintFurniture(Graphics g)
     {
-        //TODO bug in drawing here
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {
             if (tile.getFurniture() != null)
@@ -204,16 +203,18 @@ public class JGridCanvas extends JComponent
                             g.drawImage(ImageUtils.brightenUpImage(ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage()), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
                             img = ImageUtils.brightenUpImage(img, 1, 1);
                             g.drawImage(ImageUtils.brightenUpImage(img, 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                            //logger.info("drawing here: x: {}  y: {}", (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize));
                         }
                         else
                         {
                             //background
                             g.drawImage(ImageUtils.brightenUpImage(ImageUtils.getTileTypeImages().get(t.getType()).get(getCurrentBackgroundImage()), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
 
-                            if (t.getFurniture() != null)
+                            /*if (t.getFurniture() != null)
                             {
+                                logger.info("Drawing there2");
                                 g.drawImage(ImageUtils.brightenUpImage(t.getFurniture().getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                            }
+                            }*/
                             if (!(t.getInventory().isEmpty()))
                             {
                                 g.drawImage(ImageUtils.brightenUpImage(t.getInventory().get(0).getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
@@ -251,7 +252,7 @@ public class JGridCanvas extends JComponent
                 //TODO think about whether to add weather images to the lightened areas away from player
                 //img = ImageUtils.getWeatherTypeImages().get(Game.getCurrent().getCurrentMap().getCurrentWeather().getType()).get(getCurrentForegroundImage());
                 //logger.info("buffered image: {}", img.toString());
-                g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                //g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
             }
         }
     }

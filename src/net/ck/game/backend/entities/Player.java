@@ -339,6 +339,10 @@ public class Player extends AbstractEntity implements LifeForm
 		//Game.getCurrent().getController().setCurrentAction(null);
 	}
 
+	/**
+	 *  looks at the maptile - will show tile type, furniture, inventory in some way or another.
+	 * @param maptile the maptile which was selected as target
+	 */
 	private void look(MapTile maptile)
 	{
 		logger.info("looking:");

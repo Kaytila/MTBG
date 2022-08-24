@@ -81,28 +81,24 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public Image getDragImage()
     {
-        // TODO Auto-generated method stub
         return super.getDragImage();
     }
 
     @Override
     public void setDragImage(Image img)
     {
-        // TODO Auto-generated method stub
         super.setDragImage(img);
     }
 
     @Override
     public Point getDragImageOffset()
     {
-        // TODO Auto-generated method stub
         return super.getDragImageOffset();
     }
 
     @Override
     public void exportAsDrag(JComponent comp, InputEvent e, int action)
     {
-        // TODO Auto-generated method stub
         super.exportAsDrag(comp, e, action);
     }
 
@@ -120,7 +116,6 @@ public class JGridCanvasTransferHandler extends TransferHandler
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         targetMapTile.getInventory().add(item);

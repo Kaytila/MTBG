@@ -692,7 +692,6 @@ public class Game implements Runnable
         MapUtils.calculateDayOrNight();
         getLogger().info("TURN ENDS");
         getLogger().info("=======================================================================================");
-        //TODO idletimer fails to stop in certain conditions
         getIdleTimer().start();
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
