@@ -613,4 +613,7 @@ History of the changes:
 2022-08-24: fixed furniture draw bug. it was a remnant of drawing weather on top of it which still worked.
             awesome isnt it?
 2022-08-24: kind of made the UI relative based on the amount of tiles to be shown.
+2022-08-25: not sure if I did any work yesterday.
+2022-08-26: implemented options action. Will need to think how to show and layout options.
+            Probably all options go into GameConfiguration and are changed there, so no finals.
 

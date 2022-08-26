@@ -101,7 +101,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     private boolean movementForSelectTile = false;
 
     /**
-     *
      * @return are we selecting a tile currently?
      */
     public boolean isSelectTile()
@@ -110,7 +109,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     }
 
     /**
-     *
      * @param selectTile - we are selecting a tile for a command
      */
     public void setSelectTile(boolean selectTile)
@@ -191,9 +189,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
     /**
      * this is called when any button is clicked.
-     *
+     * <p>
      * undo button is a little bit not working anymore
-     *
      */
     @Override
     public void actionPerformed(ActionEvent e)
@@ -531,7 +528,10 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 var c = (JGridCanvas) e.getSource();
                 var handler = c.getTransferHandler();
                 MapTile tile = MapUtils.calculateMapTileUnderCursor(e.getPoint());
-
+                if (tile == null)
+                {
+                    return;
+                }
                 if (tile.isHidden())
                 {
                     logger.info("tile {} is not visible right now", tile);
@@ -603,7 +603,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             if (tile == null)
             {
-                throw new RuntimeException("no maptile found, mouse click must have been outside of grid");
+                logger.info("no maptile found, mouse click must have been outside of grid");
+                return;
             }
 
             if (tile.isHidden())
@@ -753,6 +754,19 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         //logger.info("Event in MainWindow: {}", action.getType());
         switch (action.getType())
         {
+            case OPTIONS:
+            {
+                if (isDialogOpened == true)
+                {
+                    logger.info("We do not stack dialogs for now");
+                    break;
+                }
+                setDialogOpened(true);
+                action.setHaveNPCAction(false);
+                Game.getCurrent().getIdleTimer().stop();
+            }
+
+
             case INVENTORY:
             {
                 if (isDialogOpened == true)
@@ -806,7 +820,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 else
                 {
                     action.setHaveNPCAction(false);
-                     Game.getCurrent().getIdleTimer().stop();
+                    Game.getCurrent().getIdleTimer().stop();
                     setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
@@ -818,7 +832,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case ENTER:
             {
                 action.setHaveNPCAction(false);
-                //Game.getCurrent().getIdleTimer().start();
                 break;
             }
 
@@ -1071,7 +1084,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
     public void setDialogOpened(boolean isDialogOpened)
     {
-        logger.info("new value: {}", isDialogOpened);
+        //logger.info("new value: {}", isDialogOpened);
         this.isDialogOpened = isDialogOpened;
     }
 

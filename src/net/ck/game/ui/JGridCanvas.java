@@ -72,7 +72,11 @@ public class JGridCanvas extends JComponent
 
     /**
      * convenience method to encapsulate KeyboardInput Map and Action Map definition
-     * https://stackoverflow.com/questions/642925/swing-how-do-i-close-a-dialog-when-the-esc-key-is-pressed
+     * <a href="https://stackoverflow.com/questions/642925/swing-how-do-i-close-a-dialog-when-the-esc-key-is-pressed">https://stackoverflow.com/questions/642925/swing-how-do-i-close-a-dialog-when-the-esc-key-is-pressed</a>
+     * <p>
+     * Also, for using ALT/CTRL/SHIFT:
+     * <a href="https://stackoverflow.com/questions/2419608/java-swing-keystrokes-how-to-make-ctrl-modifier-work">https://stackoverflow.com/questions/2419608/java-swing-keystrokes-how-to-make-ctrl-modifier-work</a>
+     *
      */
     private void setKeyboardInput()
     {
@@ -126,6 +130,9 @@ public class JGridCanvas extends JComponent
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "look");
         this.getActionMap().put("look", new LookAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK), "options");
+        this.getActionMap().put("options", new OptionsAction());
     }
 
     public void paintComponent(Graphics g)
@@ -685,7 +692,7 @@ public class JGridCanvas extends JComponent
 
     /**
      * use the Bresenhaim algorithm to calculate LoS
-     * should investigate https://www.redblobgames.com/articles/visibility/
+     * should investigate <a href="https://www.redblobgames.com/articles/visibility/">https://www.redblobgames.com/articles/visibility</a>
      *
      * @param g standard graphics context
      */

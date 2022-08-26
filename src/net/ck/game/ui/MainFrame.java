@@ -24,7 +24,7 @@ public class MainFrame extends JFrame
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(getRealClass());
 	public Logger getLogger()
 	{
 		return logger;

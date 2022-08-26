@@ -68,3 +68,8 @@ Map stuff -
 so maps have layers kind of with furniture and inventory. how about I have map tile that have other contents?
 Or I just draw village completely without second layer.
 
+Add open and close command.
+Use command?
+options menu or dialog
+
+
