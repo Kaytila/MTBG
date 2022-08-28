@@ -22,4 +22,9 @@ public class OptionsAction extends AbstractKeyboardAction
         return KeyboardActionType.OPTIONS;
     }
 
+    public boolean isActionimmediately()
+    {
+        return false;
+    }
+
 }

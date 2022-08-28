@@ -64,7 +64,9 @@ public class AIBehaviour
             else
             {
                 logger.info("out of range move towards victim");
+                //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
                 e.doAction((NPCUtils.calculateVictimDirection(e)));
+                //e.moveTo(MapUtils.getTileByCoordinates(e.getVictim().getMapPosition()));
                 //return;
             }
         }

@@ -1,7 +1,6 @@
 package net.ck.util.astar;
 
-import net.ck.util.astar.broken.AStar_Backup;
-import net.ck.util.astar.broken.Node;
+import net.ck.game.map.MapTile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,15 +14,11 @@ public class AStarTest
 
     public static void main(String[] args)
     {
-        Node initialNode = new Node(2, 1);
-        Node finalNode = new Node(2, 5);
-        int rows = 6;
-        int cols = 7;
-        AStar_Backup aStar = new AStar_Backup(rows, cols, initialNode, finalNode);
+        AStar aStar = new AStar();
         int[][] blocksArray = new int[][]{{1, 3}, {2, 3}, {3, 3}};
         aStar.setBlocks(blocksArray);
-        List<Node> path = aStar.findPath();
-        for (Node node : path)
+        List<MapTile> path = aStar.findPath();
+        for (MapTile node : path)
         {
             System.out.println(node);
         }

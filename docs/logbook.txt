@@ -616,4 +616,6 @@ History of the changes:
 2022-08-25: not sure if I did any work yesterday.
 2022-08-26: implemented options action. Will need to think how to show and layout options.
             Probably all options go into GameConfiguration and are changed there, so no finals.
+2022-08-28: not much to be done currently, fixed a bug for space action. removed old classes.
+            Need to identify why AStarring NPCs towards victims does not work. Something is off with initizalization.
 

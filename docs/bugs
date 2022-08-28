@@ -1,7 +1,11 @@
 BUGS:
-- paint furniture has a bug, it renders furniture twice, light effects are correct though. FIXED
+- FIXED paint furniture has a bug, it renders furniture twice, light effects are correct though.
 - raytracing for LoS has a bug where too many tiles are hidden
 - wanderer npc does not keep to wandering box
 - sound skips at startup
 - music does stop and is completely restarted instead of pausing
 - hit animation is not centered
+- missile combat is possible with melee person
+- recursive aStar does not work yet
+- AStar for calculating moving towards player only returns space
+- FIXED pressing space does not give NPCs a round

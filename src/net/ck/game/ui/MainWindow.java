@@ -754,6 +754,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         //logger.info("Event in MainWindow: {}", action.getType());
         switch (action.getType())
         {
+            case EQ:
+                logger.info("do not have equipment dialog for now, no paperdoll and what not");
+                break;
+
+            case SPACE:
+                action.setHaveNPCAction(true);
+                break;
             case OPTIONS:
             {
                 if (isDialogOpened == true)

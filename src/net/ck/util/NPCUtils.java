@@ -6,12 +6,14 @@ import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.map.MapTile;
+import net.ck.util.astar.AStar;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -162,8 +164,8 @@ public class NPCUtils
     {
         int attackStr = attacker.getAttributes().get(AttributeTypes.STRENGTH).getValue();
         Range<Integer> attackWeapon = attacker.getWeapon().getWeaponDamage();
-        int low = attackWeapon.getMinimum().intValue();
-        int high = attackWeapon.getMaximum().intValue();
+        int low = attackWeapon.getMinimum();
+        int high = attackWeapon.getMaximum();
         Random rand = new Random();
 
         int defendAC = defender.getArmorClass();
@@ -236,6 +238,52 @@ public class NPCUtils
         return new PlayerAction(new SpaceAction());
     }
 
+    public static PlayerAction calculateVictimDirectionAStar(LifeForm n)
+    {
+        //TODO
+        Point sourcePoint = n.getMapPosition();
+        Point targetPoint = n.getVictim().getMapPosition();
+
+        logger.info("source: {}", sourcePoint);
+        logger.info("target: {}", targetPoint);
+
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(sourcePoint),  MapUtils.getTileByCoordinates(targetPoint), Game.getCurrent().getCurrentMap());
+        ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
+
+        for (MapTile node : path)
+        {
+            logger.info(node);
+            if (node.getMapPosition().equals(n.getMapPosition()))
+            {
+                logger.info("start node");
+            }
+            else
+            {
+                //logger.info(node);
+                if (node.x > n.getMapPosition().x)
+                {
+                    return (new PlayerAction(new EastAction()));
+                }
+
+                else if (node.x < n.getMapPosition().x)
+                {
+                    return (new PlayerAction(new WestAction()));
+                }
+
+                else if (node.y > n.getMapPosition().y)
+                {
+                    return (new PlayerAction(new SouthAction()));
+                }
+
+                else if (node.y < n.getMapPosition().y)
+                {
+                    return (new PlayerAction(new NorthAction()));
+                }
+            }
+        }
+        return  new PlayerAction(new SpaceAction());
+    }
+
 
     public static AbstractKeyboardAction calculateCoordinatesFromActionAndTile(AbstractKeyboardAction action, MapTile tile, LifeForm form)
     {
@@ -244,7 +292,7 @@ public class NPCUtils
         logger.info("taget coordinates: {}", action.getTargetCoordinates());
 
         //source
-        screenPosition = MapUtils.calculateUIPositionFromMapOffset(MapUtils.getTileByCoordinates(form.getMapPosition()).getMapPosition());
+        screenPosition = MapUtils.calculateUIPositionFromMapOffset(Objects.requireNonNull(MapUtils.getTileByCoordinates(form.getMapPosition())).getMapPosition());
         action.setSourceCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
         logger.info("source coordinates: {}", action.getSourceCoordinates());
         return action;

@@ -78,6 +78,6 @@ public class PlayerAction extends AbstractAction
 	
 	public String toString()
 	{
-		return "action: " + getEvent().getType() + " of player: " + getEntity().getNumber(); 
+		return "action: " + getEvent().getType() + " of player: ";
 	}
 }

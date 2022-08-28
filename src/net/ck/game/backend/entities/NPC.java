@@ -278,7 +278,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 10)
         {
-           // logger.info("check schedule");
+            // logger.info("check schedule");
             if (getMobasks().size() > 0)
             {
                 //logger.info("running");
@@ -523,7 +523,6 @@ public class NPC extends AbstractEntity implements LifeForm
                         }
                     }
                 }
-
             }
         }
         else
