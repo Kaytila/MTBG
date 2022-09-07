@@ -33,7 +33,6 @@ public class SoundPlayer implements Runnable
     private static String basePath = "music";
     private final Logger logger = LogManager.getLogger(getRealClass());
 
-
     private DirectoryStream<Path> songDirectory;
     private List<File> songDirectories;
     private ArrayList<Path> result = new ArrayList<>();
@@ -250,7 +249,7 @@ public class SoundPlayer implements Runnable
                 if (getGameState() == null)
                 {
                     getLogger().debug("game state is null yet, default to WORLD");
-                    setGameState(GameState.DUSK);
+                    setGameState(GameState.WORLD);
                 }
 
                 if (isMusicIsRunning() == true)
@@ -312,6 +311,8 @@ public class SoundPlayer implements Runnable
             }
         }
     }
+
+
 
 
     private int selectRandomSong()
@@ -463,5 +464,4 @@ public class SoundPlayer implements Runnable
             setGameState(gameStat.getGameState());
         }
     }
-
 }

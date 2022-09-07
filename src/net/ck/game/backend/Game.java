@@ -18,6 +18,7 @@ import net.ck.game.sound.MusicTimerActionListener;
 import net.ck.game.sound.SoundPlayer;
 import net.ck.game.backend.time.IdleActionListener;
 import net.ck.game.backend.time.IdleTimer;
+import net.ck.game.sound.SoundPlayerNoThread;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.backend.time.QuequeTimer;
 import net.ck.game.weather.*;
@@ -160,6 +161,9 @@ public class Game implements Runnable
      */
     private SoundPlayer soundSystem;
 
+
+    private SoundPlayerNoThread soundSystemNoThread;
+
     /**
      * this holds the actual game time which is increasing with time
      */
@@ -263,7 +267,7 @@ public class Game implements Runnable
         setGameTime(new GameTime());
         getGameTime().setCurrentHour(9);
 
-        setGameState(GameState.DUSK);
+        setGameState(GameState.WORLD);
 
         EventBus.getDefault().register(this);
         getLogger().info("game start with default settings finished");
@@ -1066,6 +1070,19 @@ public class Game implements Runnable
         }
     }
 
+    public void initializeSoundSystemNoThread()
+    {
+        if (GameConfiguration.playMusic == true)
+        {
+            getLogger().info("initializing sound system no thread");
+            setSoundSystemNoThread(new SoundPlayerNoThread());
+            getSoundSystemNoThread().setMusicIsRunning(true);
+            /*Thread soundSystemThread = new Thread(getSoundSystem());
+            soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
+            getThreadController().add(soundSystemThread);
+             */
+        }
+    }
 
 
     public void listArmor()
@@ -1246,6 +1263,16 @@ public class Game implements Runnable
     {
         //logger.info("setting npcAction to: {}", npcAction);
         this.npcAction = npcAction;
+    }
+
+    public SoundPlayerNoThread getSoundSystemNoThread()
+    {
+        return soundSystemNoThread;
+    }
+
+    public void setSoundSystemNoThread(SoundPlayerNoThread soundSystemNoThread)
+    {
+        this.soundSystemNoThread = soundSystemNoThread;
     }
 }
 

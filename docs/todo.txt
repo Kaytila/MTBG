@@ -57,6 +57,7 @@ perhaps just state variable will take care of this?
 figure out a good way to get corpse drawn and not rely on logic during drawing.
 i.e. have a trigger once state is dead, update current image and do not update it again.
 same thing for poisoned or sleeping. poisoned could be current image rendered slightly green.
+create images before, or draw on demand?
 
 want to implement tiny tool tips next to cross-hairs to indicate something about target.
 
@@ -68,8 +69,15 @@ Map stuff -
 so maps have layers kind of with furniture and inventory. how about I have map tile that have other contents?
 Or I just draw village completely without second layer.
 
+
+COMMANDS:
 Add open and close command.
 Use command?
 options menu or dialog
+
+
+SOUND:
+sound effects?
+
 
 

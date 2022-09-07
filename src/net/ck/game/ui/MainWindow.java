@@ -3,7 +3,6 @@ package net.ck.game.ui;
 
 import net.ck.game.backend.Game;
 import net.ck.game.backend.GameConfiguration;
-import net.ck.game.backend.GameState;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
@@ -17,7 +16,6 @@ import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;
-import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -224,8 +222,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             logger.info("start music");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystem().startMusic();
-                EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
+                //Game.getCurrent().getSoundSystem().startMusic();
+                Game.getCurrent().getSoundSystemNoThread().continueMusic();
+                //EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
             }
 
         }
@@ -235,7 +234,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             logger.info("stop music");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystem().stopMusic();
+                //Game.getCurrent().getSoundSystem().stopMusic();
+                Game.getCurrent().getSoundSystemNoThread().pauseMusic();
             }
         }
 
@@ -955,7 +955,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     logger.info("move here");
                     break;
                 }
-                //logger.info("move");
+                logger.info("move");
                 if (isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
@@ -1045,7 +1045,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case WEST:
                 if (isSelectTile())
                 {
-                    logger.info("select tile");
+                    //logger.info("select tile");
                     moveCursorOnGrid(action);
                     setMovementForSelectTile(true);
                     action = new AbstractKeyboardAction();
@@ -1152,7 +1152,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("activated");
         if (GameConfiguration.playMusic)
         {
-            Game.getCurrent().getSoundSystem().startMusic();
+            //Game.getCurrent().getSoundSystem().startMusic();
+            //Game.getCurrent().getSoundSystemNoThread().startMusic();
+            Game.getCurrent().getSoundSystemNoThread().continueMusic();
         }
         Game.getCurrent().getIdleTimer().start();
         //focusManager.dispatchEvent(new FocusEvent(gridCanvas, FocusEvent.FOCUS_GAINED, false));
@@ -1197,7 +1199,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         {
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystem().stopMusic();
+                //Game.getCurrent().getSoundSystem().stopMusic();
+                //Game.getCurrent().getSoundSystemNoThread().stopMusic();
+                Game.getCurrent().getSoundSystemNoThread().pauseMusic();
             }
         }
         // }
@@ -1210,7 +1214,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("deiconified");
         if (GameConfiguration.playMusic)
         {
-            Game.getCurrent().getSoundSystem().startMusic();
+            //Game.getCurrent().getSoundSystem().startMusic();
+            //Game.getCurrent().getSoundSystemNoThread().startMusic();
+            Game.getCurrent().getSoundSystemNoThread().continueMusic();
         }
         Game.getCurrent().getIdleTimer().start();
     }
@@ -1221,7 +1227,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("iconified");
         if (GameConfiguration.playMusic)
         {
-            Game.getCurrent().getSoundSystem().stopMusic();
+            //Game.getCurrent().getSoundSystem().stopMusic();
+            //Game.getCurrent().getSoundSystemNoThread().stopMusic();
+            Game.getCurrent().getSoundSystemNoThread().pauseMusic();
         }
         Game.getCurrent().getIdleTimer().stop();
     }

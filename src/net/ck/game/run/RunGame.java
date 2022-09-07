@@ -119,7 +119,8 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.initializeMusicTimer();
 					renderSplashFrame(g, size);
-					game.initializeSoundSystem();
+					//game.initializeSoundSystem();
+					game.initializeSoundSystemNoThread();
 					renderSplashFrame(g, size);
 					ImageUtils.initializeBackgroundImages();
 					renderSplashFrame(g, size);

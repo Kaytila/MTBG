@@ -618,4 +618,12 @@ History of the changes:
             Probably all options go into GameConfiguration and are changed there, so no finals.
 2022-08-28: not much to be done currently, fixed a bug for space action. removed old classes.
             Need to identify why AStarring NPCs towards victims does not work. Something is off with initizalization.
-
+2022-09-04: so changed sound system to no threaded and working with clips. Which makes things easier on the one hand.
+            also makes things harder on the other hand.
+            need to figure out a good way how to deal with state change and particularly how to identify a pause
+            for a stop.
+            guess pause will need extra state in the class.
+            nothing to commit yet, but on a good way.
+            monday morning/afternoon should do the trick.
+2022-09-07: so sound is in a much better shape now - only clips, no threaded streaming, but stop/start and
+            pause/continue work much better now.
