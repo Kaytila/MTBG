@@ -1,6 +1,5 @@
 package net.ck.game.sound;
 
-import net.ck.game.backend.GameConfiguration;
 import net.ck.game.backend.GameState;
 import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
@@ -26,18 +25,30 @@ public class SoundPlayerNoThread
 
     private final Logger logger = LogManager.getLogger(getRealClass());
 
+    public static String getMusicBasePath()
+    {
+        return musicBasePath;
+    }
+
+    public static String getSoundBasePath()
+    {
+        return soundBasePath;
+    }
+
     public Class<?> getRealClass()
     {
         Class<?> enclosingClass = getClass().getEnclosingClass();
         return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
-    private static String basePath = "music";
+    private static final String musicBasePath = "music";
+
+    private static final String soundBasePath = "soundeffects";
 
     private Clip currentMusic;
     private Clip currentSound;
 
-    private long clipTime;
+    private int clipTime;
 
     private boolean paused;
 
@@ -89,21 +100,17 @@ public class SoundPlayerNoThread
         super();
         getLogger().info("initialize sound player no threaded");
         EventBus.getDefault().register(this);
-        readSoundDirectories(getBasePath());
+        readMusicDirectories(getMusicBasePath());
+        readSoundEffectDirectory(getSoundBasePath());
         //betterPlaySong(getResult().get(selectRandomSong()));
         EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
         //playSong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
     }
 
-    public static String getBasePath()
+    private void readSoundEffectDirectory(String soundBasePath)
     {
-        return basePath;
     }
 
-    public static void setBasePath(String basePath)
-    {
-        SoundPlayerNoThread.basePath = basePath;
-    }
 
     public GameState getGameState()
     {
@@ -139,7 +146,7 @@ public class SoundPlayerNoThread
         this.musicIsRunning = music;
     }
 
-    private void readSoundDirectories(String basePath2)
+    private void readMusicDirectories(String basePath2)
     {
         try
         {
@@ -212,7 +219,7 @@ public class SoundPlayerNoThread
                             getLogger().error("unknown directory: {}", f.getName());
                     }
                     getResultMap().addSong(state, entry);
-                    //getLogger().info("adding sound file {} to gamestate {}", entry.toString(), state);
+                    //getLogger().info("adding sound file {} to game state {}", entry.toString(), state);
                 }
 
             }
@@ -226,9 +233,16 @@ public class SoundPlayerNoThread
     }
 
 
+    public void playSoundEffect()
+    {
+
+    }
+
+    /**
+     * <a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java">...</a>
+     */
     public void playSong()
     {
-        logger.info("i mean it, play song");
         playSong(getResultMap().get(getGameState()).get(betterSelectRandomSong(getResultMap().get(getGameState()))));
     }
 
@@ -236,14 +250,7 @@ public class SoundPlayerNoThread
     private void playSong(Path path)
     {
         logger.info("playing song: {}", path);
-        /*clipTime = 0;
-        if (getCurrentMusic() != null)
-        {
-            if (getCurrentMusic().isRunning())
-            {
-                return;
-            }
-        }*/
+
         try
         {
             audioInputStream = AudioSystem.getAudioInputStream(new File(path.toUri()));
@@ -260,8 +267,8 @@ public class SoundPlayerNoThread
 
              try
             {
-                currentMusic = AudioSystem.getClip();
-                currentMusic.addLineListener(new SoundLineListener());
+                setCurrentMusic(AudioSystem.getClip());
+                getCurrentMusic().addLineListener(new SoundLineListener());
             }
             catch (LineUnavailableException e)
             {
@@ -269,14 +276,14 @@ public class SoundPlayerNoThread
             }
             try
             {
-                currentMusic.open(audioInputStream);
+                getCurrentMusic().open(audioInputStream);
             }
             catch (LineUnavailableException | IOException e)
             {
                 throw new RuntimeException(e);
             }
-            currentMusic.setFramePosition(0);
-            currentMusic.start();
+        getCurrentMusic().setFramePosition(0);
+        getCurrentMusic().start();
 
     }
 
@@ -285,58 +292,14 @@ public class SoundPlayerNoThread
         return (int) Math.floor(Math.random() * list.size());
     }
 
-    /**
-     * https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java
-     */
 
-    public void stopMusic()
-    {
-        if (GameConfiguration.playMusic)
-        {
-            setMusicIsRunning(false);
-            if (currentMusic != null)
-            {
-                if (currentMusic.isActive())
-                {
-                    clipTime = currentMusic.getMicrosecondLength();
-                    currentMusic.stop();
-                }
-            }
-        }
-    }
-
-    /**
-     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
-     */
-    public void startMusic()
-    {
-        if (GameConfiguration.playMusic)
-        {
-            setMusicIsRunning(true);
-            if (currentMusic != null)
-            {
-                if (!(currentMusic.isActive()))
-                {
-                    logger.info("restarting clip");
-                    currentMusic.start();
-                }
-            }
-            else
-            {
-                logger.info("result map for state: {}", getResultMap().get(getGameState()));
-                if (getGameState() != null)
-                {
-                    playSong(getResultMap().get(getGameState()).get(betterSelectRandomSong(getResultMap().get(getGameState()))));
-                }
-            }
-        }
-    }
 
     /**
      * <a href="https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java">audio-volume-control-increase-or-decrease-in-java</a>
      */
     public void decreaseVolume()
     {
+        //TODO decrease volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         //logger.info("Current value: {}", gainControl.getValue());
         gainControl.setValue(gainControl.getValue() - 1.0f); // Reduce volume by 10 decibels.
@@ -347,6 +310,7 @@ public class SoundPlayerNoThread
      */
     public void increaseVolume()
     {
+        //TODO increase volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         //logger.info("Current value: {}", gainControl.getValue());
         if ((gainControl.getValue() + 1.0f) < 6.0f)
@@ -362,7 +326,7 @@ public class SoundPlayerNoThread
         {
             if (getGameState().equals(gameStat.getGameState()))
             {
-                logger.info("same state, dont stop");
+                logger.info("same state, don't stop");
             }
             else
             {
@@ -381,17 +345,10 @@ public class SoundPlayerNoThread
         }
         else
         {
-            logger.info("changing music to: {}", gameStat.getGameState());
-            setGameState(gameStat.getGameState());
-            if (currentMusic != null)
-            {
-                if (currentMusic.isRunning())
-                {
-                    //currentMusic.stop();
-                    currentMusic.close();
-                }
-            }
-            playSong(getResultMap().get(gameStat.getGameState()).get(betterSelectRandomSong(getResultMap().get(gameStat.getGameState()))));
+            //TODO initialize music based on MAP type (i.e. WORLD, TOWN, DUNGEON ...)
+            logger.error("game state is NULL");
+            setGameState(GameState.WORLD);
+            playSong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
         }
     }
 
@@ -415,18 +372,30 @@ public class SoundPlayerNoThread
         this.currentSound = currentSound;
     }
 
+    /**
+     * <a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java">a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java</a>
+     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
+     */
     public void pauseMusic()
     {
+        if (currentMusic == null)
+        {
+            return;
+        }
         logger.info("pause music");
         setPaused(true);
-        clipTime = currentMusic.getFramePosition(); //getMicrosecondLength();
+        clipTime = currentMusic.getFramePosition();
         currentMusic.stop();
     }
 
     public void continueMusic()
     {
+        if (currentMusic == null)
+        {
+            return;
+        }
         logger.info("continue music");
-        currentMusic.setFramePosition((int) clipTime);//setMicrosecondPosition(clipTime);
+        currentMusic.setFramePosition(clipTime);
 
         try
         {

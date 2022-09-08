@@ -75,4 +75,6 @@ public interface LifeForm
     Queue<Object> getQueuedActions();
 
     boolean isStatic();
+
+    boolean isHostile();
 }

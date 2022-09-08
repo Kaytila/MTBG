@@ -536,11 +536,12 @@ public class Game implements Runnable
             EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
         }
         getIdleTimer().start();
+        //TODO clear running schedules? how? currently they are on NPC.
         logger.info("end: switching map");
     }
 
     /**
-     * <a href="https://stackoverflow.com/questions/9317461/get-the-application-closing-event">...</a>
+     * <a href="https://stackoverflow.com/questions/9317461/get-the-application-closing-event">https://stackoverflow.com/questions/9317461/get-the-application-closing-event</a>
      * it appears you can only do it this way not really necessary, but I guess can be used for later on but its interesting that in order to get the shutdown event, you need yet another thread also,
      * when the fuck is this running? ThreadController is initialized way before
      */
@@ -659,7 +660,7 @@ public class Game implements Runnable
         if (Game.getCurrent().getGameState() == GameState.COMBAT)
         {
             boolean stillaggro = false;
-            for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
+            for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
             {
                 if (e.isHostile())
                 {
@@ -681,7 +682,16 @@ public class Game implements Runnable
         {
             if (GameUtils.checkVictoryGameStateDuration())
             {
-                EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getPreviousGameState()));
+                //TODO make map contain the standard music type
+                if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("INDOORS"))
+                {
+                    EventBus.getDefault().post(new GameStateChanged(GameState.DUNGEON));
+                }
+                if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("testname"))
+                {
+                    EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
+                }
+
                 if (getMusicTimer().isRunning() == false)
                 {
                     getMusicTimer().start();

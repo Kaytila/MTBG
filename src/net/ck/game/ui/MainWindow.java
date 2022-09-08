@@ -244,7 +244,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             logger.info("louder");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystem().increaseVolume();
+                Game.getCurrent().getSoundSystemNoThread().increaseVolume();
             }
         }
 
@@ -253,7 +253,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             logger.info("leiser");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystem().decreaseVolume();
+                Game.getCurrent().getSoundSystemNoThread().decreaseVolume();
             }
         }
     }

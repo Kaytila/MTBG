@@ -120,7 +120,7 @@ public class RunGame
 					game.initializeMusicTimer();
 					renderSplashFrame(g, size);
 					//game.initializeSoundSystem();
-					game.initializeSoundSystemNoThread();
+
 					renderSplashFrame(g, size);
 					ImageUtils.initializeBackgroundImages();
 					renderSplashFrame(g, size);
@@ -130,6 +130,7 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.startThreads();
 					renderSplashFrame(g, size);
+					game.initializeSoundSystemNoThread();
 					if (progress < 100)
 					{
 						renderSplashFrame(g, 100, size);

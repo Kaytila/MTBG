@@ -225,6 +225,12 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public boolean isHostile()
+	{
+		return false;
+	}
+
+	@Override
 	public LifeFormState getState()
 	{
 		return null;

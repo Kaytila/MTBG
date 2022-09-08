@@ -10,3 +10,4 @@ BUGS:
 - AStar for calculating moving towards player only returns space
 - FIXED pressing space does not give NPCs a round
 - player can move while hit animation is still running
+- music switch between COMBAT and VICTORY back to standard does not work yet.
