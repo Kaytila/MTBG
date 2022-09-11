@@ -40,6 +40,12 @@ public class JGridCanvas extends JComponent
     private int currentForegroundImage;
     private boolean dragEnabled;
 
+    private Point highlightPosition;
+
+    
+    
+    private int highlightCount = 9;
+
     public JGridCanvas()
     {
         EventBus.getDefault().register(this);
@@ -180,6 +186,36 @@ public class JGridCanvas extends JComponent
 
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
+
+        paintHighlighting(g);
+    }
+
+    private void paintHighlighting(Graphics g)
+    {
+        if (getHighlightPosition() != null)
+        {
+            Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(getHighlightPosition());
+            g.setColor(Color.YELLOW);
+
+            if (getHighlightPosition() == Game.getCurrent().getCurrentPlayer().getMapPosition())
+            {
+                g.drawRect((screenPosition.x * GameConfiguration.tileSize) + getHighlightCount(), (screenPosition.y * GameConfiguration.tileSize) + getHighlightCount(), GameConfiguration.tileSize - (getHighlightCount() * 2) , GameConfiguration.tileSize - (getHighlightCount() * 2));
+                logger.info("highlight count: {}", highlightCount);
+
+//                if (getHighlightCount() == 0)
+//                {
+//                    setHighlightCount(3);
+//                }
+//                else
+//                {
+//                    highlightCount--;
+//                }
+            }
+            else
+            {
+                g.drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+            }
+        }
     }
 
     private void paintFurniture(Graphics g)
@@ -453,6 +489,15 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
+        this.paint();
+    }
+
+    @Subscribe
+    public synchronized void onMessageEvent(HighlightEvent event)
+    {
+        logger.info("event.getMapPosition(): {}", event.getMapPosition());
+        setHighlightPosition(event.getMapPosition());
+        setHighlightCount(6);
         this.paint();
     }
 
@@ -732,4 +777,36 @@ public class JGridCanvas extends JComponent
         }
     }
 
+    public Point getHighlightPosition()
+    {
+        return highlightPosition;
+    }
+
+    public void setHighlightPosition(Point highlightPosition)
+    {
+        this.highlightPosition = highlightPosition;
+    }
+
+    public int getHighlightCount()
+    {
+        return highlightCount;
+    }
+
+    public void setHighlightCount(int highlightCount)
+    {
+        this.highlightCount = highlightCount;
+    }
+
+    public void decreaseHighlightCount()
+    {
+        if (getHighlightCount() >= 2)
+        {
+            highlightCount = highlightCount - 2;
+        }
+        else
+        {
+            setHighlightCount(6);
+        }
+        this.paint();
+    }
 }

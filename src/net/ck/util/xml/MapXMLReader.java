@@ -1,5 +1,6 @@
 package net.ck.util.xml;
 
+import net.ck.game.backend.GameState;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.Map;
@@ -28,6 +29,8 @@ public class MapXMLReader extends DefaultHandler
 	private StringBuilder data = null;
 	private int x;
 	private int y;
+
+	private GameState gameState;
 
 	private ArrayList<NPC> npcs;
 
@@ -162,6 +165,8 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "fixedWeather":
 				break;
+			case "gamestate":
+				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);
 		}
@@ -266,6 +271,9 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "minutesperturn":
 				gameMap.setMinutesPerTurn(Integer.parseInt(data.toString()));
+				break;
+			case "gamestate":
+				gameMap.setGameState(GameState.valueOf(data.toString()));
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);

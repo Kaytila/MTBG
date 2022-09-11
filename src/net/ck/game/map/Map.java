@@ -1,6 +1,7 @@
 package net.ck.game.map;
 
 import net.ck.game.backend.Game;
+import net.ck.game.backend.GameState;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.weather.Weather;
@@ -78,6 +79,8 @@ public class Map extends AbstractMap
 	}
 
 	private ArrayList<LifeForm> lifeForms;
+
+	private GameState gameState;
 
 	public Map()
 	{
@@ -248,4 +251,13 @@ public class Map extends AbstractMap
 		return lifeForms;
 	}
 
+	public GameState getGameState()
+	{
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState)
+	{
+		this.gameState = gameState;
+	}
 }

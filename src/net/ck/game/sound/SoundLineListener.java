@@ -26,6 +26,10 @@ public class SoundLineListener implements LineListener
         logger.info("sound event: {}", event);
        if (event.getType().equals(LineEvent.Type.STOP))
        {
+           if (Game.getCurrent().getSoundSystemNoThread().isGameStateChanged())
+           {
+               return;
+           }
            logger.info("stop event");
            if (Game.getCurrent().getSoundSystemNoThread().isPaused())
            {

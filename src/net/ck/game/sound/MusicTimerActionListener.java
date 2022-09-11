@@ -24,6 +24,6 @@ public class MusicTimerActionListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getPreviousGameState()));
+        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 }

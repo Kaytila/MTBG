@@ -15,16 +15,18 @@ import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.sound.MusicTimer;
 import net.ck.game.sound.MusicTimerActionListener;
-import net.ck.game.sound.SoundPlayer;
 import net.ck.game.backend.time.IdleActionListener;
 import net.ck.game.backend.time.IdleTimer;
 import net.ck.game.sound.SoundPlayerNoThread;
+import net.ck.game.ui.HighlightTimer;
+import net.ck.game.ui.HightlightTimerActionListener;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.backend.time.QuequeTimer;
 import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
+import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.xml.RunXMLParser;
@@ -156,12 +158,11 @@ public class Game implements Runnable
      * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
      */
     private MainWindow controller;
+
+
     /**
      * soundSystem is the class dealing with the music. currently only taking files from a directory and trying to play one random song at a time
      */
-    private SoundPlayer soundSystem;
-
-
     private SoundPlayerNoThread soundSystemNoThread;
 
     /**
@@ -230,10 +231,20 @@ public class Game implements Runnable
      */
     private boolean nextTurn;
 
+
     /**
-     * npc action?
+     * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
+
+    /**
+     * is the UI open? has it finished opening?
+     */
+    private boolean uiOpen;
+
+
+    private HighlightTimer highlightTimer;
+
 
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -320,15 +331,9 @@ public class Game implements Runnable
         this.running = running;
     }
 
-    public SoundPlayer getSoundSystem()
-    {
-        return soundSystem;
-    }
 
-    public void setSoundSystem(SoundPlayer soundSystem)
-    {
-        this.soundSystem = soundSystem;
-    }
+
+
 
     /**
      * initialize the maps, cleanup later
@@ -527,14 +532,9 @@ public class Game implements Runnable
         getWeatherSystem().checkWeather();
         getController().getGridCanvas().repaint();
         // logger.info("current map: {}", Game.getCurrent().getCurrentMap());
-        if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("INDOORS"))
-        {
-            EventBus.getDefault().post(new GameStateChanged(GameState.DUNGEON));
-        }
-        if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("testname"))
-        {
-            EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
-        }
+
+        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+
         getIdleTimer().start();
         //TODO clear running schedules? how? currently they are on NPC.
         logger.info("end: switching map");
@@ -553,19 +553,22 @@ public class Game implements Runnable
     @Subscribe
     public void onMessageEvent(GameStateChanged gameState)
     {
-        //logger.info("caught game state change in game: {}", gameState.getGameState());
-        if (gameState.getGameState() == GameState.COMBAT)
-        {
-            logger.info("setting previous game state to: {}", Game.getCurrent().getGameState());
-            setPreviousGameState(Game.getCurrent().getGameState());
-        }
-
-        if (gameState.getGameState() != Game.getCurrent().getGameState())
-        {
-            Game.getCurrent().setGameState(gameState.getGameState());
-        }
-
-
+//        if (gameState.getGameState() == GameState.COMBAT)
+//        {
+//            logger.info("setting previous game state to: {}", Game.getCurrent().getGameState());
+//            setPreviousGameState(Game.getCurrent().getGameState());
+//        }
+//        else if (gameState.getGameState() == GameState.VICTORY)
+//        {
+//            logger.info("victory, previous game state stays at: {}", Game.getCurrent().getPreviousGameState());
+//        }
+//        else
+//        {
+//            if (gameState.getGameState() != Game.getCurrent().getGameState())
+//            {
+//                Game.getCurrent().setGameState(gameState.getGameState());
+//            }
+//        }
     }
 
     @Subscribe
@@ -638,7 +641,8 @@ public class Game implements Runnable
         {
             for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
             {
-                //npc is aggressive
+                EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
+                getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                 if (e.isHostile())
                 {
                     AIBehaviour.determineCombat(e);
@@ -682,16 +686,7 @@ public class Game implements Runnable
         {
             if (GameUtils.checkVictoryGameStateDuration())
             {
-                //TODO make map contain the standard music type
-                if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("INDOORS"))
-                {
-                    EventBus.getDefault().post(new GameStateChanged(GameState.DUNGEON));
-                }
-                if (Game.getCurrent().getCurrentMap().getName().equalsIgnoreCase("testname"))
-                {
-                    EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
-                }
-
+                EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
                 if (getMusicTimer().isRunning() == false)
                 {
                     getMusicTimer().start();
@@ -707,6 +702,7 @@ public class Game implements Runnable
         getLogger().info("TURN ENDS");
         getLogger().info("=======================================================================================");
         getIdleTimer().start();
+        EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
     }
@@ -1014,6 +1010,15 @@ public class Game implements Runnable
         getThreadController().add(missileTimerThread);
     }
 
+    public void initializeHighlightingTimer()
+    {
+        getLogger().info("initializing Highlighting Timer as Swing Timer");
+        HightlightTimerActionListener actionListener = new HightlightTimerActionListener();
+        setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
+        getHighlightTimer().setRepeats(true);
+    }
+
+
     public boolean isMoved()
     {
         return moved;
@@ -1069,15 +1074,15 @@ public class Game implements Runnable
 
     public void initializeSoundSystem()
     {
-        if (GameConfiguration.playMusic == true)
-        {
-            getLogger().info("initializing sound system");
-            setSoundSystem(new SoundPlayer());
-            getSoundSystem().setMusicIsRunning(true);
-            Thread soundSystemThread = new Thread(getSoundSystem());
-            soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
-            getThreadController().add(soundSystemThread);
-        }
+//        if (GameConfiguration.playMusic == true)
+//        {
+//            getLogger().info("initializing sound system");
+//            setSoundSystem(new SoundPlayer());
+//            getSoundSystem().setMusicIsRunning(true);
+//            Thread soundSystemThread = new Thread(getSoundSystem());
+//            soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
+//            getThreadController().add(soundSystemThread);
+//        }
     }
 
     public void initializeSoundSystemNoThread()
@@ -1249,7 +1254,7 @@ public class Game implements Runnable
 
     public void setPreviousGameState(GameState previousGameState)
     {
-        logger.info("setting previous game state: {}", previousGameState);
+        //logger.info("setting previous game state: {}", previousGameState);
         this.previousGameState = previousGameState;
     }
 
@@ -1283,6 +1288,26 @@ public class Game implements Runnable
     public void setSoundSystemNoThread(SoundPlayerNoThread soundSystemNoThread)
     {
         this.soundSystemNoThread = soundSystemNoThread;
+    }
+
+    public boolean isUiOpen()
+    {
+        return uiOpen;
+    }
+
+    public void setUiOpen(boolean uiOpen)
+    {
+        this.uiOpen = uiOpen;
+    }
+
+    public HighlightTimer getHighlightTimer()
+    {
+        return highlightTimer;
+    }
+
+    public void setHighlightTimer(HighlightTimer highlightTimer)
+    {
+        this.highlightTimer = highlightTimer;
     }
 }
 

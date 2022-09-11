@@ -10,6 +10,7 @@
 		<fixedWeather>NONE</fixedWeather>
 		<minutesperturn>1</minutesperturn>
 		<parent>testname</parent>
+		<gamestate>TOWN</gamestate>
 	</meta>
 	<tiles>
 		<tile>

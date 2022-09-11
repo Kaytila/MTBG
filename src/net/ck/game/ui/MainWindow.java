@@ -321,6 +321,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("setting up event bus");
         EventBus.getDefault().register(this);
         Game.getCurrent().setController(this);
+        Game.getCurrent().setUiOpen(true);
+        Game.getCurrent().initializeSoundSystemNoThread();
+
     }
 
     /**
@@ -1238,18 +1241,20 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public void windowOpened(WindowEvent e)
     {
         getGridCanvas().requestFocus();
+        Game.getCurrent().getHighlightTimer().start();
+        //Game.getCurrent().setUiOpen(true);
     }
 
     @Override
     public void focusGained(FocusEvent e)
     {
-        logger.info(e.getComponent().getName());
+        logger.info("who gained the focus here: {}", e.getComponent().getName());
     }
 
     @Override
     public void focusLost(FocusEvent e)
     {
-        logger.info(e.getComponent().getName());
+        logger.info("who lost the focus here: {}", e.getComponent().getName());
     }
 
 //	public void moveMouse(Point p)

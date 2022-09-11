@@ -130,7 +130,8 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.startThreads();
 					renderSplashFrame(g, size);
-					game.initializeSoundSystemNoThread();
+					//game.initializeSoundSystemNoThread();
+					game.initializeHighlightingTimer();
 					if (progress < 100)
 					{
 						renderSplashFrame(g, 100, size);
@@ -146,7 +147,7 @@ public class RunGame
 				}
 			}
 			logger.info("splash finished");
-			System.gc();
+			//System.gc();
 		}
 
 	}

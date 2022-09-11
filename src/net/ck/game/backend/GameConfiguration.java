@@ -68,4 +68,6 @@ public class GameConfiguration
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
 
     public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+
+    public static final int highlightDelay = 500;
 }

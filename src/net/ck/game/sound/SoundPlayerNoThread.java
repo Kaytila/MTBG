@@ -1,5 +1,6 @@
 package net.ck.game.sound;
 
+import net.ck.game.backend.Game;
 import net.ck.game.backend.GameState;
 import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
@@ -24,6 +25,7 @@ public class SoundPlayerNoThread
 {
 
     private final Logger logger = LogManager.getLogger(getRealClass());
+    private boolean gameStateChanged;
 
     public static String getMusicBasePath()
     {
@@ -59,7 +61,6 @@ public class SoundPlayerNoThread
     private ArrayList<Path> result = new ArrayList<>();
 
 
-    private GameState gameState;
     private boolean musicIsRunning;
 
     public DirectoryStream<Path> getSongDirectory()
@@ -102,25 +103,13 @@ public class SoundPlayerNoThread
         EventBus.getDefault().register(this);
         readMusicDirectories(getMusicBasePath());
         readSoundEffectDirectory(getSoundBasePath());
-        //betterPlaySong(getResult().get(selectRandomSong()));
-        EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
+
+        //EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
         //playSong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
     }
 
     private void readSoundEffectDirectory(String soundBasePath)
     {
-    }
-
-
-    public GameState getGameState()
-    {
-        return gameState;
-        //return Game.getCurrent().getGameState();
-    }
-
-    public void setGameState(GameState gameState)
-    {
-        this.gameState = gameState;
     }
 
     public ArrayList<Path> getResult()
@@ -243,7 +232,7 @@ public class SoundPlayerNoThread
      */
     public void playSong()
     {
-        playSong(getResultMap().get(getGameState()).get(betterSelectRandomSong(getResultMap().get(getGameState()))));
+        playSong(getResultMap().get(Game.getCurrent().getGameState()).get(betterSelectRandomSong(getResultMap().get(Game.getCurrent().getGameState()))));
     }
 
     //TODO it appears clips are not meant to be run in threads
@@ -265,25 +254,28 @@ public class SoundPlayerNoThread
             logger.error("IO Exception: {} for {}", e, path);
         }
 
-             try
-            {
-                setCurrentMusic(AudioSystem.getClip());
-                getCurrentMusic().addLineListener(new SoundLineListener());
-            }
-            catch (LineUnavailableException e)
-            {
-                throw new RuntimeException(e);
-            }
-            try
-            {
-                getCurrentMusic().open(audioInputStream);
-            }
-            catch (LineUnavailableException | IOException e)
-            {
-                throw new RuntimeException(e);
-            }
+        try
+        {
+            setCurrentMusic(AudioSystem.getClip());
+            getCurrentMusic().addLineListener(new SoundLineListener());
+        }
+        catch (LineUnavailableException e)
+        {
+            throw new RuntimeException(e);
+        }
+        try
+        {
+            getCurrentMusic().open(audioInputStream);
+        }
+        catch (LineUnavailableException | IOException e)
+        {
+            throw new RuntimeException(e);
+        }
         getCurrentMusic().setFramePosition(0);
+
+        //TODO currently only one song is running and running in a loop to get around some issue if I want to go back to random selection within one stay on the map, need to re-think and re-do this
         getCurrentMusic().start();
+        //getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
 
     }
 
@@ -291,7 +283,6 @@ public class SoundPlayerNoThread
     {
         return (int) Math.floor(Math.random() * list.size());
     }
-
 
 
     /**
@@ -322,34 +313,18 @@ public class SoundPlayerNoThread
     @Subscribe
     public void onMessageEvent(GameStateChanged gameStat)
     {
-        if (getGameState() != null)
+        logger.info("changing music to: {}", gameStat.getGameState());
+        gameStateChanged = true;
+        if (currentMusic != null)
         {
-            if (getGameState().equals(gameStat.getGameState()))
+            if (currentMusic.isRunning())
             {
-                logger.info("same state, don't stop");
-            }
-            else
-            {
-                setGameState(gameStat.getGameState());
-                logger.info("changing music to: {}", gameStat.getGameState());
-                if (currentMusic != null)
-                {
-                    if (currentMusic.isRunning())
-                    {
-                        //currentMusic.stop();
-                        currentMusic.close();
-                    }
-                }
-                playSong(getResultMap().get(gameStat.getGameState()).get(betterSelectRandomSong(getResultMap().get(gameStat.getGameState()))));
+                //currentMusic.stop();
+                currentMusic.close();
             }
         }
-        else
-        {
-            //TODO initialize music based on MAP type (i.e. WORLD, TOWN, DUNGEON ...)
-            logger.error("game state is NULL");
-            setGameState(GameState.WORLD);
-            playSong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
-        }
+        playSong(getResultMap().get(gameStat.getGameState()).get(betterSelectRandomSong(getResultMap().get(gameStat.getGameState()))));
+        setGameStateChanged(false);
     }
 
     public Clip getCurrentMusic()
@@ -419,5 +394,15 @@ public class SoundPlayerNoThread
     public void setPaused(boolean paused)
     {
         this.paused = paused;
+    }
+
+    public boolean isGameStateChanged()
+    {
+        return gameStateChanged;
+    }
+
+    public void setGameStateChanged(boolean gameStateChanged)
+    {
+        this.gameStateChanged = gameStateChanged;
     }
 }

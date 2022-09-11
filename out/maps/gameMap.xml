@@ -10,6 +10,7 @@
 		<visibility>3</visibility>
 		<minutesperturn>1</minutesperturn>
 		<parent></parent>
+		<gamestate>WORLD</gamestate>
 	</meta>
 	<tiles>
 		<tile>
