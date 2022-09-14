@@ -32,10 +32,11 @@ module myTurnedBasedGame
 	exports net.ck.game.weather;
 	exports net.ck.util.communication.keyboard;
 	exports net.ck.game.backend.actions;
-	exports net.ck.game.sound;
+	exports net.ck.game.music;
 	exports net.ck.game.items;
 	exports net.ck.util.communication.sound;
 	exports net.ck.game.animation;
     exports net.ck.game.backend.threading;
 	exports net.ck.game.backend.time;
+	exports net.ck.game.soundeffects;
 }

@@ -1,4 +1,4 @@
-package net.ck.game.sound;
+package net.ck.game.music;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

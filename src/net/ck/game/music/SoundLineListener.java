@@ -1,4 +1,4 @@
-package net.ck.game.sound;
+package net.ck.game.music;
 
 import net.ck.game.backend.Game;
 import org.apache.logging.log4j.LogManager;
@@ -26,19 +26,19 @@ public class SoundLineListener implements LineListener
         logger.info("sound event: {}", event);
        if (event.getType().equals(LineEvent.Type.STOP))
        {
-           if (Game.getCurrent().getSoundSystemNoThread().isGameStateChanged())
+           if (Game.getCurrent().getMusicSystemNoThread().isGameStateChanged())
            {
                return;
            }
            logger.info("stop event");
-           if (Game.getCurrent().getSoundSystemNoThread().isPaused())
+           if (Game.getCurrent().getMusicSystemNoThread().isPaused())
            {
                logger.info("music paused, do not do anything about the stop");
            }
            else
            {
                logger.info("play new song");
-               Game.getCurrent().getSoundSystemNoThread().playSong();
+               Game.getCurrent().getMusicSystemNoThread().playSong();
            }
        }
     }

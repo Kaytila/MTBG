@@ -1,4 +1,4 @@
-package net.ck.game.sound;
+package net.ck.game.music;
 
 import net.ck.game.backend.Game;
 import net.ck.game.backend.GameState;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class SoundPlayerNoThread
+public class MusicPlayerNoThread
 {
 
     private final Logger logger = LogManager.getLogger(getRealClass());
@@ -32,10 +32,7 @@ public class SoundPlayerNoThread
         return musicBasePath;
     }
 
-    public static String getSoundBasePath()
-    {
-        return soundBasePath;
-    }
+
 
     public Class<?> getRealClass()
     {
@@ -45,7 +42,7 @@ public class SoundPlayerNoThread
 
     private static final String musicBasePath = "music";
 
-    private static final String soundBasePath = "soundeffects";
+
 
     private Clip currentMusic;
     private Clip currentSound;
@@ -58,8 +55,6 @@ public class SoundPlayerNoThread
 
     private DirectoryStream<Path> songDirectory;
     private List<File> songDirectories;
-    private ArrayList<Path> result = new ArrayList<>();
-
 
     private boolean musicIsRunning;
 
@@ -96,32 +91,14 @@ public class SoundPlayerNoThread
     private SongListMap resultMap = new SongListMap();
 
 
-    public SoundPlayerNoThread()
+    public MusicPlayerNoThread()
     {
         super();
-        getLogger().info("initialize sound player no threaded");
+        getLogger().info("initialize music player no threaded");
         EventBus.getDefault().register(this);
         readMusicDirectories(getMusicBasePath());
-        readSoundEffectDirectory(getSoundBasePath());
-
-        //EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
-        //playSong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
     }
 
-    private void readSoundEffectDirectory(String soundBasePath)
-    {
-    }
-
-    public ArrayList<Path> getResult()
-    {
-        return result;
-    }
-
-
-    public void setResult(ArrayList<Path> result)
-    {
-        this.result = result;
-    }
 
     public synchronized boolean isMusicIsRunning()
     {
@@ -222,10 +199,7 @@ public class SoundPlayerNoThread
     }
 
 
-    public void playSoundEffect()
-    {
 
-    }
 
     /**
      * <a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java">...</a>

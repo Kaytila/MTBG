@@ -223,7 +223,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             if (GameConfiguration.playMusic)
             {
                 //Game.getCurrent().getSoundSystem().startMusic();
-                Game.getCurrent().getSoundSystemNoThread().continueMusic();
+                Game.getCurrent().getMusicSystemNoThread().continueMusic();
                 //EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
             }
 
@@ -235,7 +235,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             if (GameConfiguration.playMusic)
             {
                 //Game.getCurrent().getSoundSystem().stopMusic();
-                Game.getCurrent().getSoundSystemNoThread().pauseMusic();
+                Game.getCurrent().getMusicSystemNoThread().pauseMusic();
             }
         }
 
@@ -244,7 +244,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             logger.info("louder");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystemNoThread().increaseVolume();
+                Game.getCurrent().getMusicSystemNoThread().increaseVolume();
             }
         }
 
@@ -253,7 +253,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             logger.info("leiser");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getSoundSystemNoThread().decreaseVolume();
+                Game.getCurrent().getMusicSystemNoThread().decreaseVolume();
             }
         }
     }
@@ -322,6 +322,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         EventBus.getDefault().register(this);
         Game.getCurrent().setController(this);
         Game.getCurrent().setUiOpen(true);
+        Game.getCurrent().initializeMusicSystemNoThread();
         Game.getCurrent().initializeSoundSystemNoThread();
 
     }
@@ -1157,7 +1158,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         {
             //Game.getCurrent().getSoundSystem().startMusic();
             //Game.getCurrent().getSoundSystemNoThread().startMusic();
-            Game.getCurrent().getSoundSystemNoThread().continueMusic();
+            Game.getCurrent().getMusicSystemNoThread().continueMusic();
         }
         Game.getCurrent().getIdleTimer().start();
         //focusManager.dispatchEvent(new FocusEvent(gridCanvas, FocusEvent.FOCUS_GAINED, false));
@@ -1204,7 +1205,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             {
                 //Game.getCurrent().getSoundSystem().stopMusic();
                 //Game.getCurrent().getSoundSystemNoThread().stopMusic();
-                Game.getCurrent().getSoundSystemNoThread().pauseMusic();
+                Game.getCurrent().getMusicSystemNoThread().pauseMusic();
             }
         }
         // }
@@ -1219,7 +1220,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         {
             //Game.getCurrent().getSoundSystem().startMusic();
             //Game.getCurrent().getSoundSystemNoThread().startMusic();
-            Game.getCurrent().getSoundSystemNoThread().continueMusic();
+            Game.getCurrent().getMusicSystemNoThread().continueMusic();
         }
         Game.getCurrent().getIdleTimer().start();
     }
@@ -1232,7 +1233,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         {
             //Game.getCurrent().getSoundSystem().stopMusic();
             //Game.getCurrent().getSoundSystemNoThread().stopMusic();
-            Game.getCurrent().getSoundSystemNoThread().pauseMusic();
+            Game.getCurrent().getMusicSystemNoThread().pauseMusic();
         }
         Game.getCurrent().getIdleTimer().stop();
     }

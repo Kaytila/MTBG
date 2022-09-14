@@ -648,5 +648,9 @@ History of the changes:
 2022-09-14: where did the last days go? No idea. Put some finishing touches on highlighting, there still is a bug there
             somewhere as the highlight count does not always work out properly, but its not visible, so dont care.
             will log it as bug.
-
+2022-09-14: So implemented some basic sound effects, hit, miss, walk, blocked. Was mostly copy and paste of music system
+            but its easier to do.
+            I really need to think of a better state machine where i can gather information based on current action
+            and do things accordingly, i.e. call commands on npc or world or pc and play sound effects.
+            the current way would work, but its really not nice.
 

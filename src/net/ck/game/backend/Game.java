@@ -5,23 +5,20 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.entities.*;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
-import net.ck.game.backend.time.GameTime;
-import net.ck.game.backend.time.QuequeTimerActionListener;
+import net.ck.game.backend.time.*;
 import net.ck.game.items.Armor;
 import net.ck.game.items.FurnitureItem;
 import net.ck.game.items.Utility;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
-import net.ck.game.sound.MusicTimer;
-import net.ck.game.sound.MusicTimerActionListener;
-import net.ck.game.backend.time.IdleActionListener;
-import net.ck.game.backend.time.IdleTimer;
-import net.ck.game.sound.SoundPlayerNoThread;
+import net.ck.game.music.MusicPlayerNoThread;
+import net.ck.game.music.MusicTimer;
+import net.ck.game.music.MusicTimerActionListener;
+import net.ck.game.soundeffects.SoundPlayerNoThread;
 import net.ck.game.ui.HighlightTimer;
 import net.ck.game.ui.HightlightTimerActionListener;
 import net.ck.game.ui.MainWindow;
-import net.ck.game.backend.time.QuequeTimer;
 import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
@@ -163,7 +160,10 @@ public class Game implements Runnable
     /**
      * soundSystem is the class dealing with the music. currently only taking files from a directory and trying to play one random song at a time
      */
-    private SoundPlayerNoThread soundSystemNoThread;
+    private MusicPlayerNoThread musicSystemNoThread;
+
+
+    private SoundPlayerNoThread soundPlayerNoThread;
 
     /**
      * this holds the actual game time which is increasing with time
@@ -1087,19 +1087,25 @@ public class Game implements Runnable
 //        }
     }
 
+    public void initializeMusicSystemNoThread()
+    {
+        if (GameConfiguration.playMusic == true)
+        {
+            getLogger().info("initializing music system no thread");
+            setMusicSystemNoThread(new MusicPlayerNoThread());
+            getMusicSystemNoThread().setMusicIsRunning(true);
+        }
+    }
+
     public void initializeSoundSystemNoThread()
     {
         if (GameConfiguration.playMusic == true)
         {
             getLogger().info("initializing sound system no thread");
-            setSoundSystemNoThread(new SoundPlayerNoThread());
-            getSoundSystemNoThread().setMusicIsRunning(true);
-            /*Thread soundSystemThread = new Thread(getSoundSystem());
-            soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
-            getThreadController().add(soundSystemThread);
-             */
+            setSoundPlayerNoThread(new SoundPlayerNoThread());
         }
     }
+
 
 
     public void listArmor()
@@ -1282,14 +1288,14 @@ public class Game implements Runnable
         this.npcAction = npcAction;
     }
 
-    public SoundPlayerNoThread getSoundSystemNoThread()
+    public MusicPlayerNoThread getMusicSystemNoThread()
     {
-        return soundSystemNoThread;
+        return musicSystemNoThread;
     }
 
-    public void setSoundSystemNoThread(SoundPlayerNoThread soundSystemNoThread)
+    public void setMusicSystemNoThread(MusicPlayerNoThread soundSystemNoThread)
     {
-        this.soundSystemNoThread = soundSystemNoThread;
+        this.musicSystemNoThread = soundSystemNoThread;
     }
 
     public boolean isUiOpen()
@@ -1310,6 +1316,16 @@ public class Game implements Runnable
     public void setHighlightTimer(HighlightTimer highlightTimer)
     {
         this.highlightTimer = highlightTimer;
+    }
+
+    public SoundPlayerNoThread getSoundPlayerNoThread()
+    {
+        return soundPlayerNoThread;
+    }
+
+    public void setSoundPlayerNoThread(SoundPlayerNoThread soundPlayerNoThread)
+    {
+        this.soundPlayerNoThread = soundPlayerNoThread;
     }
 }
 

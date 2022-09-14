@@ -1,9 +1,9 @@
 package net.ck.util.security;
 
-import java.io.FileDescriptor;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.FileDescriptor;
 
 public class SecurityManagerExtension extends SecurityManager
 {
@@ -11,7 +11,7 @@ public class SecurityManagerExtension extends SecurityManager
 	@Override
 	public void checkRead(FileDescriptor fd)
 	{
-		// logger.info("reading file1: {}", fd.toString());
+		//logger.info("reading file1: {}", fd.toString());
 		super.checkRead(fd);
 	}
 
@@ -25,7 +25,7 @@ public class SecurityManagerExtension extends SecurityManager
 	@Override
 	public void checkRead(String file, Object context)
 	{
-		// logger.info("reading file3: {} in context {}", file, context.toString());
+		//logger.info("reading file3: {} in context {}", file, context.toString());
 		super.checkRead(file, context);
 	}
 

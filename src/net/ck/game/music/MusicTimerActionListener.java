@@ -1,4 +1,4 @@
-package net.ck.game.sound;
+package net.ck.game.music;
 
 import net.ck.game.backend.Game;
 import net.ck.util.communication.sound.GameStateChanged;
