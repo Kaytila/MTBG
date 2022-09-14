@@ -645,5 +645,8 @@ History of the changes:
             Implemented highlighting blinking for Player character. Was rather easy to do :D
             Need to fiddle with the details some but that is for later.
             Good time to commit.
+2022-09-14: where did the last days go? No idea. Put some finishing touches on highlighting, there still is a bug there
+            somewhere as the highlight count does not always work out properly, but its not visible, so dont care.
+            will log it as bug.
 
 

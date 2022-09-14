@@ -44,7 +44,7 @@ public class JGridCanvas extends JComponent
 
     
     
-    private int highlightCount = 9;
+    private int highlightCount;
 
     public JGridCanvas()
     {
@@ -60,6 +60,7 @@ public class JGridCanvas extends JComponent
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.setKeyboardInput();
+        setHighlightCount(0);
         //this.setToolTipText(getLogger().getName());
 
         this.setTransferHandler(new JGridCanvasTransferHandler(this));
@@ -200,16 +201,7 @@ public class JGridCanvas extends JComponent
             if (getHighlightPosition() == Game.getCurrent().getCurrentPlayer().getMapPosition())
             {
                 g.drawRect((screenPosition.x * GameConfiguration.tileSize) + getHighlightCount(), (screenPosition.y * GameConfiguration.tileSize) + getHighlightCount(), GameConfiguration.tileSize - (getHighlightCount() * 2) , GameConfiguration.tileSize - (getHighlightCount() * 2));
-                logger.info("highlight count: {}", highlightCount);
-
-//                if (getHighlightCount() == 0)
-//                {
-//                    setHighlightCount(3);
-//                }
-//                else
-//                {
-//                    highlightCount--;
-//                }
+                //logger.info("highlight count: {}", getHighlightCount());
             }
             else
             {
@@ -495,10 +487,12 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(HighlightEvent event)
     {
-        logger.info("event.getMapPosition(): {}", event.getMapPosition());
-        setHighlightPosition(event.getMapPosition());
-        setHighlightCount(6);
-        this.paint();
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            logger.info("event.getMapPosition(): {}", event.getMapPosition());
+            setHighlightPosition(event.getMapPosition());
+            this.paint();
+        });
     }
 
 
@@ -784,28 +778,41 @@ public class JGridCanvas extends JComponent
 
     public void setHighlightPosition(Point highlightPosition)
     {
+        //logger.info("set highlight position: {}", SwingUtilities.isEventDispatchThread());
         this.highlightPosition = highlightPosition;
     }
 
-    public int getHighlightCount()
+    public synchronized int getHighlightCount()
     {
+        //logger.info("get highlight position: {}", SwingUtilities.isEventDispatchThread());
         return highlightCount;
     }
 
-    public void setHighlightCount(int highlightCount)
+    public  synchronized void setHighlightCount(int highlightCount)
     {
         this.highlightCount = highlightCount;
     }
 
-    public void decreaseHighlightCount()
+    public synchronized void increaseHighlightCount()
     {
-        if (getHighlightCount() >= 2)
+        //logger.info("increase highlight count: {}", SwingUtilities.isEventDispatchThread());
+        if (getHighlightCount() == 0)
         {
-            highlightCount = highlightCount - 2;
+            setHighlightCount(2);
+        }
+
+        else if (getHighlightCount() == 2)
+        {
+            setHighlightCount(4);
+        }
+
+        else if (getHighlightCount() == 4)
+        {
+            setHighlightCount(0);
         }
         else
         {
-            setHighlightCount(6);
+            logger.error("not possible");
         }
         this.paint();
     }

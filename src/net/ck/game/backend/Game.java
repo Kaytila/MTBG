@@ -628,6 +628,7 @@ public class Game implements Runnable
     {
         Game.getCurrent().getCurrentTurn().setGameState(Game.getCurrent().getGameState());
         Game.getCurrent().getIdleTimer().stop();
+        Game.getCurrent().getHighlightTimer().stop();
         if (Game.getCurrent().getMissileTimer() != null)
         {
             //noinspection StatementWithEmptyBody
@@ -702,6 +703,7 @@ public class Game implements Runnable
         getLogger().info("TURN ENDS");
         getLogger().info("=======================================================================================");
         getIdleTimer().start();
+        getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();

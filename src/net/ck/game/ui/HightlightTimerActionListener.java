@@ -22,6 +22,6 @@ public class HightlightTimerActionListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        Game.getCurrent().getController().getGridCanvas().decreaseHighlightCount();
+        Game.getCurrent().getController().getGridCanvas().increaseHighlightCount();
     }
 }

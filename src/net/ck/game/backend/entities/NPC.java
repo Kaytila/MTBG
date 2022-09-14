@@ -462,7 +462,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
         if (tile != null)
         {
-            logger.info("we found the file, its the players: {}", tile);
+            logger.info("we found the tile, its the players: {}", tile);
             if (getWeapon() == null)
             {
                 setWeapon(Game.getCurrent().getWeaponList().get(1));
