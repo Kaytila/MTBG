@@ -13,3 +13,4 @@ BUGS:
 2022-09-10  music switch between COMBAT and VICTORY back to standard does not work yet.
 2022-09-14  schedules stay active when map switches
 2022-09-14  Highlighting count does not properly go from 0, 2, 4 without repetitions
+2022-10-06  FIXED enter command does not have npc action.

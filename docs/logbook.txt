@@ -653,4 +653,10 @@ History of the changes:
             I really need to think of a better state machine where i can gather information based on current action
             and do things accordingly, i.e. call commands on npc or world or pc and play sound effects.
             the current way would work, but its really not nice.
+2022-10-06: back from vacation and wondering what I did last time.
+            Perhaps I need to think about editing tools now for creating maps and npcs and items and what not.
+            or i start removing appearance first?
+            not sure, time will tell. For now, just updated the maven project, there were some updates to be done.
+            found out that enter will try to switch the map independent of where pc is standing. updated that. also
+            found bug that enter command had no npc action which is bollocks. fixed.
 

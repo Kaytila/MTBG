@@ -842,7 +842,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case ENTER:
             {
-                action.setHaveNPCAction(false);
+                action.setHaveNPCAction(true);
                 break;
             }
 

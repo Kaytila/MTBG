@@ -231,8 +231,21 @@ public class Player extends AbstractEntity implements LifeForm
                 }
                 break;
             case ENTER:
-                logger.info("loading new map");
-                Game.getCurrent().switchMap();
+                MapTile exit = MapUtils.getTileByCoordinates(this.getMapPosition());
+                String mapName = exit.getTargetMap();
+                int targetTileID = exit.getTargetID();
+                if (mapName != null && targetTileID != -1)
+                {
+                    logger.info("loading new map");
+                    Game.getCurrent().switchMap();
+                    success = true;
+                }
+                else
+                {
+                    logger.info("stay on map");
+                    success = false;
+                }
+
                 break;
             case ESC:
                 break;

@@ -510,10 +510,9 @@ public class Game implements Runnable
         logger.info("start: switching map");
 
         MapTile exit = MapUtils.getTileByCoordinates(getCurrentPlayer().getMapPosition());
-        assert exit != null;
         String mapName = exit.getTargetMap();
         int targetTileID = exit.getTargetID();
-
+        logger.info("mapname: {}, targetTileID: {}", mapName, targetTileID);
         for (Map m : getMaps())
         {
             if (m.getName().equalsIgnoreCase(mapName))
