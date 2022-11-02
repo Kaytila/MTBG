@@ -69,5 +69,11 @@ public class GameConfiguration
 
     public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
 
-    public static final int highlightDelay = 500;
+    public static final int highlightDelay = 200;
+
+    public static final int animationLifeformDelay = 2000;
+
+    public static final int animationForeGroundDelay = 500;
+
+    public static final int animationBackGroundDelay = 1000;
 }

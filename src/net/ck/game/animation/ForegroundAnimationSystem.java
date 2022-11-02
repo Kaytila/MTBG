@@ -62,7 +62,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 				}
 				try
 				{
-					Game.getCurrent().getThreadController().sleep(500, ThreadNames.FOREGROUND_ANIMATION);
+					Game.getCurrent().getThreadController().sleep(GameConfiguration.animationForeGroundDelay, ThreadNames.FOREGROUND_ANIMATION);
 				}
 				catch (ConcurrentModificationException e)
 				{

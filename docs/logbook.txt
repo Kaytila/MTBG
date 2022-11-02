@@ -659,4 +659,11 @@ History of the changes:
             not sure, time will tell. For now, just updated the maven project, there were some updates to be done.
             found out that enter will try to switch the map independent of where pc is standing. updated that. also
             found bug that enter command had no npc action which is bollocks. fixed.
+2022-10-12: started working on Map Editor - not sure whether I want to actually do it, but I will start anyhow.
+2022-11-02: long long break - started looking into this again. Keyboard input is a little bit too sloppy, need to add a
+            break to it, i.e. do not accept too many commands at the same time. Basically same timeout between commands.
+            Configurable - need to figure out where the time actually stays. Think its in the animation cycles.
+            Did some minor work removing constants and adding them to GameConfiguration.
+            Will need to do FPS and game loop, I think, not sure the event based drawing yields any result.
+
 

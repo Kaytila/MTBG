@@ -481,7 +481,10 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
-        this.paint();
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            this.paint();
+        });
     }
 
     @Subscribe
@@ -489,7 +492,7 @@ public class JGridCanvas extends JComponent
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            logger.info("event.getMapPosition(): {}", event.getMapPosition());
+            //logger.info("event.getMapPosition(): {}", event.getMapPosition());
             setHighlightPosition(event.getMapPosition());
             this.paint();
         });
@@ -498,8 +501,11 @@ public class JGridCanvas extends JComponent
 
     private void paint()
     {
-        /*System.out.println(SwingUtilities.isEventDispatchThread());*/
-        javax.swing.SwingUtilities.invokeLater(this::repaint);
+        //javax.swing.SwingUtilities.invokeLater(this::repaint);
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            this.repaint();
+        });
     }
 
     /**

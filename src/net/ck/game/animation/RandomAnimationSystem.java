@@ -74,7 +74,7 @@ public class RandomAnimationSystem extends AnimationSystem
 
 			try
 			{
-				Game.getCurrent().getThreadController().sleep(2000, ThreadNames.LIFEFORM_ANIMATION);
+				Game.getCurrent().getThreadController().sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
 			}
             catch (ConcurrentModificationException e)
 			{

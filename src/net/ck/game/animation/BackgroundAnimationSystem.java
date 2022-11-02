@@ -52,7 +52,7 @@ public class BackgroundAnimationSystem extends IndividualAnimationSystem
 				}
 				try
 				{
-					Game.getCurrent().getThreadController().sleep(1500, ThreadNames.BACKGROUND_ANIMATION);
+					Game.getCurrent().getThreadController().sleep(GameConfiguration.animationBackGroundDelay, ThreadNames.BACKGROUND_ANIMATION);
 				}
 				catch (ConcurrentModificationException e)
 				{

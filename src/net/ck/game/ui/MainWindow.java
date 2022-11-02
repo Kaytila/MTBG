@@ -1058,7 +1058,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    logger.info("movement");
+                    //logger.info("movement");
                     action.setHaveNPCAction(true);
                     break;
                 }
