@@ -665,5 +665,6 @@ History of the changes:
             Configurable - need to figure out where the time actually stays. Think its in the animation cycles.
             Did some minor work removing constants and adding them to GameConfiguration.
             Will need to do FPS and game loop, I think, not sure the event based drawing yields any result.
-
+2022-11-22: Introduced Game Redraw in Game loop - not sure whether this is any better at the moment, but we will see and
+            find out.
 

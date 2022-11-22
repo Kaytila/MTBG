@@ -22,7 +22,13 @@ public class GameConfiguration
     /**
      * frames per second, if i really want to switch to this in the future
      */
-    public static final int FFPS = 60;
+    public static final int fps = 60;
+
+
+    /**
+     * how many nanoseconds are in a second?
+     */
+    public static final int targetTime = 1000000000 / fps;
 
     /**
      * show how many rows and columns of tiles in the UI

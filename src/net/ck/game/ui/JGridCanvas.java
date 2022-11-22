@@ -471,7 +471,7 @@ public class JGridCanvas extends JComponent
     public synchronized void onMessageEvent(PlayerPositionChanged event)
     {
         //logger.info("player position changed, lets see whether this is also called for NPCs");
-        this.paint();
+        //this.paint();
     }
 
 
@@ -483,7 +483,7 @@ public class JGridCanvas extends JComponent
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            this.paint();
+            //this.paint();
         });
     }
 
@@ -492,15 +492,15 @@ public class JGridCanvas extends JComponent
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            //logger.info("event.getMapPosition(): {}", event.getMapPosition());
             setHighlightPosition(event.getMapPosition());
-            this.paint();
+            //this.paint();
         });
     }
 
 
-    private void paint()
+    public void paint()
     {
+        //logger.info("time: {}", System.currentTimeMillis());
         //javax.swing.SwingUtilities.invokeLater(this::repaint);
         javax.swing.SwingUtilities.invokeLater(() ->
         {
@@ -514,7 +514,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(MissilePositionChanged event)
     {
-        this.paint();
+        //this.paint();
     }
 
 
@@ -820,6 +820,6 @@ public class JGridCanvas extends JComponent
         {
             logger.error("not possible");
         }
-        this.paint();
+        //this.paint();
     }
 }

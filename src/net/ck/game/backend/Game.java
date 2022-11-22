@@ -1058,6 +1058,7 @@ public class Game implements Runnable
      * <p>
      * This is the run method, i.e. the big cheese or the main game loop.
      */
+    //TODO add repaint every x here and try to remove the messages from the gridcanvas
     public void run()
     {
         while (Game.getCurrent().isRunning() == true)
@@ -1069,7 +1070,26 @@ public class Game implements Runnable
                 setNextTurn(false);
                 setNpcAction(false);
             }
+            long startTime = System.nanoTime();
 
+            if (this.isUiOpen())
+            {
+                this.getController().getGridCanvas().paint();
+            }
+
+            long timeTaken = System.nanoTime() - startTime;
+
+            if (timeTaken < GameConfiguration.targetTime)
+            {
+                try
+                {
+                    Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
+                }
+                catch (InterruptedException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
