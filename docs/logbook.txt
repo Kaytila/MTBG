@@ -667,4 +667,7 @@ History of the changes:
             Will need to do FPS and game loop, I think, not sure the event based drawing yields any result.
 2022-11-22: Introduced Game Redraw in Game loop - not sure whether this is any better at the moment, but we will see and
             find out.
+2022-11-24: Updated Configuration to allow sound effects to be turned off. Updated sound handling a little bit to make
+            it more flexible. Need to further make this easier. Also updated threading of game loop and canvas a little
+            bit.
 

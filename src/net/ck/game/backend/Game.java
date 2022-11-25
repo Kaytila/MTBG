@@ -1063,6 +1063,8 @@ public class Game implements Runnable
     {
         while (Game.getCurrent().isRunning() == true)
         {
+            long startTime = System.nanoTime();
+
             if (isNextTurn() == true)
             {
                 //logger.info("running advance turn");
@@ -1070,11 +1072,13 @@ public class Game implements Runnable
                 setNextTurn(false);
                 setNpcAction(false);
             }
-            long startTime = System.nanoTime();
 
             if (this.isUiOpen())
             {
-                this.getController().getGridCanvas().paint();
+               // javax.swing.SwingUtilities.invokeLater(() ->
+                //{
+                    this.getController().getGridCanvas().paint();
+                //});
             }
 
             long timeTaken = System.nanoTime() - startTime;
@@ -1118,7 +1122,7 @@ public class Game implements Runnable
 
     public void initializeSoundSystemNoThread()
     {
-        if (GameConfiguration.playMusic == true)
+        if (GameConfiguration.playSound == true)
         {
             getLogger().info("initializing sound system no thread");
             setSoundPlayerNoThread(new SoundPlayerNoThread());

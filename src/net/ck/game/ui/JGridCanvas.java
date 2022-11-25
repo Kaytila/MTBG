@@ -24,6 +24,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -188,7 +189,7 @@ public class JGridCanvas extends JComponent
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
 
-        paintHighlighting(g);
+        //paintHighlighting(g);
     }
 
     private void paintHighlighting(Graphics g)
@@ -498,12 +499,11 @@ public class JGridCanvas extends JComponent
     }
 
 
-    public void paint()
+    public  void paint()
     {
-        //logger.info("time: {}", System.currentTimeMillis());
-        //javax.swing.SwingUtilities.invokeLater(this::repaint);
         javax.swing.SwingUtilities.invokeLater(() ->
         {
+            logger.info("time: {}", LocalTime.now());
             this.repaint();
         });
     }

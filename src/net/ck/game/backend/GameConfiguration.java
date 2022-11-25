@@ -41,6 +41,11 @@ public class GameConfiguration
     public static final boolean playMusic = true;
 
     /**
+     * do we want to play sound effects?
+     */
+    public static final boolean playSound = false;
+
+    /**
      * Tile Size
      */
     public static final int tileSize = 32;

@@ -1,9 +1,6 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.backend.CommandQueue;
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameState;
-import net.ck.game.backend.Turn;
+import net.ck.game.backend.*;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;
@@ -204,6 +201,7 @@ public class Player extends AbstractEntity implements LifeForm
         int yBorder = mapsize.y;
 
         boolean success = false;
+        int successfulMovemement = 0;
 
         switch (action.getType())
         {
@@ -215,19 +213,19 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
                     {
                         this.move((p.x + 1), p.y);
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
+                        successfulMovemement = 2;
                         success = true;
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                        successfulMovemement = 1;
                         //logger.info("EAST blocked");
                     }
                 }
                 else
                 {
                     logger.info("eastern border, ignore wrapping for now");
-                    Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                    successfulMovemement = 1;
                 }
                 break;
             case ENTER:
@@ -245,7 +243,6 @@ public class Player extends AbstractEntity implements LifeForm
                     logger.info("stay on map");
                     success = false;
                 }
-
                 break;
             case ESC:
                 break;
@@ -256,19 +253,19 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
                     {
                         this.move((p.x), (p.y - 1));
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
+                        successfulMovemement = 2;
                         success = true;
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                        successfulMovemement = 1;
                         //logger.info("NORTH blocked");
                     }
                 }
                 else
                 {
                     logger.info("already at zero y");
-                    Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                    successfulMovemement = 1;
                 }
                 break;
             case NULL:
@@ -280,12 +277,12 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
                     {
                         this.move((p.x), (p.y + 1));
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
+                        successfulMovemement = 2;
                         success = true;
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                        successfulMovemement = 1;
                         //logger.info("SOUTH blocked");
                     }
 
@@ -293,7 +290,7 @@ public class Player extends AbstractEntity implements LifeForm
                 else
                 {
                     logger.info("southern border, ignore wrapping for now");
-                    Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                    successfulMovemement = 1;
                 }
                 break;
             case WEST:
@@ -303,19 +300,20 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
                     {
                         this.move((p.x - 1), (p.y));
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
+                        successfulMovemement = 2;
                         success = true;
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                        successfulMovemement = 1;
                         //logger.info("WEST blocked");
                     }
                 }
                 else
                 {
                     logger.info("already at zero x");
-                    Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                    successfulMovemement = 1;
+
                 }
                 break;
             case SPACE:
@@ -363,6 +361,26 @@ public class Player extends AbstractEntity implements LifeForm
         {
             Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction()));
         }
+
+        if (successfulMovemement > 0)
+        {
+            if (GameConfiguration.playSound == true)
+            {
+                if (successfulMovemement == 2)
+                {
+                    Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
+                }
+                else
+                {
+                    Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                }
+            }
+        }
+        else
+        {
+
+        }
+
         //Game.getCurrent().getController().setCurrentAction(null);
     }
 
