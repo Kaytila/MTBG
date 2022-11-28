@@ -132,6 +132,12 @@ public class RunGame
 					renderSplashFrame(g, size);
 					//game.initializeSoundSystemNoThread();
 					game.initializeHighlightingTimer();
+					renderSplashFrame(g, size);
+					//game.loadGameMap("testname");
+					game.initializeMusicSystemNoThread();
+					renderSplashFrame(g, size);
+					game.initializeSoundSystemNoThread();
+					renderSplashFrame(g, size);
 					if (progress < 100)
 					{
 						renderSplashFrame(g, 100, size);

@@ -322,9 +322,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         EventBus.getDefault().register(this);
         Game.getCurrent().setController(this);
         Game.getCurrent().setUiOpen(true);
-        Game.getCurrent().initializeMusicSystemNoThread();
-        Game.getCurrent().initializeSoundSystemNoThread();
-
     }
 
     /**

@@ -24,7 +24,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -503,7 +502,7 @@ public class JGridCanvas extends JComponent
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            logger.info("time: {}", LocalTime.now());
+            //logger.info("time: {}", LocalTime.now());
             this.repaint();
         });
     }

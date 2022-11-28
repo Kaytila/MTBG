@@ -670,4 +670,5 @@ History of the changes:
 2022-11-24: Updated Configuration to allow sound effects to be turned off. Updated sound handling a little bit to make
             it more flexible. Need to further make this easier. Also updated threading of game loop and canvas a little
             bit.
-
+2022-11-28: music is finally running on startup directly. No need to switch maps once more, it was only necessary to
+            properly post the event once the music system was running.

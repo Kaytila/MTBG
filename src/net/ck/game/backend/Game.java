@@ -369,7 +369,6 @@ public class Game implements Runnable
                         map.setVisibilityRange(2);
 
                         setCurrentMap(map);
-                        // addManyNPCs(map);
                         addItemsToFloor();
                     }
                     else
@@ -841,11 +840,11 @@ public class Game implements Runnable
         this.weatherSystem = weatherSystem;
     }
 
-    public void stopGame()
+    public synchronized void stopGame()
     {
+        getThreadController().listThreads();
         logger.info("stopping game");
         setRunning(false);
-        getThreadController().listThreads();
         System.exit(0);
     }
 
@@ -889,9 +888,8 @@ public class Game implements Runnable
         p1.getInventory().add(sling);
         p1.setWeapon(club);
         getPlayers().add(p1);
-        p1.setMapPosition(new Point(2, 2));
         setCurrentPlayer(getPlayers().get(0));
-
+        getCurrentPlayer().setMapPosition(new Point(2,2));
 			/*Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
 			for (ArmorPositions pos : positions)
 			{
@@ -1126,6 +1124,7 @@ public class Game implements Runnable
         {
             getLogger().info("initializing sound system no thread");
             setSoundPlayerNoThread(new SoundPlayerNoThread());
+            EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         }
     }
 

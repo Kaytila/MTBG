@@ -45,7 +45,7 @@ public class SoundPlayerNoThread
     public SoundPlayerNoThread()
     {
         super();
-        getLogger().info("initialize sound player no threaded");
+        //getLogger().info("initialize sound player no threaded");
         EventBus.getDefault().register(this);
         soundEffects = new ArrayList<>();
         readSoundEffectDirectory(getSoundBasePath());
@@ -57,10 +57,10 @@ public class SoundPlayerNoThread
         {
             for (File f : Files.list(Paths.get(soundBasePath)).map(Path::toFile).collect(Collectors.toList()))
             {
-                logger.info("File f: {}", f);
+                //logger.info("File f: {}", f);
                 if (SoundUtils.detectFileType(Paths.get(f.toURI())).getBaseType().toString().contains("audio"))
                 {
-                    logger.info("Sound effect: {}", Paths.get(f.toURI()));
+                    //logger.info("Sound effect: {}", Paths.get(f.toURI()));
                     soundEffects.add(Paths.get(f.toURI()));
                 }
 
