@@ -672,3 +672,9 @@ History of the changes:
             bit.
 2022-11-28: music is finally running on startup directly. No need to switch maps once more, it was only necessary to
             properly post the event once the music system was running.
+2022-11-29: "fixed the muddy movement" by turning off highlighting for the npcs which was causing it with a delay of
+            100 ms per npc.
+            moved gamestate to gamestatemachine class to have it in a separate entity. This now catches the events and
+            basically does what happened before in game. Better that way and it seems to work right away? Weird.
+            fixed startup - switched splash a bit - splash now explicitly is closed, then UI is explicitly shown.
+            Lighting is calculated, highlight event is called. Now startup looks correct.

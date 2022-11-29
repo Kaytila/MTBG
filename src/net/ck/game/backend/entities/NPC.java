@@ -64,6 +64,7 @@ public class NPC extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
+        setState(LifeFormState.ALIVE);
         setArmorClass(0);
         getInventory().add(Game.getCurrent().getWeaponList().get(3));
         wieldWeapon(Game.getCurrent().getWeaponList().get(1));
@@ -553,6 +554,9 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void decreaseHealth(int i)
     {
+        this.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+
         if (getHealth() - i > 0)
         {
             setHealth(getHealth() - i);
@@ -570,6 +574,9 @@ public class NPC extends AbstractEntity implements LifeForm
             setHostile(false);
             //TODO set image to skeleton or pool of blood or anything really
         }
+        setHealth(0);
+        setState(LifeFormState.DEAD);
+        setHostile(false);
     }
 
     @Override

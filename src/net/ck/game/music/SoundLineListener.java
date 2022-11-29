@@ -23,21 +23,21 @@ public class SoundLineListener implements LineListener
     @Override
     public void update(LineEvent event)
     {
-        logger.info("sound event: {}", event);
+        //logger.info("sound event: {}", event);
        if (event.getType().equals(LineEvent.Type.STOP))
        {
            if (Game.getCurrent().getMusicSystemNoThread().isGameStateChanged())
            {
                return;
            }
-           logger.info("stop event");
+           //logger.info("stop event");
            if (Game.getCurrent().getMusicSystemNoThread().isPaused())
            {
-               logger.info("music paused, do not do anything about the stop");
+               //logger.info("music paused, do not do anything about the stop");
            }
            else
            {
-               logger.info("play new song");
+               //logger.info("play new song");
                Game.getCurrent().getMusicSystemNoThread().playSong();
            }
        }

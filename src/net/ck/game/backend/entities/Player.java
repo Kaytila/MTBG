@@ -13,7 +13,6 @@ import net.ck.game.soundeffects.SoundEffects;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
-import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
@@ -104,6 +103,7 @@ public class Player extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
+        setState(LifeFormState.ALIVE);
     }
 
     public int getAnimationCycles()
@@ -469,8 +469,7 @@ public class Player extends AbstractEntity implements LifeForm
                         {
                             logger.info("hit");
                             n.decreaseHealth(5);
-                            n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
-                            EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+
                             Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
                         }
                         else

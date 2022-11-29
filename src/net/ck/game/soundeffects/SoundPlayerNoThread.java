@@ -107,7 +107,7 @@ public class SoundPlayerNoThread
             break;
         }
 
-        logger.info("playing song: {}", path);
+        //logger.info("playing song: {}", path);
 
         try
         {

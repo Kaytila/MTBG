@@ -4,14 +4,17 @@ BUGS:
 2022-09-01 wanderer npc does not keep to wandering box
 2022-09-01 FIXED sound skips at startup
 2022-09-01 FIXED music does stop and is completely restarted instead of pausing
-2022-09-01 hit animation is not centered
+2022-09-01 FIXED hit animation is not centered
 2022-09-01 missile combat is possible with melee person
 2022-09-01  recursive aStar does not work yet
 2022-09-01  AStar for calculating moving towards player only returns space
 2022-09-01  FIXED pressing space does not give NPCs a round
 2022-09-01  player can move while hit animation is still running
-2022-09-10  music switch between COMBAT and VICTORY back to standard does not work yet.
+2022-09-10  FIXED music switch between COMBAT and VICTORY back to standard does not work yet.
 2022-09-14  schedules stay active when map switches
-2022-09-14  Highlighting count does not properly go from 0, 2, 4 without repetitions
+2022-09-14  FIXED Highlighting count does not properly go from 0, 2, 4 without repetitions
 2022-10-06  FIXED enter command does not have npc action.
-2022-11-02  keyboard movement does not repaint fast enough - need to check where the delay comes from.
+2022-11-02  FIXED keyboard movement does not repaint fast enough - need to check where the delay comes from.
+            Delay came from delay per NPC for highlighting. Solution, turn off highlighting.
+2022-11-29  FIXED game initialize does not draw highlighting
+2022-11-29  FIXED game initialize does not calculate visibility correct

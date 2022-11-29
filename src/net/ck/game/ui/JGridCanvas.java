@@ -188,7 +188,7 @@ public class JGridCanvas extends JComponent
         // take component size and draw lines every $tileSize pixels.
         paintGridLines(g);
 
-        //paintHighlighting(g);
+        paintHighlighting(g);
     }
 
     private void paintHighlighting(Graphics g)

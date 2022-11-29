@@ -57,7 +57,7 @@ public class Game implements Runnable
      * is also used by soundplayer, is also persisted with each turn
      * and used for checking for music change
      */
-    private GameState gameState;
+
 
     /**
      * list that contains all the NPC prototypes
@@ -278,7 +278,10 @@ public class Game implements Runnable
         setGameTime(new GameTime());
         getGameTime().setCurrentHour(9);
 
-        setGameState(GameState.WORLD);
+        GameStateMachine.getCurrent();
+
+        //why would I need that?
+        //setGameState(GameState.WORLD);
 
         EventBus.getDefault().register(this);
         getLogger().info("game start with default settings finished");
@@ -330,9 +333,6 @@ public class Game implements Runnable
     {
         this.running = running;
     }
-
-
-
 
 
     /**
@@ -549,27 +549,6 @@ public class Game implements Runnable
      * logger.error("shutdown: " + t.getName()); t.interrupt(); } } }
      */
     @Subscribe
-    public void onMessageEvent(GameStateChanged gameState)
-    {
-//        if (gameState.getGameState() == GameState.COMBAT)
-//        {
-//            logger.info("setting previous game state to: {}", Game.getCurrent().getGameState());
-//            setPreviousGameState(Game.getCurrent().getGameState());
-//        }
-//        else if (gameState.getGameState() == GameState.VICTORY)
-//        {
-//            logger.info("victory, previous game state stays at: {}", Game.getCurrent().getPreviousGameState());
-//        }
-//        else
-//        {
-//            if (gameState.getGameState() != Game.getCurrent().getGameState())
-//            {
-//                Game.getCurrent().setGameState(gameState.getGameState());
-//            }
-//        }
-    }
-
-    @Subscribe
     public void onMessageEvent(AdvanceTurnEvent event)
     {
         //logger.info("advance turn");
@@ -624,7 +603,7 @@ public class Game implements Runnable
      */
     public synchronized void advanceTurn(boolean haveNPCAction)
     {
-        Game.getCurrent().getCurrentTurn().setGameState(Game.getCurrent().getGameState());
+        Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
         Game.getCurrent().getIdleTimer().stop();
         Game.getCurrent().getHighlightTimer().stop();
         if (Game.getCurrent().getMissileTimer() != null)
@@ -640,8 +619,8 @@ public class Game implements Runnable
         {
             for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
             {
-                EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
-                getThreadController().sleep(100, ThreadNames.GAME_THREAD);
+                //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
+                //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                 if (e.isHostile())
                 {
                     AIBehaviour.determineCombat(e);
@@ -659,8 +638,8 @@ public class Game implements Runnable
         //logger.info("advance turn!");
         setTurnNumber(getTurnNumber() + 1);
 
-        //logger.info("game game state: {}", Game.getCurrent().getGameState());
-        if (Game.getCurrent().getGameState() == GameState.COMBAT)
+        logger.info("game game state: {}", GameStateMachine.getCurrent().getCurrentState());
+        if (GameStateMachine.getCurrent().getCurrentState() == GameState.COMBAT)
         {
             boolean stillaggro = false;
             for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
@@ -672,7 +651,7 @@ public class Game implements Runnable
                 }
             }
 
-            //logger.info("still aggro: {}", stillaggro);
+            logger.info("still aggro: {}", stillaggro);
 
             if (stillaggro == false)
             {
@@ -681,7 +660,7 @@ public class Game implements Runnable
             }
         }
 
-        if (Game.getCurrent().getGameState() == GameState.VICTORY)
+        if (GameStateMachine.getCurrent().getCurrentState() == GameState.VICTORY)
         {
             if (GameUtils.checkVictoryGameStateDuration())
             {
@@ -889,7 +868,7 @@ public class Game implements Runnable
         p1.setWeapon(club);
         getPlayers().add(p1);
         setCurrentPlayer(getPlayers().get(0));
-        getCurrentPlayer().setMapPosition(new Point(2,2));
+        getCurrentPlayer().setMapPosition(new Point(2, 2));
 			/*Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
 			for (ArmorPositions pos : positions)
 			{
@@ -1015,6 +994,7 @@ public class Game implements Runnable
         HightlightTimerActionListener actionListener = new HightlightTimerActionListener();
         setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
         getHighlightTimer().setRepeats(true);
+
     }
 
 
@@ -1073,9 +1053,9 @@ public class Game implements Runnable
 
             if (this.isUiOpen())
             {
-               // javax.swing.SwingUtilities.invokeLater(() ->
+                // javax.swing.SwingUtilities.invokeLater(() ->
                 //{
-                    this.getController().getGridCanvas().paint();
+                this.getController().getGridCanvas().paint();
                 //});
             }
 
@@ -1127,7 +1107,6 @@ public class Game implements Runnable
             EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         }
     }
-
 
 
     public void listArmor()
@@ -1257,16 +1236,6 @@ public class Game implements Runnable
         this.baseHealth = baseHealth;
     }
 
-    public GameState getGameState()
-    {
-        return gameState;
-    }
-
-    public void setGameState(GameState gameState)
-    {
-        this.gameState = gameState;
-    }
-
 
     public void startThreads()
     {
@@ -1348,6 +1317,21 @@ public class Game implements Runnable
     public void setSoundPlayerNoThread(SoundPlayerNoThread soundPlayerNoThread)
     {
         this.soundPlayerNoThread = soundPlayerNoThread;
+    }
+
+    /**
+     * in turn 0, highlighting does not yet work, nor does visibility.
+     * I want to fix this by simply initializing the things at the end of game start.
+     * it appears, UI is not yet open.
+     */
+    public void initializeRest()
+    {
+        getController().getFrame().setVisible(true);
+        Game.getCurrent().setUiOpen(true);
+
+        getHighlightTimer().start();
+        EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
+        MapUtils.calculateDayOrNight();
     }
 }
 

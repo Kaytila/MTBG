@@ -1,7 +1,7 @@
 package net.ck.game.music;
 
-import net.ck.game.backend.Game;
 import net.ck.game.backend.GameState;
+import net.ck.game.backend.GameStateMachine;
 import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
@@ -206,10 +206,9 @@ public class MusicPlayerNoThread
      */
     public void playSong()
     {
-        playSong(getResultMap().get(Game.getCurrent().getGameState()).get(betterSelectRandomSong(getResultMap().get(Game.getCurrent().getGameState()))));
+        playSong(getResultMap().get(GameStateMachine.getCurrent().getCurrentState()).get(betterSelectRandomSong(getResultMap().get(GameStateMachine.getCurrent().getCurrentState()))));
     }
 
-    //TODO it appears clips are not meant to be run in threads
     private void playSong(Path path)
     {
         logger.info("playing song: {}", path);
@@ -247,10 +246,8 @@ public class MusicPlayerNoThread
         }
         getCurrentMusic().setFramePosition(0);
 
-        //TODO currently only one song is running and running in a loop to get around some issue if I want to go back to random selection within one stay on the map, need to re-think and re-do this
         getCurrentMusic().start();
         //getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
-
     }
 
     private int betterSelectRandomSong(ArrayList<Path> list)

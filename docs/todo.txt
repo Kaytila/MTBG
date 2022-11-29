@@ -77,7 +77,7 @@ options menu or dialog
 
 
 SOUND:
-sound effects?
+sound effects - done
 
 
 

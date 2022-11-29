@@ -40,6 +40,8 @@ public class RunGame
 		return game;
 	}
 
+	//TODO
+	//https://stackoverflow.com/questions/29290178/gui-has-to-wait-until-splashscreen-finishes-executing
 	public static void main(String[] args)
 	{
 		logger.info("starting game");
@@ -132,12 +134,13 @@ public class RunGame
 					renderSplashFrame(g, size);
 					//game.initializeSoundSystemNoThread();
 					game.initializeHighlightingTimer();
-					renderSplashFrame(g, size);
+					//renderSplashFrame(g, size);
 					//game.loadGameMap("testname");
 					game.initializeMusicSystemNoThread();
-					renderSplashFrame(g, size);
+					//renderSplashFrame(g, size);
 					game.initializeSoundSystemNoThread();
-					renderSplashFrame(g, size);
+					//renderSplashFrame(g, size);
+
 					if (progress < 100)
 					{
 						renderSplashFrame(g, 100, size);
@@ -153,6 +156,8 @@ public class RunGame
 				}
 			}
 			logger.info("splash finished");
+			splash.close();
+			game.initializeRest();
 			//System.gc();
 		}
 

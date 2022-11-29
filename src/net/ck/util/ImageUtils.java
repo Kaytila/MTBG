@@ -41,6 +41,7 @@ public class ImageUtils
     private static BufferedImage hitImage;
     private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>();
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>();
+    private static BufferedImage bloodstainImage;
 
     static
     {
@@ -745,6 +746,18 @@ public class ImageUtils
 
         return hitImage;
     }
+
+
+    public static BufferedImage getBloodstainImage()
+    {
+        if (bloodstainImage == null)
+        {
+            bloodstainImage = ImageUtils.loadImage("combat", "bloodstain");
+        }
+
+        return bloodstainImage;
+    }
+
 
     public Class<?> getRealClass()
     {

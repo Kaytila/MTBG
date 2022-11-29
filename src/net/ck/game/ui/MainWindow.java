@@ -311,7 +311,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         undoButton.addActionListener(this);
 
         setMouseOutsideOfGrid(true);
-        frame.setVisible(true);
+        //frame.setVisible(true);
 
         DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
@@ -321,7 +321,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("setting up event bus");
         EventBus.getDefault().register(this);
         Game.getCurrent().setController(this);
-        Game.getCurrent().setUiOpen(true);
+
     }
 
     /**
