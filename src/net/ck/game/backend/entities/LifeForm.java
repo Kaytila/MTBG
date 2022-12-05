@@ -77,4 +77,6 @@ public interface LifeForm
     boolean isStatic();
 
     boolean isHostile();
+
+    void evade();
 }

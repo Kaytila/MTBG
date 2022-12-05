@@ -231,6 +231,12 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public void evade()
+	{
+
+	}
+
+	@Override
 	public LifeFormState getState()
 	{
 		return null;

@@ -1,11 +1,8 @@
 package net.ck.game.soundeffects;
 
 import net.ck.util.SoundUtils;
-import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -46,7 +43,7 @@ public class SoundPlayerNoThread
     {
         super();
         //getLogger().info("initialize sound player no threaded");
-        EventBus.getDefault().register(this);
+       // EventBus.getDefault().register(this);
         soundEffects = new ArrayList<>();
         readSoundEffectDirectory(getSoundBasePath());
     }
@@ -79,11 +76,11 @@ public class SoundPlayerNoThread
         return soundBasePath;
     }
 
-    @Subscribe
+    /*@Subscribe
     public void onMessageEvent(GameStateChanged gameStat)
     {
         logger.info("nothing");
-    }
+    }*/
 
     public synchronized  void playSoundEffect(SoundEffects type)
     {

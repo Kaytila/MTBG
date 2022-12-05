@@ -38,7 +38,7 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = true;
+    public static final boolean playMusic = false;
 
     /**
      * do we want to play sound effects?

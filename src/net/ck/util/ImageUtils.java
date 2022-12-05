@@ -38,10 +38,14 @@ public class ImageUtils
     private static final String imagerootpath = "graphics" + File.separator + "players" + File.separator + "player";
     private static final String additionalImagesPath = "graphics" + File.separator + "misc";
     private static final String weatherImagesPath = "graphics" + File.separator + "weather";
-    private static BufferedImage hitImage;
+
     private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>();
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>();
     private static BufferedImage bloodstainImage;
+    private static BufferedImage healImage;
+    private static BufferedImage hitImage;
+
+    private static BufferedImage missImage;
 
     static
     {
@@ -756,6 +760,31 @@ public class ImageUtils
         }
 
         return bloodstainImage;
+    }
+
+    public static BufferedImage getHealImage()
+    {
+        if (healImage == null)
+        {
+            healImage = ImageUtils.loadImage("combat", "heal");
+        }
+
+        return healImage;
+    }
+
+    public static BufferedImage getMissImage()
+    {
+        if (missImage == null)
+        {
+            missImage = ImageUtils.loadImage("combat", "miss");
+        }
+
+        return missImage;
+    }
+
+    public static void setMissImage(BufferedImage missImage)
+    {
+        ImageUtils.missImage = missImage;
     }
 
 

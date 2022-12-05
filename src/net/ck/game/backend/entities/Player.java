@@ -13,6 +13,7 @@ import net.ck.game.soundeffects.SoundEffects;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
+import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
@@ -427,6 +428,13 @@ public class Player extends AbstractEntity implements LifeForm
         return false;
     }
 
+    @Override
+    public void evade()
+    {
+        this.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+    }
+
     /*
      * @param action keyboard action (attack action)
      * @return returns whether it is a hit
@@ -469,12 +477,14 @@ public class Player extends AbstractEntity implements LifeForm
                         {
                             logger.info("hit");
                             n.decreaseHealth(5);
+                            //n.increaseHealth(5);
 
                             Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
                         }
                         else
                         {
                             logger.info("miss");
+                            n.evade();
                             Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
                         }
                         break;

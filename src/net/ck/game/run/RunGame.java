@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 public class RunGame
 {
@@ -128,18 +129,12 @@ public class RunGame
 					renderSplashFrame(g, size);
 					ImageUtils.initializeForegroundImages();
 					renderSplashFrame(g, size);
-					javax.swing.SwingUtilities.invokeLater(() -> setWindow(new MainWindow()));
-					renderSplashFrame(g, size);
 					game.startThreads();
 					renderSplashFrame(g, size);
 					//game.initializeSoundSystemNoThread();
 					game.initializeHighlightingTimer();
-					//renderSplashFrame(g, size);
-					//game.loadGameMap("testname");
 					game.initializeMusicSystemNoThread();
-					//renderSplashFrame(g, size);
 					game.initializeSoundSystemNoThread();
-					//renderSplashFrame(g, size);
 
 					if (progress < 100)
 					{
@@ -155,8 +150,23 @@ public class RunGame
 					logger.error("game is null, how did this happen?");
 				}
 			}
+			//finish splash, open UI
 			logger.info("splash finished");
 			splash.close();
+			//make this synchronous to make sure the UI is finished.
+			try
+			{
+				javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+			}
+			catch (InterruptedException e)
+			{
+				throw new RuntimeException(e);
+			}
+			catch (InvocationTargetException e)
+			{
+				throw new RuntimeException(e);
+			}
+			//initialize remaining stuff _after_ UI is definitely open
 			game.initializeRest();
 			//System.gc();
 		}

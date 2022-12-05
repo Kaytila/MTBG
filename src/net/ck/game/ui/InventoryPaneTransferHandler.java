@@ -1,20 +1,16 @@
 package net.ck.game.ui;
 
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.InputEvent;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.TransferHandler;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.entities.Inventory;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Utility;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.InputEvent;
+import java.util.ArrayList;
 
 public class InventoryPaneTransferHandler extends TransferHandler
 {
@@ -104,6 +100,8 @@ public class InventoryPaneTransferHandler extends TransferHandler
 		sourceInv.remove(found.get(0));
 		getSourceInventoryPane().repaint();
 		logger.debug("after source inventory: {}", sourceInv.getInventory());
+		//Game.getCurrent().getController().setSelectTile(false);
+		//MouseEvent clickEvent = new MouseEvent(Game.getCurrent().getController().getGridCanvas(), MouseEvent.MOUSE_RELEASED, 0, 0, 0, 0, 0,false, 0);
 		logger.info("end: export done");
 	}
 

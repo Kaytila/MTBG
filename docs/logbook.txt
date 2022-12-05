@@ -678,3 +678,18 @@ History of the changes:
             basically does what happened before in game. Better that way and it seems to work right away? Weird.
             fixed startup - switched splash a bit - splash now explicitly is closed, then UI is explicitly shown.
             Lighting is calculated, highlight event is called. Now startup looks correct.
+2022-11-30: had a nice concurrency bug with invokeLater - when music and sound were turned off, UI was not yet done
+            when highlighting was called. awesome, isnt it?
+            fix: invokeAndWait() instead.
+            Also moved real UI creation after splash, explicitly close splash, explicitly open UI.
+            moved start of music to latest point possible to avoid the skip during startup.
+            Also fixed drag'n'drop out of inventory, no idea what I did there, need to leave the drop of canvas if the
+            action is anything but DROP action.
+2022-12-01: moved music initiation from init of music to initializeRest makes it cleaner.
+            also, very glad that moving ui creation just to the end just worked :D seems my code separation is not that
+            bad after all.
+2022-12-04: some breaks and some minor updates without committing.
+            There is a bug with inventory, but need to figure that out still.
+            implemented heal and miss image.
+            need to think about reimplementing this in a better way, doing this image by image is not that good.
+

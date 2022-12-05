@@ -1104,7 +1104,6 @@ public class Game implements Runnable
         {
             getLogger().info("initializing sound system no thread");
             setSoundPlayerNoThread(new SoundPlayerNoThread());
-            EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         }
     }
 
@@ -1326,12 +1325,13 @@ public class Game implements Runnable
      */
     public void initializeRest()
     {
-        getController().getFrame().setVisible(true);
-        Game.getCurrent().setUiOpen(true);
+        //getController().getFrame().setVisible(true);
+        //Game.getCurrent().setUiOpen(true);
 
         getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         MapUtils.calculateDayOrNight();
+        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 }
 

@@ -96,6 +96,13 @@ public class NPC extends AbstractEntity implements LifeForm
         return hostile;
     }
 
+    @Override
+    public void evade()
+    {
+        this.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+    }
+
     public void setHostile(boolean hostile)
     {
         this.hostile = hostile;
@@ -490,6 +497,8 @@ public class NPC extends AbstractEntity implements LifeForm
                             }
                             else
                             {
+                                n.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                                 logger.info("miss");
                             }
                             break;
@@ -519,6 +528,8 @@ public class NPC extends AbstractEntity implements LifeForm
                             else
                             {
                                 logger.info("miss");
+                                n.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             }
                             break;
                         }
@@ -548,7 +559,21 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void increaseHealth(int i)
     {
+        this.getAppearance().setCurrentImage(ImageUtils.getHealImage());
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
+        if (getHealth() >= 0)
+        {
+            setHealth(getHealth() + i);
+            setState(LifeFormState.ALIVE);
+        }
+        else
+        //what is dead will stay dead
+        {
+            setHealth(-1);
+            setState(LifeFormState.DEAD);
+            setHostile(false);
+        }
     }
 
     @Override
@@ -572,7 +597,6 @@ public class NPC extends AbstractEntity implements LifeForm
             setHealth(-1);
             setState(LifeFormState.DEAD);
             setHostile(false);
-            //TODO set image to skeleton or pool of blood or anything really
         }
         setHealth(0);
         setState(LifeFormState.DEAD);
