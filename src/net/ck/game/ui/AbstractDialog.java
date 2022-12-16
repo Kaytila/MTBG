@@ -72,7 +72,7 @@ public class AbstractDialog extends JDialog
 				return dialog;
 			}
 
-			case "EQ" :
+			case "Equipment" :
 			{
 				EQDialog dialog = new EQDialog(owner, title, modal);
 				return dialog;

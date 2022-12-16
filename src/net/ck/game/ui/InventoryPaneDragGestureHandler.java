@@ -9,6 +9,8 @@ import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragSource;
 
+import net.ck.game.backend.Game;
+import net.ck.util.communication.keyboard.DropAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,6 +56,7 @@ public class InventoryPaneDragGestureHandler implements DragGestureListener
 		Dimension bestSize = Toolkit.getDefaultToolkit().getBestCursorSize(0, 0);
 		Cursor curs = Toolkit.getDefaultToolkit().createCustomCursor(selectedValue.getItemImage(), new Point(bestSize.width / 2, bestSize.height / 2), selectedValue.getName());
 		ds.startDrag(dge, curs, t, new InventoryPaneDragSourceHandler());
+
 
 	}
 

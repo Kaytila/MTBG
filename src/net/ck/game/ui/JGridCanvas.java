@@ -702,7 +702,7 @@ public class JGridCanvas extends JComponent
     {
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {
-            if (tile.getInventory().isEmpty() == false)
+            if ((tile.getInventory().isEmpty() == false) && (tile.getInventory().get(0) != null))
             {
                 Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                 g.drawImage(tile.getInventory().get(0).getItemImage(), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);

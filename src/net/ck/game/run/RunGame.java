@@ -152,7 +152,10 @@ public class RunGame
 			}
 			//finish splash, open UI
 			logger.info("splash finished");
-			splash.close();
+			if (splash != null)
+			{
+				splash.close();
+			}
 			//make this synchronous to make sure the UI is finished.
 			try
 			{

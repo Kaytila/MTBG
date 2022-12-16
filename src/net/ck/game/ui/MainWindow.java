@@ -756,7 +756,16 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         switch (action.getType())
         {
             case EQ:
+                if (isDialogOpened == true)
+                {
+                    logger.info("We do not stack dialogs for now");
+                    break;
+                }
                 logger.info("do not have equipment dialog for now, no paperdoll and what not");
+                setDialogOpened(true);
+                action.setHaveNPCAction(false);
+                Game.getCurrent().getIdleTimer().stop();
+                AbstractDialog.createDialog(this.getFrame(), "Equipment", false, action);
                 break;
 
             case SPACE:
@@ -772,6 +781,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
+                break;
             }
 
 

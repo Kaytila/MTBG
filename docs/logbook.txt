@@ -692,4 +692,4 @@ History of the changes:
             There is a bug with inventory, but need to figure that out still.
             implemented heal and miss image.
             need to think about reimplementing this in a better way, doing this image by image is not that good.
-
+2022-12-16: started working and thinking about eq dialog. Also setup on second computer.

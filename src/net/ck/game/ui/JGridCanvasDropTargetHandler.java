@@ -4,6 +4,7 @@ import net.ck.game.backend.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
+import net.ck.util.communication.keyboard.DropAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,6 +97,7 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 	public void drop(DropTargetDropEvent dtde)
 	{
 		logger.info("drop");
+		Game.getCurrent().getController().setCurrentAction(new DropAction());
 		if (!(Game.getCurrent().getController().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
 		{
 			logger.info("current action: {}", Game.getCurrent().getController().getCurrentAction());
