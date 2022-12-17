@@ -10,8 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import net.ck.game.backend.Game;
-import net.ck.game.map.GameMap;
+import net.ck.game.backend.game.Game;
 
 public class GameTest
 {

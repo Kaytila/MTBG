@@ -1,6 +1,6 @@
 package net.ck.util.communication.keyboard;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

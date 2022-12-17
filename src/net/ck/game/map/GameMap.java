@@ -1,6 +1,6 @@
 package net.ck.game.map;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;

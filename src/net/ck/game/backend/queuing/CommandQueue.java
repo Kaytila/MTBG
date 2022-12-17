@@ -1,4 +1,4 @@
-package net.ck.game.backend;
+package net.ck.game.backend.queuing;
 
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;

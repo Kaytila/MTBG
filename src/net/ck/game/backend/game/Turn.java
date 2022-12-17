@@ -1,5 +1,6 @@
-package net.ck.game.backend;
+package net.ck.game.backend.game;
 
+import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.actions.RandomAction;
 import org.apache.logging.log4j.LogManager;

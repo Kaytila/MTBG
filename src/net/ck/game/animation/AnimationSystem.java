@@ -1,7 +1,7 @@
 package net.ck.game.animation;
 
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.graphics.AnimatedRepresentation;

@@ -1,8 +1,8 @@
 package net.ck.game.ui;
 
 
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;

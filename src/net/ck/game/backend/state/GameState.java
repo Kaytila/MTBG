@@ -1,4 +1,4 @@
-package net.ck.game.backend;
+package net.ck.game.backend.state;
 
 public enum GameState
 {

@@ -1,8 +1,8 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.backend.CommandQueue;
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameState;
+import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.graphics.AbstractRepresentation;

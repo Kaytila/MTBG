@@ -1,7 +1,7 @@
 package net.ck.game.ui;
 
 import com.google.common.collect.Iterables;
-import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

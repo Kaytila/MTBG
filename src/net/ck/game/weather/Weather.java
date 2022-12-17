@@ -1,6 +1,6 @@
 package net.ck.game.weather;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.util.WeatherUtils;
 import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;

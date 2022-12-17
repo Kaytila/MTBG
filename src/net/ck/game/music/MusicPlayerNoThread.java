@@ -1,7 +1,7 @@
 package net.ck.game.music;
 
-import net.ck.game.backend.GameState;
-import net.ck.game.backend.GameStateMachine;
+import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.state.GameStateMachine;
 import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;

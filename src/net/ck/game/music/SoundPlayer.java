@@ -1,8 +1,8 @@
 //package net.ck.game.sound;
 //
-//import net.ck.game.backend.Game;
-//import net.ck.game.backend.GameConfiguration;
-//import net.ck.game.backend.GameState;
+//import net.ck.game.backend.game.Game;
+//import net.ck.game.backend.configuration.GameConfiguration;
+//import net.ck.game.backend.state.GameState;
 //import net.ck.util.SoundUtils;
 //import net.ck.util.communication.sound.GameStateChanged;
 //import org.apache.logging.log4j.LogManager;

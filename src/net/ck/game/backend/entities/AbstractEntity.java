@@ -1,7 +1,7 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.backend.CommandQueue;
-import net.ck.game.backend.Game;
+import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.game.Game;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Armor;

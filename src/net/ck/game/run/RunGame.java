@@ -1,6 +1,6 @@
 package net.ck.game.run;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CursorUtils;

@@ -1,8 +1,12 @@
-package net.ck.game.backend;
+package net.ck.game.backend.game;
 
 import net.ck.game.animation.*;
 import net.ck.game.backend.actions.AbstractAction;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
+import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.state.GameStateMachine;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.*;

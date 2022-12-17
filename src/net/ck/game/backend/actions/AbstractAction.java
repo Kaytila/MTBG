@@ -1,6 +1,6 @@
 package net.ck.game.backend.actions;
 
-import net.ck.game.backend.Result;
+import net.ck.game.backend.game.Result;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;

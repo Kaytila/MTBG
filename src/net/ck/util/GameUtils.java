@@ -1,10 +1,10 @@
 package net.ck.util;
 
 import com.google.common.collect.Lists;
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameConfiguration;
-import net.ck.game.backend.GameState;
-import net.ck.game.backend.Turn;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;

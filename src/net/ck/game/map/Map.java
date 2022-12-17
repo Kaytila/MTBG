@@ -1,7 +1,7 @@
 package net.ck.game.map;
 
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameState;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.weather.Weather;

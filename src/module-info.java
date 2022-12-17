@@ -39,4 +39,8 @@ module myTurnedBasedGame
     exports net.ck.game.backend.threading;
 	exports net.ck.game.backend.time;
 	exports net.ck.game.soundeffects;
+    exports net.ck.game.backend.game;
+	exports net.ck.game.backend.state;
+	exports net.ck.game.backend.configuration;
+	exports net.ck.game.backend.queuing;
 }

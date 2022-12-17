@@ -12,7 +12,7 @@ import net.ck.game.items.FurnitureItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.Armor;
 import net.ck.game.items.Utility;
 import net.ck.game.items.Weapon;

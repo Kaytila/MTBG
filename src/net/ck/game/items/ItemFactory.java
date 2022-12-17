@@ -3,7 +3,7 @@ package net.ck.game.items;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 
 public class ItemFactory
 {

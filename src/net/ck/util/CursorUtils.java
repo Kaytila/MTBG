@@ -1,7 +1,7 @@
 package net.ck.util;
 
-import net.ck.game.backend.Game;
-import net.ck.game.backend.GameConfiguration;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;

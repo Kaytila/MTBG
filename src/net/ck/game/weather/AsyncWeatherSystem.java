@@ -4,7 +4,7 @@ import net.ck.game.backend.threading.ThreadNames;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 
 public class AsyncWeatherSystem extends AbstractWeatherSystem implements Runnable
 {

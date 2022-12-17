@@ -1,6 +1,6 @@
 package net.ck.game.music;
 
-import net.ck.game.backend.GameState;
+import net.ck.game.backend.state.GameState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

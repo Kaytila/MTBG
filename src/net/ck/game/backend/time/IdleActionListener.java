@@ -1,6 +1,6 @@
 package net.ck.game.backend.time;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;

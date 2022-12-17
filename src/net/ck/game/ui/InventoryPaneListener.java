@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.Utility;
 import net.ck.util.CursorUtils;
 import net.ck.util.communication.graphics.CursorChangeEvent;

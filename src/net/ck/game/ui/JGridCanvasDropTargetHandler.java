@@ -1,6 +1,6 @@
 package net.ck.game.ui;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;

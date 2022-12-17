@@ -1,4 +1,4 @@
-package net.ck.game.backend;
+package net.ck.game.backend.state;
 
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;

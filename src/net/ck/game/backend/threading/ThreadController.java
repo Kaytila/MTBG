@@ -1,6 +1,6 @@
 package net.ck.game.backend.threading;
 
-import net.ck.game.backend.Game;
+import net.ck.game.backend.game.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
