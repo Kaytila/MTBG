@@ -79,5 +79,9 @@ options menu or dialog
 SOUND:
 sound effects - done
 
+map sound effects to commands - ATTACK (special case, sigh), move, drop, open, cast. can all be mapped directly.
+no need to have this hard coded in the actual entity methods. no wait, needs to be that way.
+blocked or not is also handled that way. damnit.
+
 
 

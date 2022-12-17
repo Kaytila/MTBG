@@ -693,3 +693,4 @@ History of the changes:
             implemented heal and miss image.
             need to think about reimplementing this in a better way, doing this image by image is not that good.
 2022-12-16: started working and thinking about eq dialog. Also setup on second computer.
+2022-12-17: play with git a bit.
