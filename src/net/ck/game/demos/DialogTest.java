@@ -1,6 +1,6 @@
 package net.ck.game.demos;
 
-import net.ck.game.ui.EQDialog;
+import net.ck.game.ui.dialogs.EQDialog;
 
 public class DialogTest {
 

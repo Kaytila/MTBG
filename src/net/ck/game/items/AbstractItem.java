@@ -15,7 +15,7 @@ public abstract class AbstractItem implements Transferable
 	private ArrayList<Effects> additionalEffects;
 	private int id;
 	private boolean isContainer;
-	private BufferedImage itemImage;
+	protected BufferedImage itemImage;
 	private final Logger logger = LogManager.getLogger(getRealClass());
 	private String name;
 	private double value;

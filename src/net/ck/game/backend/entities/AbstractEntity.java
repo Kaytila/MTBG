@@ -354,7 +354,9 @@ public abstract class AbstractEntity
     {
         if (getWearEquipment().get(pos) != null)
         {
-            getWearEquipment().put(pos, null);
+            getInventory().add(getWearEquipment().get(pos));
+            logger.info("Wear  equipment: {}", getWearEquipment());
+            getWearEquipment().remove(pos);
             return true;
         }
         else
@@ -378,7 +380,7 @@ public abstract class AbstractEntity
         }
     }
 
-    public Inventory getInventory()
+    public synchronized Inventory getInventory()
     {
         return inventory;
     }

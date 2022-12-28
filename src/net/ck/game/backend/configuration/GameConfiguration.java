@@ -87,4 +87,10 @@ public class GameConfiguration
     public static final int animationForeGroundDelay = 500;
 
     public static final int animationBackGroundDelay = 1000;
+
+    public static final int dialogWidth = 300;
+
+    public static final int dialogHeight = 300;
+
+    public static final int elipseSize = 25;
 }

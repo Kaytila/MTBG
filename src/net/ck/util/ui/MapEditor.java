@@ -1,6 +1,6 @@
 package net.ck.util.ui;
 
-import net.ck.game.ui.JMapEditorCanvas;
+import net.ck.game.ui.components.JMapEditorCanvas;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;

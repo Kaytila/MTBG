@@ -1,9 +1,9 @@
 package net.ck.util;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.Player;
+import net.ck.game.backend.game.Game;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.MapTile;
 import net.ck.game.weather.WeatherTypes;
@@ -46,6 +46,9 @@ public class ImageUtils
     private static BufferedImage hitImage;
 
     private static BufferedImage missImage;
+
+    private static BufferedImage inventoryImage;
+
 
     static
     {
@@ -657,6 +660,7 @@ public class ImageUtils
     public static BufferedImage loadImage(String type, String imageName)
     {
         String path = rootPath + File.separator + type + File.separator + imageName;
+        logger.debug("loading image from: {}", path);
         return makeImageTransparent(path + ".png");
     }
 
@@ -782,10 +786,17 @@ public class ImageUtils
         return missImage;
     }
 
-    public static void setMissImage(BufferedImage missImage)
+
+    public static BufferedImage getInventoryImage()
     {
-        ImageUtils.missImage = missImage;
+        if (inventoryImage == null)
+        {
+            inventoryImage = ImageUtils.loadImage("players", "playerinventory");
+        }
+
+        return inventoryImage;
     }
+
 
 
     public Class<?> getRealClass()

@@ -51,6 +51,7 @@ public class WindowClosingAction extends AbstractAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		logger.info("Window closing action sent");
 		getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));
 		Game.getCurrent().getController().setDialogOpened(false);
 		Game.getCurrent().getController().getGridCanvas().requestFocusInWindow();

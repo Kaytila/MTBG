@@ -694,3 +694,12 @@ History of the changes:
             need to think about reimplementing this in a better way, doing this image by image is not that good.
 2022-12-16: started working and thinking about eq dialog. Also setup on second computer.
 2022-12-17: play with git a bit.
+2022-12-18: working more on EQ dialog. Have most of it ready but its too big.
+2022-12-25: missed some updates - found and fixed a bug with dialog closing - there was a way to close a dialog which
+            bypassed setting the variable back to false - i.e. you could only open one dialog.
+            eq panel is halfway working - it shows equipment at least.
+            next stop - drag'n'drop from inventory into it.
+            will need to make the whole game bigger probably, we will see.
+            also fixed image setting, loading now happens once for many things and not reach time its used.
+2022-12-28: a few days with on off work, did some re-reading on drag'n'drop. EQPanel now automatically shows and un-shows
+            equipment.

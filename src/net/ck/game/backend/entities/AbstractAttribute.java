@@ -21,6 +21,10 @@ public abstract class AbstractAttribute
 	
 	public BufferedImage getImage()
 	{
+		if (image == null)
+		{
+			setImage(Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", getType().toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameUtils.getLineHeight(), GameUtils.getLineHeight(), Scalr.OP_ANTIALIAS));
+		}
 		return image;
 	}
 
@@ -68,6 +72,6 @@ public abstract class AbstractAttribute
 
 	public AbstractAttribute()
 	{
-		setImage(Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", getType().toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameUtils.getLineHeight(), GameUtils.getLineHeight(), Scalr.OP_ANTIALIAS));
+
 	}
 }

@@ -1,7 +1,11 @@
 package net.ck.game.items;
 
+import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Armor extends AbstractItem
 {
@@ -38,6 +42,16 @@ public class Armor extends AbstractItem
 	public Armor()
 	{
 
+	}
+
+	@Override
+	public BufferedImage getItemImage()
+	{
+		if (itemImage == null)
+		{
+			setItemImage(ImageUtils.loadImage("armor" + File.separator + getType().name(), getPosition().name()));
+		}
+		return itemImage;
 	}
 
 	public ArmorTypes getType()

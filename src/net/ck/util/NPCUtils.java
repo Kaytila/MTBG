@@ -5,6 +5,9 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.LifeForm;
+import net.ck.game.items.AbstractItem;
+import net.ck.game.items.Armor;
+import net.ck.game.items.ArmorPositions;
 import net.ck.game.map.MapTile;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.keyboard.*;
@@ -173,7 +176,21 @@ public class NPCUtils
         return (attackStr + (rand.nextInt(high - low ) + low)) - defendAC;
     }
 
+    public static Armor calculateArmorToWear(ArmorPositions armorPosition)
+    {
 
+        for (AbstractItem item : Game.getCurrent().getCurrentPlayer().getInventory().getInventory())
+        {
+            if (item instanceof Armor)
+            {
+                if (((Armor) item).getPosition().equals(armorPosition))
+                {
+                    return (Armor) item;
+                }
+            }
+        }
+        return null;
+    }
 
 
     public Class<?> getRealClass()

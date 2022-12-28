@@ -8,6 +8,18 @@ import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
+import net.ck.game.ui.buttons.*;
+import net.ck.game.ui.components.InputField;
+import net.ck.game.ui.components.JGridCanvas;
+import net.ck.game.ui.components.JWeatherCanvas;
+import net.ck.game.ui.components.TextList;
+import net.ck.game.ui.dialogs.AbstractDialog;
+import net.ck.game.ui.dialogs.InventoryDialog;
+import net.ck.game.ui.dialogs.StatsDialog;
+import net.ck.game.ui.dnd.JGridCanvasDragGestureHandler;
+import net.ck.game.ui.dnd.JGridCanvasDropTargetHandler;
+import net.ck.game.ui.listeners.MouseActionListener;
+import net.ck.game.ui.listeners.MyFocusListener;
 import net.ck.util.CursorUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
@@ -761,7 +773,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     logger.info("We do not stack dialogs for now");
                     break;
                 }
-                logger.info("do not have equipment dialog for now, no paperdoll and what not");
                 setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
@@ -771,6 +782,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case SPACE:
                 action.setHaveNPCAction(true);
                 break;
+
             case OPTIONS:
             {
                 if (isDialogOpened == true)
@@ -789,6 +801,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             {
                 if (isDialogOpened == true)
                 {
+                    logger.info("dialog already open");
                     break;
                 }
                 else

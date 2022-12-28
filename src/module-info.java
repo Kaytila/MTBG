@@ -23,7 +23,6 @@ module myTurnedBasedGame
 	requires com.opencsv;
 
 	exports net.ck.game.test;
-	exports net.ck.game.backend;
 	exports net.ck.game.backend.entities;
 	exports net.ck.game.ui;
 	exports net.ck.game.graphics;
@@ -43,4 +42,11 @@ module myTurnedBasedGame
 	exports net.ck.game.backend.state;
 	exports net.ck.game.backend.configuration;
 	exports net.ck.game.backend.queuing;
+    exports net.ck.game.ui.dialogs;
+	exports net.ck.game.ui.components;
+	exports net.ck.game.ui.buttons;
+	exports net.ck.game.ui.listeners;
+	exports net.ck.game.ui.dnd;
+	exports net.ck.game.ui.renderers;
+	exports net.ck.game.ui.timers;
 }

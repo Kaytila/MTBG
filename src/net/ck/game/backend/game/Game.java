@@ -10,18 +10,15 @@ import net.ck.game.backend.state.GameStateMachine;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.*;
-import net.ck.game.items.Armor;
-import net.ck.game.items.FurnitureItem;
-import net.ck.game.items.Utility;
-import net.ck.game.items.Weapon;
+import net.ck.game.items.*;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.music.MusicPlayerNoThread;
 import net.ck.game.music.MusicTimer;
 import net.ck.game.music.MusicTimerActionListener;
 import net.ck.game.soundeffects.SoundPlayerNoThread;
-import net.ck.game.ui.HighlightTimer;
-import net.ck.game.ui.HightlightTimerActionListener;
+import net.ck.game.ui.timers.HighlightTimer;
+import net.ck.game.ui.listeners.HightlightTimerActionListener;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.weather.*;
 import net.ck.util.GameUtils;
@@ -41,6 +38,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Game Main class also Y6MU+=A7B=NpmQSs
@@ -870,15 +868,15 @@ public class Game implements Runnable
         Weapon club = getWeaponList().get(1);
         p1.getInventory().add(sling);
         p1.setWeapon(club);
+
         getPlayers().add(p1);
         setCurrentPlayer(getPlayers().get(0));
         getCurrentPlayer().setMapPosition(new Point(2, 2));
-			/*Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
+			Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
 			for (ArmorPositions pos : positions)
 			{
 				logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
-			}*/
-
+			}
     }
 
     public void initializeAnimationSystem()

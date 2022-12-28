@@ -1,6 +1,9 @@
 package net.ck.game.ui;
 
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.ui.buttons.UndoButton;
+import net.ck.game.ui.components.JGridCanvas;
+import net.ck.game.ui.components.JWeatherCanvas;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

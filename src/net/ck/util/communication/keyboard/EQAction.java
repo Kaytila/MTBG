@@ -26,4 +26,10 @@ public class EQAction extends AbstractKeyboardAction
     {
         return KeyboardActionType.EQ;
     }
+
+    public boolean isActionimmediately()
+    {
+        return false;
+    }
+
 }
