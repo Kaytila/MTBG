@@ -36,7 +36,7 @@ import java.util.Objects;
 public class MapUtils
 {
 
-    private static final Logger logger = LogManager.getLogger(MapUtils.class);
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(MapUtils.class));
 
     private static int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
 
@@ -48,11 +48,6 @@ public class MapUtils
     public static void setMiddle(int middle)
     {
         MapUtils.middle = middle;
-    }
-
-    public static Logger getLogger()
-    {
-        return logger;
     }
 
     public static int getIDOfMapTileEast(MapTile tile)

@@ -14,6 +14,7 @@ import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.game.soundeffects.SoundEffects;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
@@ -21,7 +22,7 @@ import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
@@ -47,13 +48,8 @@ public class Player extends AbstractEntity implements LifeForm
         //logger.info("player number {}, map position {}", getNumber(), mapPosition.toString());
     }
 
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     /**
      * constructor for the player player has two images types defined now.

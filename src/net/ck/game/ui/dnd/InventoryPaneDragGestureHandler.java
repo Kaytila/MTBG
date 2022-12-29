@@ -2,6 +2,7 @@ package net.ck.game.ui.dnd;
 
 import net.ck.game.items.AbstractItem;
 import net.ck.game.ui.components.InventoryPane;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,28 +14,10 @@ import java.awt.dnd.DragSource;
 
 public class InventoryPaneDragGestureHandler implements DragGestureListener
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	private InventoryPane inventoryPane;
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	public InventoryPaneDragGestureHandler(InventoryPane invPane)
 	{
 		setInventoryPane(invPane);

@@ -1,33 +1,19 @@
 package net.ck.util.communication.graphics;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class WeatherChangedEvent extends ChangedEvent
 {
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	public final String message;
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
+
 
 	public WeatherChangedEvent(String message)
 	{
 		this.message = message;
 	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
 }

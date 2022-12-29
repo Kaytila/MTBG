@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * So the UI Lense is the Class which acts as "Lense" over the map to figure out which
@@ -21,7 +20,7 @@ import java.util.Objects;
  */
 public class UILense
 {
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	
 	/**
 	 * Singleton
@@ -35,8 +34,7 @@ public class UILense
 	{
 		return UILense;
 	}
-	
-	private final Logger logger = LogManager.getLogger(getRealClass());
+
 
 	private final ArrayList<Boolean> xCoordinateSystem;
 	private final ArrayList<Boolean> yCoordinateSystem;
@@ -45,17 +43,7 @@ public class UILense
 	 * contains the visible map tiles, as the UI Tiles are calculated
 	 */
 	private ArrayList<MapTile> visibleMapTiles;
-	
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
 
 	/**
 	 * initialize the lens and of course stumble over add and set as always

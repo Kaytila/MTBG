@@ -1,5 +1,6 @@
 package net.ck.game.ultima.ultima4.importer;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,16 +52,10 @@ def load_shapes():
  */
 public class Ultima4ShapesImporter
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = (Logger) LogManager.getLogger(Ultima4ShapesImporter.class);
 	private static ArrayList<Image> shapes;
-	
 
-	public static Logger getLogger()
-	{
-		return logger;
-	}
 	public static void main(String[] args)
 	{
 		File file = new File("ultima4" + File.separator + "shapes.ega");

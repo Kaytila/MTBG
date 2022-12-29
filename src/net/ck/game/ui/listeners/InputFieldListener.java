@@ -2,6 +2,7 @@ package net.ck.game.ui.listeners;
 
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.ui.dialogs.TalkDialog;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,12 +11,10 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class InputFieldListener implements ActionListener
 {
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JTextField inputField;
 	private JTextArea textArea;
 	private NPC npc;
@@ -30,16 +29,7 @@ public class InputFieldListener implements ActionListener
 		setNpc(n);
 	}
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{

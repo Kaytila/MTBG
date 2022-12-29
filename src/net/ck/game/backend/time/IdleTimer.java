@@ -1,11 +1,11 @@
 package net.ck.game.backend.time;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 /**
  * idletime does exactly this - after PC has done a turn, idle timer starts
@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class IdleTimer extends Timer
 {
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	@Override
 	public void start()
 	{
@@ -28,18 +28,6 @@ public class IdleTimer extends Timer
 		super.stop();
 	}
 
-	private final Logger logger = LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	public IdleTimer(int delay, ActionListener listener)
 	{
 		super(delay, listener);

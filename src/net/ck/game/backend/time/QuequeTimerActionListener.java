@@ -1,6 +1,7 @@
 package net.ck.game.backend.time;
 
 import net.ck.game.backend.game.Game;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.ActionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,18 +9,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class QuequeTimerActionListener implements ActionListener
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -33,10 +26,4 @@ public class QuequeTimerActionListener implements ActionListener
         EventBus.getDefault().post(ActionFactory.createAction(Game.getCurrent().getCommandQueue().getActionList().get(0).getType()));
         Game.getCurrent().getCommandQueue().getActionList().remove(0);
     }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
 }

@@ -1,27 +1,15 @@
 package net.ck.util.communication.graphics;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ForegroundRepresentationChanged extends ChangedEvent
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	private int currentNumber;
 	
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
 
 	
 	public int getCurrentNumber()
@@ -34,10 +22,7 @@ public class ForegroundRepresentationChanged extends ChangedEvent
 		this.currentNumber = currentNumber;
 	}
 	
-	public Logger getLogger()
-	{
-		return logger;
-	}
+
 	
 	public ForegroundRepresentationChanged(int i)
 	{

@@ -1,6 +1,9 @@
 package net.ck.game.weather;
 
 import net.ck.game.map.Map;
+import net.ck.util.CodeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Factory Class to create the weather system for the Map. If the map has a weather system, return either synchronized or asynchronized weather If the map does not have a weather system, i.e. indoors
@@ -10,7 +13,7 @@ import net.ck.game.map.Map;
  */
 public class WeatherSystemFactory
 {
-
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     public static AbstractWeatherSystem createWeatherSystem(Map gameMap)
     {
         if (gameMap.isWeatherSystem())

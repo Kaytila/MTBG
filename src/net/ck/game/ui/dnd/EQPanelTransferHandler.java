@@ -1,6 +1,7 @@
 package net.ck.game.ui.dnd;
 
 import net.ck.game.ui.components.EQPanel;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,12 +10,10 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.InputEvent;
-import java.util.Objects;
 
 public class EQPanelTransferHandler extends TransferHandler
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     @Override
     public void setDragImage(Image img)
@@ -74,10 +73,5 @@ public class EQPanelTransferHandler extends TransferHandler
     {
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
 }

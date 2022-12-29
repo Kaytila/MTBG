@@ -4,6 +4,7 @@ import net.ck.game.ui.buttons.CancelButton;
 import net.ck.game.ui.buttons.OKButton;
 import net.ck.game.ui.components.StatsPane;
 import net.ck.game.ui.renderers.StatsPaneListCellRenderer;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,32 +14,9 @@ import java.awt.*;
 
 public class StatsDialog extends AbstractDialog
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());	
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private StatsPane statsPane;
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 	public StatsDialog(Frame owner, String title, boolean modal)
 	{
 		setTitle(title);

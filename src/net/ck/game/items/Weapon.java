@@ -1,14 +1,13 @@
 package net.ck.game.items;
 
+import net.ck.util.CodeUtils;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
 public class Weapon extends AbstractItem
 {
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	@Override
 	public String toString()
 	{
@@ -16,23 +15,12 @@ public class Weapon extends AbstractItem
 		return "Weapon: " + super.toString();
 	}
 
-	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	private WeaponTypes type;
 	private WeaponDamageTypes damageType;
 	private Range<Integer> weaponDamage;
 	private double averageDamage;
 	
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	public Weapon()
 	{
 		setContainer(false);

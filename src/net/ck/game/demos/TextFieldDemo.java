@@ -1,46 +1,28 @@
 package net.ck.game.demos;
 
-import java.awt.Color;
+import net.ck.util.CodeUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.LayoutStyle;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class TextFieldDemo extends JFrame implements DocumentListener
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	class CancelAction extends AbstractAction
 	{
@@ -81,7 +63,6 @@ public class TextFieldDemo extends JFrame implements DocumentListener
 	private JLabel jLabel1;
 
 	private JScrollPane jScrollPane1;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 	final Highlighter.HighlightPainter painter;
 
 	private JLabel status;
@@ -130,24 +111,6 @@ public class TextFieldDemo extends JFrame implements DocumentListener
 	}
 
 	// DocumentListener methods
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
 
 	/**
 	 * This method is called from within the constructor to initialize the form.

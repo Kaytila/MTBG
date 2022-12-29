@@ -3,6 +3,7 @@ package net.ck.game.ui.dialogs;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.ui.listeners.InputFieldListener;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,15 +12,10 @@ import javax.swing.*;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 import java.awt.*;
-import java.util.Objects;
 
 public class TalkDialog extends AbstractDialog
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JTextArea textArea;
 	private JTextField textField;
 	private NPC npc;
@@ -142,14 +138,6 @@ public class TalkDialog extends AbstractDialog
 		this.add(okButton);
 		this.setVisible(true);
 		*/
-	}
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	public Logger getLogger()

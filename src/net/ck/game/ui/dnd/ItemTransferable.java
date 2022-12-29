@@ -1,18 +1,17 @@
 package net.ck.game.ui.dnd;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-
+import net.ck.game.items.AbstractItem;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.items.AbstractItem;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 
 public class ItemTransferable implements Transferable
 {
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	public static final DataFlavor ITEM_DATA_FLAVOR = new DataFlavor(AbstractItem.class, "Item");
 	private AbstractItem item;
 	public AbstractItem getItem()
@@ -23,26 +22,6 @@ public class ItemTransferable implements Transferable
 	public void setItem(AbstractItem item)
 	{
 		this.item = item;
-	}
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	public ItemTransferable(AbstractItem item)

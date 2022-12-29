@@ -10,9 +10,7 @@ import java.util.Hashtable;
 
 public class WeatherUtils 
 {
-
-
-	private static final Logger logger = LogManager.getLogger(WeatherUtils.class);
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(WeatherUtils.class));
 
 	public Class<?> getRealClass()
 	{
@@ -26,11 +24,6 @@ public class WeatherUtils
 		}
 	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 	public static Hashtable<WeatherTypes, BufferedImage> getTypes()
 	{
 		return types;

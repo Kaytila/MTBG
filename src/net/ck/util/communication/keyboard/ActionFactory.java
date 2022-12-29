@@ -1,19 +1,12 @@
 package net.ck.util.communication.keyboard;
+
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
 public class ActionFactory
 {
-
-	private static final Logger logger = LogManager.getLogger(ActionFactory.class);
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(ActionFactory.class));
 
 	public static AbstractKeyboardAction createAction(KeyboardActionType type)
 	{

@@ -1,5 +1,6 @@
 package net.ck.game.backend.state;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class GameStateMachine
 {
-
-    private static final Logger logger = LogManager.getLogger(GameStateMachine.class);
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(GameStateMachine.class));
     private static final GameStateMachine gameStateMachine = new GameStateMachine();
     private  GameState currentState;
     private  GameState previousState;

@@ -1,21 +1,21 @@
 package net.ck.game.weather;
 
 import net.ck.game.backend.game.Game;
+import net.ck.util.CodeUtils;
 import net.ck.util.WeatherUtils;
 import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.image.BufferedImage;
-import java.util.Objects;
 
 /**
  * @author Claus weather will have an impact on things, perhaps? perhaps not, perhaps only graphics
  */
 public class Weather
 {
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private WeatherTypes type;
     private BufferedImage weatherImage;
@@ -61,17 +61,6 @@ public class Weather
         {
             logger.error("image {} does not exist", type);
         }
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     @Override

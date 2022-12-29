@@ -1,10 +1,10 @@
 package net.ck.game.graphics;
 
-import java.awt.image.BufferedImage;
-
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -18,8 +18,7 @@ import org.apache.logging.log4j.core.Logger;
  */
 public class AbstractRepresentation
 {
-
-	protected static final Logger logger = (Logger) LogManager.getLogger(AbstractRepresentation.class);
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(AbstractRepresentation.class));
 
 	/**
 	 * this the currently visible image.

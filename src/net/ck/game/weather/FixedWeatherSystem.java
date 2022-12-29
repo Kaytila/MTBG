@@ -1,14 +1,12 @@
 package net.ck.game.weather;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
 public class FixedWeatherSystem extends AbstractWeatherSystem
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     public FixedWeatherSystem(int randomness, WeatherTypes weatherType)
     {
@@ -24,11 +22,4 @@ public class FixedWeatherSystem extends AbstractWeatherSystem
     {
         getCurrentWeather().setType(getCurrentWeather().getType());
     }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
 }

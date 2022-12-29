@@ -6,6 +6,7 @@ import net.ck.game.ui.buttons.OKButton;
 import net.ck.game.ui.components.InventoryPane;
 import net.ck.game.ui.listeners.WindowClosingListener;
 import net.ck.game.ui.renderers.InventoryPaneListCellRenderer;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
@@ -16,11 +17,7 @@ import java.awt.*;
 
 public class InventoryDialog extends AbstractDialog
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	
 
 	public InventoryDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
@@ -63,26 +60,7 @@ public class InventoryDialog extends AbstractDialog
 	{	
 	}
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 	public void paintBorder(Graphics g)
 	{
 

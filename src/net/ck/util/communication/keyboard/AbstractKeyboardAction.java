@@ -2,6 +2,7 @@ package net.ck.util.communication.keyboard;
 
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -9,15 +10,10 @@ import org.greenrobot.eventbus.EventBus;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
 
 public class AbstractKeyboardAction extends AbstractAction
 {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * can the action be run immediately (NORTH, WEST ....) ,
@@ -30,8 +26,6 @@ public class AbstractKeyboardAction extends AbstractAction
      */
     private boolean done = false;
 
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
 
     /**
      * this is the tile where the crosshair clicked on
@@ -125,12 +119,6 @@ public class AbstractKeyboardAction extends AbstractAction
     public Logger getLogger()
     {
         return logger;
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     public KeyboardActionType getType()

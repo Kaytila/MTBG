@@ -1,11 +1,12 @@
 package net.ck.game.demos;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Bar
 {
-	static final Logger logger = LogManager.getLogger(Bar.class.getName());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public boolean doIt()
 	{

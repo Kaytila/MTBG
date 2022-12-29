@@ -2,6 +2,7 @@ package net.ck.game.ui.components;
 
 import com.google.common.collect.Iterables;
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,21 +20,8 @@ public class InputField extends JTextField
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<String> contents = new ArrayList<String>();
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
 
 	/**
 	 * create the input field, stupid settings to find it on the screen
@@ -91,11 +79,6 @@ public class InputField extends JTextField
 			lastElement = "";
 		}
 		super.setText(lastElement);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 }

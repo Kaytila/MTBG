@@ -1,8 +1,9 @@
 package net.ck.game.backend.threading;
 
 import net.ck.game.backend.game.Game;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -16,14 +17,7 @@ import java.util.*;
  */
 public class ThreadController
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 
 	private boolean wakeupNeeded;

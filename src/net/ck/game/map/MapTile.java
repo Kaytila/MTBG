@@ -3,11 +3,11 @@ package net.ck.game.map;
 import net.ck.game.backend.entities.Inventory;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.items.FurnitureItem;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * @author Claus each individual tile, has x and y coordinates, connectors in
@@ -15,9 +15,7 @@ import java.util.Objects;
  */
 public class MapTile implements Comparable<MapTile>
 {
-
-
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     /**
      * x coordinate, not sure I need that at all
      * basically position.getX()
@@ -158,12 +156,6 @@ public class MapTile implements Comparable<MapTile>
         setY(j);
         inventory = new Inventory();
         setBlocked(false);
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     public Inventory getInventory()
@@ -336,13 +328,6 @@ public class MapTile implements Comparable<MapTile>
 		return ("id: " + getId() + ", " + "type: " + getType().name() + ", " + "x: " + getX() + ", " + "y: " + getY() + ", " + "north tile id: " + northID + ", " + "east tile id: " + eastID + ", " + "south tile id: " + southID + ", " + "west tile id: " + westID);
 	}
 */
-
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
 
     @Override
     public String toString()

@@ -1,16 +1,15 @@
 package net.ck.game.ui.buttons;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class DecreaseVolumeButton extends JButton
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     public DecreaseVolumeButton(Point p)
     {
@@ -24,11 +23,4 @@ public class DecreaseVolumeButton extends JButton
         this.setEnabled(true);
         this.setDoubleBuffered(true);
     }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
 }

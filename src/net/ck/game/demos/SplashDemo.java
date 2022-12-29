@@ -1,22 +1,11 @@
 package net.ck.game.demos;
 
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Graphics2D;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
-import java.awt.SplashScreen;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.awt.event.*;
 
 /*
  * SplashDemo.java
@@ -27,21 +16,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class SplashDemo extends Frame implements ActionListener
 {
-
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 
 	static void renderSplashFrame(Graphics2D g, int frame)

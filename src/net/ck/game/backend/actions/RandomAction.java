@@ -1,9 +1,9 @@
 package net.ck.game.backend.actions;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * random action is something world is supposed to do.
@@ -12,22 +12,9 @@ import net.ck.util.communication.keyboard.KeyboardActionType;
  */
 public class RandomAction extends AbstractAction
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
-	
 	public RandomAction()
 	{
 		super();
@@ -38,10 +25,4 @@ public class RandomAction extends AbstractAction
 	{
 		return KeyboardActionType.NULL;
 	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 }

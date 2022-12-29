@@ -4,6 +4,7 @@ import net.ck.game.backend.entities.Inventory;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Utility;
 import net.ck.game.ui.components.InventoryPane;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,11 +16,7 @@ import java.util.ArrayList;
 
 public class InventoryPaneTransferHandler extends TransferHandler
 {
-
-	private static final long serialVersionUID = 1L;
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private InventoryPane sourceInventoryPane;
 	private InventoryPane targetInventoryPane;
 
@@ -116,24 +113,6 @@ public class InventoryPaneTransferHandler extends TransferHandler
 	public Point getDragImageOffset()
 	{
 		return super.getDragImageOffset();
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
 	}
 
 	public int getSourceActions(JComponent comp)

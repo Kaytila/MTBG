@@ -11,6 +11,7 @@ import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
@@ -31,7 +32,7 @@ import java.util.*;
 public class NPC extends AbstractEntity implements LifeForm
 {
 
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private AbstractRepresentation appearance;
 
     private NPCTypes type;
@@ -128,12 +129,6 @@ public class NPC extends AbstractEntity implements LifeForm
     public void setOriginalMapPosition(Point originalMapPosition)
     {
         this.originalMapPosition = originalMapPosition;
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     @Override

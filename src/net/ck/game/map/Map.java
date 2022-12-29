@@ -1,17 +1,17 @@
 package net.ck.game.map;
 
-import net.ck.game.backend.game.Game;
-import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.GameState;
 import net.ck.game.weather.Weather;
 import net.ck.game.weather.WeatherTypes;
+import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Map can be any map in the game but the main Map, so to speak. That is handled by GameMap
@@ -23,6 +23,8 @@ import java.util.Objects;
  */
 public class Map extends AbstractMap
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 	/**
 	 * if the map wraps, calculate the easternmost tiles and connect them to the westernmost stores the ids
 	 */
@@ -88,19 +90,6 @@ public class Map extends AbstractMap
 		setNpcs(new ArrayList<>());
 		setTiles(new ArrayList<>());
 		setMissiles(new ArrayList<>());
-	}
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	public boolean isWeatherSystem()

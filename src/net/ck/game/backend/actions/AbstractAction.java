@@ -1,24 +1,17 @@
 package net.ck.game.backend.actions;
 
-import net.ck.game.backend.game.Result;
 import net.ck.game.backend.entities.LifeForm;
+import net.ck.game.backend.game.Result;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
 
 public class AbstractAction
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	private Result result;
 	private String title;
@@ -68,11 +61,6 @@ public class AbstractAction
 	public KeyboardActionType getType()
 	{
 		return KeyboardActionType.NULL;
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	public AbstractKeyboardAction getEvent()

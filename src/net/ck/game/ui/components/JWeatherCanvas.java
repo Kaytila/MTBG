@@ -2,6 +2,7 @@ package net.ck.game.ui.components;
 
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.graphics.WeatherChangedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,12 +22,7 @@ import java.util.Objects;
  */
 public class JWeatherCanvas extends JPanel
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private BufferedImage image;
 
 	public JWeatherCanvas()
@@ -92,8 +88,4 @@ public class JWeatherCanvas extends JPanel
 		this.repaint();
 	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
 }

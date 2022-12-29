@@ -1,20 +1,18 @@
 package net.ck.game.demos;
 
 
+import net.ck.util.CodeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.TransferHandler;
-
-public class ListTransferHandler extends TransferHandler {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ListTransferHandler extends TransferHandler
+{
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private int[] indices = null;
     private int addIndex = -1; //Location where items were added
     private int addCount = 0;  //Number of items added.

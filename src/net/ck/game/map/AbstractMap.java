@@ -5,8 +5,9 @@ import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
 import net.ck.game.weather.WeatherTypes;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,29 +23,14 @@ import java.util.ArrayList;
 
 
 public class AbstractMap
-{ 
-	
+{
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	@Override
 	public String toString()
 	{
 		return "AbstractMap [name=" + name + ", childMaps=" + childMaps + ", parentMap=" + parentMap + ", size=" + size  + "]";
 	}
 
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
-	
 
 	/**
 	 * holds the weather on the map. it will either continue running, or it will be frozen
@@ -182,11 +168,6 @@ public class AbstractMap
 	public void setNpcs(ArrayList<NPC> arrayList)
 	{
 		this.npcs = arrayList;
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	public Weather getWeather()

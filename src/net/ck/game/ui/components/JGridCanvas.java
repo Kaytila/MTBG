@@ -1,14 +1,15 @@
 package net.ck.game.ui.components;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.FurnitureItem;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.game.weather.WeatherTypes;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.UILense;
@@ -16,7 +17,7 @@ import net.ck.util.communication.graphics.*;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -26,13 +27,10 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class JGridCanvas extends JComponent
 {
-
-    private static final long serialVersionUID = 1L;
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private final Range<Integer> rangeX = Range.between(0, GameConfiguration.numberOfTiles - 1);
     private final Range<Integer> rangeY = Range.between(0, GameConfiguration.numberOfTiles - 1);
@@ -65,17 +63,6 @@ public class JGridCanvas extends JComponent
         //this.setToolTipText(getLogger().getName());
 
         this.setTransferHandler(new JGridCanvasTransferHandler(this));
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     /**

@@ -3,6 +3,7 @@ package net.ck.game.ui.listeners;
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.Armor;
 import net.ck.game.ui.components.EQPanel;
+import net.ck.util.CodeUtils;
 import net.ck.util.NPCUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,23 +11,16 @@ import org.apache.logging.log4j.Logger;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Objects;
 
 public class EQPanelMouseListener implements MouseListener, MouseMotionListener
 {
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private EQPanel eqPanel;
     public EQPanelMouseListener(EQPanel eqPanel)
     {
         this.eqPanel = eqPanel;
         eqPanel.addMouseMotionListener(this);
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     @Override

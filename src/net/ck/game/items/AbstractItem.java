@@ -1,5 +1,6 @@
 package net.ck.game.items;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,15 +9,14 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public abstract class AbstractItem implements Transferable
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<Effects> additionalEffects;
 	private int id;
 	private boolean isContainer;
 	protected BufferedImage itemImage;
-	private final Logger logger = LogManager.getLogger(getRealClass());
 	private String name;
 	private double value;
 	private double weight;
@@ -52,11 +52,6 @@ public abstract class AbstractItem implements Transferable
 		return name;
 	}
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
 	public double getValue()
 	{
 		return value;

@@ -1,20 +1,12 @@
 package net.ck.game.weather;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
-import java.util.Objects;
+import org.apache.logging.log4j.Logger;
 
 public class SyncWeatherSystem extends AbstractWeatherSystem
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	/**
 	 * start with sunny weather always :)

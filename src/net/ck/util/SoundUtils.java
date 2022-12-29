@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 public class SoundUtils
 {
-    private static final Logger logger = LogManager.getLogger(SoundUtils.class);
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(SoundUtils.class));
     private static TikaConfig tika;
 
     static

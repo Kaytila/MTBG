@@ -1,5 +1,6 @@
 package net.ck.game.soundeffects;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.SoundUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,24 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SoundPlayerNoThread
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private static final String soundBasePath = "soundeffects";
 

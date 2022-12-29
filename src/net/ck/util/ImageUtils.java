@@ -31,10 +31,10 @@ import java.util.Random;
  */
 public class ImageUtils
 {
-
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(ImageUtils.class));
     private static final String rootPath = "graphics";
 
-    private static final Logger logger;
+
     private static final String imagerootpath = "graphics" + File.separator + "players" + File.separator + "player";
     private static final String additionalImagesPath = "graphics" + File.separator + "misc";
     private static final String weatherImagesPath = "graphics" + File.separator + "weather";
@@ -48,12 +48,6 @@ public class ImageUtils
     private static BufferedImage missImage;
 
     private static BufferedImage inventoryImage;
-
-
-    static
-    {
-        logger = LogManager.getLogger();
-    }
 
     public static String getImagerootpath()
     {
@@ -796,14 +790,5 @@ public class ImageUtils
 
         return inventoryImage;
     }
-
-
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
 
 }

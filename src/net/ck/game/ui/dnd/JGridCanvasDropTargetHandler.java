@@ -4,6 +4,7 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.components.JGridCanvas;
+import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.DropAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
@@ -15,12 +16,10 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
 import java.io.IOException;
-import java.util.Objects;
 
 public class JGridCanvasDropTargetHandler implements DropTargetListener
 {
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JGridCanvas gridcanvas;
 
 	public JGridCanvas getGridcanvas()
@@ -36,17 +35,6 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 	public JGridCanvasDropTargetHandler(JGridCanvas gridCanvas)
 	{
 		gridcanvas = gridCanvas;
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	@Override

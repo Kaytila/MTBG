@@ -2,6 +2,7 @@ package net.ck.game.ui.dnd;
 
 import net.ck.game.items.AbstractItem;
 import net.ck.game.ui.components.InventoryPane;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,32 +13,12 @@ import java.io.IOException;
 
 public class InventoryPaneDropTargetHandler implements DropTargetListener
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public InventoryPaneDropTargetHandler(InventoryPane inventoryPane)
 	{
 	}
 
-	
-	
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde)

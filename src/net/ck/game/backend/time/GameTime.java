@@ -1,12 +1,11 @@
 package net.ck.game.backend.time;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.time.GameTimeChangeType;
 import net.ck.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.Objects;
 
 /**
  * So Game Time starts with 0:0:0 at day 1, month 1, year 1.
@@ -18,8 +17,7 @@ import java.util.Objects;
  */
 public class GameTime
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private int currentHour;
     private int currentMinute;
@@ -31,11 +29,6 @@ public class GameTime
     private int oldMinute;
     private int oldDay;
     private int oldMonth;
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
 
     public int getOldHour()
     {
@@ -97,12 +90,6 @@ public class GameTime
         setOldDay(1);
         setOldMonth(1);
         setOldYear(0);
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     @Override

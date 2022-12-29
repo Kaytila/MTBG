@@ -2,6 +2,7 @@ package net.ck.game.ui.components;
 
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.entities.AbstractAttribute;
+import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +16,7 @@ public class StatsPane extends JList<AbstractAttribute>
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JScrollPane sp;
 	
 	public StatsPane()
@@ -39,26 +40,5 @@ public class StatsPane extends JList<AbstractAttribute>
 		sp.setBounds(0, 0, 250, 200);
 		sp.setVisible(true);		
 		return sp;
-	}
-	
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 }

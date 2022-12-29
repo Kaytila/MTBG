@@ -1,5 +1,6 @@
 package net.ck.game.items;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,26 +8,8 @@ import net.ck.game.backend.game.Game;
 
 public class ItemFactory
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	public ItemFactory()
 	{
 

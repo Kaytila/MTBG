@@ -1,20 +1,20 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.backend.queuing.CommandQueue;
-import net.ck.game.backend.game.Game;
-import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.RandomAction;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.game.Turn;
+import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -25,14 +25,7 @@ import java.util.Random;
  */
 public class World extends AbstractEntity implements LifeForm
 {
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public World()
 	{

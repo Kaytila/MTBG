@@ -1,15 +1,14 @@
 package net.ck.util.communication.graphics;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class HighlightEvent extends ChangedEvent
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private Point mapPosition;
 
@@ -18,11 +17,6 @@ public class HighlightEvent extends ChangedEvent
         this.mapPosition = mapPosition;
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public Point getMapPosition()
     {

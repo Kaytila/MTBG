@@ -15,7 +15,7 @@ import java.awt.*;
 public class GameUtils
 {
 
-	private static final Logger logger = (Logger) LogManager.getLogger(GameUtils.class);
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(GameUtils.class));
 	private static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
 	private static final int padding = 5;
 

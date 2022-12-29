@@ -1,9 +1,11 @@
 package net.ck.game.backend.actions;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * 
@@ -17,28 +19,14 @@ import org.apache.logging.log4j.core.Logger;
  */
 public class PlayerAction extends AbstractAction
 {
-	
-
-	//private KeyboardActionType type;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public PlayerAction(AbstractKeyboardAction ev)
 	{
 		setEvent(ev);
 	}
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
-		
+
 	/**
 	 * who is the player or the NPC
 	 */
@@ -70,12 +58,6 @@ public class PlayerAction extends AbstractAction
 	}*/
 	
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
-	
 	public String toString()
 	{
 		return "action: " + getEvent().getType() + " of player: ";

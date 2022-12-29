@@ -1,5 +1,6 @@
 package net.ck.game.items;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,30 +8,11 @@ import net.ck.game.backend.entities.Inventory;
 
 public class Utility extends AbstractItem
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	private Double capacity;
 	private Inventory inventory;
 	
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
 	public void setType(ArmorTypes valueOf)
 	{
 		

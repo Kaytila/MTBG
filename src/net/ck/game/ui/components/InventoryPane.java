@@ -6,6 +6,7 @@ import net.ck.game.ui.listeners.DialogPopupListener;
 import net.ck.game.ui.listeners.InventoryPaneListener;
 import net.ck.game.ui.dnd.InventoryPaneTransferHandler;
 import net.ck.game.ui.dialogs.AbstractDialog;
+import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,7 @@ public class InventoryPane extends JList<AbstractItem>
 	private JPopupMenu menu;
 	private ListSelectionModel listSelectionModel;
 	private int selectionIndex;
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private InventoryPaneListener generalListener;
 	private Frame owner;
 	private AbstractDialog parentDialog;
@@ -105,11 +106,6 @@ public class InventoryPane extends JList<AbstractItem>
 		menu.addMouseListener(new DialogPopupListener(this));
 	}
 	
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
 	public int getSelectionIndex()
 	{
 		return selectionIndex;

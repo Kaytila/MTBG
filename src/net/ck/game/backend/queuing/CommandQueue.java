@@ -1,5 +1,6 @@
 package net.ck.game.backend.queuing;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,14 +13,7 @@ import java.util.*;
  */
 public class CommandQueue implements Queue
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private ArrayList<AbstractKeyboardAction> actionList;
 

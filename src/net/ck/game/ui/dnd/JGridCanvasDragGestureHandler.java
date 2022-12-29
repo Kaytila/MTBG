@@ -3,6 +3,7 @@ package net.ck.game.ui.dnd;
 import net.ck.game.backend.game.Game;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.components.JGridCanvas;
+import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,29 +13,11 @@ import java.awt.dnd.DragGestureListener;
 
 public class JGridCanvasDragGestureHandler implements DragGestureListener
 {
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JGridCanvas grid;
 	public JGridCanvasDragGestureHandler(JGridCanvas gridCanvas)
 	{
 		setGrid(gridCanvas);
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	@Override

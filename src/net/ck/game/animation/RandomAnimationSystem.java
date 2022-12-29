@@ -1,11 +1,12 @@
 package net.ck.game.animation;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
+import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
@@ -13,13 +14,11 @@ import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
-import java.util.Objects;
 import java.util.Random;
 
 public class RandomAnimationSystem extends AnimationSystem
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private final Random rand = new Random();
     private int randomNumber;
@@ -34,11 +33,7 @@ public class RandomAnimationSystem extends AnimationSystem
         this.randomNumber = randomNumber;
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+
 
     public RandomAnimationSystem()
     {

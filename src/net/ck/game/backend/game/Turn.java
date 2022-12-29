@@ -1,8 +1,9 @@
 package net.ck.game.backend.game;
 
-import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.actions.RandomAction;
+import net.ck.game.backend.state.GameState;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -21,20 +22,7 @@ import java.util.ArrayList;
  */
 public class Turn
 {
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
-	
+	private final org.apache.logging.log4j.Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<PlayerAction> actions = new ArrayList<>();
 	private ArrayList<RandomAction> events = new ArrayList<>();
 	private int turnNumber;
@@ -79,7 +67,7 @@ public class Turn
 
 	public Logger getLogger()
 	{
-		return logger;
+		return (Logger) logger;
 	}
 
 	public GameState getGameState()

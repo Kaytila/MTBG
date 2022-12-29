@@ -1,17 +1,15 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.game.Game;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.graphics.MissilePositionChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Objects;
-
 public class MissileTimer implements Runnable
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private boolean running;
     private int delay;
@@ -30,11 +28,6 @@ public class MissileTimer implements Runnable
         setDelay(delay);
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public synchronized boolean isRunning()
     {

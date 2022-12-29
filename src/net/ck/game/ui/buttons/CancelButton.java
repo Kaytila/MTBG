@@ -1,6 +1,7 @@
 package net.ck.game.ui.buttons;
 
 import net.ck.game.backend.game.Game;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,28 +15,8 @@ import java.io.File;
 
 public class CancelButton extends JButton implements MouseListener
 {
-
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private boolean hovered;
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 
 	public CancelButton()
 	{

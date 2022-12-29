@@ -1,21 +1,14 @@
 package net.ck.game.ui.listeners;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.event.FocusEvent;
-import java.util.Objects;
 
 public class MyFocusListener implements java.awt.event.FocusListener
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     @Override
     public void focusGained(FocusEvent e)

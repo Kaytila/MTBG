@@ -1,16 +1,15 @@
 package net.ck.game.backend.time;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class QuequeTimer extends Timer
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * Creates a {@code Timer} and initializes both the initial delay and
@@ -29,13 +28,6 @@ public class QuequeTimer extends Timer
     {
         super(delay, listener);
     }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
 
     @Override
     public void start()

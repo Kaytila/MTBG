@@ -1,56 +1,28 @@
 package net.ck.game.ui.dialogs;
 
-import java.awt.Frame;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JRootPane;
-import javax.swing.KeyStroke;
-
+import net.ck.game.backend.entities.NPC;
 import net.ck.game.ui.buttons.CancelButton;
 import net.ck.game.ui.buttons.OKButton;
+import net.ck.util.CodeUtils;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.backend.entities.NPC;
-import net.ck.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.util.communication.keyboard.WindowClosingAction;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class AbstractDialog extends JDialog
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	protected static final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 	public static final String dispatchWindowClosingActionMapKey = "WINDOW_CLOSING";
 	public CancelButton cancelButton;
 	public OKButton okButton;
 	protected JRootPane root;
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	
 	public AbstractDialog()
 	{
 		

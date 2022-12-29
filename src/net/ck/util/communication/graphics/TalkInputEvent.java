@@ -1,14 +1,14 @@
 package net.ck.util.communication.graphics;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TalkInputEvent extends ChangedEvent
 {
-
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private String contents;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+
 
 	public TalkInputEvent(String contents)
 	{
@@ -21,23 +21,6 @@ public class TalkInputEvent extends ChangedEvent
 		return contents;
 	}
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
 
 	public void setContents(String contents)
 	{

@@ -3,18 +3,18 @@ package net.ck.game.run;
 import net.ck.game.backend.game.Game;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.weather.WeatherTypes;
+import net.ck.util.CodeUtils;
 import net.ck.util.CursorUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 public class RunGame
 {
-
-	private static final Logger logger = (Logger) LogManager.getLogger(RunGame.class);
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(RunGame.class));
 
 	/**
 	 * MainWindow is actually the listener and action class, the main application window is something else entirely. 

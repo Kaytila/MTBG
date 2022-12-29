@@ -1,5 +1,6 @@
 package net.ck.util.security;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,7 +8,7 @@ import java.io.FileDescriptor;
 
 public class SecurityManagerExtension extends SecurityManager
 {
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	@Override
 	public void checkRead(FileDescriptor fd)
 	{
@@ -48,22 +49,6 @@ public class SecurityManagerExtension extends SecurityManager
 	{
 		// logger.info("deleting file: {}", file);
 		super.checkDelete(file);
-	}
-
-	@SuppressWarnings("unused")
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
 	}
 
 	public SecurityManagerExtension()

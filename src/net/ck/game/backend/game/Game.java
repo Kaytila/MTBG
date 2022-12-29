@@ -17,10 +17,11 @@ import net.ck.game.music.MusicPlayerNoThread;
 import net.ck.game.music.MusicTimer;
 import net.ck.game.music.MusicTimerActionListener;
 import net.ck.game.soundeffects.SoundPlayerNoThread;
-import net.ck.game.ui.timers.HighlightTimer;
-import net.ck.game.ui.listeners.HightlightTimerActionListener;
 import net.ck.game.ui.MainWindow;
+import net.ck.game.ui.listeners.HightlightTimerActionListener;
+import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.*;
+import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
@@ -29,7 +30,7 @@ import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.xml.RunXMLParser;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -47,12 +48,12 @@ import java.util.Set;
  */
 public class Game implements Runnable
 {
-
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     /**
      * Singleton
      */
     private static final Game game = new Game();
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+
 
     /**
      * contains the current game state,
@@ -320,11 +321,6 @@ public class Game implements Runnable
     }
 
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public boolean isRunning()
     {
@@ -564,7 +560,7 @@ public class Game implements Runnable
         logger.info("BEGIN: initializing weather system");
         weatherSystem = WeatherSystemFactory.createWeatherSystem(Game.getCurrent().getCurrentMap());
 
-        switch (weatherSystem.getRealClass().getSimpleName())
+        switch ((CodeUtils.getRealClass(weatherSystem)).getSimpleName())
         {
             case "SyncWeatherSystem":
                 logger.info("initializing sync weather system");

@@ -1,36 +1,29 @@
 package net.ck.game.ui.listeners;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import net.ck.game.ui.components.InventoryPane;
-import net.ck.game.ui.dialogs.ContainerDialog;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
-
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.Utility;
+import net.ck.game.ui.components.InventoryPane;
+import net.ck.game.ui.dialogs.ContainerDialog;
+import net.ck.util.CodeUtils;
 import net.ck.util.CursorUtils;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import net.ck.util.communication.keyboard.WindowClosingAction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
+
+import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.event.*;
 
 public class InventoryPaneListener implements ActionListener, ItemListener, ListDataListener, ListSelectionListener, MouseListener
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private InventoryPane inventoryPane;
 	private ContainerDialog containerDialog;
 	private AbstractKeyboardAction action;
@@ -44,23 +37,6 @@ public class InventoryPaneListener implements ActionListener, ItemListener, List
 		this.action = action;
 	}
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	public InventoryPaneListener(InventoryPane invPane, AbstractKeyboardAction action)
 	{
 		setInventoryPane(invPane);

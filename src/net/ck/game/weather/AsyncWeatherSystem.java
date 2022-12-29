@@ -1,28 +1,15 @@
 package net.ck.game.weather;
 
 import net.ck.game.backend.threading.ThreadNames;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 
 import net.ck.game.backend.game.Game;
+import org.apache.logging.log4j.Logger;
 
 public class AsyncWeatherSystem extends AbstractWeatherSystem implements Runnable
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public AsyncWeatherSystem(int randomness)
 	{

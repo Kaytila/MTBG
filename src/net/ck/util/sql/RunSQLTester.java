@@ -1,29 +1,18 @@
 package net.ck.util.sql;
 
+import net.ck.util.CodeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class RunSQLTester
 {
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(RunSQLTester.class));
 
-	private final Logger log = (Logger) LogManager.getLogger(getRealClass());
-	private static final Logger logger = (Logger) LogManager.getLogger(RunSQLTester.class);
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
 
 	public static void main(String[] args)
 	{

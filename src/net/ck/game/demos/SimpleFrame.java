@@ -1,27 +1,21 @@
 package net.ck.game.demos;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import net.ck.util.CodeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.RGBImageFilter;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class SimpleFrame extends JFrame
 {
 	JPanel mainPanel = new JPanel()
 	{
-		private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+		private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 		String imageRootPath = "graphics/players/player";
 		ImageIcon originalIcon = new ImageIcon(imageRootPath + "1" + "/image1.png");
 
@@ -80,18 +74,4 @@ public class SimpleFrame extends JFrame
 			}
 		});
 	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
 }

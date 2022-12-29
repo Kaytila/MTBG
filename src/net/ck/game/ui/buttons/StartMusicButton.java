@@ -1,25 +1,15 @@
 package net.ck.game.ui.buttons;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class StartMusicButton extends JButton
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
-
-
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 
     public StartMusicButton(Point p)
@@ -35,10 +25,4 @@ public class StartMusicButton extends JButton
         this.setDoubleBuffered(true);
         //this.setToolTipText(getLogger().getName());
     }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
 }

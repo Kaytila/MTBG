@@ -1,16 +1,16 @@
 package net.ck.game.ui.listeners;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import net.ck.game.ui.MainWindow;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class MouseActionListener implements ActionListener
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	MainWindow win;
 
 	public MouseActionListener(MainWindow mainWindow)
@@ -18,18 +18,6 @@ public class MouseActionListener implements ActionListener
 		win = mainWindow;
 	}
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent evt)
@@ -37,10 +25,5 @@ public class MouseActionListener implements ActionListener
 		logger.info("mouse pressed");
 		win.setMousePressed(true);
 		win.createMovement();
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 }

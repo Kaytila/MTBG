@@ -4,6 +4,7 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.components.JGridCanvas;
+import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.DropAction;
 import org.apache.logging.log4j.LogManager;
@@ -17,12 +18,7 @@ import java.awt.event.InputEvent;
 
 public class JGridCanvasTransferHandler extends TransferHandler
 {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private MapTile sourceMapTile = null;
     private MapTile targetMapTile = null;
     private JGridCanvas gridCanvas;
@@ -62,23 +58,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
         this.gridCanvas = gridCanvas;
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        if (enclosingClass != null)
-        {
-            return enclosingClass;
-        }
-        else
-        {
-            return getClass();
-        }
-    }
 
-    public Logger getLogger()
-    {
-        return logger;
-    }
 
     @Override
     public Image getDragImage()

@@ -1,14 +1,13 @@
 package net.ck.game.animation;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-
-import java.util.Objects;
+import org.apache.logging.log4j.Logger;
 
 /**
  * animation system on separate thread, lets see how bad this implementation
@@ -23,14 +22,7 @@ import java.util.Objects;
  */
 public class AnimationSystem implements Runnable
 {
-
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	/**
 	 * 

@@ -23,7 +23,7 @@ import java.util.Random;
 public class NPCUtils
 {
 
-    private static final Logger logger = LogManager.getLogger(NPCUtils.class);
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(NPCUtils.class));
 
     /**
      * this is the pseudo AI which calculates actions done by NPCs. There probably needs to be a difference between hostile and friendly NPCs meaning that there will need to be a separate class for
@@ -193,11 +193,6 @@ public class NPCUtils
     }
 
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     /**
      *  Helper method, dumb calculation - move towards the player for attacking in melee

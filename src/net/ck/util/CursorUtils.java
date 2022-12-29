@@ -23,7 +23,7 @@ import java.util.Objects;
 public class CursorUtils
 {
 
-	private static final Logger logger = LogManager.getLogger(CursorUtils.class);
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(CursorUtils.class));
 	private static final String additionalImagesPath = "graphics" + File.separator + "misc";
 	private static final int border = GameConfiguration.tileSize / 2;
 	private static BufferedImage cursorImageNorth;

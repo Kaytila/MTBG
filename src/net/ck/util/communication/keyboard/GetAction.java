@@ -1,19 +1,14 @@
 package net.ck.util.communication.keyboard;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class GetAction extends AbstractKeyboardAction
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 		
 	public GetAction(Point getWhere)
 	{
@@ -27,12 +22,7 @@ public class GetAction extends AbstractKeyboardAction
 		super();
 		this.setGetWhere(new Point (-1, -1));
 	}
-	
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+
 
 	public  KeyboardActionType getType()
 	{

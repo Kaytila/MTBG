@@ -1,25 +1,19 @@
 package net.ck.game.music;
 
 import net.ck.game.backend.state.GameState;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class SongListMap
 {
-
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private HashMap<GameState, ArrayList<Path>> resultMap;
-    private final Logger logger = LogManager.getLogger(getRealClass());
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public SongListMap()
     {

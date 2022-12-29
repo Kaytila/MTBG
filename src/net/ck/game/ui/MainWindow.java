@@ -1,10 +1,10 @@
 package net.ck.game.ui;
 
 
-import net.ck.game.backend.game.Game;
-import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
@@ -20,16 +20,13 @@ import net.ck.game.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.game.ui.dnd.JGridCanvasDropTargetHandler;
 import net.ck.game.ui.listeners.MouseActionListener;
 import net.ck.game.ui.listeners.MyFocusListener;
-import net.ck.util.CursorUtils;
-import net.ck.util.GameUtils;
-import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
+import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,7 +37,6 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
-import java.util.Objects;
 
 /**
  * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
@@ -50,7 +46,7 @@ import java.util.Objects;
  */
 public class MainWindow implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
-
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     /**
      * mainframe
      */
@@ -81,8 +77,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      * set if a dialog is opened. Game is supposed to pause here
      */
     private boolean isDialogOpened = false;
-
-    private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
     private AbstractItem currentItemInHand;
 
@@ -124,11 +118,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public void setSelectTile(boolean selectTile)
     {
         this.selectTile = selectTile;
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
     }
 
     /**
@@ -396,11 +385,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         return pressedTimer;
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public StatsDialog getStatsDialog()
     {

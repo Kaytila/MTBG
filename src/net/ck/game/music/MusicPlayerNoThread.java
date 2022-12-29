@@ -2,6 +2,7 @@ package net.ck.game.music;
 
 import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.GameStateMachine;
+import net.ck.util.CodeUtils;
 import net.ck.util.SoundUtils;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
@@ -18,26 +19,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MusicPlayerNoThread
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private boolean gameStateChanged;
 
     public static String getMusicBasePath()
     {
         return musicBasePath;
-    }
-
-
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     private static final String musicBasePath = "music";
@@ -94,7 +85,7 @@ public class MusicPlayerNoThread
     public MusicPlayerNoThread()
     {
         super();
-        getLogger().info("initialize music player no threaded");
+        logger.info("initialize music player no threaded");
         EventBus.getDefault().register(this);
         readMusicDirectories(getMusicBasePath());
     }
@@ -182,7 +173,7 @@ public class MusicPlayerNoThread
                             state = GameState.DUSK;
                             break;
                         default:
-                            getLogger().error("unknown directory: {}", f.getName());
+                            logger.error("unknown directory: {}", f.getName());
                     }
                     getResultMap().addSong(state, entry);
                     //getLogger().info("adding sound file {} to game state {}", entry.toString(), state);
@@ -192,14 +183,6 @@ public class MusicPlayerNoThread
         }
         //Game.getCurrent().stopGame();
     }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
-
-
 
     /**
      * <a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java">...</a>

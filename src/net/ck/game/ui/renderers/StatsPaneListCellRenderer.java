@@ -1,41 +1,18 @@
 package net.ck.game.ui.renderers;
 
-import java.awt.Component;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-
+import net.ck.game.backend.entities.AbstractAttribute;
 import net.ck.game.ui.components.StatsPane;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.backend.entities.AbstractAttribute;
+import javax.swing.*;
+import java.awt.*;
 
 public class StatsPaneListCellRenderer extends JLabel implements javax.swing.ListCellRenderer<AbstractAttribute>
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 	public StatsPaneListCellRenderer(StatsPane statsPane)
 	{
 	

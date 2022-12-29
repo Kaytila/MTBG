@@ -2,6 +2,7 @@
 package net.ck.util.astar;
 
 import net.ck.game.map.MapTile;
+import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,9 +21,10 @@ import java.util.*;
 
 public class AStar
 {
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(AStar.class));
     private static final int DEFAULT_HV_COST = 1; // Horizontal - Vertical Cost
     private static final int DEFAULT_DIAGONAL_COST = 1000;
-    private static final Logger logger = LogManager.getLogger(AStar.class);
+
     private static int hvCost;
     private static int diagonalCost;
     private static MapTile[][] searchArea;

@@ -1,21 +1,17 @@
 package net.ck.game.demos;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Frame;
+import net.ck.util.CodeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-
-public class SuperConstructor extends JFrame {
-
-    private static final long serialVersionUID = 1L;
+public class SuperConstructor extends JFrame
+{
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     public SuperConstructor() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

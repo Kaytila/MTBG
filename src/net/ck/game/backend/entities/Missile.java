@@ -4,18 +4,18 @@ package net.ck.game.backend.entities;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.UnanimatedRepresentation;
 import net.ck.game.map.MapTile;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Missile
 {
 
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     /**
      * where is the shot fired from?
      */
@@ -106,11 +106,7 @@ public class Missile
         this.finished = finished;
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+
 
     public MapTile getSourceTile()
     {

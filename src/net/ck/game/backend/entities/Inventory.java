@@ -3,31 +3,21 @@ package net.ck.game.backend.entities;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Armor;
 import net.ck.game.items.Weapon;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Inventory extends AbstractListModel<AbstractItem> //implements ListModel<AbstractItem>
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<AbstractItem> inventory;
 	private double maxWeight;
 	private double currentWeight;
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
+
 
 	public Logger getLogger()
 	{

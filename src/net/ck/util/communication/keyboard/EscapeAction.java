@@ -1,5 +1,6 @@
 package net.ck.util.communication.keyboard;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,20 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class EscapeAction extends AbstractAction
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private static final String KEY_STROKE_AND_KEY = "ESCAPE";
     private static final KeyStroke ESCAPE_KEY_STROKE = KeyStroke.getKeyStroke( KEY_STROKE_AND_KEY );
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public EscapeAction()
     {

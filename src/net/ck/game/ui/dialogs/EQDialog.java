@@ -11,6 +11,7 @@ import net.ck.game.ui.components.WeaponPanel;
 import net.ck.game.ui.dnd.EQPanelTransferHandler;
 import net.ck.game.ui.listeners.EQPanelMouseListener;
 import net.ck.game.ui.listeners.WindowClosingListener;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
@@ -21,12 +22,7 @@ import java.awt.*;
 
 public class EQDialog extends AbstractDialog
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 
 	public EQDialog(Frame owner, String title, boolean modal)
@@ -165,23 +161,5 @@ public class EQDialog extends AbstractDialog
 		this.add(feetPanel);
 
 		this.setVisible(true);
-	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 }

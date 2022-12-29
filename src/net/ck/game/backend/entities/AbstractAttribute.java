@@ -8,12 +8,11 @@ import org.imgscalr.Scalr;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Objects;
 
 public abstract class AbstractAttribute
 {
 
-	private final Logger logger = LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(this);
 
 	protected AttributeTypes type;
 	protected int value;
@@ -59,11 +58,6 @@ public abstract class AbstractAttribute
 		type = null;
 	}
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
 
 	public Logger getLogger()
 	{

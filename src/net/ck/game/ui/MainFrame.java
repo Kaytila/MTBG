@@ -4,6 +4,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.ui.buttons.UndoButton;
 import net.ck.game.ui.components.JGridCanvas;
 import net.ck.game.ui.components.JWeatherCanvas;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,16 +23,7 @@ import java.io.IOException;
  */
 public class MainFrame extends JFrame
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = LogManager.getLogger(getRealClass());
-	public Logger getLogger()
-	{
-		return logger;
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 
 	private UndoButton undoButton;
@@ -68,20 +60,6 @@ public class MainFrame extends JFrame
 	{
 		this.weatherCanvas = weatherCanvas;
 	}
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
 	public MainFrame() throws HeadlessException
 	{
 

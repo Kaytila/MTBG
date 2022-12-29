@@ -1,25 +1,19 @@
 package net.ck.game.animation;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Objects;
 
 
 public class IndividualAnimationSystem extends AnimationSystem
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     protected int i;
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+
 
     public IndividualAnimationSystem()
     {

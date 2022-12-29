@@ -1,27 +1,23 @@
 package net.ck.util.ui;
 
 import net.ck.game.ui.components.JMapEditorCanvas;
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class MapEditor extends JFrame
 {
 
-    private static final org.apache.logging.log4j.core.Logger logger = (Logger) LogManager.getLogger(MapEditor.class);
+    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(MapEditor.class));
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+
 
 
     public MapEditor() throws HeadlessException

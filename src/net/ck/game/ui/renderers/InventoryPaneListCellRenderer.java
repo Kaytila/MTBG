@@ -1,12 +1,12 @@
 package net.ck.game.ui.renderers;
 
 import net.ck.game.items.AbstractItem;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * https://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html#renderer
@@ -17,30 +17,13 @@ import java.util.Objects;
  */
 public class InventoryPaneListCellRenderer extends JLabel implements javax.swing.ListCellRenderer<AbstractItem>
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public InventoryPaneListCellRenderer()
 	{
 		setOpaque(true);
 		setHorizontalAlignment(SwingConstants.LEFT);
 		setVerticalAlignment(SwingConstants.CENTER);
-	}
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
 	}
 
 	@Override

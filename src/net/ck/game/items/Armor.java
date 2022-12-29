@@ -1,5 +1,6 @@
 package net.ck.game.items;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,36 +10,18 @@ import java.io.File;
 
 public class Armor extends AbstractItem
 {
-
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	@Override
 	public String toString()
 	{
 		return "Armor [type=" + type + ", position=" + position + ", armorClass=" + armorClass + ", toString()=" + super.toString() + "]";
 	}
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
 	private ArmorTypes type;
 	private ArmorPositions position;
 	private int armorClass;
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 	public Armor()
 	{
 

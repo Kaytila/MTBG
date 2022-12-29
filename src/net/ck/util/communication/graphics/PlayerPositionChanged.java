@@ -1,22 +1,14 @@
 package net.ck.util.communication.graphics;
 
 import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
 public class PlayerPositionChanged extends ChangedEvent
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private AbstractEntity player;
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     public PlayerPositionChanged(AbstractEntity p)
     {
@@ -31,10 +23,5 @@ public class PlayerPositionChanged extends ChangedEvent
     public void setPlayer(AbstractEntity player)
     {
         this.player = player;
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
     }
 }

@@ -8,6 +8,7 @@ import net.ck.game.items.Armor;
 import net.ck.game.items.ArmorPositions;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.MapTile;
+import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
@@ -29,7 +30,7 @@ import java.util.Objects;
 public abstract class AbstractEntity
 {
 
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * the position on the map, filled for NPC and Player, not filled for World
@@ -269,11 +270,7 @@ public abstract class AbstractEntity
         this.number = number;
     }
 
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+
 
     public Point getUIPosition()
     {

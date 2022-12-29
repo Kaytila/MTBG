@@ -703,3 +703,5 @@ History of the changes:
             also fixed image setting, loading now happens once for many things and not reach time its used.
 2022-12-28: a few days with on off work, did some re-reading on drag'n'drop. EQPanel now automatically shows and un-shows
             equipment.
+2022-12-29: updated all classes to use CodeUtils.getRealClass() instead of having the method locally.
+            Many changes therefore, but a lot less code. Went over a few classes to mark them for deletion.

@@ -1,8 +1,9 @@
 package net.ck.game.animation;
 
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 /**
  * factory which decides which appearence class to choose heavy
@@ -15,21 +16,7 @@ import org.apache.logging.log4j.core.Logger;
  */
 public class AnimationSystemFactory
 {
-
-	@SuppressWarnings("unused")
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(AnimationSystemFactory.class));
 
 	/**
 	 * If no animations, then there is no animation system, is there?

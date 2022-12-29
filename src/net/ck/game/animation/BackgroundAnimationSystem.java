@@ -1,31 +1,19 @@
 package net.ck.game.animation;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
+import net.ck.util.CodeUtils;
 import net.ck.util.communication.graphics.BackgroundRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
-import java.util.Objects;
 
 public class BackgroundAnimationSystem extends IndividualAnimationSystem
 {
-
-	private final Logger logger = LogManager.getLogger(getRealClass());
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public BackgroundAnimationSystem()
 	{

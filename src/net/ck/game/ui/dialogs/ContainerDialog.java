@@ -1,47 +1,23 @@
 package net.ck.game.ui.dialogs;
 
-import java.awt.Frame;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
+import net.ck.game.backend.entities.Inventory;
 import net.ck.game.ui.buttons.CancelButton;
+import net.ck.game.ui.buttons.OKButton;
 import net.ck.game.ui.components.InventoryPane;
 import net.ck.game.ui.renderers.InventoryPaneListCellRenderer;
-import net.ck.game.ui.buttons.OKButton;
+import net.ck.util.CodeUtils;
+import net.ck.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.ck.game.backend.entities.Inventory;
-import net.ck.util.communication.keyboard.WindowClosingAction;
+import javax.swing.*;
+import java.awt.*;
 
 public class ContainerDialog extends AbstractDialog
 {
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		}
-		else
-		{
-			return getClass();
-		}
-	}
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-	
 	public ContainerDialog()
 	{
 
