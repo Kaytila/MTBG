@@ -705,3 +705,5 @@ History of the changes:
             equipment.
 2022-12-29: updated all classes to use CodeUtils.getRealClass() instead of having the method locally.
             Many changes therefore, but a lot less code. Went over a few classes to mark them for deletion.
+2022-12-30: introduced CommandSuccessMachine - which is the class that will gather actions and decides what sound effect
+            to play. Plays movement and miss sound already no idea why hit is not played.

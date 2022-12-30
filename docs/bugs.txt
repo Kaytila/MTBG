@@ -18,8 +18,10 @@ BUGS:
             Delay came from delay per NPC for highlighting. Solution, turn off highlighting.
 2022-11-29  FIXED game initialize does not draw highlighting
 2022-11-29  FIXED game initialize does not calculate visibility correct
-2022-11-29  Inventory does not work twice?
+2022-11-29  FIXED Inventory does not work twice?
 2022-11-29  FIXED Drop into the world does no longer work
 2022-11-29  music does stop rather abruptly - perhaps turn off the turn counter for switch from victory back to map?
 2022-11-30  FIXED music skips slightly on startup
 2022-11-30  drag'n'drop DROP works differently than double click drop
+2022-12-31  commandsuccessmachine does not play hit sound
+2022-12-31  sound effects for NPC attacking do not play

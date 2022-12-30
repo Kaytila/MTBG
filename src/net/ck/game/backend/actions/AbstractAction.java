@@ -15,7 +15,10 @@ public class AbstractAction
 
 	private Result result;
 	private String title;
-	
+
+
+	private boolean success;
+
 	/**
 	 * who does the action?
 	 */
@@ -71,5 +74,16 @@ public class AbstractAction
 	public void setEvent(AbstractKeyboardAction event)
 	{
 		this.event = event;
+	}
+
+
+	public boolean isSuccess()
+	{
+		return success;
+	}
+
+	public void setSuccess(boolean success)
+	{
+		this.success = success;
 	}
 }

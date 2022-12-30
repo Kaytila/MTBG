@@ -62,4 +62,5 @@ public class PlayerAction extends AbstractAction
 	{
 		return "action: " + getEvent().getType() + " of player: ";
 	}
+
 }

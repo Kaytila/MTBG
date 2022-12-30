@@ -2,10 +2,10 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
-import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.state.CommandSuccessMachine;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
@@ -13,7 +13,6 @@ import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
-import net.ck.game.soundeffects.SoundEffects;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
@@ -203,7 +202,7 @@ public class Player extends AbstractEntity implements LifeForm
 
         boolean success = false;
         int successfulMovemement = 0;
-
+        action.setSuccess(false);
         switch (action.getType())
         {
             case EAST:
@@ -216,6 +215,7 @@ public class Player extends AbstractEntity implements LifeForm
                         this.move((p.x + 1), p.y);
                         successfulMovemement = 2;
                         success = true;
+                        action.setSuccess(true);
                     }
                     else
                     {
@@ -238,6 +238,7 @@ public class Player extends AbstractEntity implements LifeForm
                     logger.info("loading new map");
                     Game.getCurrent().switchMap();
                     success = true;
+                    action.setSuccess(true);
                 }
                 else
                 {
@@ -256,6 +257,7 @@ public class Player extends AbstractEntity implements LifeForm
                         this.move((p.x), (p.y - 1));
                         successfulMovemement = 2;
                         success = true;
+                        action.setSuccess(true);
                     }
                     else
                     {
@@ -280,6 +282,7 @@ public class Player extends AbstractEntity implements LifeForm
                         this.move((p.x), (p.y + 1));
                         successfulMovemement = 2;
                         success = true;
+                        action.setSuccess(true);
                     }
                     else
                     {
@@ -303,6 +306,7 @@ public class Player extends AbstractEntity implements LifeForm
                         this.move((p.x - 1), (p.y));
                         successfulMovemement = 2;
                         success = true;
+                        action.setSuccess(true);
                     }
                     else
                     {
@@ -363,7 +367,7 @@ public class Player extends AbstractEntity implements LifeForm
             Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction()));
         }
 
-        if (successfulMovemement > 0)
+        /*if (successfulMovemement > 0)
         {
             if (GameConfiguration.playSound == true)
             {
@@ -381,7 +385,8 @@ public class Player extends AbstractEntity implements LifeForm
         {
 
         }
-
+        */
+        CommandSuccessMachine.calculateSoundEffect(action);
         //Game.getCurrent().getController().setCurrentAction(null);
     }
 
@@ -446,6 +451,7 @@ public class Player extends AbstractEntity implements LifeForm
     {
         //TODO clean this mess up somewhen not sure I need to have so much duplicate code
         logger.info("player attacking");
+
         MapTile tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
         EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
         //Game.getCurrent().getSoundSystem().restartMusic();
@@ -478,16 +484,14 @@ public class Player extends AbstractEntity implements LifeForm
                             logger.info("hit");
                             n.decreaseHealth(5);
                             //n.increaseHealth(5);
-
-                            Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
+                            return true;
                         }
                         else
                         {
                             logger.info("miss");
                             n.evade();
-                            Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
+                            return false;
                         }
-                        break;
                     }
                 }
             }
@@ -496,7 +500,7 @@ public class Player extends AbstractEntity implements LifeForm
                 //No NPCs
             }
         }
-        return true;
+        return false;
     }
 
     @Override

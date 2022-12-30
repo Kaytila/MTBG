@@ -257,13 +257,13 @@ public class Game implements Runnable
     {
         // do this here, the access denied error for the jaxp.properties gets on
         // my nerves
-        getLogger().info("setting up security manager");
+        logger.info("setting up security manager");
         System.setProperty("java.security.policy", "policy.txt");
         SecurityManagerExtension secMan = new SecurityManagerExtension();
         java.lang.System.setSecurityManager(secMan);
 
         // thread handling
-        getLogger().info("setting up thread system");
+        logger.info("setting up thread system");
         setRunning(true);
         setThreadController(new ThreadController());
         getThreadController().add(Thread.currentThread());
@@ -287,7 +287,7 @@ public class Game implements Runnable
         //setGameState(GameState.WORLD);
 
         EventBus.getDefault().register(this);
-        getLogger().info("game start with default settings finished");
+        logger.info("game start with default settings finished");
 
     }
 
@@ -675,18 +675,13 @@ public class Game implements Runnable
         Game.getCurrent().setCurrentTurn(turn);
         getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
         MapUtils.calculateDayOrNight();
-        getLogger().info("TURN ENDS");
-        getLogger().info("=======================================================================================");
+        logger.info("TURN ENDS");
+        logger.info("=======================================================================================");
         getIdleTimer().start();
         getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
     }
 
     @SuppressWarnings("unused")
@@ -952,7 +947,7 @@ public class Game implements Runnable
 
     public void initializeIdleTimer()
     {
-        getLogger().info("initializing Turn Timer as Swing Timer");
+        logger.info("initializing Turn Timer as Swing Timer");
         IdleActionListener idleActionListener = new IdleActionListener();
         setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
         getIdleTimer().setRepeats(true);
@@ -961,7 +956,7 @@ public class Game implements Runnable
 
     public void initializeMusicTimer()
     {
-        getLogger().info("initializing Music Timer as Swing Timer");
+        logger.info("initializing Music Timer as Swing Timer");
         MusicTimerActionListener actionListener = new MusicTimerActionListener();
         setMusicTimer(new MusicTimer(GameConfiguration.victoryWait, actionListener));
         getMusicTimer().setRepeats(false);
@@ -970,7 +965,7 @@ public class Game implements Runnable
 
     public void initializeQuequeTimer()
     {
-        getLogger().info("initializing Movement Timer as Swing Timer");
+        logger.info("initializing Movement Timer as Swing Timer");
         QuequeTimerActionListener quequeTimerActionListener = new QuequeTimerActionListener();
         setQuequeTimer(new QuequeTimer(GameConfiguration.quequeWait, quequeTimerActionListener));
         getQuequeTimer().setRepeats(true);
@@ -979,7 +974,7 @@ public class Game implements Runnable
 
     public void initializeMissileTimer()
     {
-        getLogger().info("initializing Missile Timer as Thread");
+        logger.info("initializing Missile Timer as Thread");
         setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
         Thread missileTimerThread = new Thread(getMissileTimer());
         missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
@@ -988,7 +983,7 @@ public class Game implements Runnable
 
     public void initializeHighlightingTimer()
     {
-        getLogger().info("initializing Highlighting Timer as Swing Timer");
+        logger.info("initializing Highlighting Timer as Swing Timer");
         HightlightTimerActionListener actionListener = new HightlightTimerActionListener();
         setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
         getHighlightTimer().setRepeats(true);
@@ -1034,7 +1029,7 @@ public class Game implements Runnable
      * <p>
      * This is the run method, i.e. the big cheese or the main game loop.
      */
-    //TODO add repaint every x here and try to remove the messages from the gridcanvas
+
     public void run()
     {
         while (Game.getCurrent().isRunning() == true)
@@ -1077,7 +1072,7 @@ public class Game implements Runnable
     {
 //        if (GameConfiguration.playMusic == true)
 //        {
-//            getLogger().info("initializing sound system");
+//            logger.info("initializing sound system");
 //            setSoundSystem(new SoundPlayer());
 //            getSoundSystem().setMusicIsRunning(true);
 //            Thread soundSystemThread = new Thread(getSoundSystem());
@@ -1090,7 +1085,7 @@ public class Game implements Runnable
     {
         if (GameConfiguration.playMusic == true)
         {
-            getLogger().info("initializing music system no thread");
+            logger.info("initializing music system no thread");
             setMusicSystemNoThread(new MusicPlayerNoThread());
             getMusicSystemNoThread().setMusicIsRunning(true);
         }
@@ -1100,7 +1095,7 @@ public class Game implements Runnable
     {
         if (GameConfiguration.playSound == true)
         {
-            getLogger().info("initializing sound system no thread");
+            logger.info("initializing sound system no thread");
             setSoundPlayerNoThread(new SoundPlayerNoThread());
         }
     }
