@@ -201,7 +201,6 @@ public class Player extends AbstractEntity implements LifeForm
         int yBorder = mapsize.y;
 
         boolean success = false;
-        int successfulMovemement = 0;
         action.setSuccess(false);
         switch (action.getType())
         {
@@ -213,24 +212,22 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
                     {
                         this.move((p.x + 1), p.y);
-                        successfulMovemement = 2;
                         success = true;
                         action.setSuccess(true);
                     }
                     else
                     {
-                        successfulMovemement = 1;
                         //logger.info("EAST blocked");
                     }
                 }
                 else
                 {
                     logger.info("eastern border, ignore wrapping for now");
-                    successfulMovemement = 1;
                 }
                 break;
             case ENTER:
                 MapTile exit = MapUtils.getTileByCoordinates(this.getMapPosition());
+                assert exit != null;
                 String mapName = exit.getTargetMap();
                 int targetTileID = exit.getTargetID();
                 if (mapName != null && targetTileID != -1)
@@ -255,20 +252,17 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
                     {
                         this.move((p.x), (p.y - 1));
-                        successfulMovemement = 2;
                         success = true;
                         action.setSuccess(true);
                     }
                     else
                     {
-                        successfulMovemement = 1;
                         //logger.info("NORTH blocked");
                     }
                 }
                 else
                 {
                     logger.info("already at zero y");
-                    successfulMovemement = 1;
                 }
                 break;
             case NULL:
@@ -280,13 +274,11 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
                     {
                         this.move((p.x), (p.y + 1));
-                        successfulMovemement = 2;
                         success = true;
                         action.setSuccess(true);
                     }
                     else
                     {
-                        successfulMovemement = 1;
                         //logger.info("SOUTH blocked");
                     }
 
@@ -294,7 +286,6 @@ public class Player extends AbstractEntity implements LifeForm
                 else
                 {
                     logger.info("southern border, ignore wrapping for now");
-                    successfulMovemement = 1;
                 }
                 break;
             case WEST:
@@ -304,21 +295,17 @@ public class Player extends AbstractEntity implements LifeForm
                     if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
                     {
                         this.move((p.x - 1), (p.y));
-                        successfulMovemement = 2;
                         success = true;
                         action.setSuccess(true);
                     }
                     else
                     {
-                        successfulMovemement = 1;
                         //logger.info("WEST blocked");
                     }
                 }
                 else
                 {
                     logger.info("already at zero x");
-                    successfulMovemement = 1;
-
                 }
                 break;
             case SPACE:
@@ -358,7 +345,7 @@ public class Player extends AbstractEntity implements LifeForm
 
         // so if the action was done successful, add the action to the turn
         // if not, create a null action and add this to the turn.
-        if (success == true)
+        if (success)
         {
             Game.getCurrent().getCurrentTurn().getActions().add((PlayerAction) action);
         }

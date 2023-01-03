@@ -858,7 +858,7 @@ public class Game implements Runnable
         Weapon sling = getWeaponList().get(3);
         Weapon club = getWeaponList().get(1);
         p1.getInventory().add(sling);
-        p1.setWeapon(club);
+        p1.setWeapon(sling);
 
         getPlayers().add(p1);
         setCurrentPlayer(getPlayers().get(0));

@@ -501,7 +501,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(MissilePositionChanged event)
     {
-        //this.paint();
+        this.paint();
     }
 
 

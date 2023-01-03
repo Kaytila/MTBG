@@ -1,10 +1,11 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.backend.queuing.CommandQueue;
-import net.ck.game.backend.game.Game;
-import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.game.Game;
+import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.state.CommandSuccessMachine;
+import net.ck.game.backend.state.GameState;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.AbstractItem;
@@ -443,6 +444,8 @@ public class NPC extends AbstractEntity implements LifeForm
                 break;
 
         }
+        action.setSuccess(success);
+        CommandSuccessMachine.calculateSoundEffectNPC(action);
     }
 
     /**
@@ -489,14 +492,15 @@ public class NPC extends AbstractEntity implements LifeForm
                                 logger.info("hit");
                                 n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return true;
                             }
                             else
                             {
+                                logger.info("miss");
                                 n.getAppearance().setCurrentImage(ImageUtils.getMissImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                logger.info("miss");
+                                return false;
                             }
-                            break;
                         }
                     }
                 }
@@ -519,14 +523,15 @@ public class NPC extends AbstractEntity implements LifeForm
                                 logger.info("hit");
                                 n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return true;
                             }
                             else
                             {
                                 logger.info("miss");
                                 n.getAppearance().setCurrentImage(ImageUtils.getMissImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return false;
                             }
-                            break;
                         }
                     }
                 }
@@ -536,7 +541,7 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             logger.info("here, tile is null");
         }
-        return true;
+        return false;
     }
 
     @Override

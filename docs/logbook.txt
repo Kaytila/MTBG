@@ -707,3 +707,5 @@ History of the changes:
             Many changes therefore, but a lot less code. Went over a few classes to mark them for deletion.
 2022-12-30: introduced CommandSuccessMachine - which is the class that will gather actions and decides what sound effect
             to play. Plays movement and miss sound already no idea why hit is not played.
+2023-01-02: so command success machine will need to distinguish between player and npc, we do not want walking sounds
+            overlapping. so currently only for attack.

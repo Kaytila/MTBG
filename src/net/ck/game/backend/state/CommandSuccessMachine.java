@@ -56,4 +56,25 @@ public class CommandSuccessMachine
         }
     }
 
+    public static void calculateSoundEffectNPC(AbstractAction action)
+    {
+        if (GameConfiguration.playSound == true)
+        {
+            switch (action.getType())
+            {
+                case ATTACK:
+                    if (action.isSuccess())
+                    {
+                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
+                    }
+                    else
+                    {
+                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
+                    }
+                    break;
+                default:
+                    logger.info("do nothing");
+            }
+        }
+    }
 }
