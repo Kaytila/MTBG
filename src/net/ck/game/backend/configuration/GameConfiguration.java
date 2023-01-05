@@ -74,7 +74,7 @@ public class GameConfiguration
 
     public static final int quequeWait = 700;
 
-    public static final int missileWait = 10;
+    public static final int missileWait = 5;
 
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
 

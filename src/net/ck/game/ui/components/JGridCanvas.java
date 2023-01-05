@@ -324,70 +324,10 @@ public class JGridCanvas extends JComponent
         {
             return;
         }
-
+        Missile m = Game.getCurrent().getCurrentMap().getMissiles().get(0);
+        g.drawImage(m.getAppearance().getStandardImage(), m.getCurrentPosition().x, m.getCurrentPosition().y, this);
         //logger.info(" missiles: {}", Game.getCurrent().getCurrentMap().getMissiles());
-        ArrayList<Missile> finishedMissiles = new ArrayList<>();
 
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
-        {
-            if (m.getSourceCoordinates() == null)
-            {
-                logger.error("missile has no source");
-                Game.getCurrent().stopGame();
-            }
-            //logger.info("m: {}", m);
-            //logger.info("m image: {}", m.getAppearance().getStandardImage());
-            if (m.getLine() == null)
-            {
-                if (m.getCurrentPosition() == null)
-                {
-                    m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
-                }
-                m.setLine(MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates()));
-            }
-
-            if (m.getLine().size() == 0)
-            {
-                if (m.isSuccess())
-                {
-                    m.getAppearance().setStandardImage(ImageUtils.loadImage("combat", "explosion"));
-                }
-                //logger.info("finished missile");
-                m.setFinished(true);
-                finishedMissiles.add(m);
-            }
-            else
-            {
-                Point p = m.getLine().get(0);
-                m.setCurrentPosition(p);
-
-                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
-                {
-                    if (m.isSuccess())
-                    {
-                        m.getAppearance().setStandardImage(ImageUtils.loadImage("combat", "explosion"));
-                    }
-                    m.setFinished(true);
-                    finishedMissiles.add(m);
-                }
-
-                //only paint missile every 5 pixels
-                for (int i = 0; i <= 5; i++)
-                {
-                    if (m.getLine().size() > 0)
-                    {
-                        m.getLine().remove(0);
-                    }
-                }
-                g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
-            }
-        }
-
-        if (finishedMissiles.size() > 0)
-        {
-            //logger.info("finished missiles: {}", finishedMissiles);
-            Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
-        }
     }
 
     private void paintMissilesFullLineAtOnce(Graphics g)

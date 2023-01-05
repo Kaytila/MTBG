@@ -709,3 +709,5 @@ History of the changes:
             to play. Plays movement and miss sound already no idea why hit is not played.
 2023-01-02: so command success machine will need to distinguish between player and npc, we do not want walking sounds
             overlapping. so currently only for attack.
+2023-01-05: some break again - fixed missile drawing by moving from grid to the actual timer. Still need an event
+            otherwise the 60 frames break things. Hm, perhaps go to 30 frames and turn off event?

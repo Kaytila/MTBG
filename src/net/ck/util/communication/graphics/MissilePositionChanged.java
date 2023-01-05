@@ -7,5 +7,4 @@ import org.apache.logging.log4j.Logger;
 public class MissilePositionChanged extends ChangedEvent
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 }
