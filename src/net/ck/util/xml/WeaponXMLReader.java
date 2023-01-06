@@ -1,18 +1,16 @@
 package net.ck.util.xml;
 
-import java.util.Hashtable;
-
-import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponDamageTypes;
 import net.ck.game.items.WeaponTypes;
 import net.ck.util.ImageUtils;
+import org.apache.commons.lang3.Range;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.Hashtable;
 
 public class WeaponXMLReader extends DefaultHandler
 {

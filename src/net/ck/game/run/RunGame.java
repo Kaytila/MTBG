@@ -3,8 +3,8 @@ package net.ck.game.run;
 import net.ck.game.backend.game.Game;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.weather.WeatherTypes;
-import net.ck.util.CodeUtils;
 import net.ck.util.CursorUtils;
+import net.ck.util.GameUtils;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class RunGame
 {
-	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(RunGame.class));
+	private static final Logger logger = LogManager.getLogger(RunGame.class);
 
 	/**
 	 * MainWindow is actually the listener and action class, the main application window is something else entirely. 
@@ -94,36 +94,34 @@ public class RunGame
 						ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
 						ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
 					}
-					game.initializeAllItems();
+					GameUtils.initializeAllItems();
 					renderSplashFrame(g, size);
-					game.initializeNPCs();
+					GameUtils.initializeNPCs();
 					renderSplashFrame(g, size);
 
-					game.initializeMaps();
+					GameUtils.initializeMaps();
 					renderSplashFrame(g, size);
 					game.addPlayers();
 					renderSplashFrame(g, size);
 					//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 					game.addAnimatedEntities();
 					renderSplashFrame(g, size);
-					game.initializeAnimationSystem();
+					GameUtils.initializeAnimationSystem();
 					renderSplashFrame(g, size);
-					game.initializeBackgroundAnimationSystem();
+					GameUtils.initializeBackgroundAnimationSystem();
 					renderSplashFrame(g, size);
-					game.initializeForegroundAnimationSystem();
+					GameUtils.initializeForegroundAnimationSystem();
 					renderSplashFrame(g, size);
-					game.initializeWeatherSystem();
+					GameUtils.initializeWeatherSystem();
 					renderSplashFrame(g, size);
-					game.initializeIdleTimer();
+					GameUtils.initializeIdleTimer();
 					renderSplashFrame(g, size);
-					game.initializeQuequeTimer();
+					GameUtils.initializeQuequeTimer();
 					renderSplashFrame(g, size);
-					game.initializeMissileTimer();
+					GameUtils.initializeMissileTimer();
 					renderSplashFrame(g, size);
-					game.initializeMusicTimer();
+					GameUtils.initializeMusicTimer();
 					renderSplashFrame(g, size);
-					//game.initializeSoundSystem();
-
 					renderSplashFrame(g, size);
 					ImageUtils.initializeBackgroundImages();
 					renderSplashFrame(g, size);
@@ -131,10 +129,9 @@ public class RunGame
 					renderSplashFrame(g, size);
 					game.startThreads();
 					renderSplashFrame(g, size);
-					//game.initializeSoundSystemNoThread();
-					game.initializeHighlightingTimer();
-					game.initializeMusicSystemNoThread();
-					game.initializeSoundSystemNoThread();
+					GameUtils.initializeHighlightingTimer();
+					GameUtils.initializeMusicSystemNoThread();
+					GameUtils.initializeSoundSystemNoThread();
 
 					if (progress < 100)
 					{

@@ -5,7 +5,6 @@ import net.ck.game.ui.buttons.UndoButton;
 import net.ck.game.ui.components.JGridCanvas;
 import net.ck.game.ui.components.JWeatherCanvas;
 import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,7 +65,7 @@ public class MainFrame extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try
 		{
-			this.setIconImage(ImageIO.read(new File(ImageUtils.getAdditionalimagespath() + File.separator + File.separator + "sun.jpg")));
+			this.setIconImage(ImageIO.read(new File(GameConfiguration.miscImages + "sun.jpg")));
 		}
 		catch (IOException e)
 		{

@@ -1,10 +1,9 @@
 package net.ck.game.items;
 
+import net.ck.game.backend.entities.Inventory;
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import net.ck.game.backend.entities.Inventory;
 
 public class Utility extends AbstractItem
 {

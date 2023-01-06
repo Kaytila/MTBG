@@ -2,9 +2,9 @@ package net.ck.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.Player;
+import net.ck.game.backend.game.Game;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.AbstractMap;
 import net.ck.game.map.Map;

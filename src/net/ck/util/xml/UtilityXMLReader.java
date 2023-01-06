@@ -1,16 +1,14 @@
 package net.ck.util.xml;
 
-import java.util.Hashtable;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import net.ck.game.items.ArmorTypes;
 import net.ck.game.items.Utility;
 import net.ck.util.ImageUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.Hashtable;
 
 public class UtilityXMLReader extends DefaultHandler
 {

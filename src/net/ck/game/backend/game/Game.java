@@ -1,6 +1,6 @@
 package net.ck.game.backend.game;
 
-import net.ck.game.animation.*;
+import net.ck.game.animation.MissileTimer;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
@@ -9,18 +9,20 @@ import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.GameStateMachine;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
-import net.ck.game.backend.time.*;
+import net.ck.game.backend.time.GameTime;
+import net.ck.game.backend.time.IdleTimer;
+import net.ck.game.backend.time.QuequeTimer;
 import net.ck.game.items.*;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.music.MusicPlayerNoThread;
 import net.ck.game.music.MusicTimer;
-import net.ck.game.music.MusicTimerActionListener;
 import net.ck.game.soundeffects.SoundPlayerNoThread;
 import net.ck.game.ui.MainWindow;
-import net.ck.game.ui.listeners.HightlightTimerActionListener;
 import net.ck.game.ui.timers.HighlightTimer;
-import net.ck.game.weather.*;
+import net.ck.game.weather.AbstractWeatherSystem;
+import net.ck.game.weather.Weather;
+import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
@@ -53,13 +55,6 @@ public class Game implements Runnable
      * Singleton
      */
     private static final Game game = new Game();
-
-
-    /**
-     * contains the current game state,
-     * is also used by soundplayer, is also persisted with each turn
-     * and used for checking for music change
-     */
 
 
     /**
@@ -333,65 +328,7 @@ public class Game implements Runnable
     }
 
 
-    /**
-     * initialize the maps, cleanup later
-     * not sure whether I actually want this or even need this, or even need
-     * the north/east/south/west
-     * MapUtils.calculateTileDirections(map.getTiles());
-     * To be identified later
-     */
-    public void initializeMaps()
-    {
-        logger.info("start: initialize maps");
-        maps = new ArrayList<>();
-        String mapRootPath = "maps";
-
-        File folder = new File(mapRootPath);
-        File[] listOfFiles = folder.listFiles();
-
-        for (File file : Objects.requireNonNull(listOfFiles))
-        {
-            if (file.isFile())
-            {
-                //logger.info("file name: {}", file.getName());
-                if (file.getName().contains("xml"))
-                {
-                    Map map;
-                    logger.info("parsing map: {}", mapRootPath + File.separator + file.getName());
-                    map = RunXMLParser.parseMap(mapRootPath + File.separator + file.getName());
-
-                    String gameMapName = "testname";
-                    if (Objects.requireNonNull(map).getName().equalsIgnoreCase(gameMapName))
-                    {
-                        map.initialize();
-                        map.setVisibilityRange(2);
-
-                        setCurrentMap(map);
-                        addItemsToFloor();
-                    }
-                    else
-                    {
-                        map.setVisibilityRange(1);
-                    }
-                    if (map.getWeather() == null)
-                    {
-                        Weather weather = new Weather();
-                        weather.setType(WeatherTypes.SUN);
-                        map.setWeather(weather);
-                    }
-                    getMaps().add(map);
-                }
-
-            }
-        }
-
-        //getMaps().add(MapUtils.importUltima4MapFromCSV());
-        //logger.info("maps: {}", getMaps());
-        logger.info("end: initialize maps");
-
-    }
-
-    private void addItemsToFloor()
+    public void addItemsToFloor()
     {
         Weapon club = getWeaponList().get(1);
         Weapon magicClub = getWeaponList().get(2);
@@ -403,83 +340,11 @@ public class Game implements Runnable
         Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 4))).setFurniture(getFurnitureList().get(1));
     }
 
-    public void initializeAllItems()
-    {
-        logger.info("start: initialize items");
-        String mapRootPath = "items";
 
-        File folder = new File(mapRootPath);
-        File[] listOfFiles = folder.listFiles();
 
-        assert listOfFiles != null;
-        for (File file : listOfFiles)
-        {
-            if (file.isFile())
-            {
-                if (file.getName().equalsIgnoreCase("armor.xml"))
-                {
-                    logger.info("parsing armor: {}", mapRootPath + File.separator + file.getName());
-                    setArmorList(RunXMLParser.parseArmor(mapRootPath + File.separator + file.getName()));
-                }
 
-                else if (file.getName().equalsIgnoreCase("weapons.xml"))
-                {
-                    logger.info("parsing weapons: {}", mapRootPath + File.separator + file.getName());
-                    setWeaponList(RunXMLParser.parseWeapons(mapRootPath + File.separator + file.getName()));
-                }
 
-                else if (file.getName().equalsIgnoreCase("utilities.xml"))
-                {
-                    logger.info("parsing utilities: {}", mapRootPath + File.separator + file.getName());
-                    setUtilityList(RunXMLParser.parseUtilities(mapRootPath + File.separator + file.getName()));
-                }
 
-                else if (file.getName().equalsIgnoreCase("furniture.xml"))
-                {
-                    logger.info("parsing furniture: {}", mapRootPath + File.separator + file.getName());
-                    setFurnitureList(RunXMLParser.parseFurniture(mapRootPath + File.separator + file.getName()));
-                }
-
-            }
-        }
-        logger.info("end: initialize items");
-
-        listWeapons();
-        listUtilities();
-        listArmor();
-        listFurniture();
-    }
-
-    private void listFurniture()
-    {
-        for (FurnitureItem t : getFurnitureList().values())
-        {
-            logger.info("furniture item: {} ", t.toString());
-        }
-    }
-
-    public void initializeNPCs()
-    {
-        logger.info("start: initialize npcs");
-        String mapRootPath = "npcs";
-
-        File folder = new File(mapRootPath);
-        File[] listOfFiles = folder.listFiles();
-
-        assert listOfFiles != null;
-        for (File file : listOfFiles)
-        {
-            if (file.isFile())
-            {
-                if (file.getName().equalsIgnoreCase("npc.xml"))
-                {
-                    logger.info("parsing npcs: {}", mapRootPath + File.separator + file.getName());
-                    setNpcList(RunXMLParser.parseNPCs(mapRootPath + File.separator + file.getName()));
-                }
-            }
-        }
-        logger.info("end: initialize items");
-    }
 
     @SuppressWarnings("unused")
     private void addManyNPCs(Map map)
@@ -555,42 +420,7 @@ public class Game implements Runnable
     }
 
 
-    public void initializeWeatherSystem()
-    {
-        logger.info("BEGIN: initializing weather system");
-        weatherSystem = WeatherSystemFactory.createWeatherSystem(Game.getCurrent().getCurrentMap());
 
-        switch ((CodeUtils.getRealClass(weatherSystem)).getSimpleName())
-        {
-            case "SyncWeatherSystem":
-                logger.info("initializing sync weather system");
-                break;
-            case "AsyncWeatherSystem":
-                logger.info("initializing  async weather system");
-                Thread weatherSystemThread = new Thread((AsyncWeatherSystem) weatherSystem);
-                weatherSystemThread.setName(String.valueOf(ThreadNames.WEATHER_ANIMATION));
-                threadController.add(weatherSystemThread);
-                //weatherSystemThread.start();
-                break;
-            case "FixedWeatherSystem":
-                logger.info("initializing fixed weather system");
-                break;
-            case "NoWeatherSystem":
-                logger.info("initializing no weather system");
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + weatherSystem.getClass().getName());
-        }
-
-        if (Game.getCurrent().getCurrentMap().getWeather() == null)
-        {
-            Weather weather = new Weather();
-            weather.setType(WeatherTypes.SUN);
-            Game.getCurrent().getCurrentMap().setWeather(weather);
-        }
-
-        logger.info("END: initializing weather system");
-    }
 
     /**
      * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
@@ -870,45 +700,11 @@ public class Game implements Runnable
 			}
     }
 
-    public void initializeAnimationSystem()
-    {
-        AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem();
-        if (GameConfiguration.animated == true)
-        {
-            logger.info("initializing animation system");
-            Thread animationSystemThread = new Thread(animationSystem);
-            animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
-            threadController.add(animationSystemThread);
-        }
-    }
 
-    public void initializeBackgroundAnimationSystem()
-    {
-        if (GameConfiguration.animated == true)
-        {
-            logger.info("initializing BackgroundAnimationSystem animation system");
-            BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem();
 
-            Thread backgroundAnimationSystemThread = new Thread(backgroundAnimationSystem);
-            backgroundAnimationSystemThread.setName(String.valueOf(ThreadNames.BACKGROUND_ANIMATION));
 
-            threadController.add(backgroundAnimationSystemThread);
-        }
-    }
 
-    public void initializeForegroundAnimationSystem()
-    {
-        if (GameConfiguration.animated == true)
-        {
-            logger.info("initializing ForegroundAnimationSystem animation system");
-            ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem();
 
-            Thread foregroundAnimationSystemThread = new Thread(foregroundAnimationSystem);
-            foregroundAnimationSystemThread.setName(String.valueOf(ThreadNames.FOREGROUND_ANIMATION));
-
-            threadController.add(foregroundAnimationSystemThread);
-        }
-    }
 
     public ArrayList<LifeForm> getAnimatedEntities()
     {
@@ -944,52 +740,6 @@ public class Game implements Runnable
     {
         this.controller = controller;
     }
-
-    public void initializeIdleTimer()
-    {
-        logger.info("initializing Turn Timer as Swing Timer");
-        IdleActionListener idleActionListener = new IdleActionListener();
-        setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
-        getIdleTimer().setRepeats(true);
-        getIdleTimer().start();
-    }
-
-    public void initializeMusicTimer()
-    {
-        logger.info("initializing Music Timer as Swing Timer");
-        MusicTimerActionListener actionListener = new MusicTimerActionListener();
-        setMusicTimer(new MusicTimer(GameConfiguration.victoryWait, actionListener));
-        getMusicTimer().setRepeats(false);
-    }
-
-
-    public void initializeQuequeTimer()
-    {
-        logger.info("initializing Movement Timer as Swing Timer");
-        QuequeTimerActionListener quequeTimerActionListener = new QuequeTimerActionListener();
-        setQuequeTimer(new QuequeTimer(GameConfiguration.quequeWait, quequeTimerActionListener));
-        getQuequeTimer().setRepeats(true);
-    }
-
-
-    public void initializeMissileTimer()
-    {
-        logger.info("initializing Missile Timer as Thread");
-        setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
-        Thread missileTimerThread = new Thread(getMissileTimer());
-        missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
-        getThreadController().add(missileTimerThread);
-    }
-
-    public void initializeHighlightingTimer()
-    {
-        logger.info("initializing Highlighting Timer as Swing Timer");
-        HightlightTimerActionListener actionListener = new HightlightTimerActionListener();
-        setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
-        getHighlightTimer().setRepeats(true);
-
-    }
-
 
     public boolean isMoved()
     {
@@ -1068,64 +818,6 @@ public class Game implements Runnable
         }
     }
 
-    public void initializeSoundSystem()
-    {
-//        if (GameConfiguration.playMusic == true)
-//        {
-//            logger.info("initializing sound system");
-//            setSoundSystem(new SoundPlayer());
-//            getSoundSystem().setMusicIsRunning(true);
-//            Thread soundSystemThread = new Thread(getSoundSystem());
-//            soundSystemThread.setName(String.valueOf(ThreadNames.SOUND_SYSTEM));
-//            getThreadController().add(soundSystemThread);
-//        }
-    }
-
-    public void initializeMusicSystemNoThread()
-    {
-        if (GameConfiguration.playMusic == true)
-        {
-            logger.info("initializing music system no thread");
-            setMusicSystemNoThread(new MusicPlayerNoThread());
-            getMusicSystemNoThread().setMusicIsRunning(true);
-        }
-    }
-
-    public void initializeSoundSystemNoThread()
-    {
-        if (GameConfiguration.playSound == true)
-        {
-            logger.info("initializing sound system no thread");
-            setSoundPlayerNoThread(new SoundPlayerNoThread());
-        }
-    }
-
-
-    public void listArmor()
-    {
-        for (Armor t : getArmorList().values())
-        {
-            logger.info("armor item: {} ", t.toString());
-        }
-    }
-
-
-    public void listWeapons()
-    {
-        for (Weapon t : getWeaponList().values())
-        {
-            logger.info("weapon item: {} ", t.toString());
-        }
-    }
-
-
-    public void listUtilities()
-    {
-        for (Utility t : getUtilityList().values())
-        {
-            logger.info("utility item: {} ", t.toString());
-        }
-    }
 
     public Map getCurrentMap()
     {

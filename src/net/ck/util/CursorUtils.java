@@ -1,8 +1,8 @@
 package net.ck.util;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AbstractEntity;
+import net.ck.game.backend.game.Game;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.commons.lang3.Range;
@@ -22,9 +22,7 @@ import java.util.Objects;
 
 public class CursorUtils
 {
-
-	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(CursorUtils.class));
-	private static final String additionalImagesPath = "graphics" + File.separator + "misc";
+	private static final Logger logger = LogManager.getLogger(CursorUtils.class);
 	private static final int border = GameConfiguration.tileSize / 2;
 	private static BufferedImage cursorImageNorth;
 	private static BufferedImage cursorImageEast;
@@ -45,13 +43,13 @@ public class CursorUtils
 
 		Dimension bestSize = Toolkit.getDefaultToolkit().getBestCursorSize(0, 0);
 
-		setWestCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(getAdditionalimagespath() + File.separator + "CURSORS" + File.separator + "270.png"),
+		setWestCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "270.png"),
 			new Point(bestSize.width / 2, bestSize.height / 2), "westCursor"));
-		setEastCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(getAdditionalimagespath() + File.separator + "CURSORS" + File.separator + "90.png"),
+		setEastCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "90.png"),
 			new Point(bestSize.width / 2, bestSize.height / 2), "eastCursor"));
-		setNorthCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(getAdditionalimagespath() + File.separator + "CURSORS" + File.separator + "0.png"),
+		setNorthCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "0.png"),
 			new Point(bestSize.width / 2, bestSize.height / 2), "northCursor"));
-		setSouthCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(getAdditionalimagespath() + File.separator + "CURSORS" + File.separator + "180.png"),
+		setSouthCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "180.png"),
 			new Point(bestSize.width / 2, bestSize.height / 2), "southCursor"));
 		setTargetCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		logger.info("finish: initializing cursors");
@@ -95,11 +93,6 @@ public class CursorUtils
 	public static void setCursorImageWest(BufferedImage cursorImageWest)
 	{
 		CursorUtils.cursorImageWest = cursorImageWest;
-	}
-
-	public static String getAdditionalimagespath()
-	{
-		return additionalImagesPath;
 	}
 
 	/**
@@ -183,7 +176,7 @@ public class CursorUtils
 	/**
 	 * move the cursor to the middle of the next tile into direction x.
 	 * @param action the keyboard action indicating the direction, currently only N,E,S,W
-	 * @param movementForSelectTile
+	 * @param movementForSelectTile - boolean which explains what exactly.
 	 */
 	public static void moveCursorByOneTile(AbstractKeyboardAction action, boolean movementForSelectTile)
 	{
@@ -249,9 +242,9 @@ public class CursorUtils
 	 *   sometimes, I have no event, therefore I need to construct the mouse position from the absolute and calculate.
 	 * @param currentPlayer - current player
 	 * @param point - absolute position on the grid
-	 * 
-	 *            https://stackoverflow.com/questions/40592495/how-to-create-custom-cursor-images-in-java I can redo this in pixels now instead of tiles which are incorrect anyhow :D
-	 * 
+	 *  <a href="https://stackoverflow.com/questions/40592495/how-to-create-custom-cursor-images-in-java">https://stackoverflow.com/questions/40592495/how-to-create-custom-cursor-images-in-java</a>
+	 *  I can redo this in pixels now instead of tiles which are incorrect anyhow :D
+	 *
 	 */
 	public static void calculateCursorFromGridPosition(AbstractEntity currentPlayer, Point point)
 	{
@@ -277,28 +270,24 @@ public class CursorUtils
 			{
 				// logger.info("Mouse is on the left corridor");
 				setCursor(getWestCursor());
-				return;
 			}
 
 			else if (rangeY.contains(My) && ((Px + border) < Mx))
 			{
 				// logger.info("Mouse is on the right corridor");
 				setCursor(getEastCursor());
-				return;
 			}
 
 			else if (rangeX.contains(Mx) && ((Py - border) > My))
 			{
 				// logger.info("Mouse is on the top");
 				setCursor(getNorthCursor());
-				return;
 			}
 
 			else if (rangeX.contains(Mx) && ((Py + border) < My))
 			{
 				// logger.info("mouse is to the bottom");
 				setCursor(getSouthCursor());
-				return;
 			}
 			else
 			{
@@ -387,7 +376,7 @@ public class CursorUtils
 		ImageIcon icon = new ImageIcon(cI);
 		BufferedImage realImage = ImageUtils.makeImageTransparent(icon);
 
-		String filePath = additionalImagesPath + File.separator + "CURSORS" + File.separator + "0" + ".png";
+		String filePath = GameConfiguration.cursorPath + "0" + ".png";
 		File newFile = new File(filePath);
 		newFile.getParentFile().mkdirs();
 		try
@@ -404,8 +393,7 @@ public class CursorUtils
 	}
 
 	/**
-	 * https://stackoverflow.com/questions/8639567/java-rotating-images
-	 * 
+	 * <a href="https://stackoverflow.com/questions/8639567/java-rotating-images">https://stackoverflow.com/questions/8639567/java-rotating-images</a>
 	 *
 	 * @return roatedImagebydegree
 	 */
@@ -427,7 +415,7 @@ public class CursorUtils
 		// Drawing the rotated image at the required drawing locations
 		g2d.drawImage(op.filter(img, cI), drawLocationX, drawLocationY, null);
 		g2d.dispose();
-		String filePath = additionalImagesPath + File.separator + "CURSORS" + File.separator + degree + ".png";
+		String filePath = GameConfiguration.cursorPath +  degree + ".png";
 		File newFile = new File(filePath);
 		newFile.getParentFile().mkdirs();
 		try

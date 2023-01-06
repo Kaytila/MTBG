@@ -4,7 +4,6 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.soundeffects.SoundEffects;
-import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class CommandSuccessMachine
 {
-    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(CommandSuccessMachine.class));
+    private static final Logger logger = LogManager.getLogger(CommandSuccessMachine.class);
 
 
     public static void calculateSoundEffect(AbstractAction action)

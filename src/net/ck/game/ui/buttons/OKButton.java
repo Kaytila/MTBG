@@ -1,5 +1,6 @@
 package net.ck.game.ui.buttons;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
@@ -20,7 +21,7 @@ public class OKButton extends JButton implements MouseListener
 
 	public OKButton()
 	{	
-		setIcon(ImageUtils.createImageIcon(ImageUtils.getAdditionalimagespath() + File.separator + "BUTTONS" + File.separator + "cleanButton.png", ""));
+		setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
 		this.setFont(getFont());
 		setText("OK");
 		//this.setToolTipText(getLogger().getName());

@@ -1,10 +1,9 @@
 package net.ck.game.items;
 
+import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import net.ck.game.backend.game.Game;
 
 public class ItemFactory
 {

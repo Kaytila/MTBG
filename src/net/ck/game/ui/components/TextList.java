@@ -2,7 +2,6 @@ package net.ck.game.ui.components;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.util.CodeUtils;
-import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +22,7 @@ public class TextList extends JTextArea
 		super();
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		this.setVisible(true);
-		this.setFont(GameUtils.getFont());
+		this.setFont(GameConfiguration.font);
 		this.setFocusable(false);
 		this.setAutoscrolls(true);
 		this.setBorder(blackline);
@@ -34,7 +33,7 @@ public class TextList extends JTextArea
 	public JScrollPane initializeScrollPane()
 	{
 		sp = new JScrollPane(this);
-		sp.setBounds(GameConfiguration.UIwidth - 200, 200, 150, (GameUtils.getLineHeight() * numberOfLines));
+		sp.setBounds(GameConfiguration.UIwidth - 200, 200, 150, (GameConfiguration.lineHight * numberOfLines));
 		sp.setVisible(true);
 		return sp;
 	}

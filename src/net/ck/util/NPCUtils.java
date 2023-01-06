@@ -1,10 +1,10 @@
 package net.ck.util;
 
-import net.ck.game.backend.game.Game;
-import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.LifeForm;
+import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Armor;
 import net.ck.game.items.ArmorPositions;

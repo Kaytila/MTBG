@@ -8,7 +8,7 @@ import net.ck.game.map.MapTile;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.GetAction;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.Queue;
 
 

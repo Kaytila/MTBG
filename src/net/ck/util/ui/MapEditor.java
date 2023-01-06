@@ -1,5 +1,6 @@
 package net.ck.util.ui;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.ui.components.JMapEditorCanvas;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
@@ -26,7 +27,7 @@ public class MapEditor extends JFrame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         try
         {
-            this.setIconImage(ImageIO.read(new File(ImageUtils.getAdditionalimagespath() + File.separator + File.separator + "sun.jpg")));
+            this.setIconImage(ImageIO.read(new File(GameConfiguration.miscImages + "sun.jpg")));
         }
         catch (IOException e)
         {

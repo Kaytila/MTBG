@@ -1,10 +1,9 @@
 package net.ck.game.weather;
 
+import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
-
-import net.ck.game.backend.game.Game;
 import org.apache.logging.log4j.Logger;
 
 public class AsyncWeatherSystem extends AbstractWeatherSystem implements Runnable

@@ -10,7 +10,7 @@ import java.util.Hashtable;
 
 public class WeatherUtils 
 {
-	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(WeatherUtils.class));
+	private static final Logger logger = LogManager.getLogger(WeatherUtils.class);
 
 	public Class<?> getRealClass()
 	{

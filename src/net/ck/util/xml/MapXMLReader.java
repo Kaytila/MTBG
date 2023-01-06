@@ -1,7 +1,7 @@
 package net.ck.util.xml;
 
-import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.state.GameState;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;

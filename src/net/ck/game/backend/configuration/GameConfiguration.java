@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.io.File;
 
 /**
  * game configuration class - currently only using final public - but as this will need to go into a
@@ -92,5 +93,24 @@ public class GameConfiguration
 
     public static final int dialogHeight = 300;
 
+    /**
+     * this is used for drawing the circles in the equipment dialog
+     */
     public static final int elipseSize = 25;
+
+
+    public static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
+
+    public static final int padding = 5;
+
+    public static final int lineHight = font.getSize() + padding;
+
+    public static final String miscImages = "graphics" + File.separator + "misc" + File.separator;
+    public static final String cursorPath = miscImages + "CURSORS" + File.separator;
+
+    public static final String weatherImagesPath = "graphics" + File.separator + "weather" + File.separator;
+
+    public static final String imagesRootPath = "graphics" + File.separator;
+
+    public static final String playerImages = "graphics" + File.separator + "players" + File.separator + "player" ;//+ File.separator;
 }

@@ -1,6 +1,6 @@
 package net.ck.game.backend.entities;
 
-import net.ck.util.GameUtils;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +22,7 @@ public abstract class AbstractAttribute
 	{
 		if (image == null)
 		{
-			setImage(Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", getType().toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameUtils.getLineHeight(), GameUtils.getLineHeight(), Scalr.OP_ANTIALIAS));
+			setImage(Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", getType().toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameConfiguration.lineHight, GameConfiguration.lineHight, Scalr.OP_ANTIALIAS));
 		}
 		return image;
 	}

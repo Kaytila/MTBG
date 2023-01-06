@@ -1,9 +1,9 @@
 package net.ck.game.ui.components;
 
-import net.ck.game.backend.game.Game;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AbstractAttribute;
+import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
-import net.ck.util.GameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +24,7 @@ public class StatsPane extends JList<AbstractAttribute>
 		super();
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		this.setVisible(true);
-		this.setFont(GameUtils.getFont());
+		this.setFont(GameConfiguration.font);
 		
 		this.setAutoscrolls(true);
 		this.setBorder(blackline);
@@ -32,6 +32,7 @@ public class StatsPane extends JList<AbstractAttribute>
 		this.requestFocus();
 		this.setVisibleRowCount(-1);						
 		this.setModel(Game.getCurrent().getCurrentPlayer().getAttributes());
+		logger.info("Building StatsPane done");
 	}
 
 	public JScrollPane initializeScrollPane()

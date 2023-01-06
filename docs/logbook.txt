@@ -711,3 +711,6 @@ History of the changes:
             overlapping. so currently only for attack.
 2023-01-05: some break again - fixed missile drawing by moving from grid to the actual timer. Still need an event
             otherwise the 60 frames break things. Hm, perhaps go to 30 frames and turn off event?
+2023-01-06: moved things from GameUtils into GameConfiguration.
+            GameUtils gets init methods to clear the clutter in Game. Minimal effort but huge win in overview.
+            Moved lots of image paths into GameConfiguration, moved lots of init methods into GameUtils.

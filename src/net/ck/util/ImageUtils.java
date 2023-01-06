@@ -31,13 +31,11 @@ import java.util.Random;
  */
 public class ImageUtils
 {
-    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(ImageUtils.class));
-    private static final String rootPath = "graphics";
+    private static final Logger logger = LogManager.getLogger(ImageUtils.class);
 
 
-    private static final String imagerootpath = "graphics" + File.separator + "players" + File.separator + "player";
-    private static final String additionalImagesPath = "graphics" + File.separator + "misc";
-    private static final String weatherImagesPath = "graphics" + File.separator + "weather";
+
+
 
     private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>();
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>();
@@ -48,11 +46,6 @@ public class ImageUtils
     private static BufferedImage missImage;
 
     private static BufferedImage inventoryImage;
-
-    public static String getImagerootpath()
-    {
-        return imagerootpath;
-    }
 
     /**
      * Compares two images pixel by pixel.
@@ -92,7 +85,7 @@ public class ImageUtils
      * @param fileName contains the file name
      * @return BufferedImage with white turned into transparent
      * <p>
-     * https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java
+     * <a href="https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java">https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java</a>
      */
     public static BufferedImage makeImageTransparent(String fileName)
     {
@@ -126,7 +119,7 @@ public class ImageUtils
     /**
      * @return BufferedImage with white turned into transparent
      * <p>
-     * https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java
+     * <a href="https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java">https://stackoverflow.com/questions/14097386/how-to-make-drawn-images-transparent-in-java</a>
      */
     public static BufferedImage makeImageTransparent(ImageIcon originalIcon)
     {
@@ -157,7 +150,7 @@ public class ImageUtils
      * @param description - no description;
      * @return ImageIcon which is then used to take away the white.
      * <p>
-     * https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images
+     * <a href="https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images">https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images</a>
      */
     public static ImageIcon createImageIcon(String path, String description)
     {
@@ -180,7 +173,7 @@ public class ImageUtils
      * Converts a given Image into a BufferedImage
      *
      * @param img The Image to be converted
-     * @return The converted BufferedImage https://stackoverflow.com/questions/13605248/java-converting-image-to-bufferedimage
+     * @return The converted BufferedImage <a href="https://stackoverflow.com/questions/13605248/java-converting-image-to-bufferedimage">https://stackoverflow.com/questions/13605248/java-converting-image-to-bufferedimage</a>
      */
     public static BufferedImage toBufferedImage(Image img)
     {
@@ -210,7 +203,7 @@ public class ImageUtils
         try
         {
             // logger.info("standard image: {}", getImagerootpath() + player.getNumber() + "/image1.png");
-            standardImage = ImageUtils.makeImageTransparent(getImagerootpath() + player.getNumber() + File.separator + "image1.png");
+            standardImage = ImageUtils.makeImageTransparent(GameConfiguration.playerImages + player.getNumber() + File.separator + "image1.png");
         }
         catch (java.security.AccessControlException e2)
         {
@@ -228,7 +221,7 @@ public class ImageUtils
             try
             {
                 // logger.info("images: {} ", getImagerootpath() + player.getNumber() + "/image" + i + ".png");
-                movingImage = ImageUtils.makeImageTransparent(getImagerootpath() + player.getNumber() + File.separator + "image" + i + ".png");
+                movingImage = ImageUtils.makeImageTransparent(GameConfiguration.playerImages + player.getNumber() + File.separator + "image" + i + ".png");
             }
             catch (java.security.AccessControlException e2)
             {
@@ -310,10 +303,6 @@ public class ImageUtils
         }
     }
 
-    public static String getAdditionalimagespath()
-    {
-        return additionalImagesPath;
-    }
 
     /**
      *
@@ -402,7 +391,7 @@ public class ImageUtils
             QuadCurve2D.Double curve2 = new QuadCurve2D.Double(16, i + 16, 24, 32, 32, i + 16);
             gr.draw(curve2);
             gr.dispose();
-            String filePath = additionalImagesPath + File.separator + TileTypes.OCEAN + File.separator + i + ".png";
+            String filePath = GameConfiguration.miscImages + File.separator + TileTypes.OCEAN + File.separator + i + ".png";
             File newFile = new File(filePath);
             newFile.getParentFile().mkdirs();
             try
@@ -421,7 +410,7 @@ public class ImageUtils
     {
         Random rand = new Random();
         int i = rand.nextInt(GameConfiguration.animationCycles);
-        String filePath = additionalImagesPath + File.separator + tileType + File.separator + i + ".png";
+        String filePath = GameConfiguration.miscImages + tileType + File.separator + i + ".png";
 
         try
         {
@@ -460,7 +449,7 @@ public class ImageUtils
             int j;
             for (j = 0; j <= GameConfiguration.animationCycles; j++)
             {
-                String filePath = additionalImagesPath + File.separator + t + File.separator + j + ".png";
+                String filePath =GameConfiguration.miscImages + t + File.separator + j + ".png";
 				if(Files.exists(Paths.get(filePath)))
 				{
 					try
@@ -537,7 +526,7 @@ public class ImageUtils
             for (j = 0; j <= GameConfiguration.animationCycles; j++)
             {
                 BufferedImage img;
-                String filePath = weatherImagesPath + File.separator + t + File.separator + j + ".png";
+                String filePath = GameConfiguration.weatherImagesPath + t + File.separator + j + ".png";
                 try
                 {
                     if (Files.exists(Paths.get(filePath)))
@@ -627,7 +616,7 @@ public class ImageUtils
                         {
                             if (px2 == rows.get(i))
                             {
-                                img.setRGB(px1, px2, color.getRGB());
+                                img.setRGB(px1, px2, Objects.requireNonNull(color).getRGB());
                             }
 
                         }
@@ -636,7 +625,7 @@ public class ImageUtils
 
             }
 
-            String filePath = weatherImagesPath + File.separator + type + File.separator + i + ".png";
+            String filePath = GameConfiguration.weatherImagesPath + type + File.separator + i + ".png";
             File newFile = new File(filePath);
             newFile.getParentFile().mkdirs();
             try
@@ -653,13 +642,14 @@ public class ImageUtils
 
     public static BufferedImage loadImage(String type, String imageName)
     {
-        String path = rootPath + File.separator + type + File.separator + imageName;
+        String path = GameConfiguration.imagesRootPath  + type + File.separator + imageName;
         logger.debug("loading image from: {}", path);
         return makeImageTransparent(path + ".png");
     }
 
     /**
-     * https://stackoverflow.com/questions/12980780/how-to-change-the-brightness-of-an-image brighten up image
+     * <a href="https://stackoverflow.com/questions/12980780/how-to-change-the-brightness-of-an-image">https://stackoverflow.com/questions/12980780/how-to-change-the-brightness-of-an-image</a>
+     * brighten up image
      */
     public static BufferedImage brightenUpImage(BufferedImage image, int x, int y)
     {

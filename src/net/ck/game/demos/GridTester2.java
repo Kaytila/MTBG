@@ -1,16 +1,8 @@
 package net.ck.game.demos;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class GridTester2 extends JPanel {

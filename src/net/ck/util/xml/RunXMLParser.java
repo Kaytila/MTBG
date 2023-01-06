@@ -1,23 +1,21 @@
 package net.ck.util.xml;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import net.ck.game.backend.entities.NPC;
-import net.ck.game.items.FurnitureItem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.Armor;
+import net.ck.game.items.FurnitureItem;
 import net.ck.game.items.Utility;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class RunXMLParser
 {

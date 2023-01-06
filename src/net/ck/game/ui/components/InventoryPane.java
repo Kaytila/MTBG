@@ -1,13 +1,13 @@
 package net.ck.game.ui.components;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.Inventory;
 import net.ck.game.items.AbstractItem;
+import net.ck.game.ui.dialogs.AbstractDialog;
+import net.ck.game.ui.dnd.InventoryPaneTransferHandler;
 import net.ck.game.ui.listeners.DialogPopupListener;
 import net.ck.game.ui.listeners.InventoryPaneListener;
-import net.ck.game.ui.dnd.InventoryPaneTransferHandler;
-import net.ck.game.ui.dialogs.AbstractDialog;
 import net.ck.util.CodeUtils;
-import net.ck.util.GameUtils;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,17 +19,13 @@ import java.util.Objects;
 
 public class InventoryPane extends JList<AbstractItem>
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	private JScrollPane sp;
 	private JPopupMenu menu;
 	private ListSelectionModel listSelectionModel;
 	private int selectionIndex;
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 	private InventoryPaneListener generalListener;
 	private Frame owner;
 	private AbstractDialog parentDialog;
@@ -41,7 +37,7 @@ public class InventoryPane extends JList<AbstractItem>
 		this.setParentDialog(dialog);
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		this.setVisible(true);
-		this.setFont(GameUtils.getFont());
+		this.setFont(GameConfiguration.font);
 		
 		this.setAutoscrolls(true);
 		this.setBorder(blackline);
