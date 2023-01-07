@@ -714,3 +714,4 @@ History of the changes:
 2023-01-06: moved things from GameUtils into GameConfiguration.
             GameUtils gets init methods to clear the clutter in Game. Minimal effort but huge win in overview.
             Moved lots of image paths into GameConfiguration, moved lots of init methods into GameUtils.
+            Some more decluttering.

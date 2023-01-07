@@ -34,9 +34,6 @@ public class ImageUtils
     private static final Logger logger = LogManager.getLogger(ImageUtils.class);
 
 
-
-
-
     private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>();
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>();
     private static BufferedImage bloodstainImage;
@@ -165,7 +162,7 @@ public class ImageUtils
         }
         ImageIcon icon;
         icon = new ImageIcon(Objects.requireNonNull(img));
-		icon.setDescription(description);
+        icon.setDescription(description);
         return icon;
     }
 
@@ -179,7 +176,7 @@ public class ImageUtils
     {
         if (img == null)
         {
-            logger.error("image is not found for foxsake");
+            logger.error("image is not found for fox sake");
             System.exit(-1);
         }
         if (img instanceof BufferedImage)
@@ -198,18 +195,7 @@ public class ImageUtils
 
     public static BufferedImage loadStandardPlayerImage(Player player)
     {
-        BufferedImage standardImage = null;
-
-        try
-        {
-            // logger.info("standard image: {}", getImagerootpath() + player.getNumber() + "/image1.png");
-            standardImage = ImageUtils.makeImageTransparent(GameConfiguration.playerImages + player.getNumber() + File.separator + "image1.png");
-        }
-        catch (java.security.AccessControlException e2)
-        {
-            logger.error("caught it");
-        }
-        return standardImage;
+        return ImageUtils.makeImageTransparent(GameConfiguration.playerImages + "image1.png");
     }
 
     public static ArrayList<BufferedImage> loadMovingPlayerImages(Player player)
@@ -218,19 +204,9 @@ public class ImageUtils
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 1; i < GameConfiguration.animationCycles; i++)
         {
-            try
-            {
-                // logger.info("images: {} ", getImagerootpath() + player.getNumber() + "/image" + i + ".png");
-                movingImage = ImageUtils.makeImageTransparent(GameConfiguration.playerImages + player.getNumber() + File.separator + "image" + i + ".png");
-            }
-            catch (java.security.AccessControlException e2)
-            {
-                logger.error("caught it");
-            }
-
+            movingImage = ImageUtils.makeImageTransparent(GameConfiguration.playerImages + "image" + i + ".png");
             images.add(movingImage);
         }
-
         return images;
     }
 
@@ -288,7 +264,6 @@ public class ImageUtils
      **/
     public static Color convertTileTypeToColor(MapTile tile)
     {
-
         switch (tile.getType())
         {
             case GRASS:
@@ -312,40 +287,29 @@ public class ImageUtils
         // first player
         Point p = new Point(player.getAppearance().getStandardImage().getWidth(), player.getAppearance().getStandardImage().getHeight());
 
-            // check if the dimensions match, first x
-            if (GameConfiguration.imageSize.x == p.x)
+        // check if the dimensions match, first x
+        if (GameConfiguration.imageSize.x == p.x)
+        {
+            // then y
+            if (GameConfiguration.imageSize.y == p.y)
             {
-                // then y
-                if (GameConfiguration.imageSize.y == p.y)
-                {
-                    logger.info("sizes add up");
-                }
-                else
-                {
-                    logger.error("standard image does not match in height");
-                }
+                logger.info("sizes add up");
             }
             else
             {
-                logger.error("standard image does not match in width");
+                logger.error("standard image does not match in height");
             }
+        }
+        else
+        {
+            logger.error("standard image does not match in width");
+        }
 
     }
 
     public static BufferedImage loadStandardPlayerImage(NPC npc)
     {
-        BufferedImage standardImage = null;
-
-        try
-        {
-            // logger.info("standard image: {}", "graphics" + "/" + "npc" + "/" + "warrior" + "/image1.png");
-            standardImage = ImageUtils.makeImageTransparent("graphics" + File.separator + "npc" + File.separator + npc.getType() + File.separator + "image1.png");
-        }
-        catch (java.security.AccessControlException e2)
-        {
-            logger.error("caught it");
-        }
-        return standardImage;
+        return ImageUtils.makeImageTransparent(GameConfiguration.npcImages + npc.getType() + File.separator + "image1.png");
     }
 
     public static ArrayList<BufferedImage> loadMovingPlayerImages(NPC npc)
@@ -354,19 +318,9 @@ public class ImageUtils
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 1; i < GameConfiguration.animationCycles; i++)
         {
-            try
-            {
-                // logger.info("images: {} ", "graphics" + "/" + "npc" + "/" + "warrior" + "/image1.png");
-                movingImage = ImageUtils.makeImageTransparent("graphics" + File.separator + "npc" + File.separator + npc.getType() + File.separator + "image" + i + ".png");
-            }
-            catch (java.security.AccessControlException e2)
-            {
-                logger.error("caught it");
-            }
-
+            movingImage = ImageUtils.makeImageTransparent(GameConfiguration.npcImages + npc.getType() + File.separator + "image" + i + ".png");
             images.add(movingImage);
         }
-
         return images;
     }
 
@@ -449,19 +403,19 @@ public class ImageUtils
             int j;
             for (j = 0; j <= GameConfiguration.animationCycles; j++)
             {
-                String filePath =GameConfiguration.miscImages + t + File.separator + j + ".png";
-				if(Files.exists(Paths.get(filePath)))
-				{
-					try
-					{
-						list.add(j, ImageIO.read(new File(filePath)));
-					}
-					catch (IOException e)
-					{
-						logger.error("cannot read file: {}", filePath);
-						//e.printStackTrace();
-					}
-				}
+                String filePath = GameConfiguration.miscImages + t + File.separator + j + ".png";
+                if (Files.exists(Paths.get(filePath)))
+                {
+                    try
+                    {
+                        list.add(j, ImageIO.read(new File(filePath)));
+                    }
+                    catch (IOException e)
+                    {
+                        logger.error("cannot read file: {}", filePath);
+                        //e.printStackTrace();
+                    }
+                }
             }
             tileTypeImages.put(t, list);
         }
@@ -494,14 +448,14 @@ public class ImageUtils
         BufferedImage img = null;
         try
         {
-            img = ImageIO.read(new File("graphics" + File.separator + "weathertypes" + File.separator + type + ".jpg"));
+            img = ImageIO.read(new File(GameConfiguration.weatherTypesImagesPath + type + ".jpg"));
         }
         catch (IOException e)
         {
             logger.info("image for type {} does not exist, try png: ", type);
             try
             {
-                img = ImageIO.read(new File("graphics" + File.separator + "weathertypes" + File.separator + type + ".png"));
+                img = ImageIO.read(new File(GameConfiguration.weatherTypesImagesPath + type + ".png"));
             }
             catch (IOException e1)
             {
@@ -642,7 +596,7 @@ public class ImageUtils
 
     public static BufferedImage loadImage(String type, String imageName)
     {
-        String path = GameConfiguration.imagesRootPath  + type + File.separator + imageName;
+        String path = GameConfiguration.imagesRootPath + type + File.separator + imageName;
         logger.debug("loading image from: {}", path);
         return makeImageTransparent(path + ".png");
     }

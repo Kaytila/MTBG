@@ -21,8 +21,6 @@ import net.ck.game.soundeffects.SoundPlayerNoThread;
 import net.ck.game.ui.MainWindow;
 import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.AbstractWeatherSystem;
-import net.ck.game.weather.Weather;
-import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
@@ -30,14 +28,12 @@ import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
-import net.ck.util.xml.RunXMLParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -87,7 +83,7 @@ public class Game implements Runnable
      * not sure if I do need to do that or can load from disk on demand,
      * but the average map won't be that big
      */
-    private ArrayList<Map> maps;
+     ArrayList<Map> maps = new ArrayList<>();
     /**
      * holds the current map, might be game map, might be any map
      */
@@ -692,6 +688,8 @@ public class Game implements Runnable
 
         getPlayers().add(p1);
         setCurrentPlayer(getPlayers().get(0));
+        //for ultima IV map
+        //getCurrentPlayer().setMapPosition(new Point(38, 38));
         getCurrentPlayer().setMapPosition(new Point(2, 2));
 			Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
 			for (ArmorPositions pos : positions)
@@ -1001,22 +999,6 @@ public class Game implements Runnable
     public void setSoundPlayerNoThread(SoundPlayerNoThread soundPlayerNoThread)
     {
         this.soundPlayerNoThread = soundPlayerNoThread;
-    }
-
-    /**
-     * in turn 0, highlighting does not yet work, nor does visibility.
-     * I want to fix this by simply initializing the things at the end of game start.
-     * it appears, UI is not yet open.
-     */
-    public void initializeRest()
-    {
-        //getController().getFrame().setVisible(true);
-        //Game.getCurrent().setUiOpen(true);
-
-        getHighlightTimer().start();
-        EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
-        MapUtils.calculateDayOrNight();
-        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 }
 

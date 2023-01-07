@@ -189,7 +189,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     /**
      * this is called when any button is clicked.
      * <p>
-     * undo button is a little bit not working anymore
+     * undo button is a little not working anymore
      */
     @Override
     public void actionPerformed(ActionEvent e)
@@ -428,7 +428,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     }
 
     @Override
-    /**
+    /*
      * mouse dragged is being used for dragging the mouse
      * if right click, then only show cursor
      * if left click, its drag and drop, perhaps.
@@ -564,7 +564,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
     /**
      * So mouseReleased creates a KeyboardAction depending on the cursor type. which is a string. which is not a safe way. but it works. ActionFactory included, this is mostly for show reasons,
-     * functionality is zero https://stackoverflow.com/questions/44615276/thread-safe-find-and-remove-an-object-from-a-collection
+     * functionality is zero <a href="https://stackoverflow.com/questions/44615276/thread-safe-find-and-remove-an-object-from-a-collection">https://stackoverflow.com/questions/44615276/thread-safe-find-and-remove-an-object-from-a-collection</a>
      */
     @Override
     public void mouseReleased(MouseEvent e)
@@ -690,7 +690,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                         throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
                 }
 
-                /**
+                /*
                  * special case for movement, queque needs to be filled up and run
                  * not sure I like this
                  */

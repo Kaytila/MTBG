@@ -429,7 +429,6 @@ public class MapTile implements Comparable<MapTile>
 
     public boolean isBlocksLOS()
     {
-
         switch (getType())
         {
             case CASTLEEAST:
@@ -445,6 +444,7 @@ public class MapTile implements Comparable<MapTile>
             case STONEWALL:
             case WOODDOORCLOSED:
             case WOODWALL:
+            case DENSEFOREST:
             return true;
 
             case DESERT:
@@ -480,10 +480,13 @@ public class MapTile implements Comparable<MapTile>
             case WOODDOOROPEN:
             case WOODWINDOW:
             case WOODFLOOR:
+            case BUSH:
+            case SHALLOWOCEAN:
+            case REEF:
             return false;
 
             default:
-            logger.error("forgotten a tile type - how?");
+            logger.error("forgotten a tile type - how? {}", getType().toString());
             return false;
         }
     }

@@ -50,19 +50,19 @@ public class UILense
 	 */
 	public UILense()
 	{
+		logger.info("initializing lense");
+
 		visibleMapTiles = new ArrayList<>();
 		
 		xCoordinateSystem = new ArrayList<>(GameConfiguration.numberOfTiles);
 		yCoordinateSystem = new ArrayList<>(GameConfiguration.numberOfTiles);
 
-		logger.info("initializing lense");
 		for (int i = 0; i < GameConfiguration.numberOfTiles; i++)
 		{
 			xCoordinateSystem.add(i, false);
 			yCoordinateSystem.add(i, false);
 		}
 		initialize();
-	
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class UILense
 		{
 			for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
 			{
-				logger.info("X: {}, value: {}, Y: {}, value: {}", column, xCoordinateSystem.get(column), row, yCoordinateSystem.get(row));
+				logger.info("X: {}, value: {}, Y: {}, value: {}, type: {}", column, xCoordinateSystem.get(column), row, yCoordinateSystem.get(row));
 			}
 		}		
 	}

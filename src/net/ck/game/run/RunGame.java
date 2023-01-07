@@ -66,6 +66,7 @@ public class RunGame
 			if (splash == null)
 			{
 				logger.error("SplashScreen.getSplashScreen() returned null");
+				System.exit(-1);
 			}
 			else
 			{
@@ -167,7 +168,7 @@ public class RunGame
 				throw new RuntimeException(e);
 			}
 			//initialize remaining stuff _after_ UI is definitely open
-			game.initializeRest();
+			GameUtils.initializeRest();
 			//System.gc();
 		}
 

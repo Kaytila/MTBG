@@ -679,7 +679,6 @@ public class JGridCanvas extends JComponent
 
             Point offSet = MapUtils.calculateUIOffsetFromMapPoint();
 
-
             for (Point p : line)
             {
                 //logger.info("calculated route: {}", p);
@@ -698,6 +697,7 @@ public class JGridCanvas extends JComponent
                 if (blocked)
                 {
                     t.setHidden(true);
+                    //logger.info("what is blocked: {} and hidden: {}", t.toString(), t.isHidden());
                     g.drawImage(blackImage, (p.x * GameConfiguration.tileSize), (p.y * GameConfiguration.tileSize), this);
                 }
             }

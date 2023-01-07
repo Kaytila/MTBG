@@ -110,7 +110,17 @@ public class GameConfiguration
 
     public static final String weatherImagesPath = "graphics" + File.separator + "weather" + File.separator;
 
+    public static final String weatherTypesImagesPath = "graphics" + File.separator + "weathertypes" + File.separator;
+
     public static final String imagesRootPath = "graphics" + File.separator;
 
-    public static final String playerImages = "graphics" + File.separator + "players" + File.separator + "player" ;//+ File.separator;
+    public static final String playerImages = "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
+
+    public static final String npcImages = "graphics" + File.separator + "npcs" + File.separator;
+
+    public static final String mapFileRootPath = "maps";
+
+    public static final String npcFileRootPath = "npcs";
+
+    public static final String itemFileRootPath = "items";
 }
