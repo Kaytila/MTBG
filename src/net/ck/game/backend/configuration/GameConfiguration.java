@@ -123,4 +123,6 @@ public class GameConfiguration
     public static final String npcFileRootPath = "npcs";
 
     public static final String itemFileRootPath = "items";
+
+    public static final boolean useEvents = false;
 }

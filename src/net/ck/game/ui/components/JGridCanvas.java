@@ -409,10 +409,13 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
-        javax.swing.SwingUtilities.invokeLater(() ->
+        if (GameConfiguration.useEvents)
         {
-            //this.paint();
-        });
+            javax.swing.SwingUtilities.invokeLater(() ->
+            {
+                this.paint();
+            });
+        }
     }
 
     @Subscribe
@@ -421,8 +424,15 @@ public class JGridCanvas extends JComponent
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             setHighlightPosition(event.getMapPosition());
-            //this.paint();
         });
+
+        if (GameConfiguration.useEvents)
+        {
+            javax.swing.SwingUtilities.invokeLater(() ->
+            {
+                this.paint();
+            });
+        }
     }
 
 
@@ -430,7 +440,6 @@ public class JGridCanvas extends JComponent
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            //logger.info("time: {}", LocalTime.now());
             this.repaint();
         });
     }
@@ -446,7 +455,7 @@ public class JGridCanvas extends JComponent
 
 
     /**
-     * @param event an animatedRepresentation has changed, repaint the canvas
+     * @param event an background image has changed, repaint the canvas
      */
     @Subscribe
     public synchronized void onMessageEvent(BackgroundRepresentationChanged event)
@@ -459,7 +468,7 @@ public class JGridCanvas extends JComponent
 
 
     /**
-     * @param event an animatedRepresentation has changed, repaint the canvas
+     * @param event an foreground image has changed, repaint the canvas
      */
     @Subscribe
     public synchronized void onMessageEvent(ForegroundRepresentationChanged event)
@@ -479,7 +488,7 @@ public class JGridCanvas extends JComponent
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            setCursor(event.getCursor());/*logger.info(SwingUtilities.isEventDispatchThread());*/
+            setCursor(event.getCursor());
         });
     }
 

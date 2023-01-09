@@ -6817,7 +6817,7 @@
 		</tile>
 		<tile>
 			<id>681</id>
-			<type>GRASS</type>
+			<type>DENSEFOREST</type>
 			<x>8</x>
 			<y>6</y>
 			<east>682</east>
@@ -6827,7 +6827,7 @@
 		</tile>
 		<tile>
 			<id>682</id>
-			<type>GRASS</type>
+			<type>DENSEFOREST</type>
 			<x>9</x>
 			<y>6</y>
 			<east>683</east>
@@ -6837,7 +6837,7 @@
 		</tile>
 		<tile>
 			<id>683</id>
-			<type>GRASS</type>
+			<type>DENSEFOREST</type>
 			<x>10</x>
 			<y>6</y>
 			<east>684</east>

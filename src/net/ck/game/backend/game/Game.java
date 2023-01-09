@@ -83,7 +83,7 @@ public class Game implements Runnable
      * not sure if I do need to do that or can load from disk on demand,
      * but the average map won't be that big
      */
-     ArrayList<Map> maps = new ArrayList<>();
+    ArrayList<Map> maps = new ArrayList<>();
     /**
      * holds the current map, might be game map, might be any map
      */
@@ -312,7 +312,6 @@ public class Game implements Runnable
     }
 
 
-
     public boolean isRunning()
     {
         return this.running;
@@ -335,11 +334,6 @@ public class Game implements Runnable
         //logger.info("furniture: {}", getFurnitureList().get(0));
         Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 4))).setFurniture(getFurnitureList().get(1));
     }
-
-
-
-
-
 
 
     @SuppressWarnings("unused")
@@ -414,8 +408,6 @@ public class Game implements Runnable
         setNpcAction(event.isNpcAction());
         setNextTurn(true);
     }
-
-
 
 
     /**
@@ -691,17 +683,12 @@ public class Game implements Runnable
         //for ultima IV map
         //getCurrentPlayer().setMapPosition(new Point(38, 38));
         getCurrentPlayer().setMapPosition(new Point(2, 2));
-			Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
-			for (ArmorPositions pos : positions)
-			{
-				logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
-			}
+        Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
+        for (ArmorPositions pos : positions)
+        {
+            logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
+        }
     }
-
-
-
-
-
 
 
     public ArrayList<LifeForm> getAnimatedEntities()
@@ -792,25 +779,28 @@ public class Game implements Runnable
                 setNpcAction(false);
             }
 
-            if (this.isUiOpen())
+            if (GameConfiguration.useEvents == false)
             {
-                // javax.swing.SwingUtilities.invokeLater(() ->
-                //{
-                this.getController().getGridCanvas().paint();
-                //});
-            }
-
-            long timeTaken = System.nanoTime() - startTime;
-
-            if (timeTaken < GameConfiguration.targetTime)
-            {
-                try
+                if (this.isUiOpen())
                 {
-                    Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
+                    // javax.swing.SwingUtilities.invokeLater(() ->
+                    //{
+                    this.getController().getGridCanvas().paint();
+                    //});
                 }
-                catch (InterruptedException e)
+
+                long timeTaken = System.nanoTime() - startTime;
+
+                if (timeTaken < GameConfiguration.targetTime)
                 {
-                    throw new RuntimeException(e);
+                    try
+                    {
+                        Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
