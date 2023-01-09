@@ -132,6 +132,7 @@ public class JGridCanvas extends JComponent
 
     public void paintComponent(Graphics g)
     {
+        logger.info("painting: {}", System.currentTimeMillis());
         // logger.info("======================================================================");
         // start by clearing the rectangle completely, lets see how flashy that
         // is - not at all - yet
@@ -277,7 +278,7 @@ public class JGridCanvas extends JComponent
                 //logger.info("buffered image: {}", img.toString());
                 //g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
             }
-        }
+    }
     }
 
     private void paintGridLines(Graphics g)
@@ -612,8 +613,11 @@ public class JGridCanvas extends JComponent
     {
         for (LifeForm entity : Game.getCurrent().getAnimatedEntities())
         {
-            entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));
-
+            if (entity.getUIPosition() == null)
+            {
+                logger.info("need to calculate UI position");
+                entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));
+            }
             int x = entity.getUIPosition().x;
             int y = entity.getUIPosition().y;
 

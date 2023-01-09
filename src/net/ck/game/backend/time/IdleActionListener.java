@@ -24,7 +24,7 @@ public class IdleActionListener implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		//logger.info("sending space");
+		logger.info("sending space");
 		EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.SPACE));
 		EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
 		//Game.getCurrent().listThreads();

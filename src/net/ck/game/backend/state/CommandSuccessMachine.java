@@ -50,7 +50,7 @@ public class CommandSuccessMachine
                     }
                     break;
                 default:
-                    logger.info("do nothing");
+                    //logger.info("do nothing");
             }
         }
     }
@@ -72,7 +72,7 @@ public class CommandSuccessMachine
                     }
                     break;
                 default:
-                    logger.info("do nothing");
+                    //logger.info("do nothing");
             }
         }
     }

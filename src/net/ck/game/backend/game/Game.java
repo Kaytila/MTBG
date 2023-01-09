@@ -435,6 +435,8 @@ public class Game implements Runnable
         {
             for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
             {
+                logger.info("setting UI position: {}", e.getMapPosition());
+                e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                 //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                 //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                 if (e.isHostile())

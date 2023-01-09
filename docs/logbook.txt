@@ -716,4 +716,5 @@ History of the changes:
             Moved lots of image paths into GameConfiguration, moved lots of init methods into GameUtils.
             Some more decluttering.
 2023-01-09: added UseEvents to be able to switch between 60 fps and event based update - might make a difference in the
-            cpe consumption area sooner or later.
+            cpu consumption area sooner or later.
+            tried moving UI position calculation to game out of painting. should work but kinda does not.

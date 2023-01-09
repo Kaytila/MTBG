@@ -18,7 +18,7 @@ public class GameConfiguration
     /**
      * how long shall the game wait until sending a pass message in ms
      */
-    public static final long turnwait = 10000;
+    public static final long turnwait = 1000;
 
     /**
      * frames per second, if i really want to switch to this in the future
@@ -124,5 +124,5 @@ public class GameConfiguration
 
     public static final String itemFileRootPath = "items";
 
-    public static final boolean useEvents = false;
+    public static final boolean useEvents = true;
 }
