@@ -125,4 +125,6 @@ public class GameConfiguration
     public static final String itemFileRootPath = "items";
 
     public static final boolean useEvents = true;
+
+    public static final boolean drawTileOnce = false;
 }

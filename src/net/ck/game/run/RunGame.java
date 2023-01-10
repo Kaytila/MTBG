@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 
 public class RunGame
 {
@@ -59,6 +58,48 @@ public class RunGame
 		if (quickstart)
 		{
 			logger.info("quickstart enabled, no splashscreen");
+			logger.info("initialize game");
+			CursorUtils.initializeCursors();
+			game = Game.getCurrent();
+			if (game != null) {
+				if (generate) {
+					ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
+					ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
+					ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
+				}
+				GameUtils.initializeAllItems();
+				GameUtils.initializeNPCs();
+				GameUtils.initializeMaps();
+				game.addPlayers();
+				//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
+				game.addAnimatedEntities();
+				GameUtils.initializeAnimationSystem();
+				GameUtils.initializeBackgroundAnimationSystem();
+				GameUtils.initializeForegroundAnimationSystem();
+				GameUtils.initializeWeatherSystem();
+				GameUtils.initializeIdleTimer();
+				GameUtils.initializeQuequeTimer();
+				GameUtils.initializeMissileTimer();
+				GameUtils.initializeMusicTimer();
+				ImageUtils.initializeBackgroundImages();
+				ImageUtils.initializeForegroundImages();
+				game.startThreads();
+				GameUtils.initializeHighlightingTimer();
+				GameUtils.initializeMusicSystemNoThread();
+				GameUtils.initializeSoundSystemNoThread();
+			} else {
+				logger.error("game is null, how did this happen?");
+			}
+
+			try {
+				javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+
+			//make this synchronous to make sure the UI is finished.
+			//initialize remaining stuff _after_ UI is definitely open
+			GameUtils.initializeRest();
 		}
 		else
 		{
@@ -143,30 +184,28 @@ public class RunGame
 						renderSplashFrame(g, 100, size);
 					}
 				}
-				else
-				{
+				else {
 					logger.error("game is null, how did this happen?");
 				}
 			}
 			//finish splash, open UI
 			logger.info("splash finished");
-			if (splash != null)
-			{
+
+			if (splash != null) {
 				splash.close();
+				try {
+					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			} else {
+				try {
+					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 			//make this synchronous to make sure the UI is finished.
-			try
-			{
-				javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
-			}
-			catch (InterruptedException e)
-			{
-				throw new RuntimeException(e);
-			}
-			catch (InvocationTargetException e)
-			{
-				throw new RuntimeException(e);
-			}
 			//initialize remaining stuff _after_ UI is definitely open
 			GameUtils.initializeRest();
 			//System.gc();

@@ -274,9 +274,6 @@ public class Game implements Runnable
 
         GameStateMachine.getCurrent();
 
-        //why would I need that?
-        //setGameState(GameState.WORLD);
-
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");
 
@@ -362,13 +359,17 @@ public class Game implements Runnable
         logger.info("start: switching map");
 
         MapTile exit = MapUtils.getTileByCoordinates(getCurrentPlayer().getMapPosition());
-        String mapName = exit.getTargetMap();
-        int targetTileID = exit.getTargetID();
+        String mapName = null;
+        if (exit != null) {
+            mapName = exit.getTargetMap();
+        }
+        int targetTileID = -1;
+        if (exit != null) {
+            targetTileID = exit.getTargetID();
+        }
         logger.info("mapname: {}, targetTileID: {}", mapName, targetTileID);
-        for (Map m : getMaps())
-        {
-            if (m.getName().equalsIgnoreCase(mapName))
-            {
+        for (Map m : getMaps()) {
+            if (m.getName().equalsIgnoreCase(mapName)) {
                 MapTile targetTile = MapUtils.getMapTileByID(m, targetTileID);
                 setCurrentMap(m);
                 m.initialize();

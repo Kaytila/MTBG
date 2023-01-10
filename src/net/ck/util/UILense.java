@@ -103,7 +103,7 @@ public class UILense
 			for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
 			{		
 				if (xCoordinateSystem.get(column) == false)
-				{					
+				{
 					emptyTiles.add(new Point(column, row));
 				}
 				

@@ -718,4 +718,9 @@ History of the changes:
 2023-01-09: added UseEvents to be able to switch between 60 fps and event based update - might make a difference in the
             cpu consumption area sooner or later.
             tried moving UI position calculation to game out of painting. should work but kinda does not.
-2023-01-10: calculate UI position now works, needed to call it after AI part in advanceTurn
+2023-01-10: calculate UI position now works, needed to call it after AI part in advanceTurn.
+2023-01-10: updated RunGame to have the game actually run without splash screen.
+2023-01-10: did some research on combining images and drawing only once.
+            optimized Player.getUIPosition to set only once instead of returning a new point each request.
+            it is incredible how often this is called. But now draw time is halfed from 300ms to 150ms.
+            which is interesting.

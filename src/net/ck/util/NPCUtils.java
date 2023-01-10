@@ -23,7 +23,7 @@ import java.util.Random;
 public class NPCUtils
 {
 
-    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(NPCUtils.class));
+    private static final Logger logger = LogManager.getLogger(NPCUtils.class);
 
     /**
      * this is the pseudo AI which calculates actions done by NPCs. There probably needs to be a difference between hostile and friendly NPCs meaning that there will need to be a separate class for
@@ -76,7 +76,7 @@ public class NPCUtils
                 }
                 else
                 {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
+                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
                     return new PlayerAction(new SouthAction());
                 }
             // east
@@ -87,7 +87,7 @@ public class NPCUtils
                 }
                 else
                 {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
+                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
                     return new PlayerAction(new WestAction());
                 }
             // south
@@ -98,7 +98,7 @@ public class NPCUtils
                 }
                 else
                 {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
+                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
                     return new PlayerAction(new NorthAction());
                 }
             // west
@@ -109,7 +109,7 @@ public class NPCUtils
                 }
                 else
                 {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
+                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
                     return new PlayerAction(new EastAction());
                 }
             default:

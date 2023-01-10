@@ -130,54 +130,67 @@ public class JGridCanvas extends JComponent
         this.getActionMap().put("options", new OptionsAction());
     }
 
-    public void paintComponent(Graphics g)
-    {
+    /**
+     * currently everything is drawn after each other and on top of each other
+     * so we go through the rows several times
+     * I will definitely try out this:
+     * https://stackoverflow.com/questions/2318020/merging-two-images
+     * to make sure we only draw once - but this means combinging on the fly
+     * will need to do a compare between old and new with some profiling
+     * i.e. printf timestamp consideration
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
+    public void paintComponent(Graphics g) {
         logger.info("painting: {}", System.currentTimeMillis());
-        // logger.info("======================================================================");
-        // start by clearing the rectangle completely, lets see how flashy that
-        // is - not at all - yet
-        emptySlate(g);
+        long start = System.currentTimeMillis();
 
-        // identify which tiles are visible at first!
-        identifyVisibleTiles();
+        if (GameConfiguration.drawTileOnce == true) {
 
-        // this somehow needs to be doable faster
-        // draw the background images
-        paintBackground(g);
+        } else {
+            // identify which tiles are visible at first!
+            identifyVisibleTiles();
 
-        // identify the black tiles
-        paintBlackTiles(g);
+            // this somehow needs to be doable faster
+            // draw the background images
+            paintBackground(g);
 
-        // iterate over the entities on the map
-        // calculate offset to the player.
-        paintNPCs(g);
+            // identify the black tiles
+            paintBlackTiles(g);
 
-        // here come the items on the map :D
-        paintItems(g);
+            // iterate over the entities on the map
+            // calculate offset to the player.
+            paintNPCs(g);
 
-        // here comes the paintWeather part
-        // this somehow needs to be doable faster
-        paintWeather(g);
+            // here come the items on the map :D
+            paintItems(g);
 
-        // ring of darkness around the player
-        paintDarkness(g);
+            // here comes the paintWeather part
+            // this somehow needs to be doable faster
+            paintWeather(g);
 
-        //paint furniture
-        //also: paint light effects
-        paintFurniture(g);
+            // ring of darkness around the player
+            paintDarkness(g);
 
-        //paint line of sight or rather, paint black the tiles that are not visible
-        //based on the calculations which are not completely fitting but good enough
-        paintLoS(g);
+            //paint furniture
+            //also: paint light effects
+            paintFurniture(g);
 
-        //paint the missiles on the screen
-        paintMissiles(g);
-        //paintMissilesFullLineAtOnce(g);
+            //paint line of sight or rather, paint black the tiles that are not visible
+            //based on the calculations which are not completely fitting but good enough
+            paintLoS(g);
 
-        // take component size and draw lines every $tileSize pixels.
-        paintGridLines(g);
+            //paint the missiles on the screen
+            paintMissiles(g);
+            //paintMissilesFullLineAtOnce(g);
 
-        paintHighlighting(g);
+            // take component size and draw lines every $tileSize pixels.
+            paintGridLines(g);
+
+            paintHighlighting(g);
+        }
+        long end = System.currentTimeMillis();
+        logger.info("painting ends and took: {}", end - start);
     }
 
     private void paintHighlighting(Graphics g)
@@ -281,36 +294,37 @@ public class JGridCanvas extends JComponent
     }
     }
 
-    private void paintGridLines(Graphics g)
-    {
+    private void paintGridLines(Graphics g) {
         int rows = this.getHeight() / GameConfiguration.tileSize;
         int cols = this.getWidth() / GameConfiguration.tileSize;
         int i;
-        for (i = 0; i < rows; i++)
-        {
+        for (i = 0; i < rows; i++) {
             g.drawLine(0, i * GameConfiguration.tileSize, this.getWidth(), i * GameConfiguration.tileSize);
         }
 
-        for (i = 0; i < cols; i++)
-        {
+        for (i = 0; i < cols; i++) {
             g.drawLine(i * GameConfiguration.tileSize, 0, i * GameConfiguration.tileSize, this.getHeight());
         }
     }
 
-    private void paintMissilesTileBased(Graphics g)
-    {
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
-        {
-            if (m.getCurrentPosition() == null)
-            {
+    /**
+     * tile based paints a missile based on the tiles it is crossing,
+     * this is the cheap implementation but looks weird as a missile is only
+     * drawn once each tile
+     *
+     * @param g graphics context
+     */
+    @SuppressWarnings("unused")
+    private void paintMissilesTileBased(Graphics g) {
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles()) {
+            if (m.getCurrentPosition() == null) {
                 m.setCurrentPosition(MapUtils.calculateUIPositionFromMapOffset(m.getSourceTile().getMapPosition()));
             }
             int x = m.getCurrentPosition().x;
             int y = m.getCurrentPosition().y;
 
             ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), MapUtils.calculateUIPositionFromMapOffset(m.getTargetTile().getMapPosition()));
-            for (Point p : line)
-            {
+            for (Point p : line) {
                 logger.info("p:{}", p);
                 g.drawImage(m.getAppearance().getStandardImage(), ((GameConfiguration.tileSize * p.x) + (GameConfiguration.tileSize / 2)), ((GameConfiguration.tileSize * p.y) + (GameConfiguration.tileSize / 2)), this);
                 m.setCurrentPosition(p);
@@ -319,10 +333,8 @@ public class JGridCanvas extends JComponent
     }
 
 
-    private void paintMissiles(Graphics g)
-    {
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
-        {
+    private void paintMissiles(Graphics g) {
+        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0)) {
             return;
         }
         Missile m = Game.getCurrent().getCurrentMap().getMissiles().get(0);
@@ -331,24 +343,25 @@ public class JGridCanvas extends JComponent
 
     }
 
-    private void paintMissilesFullLineAtOnce(Graphics g)
-    {
+    /**
+     * this method paints a missile in one full line going from source to target
+     *
+     * @param g graphics context
+     */
+    @SuppressWarnings("unused")
+    private void paintMissilesFullLineAtOnce(Graphics g) {
         ArrayList<Missile> finishedMissiles = new ArrayList<>();
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
-        {
-            if (m.getCurrentPosition() == null)
-            {
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles()) {
+            if (m.getCurrentPosition() == null) {
                 m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
             }
 
             ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates());
-            for (Point p : line)
-            {
+            for (Point p : line) {
                 //logger.info("p:{}", p );
                 g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
                 m.setCurrentPosition(p);
-                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
-                {
+                if (m.getCurrentPosition().equals(m.getTargetCoordinates())) {
                     m.setFinished(true);
                     finishedMissiles.add(m);
                 }
@@ -513,7 +526,7 @@ public class JGridCanvas extends JComponent
         this.currentForegroundImage = currentForegroundImage;
     }
 
-    @SuppressWarnings("unused")
+
     private void paintDarkness(Graphics g)
     {
         // identify the black tiles

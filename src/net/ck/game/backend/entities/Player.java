@@ -39,6 +39,7 @@ public class Player extends AbstractEntity implements LifeForm
 
     private int animationCycles = 0;
 
+    private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
 
     public void setMapPosition(Point position)
     {
@@ -132,9 +133,9 @@ public class Player extends AbstractEntity implements LifeForm
     }
 
     @Override
-    public Point getUIPosition()
-    {
-        return new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
+    public Point getUIPosition() {
+        return uiPosition;
+        //return new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
     }
 
     @Override

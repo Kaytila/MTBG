@@ -435,7 +435,7 @@ public class GameUtils
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         MapUtils.calculateDayOrNight();
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-        //lets see whether this works:
+        //let us see whether this works:
         for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
         {
             logger.info("setting UI position: {}", e.getMapPosition());
