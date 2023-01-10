@@ -718,3 +718,4 @@ History of the changes:
 2023-01-09: added UseEvents to be able to switch between 60 fps and event based update - might make a difference in the
             cpu consumption area sooner or later.
             tried moving UI position calculation to game out of painting. should work but kinda does not.
+2023-01-10: calculate UI position now works, needed to call it after AI part in advanceTurn

@@ -615,7 +615,7 @@ public class JGridCanvas extends JComponent
         {
             if (entity.getUIPosition() == null)
             {
-                logger.info("need to calculate UI position");
+              //  logger.debug("need to calculate UI position, something went wrong");
                 entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));
             }
             int x = entity.getUIPosition().x;

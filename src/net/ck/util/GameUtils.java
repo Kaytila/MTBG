@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.ck.game.animation.*;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.state.GameState;
@@ -434,5 +435,11 @@ public class GameUtils
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         MapUtils.calculateDayOrNight();
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+        //lets see whether this works:
+        for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
+        {
+            logger.info("setting UI position: {}", e.getMapPosition());
+            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+        }
     }
 }
