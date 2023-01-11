@@ -58,7 +58,7 @@ public abstract class AbstractEntity
     private AbstractItem shield;
 
     /**
-     * armortypes contains all the armor positions, so this is the way to go.
+     * armor types contains all the armor positions, so this is the way to go.
      */
     private Hashtable<ArmorPositions, AbstractItem> wearEquipment = new Hashtable<>();
 
@@ -73,7 +73,7 @@ public abstract class AbstractEntity
     private Attributes attributes;
 
     /**
-     * is the entity a lightsource
+     * is the entity a light source
      */
     private boolean lightSource;
 
@@ -93,7 +93,7 @@ public abstract class AbstractEntity
     private int health;
 
     /**
-     * armor class - we just add ac on top of each other, no bodyparts and so on
+     * armor class - we just add ac on top of each other, no body parts and so on
      */
     protected int armorClass;
 
@@ -107,27 +107,6 @@ public abstract class AbstractEntity
         inventory = new Inventory();
         attributes = new Attributes();
         setLevel(1);
-    }
-
-
-
-    /**
-
-
-    private void attack(MapTile tileByCoordinates)
-    {
-        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
-    }
-
-    void search()
-    {
-        for (int xStart = getMapPosition().x - 1; xStart <= getMapPosition().x + 1; xStart++)
-        {
-            for (int yStart = getMapPosition().y - 1; yStart <= getMapPosition().y + 1; yStart++)
-            {
-                logger.info("searching maptile: {}", MapUtils.getTileByCoordinates(new Point(xStart, yStart)));
-            }
-        }
     }
 
     /**
@@ -394,7 +373,7 @@ public abstract class AbstractEntity
     }
 
     /**
-     * gets the top item from the maptile
+     * gets the top item from the map tile
      *
      * @param tile the map tile under the cursor
      * @return success or false
@@ -496,12 +475,6 @@ public abstract class AbstractEntity
         EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 
-
-    public boolean talk(MapTile tile)
-    {
-        return false;
-    }
-
     public boolean isLightSource()
     {
         return lightSource;
@@ -555,7 +528,7 @@ public abstract class AbstractEntity
 
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
-        Point futureMapposition = new Point(getMapPosition().x, getMapPosition().y);
+        Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
         for (MapTile node : path)
         {
             if (node.getMapPosition().equals(getMapPosition()))
@@ -565,28 +538,18 @@ public abstract class AbstractEntity
             else
             {
                 //logger.info(node);
-                if (node.x > futureMapposition.x)
-                {
+                if (node.x > futureMapPosition.x) {
                     getQueuedActions().addEntry(new EastAction());
-                    futureMapposition.move(futureMapposition.x + 1, futureMapposition.y);
-                }
-
-                else if (node.x < futureMapposition.x)
-                {
+                    futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
+                } else if (node.x < futureMapPosition.x) {
                     getQueuedActions().addEntry(new WestAction());
-                    futureMapposition.move(futureMapposition.x - 1, futureMapposition.y);
-                }
-
-                else if (node.y > futureMapposition.y)
-                {
+                    futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
+                } else if (node.y > futureMapPosition.y) {
                     getQueuedActions().addEntry(new SouthAction());
-                    futureMapposition.move(futureMapposition.x, futureMapposition.y + 1);
-                }
-
-                else if (node.y < futureMapposition.y)
-                {
+                    futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
+                } else if (node.y < futureMapPosition.y) {
                     getQueuedActions().addEntry(new NorthAction());
-                    futureMapposition.move(futureMapposition.x, futureMapposition.y - 1);
+                    futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
                 }
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
