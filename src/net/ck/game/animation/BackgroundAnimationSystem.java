@@ -34,8 +34,7 @@ public class BackgroundAnimationSystem extends IndividualAnimationSystem
 			for (i = 0; i <= GameConfiguration.animationCycles; i++)
 			{
 				setCurrentBackgroundImage(i);
-				if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
-				{
+				if (Game.getCurrent().isUiOpen()) {
 					EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
 				}
 				try

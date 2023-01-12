@@ -16,7 +16,6 @@ import net.ck.game.ui.listeners.MyFocusListener;
 import net.ck.game.ui.mainframes.MainFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,172 +30,177 @@ public class WindowBuilder {
     /**
      * stats Dialog - there will be one dialog only with exchanging JPanels
      */
-    private StatsDialog statsDialog;
+    private static StatsDialog statsDialog;
 
     /**
      * mainframe
      */
-    private JFrame frame;
+    private static JFrame frame;
 
     /**
      * left part, GRID Canvas
      */
-    private JGridCanvas gridCanvas;
-
-    public StatsDialog getStatsDialog() {
-        return statsDialog;
-    }
-
-    public void setStatsDialog(StatsDialog statsDialog) {
-        this.statsDialog = statsDialog;
-    }
-
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-
-    public JGridCanvas getGridCanvas() {
-        return gridCanvas;
-    }
-
-    public void setGridCanvas(JGridCanvas gridCanvas) {
-        this.gridCanvas = gridCanvas;
-    }
-
-    public InventoryDialog getInventoryDialog() {
-        return inventoryDialog;
-    }
-
-    public void setInventoryDialog(InventoryDialog inventoryDialog) {
-        this.inventoryDialog = inventoryDialog;
-    }
-
-    public TextList getTextArea() {
-        return textArea;
-    }
-
-    public void setTextArea(TextList textArea) {
-        this.textArea = textArea;
-    }
-
-    public InputField getTextField() {
-        return textField;
-    }
-
-    public void setTextField(InputField textField) {
-        this.textField = textField;
-    }
-
-    public JButton getUndoButton() {
-        return undoButton;
-    }
-
-    public void setUndoButton(JButton undoButton) {
-        this.undoButton = undoButton;
-    }
-
-    public JWeatherCanvas getWeatherCanvas() {
-        return weatherCanvas;
-    }
-
-    public void setWeatherCanvas(JWeatherCanvas weatherCanvas) {
-        this.weatherCanvas = weatherCanvas;
-    }
-
-    public StopMusicButton getStopMusicButton() {
-        return stopMusicButton;
-    }
-
-    public void setStopMusicButton(StopMusicButton stopMusicButton) {
-        this.stopMusicButton = stopMusicButton;
-    }
-
-    public StartMusicButton getStartMusicButton() {
-        return startMusicButton;
-    }
-
-    public void setStartMusicButton(StartMusicButton startMusicButton) {
-        this.startMusicButton = startMusicButton;
-    }
-
-    public IncreaseVolumeButton getIncreaseVolumeButton() {
-        return increaseVolumeButton;
-    }
-
-    public void setIncreaseVolumeButton(IncreaseVolumeButton increaseVolumeButton) {
-        this.increaseVolumeButton = increaseVolumeButton;
-    }
-
-    public DecreaseVolumeButton getDecreaseVolumeButton() {
-        return decreaseVolumeButton;
-    }
-
-    public void setDecreaseVolumeButton(DecreaseVolumeButton decreaseVolumeButton) {
-        this.decreaseVolumeButton = decreaseVolumeButton;
-    }
+    private static JGridCanvas gridCanvas;
 
     /**
      * inventoryDialog
      */
-    private InventoryDialog inventoryDialog;
+    private static InventoryDialog inventoryDialog;
 
     /**
      * text area is the textlist where all the actions are stored
      */
-    private TextList textArea;
+    private static TextList textArea;
 
     /**
      * shows the last command
      */
-    private InputField textField;
+    private static InputField textField;
 
     /**
      * undo button for retracting turns
      */
-    private JButton undoButton;
+    private static JButton undoButton;
 
     /**
      * weather canvas
      */
-    private JWeatherCanvas weatherCanvas;
+    private static JWeatherCanvas weatherCanvas;
 
     /**
      * button for stopping music - will need to move into options menu once music works properly
      */
-    private StopMusicButton stopMusicButton;
+    private static StopMusicButton stopMusicButton;
 
     /**
      * button for starting music - will need to move into options menu once music works properly
      */
-    private StartMusicButton startMusicButton;
+    private static StartMusicButton startMusicButton;
 
     /**
      * button for increasing volume
      */
-    private IncreaseVolumeButton increaseVolumeButton;
+    private static IncreaseVolumeButton increaseVolumeButton;
 
     /**
      * button for decreasing volume
      */
-    private DecreaseVolumeButton decreaseVolumeButton;
+    private static DecreaseVolumeButton decreaseVolumeButton;
 
 
-    private MainWindow mainWindow;
+    private static MainWindow mainWindow;
 
-    public WindowBuilder(MainWindow mW) {
-        mainWindow = mW;
+    public static StatsDialog getStatsDialog() {
+        return statsDialog;
+    }
+
+    public static void setStatsDialog(StatsDialog statsDialog) {
+        WindowBuilder.statsDialog = statsDialog;
+    }
+
+    public static JFrame getFrame() {
+        return frame;
+    }
+
+    public static void setFrame(JFrame frame) {
+        WindowBuilder.frame = frame;
+    }
+
+    public static JGridCanvas getGridCanvas() {
+        return gridCanvas;
+    }
+
+    public static void setGridCanvas(JGridCanvas gridCanvas) {
+        WindowBuilder.gridCanvas = gridCanvas;
+    }
+
+    public static InventoryDialog getInventoryDialog() {
+        return inventoryDialog;
+    }
+
+    public static void setInventoryDialog(InventoryDialog inventoryDialog) {
+        WindowBuilder.inventoryDialog = inventoryDialog;
+    }
+
+    public static TextList getTextArea() {
+        return textArea;
+    }
+
+    public static void setTextArea(TextList textArea) {
+        WindowBuilder.textArea = textArea;
+    }
+
+    public static InputField getTextField() {
+        return textField;
+    }
+
+    public static void setTextField(InputField textField) {
+        WindowBuilder.textField = textField;
+    }
+
+    public static JButton getUndoButton() {
+        return undoButton;
+    }
+
+    public static void setUndoButton(JButton undoButton) {
+        WindowBuilder.undoButton = undoButton;
+    }
+
+    public static JWeatherCanvas getWeatherCanvas() {
+        return weatherCanvas;
+    }
+
+    public static void setWeatherCanvas(JWeatherCanvas weatherCanvas) {
+        WindowBuilder.weatherCanvas = weatherCanvas;
+    }
+
+    public static StopMusicButton getStopMusicButton() {
+        return stopMusicButton;
+    }
+
+    public static void setStopMusicButton(StopMusicButton stopMusicButton) {
+        WindowBuilder.stopMusicButton = stopMusicButton;
+    }
+
+    public static StartMusicButton getStartMusicButton() {
+        return startMusicButton;
+    }
+
+    public static void setStartMusicButton(StartMusicButton startMusicButton) {
+        WindowBuilder.startMusicButton = startMusicButton;
+    }
+
+    public static IncreaseVolumeButton getIncreaseVolumeButton() {
+        return increaseVolumeButton;
+    }
+
+    public static void setIncreaseVolumeButton(IncreaseVolumeButton increaseVolumeButton) {
+        WindowBuilder.increaseVolumeButton = increaseVolumeButton;
+    }
+
+    public static DecreaseVolumeButton getDecreaseVolumeButton() {
+        return decreaseVolumeButton;
+    }
+
+    public static void setDecreaseVolumeButton(DecreaseVolumeButton decreaseVolumeButton) {
+        WindowBuilder.decreaseVolumeButton = decreaseVolumeButton;
+    }
+
+    public static MainWindow getMainWindow() {
+        return mainWindow;
+    }
+
+    public static void setMainWindow(MainWindow mainWindow) {
+        WindowBuilder.mainWindow = mainWindow;
     }
 
     /**
      * in smalltalk fashion, using buildWindow: :D
      * for creating the actual ui
      */
-    public void buildWindow() {
+    public static void buildWindow(MainWindow mW) {
         logger.info("start: build window");
+        mainWindow = mW;
         frame = new MainFrame();
         MyFocusListener myFocusListener = new MyFocusListener();
         undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
@@ -246,10 +250,8 @@ public class WindowBuilder {
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
 
-
-        EventBus.getDefault().register(mainWindow);
         Game.getCurrent().setController(mainWindow);
-        this.getFrame().setVisible(true);
+        frame.setVisible(true);
         Game.getCurrent().setUiOpen(true);
         logger.info("finish: build window: UI is open");
     }

@@ -49,8 +49,7 @@ public class Weather
     public void setType(WeatherTypes typ)
     {
         this.type = typ;
-        if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
-        {
+        if (Game.getCurrent().isUiOpen()) {
             EventBus.getDefault().post(new WeatherChangedEvent("imageChanged"));
         }
         try

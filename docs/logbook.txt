@@ -722,7 +722,8 @@ History of the changes:
 2023-01-10: updated RunGame to have the game actually run without splash screen.
 2023-01-10: did some research on combining images and drawing only once.
             optimized Player.getUIPosition to set only once instead of returning a new point each request.
-            it is incredible how often this is called. But now draw time is halfed from 300ms to 150ms.
+            it is incredible how often this is called. But now draw time is halved from 300ms to 150ms.
             which is interesting.
-2023-01-11: fixed a few typos in AbstractEntity and removed some superflous code.
-2023-01-12: setup for switching mainwindow into pure listener and have window building outside
+2023-01-11: fixed a few typos in AbstractEntity and removed some superfluous code.
+2023-01-12: setup for switching mainwindow into pure listener and have window building outside.
+            done with it. looks a little bit better now but needs to improve still.

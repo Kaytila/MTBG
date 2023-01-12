@@ -1,7 +1,7 @@
 package net.ck.game.ui.listeners;
 
-import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +15,6 @@ public class HightlightTimerActionListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        Game.getCurrent().getController().getGridCanvas().increaseHighlightCount();
+        WindowBuilder.getGridCanvas().increaseHighlightCount();
     }
 }

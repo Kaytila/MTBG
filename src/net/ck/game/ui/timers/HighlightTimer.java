@@ -1,6 +1,6 @@
 package net.ck.game.ui.timers;
 
-import net.ck.game.backend.game.Game;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,6 +41,6 @@ public class HighlightTimer extends Timer
     public void start()
     {
         super.start();
-        Game.getCurrent().getController().getGridCanvas().setHighlightCount(0);
+        WindowBuilder.getGridCanvas().setHighlightCount(0);
     }
 }

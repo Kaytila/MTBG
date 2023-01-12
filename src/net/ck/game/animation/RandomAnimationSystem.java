@@ -58,19 +58,14 @@ public class RandomAnimationSystem extends AnimationSystem
                     p.getAppearance().setCurrentImage(ImageUtils.getBloodstainImage());
                 }
                 //if unconcious, stay unmoving
-                else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
-                {
+                else if (p.getState().equals(LifeFormState.UNCONSCIOUS)) {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
-                }
-
-
-                else// (p.getState().equals(LifeFormState.ALIVE))
+                } else// (p.getState().equals(LifeFormState.ALIVE))
                 {
                     setRandomNumber(rand.nextInt(GameConfiguration.animationCycles));
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()));
                 }
-                if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
-                {
+                if (Game.getCurrent().isUiOpen()) {
                     EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
                 }
             }

@@ -8,24 +8,17 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
-import net.ck.game.ui.buttons.*;
-import net.ck.game.ui.components.InputField;
 import net.ck.game.ui.components.JGridCanvas;
-import net.ck.game.ui.components.JWeatherCanvas;
-import net.ck.game.ui.components.TextList;
 import net.ck.game.ui.dialogs.AbstractDialog;
 import net.ck.game.ui.dialogs.InventoryDialog;
 import net.ck.game.ui.dialogs.StatsDialog;
-import net.ck.game.ui.dnd.JGridCanvasDragGestureHandler;
-import net.ck.game.ui.dnd.JGridCanvasDropTargetHandler;
 import net.ck.game.ui.listeners.MouseActionListener;
-import net.ck.game.ui.listeners.MyFocusListener;
-import net.ck.game.ui.mainframes.MainFrame;
 import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -34,9 +27,6 @@ import org.greenrobot.eventbus.Subscribe;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DropTarget;
 import java.awt.event.*;
 
 /**
@@ -48,15 +38,6 @@ import java.awt.event.*;
 public class MainWindow implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    /**
-     * mainframe
-     */
-    private JFrame frame;
-
-    /**
-     * left part, GRID Canvas
-     */
-    private JGridCanvas gridCanvas;
 
     /**
      * currentAction is used for the two-step actions.
@@ -127,26 +108,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     private StatsDialog statsDialog;
 
     /**
-     * text area is the textlist where all the actions are stored
-     */
-    private TextList textArea;
-
-    /**
-     * shows the last command
-     */
-    private InputField textField;
-
-    /**
-     * undo button for retracting turns
-     */
-    private JButton undoButton;
-
-    /**
-     * weather canvas
-     */
-    private JWeatherCanvas weatherCanvas;
-
-    /**
      * is the mouse outside of the grid?
      * used for centering on player to make the mouse ways shorter
      */
@@ -158,32 +119,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     private boolean dragEnabled;
 
     /**
-     * button for stopping music - will need to move into options menu once music works properly
-     */
-    private StopMusicButton stopMusicButton;
-
-    /**
-     * button for starting music - will need to move into options menu once music works properly
-     */
-    private StartMusicButton startMusicButton;
-
-    /**
-     * button for increasing volume
-     */
-    private IncreaseVolumeButton increaseVolumeButton;
-
-    /**
-     * button for decreasing volume
-     */
-    private DecreaseVolumeButton decreaseVolumeButton;
-
-    /**
      * standard constructor
      */
-    public MainWindow()
-    {
-        buildWindow();
-
+    public MainWindow() {
+        EventBus.getDefault().register(this);
+        setMouseOutsideOfGrid(true);
+        WindowBuilder.buildWindow(this);
     }
 
 
@@ -201,11 +142,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             Game.getCurrent().getIdleTimer().stop();
             if (Game.getCurrent().retractTurn() == 0)
             {
-                getUndoButton().setEnabled(false);
+                WindowBuilder.getUndoButton().setEnabled(false);
             }
             else
             {
-                getUndoButton().setEnabled(true);
+                WindowBuilder.getUndoButton().setEnabled(true);
             }
         }
 
@@ -261,72 +202,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     }
 
     /**
-     * in smalltalk fashion, using buildWindow: :D
-     * for creating the actual ui
-     */
-    public void buildWindow()
-    {
-        logger.info("start: build window");
-        frame = new MainFrame();
-        MyFocusListener myFocusListener = new MyFocusListener();
-        undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
-        undoButton.addFocusListener(myFocusListener);
-        frame.add(undoButton);
-
-        stopMusicButton = new StopMusicButton(new Point(GameConfiguration.UIwidth - 400, GameConfiguration.UIheight - 100));
-        stopMusicButton.addActionListener(this);
-        frame.add(stopMusicButton);
-
-        startMusicButton = new StartMusicButton(new Point(GameConfiguration.UIwidth - 500, GameConfiguration.UIheight - 100));
-        startMusicButton.addActionListener(this);
-        frame.add(startMusicButton);
-
-        increaseVolumeButton = new IncreaseVolumeButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 100));
-        increaseVolumeButton.addActionListener(this);
-        frame.add(increaseVolumeButton);
-
-        decreaseVolumeButton = new DecreaseVolumeButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 100));
-        decreaseVolumeButton.addActionListener(this);
-        frame.add(decreaseVolumeButton);
-
-        gridCanvas = new JGridCanvas();
-        gridCanvas.addFocusListener(myFocusListener);
-        frame.add(gridCanvas);
-
-        textArea = new TextList();
-        textArea.addFocusListener(myFocusListener);
-        frame.add(textArea.initializeScrollPane());
-
-        textField = new InputField();
-        textField.addFocusListener(myFocusListener);
-        frame.add(textField);
-
-        weatherCanvas = new JWeatherCanvas();
-        weatherCanvas.addFocusListener(myFocusListener);
-        frame.add(weatherCanvas);
-
-        logger.info("setting listeners");
-        frame.addWindowListener(this);
-
-        gridCanvas.addMouseListener(this);
-        gridCanvas.addMouseMotionListener(this);
-        undoButton.addActionListener(this);
-
-        setMouseOutsideOfGrid(true);
-
-        DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
-        DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
-        gridCanvas.setDropTarget(dt);
-
-
-        EventBus.getDefault().register(this);
-        Game.getCurrent().setController(this);
-        this.getFrame().setVisible(true);
-        Game.getCurrent().setUiOpen(true);
-        logger.info("finish: build window: UI is open");
-    }
-
-    /**
      * so createMovement takes the mouse event and generates a keyboard action out of it.
      * Keyboard action is posted on the EventBus.
      * onMessageEvent catches it and makes an action out of it which is then done by the actor.
@@ -366,16 +241,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         }
     }
 
-    public JFrame getFrame()
-    {
-        return frame;
-    }
-
-    public JGridCanvas getGridCanvas()
-    {
-        return this.gridCanvas;
-    }
-
     public InventoryDialog getInventoryDialog()
     {
         return inventoryDialog;
@@ -390,26 +255,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public StatsDialog getStatsDialog()
     {
         return statsDialog;
-    }
-
-    public TextList getTextArea()
-    {
-        return textArea;
-    }
-
-    public InputField getTextField()
-    {
-        return textField;
-    }
-
-    public JButton getUndoButton()
-    {
-        return undoButton;
-    }
-
-    public JWeatherCanvas getWeatherCanvas()
-    {
-        return this.weatherCanvas;
     }
 
     public boolean isDialogOpened()
@@ -451,16 +296,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
         if (e.getButton() == MouseEvent.BUTTON1)
         {
-            if (gridCanvas.isDragEnabled())
-            {
-                final TransferHandler transferHandler = gridCanvas.getTransferHandler();
-                if (transferHandler != null)
-                {
+            if (WindowBuilder.getGridCanvas().isDragEnabled()) {
+                final TransferHandler transferHandler = WindowBuilder.getGridCanvas().getTransferHandler();
+                if (transferHandler != null) {
                     // TODO here could be more "logic" to initiate the drag
-                    transferHandler.exportAsDrag(gridCanvas, e, DnDConstants.ACTION_MOVE);
-                }
-                else
-                {
+                    transferHandler.exportAsDrag(WindowBuilder.getGridCanvas(), e, DnDConstants.ACTION_MOVE);
+                } else {
                     logger.info("hmmm");
                 }
             }
@@ -472,7 +313,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public void mouseEntered(MouseEvent e)
     {
         setMouseOutsideOfGrid(false);
-        getGridCanvas().requestFocusInWindow();
+        WindowBuilder.getGridCanvas().requestFocusInWindow();
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
     }
 
@@ -661,7 +502,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                             else
                             {
                                 this.setDialogOpened(true);
-                                AbstractDialog.createDialog(this.getFrame(), "Talk", false, getCurrentAction(), npc);
+                                AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), npc);
                                 logger.info("talk: {}", "");
                             }
                         }
@@ -718,17 +559,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         }
     }
 
-    private void runActions(AbstractKeyboardAction action)
-    {
+    private void runActions(AbstractKeyboardAction action) {
         //logger.info("Current action: {}", action);
         Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
         //Game.getCurrent().getIdleTimer().stop();
-        textArea.append(action.getType().name());
-        textArea.append("\n");
-        textField.setText(action.getType().name());
+        WindowBuilder.getTextArea().append(action.getType().name());
+        WindowBuilder.getTextArea().append("\n");
+        WindowBuilder.getTextField().setText(action.getType().name());
         // move to next player
-        if (Game.getCurrent().getCurrentPlayer().getNumber() < (Game.getCurrent().getPlayers().size() - 1))
-        {
+        if (Game.getCurrent().getCurrentPlayer().getNumber() < (Game.getCurrent().getPlayers().size() - 1)) {
             Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(Game.getCurrent().getCurrentPlayer().getNumber() + 1));
 
         }
@@ -737,7 +576,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         // are loaded into game
         else
         {
-            getUndoButton().setEnabled(true);
+            WindowBuilder.getUndoButton().setEnabled(true);
             Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
             //Game.getCurrent().advanceTurn(hasNPCAction);
             EventBus.getDefault().post(new AdvanceTurnEvent(action.isHaveNPCAction()));
@@ -761,7 +600,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
-                AbstractDialog.createDialog(this.getFrame(), "Equipment", false, action);
+                AbstractDialog.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
                 break;
 
             case SPACE:
@@ -796,7 +635,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     logger.info("inventory as separate event type, lets not add this to the action queue");
                     Game.getCurrent().getIdleTimer().stop();
                     this.setDialogOpened(true);
-                    AbstractDialog.createDialog(this.getFrame(), "Inventory", false, action);
+                    AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
 
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     break;
@@ -816,7 +655,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     logger.info("zstats as separate event type, lets not add this to the action queue");
                     Game.getCurrent().getIdleTimer().stop();
                     this.setDialogOpened(true);
-                    AbstractDialog.createDialog(this.getFrame(), "Z-Stats", false, action);
+                    AbstractDialog.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
                     logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
                     break;
                 }
@@ -840,7 +679,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
-                    AbstractDialog.createDialog(this.getFrame(), "Inventory", false, action);
+                    AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
                     break;
                 }
             }
@@ -867,7 +706,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 else
                 {
                     logger.info("stopping game");
-                    getFrame().dispatchEvent(new WindowEvent(getFrame(), WindowEvent.WINDOW_CLOSING));
+                    WindowBuilder.getFrame().dispatchEvent(new WindowEvent(WindowBuilder.getFrame(), WindowEvent.WINDOW_CLOSING));
                     Game.getCurrent().stopGame();
                     break;
                 }
@@ -1011,7 +850,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.RANGED))
                     {
                         action.setOldMousePosition(MouseInfo.getPointerInfo().getLocation());
-                        Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+                        Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
                         CursorUtils.moveMouse(new Point(NPCUtils.calculatePlayerPosition().x + relativePoint.x, NPCUtils.calculatePlayerPosition().y + relativePoint.y));
                         action.setSourceCoordinates(NPCUtils.calculatePlayerPosition());
                         CursorUtils.moveMouse(action.getOldMousePosition());
@@ -1104,16 +943,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         this.isDialogOpened = isDialogOpened;
     }
 
-    public void setFrame(JFrame frame)
-    {
-        this.frame = frame;
-    }
-
-    public void setGridCanvas(JGridCanvas gridCanvas)
-    {
-        this.gridCanvas = gridCanvas;
-    }
-
     public void setInventoryDialog(InventoryDialog inventoryDialog)
     {
         this.inventoryDialog = inventoryDialog;
@@ -1133,26 +962,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public void setStatsDialog(StatsDialog statsDialog)
     {
         this.statsDialog = statsDialog;
-    }
-
-    public void setTextArea(TextList textArea)
-    {
-        this.textArea = textArea;
-    }
-
-    public void setTextField(InputField textField)
-    {
-        this.textField = textField;
-    }
-
-    public void setUndoButton(JButton undo)
-    {
-        this.undoButton = undo;
-    }
-
-    public void setWeatherCanvas(JWeatherCanvas weatherCanvas)
-    {
-        this.weatherCanvas = weatherCanvas;
     }
 
     @Override
@@ -1246,7 +1055,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowOpened(WindowEvent e)
     {
-        getGridCanvas().requestFocus();
+        WindowBuilder.getGridCanvas().requestFocus();
         Game.getCurrent().getHighlightTimer().start();
         //Game.getCurrent().setUiOpen(true);
     }
@@ -1320,26 +1129,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     public void setCurrentItemInHand(AbstractItem currentItemInHand)
     {
         this.currentItemInHand = currentItemInHand;
-    }
-
-    public StopMusicButton getStopMusicButton()
-    {
-        return stopMusicButton;
-    }
-
-    public void setStopMusicButton(StopMusicButton stopMusicButton)
-    {
-        this.stopMusicButton = stopMusicButton;
-    }
-
-    public StartMusicButton getStartMusicButton()
-    {
-        return startMusicButton;
-    }
-
-    public void setStartMusicButton(StartMusicButton startMusicButton)
-    {
-        this.startMusicButton = startMusicButton;
     }
 
     public boolean isMovementForSelectTile()

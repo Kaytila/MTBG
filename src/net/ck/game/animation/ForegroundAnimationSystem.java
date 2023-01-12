@@ -43,8 +43,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 			for (i = 0; i <= GameConfiguration.animationCycles; i++)
 			{
 				setCurrentForegroundImage(i);
-				if (Game.getCurrent().getController() != null && Game.getCurrent().getController().getFrame().isVisible())
-				{
+				if (Game.getCurrent().isUiOpen()) {
 					EventBus.getDefault().post(new ForegroundRepresentationChanged(getCurrentForegroundImage()));
 				}
 				try

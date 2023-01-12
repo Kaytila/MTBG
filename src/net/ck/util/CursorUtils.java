@@ -5,6 +5,7 @@ import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.game.Game;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -107,9 +108,9 @@ public class CursorUtils
 	{
 		//logger.info("limit mouse movement");
 		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
-		int playerCenterX = Px + relativePoint.x;
+        int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+        Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
+        int playerCenterX = Px + relativePoint.x;
 		int playerCenterY = Py + relativePoint.y;
 
 		Range<Integer> rangeX = Range.between(playerCenterX - ((GameConfiguration.tileSize * i) + (GameConfiguration.tileSize / 2)),playerCenterX + (GameConfiguration.tileSize * i) + (GameConfiguration.tileSize / 2));
@@ -213,7 +214,7 @@ public class CursorUtils
 			Px = p.x;
 			Py = p.y;
 		}
-		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+        Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
 		CursorUtils.moveMouse(new Point(Px + relativePoint.x + addX, Py + relativePoint.y + addY));
 	}
 
@@ -224,7 +225,7 @@ public class CursorUtils
 	 */
 	public static Point calculateRelativeMousePosition(Point location)
 	{
-		Point relativeOffset = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+        Point relativeOffset = WindowBuilder.getGridCanvas().getLocationOnScreen();
 		return new Point (location.x - relativeOffset.x, location.y - relativeOffset.y);
 	}
 
@@ -244,24 +245,22 @@ public class CursorUtils
 		{
 			setCursor(getTargetCursor());
 		}
-		else
-		{
-			// this is the position on the grid, tile x and y + half tile size to each
-			int Px = (currentPlayer.getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
-			int Py = (currentPlayer.getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
+		else {
+            // this is the position on the grid, tile x and y + half tile size to each
+            int Px = (currentPlayer.getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
+            int Py = (currentPlayer.getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
 
-			int Mx = point.x - Game.getCurrent().getController().getGridCanvas().getLocationOnScreen().x;
-			int My = point.y - Game.getCurrent().getController().getGridCanvas().getLocationOnScreen().y;
+            int Mx = point.x - WindowBuilder.getGridCanvas().getLocationOnScreen().x;
+            int My = point.y - WindowBuilder.getGridCanvas().getLocationOnScreen().y;
 
-			//logger.info("player x:{}, player y:{}, mouse x:{}, mouse y: {}", Px, Py, Mx, My);
+            //logger.info("player x:{}, player y:{}, mouse x:{}, mouse y: {}", Px, Py, Mx, My);
 
-			Range<Integer> rangeY = Range.between(Py - border, Py + border);
-			Range<Integer> rangeX = Range.between(Px - border, Px + border);
-			
-			if (rangeY.contains(My) && ((Px - border) > Mx))
-			{
-				// logger.info("Mouse is on the left corridor");
-				setCursor(getWestCursor());
+            Range<Integer> rangeY = Range.between(Py - border, Py + border);
+            Range<Integer> rangeX = Range.between(Px - border, Px + border);
+
+            if (rangeY.contains(My) && ((Px - border) > Mx)) {
+                // logger.info("Mouse is on the left corridor");
+                setCursor(getWestCursor());
 			}
 
 			else if (rangeY.contains(My) && ((Px + border) < Mx))
@@ -494,8 +493,8 @@ public class CursorUtils
 	public static void centerCursorOnPlayer()
 	{
 		int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		Point relativePoint = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
+        int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+        Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
 		CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
 		Game.getCurrent().getController().setMouseOutsideOfGrid(false);
 	}

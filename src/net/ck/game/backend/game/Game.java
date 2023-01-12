@@ -28,6 +28,7 @@ import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -382,7 +383,7 @@ public class Game implements Runnable
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
         getWeatherSystem().checkWeather();
-        getController().getGridCanvas().repaint();
+        WindowBuilder.getGridCanvas().repaint();
         // logger.info("current map: {}", Game.getCurrent().getCurrentMap());
 
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
@@ -589,7 +590,7 @@ public class Game implements Runnable
                 logger.error("this does not work anymore: {}", e);
             }
 
-            getController().getTextField().retractTurn();
+            WindowBuilder.getTextField().retractTurn();
 
             turn.getActions().clear();
             Game.getCurrent().setCurrentTurn(turn);
@@ -789,7 +790,7 @@ public class Game implements Runnable
                 {
                     // javax.swing.SwingUtilities.invokeLater(() ->
                     //{
-                    this.getController().getGridCanvas().paint();
+                    WindowBuilder.getGridCanvas().paint();
                     //});
                 }
 
