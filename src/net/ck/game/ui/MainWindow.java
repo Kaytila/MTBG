@@ -20,6 +20,7 @@ import net.ck.game.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.game.ui.dnd.JGridCanvasDropTargetHandler;
 import net.ck.game.ui.listeners.MouseActionListener;
 import net.ck.game.ui.listeners.MyFocusListener;
+import net.ck.game.ui.mainframes.MainFrame;
 import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;

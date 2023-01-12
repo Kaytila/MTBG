@@ -1,16 +1,11 @@
 package net.ck.util.astar;
 
 import net.ck.game.map.MapTile;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AStarTest
 {
-
-    private final Logger logger = LogManager.getLogger(getRealClass());
 
     public static void main(String[] args)
     {
@@ -67,12 +62,6 @@ public class AStarTest
         // 3    -   -   -   B   -   -   -
         // 4    -   -   -   -   -   -   -
         // 5    -   -   -   -   -   -   -
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 }
 

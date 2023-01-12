@@ -49,4 +49,5 @@ module myTurnedBasedGame
 	exports net.ck.game.ui.dnd;
 	exports net.ck.game.ui.renderers;
 	exports net.ck.game.ui.timers;
+    exports net.ck.game.ui.mainframes;
 }

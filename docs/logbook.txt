@@ -725,3 +725,4 @@ History of the changes:
             it is incredible how often this is called. But now draw time is halfed from 300ms to 150ms.
             which is interesting.
 2023-01-11: fixed a few typos in AbstractEntity and removed some superflous code.
+2023-01-12: setup for switching mainwindow into pure listener and have window building outside

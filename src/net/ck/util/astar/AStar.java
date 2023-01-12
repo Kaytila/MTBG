@@ -2,7 +2,6 @@
 package net.ck.util.astar;
 
 import net.ck.game.map.MapTile;
-import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,7 @@ import java.util.*;
 
 public class AStar
 {
-    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(AStar.class));
+    private static final Logger logger = LogManager.getLogger(AStar.class);
     private static final int DEFAULT_HV_COST = 1; // Horizontal - Vertical Cost
     private static final int DEFAULT_DIAGONAL_COST = 1000;
 
@@ -36,12 +35,13 @@ public class AStar
 
     public static void initialize(int rows, int cols, MapTile initialNode, MapTile finalNode, net.ck.game.map.Map map)
     {
+        logger.info("start: ASTAR");
         realInitialize(rows, cols, initialNode, finalNode, DEFAULT_HV_COST, DEFAULT_DIAGONAL_COST, map);
+        logger.info("end: ASTAR");
     }
 
     private static void realInitialize(int rows, int cols, MapTile initialNode, MapTile finalNode, int defaultHvCost, int defaultDiagonalCost, net.ck.game.map.Map ma)
     {
-
         hvCost = hvCost;
         diagonalCost = diagonalCost;
         setInitialNode(initialNode);
@@ -59,12 +59,6 @@ public class AStar
         closedSet = new HashSet<>();
     }
 
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
 
     private static void setNodes()
     {

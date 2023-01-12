@@ -18,7 +18,6 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class CursorUtils
 {
@@ -227,13 +226,6 @@ public class CursorUtils
 	{
 		Point relativeOffset = Game.getCurrent().getController().getGridCanvas().getLocationOnScreen();
 		return new Point (location.x - relativeOffset.x, location.y - relativeOffset.y);
-	}
-
-
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
 	}
 
 	/**

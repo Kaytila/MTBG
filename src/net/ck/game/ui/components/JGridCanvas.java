@@ -142,8 +142,7 @@ public class JGridCanvas extends JComponent
      * @param g the <code>Graphics</code> object to protect
      */
     public void paintComponent(Graphics g) {
-        logger.info("painting: {}", System.currentTimeMillis());
-        long start = System.currentTimeMillis();
+        logger.debug("start: painting");
 
         if (GameConfiguration.drawTileOnce == true) {
 
@@ -189,8 +188,7 @@ public class JGridCanvas extends JComponent
 
             paintHighlighting(g);
         }
-        long end = System.currentTimeMillis();
-        logger.info("painting ends and took: {}", end - start);
+        logger.debug("end painting");
     }
 
     private void paintHighlighting(Graphics g)

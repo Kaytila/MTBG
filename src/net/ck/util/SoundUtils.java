@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 public class SoundUtils
 {
-    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(SoundUtils.class));
+    private static final Logger logger = LogManager.getLogger(SoundUtils.class);
     private static TikaConfig tika;
 
     static
@@ -42,7 +42,7 @@ public class SoundUtils
         {
             Metadata metadata = new Metadata();
             mimetype = tika.getDetector().detect(TikaInputStream.get(entry, metadata), metadata);
-            //System.out.println("File " + entry + " is " + mimetype);
+            //logger.debug("mime type: {}", mimetype);
         }
         catch (Exception e)
         {

@@ -12,18 +12,6 @@ public class WeatherUtils
 {
 	private static final Logger logger = LogManager.getLogger(WeatherUtils.class);
 
-	public Class<?> getRealClass()
-	{
-		Class<?> enclosingClass = getClass().getEnclosingClass();
-		if (enclosingClass != null)
-		{
-			return enclosingClass;
-		} else
-		{
-			return getClass();
-		}
-	}
-
 	public static Hashtable<WeatherTypes, BufferedImage> getTypes()
 	{
 		return types;

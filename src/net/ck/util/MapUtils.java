@@ -36,7 +36,7 @@ import java.util.Objects;
 public class MapUtils
 {
 
-    private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(MapUtils.class));
+    private static final Logger logger = LogManager.getLogger(MapUtils.class);
 
     private static int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
 
@@ -418,16 +418,22 @@ public class MapUtils
      */
     public static boolean lookAhead(int x, int y)
     {
-        for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
-        {
+        // long start = System.nanoTime();
+        for (MapTile t : Game.getCurrent().getCurrentMap().getTiles()) {
             // same tile
-            if ((t.getX() == x) && (t.getY() == y))
-            {
+            if ((t.getX() != x)) {
+                continue;
+            }
+            if ((t.getY() != y)) {
+                continue;
+            }
+            if ((t.getX() == x) && (t.getY() == y)) {
                 //logger.info("found tile: {}, blocked: {}", t.toString(), t.isBlocked());
+                //logger.info("time it takes here: {}", System.nanoTime() - start);
                 return t.isBlocked();
             }
         }
-        logger.info("Big Problem, did not find the tile on the map - returning false");
+        logger.error("Big Problem, did not find the tile on the map - returning false");
         return false;
     }
 
@@ -502,10 +508,8 @@ public class MapUtils
                 y0 += sy;
             } /* e_xy+e_y < 0 */
         }
-
         return ret;
     }
-
 
     public static Map importUltima4MapFromCSV()
     {

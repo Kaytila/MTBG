@@ -280,11 +280,10 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     private void checkSchedules(GameTimeChanged event)
     {
-        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 10)
-        {
+        logger.info("start: check schedules");
+        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 2) {
             // logger.info("check schedule");
-            if (getMobasks().size() > 0)
-            {
+            if (getMobasks().size() > 0) {
                 //logger.info("running");
                 MoveAction action = new MoveAction();
                 action.setGetWhere(new Point(1, 0));
@@ -292,17 +291,16 @@ public class NPC extends AbstractEntity implements LifeForm
             }
         }
 
-        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 30)
-        {
+        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 20) {
             //logger.info("check schedule");
-            if (getMobasks().size() > 0)
-            {
+            if (getMobasks().size() > 0) {
                 //logger.info("running");
                 MoveAction action = new MoveAction();
                 action.setGetWhere(getOriginalMapPosition());
                 doAction(new PlayerAction(action));
             }
         }
+        logger.info("end: check schedules");
     }
 
 
