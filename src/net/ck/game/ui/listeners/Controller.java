@@ -1,10 +1,11 @@
-package net.ck.game.ui;
+package net.ck.game.ui.listeners;
 
 
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
@@ -12,7 +13,6 @@ import net.ck.game.ui.components.JGridCanvas;
 import net.ck.game.ui.dialogs.AbstractDialog;
 import net.ck.game.ui.dialogs.InventoryDialog;
 import net.ck.game.ui.dialogs.StatsDialog;
-import net.ck.game.ui.listeners.MouseActionListener;
 import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
@@ -29,14 +29,14 @@ import java.awt.*;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.*;
 
+
 /**
  * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
  * encapsulated better
  *
  * @author Claus
  */
-public class MainWindow implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
-{
+public class Controller implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
@@ -58,8 +58,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     /**
      * set if a dialog is opened. Game is supposed to pause here
      */
-    private boolean isDialogOpened = false;
-
     private AbstractItem currentItemInHand;
 
     /**
@@ -73,11 +71,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      */
     Timer pressedTimer;
 
-    /**
-     * select Tile is being used whenever - the game shall pause - the cursor shall switch to cross-hairs.
-     * this is always used for two-step actions.
-     */
-    private boolean selectTile;
+
 
     /**
      * this variable is being set if the numpad movement keys
@@ -85,22 +79,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
      * i.e. it switched keyboard movement to cross-hair movement.
      */
     private boolean movementForSelectTile = false;
-
-    /**
-     * @return are we selecting a tile currently?
-     */
-    public boolean isSelectTile()
-    {
-        return selectTile;
-    }
-
-    /**
-     * @param selectTile - we are selecting a tile for a command
-     */
-    public void setSelectTile(boolean selectTile)
-    {
-        this.selectTile = selectTile;
-    }
 
     /**
      * stats Dialog - there will be one dialog only with exchanging JPanels
@@ -121,7 +99,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
     /**
      * standard constructor
      */
-    public MainWindow() {
+    public Controller() {
         EventBus.getDefault().register(this);
         setMouseOutsideOfGrid(true);
         WindowBuilder.buildWindow(this);
@@ -257,10 +235,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         return statsDialog;
     }
 
-    public boolean isDialogOpened()
-    {
-        return isDialogOpened;
-    }
+
 
     public boolean isMousePressed()
     {
@@ -288,8 +263,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
          */
         if (e.getButton() == MouseEvent.BUTTON3)
         {
-            if (!isSelectTile())
-            {
+            if (!UIStateMachine.isSelectTile()) {
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
             }
         }
@@ -390,8 +364,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             if (e.getButton() == MouseEvent.BUTTON3)
             {
                 //we are not in cross hair mode, need to figure out a way to identify drag drop!
-                if (!isSelectTile())
-                {
+                if (!UIStateMachine.isSelectTile()) {
                     int delay = 500; // milliseconds
                     logger.info("we are in movement mode with mouse 3");
                     ActionListener taskPerformer = new MouseActionListener(this);
@@ -415,15 +388,12 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         if (e.getButton() == MouseEvent.BUTTON3)
         {
             logger.info("stop pressing mouse3");
-            if (!isSelectTile())
-            {
-                if (pressedTimer != null)
-                {
+            if (!UIStateMachine.isSelectTile()) {
+                if (pressedTimer != null) {
                     pressedTimer.stop();
                 }
                 //logger.info("mouse released");
-                if (isMousePressed())
-                {
+                if (isMousePressed()) {
                     // logger.info("do nothing");
                     setMousePressed(false);
                 }
@@ -458,20 +428,20 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 switch (this.getCurrentAction().getType())
                 {
                     case GET:
-                        setSelectTile(false);
+                        UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         break;
                     case LOOK:
-                        setSelectTile(false);
+                        UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         break;
 
                     case DROP:
-                        setSelectTile(false);
+                        UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
@@ -492,16 +462,13 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                         if (found)
                         {
                             logger.info("found the npc");
-                            setSelectTile(false);
+                            UIStateMachine.setSelectTile(false);
                             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                             getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                            if (isDialogOpened == true)
-                            {
+                            if (UIStateMachine.isDialogOpened() == true) {
                                 break;
-                            }
-                            else
-                            {
-                                this.setDialogOpened(true);
+                            } else {
+                                UIStateMachine.setDialogOpened(true);
                                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), npc);
                                 logger.info("talk: {}", "");
                             }
@@ -514,14 +481,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                         break;
 
                     case MOVE:
-                        setSelectTile(false);
+                        UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(false);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                         break;
 
                     case ATTACK:
-                        setSelectTile(false);
+                        UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
@@ -592,12 +559,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         switch (action.getType())
         {
             case EQ:
-                if (isDialogOpened == true)
-                {
+                if (UIStateMachine.isDialogOpened() == true) {
                     logger.info("We do not stack dialogs for now");
                     break;
                 }
-                setDialogOpened(true);
+                UIStateMachine.setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
@@ -609,12 +575,11 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case OPTIONS:
             {
-                if (isDialogOpened == true)
-                {
+                if (UIStateMachine.isDialogOpened() == true) {
                     logger.info("We do not stack dialogs for now");
                     break;
                 }
-                setDialogOpened(true);
+                UIStateMachine.setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
                 break;
@@ -623,18 +588,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case INVENTORY:
             {
-                if (isDialogOpened == true)
-                {
+                if (UIStateMachine.isDialogOpened() == true) {
                     logger.info("dialog already open");
                     break;
-                }
-                else
-                {
+                } else {
                     action.setHaveNPCAction(false);
 
                     logger.info("inventory as separate event type, lets not add this to the action queue");
                     Game.getCurrent().getIdleTimer().stop();
-                    this.setDialogOpened(true);
+                    UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
 
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -644,17 +606,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case ZSTATS:
             {
-                if (isDialogOpened == true)
-                {
+                if (UIStateMachine.isDialogOpened() == true) {
                     break;
-                }
-                else
-                {
+                } else {
                     action.setHaveNPCAction(false);
 
                     logger.info("zstats as separate event type, lets not add this to the action queue");
                     Game.getCurrent().getIdleTimer().stop();
-                    this.setDialogOpened(true);
+                    UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
                     logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
                     break;
@@ -663,20 +622,16 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case DROP:
             {
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     logger.info("select tile is active, dont do anything");
                     break;
                 }
-                if (isDialogOpened == true)
-                {
+                if (UIStateMachine.isDialogOpened() == true) {
                     break;
-                }
-                else
-                {
+                } else {
                     Game.getCurrent().getIdleTimer().stop();
                     action.setHaveNPCAction(false);
-                    setSelectTile(true);
+                    UIStateMachine.setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
@@ -693,17 +648,15 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case ESC:
             {
                 //logger.info("ESC Pressed");
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     logger.info("selection is true");
-                    setSelectTile(false);
+                    UIStateMachine.setSelectTile(false);
                     setMovementForSelectTile(false);
                     Game.getCurrent().getIdleTimer().start();
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(null);
                     break;
-                }
-                else
+                } else
                 {
                     logger.info("stopping game");
                     WindowBuilder.getFrame().dispatchEvent(new WindowEvent(WindowBuilder.getFrame(), WindowEvent.WINDOW_CLOSING));
@@ -714,10 +667,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case GET:
             {
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     //logger.info("select tile is active, dont do anything");
-                    setSelectTile(false);
+                    UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
@@ -732,17 +684,16 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 action.setHaveNPCAction(false);
                 //logger.info("get");
                 Game.getCurrent().getIdleTimer().stop();
-                setSelectTile(true);
+                UIStateMachine.setSelectTile(true);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
                 break;
             }
 
             case LOOK:
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     //logger.info("select tile is active, dont do anything");
-                    setSelectTile(false);
+                    UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
@@ -757,32 +708,27 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 action.setHaveNPCAction(false);
                 //logger.info("get");
                 Game.getCurrent().getIdleTimer().stop();
-                setSelectTile(true);
+                UIStateMachine.setSelectTile(true);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
                 break;
 
             case TALK:
             {
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     logger.info("select tile is active, dont do anything");
                     break;
                 }
                 //logger.info("talk");
-                if (isDialogOpened == true)
-                {
+                if (UIStateMachine.isDialogOpened() == true) {
                     break;
-                }
-                else
-                {
-                    if (isMouseOutsideOfGrid() == true)
-                    {
+                } else {
+                    if (isMouseOutsideOfGrid() == true) {
                         CursorUtils.centerCursorOnPlayer();
                     }
                     action.setHaveNPCAction(false);
                     Game.getCurrent().getIdleTimer().stop();
-                    setSelectTile(true);
+                    UIStateMachine.setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
                     break;
@@ -791,10 +737,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
 
             case MOVE:
             {
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     //logger.info("select tile is active, dont do anything");
-                    setSelectTile(false);
+                    UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     action.setGetWhere(new Point(tile.getX(), tile.getY()));
@@ -810,7 +755,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 }
                 action.setHaveNPCAction(false);
                 Game.getCurrent().getIdleTimer().stop();
-                setSelectTile(true);
+                UIStateMachine.setSelectTile(true);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                 //TODO why is get currect Action null?
@@ -824,10 +769,9 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case ATTACK:
                 //second time a is pressed
                 //action is already set
-                if (isSelectTile() == true)
-                {
+                if (UIStateMachine.isSelectTile() == true) {
                     logger.info("select tile is active, allow attack");
-                    setSelectTile(false);
+                    UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
@@ -855,7 +799,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                         action.setSourceCoordinates(NPCUtils.calculatePlayerPosition());
                         CursorUtils.moveMouse(action.getOldMousePosition());
 
-                        setSelectTile(true);
+                        UIStateMachine.setSelectTile(true);
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         setCurrentAction(action);
                     }
@@ -864,7 +808,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                     {
                         logger.info("real melee");
                         CursorUtils.centerCursorOnPlayer();
-                        setSelectTile(true);
+                        UIStateMachine.setSelectTile(true);
                         setCurrentAction(action);
                     }
                 }
@@ -873,7 +817,7 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
                 {
                     logger.info("unarmed melee");
                     CursorUtils.centerCursorOnPlayer();
-                    setSelectTile(true);
+                    UIStateMachine.setSelectTile(true);
                     //CursorUtils.limitMouseMovementToRange(1);
                     setCurrentAction(action);
                 }
@@ -891,17 +835,14 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
             case EAST:
             case SOUTH:
             case WEST:
-                if (isSelectTile())
-                {
+                if (UIStateMachine.isSelectTile()) {
                     //logger.info("select tile");
                     moveCursorOnGrid(action);
                     setMovementForSelectTile(true);
                     action = new AbstractKeyboardAction();
                     break;
 
-                }
-                else
-                {
+                } else {
                     //logger.info("movement");
                     action.setHaveNPCAction(true);
                     break;
@@ -937,11 +878,6 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         CursorUtils.moveCursorByOneTile(action, isMovementForSelectTile());
     }
 
-    public void setDialogOpened(boolean isDialogOpened)
-    {
-        //logger.info("new value: {}", isDialogOpened);
-        this.isDialogOpened = isDialogOpened;
-    }
 
     public void setInventoryDialog(InventoryDialog inventoryDialog)
     {
@@ -1013,10 +949,8 @@ public class MainWindow implements WindowListener, ActionListener, MouseListener
         logger.info("deactivated");
         // if (Game.getCurrent().getSoundSystem().isMusicIsRunning())
         // {
-        if (isDialogOpened() == false)
-        {
-            if (GameConfiguration.playMusic)
-            {
+        if (UIStateMachine.isDialogOpened() == false) {
+            if (GameConfiguration.playMusic) {
                 //Game.getCurrent().getSoundSystem().stopMusic();
                 //Game.getCurrent().getSoundSystemNoThread().stopMusic();
                 Game.getCurrent().getMusicSystemNoThread().pauseMusic();

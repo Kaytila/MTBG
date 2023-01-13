@@ -168,24 +168,22 @@ public class GridTester extends JPanel implements KeyListener
 	}
 }
 
-enum Ground
-{
-	DIRT(0, new Color(205, 133, 63)), GRASS(1, new Color(0, 107, 60)), WATER(2,
-		new Color(29, 172, 214));
+enum Ground {
+    DIRT(0, new Color(205, 133, 63)), GRASS(1, new Color(0, 107, 60)), WATER(2,
+            new Color(29, 172, 214));
 
-	private int value;
-	private Color color;
-	private Icon icon;
+    private final int value;
+    private final Color color;
+    private final Icon icon;
 
-	private Ground(int value, Color color)
-	{
-		this.value = value;
-		this.color = color;
+    Ground(int value, Color color) {
+        this.value = value;
+        this.color = color;
 
-		icon = createIcon();
-	}
+        icon = createIcon();
+    }
 
-	private Icon createIcon()
+    private Icon createIcon()
 	{
 		int width = 24;
 		BufferedImage img = new BufferedImage(width, width, BufferedImage.TYPE_INT_ARGB);

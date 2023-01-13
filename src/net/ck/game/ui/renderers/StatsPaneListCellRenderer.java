@@ -32,8 +32,8 @@ public class StatsPaneListCellRenderer extends JLabel implements javax.swing.Lis
 			setForeground(list.getForeground());
 		}
 		
-		String text = value.getClass().getSimpleName() + ": " + String.valueOf(value.getValue());
-		ImageIcon icon = new ImageIcon(value.getImage());
+		String text = value.getClass().getSimpleName() + ": " + value.getValue();
+        ImageIcon icon = new ImageIcon(value.getImage());
 		setIcon(icon);
 		setText(text);
 		setFont(list.getFont());

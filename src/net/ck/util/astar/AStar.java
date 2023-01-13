@@ -147,14 +147,13 @@ public class AStar
     {
         int row = currentNode.getY();
         int col = currentNode.getX();
-        int middleRow = row;
         if (col - 1 >= 0)
         {
-            checkNode(currentNode, col - 1, middleRow, getHvCost());
+            checkNode(currentNode, col - 1, row, getHvCost());
         }
         if (col + 1 < getSearchArea()[0].length)
         {
-            checkNode(currentNode, col + 1, middleRow, getHvCost());
+            checkNode(currentNode, col + 1, row, getHvCost());
         }
     }
 

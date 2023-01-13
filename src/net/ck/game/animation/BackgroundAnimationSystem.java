@@ -2,6 +2,7 @@ package net.ck.game.animation;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.util.CodeUtils;
 import net.ck.util.communication.graphics.BackgroundRepresentationChanged;
@@ -31,20 +32,16 @@ public class BackgroundAnimationSystem extends IndividualAnimationSystem
 		while (Game.getCurrent().isRunning() == true)
 		{
 			int i;
-			for (i = 0; i <= GameConfiguration.animationCycles; i++)
-			{
-				setCurrentBackgroundImage(i);
-				if (Game.getCurrent().isUiOpen()) {
-					EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
-				}
-				try
-				{
-					Game.getCurrent().getThreadController().sleep(GameConfiguration.animationBackGroundDelay, ThreadNames.BACKGROUND_ANIMATION);
-				}
-				catch (ConcurrentModificationException e)
-				{
-					logger.error("caught ConcurrentModificationException");
-				}
+			for (i = 0; i <= GameConfiguration.animationCycles; i++) {
+                setCurrentBackgroundImage(i);
+                if (UIStateMachine.isUiOpen()) {
+                    EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
+                }
+                try {
+                    Game.getCurrent().getThreadController().sleep(GameConfiguration.animationBackGroundDelay, ThreadNames.BACKGROUND_ANIMATION);
+                } catch (ConcurrentModificationException e) {
+                    logger.error("caught ConcurrentModificationException");
+                }
                 catch (Throwable e)
 				{
 					e.printStackTrace();

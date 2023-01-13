@@ -1,6 +1,6 @@
 package net.ck.util.communication.keyboard;
 
-import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -35,14 +35,11 @@ public class WindowClosingAction extends AbstractAction
 	@Override
 	public void actionPerformed(ActionEvent e) {
         logger.info("Window closing action sent");
-        getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));
-        Game.getCurrent().getController().setDialogOpened(false);
-        WindowBuilder.getGridCanvas().requestFocusInWindow();
+		getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));
+		UIStateMachine.setDialogOpened(false);
+		WindowBuilder.getGridCanvas().requestFocusInWindow();
         WindowBuilder.getFrame().repaint();
-        //Component focusOwner = FocusManager.getCurrentManager().getFocusOwner();
-        //logger.info("who has focus: {}", focusOwner);
-
-    }
+	}
 
 	public Window getComponent()
 	{

@@ -42,17 +42,14 @@ public class TextFieldDemo extends JFrame implements DocumentListener
 	final static String CANCEL_ACTION = "cancel-search";
 	final static Color ERROR_COLOR = Color.PINK;
 	final static Color HILIT_COLOR = Color.LIGHT_GRAY;
-	public static void main(String args[])
-	{
-		// Schedule a job for the event dispatch thread:
-		// creating and showing this application's GUI.
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				// Turn off metal's use of bold fonts
-				UIManager.put("swing.boldMetal", Boolean.FALSE);
-				new TextFieldDemo().setVisible(true);
+	public static void main(String[] args) {
+        // Schedule a job for the event dispatch thread:
+        // creating and showing this application's GUI.
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                // Turn off metal's use of bold fonts
+                UIManager.put("swing.boldMetal", Boolean.FALSE);
+                new TextFieldDemo().setVisible(true);
 			}
 		});
 	}

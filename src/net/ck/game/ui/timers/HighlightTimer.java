@@ -1,17 +1,17 @@
 package net.ck.game.ui.timers;
 
+import net.ck.util.CodeUtils;
 import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class HighlightTimer extends Timer
 {
 
-    private final Logger logger = LogManager.getLogger(getRealClass());
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * Creates a {@code Timer} and initializes both the initial delay and
@@ -29,12 +29,6 @@ public class HighlightTimer extends Timer
     public HighlightTimer(int delay, ActionListener listener)
     {
         super(delay, listener);
-    }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
     }
 
     @Override

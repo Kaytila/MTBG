@@ -2,7 +2,7 @@ package net.ck.util.ui;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
-import net.ck.game.ui.MainWindow;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.ui.buttons.*;
 import net.ck.game.ui.components.InputField;
 import net.ck.game.ui.components.JGridCanvas;
@@ -12,6 +12,7 @@ import net.ck.game.ui.dialogs.InventoryDialog;
 import net.ck.game.ui.dialogs.StatsDialog;
 import net.ck.game.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.game.ui.dnd.JGridCanvasDropTargetHandler;
+import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.listeners.MyFocusListener;
 import net.ck.game.ui.mainframes.MainFrame;
 import org.apache.logging.log4j.LogManager;
@@ -87,8 +88,10 @@ public class WindowBuilder {
      */
     private static DecreaseVolumeButton decreaseVolumeButton;
 
-
-    private static MainWindow mainWindow;
+    /**
+     * mainWindow is not the mainWindow, this is actually the controller
+     */
+    private static Controller controller;
 
     public static StatsDialog getStatsDialog() {
         return statsDialog;
@@ -186,21 +189,21 @@ public class WindowBuilder {
         WindowBuilder.decreaseVolumeButton = decreaseVolumeButton;
     }
 
-    public static MainWindow getMainWindow() {
-        return mainWindow;
+    public static Controller getMainWindow() {
+        return controller;
     }
 
-    public static void setMainWindow(MainWindow mainWindow) {
-        WindowBuilder.mainWindow = mainWindow;
+    public static void setMainWindow(Controller controller) {
+        WindowBuilder.controller = controller;
     }
 
     /**
      * in smalltalk fashion, using buildWindow: :D
      * for creating the actual ui
      */
-    public static void buildWindow(MainWindow mW) {
+    public static void buildWindow(Controller mW) {
         logger.info("start: build window");
-        mainWindow = mW;
+        controller = mW;
         frame = new MainFrame();
         MyFocusListener myFocusListener = new MyFocusListener();
         undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
@@ -208,19 +211,19 @@ public class WindowBuilder {
         frame.add(undoButton);
 
         stopMusicButton = new StopMusicButton(new Point(GameConfiguration.UIwidth - 400, GameConfiguration.UIheight - 100));
-        stopMusicButton.addActionListener(mainWindow);
+        stopMusicButton.addActionListener(controller);
         frame.add(stopMusicButton);
 
         startMusicButton = new StartMusicButton(new Point(GameConfiguration.UIwidth - 500, GameConfiguration.UIheight - 100));
-        startMusicButton.addActionListener(mainWindow);
+        startMusicButton.addActionListener(controller);
         frame.add(startMusicButton);
 
         increaseVolumeButton = new IncreaseVolumeButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 100));
-        increaseVolumeButton.addActionListener(mainWindow);
+        increaseVolumeButton.addActionListener(controller);
         frame.add(increaseVolumeButton);
 
         decreaseVolumeButton = new DecreaseVolumeButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 100));
-        decreaseVolumeButton.addActionListener(mainWindow);
+        decreaseVolumeButton.addActionListener(controller);
         frame.add(decreaseVolumeButton);
 
         gridCanvas = new JGridCanvas();
@@ -240,19 +243,19 @@ public class WindowBuilder {
         frame.add(weatherCanvas);
 
         logger.info("setting listeners");
-        frame.addWindowListener(mainWindow);
+        frame.addWindowListener(controller);
 
-        gridCanvas.addMouseListener(mainWindow);
-        gridCanvas.addMouseMotionListener(mainWindow);
-        undoButton.addActionListener(mainWindow);
+        gridCanvas.addMouseListener(controller);
+        gridCanvas.addMouseMotionListener(controller);
+        undoButton.addActionListener(controller);
 
         DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
 
-        Game.getCurrent().setController(mainWindow);
+        Game.getCurrent().setController(controller);
         frame.setVisible(true);
-        Game.getCurrent().setUiOpen(true);
+        UIStateMachine.setUiOpen(true);
         logger.info("finish: build window: UI is open");
     }
 

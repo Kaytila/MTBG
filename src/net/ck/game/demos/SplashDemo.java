@@ -85,8 +85,7 @@ public class SplashDemo extends Frame implements ActionListener
 		}
 	};
 
-	public static void main(String args[])
-	{
-		SplashDemo test = new SplashDemo();		
-	}
+	public static void main(String[] args) {
+        SplashDemo test = new SplashDemo();
+    }
 }

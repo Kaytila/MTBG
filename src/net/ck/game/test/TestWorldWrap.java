@@ -31,35 +31,31 @@ public class TestWorldWrap
 	}
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+    public static void setUpBeforeClass() {
 
-		System.out.println("TestWorldWrap: setupBeforeClass begin");
-		TestGameSetup.SetupGameForTest();
-		game = TestGameSetup.getGame();
-		gameMap = game.getCurrentMap();
-		System.out.println("TestWorldWrap: setupBeforeClass end");
-	}
+        System.out.println("TestWorldWrap: setupBeforeClass begin");
+        TestGameSetup.SetupGameForTest();
+        game = TestGameSetup.getGame();
+        gameMap = game.getCurrentMap();
+        System.out.println("TestWorldWrap: setupBeforeClass end");
+    }
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
-		System.out.println("TestWorldWrap shutting down everything hopefully");
-		System.out.println("TestWorldWrap finished shutting down");
-	}
+    @AfterClass
+    public static void tearDownAfterClass() {
+        System.out.println("TestWorldWrap shutting down everything hopefully");
+        System.out.println("TestWorldWrap finished shutting down");
+    }
 
-	@Before
-	public void setUp() throws Exception
-	{
-		logger.error("setup test");
-	}
+    @Before
+    public void setUp() {
+        logger.error("setup test");
+    }
 
-	@After
-	public void tearDown() throws Exception
-	{
-		logger.error("teardown test");
+    @After
+    public void tearDown() {
+        logger.error("teardown test");
 
-	}
+    }
 
 	@Test
 	public void testWrap1()

@@ -70,7 +70,7 @@ public class ListTransferHandler extends TransferHandler
     protected String exportString(JComponent c) {
         JList list = (JList)c;
         indices = list.getSelectedIndices();
-        Object[] values = list.getSelectedValues();
+        Object[] values = list.getSelectedValuesList().toArray();
         
         StringBuffer buff = new StringBuffer();
 

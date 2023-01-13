@@ -11,8 +11,7 @@ import org.apache.logging.log4j.Logger;
  * CommandSuccessMachine just gathers success or failure of the actions and
  * plays sound effects accordingly.
  * need to do NPC action here as well - and player.
- * Thats why this is separated.
- *
+ * That is why this is separated.
  */
 public class CommandSuccessMachine
 {

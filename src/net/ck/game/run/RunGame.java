@@ -1,7 +1,7 @@
 package net.ck.game.run;
 
 import net.ck.game.backend.game.Game;
-import net.ck.game.ui.MainWindow;
+import net.ck.game.ui.listeners.Controller;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CursorUtils;
 import net.ck.util.GameUtils;
@@ -16,11 +16,10 @@ public class RunGame
 	private static final Logger logger = LogManager.getLogger(RunGame.class);
 
 	/**
-	 * MainWindow is actually the listener and action class, the main application window is something else entirely. 
+	 * MainWindow is actually the listener and action class, the main application window is something else entirely.
 	 * Not sure how this is supposed to work in Swing, will need to ask someone about it
-	 * 
 	 */
-	private static MainWindow window;
+	private static Controller window;
 
 	private static int progress = 0;
 
@@ -92,7 +91,7 @@ public class RunGame
 			}
 
 			try {
-				javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+				javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -194,13 +193,13 @@ public class RunGame
 			if (splash != null) {
 				splash.close();
 				try {
-					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
 			} else {
 				try {
-					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new MainWindow()));
+					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -272,13 +271,11 @@ public class RunGame
 	}
 
 
-	public static MainWindow getWindow()
-	{
+	public static Controller getWindow() {
 		return window;
 	}
 
-	public static void setWindow(MainWindow window)
-	{
+	public static void setWindow(Controller window) {
 		RunGame.window = window;
 	}
 

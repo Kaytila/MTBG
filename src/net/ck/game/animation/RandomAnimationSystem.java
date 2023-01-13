@@ -4,6 +4,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.util.CodeUtils;
@@ -65,7 +66,7 @@ public class RandomAnimationSystem extends AnimationSystem
                     setRandomNumber(rand.nextInt(GameConfiguration.animationCycles));
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()));
                 }
-                if (Game.getCurrent().isUiOpen()) {
+                if (UIStateMachine.isUiOpen()) {
                     EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
                 }
             }

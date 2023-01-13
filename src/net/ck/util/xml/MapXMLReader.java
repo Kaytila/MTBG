@@ -9,7 +9,6 @@ import net.ck.game.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
@@ -281,8 +280,7 @@ public class MapXMLReader extends DefaultHandler
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length) throws SAXException
-	{
-		data.append(new String(ch, start, length));
-	}
+    public void characters(char[] ch, int start, int length) {
+        data.append(new String(ch, start, length));
+    }
 }

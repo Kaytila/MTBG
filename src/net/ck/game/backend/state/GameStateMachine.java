@@ -28,7 +28,6 @@ public class GameStateMachine
         this.previousState = previousState;
     }
 
-
     public GameStateMachine()
     {
         if (!registered)
@@ -75,5 +74,4 @@ public class GameStateMachine
     {
         return gameStateMachine;
     }
-
 }

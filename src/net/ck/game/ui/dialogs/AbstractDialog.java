@@ -34,22 +34,19 @@ public class AbstractDialog extends JDialog
 		{
 			case "Z-Stats" :
 			{
-				StatsDialog dialog = new StatsDialog(owner, title, modal);
 				//dialog.addButtons();
-				return dialog;
+				return new StatsDialog(owner, title, modal);
 			}
 
 			case "Inventory" :
 			{
-				InventoryDialog dialog = new InventoryDialog(owner, title, modal, action);
 				//dialog.addButtons();
-				return dialog;
+                return new InventoryDialog(owner, title, modal, action);
 			}
 
 			case "Equipment" :
 			{
-				EQDialog dialog = new EQDialog(owner, title, modal);
-				return dialog;
+                return new EQDialog(owner, title, modal);
 			}			
 			
 			default :
@@ -84,8 +81,7 @@ public class AbstractDialog extends JDialog
 
 	public static TalkDialog createDialog(JFrame frame, String string, boolean b, AbstractKeyboardAction currentAction, NPC n)
 	{
-		TalkDialog dialog = new TalkDialog(frame, string, b, null, n);
-		return dialog;
+        return new TalkDialog(frame, string, b, null, n);
 		
 	}
 }

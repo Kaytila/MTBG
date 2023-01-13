@@ -7,10 +7,7 @@ module myTurnedBasedGame
 	requires transitive org.apache.logging.log4j.core;
 	requires transitive org.apache.logging.log4j;
 
-
-	requires org.locationtech.jts;
-
-	requires java.xml;
+    requires java.xml;
 	requires java.sql;
     requires eventbus.java;
 	requires org.apache.commons.lang3;
@@ -24,7 +21,6 @@ module myTurnedBasedGame
 
 	exports net.ck.game.test;
 	exports net.ck.game.backend.entities;
-	exports net.ck.game.ui;
 	exports net.ck.game.graphics;
 	exports net.ck.game.map;
 	exports net.ck.util.communication.graphics;

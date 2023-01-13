@@ -7,6 +7,7 @@ import net.ck.game.backend.entities.*;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.GameStateMachine;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.GameTime;
@@ -18,7 +19,7 @@ import net.ck.game.map.MapTile;
 import net.ck.game.music.MusicPlayerNoThread;
 import net.ck.game.music.MusicTimer;
 import net.ck.game.soundeffects.SoundPlayerNoThread;
-import net.ck.game.ui.MainWindow;
+import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.CodeUtils;
@@ -149,7 +150,7 @@ public class Game implements Runnable
     /**
      * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
      */
-    private MainWindow controller;
+    private Controller controller;
 
 
     /**
@@ -231,12 +232,6 @@ public class Game implements Runnable
      * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
-
-    /**
-     * is the UI open? has it finished opening?
-     */
-    private boolean uiOpen;
-
 
     private HighlightTimer highlightTimer;
 
@@ -383,9 +378,10 @@ public class Game implements Runnable
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
         getWeatherSystem().checkWeather();
-        WindowBuilder.getGridCanvas().repaint();
-        // logger.info("current map: {}", Game.getCurrent().getCurrentMap());
+        WindowBuilder.getGridCanvas().paint();
+        // logger.info("current map: {}", Game.getCurrent().getCurrentMap());-
 
+        //update the Game to switch to the current state of the new map - might be different after all
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
 
         getIdleTimer().start();
@@ -721,13 +717,11 @@ public class Game implements Runnable
 
     }
 
-    public MainWindow getController()
-    {
+    public Controller getController() {
         return controller;
     }
 
-    public void setController(MainWindow controller)
-    {
+    public void setController(Controller controller) {
         this.controller = controller;
     }
 
@@ -784,27 +778,16 @@ public class Game implements Runnable
                 setNpcAction(false);
             }
 
-            if (GameConfiguration.useEvents == false)
-            {
-                if (this.isUiOpen())
-                {
-                    // javax.swing.SwingUtilities.invokeLater(() ->
-                    //{
-                    WindowBuilder.getGridCanvas().paint();
-                    //});
-                }
+            if (GameConfiguration.useEvents == false) {
+                if (UIStateMachine.isUiOpen()) {
+                    long timeTaken = System.nanoTime() - startTime;
 
-                long timeTaken = System.nanoTime() - startTime;
-
-                if (timeTaken < GameConfiguration.targetTime)
-                {
-                    try
-                    {
-                        Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        throw new RuntimeException(e);
+                    if (timeTaken < GameConfiguration.targetTime) {
+                        try {
+                            Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
@@ -964,16 +947,6 @@ public class Game implements Runnable
     public void setMusicSystemNoThread(MusicPlayerNoThread soundSystemNoThread)
     {
         this.musicSystemNoThread = soundSystemNoThread;
-    }
-
-    public boolean isUiOpen()
-    {
-        return uiOpen;
-    }
-
-    public void setUiOpen(boolean uiOpen)
-    {
-        this.uiOpen = uiOpen;
     }
 
     public HighlightTimer getHighlightTimer()

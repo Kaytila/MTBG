@@ -727,3 +727,5 @@ History of the changes:
 2023-01-11: fixed a few typos in AbstractEntity and removed some superfluous code.
 2023-01-12: setup for switching mainwindow into pure listener and have window building outside.
             done with it. looks a little bit better now but needs to improve still.
+2023-01-13: Introduced UIStateMachine to get UI State out of game and MainWindow.
+            Finally Renaming MainWindow to controller.

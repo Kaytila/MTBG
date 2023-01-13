@@ -55,21 +55,21 @@ public class GridTester2 extends JPanel {
 }
 
 enum Ground2 {
-   DIRT(0, new Color(205,133, 63)), GRASS(1, new Color(0, 107, 60)), 
-   WATER(2, new Color(29, 172, 214));
-   private int value;
-   private Color color;
-   private Icon icon;
+    DIRT(0, new Color(205, 133, 63)), GRASS(1, new Color(0, 107, 60)),
+    WATER(2, new Color(29, 172, 214));
+    private final int value;
+    private final Color color;
+    private final Icon icon;
 
-   private Ground2(int value, Color color) {
-      this.value = value;
-      this.color = color;
+    Ground2(int value, Color color) {
+        this.value = value;
+        this.color = color;
 
-      icon = createIcon(color);
-   }
+        icon = createIcon(color);
+    }
 
-   private Icon createIcon(Color color) {
-      int width = 24; // how to use const in enum? 
+    private Icon createIcon(Color color) {
+        int width = 24; // how to use const in enum?
       BufferedImage img = new BufferedImage(width, width, BufferedImage.TYPE_INT_ARGB);
       Graphics g = img.getGraphics();
       g.setColor(color);

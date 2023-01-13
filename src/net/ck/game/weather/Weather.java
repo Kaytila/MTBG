@@ -1,6 +1,6 @@
 package net.ck.game.weather;
 
-import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.WeatherUtils;
 import net.ck.util.communication.graphics.WeatherChangedEvent;
@@ -13,18 +13,27 @@ import java.awt.image.BufferedImage;
 /**
  * @author Claus weather will have an impact on things, perhaps? perhaps not, perhaps only graphics
  */
-public class Weather
-{
+public class Weather {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
+    /**
+     * what type is the current weather?
+     */
     private WeatherTypes type;
+    /**
+     * contains the weather image of the currently decided weather
+     */
     private BufferedImage weatherImage;
 
 
     /**
-     * so yeah, we dont need to dynamically load the weather image again from disk each time we change the weather, do we? load them all in the constructor and cache them.
+     * so yeah, we do not need to dynamically load the weather image again from disk
+     * each time we change the weather, do we?
+     * We do not load them all in the constructor and cache them.
+     * instead we cache them during game startup.
      * <p>
-     * unfortuately, I have forgotten the source of the icons fog is from https://uxwing.com/cloud-fog-icon/
+     * unfortunately, I have forgotten the source of the icons fog
+     * is from <a href="https://uxwing.com/cloud-fog-icon/">https://uxwing.com/cloud-fog-icon/</a>
      */
     public Weather()
     {
@@ -46,18 +55,14 @@ public class Weather
         return type;
     }
 
-    public void setType(WeatherTypes typ)
-    {
+    public void setType(WeatherTypes typ) {
         this.type = typ;
-        if (Game.getCurrent().isUiOpen()) {
+        if (UIStateMachine.isUiOpen()) {
             EventBus.getDefault().post(new WeatherChangedEvent("imageChanged"));
         }
-        try
-        {
+        try {
             setWeatherImage(WeatherUtils.getWeatherImage(type));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             logger.error("image {} does not exist", type);
         }
     }

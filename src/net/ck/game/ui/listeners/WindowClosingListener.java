@@ -1,6 +1,6 @@
 package net.ck.game.ui.listeners;
 
-import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,7 @@ public class WindowClosingListener extends WindowAdapter
     public void windowClosing(WindowEvent e) {
         //super.windowClosing(e);
         logger.info("closing dialog");
-        Game.getCurrent().getController().setDialogOpened(false);
+        UIStateMachine.setDialogOpened(false);
         WindowBuilder.getGridCanvas().requestFocusInWindow();
         WindowBuilder.getFrame().repaint();
     }

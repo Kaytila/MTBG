@@ -3,6 +3,7 @@ package net.ck.util;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.ui.WindowBuilder;
@@ -241,17 +242,15 @@ public class CursorUtils
 	 */
 	public static void calculateCursorFromGridPosition(AbstractEntity currentPlayer, Point point)
 	{
-		if (Game.getCurrent().getController().isSelectTile())
-		{
+		if (UIStateMachine.isSelectTile()) {
 			setCursor(getTargetCursor());
-		}
-		else {
-            // this is the position on the grid, tile x and y + half tile size to each
-            int Px = (currentPlayer.getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
-            int Py = (currentPlayer.getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
+		} else {
+			// this is the position on the grid, tile x and y + half tile size to each
+			int Px = (currentPlayer.getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
+			int Py = (currentPlayer.getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
 
-            int Mx = point.x - WindowBuilder.getGridCanvas().getLocationOnScreen().x;
-            int My = point.y - WindowBuilder.getGridCanvas().getLocationOnScreen().y;
+			int Mx = point.x - WindowBuilder.getGridCanvas().getLocationOnScreen().x;
+			int My = point.y - WindowBuilder.getGridCanvas().getLocationOnScreen().y;
 
             //logger.info("player x:{}, player y:{}, mouse x:{}, mouse y: {}", Px, Py, Mx, My);
 
