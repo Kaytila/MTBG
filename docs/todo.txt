@@ -79,9 +79,22 @@ options menu or dialog
 SOUND:
 sound effects - done
 
-map sound effects to commands - ATTACK (special case, sigh), move, drop, open, cast. can all be mapped directly.
+DONE -map sound effects to commands - ATTACK (special case, sigh), move, drop, open, cast. can all be mapped directly.
 no need to have this hard coded in the actual entity methods. no wait, needs to be that way.
 blocked or not is also handled that way. damnit.
 
 
+Big Todos:
+make drawing more efficient - try by drawing each tile only once.
+also properly calculate that only the tiles that are actually visible are being drawn
+calculate that only the lifeforms on screen are drawing and only handled in the queques.
+currently all are changed in getAnimatedEntities()
+will also need to recalculate the tiles by player,
+lets try a new UI lense imlementation now
+
+Will need to switch Map parsing to have a x/y 2d array.
+
+
+another todo:
+slow movement, where one step for player is two steps for World and NPCs.
 

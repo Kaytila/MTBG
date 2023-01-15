@@ -14,47 +14,24 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Random;
-
-public class RandomAnimationSystem extends AnimationSystem
-{
+/**
+ * NoAnimationSystem currently is a bit of a fluke, as it would actually do animation
+ * but I just took the code and always kept it at standard image
+ */
+public class NoAnimationSystem extends AnimationSystem {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-    private final Random rand = new Random();
-    private int randomNumber;
-
-    public int getRandomNumber()
-    {
-        return randomNumber;
-    }
-
-    public void setRandomNumber(int randomNumber)
-    {
-        this.randomNumber = randomNumber;
-    }
-
-
-
-    public RandomAnimationSystem()
-    {
-        // logger.info("initializing RandomAnimationSystem");
-    }
-
-    public void run()
-    {
-        while (Game.getCurrent().isRunning() == true)
-        { // I hate 0 index //if I make the standard
+    public void run() {
+        while (Game.getCurrent().isRunning() == true) { // I hate 0 index //if I make the standard
             // image part of the animation list, then I don't need the default
             // state at all.
             // that means, 2 animation cycles, no +1 needed.
 
             // random variant
-            for (LifeForm p : Game.getCurrent().getAnimatedEntities())
-            {
+            for (LifeForm p : Game.getCurrent().getAnimatedEntities()) {
                 //logger.info("lifeform state: {}", p.getState());
                 // if dead, stay corpse, or blood stain
-                if (p.getState().equals(LifeFormState.DEAD))
-                {
+                if (p.getState().equals(LifeFormState.DEAD)) {
                     p.getAppearance().setCurrentImage(ImageUtils.getBloodstainImage());
                 }
                 //if unconcious, stay unmoving
@@ -62,24 +39,21 @@ public class RandomAnimationSystem extends AnimationSystem
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
                 } else// (p.getState().equals(LifeFormState.ALIVE))
                 {
-                    setRandomNumber(rand.nextInt(GameConfiguration.animationCycles));
-                    p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()));
+                    p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
                 }
+
                 if (UIStateMachine.isUiOpen()) {
                     EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
                 }
             }
 
-            try
-            {
+            try {
                 Game.getCurrent().getThreadController().sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        logger.error("game no longer running, thread {} is closing hopefully?", ThreadNames.LIFEFORM_ANIMATION);
-    }
 
+        logger.error("game no longer running, thread {} is closing hopefully?", "Animation Thread");
+    }
 }

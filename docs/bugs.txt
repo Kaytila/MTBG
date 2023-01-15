@@ -30,3 +30,4 @@ BUGS:
 2023-01-10  FIXED NPCs sometimes are not drawn correctly, if I dont calculate the UI position during drawing, sometimes they
             disappear.
 2023-01-10  calculation of black tiles (i.e. outside of the map) is not correct when player moves adjecient
+2023-01-14  somehow schedules for all NPCs are being checked instead of the ones on the current map.

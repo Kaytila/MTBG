@@ -259,14 +259,14 @@ public class GameUtils
     public static void initializeAnimationSystem()
     {
         AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem();
-        if (GameConfiguration.animated == true)
-        {
-            logger.info("start: initializing animation system");
-            Thread animationSystemThread = new Thread(animationSystem);
-            animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
-            Game.getCurrent().getThreadController().add(animationSystemThread);
-            logger.info("finish: initializing animation system");
-        }
+        //if (GameConfiguration.animated == true)
+        //{
+        logger.info("start: initializing animation system");
+        Thread animationSystemThread = new Thread(animationSystem);
+        animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
+        Game.getCurrent().getThreadController().add(animationSystemThread);
+        logger.info("finish: initializing animation system");
+        //}
     }
 
 

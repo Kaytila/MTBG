@@ -22,8 +22,6 @@ public class TalkDialog extends AbstractDialog
 	
 	public TalkDialog()
 	{
-		super();
-
 	}
 
 	public TalkDialog(Frame owner, String title, boolean modal, AbstractEntity target, NPC n)

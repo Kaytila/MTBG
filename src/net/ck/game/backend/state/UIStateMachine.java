@@ -1,5 +1,9 @@
 package net.ck.game.backend.state;
 
+/**
+ * In order to make Controller more of what it is - listener and action caller
+ * it shall be stateless - the state needs to go here into State machine.
+ */
 public class UIStateMachine {
     /**
      * is the UI open? has it finished opening?
@@ -11,6 +15,10 @@ public class UIStateMachine {
      * this is always used for two-step actions.
      */
     private static boolean selectTile;
+
+    /**
+     * is a Dialog open?
+     */
     private static boolean isDialogOpened;
 
     public static boolean isUiOpen() {

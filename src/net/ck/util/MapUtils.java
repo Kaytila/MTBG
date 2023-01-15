@@ -38,16 +38,11 @@ public class MapUtils
 
     private static final Logger logger = LogManager.getLogger(MapUtils.class);
 
-    private static int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
+    private static final int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
 
     public static int getMiddle()
     {
         return middle;
-    }
-
-    public static void setMiddle(int middle)
-    {
-        MapUtils.middle = middle;
     }
 
     public static int getIDOfMapTileEast(MapTile tile)
@@ -79,42 +74,91 @@ public class MapUtils
      */
     public static MapTile getMapTileByID(AbstractMap map, int ID)
     {
-        for (MapTile tile : map.getTiles())
-        {
-            if (tile.getId() == ID)
-            {
+        for (MapTile tile : map.getTiles()) {
+            if (tile.getId() == ID) {
                 return tile;
             }
         }
         return null;
     }
 
-    public static Point calculateMapSize(AbstractMap map)
-    {
+
+    public static MapTile getMapTileByCoordinates(AbstractMap map, Point p) {
+        for (MapTile tile : map.getTiles()) {
+            if (tile.x() == p.x) {
+                if (tile.y() == p.y) {
+                    return tile;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static List<MapTile> getMapTilesByCoordinates(AbstractMap map, List<Point> p) {
+        ArrayList<MapTile> mapTiles = new ArrayList<>();
+        for (MapTile tile : map.getTiles()) {
+            for (Point po : p) {
+                if (tile.x() == po.x) {
+                    if (tile.y() == po.y) {
+                        mapTiles.add(tile);
+                    }
+                }
+            }
+        }
+        return mapTiles;
+    }
+
+
+    public static Point calculateMapSize(AbstractMap map) {
         int x = 0;
         int y = 0;
-        for (MapTile tile : map.getTiles())
-        {
-            if (tile.getX() > x)
-            {
+        for (MapTile tile : map.getTiles()) {
+            if (tile.getX() > x) {
                 x = tile.getX();
             }
 
-            if (tile.getY() > y)
-            {
+            if (tile.getY() > y) {
                 y = tile.getY();
             }
         }
-
         return new Point(x, y);
     }
 
-    public static void calculateTileDirections(ArrayList<MapTile> list)
-    {
+
+    /**
+     * calculates the visible tiles based on player position.
+     * will be used for drawing afterwards.
+     * <p>
+     * negative coordinates can be used to paint black right away
+     * with a tranformation to screen coordinates.
+     *
+     * @return a list of points as I do not have a better map
+     * utility yet
+     */
+    public static List<Point> getVisibleTilesAroundPlayer() {
+        List<Point> points = new ArrayList<>(middle + middle + middle + middle + 1);
+        Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
+        int radius = MapUtils.getMiddle();
+        //topleft corner tile
+
+        int maxX = center.x + middle;
+        int minX = center.x - middle;
+        int maxY = center.y + middle;
+        int minY = center.y - middle;
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                points.add(new Point(x, y));
+                logger.debug("next point: {}, {}", x, y);
+            }
+        }
+        return points;
+    }
+
+    public static void calculateTileDirections(ArrayList<MapTile> list) {
         logger.info("start: calculate tile directions");
         // iterate over all tiles
-        for (MapTile tile : list)
-        {
+        for (MapTile tile : list) {
             int x = tile.getX();
             int y = tile.getY();
             tile.setMapPosition(new Point(x, y));

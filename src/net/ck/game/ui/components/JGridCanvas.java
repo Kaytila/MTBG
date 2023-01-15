@@ -144,6 +144,8 @@ public class JGridCanvas extends JComponent
     public void paintComponent(Graphics g) {
         logger.debug("start: painting");
 
+        MapUtils.getVisibleTilesAroundPlayer();
+
         if (GameConfiguration.drawTileOnce == true) {
 
         } else {
@@ -559,6 +561,9 @@ public class JGridCanvas extends JComponent
     /**
      * identify which tiles of the map are currently visible
      * also set back hidden state cause this is calculated again
+     * Currently doing this every paint
+     * question is do I need to?
+     * Think i only need to do it once something changes.
      */
     private void identifyVisibleTiles()
     {

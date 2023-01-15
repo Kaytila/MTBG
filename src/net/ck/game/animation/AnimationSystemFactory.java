@@ -24,18 +24,15 @@ public class AnimationSystemFactory
 	public static AnimationSystem createAnymationSystem()
 	{
 
-		if (GameConfiguration.animated == true)
-		{
-			if (GameConfiguration.animationCycles > 0)
-			{
-				return new RandomAnimationSystem();
-			}
-			else
-			{
-				return new IndividualAnimationSystem();
-			}
-		}
-		return null;
+		if (GameConfiguration.animated == true) {
+            if (GameConfiguration.animationCycles > 0) {
+                return new RandomAnimationSystem();
+            } else {
+                return new IndividualAnimationSystem();
+            }
+        } else {
+            return new NoAnimationSystem();
+        }
 
 	}
 
