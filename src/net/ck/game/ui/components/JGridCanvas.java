@@ -618,10 +618,13 @@ public class JGridCanvas extends JComponent
      */
     private void paintBlackTiles(Graphics g)
     {
+        int n = 0;
         for (Point emptyUITile : UILense.getCurrent().identifyEmptyCoordinates())
         {
-            // logger.info("point p: {}", p.toString());
+            logger.info("point p: {}", emptyUITile.toString());
             g.drawImage(blackImage, (emptyUITile.x * GameConfiguration.tileSize), (emptyUITile.y * GameConfiguration.tileSize), this);
+            g.drawString(String.valueOf(n), (emptyUITile.x * GameConfiguration.tileSize), (emptyUITile.y * GameConfiguration.tileSize));
+            n++;
         }
     }
 

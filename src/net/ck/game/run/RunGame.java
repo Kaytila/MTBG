@@ -141,6 +141,8 @@ public class RunGame
 					renderSplashFrame(g, size);
 
 					GameUtils.initializeMaps();
+					//GameUtils.listMaps();
+					//game.stopGame();
 					renderSplashFrame(g, size);
 					game.addPlayers();
 					renderSplashFrame(g, size);

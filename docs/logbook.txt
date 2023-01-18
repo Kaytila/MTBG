@@ -730,3 +730,4 @@ History of the changes:
 2023-01-13: Introduced UIStateMachine to get UI State out of game and MainWindow.
             Finally Renaming MainWindow to controller.
 2023-01-14: did some calculations and remaking for identifying the visible tiles.
+2023-01-18: figuring out some things about how I identify visible and black tiles and stuff like that. There are bugs.

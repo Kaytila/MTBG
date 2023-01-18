@@ -90,6 +90,7 @@ public class Map extends AbstractMap
 		setNpcs(new ArrayList<>());
 		setTiles(new ArrayList<>());
 		setMissiles(new ArrayList<>());
+
 	}
 
 	public boolean isWeatherSystem()

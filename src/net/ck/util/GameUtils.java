@@ -18,6 +18,7 @@ import net.ck.game.items.FurnitureItem;
 import net.ck.game.items.Utility;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
+import net.ck.game.map.MapTile;
 import net.ck.game.music.MusicPlayerNoThread;
 import net.ck.game.music.MusicTimer;
 import net.ck.game.music.MusicTimerActionListener;
@@ -291,9 +292,18 @@ public class GameUtils
                 //logger.info("file name: {}", file.getName());
                 if (file.getName().contains("xml"))
                 {
-                    Map map;
                     logger.info("parsing map: {}", GameConfiguration.mapFileRootPath + File.separator + file.getName());
-                    map = RunXMLParser.parseMap(GameConfiguration.mapFileRootPath + File.separator + file.getName());
+                    Map map = RunXMLParser.parseMap(GameConfiguration.mapFileRootPath + File.separator + file.getName());
+
+                    map.setSize(MapUtils.calculateMapSize(map));
+                    map.setMapTiles(new MapTile[map.getSize().x][map.getSize().y]);
+
+                    logger.debug("start: adding maptiles to 2d array");
+                    for (MapTile t : map.getTiles())
+                    {
+                        map.mapTiles[t.x][t.y] = t;
+                    }
+                    logger.debug("end: adding maptiles to 2d array");
 
                     String gameMapName = "testname";
                     if (Objects.requireNonNull(map).getName().equalsIgnoreCase(gameMapName))
@@ -442,4 +452,20 @@ public class GameUtils
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
         }
     }
+
+    public static void listMaps()
+    {
+        for (Map e : Game.getCurrent().getMaps())
+        {
+            for (MapTile[] rowOfStrings : e.mapTiles)
+            {
+                for (MapTile s : rowOfStrings)
+                {
+                    System.out.println(s);
+                }
+            }
+        }
+    }
 }
+
+

@@ -74,8 +74,10 @@ public class MapUtils
      */
     public static MapTile getMapTileByID(AbstractMap map, int ID)
     {
-        for (MapTile tile : map.getTiles()) {
-            if (tile.getId() == ID) {
+        for (MapTile tile : map.getTiles())
+        {
+            if (tile.getId() == ID)
+            {
                 return tile;
             }
         }
@@ -83,45 +85,39 @@ public class MapUtils
     }
 
 
-    public static MapTile getMapTileByCoordinates(AbstractMap map, Point p) {
-        for (MapTile tile : map.getTiles()) {
-            if (tile.x() == p.x) {
-                if (tile.y() == p.y) {
-                    return tile;
-                }
-            }
-        }
-        return null;
+    public static MapTile getMapTileByCoordinates(AbstractMap map, Point p)
+    {
+        return map.getMapTiles()[p.x][p.y];
     }
 
-    public static List<MapTile> getMapTilesByCoordinates(AbstractMap map, List<Point> p) {
+    public static List<MapTile> getMapTilesByCoordinates(AbstractMap map, List<Point> p)
+    {
         ArrayList<MapTile> mapTiles = new ArrayList<>();
-        for (MapTile tile : map.getTiles()) {
-            for (Point po : p) {
-                if (tile.x() == po.x) {
-                    if (tile.y() == po.y) {
-                        mapTiles.add(tile);
-                    }
-                }
-            }
+        for (Point po : p)
+        {
+            mapTiles.add(map.getMapTiles()[po.x][po.y]);
         }
         return mapTiles;
     }
 
 
-    public static Point calculateMapSize(AbstractMap map) {
+    public static Point calculateMapSize(AbstractMap map)
+    {
         int x = 0;
         int y = 0;
-        for (MapTile tile : map.getTiles()) {
-            if (tile.getX() > x) {
+        for (MapTile tile : map.getTiles())
+        {
+            if (tile.getX() > x)
+            {
                 x = tile.getX();
             }
 
-            if (tile.getY() > y) {
+            if (tile.getY() > y)
+            {
                 y = tile.getY();
             }
         }
-        return new Point(x, y);
+        return new Point(x + 1, y + 1);
     }
 
 
@@ -135,7 +131,8 @@ public class MapUtils
      * @return a list of points as I do not have a better map
      * utility yet
      */
-    public static List<Point> getVisibleTilesAroundPlayer() {
+    public static List<Point> getVisibleTilesAroundPlayer()
+    {
         List<Point> points = new ArrayList<>(middle + middle + middle + middle + 1);
         Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
         int radius = MapUtils.getMiddle();
@@ -146,8 +143,10 @@ public class MapUtils
         int maxY = center.y + middle;
         int minY = center.y - middle;
 
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = minY; y <= maxY; y++)
+            {
                 points.add(new Point(x, y));
                 logger.debug("next point: {}, {}", x, y);
             }
@@ -155,10 +154,12 @@ public class MapUtils
         return points;
     }
 
-    public static void calculateTileDirections(ArrayList<MapTile> list) {
+    public static void calculateTileDirections(ArrayList<MapTile> list)
+    {
         logger.info("start: calculate tile directions");
         // iterate over all tiles
-        for (MapTile tile : list) {
+        for (MapTile tile : list)
+        {
             int x = tile.getX();
             int y = tile.getY();
             tile.setMapPosition(new Point(x, y));
@@ -375,7 +376,6 @@ public class MapUtils
     }
 
 
-
     /**
      * there is a bug, but where????
      *
@@ -455,7 +455,6 @@ public class MapUtils
     }
 
     /**
-     *
      * @param x x coordinate of the tile
      * @param y y coordinate of the tile
      * @return if the tile is blocked, so need to check for FALSE instead of TRUE
@@ -463,15 +462,19 @@ public class MapUtils
     public static boolean lookAhead(int x, int y)
     {
         // long start = System.nanoTime();
-        for (MapTile t : Game.getCurrent().getCurrentMap().getTiles()) {
+        for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
+        {
             // same tile
-            if ((t.getX() != x)) {
+            if ((t.getX() != x))
+            {
                 continue;
             }
-            if ((t.getY() != y)) {
+            if ((t.getY() != y))
+            {
                 continue;
             }
-            if ((t.getX() == x) && (t.getY() == y)) {
+            if ((t.getX() == x) && (t.getY() == y))
+            {
                 //logger.info("found tile: {}, blocked: {}", t.toString(), t.isBlocked());
                 //logger.info("time it takes here: {}", System.nanoTime() - start);
                 return t.isBlocked();
@@ -642,17 +645,18 @@ public class MapUtils
         }
         return ultima4Map;
     }
+
     /**
      * <tile>
-     * 			<id>1</id>
-     * 			<type>LADDERUP</type>
-     * 			<x>0</x>
-     * 			<y>0</y>
-     * 			<east>2</east>
-     * 			<south>4</south>
-     * 			<targetMap>testname</targetMap>
-     * 			<targetID>2</targetID>
-     * 		</tile>
+     * <id>1</id>
+     * <type>LADDERUP</type>
+     * <x>0</x>
+     * <y>0</y>
+     * <east>2</east>
+     * <south>4</south>
+     * <targetMap>testname</targetMap>
+     * <targetID>2</targetID>
+     * </tile>
      */
     public static void writeMapToXML(Map map) throws IOException
     {
@@ -805,6 +809,7 @@ public class MapUtils
 
     /**
      * method calculates whether a point is adjacient to another one.
+     *
      * @param source - source coordinates
      * @param target - target coordinates
      * @return true if in the range or false

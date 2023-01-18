@@ -49,7 +49,7 @@ public class AbstractMap
 	 * the parent map - the game map has no parent
 	 */
 	private String parentMap;
-	
+
 	/**
 	 * Point is (x,y), you start top left and move left and then downwards
 	 */
@@ -60,11 +60,26 @@ public class AbstractMap
 	 */
 	protected ArrayList<MapTile> tiles;
 
+	public MapTile[][] getMapTiles()
+	{
+		return mapTiles;
+	}
+
+	public void setMapTiles(MapTile[][] mapTiles)
+	{
+		this.mapTiles = mapTiles;
+	}
+
+	/**
+	 *
+	 */
+	public MapTile[][] mapTiles;
+
 	/**
 	 * npc is close to player but not quite the same :D
 	 */
 	private ArrayList<NPC> npcs;
-	
+
 	/**
 	 * the items littering the ground -
 	 * corpses, food,

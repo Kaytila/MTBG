@@ -225,6 +225,7 @@ public class MapXMLReader extends DefaultHandler
 				maptile.setY(y);
 				maptile.setMapPosition(new Point(x, y));
 				maptiles.add(maptile);
+
 				//logger.info("maptile: {}", maptile);
 				break;
 			case "npc":
