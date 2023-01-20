@@ -294,6 +294,7 @@ public class MapUtils
 
     /**
      * @param p - position of the tile or entity
+     *          returns the point where the position of Point p is (tile) from the UI Position of the player
      */
     public static Point calculateUIPositionFromMapOffset(Point p)
     {
@@ -373,58 +374,6 @@ public class MapUtils
             }
         }
         return visibleTiles;
-    }
-
-
-    /**
-     * there is a bug, but where????
-     *
-     * @param position the position not the player
-     * @return the offset in tiles
-     */
-    public static Point calculateOffsetFromPlayerBug(Point position)
-    {
-        Point pP = Game.getCurrent().getCurrentPlayer().getMapPosition();
-        // logger.info("maptile x: {}, y: {}", tile.getX(), tile.getY());
-        // logger.info("player position: {} {}", pP.x, pP.y);
-        int x;
-        int y;
-        // the tile is to the left
-        if (position.x < pP.x)
-        {
-            // logger.info("to the left");
-            x = Math.abs(pP.x - position.x - middle);
-        }
-        // the tile is to the right
-        else if (position.x > pP.x)
-        {
-            // logger.info("to the right");
-            x = Math.abs(position.x - pP.x + middle);
-        }
-        else
-        {
-            // logger.info("same X");
-            x = middle;
-        }
-        // the tile is to the top
-        if (position.y < pP.y)
-        {
-            // logger.info("to the top");
-            y = Math.abs(pP.y - position.y - middle);
-        }
-        // the tile is to the bottom
-        else if (position.y > pP.y)
-        {
-            // logger.info("to the bottom");
-            y = Math.abs(position.y - pP.y + middle);
-        }
-        else
-        {
-            // logger.info("same Y");
-            y = middle;
-        }
-
-        return new Point(x, y);
     }
 
     /**

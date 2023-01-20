@@ -144,7 +144,6 @@ public class JGridCanvas extends JComponent
     public void paintComponent(Graphics g) {
         logger.debug("start: painting");
 
-        MapUtils.getVisibleTilesAroundPlayer();
 
         if (GameConfiguration.drawTileOnce == true) {
 
@@ -154,10 +153,10 @@ public class JGridCanvas extends JComponent
 
             // this somehow needs to be doable faster
             // draw the background images
-            paintBackground(g);
-
+            //paintBackground(g);
+            paintBackgroundNew(g);
             // identify the black tiles
-            paintBlackTiles(g);
+            //paintBlackTiles(g);
 
             // iterate over the entities on the map
             // calculate offset to the player.
@@ -571,11 +570,34 @@ public class JGridCanvas extends JComponent
         {
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
             // these are the visible tiles
-            if (rangeX.contains(screenPosition.x) && rangeY.contains(screenPosition.y))
-            {
+            if (rangeX.contains(screenPosition.x) && rangeY.contains(screenPosition.y)) {
                 UILense.getCurrent().add(screenPosition);
                 UILense.getCurrent().getVisibleMapTiles().add(tile);
                 tile.setHidden(false);
+            }
+        }
+    }
+
+
+    private void paintBackgroundNew(Graphics g) {
+        int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
+        int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
+        for (Point p : MapUtils.getVisibleTilesAroundPlayer()) {
+            if ((p.x < 0) || (p.y < 0)) {
+                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(p);
+                g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+            } else {
+                MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
+                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+                BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
+                if (img == null) {
+                    logger.error("tile has no image: {}", tile);
+                }
+                // logger.info("buffered image: {}", img.toString());
+                int absX = Math.abs(pX - screenPosition.x);
+                int absY = Math.abs(pY - screenPosition.y);
+                img = ImageUtils.brightenUpImage(img, absX, absY);
+                g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
             }
         }
     }
@@ -585,8 +607,7 @@ public class JGridCanvas extends JComponent
      *
      * @param g - Graphics
      */
-    private void paintBackground(Graphics g)
-    {
+    private void paintBackground(Graphics g) {
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
         int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
 

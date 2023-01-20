@@ -731,3 +731,5 @@ History of the changes:
             Finally Renaming MainWindow to controller.
 2023-01-14: did some calculations and remaking for identifying the visible tiles.
 2023-01-18: figuring out some things about how I identify visible and black tiles and stuff like that. There are bugs.
+2023-01-20: success! drawing background and empty tiles in one method is done and the bug is gone
+            and all is much faster, at least I would to think that way.
