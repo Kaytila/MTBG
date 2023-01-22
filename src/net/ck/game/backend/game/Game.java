@@ -144,10 +144,6 @@ public class Game implements Runnable
     private AbstractWeatherSystem weatherSystem;
 
     /**
-     * animated entities, contains everything that has changing images, i.e. NPCs, PCs, also other items. will probably also contain all inanimated objects. Perhaps these will go on a separate thread
-     */
-    private ArrayList<LifeForm> animatedEntities = new ArrayList<>();
-    /**
      * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
      */
     private Controller controller;
@@ -356,30 +352,35 @@ public class Game implements Runnable
 
         MapTile exit = MapUtils.getTileByCoordinates(getCurrentPlayer().getMapPosition());
         String mapName = null;
-        if (exit != null) {
+        if (exit != null)
+
+        {
             mapName = exit.getTargetMap();
         }
         int targetTileID = -1;
-        if (exit != null) {
+        if (exit != null)
+        {
             targetTileID = exit.getTargetID();
         }
         logger.info("mapname: {}, targetTileID: {}", mapName, targetTileID);
-        for (Map m : getMaps()) {
-            if (m.getName().equalsIgnoreCase(mapName)) {
+        for (Map m : getMaps())
+        {
+            if (m.getName().equalsIgnoreCase(mapName))
+            {
                 MapTile targetTile = MapUtils.getMapTileByID(m, targetTileID);
                 setCurrentMap(m);
                 m.initialize();
                 assert targetTile != null;
                 getCurrentPlayer().setMapPosition(new Point(targetTile.x, targetTile.y));
-                setAnimatedEntities(animatedEntities = new ArrayList<>());
-                addAnimatedEntities();
+                logger.debug("new player position: {}", getCurrentPlayer().getMapPosition());
+                //setAnimatedEntities(animatedEntities = new ArrayList<>());
+                //addAnimatedEntities();
             }
         }
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
         getWeatherSystem().checkWeather();
         WindowBuilder.getGridCanvas().paint();
-        // logger.info("current map: {}", Game.getCurrent().getCurrentMap());-
 
         //update the Game to switch to the current state of the new map - might be different after all
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
@@ -446,7 +447,7 @@ public class Game implements Runnable
                     AIBehaviour.determineRandom(e);
 
                 }
-                logger.info("setting UI position: {}", e.getMapPosition());
+                //logger.info("setting UI position: {}", e.getMapPosition());
                 e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
             }
             // logger.info("environment action");
@@ -691,32 +692,6 @@ public class Game implements Runnable
         }
     }
 
-
-    public ArrayList<LifeForm> getAnimatedEntities()
-    {
-        return animatedEntities;
-    }
-
-    public void setAnimatedEntities(ArrayList<LifeForm> animatedEntities)
-    {
-        this.animatedEntities = animatedEntities;
-    }
-
-    public void addAnimatedEntities()
-    {
-        //logger.info("number of players: {}", Game.getCurrent().getCurrentMap().getPlayers().size());
-        //logger.info("number of npcs: {}", Game.getCurrent().getCurrentMap().getNpcs().size());
-
-        getAnimatedEntities().add(Game.getCurrent().getCurrentPlayer());
-
-        for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
-        {
-            // logger.info("adding npc: {}", e);
-            getAnimatedEntities().add(e);
-        }
-
-    }
-
     public Controller getController() {
         return controller;
     }
@@ -778,14 +753,21 @@ public class Game implements Runnable
                 setNpcAction(false);
             }
 
-            if (GameConfiguration.useEvents == false) {
-                if (UIStateMachine.isUiOpen()) {
+            if (GameConfiguration.useEvents == false)
+            {
+                if (UIStateMachine.isUiOpen())
+                {
+                    WindowBuilder.getGridCanvas().paint();
                     long timeTaken = System.nanoTime() - startTime;
 
-                    if (timeTaken < GameConfiguration.targetTime) {
-                        try {
+                    if (timeTaken < GameConfiguration.targetTime)
+                    {
+                        try
+                        {
                             Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
-                        } catch (InterruptedException e) {
+                        }
+                        catch (InterruptedException e)
+                        {
                             throw new RuntimeException(e);
                         }
                     }

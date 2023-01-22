@@ -71,7 +71,7 @@ public class RunGame
 				GameUtils.initializeMaps();
 				game.addPlayers();
 				//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
-				game.addAnimatedEntities();
+				//game.addAnimatedEntities();
 				GameUtils.initializeAnimationSystem();
 				GameUtils.initializeBackgroundAnimationSystem();
 				GameUtils.initializeForegroundAnimationSystem();
@@ -147,7 +147,7 @@ public class RunGame
 					game.addPlayers();
 					renderSplashFrame(g, size);
 					//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
-					game.addAnimatedEntities();
+					//game.addAnimatedEntities();
 					renderSplashFrame(g, size);
 					GameUtils.initializeAnimationSystem();
 					renderSplashFrame(g, size);

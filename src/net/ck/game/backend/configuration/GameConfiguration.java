@@ -39,12 +39,12 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = false;
+    public static final boolean playMusic = true;
 
     /**
      * do we want to play sound effects?
      */
-    public static final boolean playSound = false;
+    public static final boolean playSound = true;
 
     /**
      * Tile Size
@@ -54,7 +54,7 @@ public class GameConfiguration
     /**
      * are there animations?
      */
-    public static final boolean animated = false;
+    public static final boolean animated = true;
 
     /**
      * how many animation cycles are there?

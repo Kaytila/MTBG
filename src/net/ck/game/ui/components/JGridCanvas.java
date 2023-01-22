@@ -145,22 +145,28 @@ public class JGridCanvas extends JComponent
         logger.debug("start: painting");
 
 
-        if (GameConfiguration.drawTileOnce == true) {
+        if (GameConfiguration.drawTileOnce == true)
+        {
 
-        } else {
+        }
+        else
+        {
             // identify which tiles are visible at first!
             identifyVisibleTiles();
 
             // this somehow needs to be doable faster
             // draw the background images
-            //paintBackground(g);
+            /*paintBackground(g);
+            paintBlackTiles(g);
+            */
             paintBackgroundNew(g);
             // identify the black tiles
-            //paintBlackTiles(g);
+
 
             // iterate over the entities on the map
             // calculate offset to the player.
-            paintNPCs(g);
+            //paintNPCs(g);
+            paintNPCsNew(g);
 
             // here come the items on the map :D
             paintItems(g);
@@ -570,7 +576,8 @@ public class JGridCanvas extends JComponent
         {
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
             // these are the visible tiles
-            if (rangeX.contains(screenPosition.x) && rangeY.contains(screenPosition.y)) {
+            if (rangeX.contains(screenPosition.x) && rangeY.contains(screenPosition.y))
+            {
                 UILense.getCurrent().add(screenPosition);
                 UILense.getCurrent().getVisibleMapTiles().add(tile);
                 tile.setHidden(false);
@@ -578,26 +585,62 @@ public class JGridCanvas extends JComponent
         }
     }
 
-
-    private void paintBackgroundNew(Graphics g) {
+    /**
+     * step two in creating a better draw system
+     * there is actually still room for improvement - visible tiles around player cannot change during paint they can only change during
+     * advance turn - but this is so fast now that it does not matter due to the better calculation and the better access on tile level
+     * take player map position, calculate all visible map positions around.
+     * calculate UI screen position, draw either black image, or draw tile image.
+     *
+     * @param g graphics
+     */
+    private void paintBackgroundNew(Graphics g)
+    {
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
         int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
-        for (Point p : MapUtils.getVisibleTilesAroundPlayer()) {
-            if ((p.x < 0) || (p.y < 0)) {
-                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(p);
+        for (Point p : MapUtils.getVisibleTilesAroundPlayer())
+        {
+            Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(p);
+            if ((p.x < 0) || (p.y < 0))
+            {
+
                 g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-            } else {
-                MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
-                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-                BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
-                if (img == null) {
-                    logger.error("tile has no image: {}", tile);
+            }
+            else
+            {
+                if (p.x >= (Game.getCurrent().getCurrentMap().getSize().x))
+                {
+                    g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
                 }
-                // logger.info("buffered image: {}", img.toString());
-                int absX = Math.abs(pX - screenPosition.x);
-                int absY = Math.abs(pY - screenPosition.y);
-                img = ImageUtils.brightenUpImage(img, absX, absY);
-                g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                else if (p.y >= (Game.getCurrent().getCurrentMap().getSize().y))
+                {
+                    g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                }
+                else
+                {
+                    //logger.debug("point p here: {}", p);
+                    MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
+                    /**
+                     * this is only necessary if a map does not have fully filled out tiles. like testmap :(
+                     */
+                    if (tile == null)
+                    {
+                        g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                    }
+                    else
+                    {
+                        BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
+                        if (img == null)
+                        {
+                            logger.error("tile has no image: {}", tile);
+                        }
+                        // logger.info("buffered image: {}", img.toString());
+                        int absX = Math.abs(pX - screenPosition.x);
+                        int absY = Math.abs(pY - screenPosition.y);
+                        img = ImageUtils.brightenUpImage(img, absX, absY);
+                        g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                    }
+                }
             }
         }
     }
@@ -642,7 +685,7 @@ public class JGridCanvas extends JComponent
         int n = 0;
         for (Point emptyUITile : UILense.getCurrent().identifyEmptyCoordinates())
         {
-            logger.info("point p: {}", emptyUITile.toString());
+            //logger.info("point p: {}", emptyUITile.toString());
             g.drawImage(blackImage, (emptyUITile.x * GameConfiguration.tileSize), (emptyUITile.y * GameConfiguration.tileSize), this);
             g.drawString(String.valueOf(n), (emptyUITile.x * GameConfiguration.tileSize), (emptyUITile.y * GameConfiguration.tileSize));
             n++;
@@ -651,11 +694,12 @@ public class JGridCanvas extends JComponent
 
     private void paintNPCs(Graphics g)
     {
-        for (LifeForm entity : Game.getCurrent().getAnimatedEntities())
+        logger.debug("start: paintNPC");
+        for (LifeForm entity : Game.getCurrent().getCurrentMap().getLifeForms())
         {
             if (entity.getUIPosition() == null)
             {
-              //  logger.debug("need to calculate UI position, something went wrong");
+                //  logger.debug("need to calculate UI position, something went wrong");
                 entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));
             }
             int x = entity.getUIPosition().x;
@@ -677,7 +721,41 @@ public class JGridCanvas extends JComponent
                 }
             }
         }
+        logger.debug("end: paintNPC");
     }
+
+    private void paintNPCsNew(Graphics g)
+    {
+        logger.debug("start: paintNPCNew");
+        Rectangle rect = MapUtils.getVisibleRectAroundPlayer();
+        for (LifeForm entity : Game.getCurrent().getCurrentMap().getLifeForms())
+        {
+            if (entity.getUIPosition() == null)
+            {
+                logger.error("ATTENTION: need to calculate UI position, something went wrong");
+                entity.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(entity.getMapPosition()));
+            }
+
+            if (rect.contains(entity.getMapPosition()))
+            {
+                int x = entity.getUIPosition().x;
+                int y = entity.getUIPosition().y;
+                if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
+                {
+                    g.drawImage(entity.getAppearance().getCurrentImage(), GameConfiguration.tileSize * x, GameConfiguration.tileSize * y, this);
+                }
+                else
+                {
+                    if (GameConfiguration.tileSize / GameConfiguration.imageSize.x == 2)
+                    {
+                        g.drawImage(entity.getAppearance().getCurrentImage(), ((GameConfiguration.tileSize * x) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * y) + (GameConfiguration.tileSize / 4)), this);
+                    }
+                }
+            }
+        }
+        logger.debug("end: paintNPCNew");
+    }
+
 
     private void paintItems(Graphics g)
     {

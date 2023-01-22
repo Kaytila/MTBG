@@ -733,3 +733,7 @@ History of the changes:
 2023-01-18: figuring out some things about how I identify visible and black tiles and stuff like that. There are bugs.
 2023-01-20: success! drawing background and empty tiles in one method is done and the bug is gone
             and all is much faster, at least I would to think that way.
+2023-01-22: recreation of paintNPCs is also done. Some fixing of scheduling also happened. Fixed bug advanceTurn() as
+            paint method for "do not  use events" was not called at all. Generally, everything is way faster now even on
+            the rather big map. removed animatedEntities, there is no need for that at all. Next stop: rework some more
+            drawing stuff - iterating over 1200 tiles with 15*15 being visible at most is kind of nonsense.

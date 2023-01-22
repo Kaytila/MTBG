@@ -48,7 +48,7 @@ public class TestGameSetup
 
 			ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 
-			game.addAnimatedEntities();
+			//game.addAnimatedEntities();
 			GameUtils.initializeAnimationSystem();
 			GameUtils.initializeBackgroundAnimationSystem();
 			GameUtils.initializeForegroundAnimationSystem();

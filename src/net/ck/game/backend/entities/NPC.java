@@ -272,7 +272,17 @@ public class NPC extends AbstractEntity implements LifeForm
     @Subscribe
     public void onMessageEvent(GameTimeChanged event)
     {
-        this.checkSchedules(event);
+        for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+        {
+            if (this.equals(n))
+            {
+                this.checkSchedules(event);
+            }
+            else
+            {
+            }
+        }
+
     }
 
     /**

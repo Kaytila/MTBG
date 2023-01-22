@@ -10,7 +10,10 @@ public class FixedWeatherSystem extends AbstractWeatherSystem
 
     public FixedWeatherSystem(int randomness, WeatherTypes weatherType)
     {
-        super(0);
+        logger.info("initializing Fixed Weather System");
+        Weather weather = new Weather();
+        getCurrentWeather().setType(WeatherTypes.SUN);
+        setCurrentWeather(weather);
         setRandomness(0);
         setSynchronized(false);
         getCurrentWeather().setType(weatherType);

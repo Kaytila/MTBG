@@ -23,10 +23,14 @@ public abstract class AbstractWeatherSystem
 		setCurrentWeather(weather);
 	}
 
+	protected AbstractWeatherSystem()
+	{
+	}
+
 	/**
 	 * on turn rollover, or at x miliseconds, depending on selected implementation check the weather and update accordingly Randomness is set by the game map, so depending on map type, as implemented,
 	 * the higher the number, the less often the weather will change
-	 *
+	 * <p>
 	 * switch the weather here
 	 */
 	public void switchWeather()

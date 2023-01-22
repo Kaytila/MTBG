@@ -28,16 +28,20 @@ public class NoAnimationSystem extends AnimationSystem {
             // that means, 2 animation cycles, no +1 needed.
 
             // random variant
-            for (LifeForm p : Game.getCurrent().getAnimatedEntities()) {
+            for (LifeForm p : Game.getCurrent().getCurrentMap().getLifeForms())
+            {
                 //logger.info("lifeform state: {}", p.getState());
                 // if dead, stay corpse, or blood stain
-                if (p.getState().equals(LifeFormState.DEAD)) {
+                if (p.getState().equals(LifeFormState.DEAD))
+                {
                     p.getAppearance().setCurrentImage(ImageUtils.getBloodstainImage());
                 }
                 //if unconcious, stay unmoving
-                else if (p.getState().equals(LifeFormState.UNCONSCIOUS)) {
+                else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
+                {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
-                } else// (p.getState().equals(LifeFormState.ALIVE))
+                }
+                else// (p.getState().equals(LifeFormState.ALIVE))
                 {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
                 }

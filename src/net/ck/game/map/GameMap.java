@@ -79,17 +79,19 @@ public class GameMap extends Map
 	@Override
 	public void initialize()
 	{
+		logger.debug("start: initialize map: {}", this.getName());
 		setSize(MapUtils.calculateMapSize(this));
 		//logger.info("Map size: {}", getSize());
 		// is there weather
 		if (isWrapping())
 		{
-			logger.info("wrapping map initliazing");			
+			logger.info("initialize: wrapping map");
 			setEastTiles(calculateEasternEdge());
 			connectEastTilesToWestTiles(getEastTiles());
 		}
-		
-		MapUtils.calculateTileDirections(getTiles());				
+
+		MapUtils.calculateTileDirections(getTiles());
+		logger.debug("end: initialize map: {}", this.getName());
 	}
 
 	/**

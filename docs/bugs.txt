@@ -27,7 +27,9 @@ BUGS:
 2022-12-31  sound effect for player hit is miss instead
 2023-01-06  LOS calculation is off somewhere. Need to experiment more with terrain types and probably roll my own
             LOS calculation. sigh.
-2023-01-10  FIXED NPCs sometimes are not drawn correctly, if I dont calculate the UI position during drawing, sometimes they
+2023-01-10  FIXED NPCs sometimes are not drawn correctly, if I do not calculate the UI position during drawing, sometimes they
             disappear.
-2023-01-10  calculation of black tiles (i.e. outside of the map) is not correct when player moves adjecient
+2023-01-10  FIXED calculation of black tiles (i.e. outside of the map) is not correct when player moves adjecient
 2023-01-14  somehow schedules for all NPCs are being checked instead of the ones on the current map.
+2023-01-20  FIXED on map switch, getWeatherSystem returns null - wonder how and why
+2023-01-22  FIXED drawing tiles has a bug if a map is not a rectangle the map 2d array will not work of course

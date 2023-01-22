@@ -128,14 +128,13 @@ public class MapUtils
      * negative coordinates can be used to paint black right away
      * with a tranformation to screen coordinates.
      *
-     * @return a list of points as I do not have a better map
+     * @return a list of points (map positions) as I do not have a better map
      * utility yet
      */
     public static List<Point> getVisibleTilesAroundPlayer()
     {
         List<Point> points = new ArrayList<>(middle + middle + middle + middle + 1);
         Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
-        int radius = MapUtils.getMiddle();
         //topleft corner tile
 
         int maxX = center.x + middle;
@@ -148,11 +147,32 @@ public class MapUtils
             for (int y = minY; y <= maxY; y++)
             {
                 points.add(new Point(x, y));
-                logger.debug("next point: {}, {}", x, y);
             }
         }
         return points;
     }
+
+    /**
+     * calculates the visible tiles based on player position.
+     * will be used for drawing afterwards.
+     * <p>
+     * negative coordinates can be used to paint black right away
+     * with a tranformation to screen coordinates.
+     *
+     * @return a list of points (map positions) as I do not have a better map
+     * utility yet
+     */
+    public static Rectangle getVisibleRectAroundPlayer()
+    {
+        Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
+
+        //int maxX = center.x + middle;
+        int minX = center.x - middle;
+        //int maxY = center.y + middle;
+        int minY = center.y - middle;
+        return new Rectangle(minX, minY, GameConfiguration.numberOfTiles, GameConfiguration.numberOfTiles);
+    }
+
 
     public static void calculateTileDirections(ArrayList<MapTile> list)
     {
