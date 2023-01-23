@@ -737,3 +737,6 @@ History of the changes:
             paint method for "do not  use events" was not called at all. Generally, everything is way faster now even on
             the rather big map. removed animatedEntities, there is no need for that at all. Next stop: rework some more
             drawing stuff - iterating over 1200 tiles with 15*15 being visible at most is kind of nonsense.
+2023-01-23: recreated identifyVisibleTiles() - will need to change that to a list of tiles (Points?) which I can update
+            when it is necessary - only on advance turn, the easy way, and only of the player or when the time changes,
+            the correct way.

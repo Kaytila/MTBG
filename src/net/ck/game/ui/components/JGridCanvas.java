@@ -41,8 +41,7 @@ public class JGridCanvas extends JComponent
 
     private Point highlightPosition;
 
-    
-    
+
     private int highlightCount;
 
     public JGridCanvas()
@@ -71,7 +70,6 @@ public class JGridCanvas extends JComponent
      * <p>
      * Also, for using ALT/CTRL/SHIFT:
      * <a href="https://stackoverflow.com/questions/2419608/java-swing-keystrokes-how-to-make-ctrl-modifier-work">https://stackoverflow.com/questions/2419608/java-swing-keystrokes-how-to-make-ctrl-modifier-work</a>
-     *
      */
     private void setKeyboardInput()
     {
@@ -141,7 +139,8 @@ public class JGridCanvas extends JComponent
      *
      * @param g the <code>Graphics</code> object to protect
      */
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g)
+    {
         logger.debug("start: painting");
 
 
@@ -152,8 +151,13 @@ public class JGridCanvas extends JComponent
         else
         {
             // identify which tiles are visible at first!
-            identifyVisibleTiles();
-
+            // long startTime = System.nanoTime();
+            //identifyVisibleTiles();
+            //logger.info("OLD run time: {}", System.nanoTime() - startTime);
+            //UILense.getCurrent().initialize();
+            //startTime = System.nanoTime();
+            identifyVisibleTilesNew();
+            //logger.info("NEW run time: {}", System.nanoTime() - startTime);
             // this somehow needs to be doable faster
             // draw the background images
             /*paintBackground(g);
@@ -207,7 +211,7 @@ public class JGridCanvas extends JComponent
 
             if (getHighlightPosition() == Game.getCurrent().getCurrentPlayer().getMapPosition())
             {
-                g.drawRect((screenPosition.x * GameConfiguration.tileSize) + getHighlightCount(), (screenPosition.y * GameConfiguration.tileSize) + getHighlightCount(), GameConfiguration.tileSize - (getHighlightCount() * 2) , GameConfiguration.tileSize - (getHighlightCount() * 2));
+                g.drawRect((screenPosition.x * GameConfiguration.tileSize) + getHighlightCount(), (screenPosition.y * GameConfiguration.tileSize) + getHighlightCount(), GameConfiguration.tileSize - (getHighlightCount() * 2), GameConfiguration.tileSize - (getHighlightCount() * 2));
                 //logger.info("highlight count: {}", getHighlightCount());
             }
             else
@@ -296,18 +300,21 @@ public class JGridCanvas extends JComponent
                 //logger.info("buffered image: {}", img.toString());
                 //g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
             }
-    }
+        }
     }
 
-    private void paintGridLines(Graphics g) {
+    private void paintGridLines(Graphics g)
+    {
         int rows = this.getHeight() / GameConfiguration.tileSize;
         int cols = this.getWidth() / GameConfiguration.tileSize;
         int i;
-        for (i = 0; i < rows; i++) {
+        for (i = 0; i < rows; i++)
+        {
             g.drawLine(0, i * GameConfiguration.tileSize, this.getWidth(), i * GameConfiguration.tileSize);
         }
 
-        for (i = 0; i < cols; i++) {
+        for (i = 0; i < cols; i++)
+        {
             g.drawLine(i * GameConfiguration.tileSize, 0, i * GameConfiguration.tileSize, this.getHeight());
         }
     }
@@ -320,16 +327,20 @@ public class JGridCanvas extends JComponent
      * @param g graphics context
      */
     @SuppressWarnings("unused")
-    private void paintMissilesTileBased(Graphics g) {
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles()) {
-            if (m.getCurrentPosition() == null) {
+    private void paintMissilesTileBased(Graphics g)
+    {
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
+        {
+            if (m.getCurrentPosition() == null)
+            {
                 m.setCurrentPosition(MapUtils.calculateUIPositionFromMapOffset(m.getSourceTile().getMapPosition()));
             }
             int x = m.getCurrentPosition().x;
             int y = m.getCurrentPosition().y;
 
             ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), MapUtils.calculateUIPositionFromMapOffset(m.getTargetTile().getMapPosition()));
-            for (Point p : line) {
+            for (Point p : line)
+            {
                 logger.info("p:{}", p);
                 g.drawImage(m.getAppearance().getStandardImage(), ((GameConfiguration.tileSize * p.x) + (GameConfiguration.tileSize / 2)), ((GameConfiguration.tileSize * p.y) + (GameConfiguration.tileSize / 2)), this);
                 m.setCurrentPosition(p);
@@ -338,8 +349,10 @@ public class JGridCanvas extends JComponent
     }
 
 
-    private void paintMissiles(Graphics g) {
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0)) {
+    private void paintMissiles(Graphics g)
+    {
+        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
+        {
             return;
         }
         Missile m = Game.getCurrent().getCurrentMap().getMissiles().get(0);
@@ -354,19 +367,24 @@ public class JGridCanvas extends JComponent
      * @param g graphics context
      */
     @SuppressWarnings("unused")
-    private void paintMissilesFullLineAtOnce(Graphics g) {
+    private void paintMissilesFullLineAtOnce(Graphics g)
+    {
         ArrayList<Missile> finishedMissiles = new ArrayList<>();
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles()) {
-            if (m.getCurrentPosition() == null) {
+        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
+        {
+            if (m.getCurrentPosition() == null)
+            {
                 m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
             }
 
             ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates());
-            for (Point p : line) {
+            for (Point p : line)
+            {
                 //logger.info("p:{}", p );
                 g.drawImage(m.getAppearance().getStandardImage(), p.x, p.y, this);
                 m.setCurrentPosition(p);
-                if (m.getCurrentPosition().equals(m.getTargetCoordinates())) {
+                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
+                {
                     m.setFinished(true);
                     finishedMissiles.add(m);
                 }
@@ -455,7 +473,7 @@ public class JGridCanvas extends JComponent
     }
 
 
-    public  void paint()
+    public void paint()
     {
         javax.swing.SwingUtilities.invokeLater(() ->
         {
@@ -585,6 +603,26 @@ public class JGridCanvas extends JComponent
         }
     }
 
+    private void identifyVisibleTilesNew()
+    {
+        for (Point p : MapUtils.getVisibleTilesAroundPlayer())
+        {
+            if (p.x >= 0 && p.y >= 0)
+            {
+                MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
+                if (tile != null)
+                {
+                    Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+                    // these are the visible tiles
+                    UILense.getCurrent().add(screenPosition);
+                    UILense.getCurrent().getVisibleMapTiles().add(tile);
+                    tile.setHidden(false);
+                }
+            }
+        }
+    }
+
+
     /**
      * step two in creating a better draw system
      * there is actually still room for improvement - visible tiles around player cannot change during paint they can only change during
@@ -650,7 +688,8 @@ public class JGridCanvas extends JComponent
      *
      * @param g - Graphics
      */
-    private void paintBackground(Graphics g) {
+    private void paintBackground(Graphics g)
+    {
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
         int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
 
@@ -852,7 +891,7 @@ public class JGridCanvas extends JComponent
         return highlightCount;
     }
 
-    public  synchronized void setHighlightCount(int highlightCount)
+    public synchronized void setHighlightCount(int highlightCount)
     {
         this.highlightCount = highlightCount;
     }
