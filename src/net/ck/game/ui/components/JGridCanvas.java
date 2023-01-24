@@ -753,7 +753,7 @@ public class JGridCanvas extends JComponent
 
     private void paintNPCsNew(Graphics g)
     {
-        logger.debug("start: paintNPCNew");
+        //logger.debug("start: paintNPCNew");
         Rectangle rect = MapUtils.getVisibleRectAroundPlayer();
         for (LifeForm entity : Game.getCurrent().getCurrentMap().getLifeForms())
         {
@@ -780,7 +780,7 @@ public class JGridCanvas extends JComponent
                 }
             }
         }
-        logger.debug("end: paintNPCNew");
+        //logger.debug("end: paintNPCNew");
     }
 
 

@@ -740,3 +740,4 @@ History of the changes:
 2023-01-23: recreated identifyVisibleTiles() - will need to change that to a list of tiles (Points?) which I can update
             when it is necessary - only on advance turn, the easy way, and only of the player or when the time changes,
             the correct way.
+2023-01-24: updated maputils to return blocked true in lookahead if at the edge of the map.

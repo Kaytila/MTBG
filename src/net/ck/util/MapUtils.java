@@ -449,8 +449,8 @@ public class MapUtils
                 return t.isBlocked();
             }
         }
-        logger.error("Big Problem, did not find the tile on the map - returning false");
-        return false;
+        logger.error("Big Problem, did not find the tile on the map - returning true");
+        return true;
     }
 
     /**

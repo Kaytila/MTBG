@@ -290,7 +290,7 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     private void checkSchedules(GameTimeChanged event)
     {
-        logger.info("start: check schedules");
+        //logger.info("start: check schedules");
         if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 2) {
             // logger.info("check schedule");
             if (getMobasks().size() > 0) {
@@ -310,7 +310,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 doAction(new PlayerAction(action));
             }
         }
-        logger.info("end: check schedules");
+        //logger.info("end: check schedules");
     }
 
 
