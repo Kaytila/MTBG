@@ -684,7 +684,7 @@ public class Game implements Runnable
         setCurrentPlayer(getPlayers().get(0));
         //for ultima IV map
         //getCurrentPlayer().setMapPosition(new Point(38, 38));
-        getCurrentPlayer().setMapPosition(new Point(2, 2));
+        getCurrentPlayer().setMapPosition(new Point(100, 2));
         Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
         for (ArmorPositions pos : positions)
         {

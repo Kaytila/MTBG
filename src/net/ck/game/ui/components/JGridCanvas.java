@@ -607,11 +607,9 @@ public class JGridCanvas extends JComponent
     {
         for (Point p : MapUtils.getVisibleTilesAroundPlayer())
         {
-            if (p.x >= 0 && p.y >= 0)
-            {
+            if ((p.x >= 0 && p.y >= 0) && (p.x < Game.getCurrent().getCurrentMap().getSize().x && p.y < Game.getCurrent().getCurrentMap().getSize().y)) {
                 MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
-                if (tile != null)
-                {
+                if (tile != null) {
                     Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                     // these are the visible tiles
                     UILense.getCurrent().add(screenPosition);
@@ -639,37 +637,27 @@ public class JGridCanvas extends JComponent
         for (Point p : MapUtils.getVisibleTilesAroundPlayer())
         {
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(p);
-            if ((p.x < 0) || (p.y < 0))
-            {
+            if ((p.x < 0) || (p.y < 0)) {
 
                 g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-            }
-            else
-            {
-                if (p.x >= (Game.getCurrent().getCurrentMap().getSize().x))
-                {
+            } else if ((p.x >= Game.getCurrent().getCurrentMap().getSize().x) || (p.y >= Game.getCurrent().getCurrentMap().getSize().y)) {
+                g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+            } else {
+                if (p.x >= (Game.getCurrent().getCurrentMap().getSize().x)) {
                     g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                }
-                else if (p.y >= (Game.getCurrent().getCurrentMap().getSize().y))
-                {
+                } else if (p.y >= (Game.getCurrent().getCurrentMap().getSize().y)) {
                     g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                }
-                else
-                {
+                } else {
                     //logger.debug("point p here: {}", p);
                     MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
                     /**
                      * this is only necessary if a map does not have fully filled out tiles. like testmap :(
                      */
-                    if (tile == null)
-                    {
+                    if (tile == null) {
                         g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                    }
-                    else
-                    {
+                    } else {
                         BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
-                        if (img == null)
-                        {
+                        if (img == null) {
                             logger.error("tile has no image: {}", tile);
                         }
                         // logger.info("buffered image: {}", img.toString());
