@@ -741,3 +741,4 @@ History of the changes:
             when it is necessary - only on advance turn, the easy way, and only of the player or when the time changes,
             the correct way.
 2023-01-24: updated maputils to return blocked true in lookahead if at the edge of the map.
+2023-01-25: cleaned up a little bit. Nothing overly new.

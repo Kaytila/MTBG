@@ -118,14 +118,14 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             logger.info("undo");
             Game.getCurrent().getIdleTimer().stop();
-            if (Game.getCurrent().retractTurn() == 0)
+            /*if (Game.getCurrent().retractTurn() == 0)
             {
                 WindowBuilder.getUndoButton().setEnabled(false);
             }
             else
             {
                 WindowBuilder.getUndoButton().setEnabled(true);
-            }
+            }*/
         }
 
         if (e.getActionCommand().equalsIgnoreCase("Cancel"))

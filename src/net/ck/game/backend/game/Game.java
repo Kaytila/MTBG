@@ -1,7 +1,6 @@
 package net.ck.game.backend.game;
 
 import net.ck.game.animation.MissileTimer;
-import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
 import net.ck.game.backend.queuing.CommandQueue;
@@ -504,11 +503,6 @@ public class Game implements Runnable
         // Game.getCurrent().initializeTurnTimer();
     }
 
-    @SuppressWarnings("unused")
-    public void decrementTurnNumber()
-    {
-        Game.getCurrent().setTurnNumber(getTurnNumber() - 1);
-    }
 
     public Turn getCurrentTurn()
     {
@@ -536,10 +530,10 @@ public class Game implements Runnable
         return turnNumber;
     }
 
-    public ArrayList<Turn> getTurns()
-    {
-        return turns;
-    }
+   public ArrayList<Turn> getTurns()
+   {
+       return turns;
+   }
 
     public AbstractWeatherSystem getWeatherSystem()
     {
@@ -560,7 +554,7 @@ public class Game implements Runnable
         // logger.info("current turn info: {}, action sizes: {}",
         // getCurrentTurn().getTurnNumber() ,
         // getCurrentTurn().getActions().size());
-        logger.info("retracting turn, current turn: {}", getCurrentTurn().getTurnNumber());
+        //logger.info("retracting turn, current turn: {}", getCurrentTurn().getTurnNumber());
 
         if (getTurnNumber() == 0)
         {
@@ -573,24 +567,24 @@ public class Game implements Runnable
             // first rollover means, turn is 1, index position is also 1.
             // remove last turn, as it is blank anyhow.
             // we are at i - 1 again.
-            getTurns().remove(getTurnNumber());
+            //getTurns().remove(getTurnNumber());
             // remove turnNumber
             setTurnNumber(getTurnNumber() - 1);
 
             // get last Turn
             // C Stupidity of 0-indexed lists, I will never ever understand it
-            Turn turn = getTurns().get(getTurnNumber());
-            GameUtils.invertActions(turn);
-            for (AbstractAction e : turn.getActions())
+            //Turn turn = getTurns().get(getTurnNumber());
+            //GameUtils.invertActions(turn);
+            /*for (AbstractAction e : turn.getActions())
             {
                 //e.getEntity().doAction(e);
                 logger.error("this does not work anymore: {}", e);
-            }
+            }*/
 
             WindowBuilder.getTextField().retractTurn();
 
-            turn.getActions().clear();
-            Game.getCurrent().setCurrentTurn(turn);
+            //turn.getActions().clear();
+            //Game.getCurrent().setCurrentTurn(turn);
         }
         return getTurnNumber();
     }
@@ -620,13 +614,13 @@ public class Game implements Runnable
         this.turnNumber = turnNumber;
     }
 
-    @SuppressWarnings("unused")
+
     public void setTurns(ArrayList<Turn> turns)
     {
         this.turns = turns;
     }
 
-    @SuppressWarnings("unused")
+
     public void setWeatherSystem(AbstractWeatherSystem weatherSystem)
     {
         this.weatherSystem = weatherSystem;
@@ -684,7 +678,7 @@ public class Game implements Runnable
         setCurrentPlayer(getPlayers().get(0));
         //for ultima IV map
         //getCurrentPlayer().setMapPosition(new Point(38, 38));
-        getCurrentPlayer().setMapPosition(new Point(100, 2));
+        getCurrentPlayer().setMapPosition(new Point(102, 102));
         Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
         for (ArmorPositions pos : positions)
         {

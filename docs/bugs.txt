@@ -30,6 +30,6 @@ BUGS:
 2023-01-10  FIXED NPCs sometimes are not drawn correctly, if I do not calculate the UI position during drawing, sometimes they
             disappear.
 2023-01-10  FIXED calculation of black tiles (i.e. outside of the map) is not correct when player moves adjecient
-2023-01-14  somehow schedules for all NPCs are being checked instead of the ones on the current map.
+2023-01-14  FIXED somehow schedules for all NPCs are being checked instead of the ones on the current map.
 2023-01-20  FIXED on map switch, getWeatherSystem returns null - wonder how and why
 2023-01-22  FIXED drawing tiles has a bug if a map is not a rectangle the map 2d array will not work of course
