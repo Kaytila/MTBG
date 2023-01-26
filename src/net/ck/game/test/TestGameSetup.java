@@ -44,7 +44,7 @@ public class TestGameSetup
 			GameUtils.initializeMaps();
 			GameUtils.initializeAllItems();
 
-			game.addPlayers();
+			game.addPlayers(null);
 
 			ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 

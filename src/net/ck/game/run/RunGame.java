@@ -45,12 +45,24 @@ public class RunGame
 	{
 		logger.info("starting game");
 		boolean quickstart = false;
+		Point startPosition = null;
 		for (String ar : args)
 		{
 			logger.info("vm args: {}", ar);
 			if (ar.equalsIgnoreCase("quick"))
 			{
 				quickstart = true;
+			}
+
+			if (ar.startsWith("startPosition"))
+			{
+				logger.debug("starting position: {}", ar);
+				String[] parts = ar.split(":");
+				logger.debug("pos 0: {}", parts[0]);
+				logger.debug("pos 1: {}", parts[1]);
+				String[] pos = parts[1].split("@");
+				startPosition = new Point(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]));
+
 			}
 		}
 
@@ -69,7 +81,7 @@ public class RunGame
 				GameUtils.initializeAllItems();
 				GameUtils.initializeNPCs();
 				GameUtils.initializeMaps();
-				game.addPlayers();
+				game.addPlayers(startPosition);
 				//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 				//game.addAnimatedEntities();
 				GameUtils.initializeAnimationSystem();
@@ -144,7 +156,7 @@ public class RunGame
 					//GameUtils.listMaps();
 					//game.stopGame();
 					renderSplashFrame(g, size);
-					game.addPlayers();
+					game.addPlayers(startPosition);
 					renderSplashFrame(g, size);
 					//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 					//game.addAnimatedEntities();

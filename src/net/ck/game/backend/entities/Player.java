@@ -1,7 +1,6 @@
 package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
-import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
@@ -346,14 +345,14 @@ public class Player extends AbstractEntity implements LifeForm
 
         // so if the action was done successful, add the action to the turn
         // if not, create a null action and add this to the turn.
-        if (success)
+       /* if (success)
         {
             Game.getCurrent().getCurrentTurn().getActions().add((PlayerAction) action);
         }
         else
         {
             Game.getCurrent().getCurrentTurn().getActions().add(new PlayerAction(new AbstractKeyboardAction()));
-        }
+        }*/
 
         /*if (successfulMovemement > 0)
         {

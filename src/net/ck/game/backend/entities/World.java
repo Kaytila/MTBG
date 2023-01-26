@@ -48,7 +48,7 @@ public class World extends AbstractEntity implements LifeForm
 			default :
 				event.setTitle("test " + result);
 		}
-		getCurrentTurn().getEvents().add(event);
+		//getCurrentTurn().getEvents().add(event);
 		// logger.info("random event: " + event.getTitle());
 		event.setEntity(this);
 		return event;

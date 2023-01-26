@@ -742,3 +742,4 @@ History of the changes:
             the correct way.
 2023-01-24: updated maputils to return blocked true in lookahead if at the edge of the map.
 2023-01-25: cleaned up a little bit. Nothing overly new.
+2023-01-26: introduced startPosition as command line argument. Want to switch to Picoli soon.

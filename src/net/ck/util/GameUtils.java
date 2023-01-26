@@ -2,7 +2,6 @@ package net.ck.util;
 
 import com.google.common.collect.Lists;
 import net.ck.game.animation.*;
-import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.game.Game;
@@ -27,7 +26,6 @@ import net.ck.game.ui.listeners.HightlightTimerActionListener;
 import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.*;
 import net.ck.util.communication.graphics.HighlightEvent;
-import net.ck.util.communication.keyboard.*;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.xml.RunXMLParser;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +49,7 @@ public class GameUtils
 
     public static void invertActions(Turn turn)
     {
-        for (PlayerAction p : turn.getActions())
+        /*for (PlayerAction p : turn.getActions())
         {
             // logger.debug("player action p: {}", p.getEntity().getClass().getName());
             // NORTH, SOUTH, WEST, EAST, ENTER, ESC, NULL
@@ -102,7 +100,7 @@ public class GameUtils
                     throw new IllegalArgumentException("not expected value during invertActions: " + p.getType().toString());
                 }
             }
-        }
+        }*/
 
     }
 

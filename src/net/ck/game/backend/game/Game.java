@@ -665,7 +665,7 @@ public class Game implements Runnable
      * so the game starts so the first player has the first movement action. Then it goes to the second player ... when all players have moved, roll over turn there only will be one player without
      * heavy extension, interesting, lets see whether I can make this work
      */
-    public void addPlayers()
+    public void addPlayers(Point startPosition)
     {
         logger.info("adding players");
         Player p1 = new Player(0);
@@ -678,7 +678,10 @@ public class Game implements Runnable
         setCurrentPlayer(getPlayers().get(0));
         //for ultima IV map
         //getCurrentPlayer().setMapPosition(new Point(38, 38));
-        getCurrentPlayer().setMapPosition(new Point(102, 102));
+        if (startPosition != null)
+        {
+            getCurrentPlayer().setMapPosition(startPosition);
+        }
         Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
         for (ArmorPositions pos : positions)
         {
