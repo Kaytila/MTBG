@@ -170,10 +170,14 @@ public class JGridCanvas extends JComponent
             // iterate over the entities on the map
             // calculate offset to the player.
             //paintNPCs(g);
-            paintNPCsNew(g);
+
 
             // here come the items on the map :D
             paintItems(g);
+
+
+            paintNPCsNew(g);
+
 
             // here comes the paintWeather part
             // this somehow needs to be doable faster

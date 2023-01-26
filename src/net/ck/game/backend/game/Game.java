@@ -682,6 +682,10 @@ public class Game implements Runnable
         {
             getCurrentPlayer().setMapPosition(startPosition);
         }
+        else
+        {
+            getCurrentPlayer().setMapPosition(new Point(2, 2));
+        }
         Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
         for (ArmorPositions pos : positions)
         {
