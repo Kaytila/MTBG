@@ -237,7 +237,7 @@ public class MapUtils
 
     /**
      * creates a map, all of type grassland or ocean in random with a little help from stackoverflow:
-     * https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio
+     * <a href="https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio">https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio</a>
      *
      * @param x size (zero indexed, so size 12 is 11)
      * @param y size (zero indexed, so size 12 is 11)
