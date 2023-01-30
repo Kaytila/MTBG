@@ -29,6 +29,11 @@ public class MapXMLReader extends DefaultHandler
 	private int x;
 	private int y;
 
+
+	private boolean targetPosition;
+
+	private Point targetPos;
+
 	private GameState gameState;
 
 	private ArrayList<NPC> npcs;
@@ -90,6 +95,14 @@ public class MapXMLReader extends DefaultHandler
 		{
 			// logger.info("adding npc: {} to map: {}", n, gameMap);
 			NPC realNPC = new NPC(n.getNumber(), n.getMapPosition());
+			/*realNPC.setPatrolling(n.isPatrolling());
+			realNPC.setOriginalTargetMapPosition(n.getOriginalTargetMapPosition());
+			realNPC.setTargetMapPosition(n.getOriginalTargetMapPosition());
+			realNPC.setOriginalMapPosition(realNPC.getMapPosition());
+			*/
+			realNPC.setPatrolling(true);
+			realNPC.setTargetMapPosition(new Point(10, 3));
+			realNPC.setOriginalTargetMapPosition(new Point(10, 3));
 			realNPC.initialize();
 			gameMap.getNpcs().add(realNPC);
 		}
@@ -166,6 +179,10 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "gamestate":
 				break;
+			case "targetPosition":
+				targetPosition = true;
+				targetPos = new Point();
+				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);
 		}
@@ -202,16 +219,30 @@ public class MapXMLReader extends DefaultHandler
 					npc = false;
 				}
 				break;
-			
+
 			case "type":
-					maptile.setType(TileTypes.valueOf(data.toString()));
+				maptile.setType(TileTypes.valueOf(data.toString()));
 				break;
 
 			case "x":
-				x = Integer.parseInt(data.toString());
+				if (targetPosition)
+				{
+					targetPos.x = Integer.parseInt(data.toString());
+				}
+				else
+				{
+					x = Integer.parseInt(data.toString());
+				}
 				break;
 			case "y":
-				y = Integer.parseInt(data.toString());
+				if (targetPosition)
+				{
+					targetPos.x = Integer.parseInt(data.toString());
+				}
+				else
+				{
+					y = Integer.parseInt(data.toString());
+				}
 				break;
 			case "targetMap":
 				maptile.setTargetMap(data.toString());
@@ -274,6 +305,11 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "gamestate":
 				gameMap.setGameState(GameState.valueOf(data.toString()));
+				break;
+			case "targetPosition":
+				np.setOriginalTargetMapPosition(targetPos);
+				np.setPatrolling(true);
+				logger.info("targetPosition and patrolling set");
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);

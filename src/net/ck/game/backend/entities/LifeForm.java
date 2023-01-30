@@ -79,4 +79,18 @@ public interface LifeForm
     boolean isHostile();
 
     void evade();
+
+    Point getOriginalTargetMapPosition();
+
+    void setOriginalTargetMapPosition(Point targetMapPosition);
+
+    Point getTargetMapPosition();
+
+    void setTargetMapPosition(Point targetMapPosition);
+
+    boolean isPatrolling();
+
+
+    void setPatrolling(boolean patrolling);
+
 }

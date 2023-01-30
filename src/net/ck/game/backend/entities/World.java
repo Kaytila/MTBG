@@ -230,6 +230,42 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public Point getOriginalTargetMapPosition()
+	{
+		return null;
+	}
+
+	@Override
+	public void setOriginalTargetMapPosition(Point targetMapPosition)
+	{
+
+	}
+
+	@Override
+	public Point getTargetMapPosition()
+	{
+		return null;
+	}
+
+	@Override
+	public void setTargetMapPosition(Point targetMapPosition)
+	{
+
+	}
+
+	@Override
+	public boolean isPatrolling()
+	{
+		return false;
+	}
+
+	@Override
+	public void setPatrolling(boolean patrolling)
+	{
+
+	}
+
+	@Override
 	public LifeFormState getState()
 	{
 		return null;

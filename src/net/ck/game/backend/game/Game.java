@@ -433,18 +433,23 @@ public class Game implements Runnable
         {
             for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
             {
-
+                logger.info("npc: {}", e);
                 //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                 //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                 if (e.isHostile())
                 {
+                    logger.info("npc hostile");
                     AIBehaviour.determineCombat(e);
-
+                }
+                else if (e.isPatrolling())
+                {
+                    logger.info("npc patrolling");
+                    AIBehaviour.determinePatrol(e);
                 }
                 else
                 {
+                    logger.info("NPC is random");
                     AIBehaviour.determineRandom(e);
-
                 }
                 //logger.info("setting UI position: {}", e.getMapPosition());
                 e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));

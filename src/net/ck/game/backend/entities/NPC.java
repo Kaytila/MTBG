@@ -49,6 +49,12 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     private Point originalMapPosition;
 
+
+    private Point originalTargetMapPosition;
+
+    private Point targetMapPosition;
+    private boolean patrolling;
+
     public NPC(Integer i, Point p)
     {
         logger.info("initialize properly");
@@ -103,6 +109,30 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         this.getAppearance().setCurrentImage(ImageUtils.getMissImage());
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+    }
+
+    @Override
+    public Point getOriginalTargetMapPosition()
+    {
+        return originalTargetMapPosition;
+    }
+
+    @Override
+    public void setOriginalTargetMapPosition(Point targetMapPosition)
+    {
+        this.originalTargetMapPosition = targetMapPosition;
+    }
+
+    @Override
+    public Point getTargetMapPosition()
+    {
+        return targetMapPosition;
+    }
+
+    @Override
+    public void setTargetMapPosition(Point targetMapPosition)
+    {
+        this.targetMapPosition = targetMapPosition;
     }
 
     public void setHostile(boolean hostile)
@@ -705,5 +735,16 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
     }
+
+    public boolean isPatrolling()
+    {
+        return patrolling;
+    }
+
+    public void setPatrolling(boolean patrolling)
+    {
+        this.patrolling = patrolling;
+    }
+
 
 }

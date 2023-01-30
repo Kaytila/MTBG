@@ -427,6 +427,42 @@ public class Player extends AbstractEntity implements LifeForm
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
 
+    @Override
+    public Point getOriginalTargetMapPosition()
+    {
+        return null;
+    }
+
+    @Override
+    public void setOriginalTargetMapPosition(Point targetMapPosition)
+    {
+
+    }
+
+    @Override
+    public Point getTargetMapPosition()
+    {
+        return null;
+    }
+
+    @Override
+    public void setTargetMapPosition(Point targetMapPosition)
+    {
+
+    }
+
+    @Override
+    public boolean isPatrolling()
+    {
+        return false;
+    }
+
+    @Override
+    public void setPatrolling(boolean patrolling)
+    {
+
+    }
+
     /*
      * @param action keyboard action (attack action)
      * @return returns whether it is a hit

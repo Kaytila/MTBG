@@ -141,7 +141,7 @@ public class JGridCanvas extends JComponent
      */
     public void paintComponent(Graphics g)
     {
-        logger.debug("start: painting");
+       // logger.debug("start: painting");
 
 
         if (GameConfiguration.drawTileOnce == true)
@@ -203,7 +203,7 @@ public class JGridCanvas extends JComponent
 
             paintHighlighting(g);
         }
-        logger.debug("end painting");
+        //logger.debug("end painting");
     }
 
     private void paintHighlighting(Graphics g)

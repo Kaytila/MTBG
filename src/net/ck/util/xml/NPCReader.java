@@ -47,6 +47,7 @@ public class NPCReader extends DefaultHandler
     private String question;
     private String answer;
 
+
     public Hashtable<Integer, NPC> getNpcs()
     {
         return npcs;
@@ -163,6 +164,7 @@ public class NPCReader extends DefaultHandler
             case "mobasks":
                 n.setMobasks(mobasks);
                 break;
+
         }
         data = new StringBuilder();
     }

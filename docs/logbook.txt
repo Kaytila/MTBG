@@ -745,3 +745,5 @@ History of the changes:
 2023-01-26: introduced startPosition as command line argument. Want to switch to Picoli soon.
 2023-01-26: change draw order, background, tiles, items then npcs on top.
             Also fixed bug in initialize, if startposition is empty, set player to 2@2 instead.
+2023-01-30: I think I have patrolling working in general, but: AIBehaviour, AbstractEntity, NPCUtils, NPC all are
+            intertwhined. this needs clearing up. But not today. Patrolling works.
