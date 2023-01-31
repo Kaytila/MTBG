@@ -90,7 +90,7 @@ public abstract class AbstractEntity
     /**
      * how much health does the entity have?
      */
-    private int health;
+    protected int health;
 
     /**
      * armor class - we just add ac on top of each other, no body parts and so on
@@ -555,7 +555,8 @@ public abstract class AbstractEntity
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
                 logger.info("target can be reached");
-                return true;
+                //return true;
+                //((NPC) this).doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
             }
         }
         return false;

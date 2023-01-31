@@ -1,6 +1,7 @@
 package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
+import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
@@ -16,8 +17,9 @@ import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
+import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
-import net.ck.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.util.communication.keyboard.*;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +37,7 @@ public class Player extends AbstractEntity implements LifeForm
      * appearance is something that both player and npc have, en does not, so separate parent class?
      */
     private AbstractRepresentation appearance;
-
+    private CommandQueue queuedActions;
     private int animationCycles = 0;
 
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
@@ -535,19 +537,19 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setHealth(int i)
     {
-
+        health = i;
     }
 
     @Override
     public void increaseHealth(int i)
     {
-
+        health = health + i;
     }
 
     @Override
     public void decreaseHealth(int i)
     {
-
+        health = health - i;
     }
 
     public CommandQueue getQueuedActions()
@@ -596,6 +598,61 @@ public class Player extends AbstractEntity implements LifeForm
         }
         //logger.info("should not be reachable");
         return false;
+    }
+
+    public boolean moveTo(MapTile tileByCoordinates)
+    {
+        setQueuedActions(new CommandQueue());
+        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
+        logger.info("finish: {}", tileByCoordinates);
+
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
+        ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
+        Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
+        for (MapTile node : path)
+        {
+            if (node.getMapPosition().equals(getMapPosition()))
+            {
+                //logger.info("start node");
+            }
+            else
+            {
+                //logger.info(node);
+                if (node.x > futureMapPosition.x)
+                {
+                    getQueuedActions().addEntry(new EastAction());
+                    futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
+                }
+                else if (node.x < futureMapPosition.x)
+                {
+                    getQueuedActions().addEntry(new WestAction());
+                    futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
+                }
+                else if (node.y > futureMapPosition.y)
+                {
+                    getQueuedActions().addEntry(new SouthAction());
+                    futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
+                }
+                else if (node.y < futureMapPosition.y)
+                {
+                    getQueuedActions().addEntry(new NorthAction());
+                    futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
+                }
+            }
+            if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
+            {
+                logger.info("target can be reached");
+                //return true;
+                doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
+            }
+        }
+        return false;
+    }
+
+
+    public void setQueuedActions(CommandQueue queuedActions)
+    {
+        this.queuedActions = queuedActions;
     }
 
 }

@@ -6,7 +6,6 @@ import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
-import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.AttackAction;
 import net.ck.util.communication.keyboard.GetAction;
 import net.ck.util.communication.keyboard.MoveAction;
@@ -93,13 +92,13 @@ public class AIBehaviour
 
     public static void determinePatrol(LifeForm e)
     {
-        if (e.getQueuedActions().size() > 0)
+        /*if (e.getQueuedActions().size() > 0)
         {
             //logger.info("action in queue: {}", npc.getQueuedActions().peek());
             e.doAction(new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll()));
         }
         else
-        {
+        {*/
             //we have not reached the target
             if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
             {
@@ -123,6 +122,6 @@ public class AIBehaviour
                     e.setTargetMapPosition(e.getOriginalMapPosition());
                 }
             }
-        }
+        //}
     }
 }

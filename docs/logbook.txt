@@ -746,4 +746,6 @@ History of the changes:
 2023-01-26: change draw order, background, tiles, items then npcs on top.
             Also fixed bug in initialize, if startposition is empty, set player to 2@2 instead.
 2023-01-30: I think I have patrolling working in general, but: AIBehaviour, AbstractEntity, NPCUtils, NPC all are
-            intertwhined. this needs clearing up. But not today. Patrolling works.
+            intertwined. this needs clearing up. But not today. Patrolling works.
+2023-01-31: moveTo is moved to NPC and player as there is a small difference unfortunately. NPC moveTo is now running,
+            it is handled with each step now. Commiting before touching player moveTo
