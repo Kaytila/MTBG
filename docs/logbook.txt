@@ -751,3 +751,4 @@ History of the changes:
             it is handled with each step now. Commiting before touching player moveTo
 2023-02-01: created getTileByPoint and getTileByCoordinates to reduce a lot of new point() creation. updated all usages
             which are today using new Point().
+2023-02-01: rename getTile... to getMapTile....

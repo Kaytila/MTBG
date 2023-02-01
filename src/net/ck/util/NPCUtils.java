@@ -259,7 +259,7 @@ public class NPCUtils
         logger.info("source: {}", sourcePoint);
         logger.info("target: {}", targetPoint);
 
-        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinatesAsPoint(sourcePoint), MapUtils.getTileByCoordinatesAsPoint(targetPoint), Game.getCurrent().getCurrentMap());
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(sourcePoint), MapUtils.getMapTileByCoordinatesAsPoint(targetPoint), Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
 
         for (MapTile node : path)
@@ -304,7 +304,7 @@ public class NPCUtils
         logger.info("taget coordinates: {}", action.getTargetCoordinates());
 
         //source
-        screenPosition = MapUtils.calculateUIPositionFromMapOffset(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(form.getMapPosition())).getMapPosition());
+        screenPosition = MapUtils.calculateUIPositionFromMapOffset(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(form.getMapPosition())).getMapPosition());
         action.setSourceCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
         logger.info("source coordinates: {}", action.getSourceCoordinates());
         return action;

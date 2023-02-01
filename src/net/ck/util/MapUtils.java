@@ -312,28 +312,7 @@ public class MapUtils
         int x = Math.floorDiv(mousePosition.x, GameConfiguration.tileSize);
         int y = Math.floorDiv(mousePosition.y, GameConfiguration.tileSize);
         Point offSet = calculateUIOffsetFromMapPoint();
-        return getTileByCoordinates(x - offSet.x, y - offSet.y);
-    }
-
-    /*
-     * public static MapTile calculateMapTileUnderCursorOld(Point mousePosition) { int x = Math.floorDiv(mousePosition.x, Game.getCurrent().getTileSize()); int y = Math.floorDiv(mousePosition.y,
-     * Game.getCurrent().getTileSize()); Point uiTile = new Point(x,y); //logger.info("on map or not: {} ", UILense.getCurrent().isPointOnMap(uiTile)); Point mapPos =
-     * Game.getCurrent().getCurrentPlayer().getMapPosition(); Point uiPos = Game.getCurrent().getCurrentPlayer().getUIPosition(); Point offSet = calculateUIOffsetFromMapPoint(uiPos, mapPos);
-     *
-     * logger.info("ui tile: {}", uiTile); logger.info("map position: {}", mapPos); logger.info("offset: {}", calculateUIOffsetFromMapPoint(mapPos, uiTile)); logger.info("player offset: {}",
-     * calculateUIOffsetFromMapPoint(uiPos, mapPos)); //Point offSet = MapUtils.calculateMapOffsetFromPlayer(new Point(x, y)); //logger.info("offset: {}", offSet);
-     *
-     * return getTileByCoordinates(new Point(uiTile.x - offSet.x, uiTile.y - offSet.y)); }
-     */
-
-
-    public static MapTile calculateMapTileFromUIPosition()
-    {
-        MapTile tile = null;
-        Point p = MapUtils.calculateUIOffsetFromMapPoint();
-        logger.info("uioffsetfrommappoint: {}", p);
-
-        return tile;
+        return getMapTileByCoordinates(x - offSet.x, y - offSet.y);
     }
 
     public static Rectangle calculateVisibleRectangle(Player p)
@@ -407,6 +386,7 @@ public class MapUtils
         return new Point(xDiff, yDiff);
     }
 
+
     /**
      * @param x x coordinate of the tile
      * @param y y coordinate of the tile
@@ -414,7 +394,25 @@ public class MapUtils
      */
     public static boolean lookAhead(int x, int y)
     {
-        // long start = System.nanoTime();
+        /*
+        long start = System.nanoTime();
+        MapTile t = getMapTileByCoordinates(x,y);
+        logger.info("time its taking: {}", System.nanoTime() - start);
+        return t.isBlocked();
+         */
+        //shorthand:
+        return getMapTileByCoordinates(x, y).isBlocked();
+    }
+
+
+    /**
+     * @param x x coordinate of the tile
+     * @param y y coordinate of the tile
+     * @return if the tile is blocked, so need to check for FALSE instead of TRUE
+     */
+    public static boolean lookAheadOld(int x, int y)
+    {
+        long start = System.nanoTime();
         for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
         {
             // same tile
@@ -429,7 +427,7 @@ public class MapUtils
             if ((t.getX() == x) && (t.getY() == y))
             {
                 //logger.info("found tile: {}, blocked: {}", t.toString(), t.isBlocked());
-                //logger.info("time it takes here: {}", System.nanoTime() - start);
+                logger.info("time it takes here: {}", System.nanoTime() - start);
                 return t.isBlocked();
             }
         }
@@ -443,7 +441,7 @@ public class MapUtils
      * @param p Point
      * @return the maptile which is found with P coordinates
      */
-    public static MapTile getTileByCoordinatesAsPoint(Point p)
+    public static MapTile getMapTileByCoordinatesAsPoint(Point p)
     {
         if ((p.x >= 0) && (p.y >= 0))
         {
@@ -462,7 +460,7 @@ public class MapUtils
      * @param y - y coordinate
      * @return the maptile which is found with P coordinates
      */
-    public static MapTile getTileByCoordinates(int x, int y)
+    public static MapTile getMapTileByCoordinates(int x, int y)
     {
         if ((x >= 0) && (y >= 0))
         {

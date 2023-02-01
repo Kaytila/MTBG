@@ -40,7 +40,7 @@ public class JGridCanvasDragGestureHandler implements DragGestureListener
 		else
 		{
 			logger.info("dragGestureRecognized");
-			MapTile tile = MapUtils.getTileByCoordinatesAsPoint(dge.getDragOrigin());
+			MapTile tile = MapUtils.getMapTileByCoordinatesAsPoint(dge.getDragOrigin());
 			//how the flying fuck this can be null i do not comprehend but it appears to fix it.
 			if (tile == null)
 			{

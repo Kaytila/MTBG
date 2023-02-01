@@ -45,7 +45,7 @@ public class Player extends AbstractEntity implements LifeForm
     public void setMapPosition(Point position)
     {
         this.mapPosition = position;
-        Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(position)).setBlocked(true);
+        Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
         //logger.info("player number {}, map position {}", getNumber(), mapPosition.toString());
     }
 
@@ -183,7 +183,7 @@ public class Player extends AbstractEntity implements LifeForm
         {
             for (int yStart = getMapPosition().y - 1; yStart <= getMapPosition().y + 1; yStart++)
             {
-                logger.info("searching maptile: {}", MapUtils.getTileByCoordinates(xStart, yStart));
+                logger.info("searching maptile: {}", MapUtils.getMapTileByCoordinates(xStart, yStart));
             }
         }
     }
@@ -228,7 +228,7 @@ public class Player extends AbstractEntity implements LifeForm
                 }
                 break;
             case ENTER:
-                MapTile exit = MapUtils.getTileByCoordinatesAsPoint(this.getMapPosition());
+                MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
                 assert exit != null;
                 String mapName = exit.getTargetMap();
                 int targetTileID = exit.getTargetID();
@@ -314,11 +314,11 @@ public class Player extends AbstractEntity implements LifeForm
                 success = true;
                 break;
             case GET:
-                success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
+                success = this.getItem(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
 
             case DROP:
-                success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
+                success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
 
             case TALK:
@@ -326,7 +326,7 @@ public class Player extends AbstractEntity implements LifeForm
                 break;
 
             case MOVE:
-                success = this.moveTo(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere()));
+                success = this.moveTo(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere()));
                 break;
 
             case SEARCH:
@@ -338,7 +338,7 @@ public class Player extends AbstractEntity implements LifeForm
                 break;
 
             case LOOK:
-                this.look(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
+                this.look(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
@@ -603,10 +603,10 @@ public class Player extends AbstractEntity implements LifeForm
     public boolean moveTo(MapTile tileByCoordinates)
     {
         setQueuedActions(new CommandQueue());
-        logger.info("start: {}", MapUtils.getTileByCoordinatesAsPoint(getMapPosition()));
+        logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
         logger.info("finish: {}", tileByCoordinates);
 
-        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
         for (MapTile node : path)

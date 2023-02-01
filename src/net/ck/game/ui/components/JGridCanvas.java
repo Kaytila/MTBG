@@ -628,7 +628,7 @@ public class JGridCanvas extends JComponent
                     //logger.debug("point p here: {}", p);
                     MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
                     /**
-                     * this is only necessary if a map does not have fully filled out tiles. like testmap :(
+                     * this is only necessary if a map does not have fully filled out row and columns. like testmap :(
                      */
                     if (tile == null)
                     {
@@ -817,7 +817,7 @@ public class JGridCanvas extends JComponent
 
             for (Point po : line)
             {
-                MapTile t = MapUtils.getTileByCoordinates(po.x - offSet.x, po.y - offSet.y);
+                MapTile t = MapUtils.getMapTileByCoordinates(po.x - offSet.x, po.y - offSet.y);
                 if (t == null)
                 {
                     continue;

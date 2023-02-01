@@ -64,7 +64,7 @@ public class AStar
         {
             for (int j = 0; j < getSearchArea()[0].length; j++)
             {
-                MapTile node = MapUtils.getTileByCoordinates(j, i);
+                MapTile node = MapUtils.getMapTileByCoordinates(j, i);
                 node.setParent(null);
                 Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
                 getSearchArea()[i][j] = node;
