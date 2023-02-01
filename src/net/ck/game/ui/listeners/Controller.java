@@ -13,7 +13,10 @@ import net.ck.game.ui.components.JGridCanvas;
 import net.ck.game.ui.dialogs.AbstractDialog;
 import net.ck.game.ui.dialogs.InventoryDialog;
 import net.ck.game.ui.dialogs.StatsDialog;
-import net.ck.util.*;
+import net.ck.util.CodeUtils;
+import net.ck.util.CursorUtils;
+import net.ck.util.MapUtils;
+import net.ck.util.NPCUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
@@ -671,7 +674,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     //logger.info("select tile is active, dont do anything");
                     UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
+                    long start = System.nanoTime();
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+                    logger.debug("time taken: {}", System.nanoTime() - start);
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                     Game.getCurrent().getIdleTimer().stop();
                     runActions(getCurrentAction());
@@ -844,14 +849,17 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             case EAST:
             case SOUTH:
             case WEST:
-                if (UIStateMachine.isSelectTile()) {
+                if (UIStateMachine.isSelectTile())
+                {
                     //logger.info("select tile");
                     moveCursorOnGrid(action);
                     setMovementForSelectTile(true);
                     action = new AbstractKeyboardAction();
                     break;
 
-                } else {
+                }
+                else
+                {
                     //logger.info("movement");
                     action.setHaveNPCAction(true);
                     break;
@@ -895,7 +903,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
     public void setMousePressed(boolean mousePressed)
     {
-        GameUtils.showStackTrace("setMousePressed");
+        //GameUtils.showStackTrace("setMousePressed");
         this.mousePressed = mousePressed;
     }
 

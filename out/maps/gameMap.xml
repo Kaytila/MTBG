@@ -125473,6 +125473,15 @@
                 <y>3</y>
             </targetPosition>
         </npc>
+        <npc>
+            <id>3</id>
+            <x>5</x>
+            <y>0</y>
+            <targetPosition>
+                <x>5</x>
+                <y>5</y>
+            </targetPosition>
+        </npc>
         <!--
         <npc>
             <id>3</id>

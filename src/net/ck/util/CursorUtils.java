@@ -4,6 +4,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AbstractEntity;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.UIStateMachine;
+import net.ck.game.map.MapTile;
 import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.ui.WindowBuilder;
@@ -202,20 +203,13 @@ public class CursorUtils
 				break;
 		}
 
-		int Px;
-		int Py;
-		if (movementForSelectTile == false)
-		{
-			 Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-			 Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		}
-		else
-		{
-			Point p  = CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation());
-			Px = p.x;
-			Py = p.y;
-		}
-        Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
+		Point p = CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation());
+		MapTile tile = MapUtils.calculateMapTileUnderCursor(p);
+		Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+
+		int Px = (screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		int Py = (screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+		Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
 		CursorUtils.moveMouse(new Point(Px + relativePoint.x + addX, Py + relativePoint.y + addY));
 	}
 
@@ -226,8 +220,11 @@ public class CursorUtils
 	 */
 	public static Point calculateRelativeMousePosition(Point location)
 	{
-        Point relativeOffset = WindowBuilder.getGridCanvas().getLocationOnScreen();
-		return new Point (location.x - relativeOffset.x, location.y - relativeOffset.y);
+		Point relativeOffset = WindowBuilder.getGridCanvas().getLocationOnScreen();
+		return new Point(location.x - relativeOffset.x, location.y - relativeOffset.y);
+		//location.x =- relativeOffset.x;
+		//location.y =- relativeOffset.y;
+		//return location;
 	}
 
 	/**
