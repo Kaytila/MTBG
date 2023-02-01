@@ -737,33 +737,42 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case MOVE:
             {
-                if (UIStateMachine.isSelectTile() == true) {
-                    //logger.info("select tile is active, dont do anything");
-                    UIStateMachine.setSelectTile(false);
-                    getCurrentAction().setHaveNPCAction(true);
+                logger.info("move");
+                logger.info("currently broken");
+                break;
+               /* if (isMouseOutsideOfGrid() == true)
+                {
+                    CursorUtils.centerCursorOnPlayer();
+                }
+
+                if (UIStateMachine.isSelectTile() == true)
+                {
+                    logger.info("select tile is active, dont do anything");
+                    break;
+                }
+                else
+                {
+                    action.setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     action.setGetWhere(new Point(tile.getX(), tile.getY()));
                     Game.getCurrent().getIdleTimer().stop();
                     runActions(getCurrentAction());
                     logger.info("move here");
+
+
+
+                    action.setHaveNPCAction(false);
+                    Game.getCurrent().getIdleTimer().stop();
+                    UIStateMachine.setSelectTile(true);
+                    CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                    MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+                    //TODO why is get currect Action null?
+                    //TODO action framework needs to be cleaned up
+                    action.setGetWhere(new Point(tile.getX(), tile.getY()));
+                    setCurrentAction(action);
+
                     break;
-                }
-                logger.info("move");
-                if (isMouseOutsideOfGrid() == true)
-                {
-                    CursorUtils.centerCursorOnPlayer();
-                }
-                action.setHaveNPCAction(false);
-                Game.getCurrent().getIdleTimer().stop();
-                UIStateMachine.setSelectTile(true);
-                CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
-                //TODO why is get currect Action null?
-                //TODO action framework needs to be cleaned up
-                action.setGetWhere(new Point(tile.getX(), tile.getY()));
-                setCurrentAction(action);
-                logger.info("move there");
-                break;
+                }*/
             }
 
             case ATTACK:

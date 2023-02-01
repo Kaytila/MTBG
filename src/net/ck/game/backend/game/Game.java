@@ -316,11 +316,11 @@ public class Game implements Runnable
         Weapon club = getWeaponList().get(1);
         Weapon magicClub = getWeaponList().get(2);
         Weapon sling = getWeaponList().get(3);
-        Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(3, 0))).getInventory().add(club);
-        Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 3))).getInventory().add(magicClub);
-        Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(6, 6))).getInventory().add(sling);
+        Objects.requireNonNull(MapUtils.getTileByCoordinates(3, 0)).getInventory().add(club);
+        Objects.requireNonNull(MapUtils.getTileByCoordinates(9, 3)).getInventory().add(magicClub);
+        Objects.requireNonNull(MapUtils.getTileByCoordinates(6, 6)).getInventory().add(sling);
         //logger.info("furniture: {}", getFurnitureList().get(0));
-        Objects.requireNonNull(MapUtils.getTileByCoordinates(new Point(9, 4))).setFurniture(getFurnitureList().get(1));
+        Objects.requireNonNull(MapUtils.getTileByCoordinates(9, 4)).setFurniture(getFurnitureList().get(1));
     }
 
 
@@ -349,7 +349,7 @@ public class Game implements Runnable
     {
         logger.info("start: switching map");
 
-        MapTile exit = MapUtils.getTileByCoordinates(getCurrentPlayer().getMapPosition());
+        MapTile exit = MapUtils.getTileByCoordinatesAsPoint(getCurrentPlayer().getMapPosition());
         String mapName = null;
         if (exit != null)
 

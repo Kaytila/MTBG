@@ -118,12 +118,12 @@ public abstract class AbstractEntity
      */
     private boolean moveToRecursive(MapTile tileByCoordinates)
     {
-        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
+        logger.info("start: {}", MapUtils.getTileByCoordinatesAsPoint(getMapPosition()));
         logger.info("finish: {}", tileByCoordinates);
 
-        while (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(getMapPosition())).equals(tileByCoordinates)))
+        while (!(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(getMapPosition())).equals(tileByCoordinates)))
         {
-            AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
+            AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
             ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
             for (MapTile node : path)
             {
@@ -169,7 +169,7 @@ public abstract class AbstractEntity
 
     private boolean moveToBasic(MapTile tileByCoordinates)
     {
-        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
+        logger.info("start: {}", MapUtils.getTileByCoordinatesAsPoint(getMapPosition()));
         logger.info("finish: {}", tileByCoordinates);
 
         Point p = new Point(getMapPosition().x, getMapPosition().y);
@@ -437,19 +437,19 @@ public abstract class AbstractEntity
         Point west = new Point(getMapPosition().x - 1, (getMapPosition().y));
         GetAction getAction = null;
 
-        if ((north.x >= 0 && north.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(north)).getInventory().isEmpty())))
+        if ((north.x >= 0 && north.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(north)).getInventory().isEmpty())))
         {
             getAction = new GetAction(north);
         }
-        else if ((east.x >= 0 && east.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(east)).getInventory().isEmpty())))
+        else if ((east.x >= 0 && east.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(east)).getInventory().isEmpty())))
         {
             getAction = new GetAction(east);
         }
-        else if ((south.x >= 0 && south.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(south)).getInventory().isEmpty())))
+        else if ((south.x >= 0 && south.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(south)).getInventory().isEmpty())))
         {
             getAction = new GetAction(south);
         }
-        else if ((west.x >= 0 && west.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinates(west)).getInventory().isEmpty())))
+        else if ((west.x >= 0 && west.y >= 0) && (!(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(west)).getInventory().isEmpty())))
         {
             getAction = new GetAction(west);
         }
@@ -469,9 +469,9 @@ public abstract class AbstractEntity
 
     public void move(int x, int y)
     {
-        Objects.requireNonNull(MapUtils.getTileByCoordinates(this.getMapPosition())).setBlocked(false);
+        Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
         this.getMapPosition().move(x, y);
-        Objects.requireNonNull(MapUtils.getTileByCoordinates(this.getMapPosition())).setBlocked(true);
+        Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(true);
         EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 
@@ -523,10 +523,10 @@ public abstract class AbstractEntity
      */
     public boolean moveTo(MapTile tileByCoordinates)
     {
-        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
+        logger.info("start: {}", MapUtils.getTileByCoordinatesAsPoint(getMapPosition()));
         logger.info("finish: {}", tileByCoordinates);
 
-        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
         for (MapTile node : path)

@@ -85,22 +85,6 @@ public class MapUtils
     }
 
 
-    public static MapTile getMapTileByCoordinates(AbstractMap map, Point p)
-    {
-        return map.getMapTiles()[p.x][p.y];
-    }
-
-    public static List<MapTile> getMapTilesByCoordinates(AbstractMap map, List<Point> p)
-    {
-        ArrayList<MapTile> mapTiles = new ArrayList<>();
-        for (Point po : p)
-        {
-            mapTiles.add(map.getMapTiles()[po.x][po.y]);
-        }
-        return mapTiles;
-    }
-
-
     public static Point calculateMapSize(AbstractMap map)
     {
         int x = 0;
@@ -131,7 +115,7 @@ public class MapUtils
      * @return a list of points (map positions) as I do not have a better map
      * utility yet
      */
-    public static List<Point> getVisibleTilesAroundPlayer()
+    public static List<Point> getVisibleMapPointsAroundPlayer()
     {
         List<Point> points = new ArrayList<>(middle + middle + middle + middle + 1);
         Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
@@ -328,7 +312,7 @@ public class MapUtils
         int x = Math.floorDiv(mousePosition.x, GameConfiguration.tileSize);
         int y = Math.floorDiv(mousePosition.y, GameConfiguration.tileSize);
         Point offSet = calculateUIOffsetFromMapPoint();
-        return getTileByCoordinates(new Point(x - offSet.x, y - offSet.y));
+        return getTileByCoordinates(x - offSet.x, y - offSet.y);
     }
 
     /*
@@ -459,18 +443,37 @@ public class MapUtils
      * @param p Point
      * @return the maptile which is found with P coordinates
      */
-    public static MapTile getTileByCoordinates(Point p)
+    public static MapTile getTileByCoordinatesAsPoint(Point p)
     {
-        for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
+        if ((p.x >= 0) && (p.y >= 0))
         {
-            // same tile
-            if ((t.x == p.x) && (t.y == p.y))
-            {
-                return t;
-            }
+            return Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
         }
-        return null;
+        else
+        {
+            return null;
+        }
     }
+
+    /**
+     * Helper Method - returns the tile at coordinates point on the currently active map
+     *
+     * @param x - x coordinate
+     * @param y - y coordinate
+     * @return the maptile which is found with P coordinates
+     */
+    public static MapTile getTileByCoordinates(int x, int y)
+    {
+        if ((x >= 0) && (y >= 0))
+        {
+            return Game.getCurrent().getCurrentMap().mapTiles[x][y];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
 
     public static void listMaps()
     {
@@ -773,7 +776,8 @@ public class MapUtils
             Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
             return;
         }
-        Game.getCurrent().getCurrentMap().setVisibilityRange(2);
+        //night
+        Game.getCurrent().getCurrentMap().setVisibilityRange(1);
     }
 
     /**

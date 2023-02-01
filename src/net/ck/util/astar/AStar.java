@@ -6,8 +6,6 @@ import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.util.List;
 import java.util.*;
 
 
@@ -31,13 +29,13 @@ public class AStar
     private static Set<MapTile> closedSet;
     private static MapTile initialNode;
     private static MapTile finalNode;
-    private static net.ck.game.map.AbstractMap currentMap;
 
     public static void initialize(int rows, int cols, MapTile initialNode, MapTile finalNode, net.ck.game.map.Map map)
     {
+        long start = System.nanoTime();
         logger.info("start: ASTAR");
         realInitialize(rows, cols, initialNode, finalNode, DEFAULT_HV_COST, DEFAULT_DIAGONAL_COST, map);
-        logger.info("end: ASTAR");
+        logger.info("end: ASTAR {}", System.nanoTime() - start);
     }
 
     private static void realInitialize(int rows, int cols, MapTile initialNode, MapTile finalNode, int defaultHvCost, int defaultDiagonalCost, net.ck.game.map.Map ma)
@@ -66,7 +64,7 @@ public class AStar
         {
             for (int j = 0; j < getSearchArea()[0].length; j++)
             {
-                MapTile node = MapUtils.getTileByCoordinates(new Point(j, i));
+                MapTile node = MapUtils.getTileByCoordinates(j, i);
                 node.setParent(null);
                 Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
                 getSearchArea()[i][j] = node;

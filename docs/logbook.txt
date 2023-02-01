@@ -749,3 +749,5 @@ History of the changes:
             intertwined. this needs clearing up. But not today. Patrolling works.
 2023-01-31: moveTo is moved to NPC and player as there is a small difference unfortunately. NPC moveTo is now running,
             it is handled with each step now. Commiting before touching player moveTo
+2023-02-01: created getTileByPoint and getTileByCoordinates to reduce a lot of new point() creation. updated all usages
+            which are today using new Point().

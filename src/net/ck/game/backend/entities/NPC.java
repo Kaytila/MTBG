@@ -455,11 +455,11 @@ public class NPC extends AbstractEntity implements LifeForm
                 success = true;
                 break;
             case GET:
-                success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+                success = this.getItem(Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
 
             case DROP:
-                success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere())));
+                success = this.dropItem(action.getEvent().getAffectedItem(), Objects.requireNonNull(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
 
             case TALK:
@@ -467,7 +467,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 break;
 
             case MOVE:
-                success = this.moveTo(MapUtils.getTileByCoordinates(action.getEvent().getGetWhere()));
+                success = this.moveTo(MapUtils.getTileByCoordinatesAsPoint(action.getEvent().getGetWhere()));
                 break;
 
             case SEARCH:
@@ -500,7 +500,7 @@ public class NPC extends AbstractEntity implements LifeForm
             return false;
         }
         logger.info("NPC Attacking");
-        MapTile tile = MapUtils.getTileByCoordinates(getVictim().getMapPosition());
+        MapTile tile = MapUtils.getTileByCoordinatesAsPoint(getVictim().getMapPosition());
         EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
         action = NPCUtils.calculateCoordinatesFromActionAndTile(action, tile, this);
 
@@ -733,7 +733,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
     private void attack(MapTile tileByCoordinates)
     {
-        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates));
+        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates));
     }
 
     public boolean isPatrolling()
@@ -749,10 +749,10 @@ public class NPC extends AbstractEntity implements LifeForm
     public boolean moveTo(MapTile tileByCoordinates)
     {
         setQueuedActions(new CommandQueue());
-        logger.info("start: {}", MapUtils.getTileByCoordinates(getMapPosition()));
+        logger.info("start: {}", MapUtils.getTileByCoordinatesAsPoint(getMapPosition()));
         logger.info("finish: {}", tileByCoordinates);
 
-        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinates(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
+        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
         for (MapTile node : path)
