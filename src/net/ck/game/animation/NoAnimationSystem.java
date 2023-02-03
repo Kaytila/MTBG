@@ -17,17 +17,17 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * NoAnimationSystem currently is a bit of a fluke, as it would actually do animation
  * but I just took the code and always kept it at standard image
+ * not sure how to do this better or whether I do not just want to go libgdx instead
  */
-public class NoAnimationSystem extends AnimationSystem {
+public class NoAnimationSystem extends AnimationSystem
+{
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-    public void run() {
-        while (Game.getCurrent().isRunning() == true) { // I hate 0 index //if I make the standard
-            // image part of the animation list, then I don't need the default
-            // state at all.
-            // that means, 2 animation cycles, no +1 needed.
 
-            // random variant
+    public void run()
+    {
+        while (Game.getCurrent().isRunning() == true)
+        {
             for (LifeForm p : Game.getCurrent().getCurrentMap().getLifeForms())
             {
                 //logger.info("lifeform state: {}", p.getState());
@@ -41,23 +41,25 @@ public class NoAnimationSystem extends AnimationSystem {
                 {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
                 }
-                else// (p.getState().equals(LifeFormState.ALIVE))
+                else // (p.getState().equals(LifeFormState.ALIVE))
                 {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
                 }
 
-                if (UIStateMachine.isUiOpen()) {
+                if (UIStateMachine.isUiOpen())
+                {
                     EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
                 }
             }
 
-            try {
+            try
+            {
                 Game.getCurrent().getThreadController().sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
-
         logger.error("game no longer running, thread {} is closing hopefully?", "Animation Thread");
     }
 }

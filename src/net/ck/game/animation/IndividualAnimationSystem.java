@@ -8,11 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class IndividualAnimationSystem extends AnimationSystem
+public class IndividualAnimationSystem extends AnimationSystem implements Runnable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    protected int i;
-
 
 
     public IndividualAnimationSystem()
@@ -30,13 +28,12 @@ public class IndividualAnimationSystem extends AnimationSystem
     {
         while (Game.getCurrent().isRunning() == true)
         {
-            for (i = 1; i < GameConfiguration.animationCycles; i++)
+            for (int i = 1; i < GameConfiguration.animationCycles; i++)
             {
                 try
                 {
-                    getPlayer().getAppearance().setCurrentImage(getApp().getAnimationImageList().get(i));
-                }
-                catch (Exception e)
+                    Game.getCurrent().getCurrentPlayer().getAppearance().setCurrentImage(Game.getCurrent().getCurrentPlayer().getAppearance().getStandardImage());
+                } catch (Exception e)
                 {
                     logger.error("problem setting image");
                 }

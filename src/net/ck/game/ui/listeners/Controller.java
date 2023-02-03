@@ -289,6 +289,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void mouseEntered(MouseEvent e)
     {
+        UIStateMachine.setCurrentMousePosition(MouseInfo.getPointerInfo().getLocation());
         setMouseOutsideOfGrid(false);
         WindowBuilder.getGridCanvas().requestFocusInWindow();
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -297,6 +298,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void mouseExited(MouseEvent e)
     {
+        UIStateMachine.setCurrentMousePosition(null);
+        UIStateMachine.setCurrentSelectedTile(null);
         setMouseOutsideOfGrid(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
     }
@@ -314,6 +317,20 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void mouseMoved(MouseEvent e)
     {
+        UIStateMachine.setCurrentMousePosition(MouseInfo.getPointerInfo().getLocation());
+        if (UIStateMachine.getCurrentSelectedTile() == null)
+        {
+            UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+        }
+        else
+        {
+            if (UIStateMachine.getCurrentSelectedTile() != MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())))
+            {
+                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                //WindowBuilder.getGridCanvas().paint(e.getX(), e.getY(), 20, 20);
+                WindowBuilder.getGridCanvas().paint();
+            }
+        }
         if (getCurrentAction() != null)
         {
             if (getCurrentAction().getType().equals(KeyboardActionType.ATTACK))

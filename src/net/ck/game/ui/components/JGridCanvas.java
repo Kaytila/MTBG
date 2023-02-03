@@ -5,6 +5,7 @@ import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.items.FurnitureItem;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.dnd.JGridCanvasTransferHandler;
@@ -41,6 +42,10 @@ public class JGridCanvas extends JComponent
 
     private Point highlightPosition;
 
+    /**
+     * trying to figure out whether this will help
+     */
+    private boolean updating;
 
     private int highlightCount;
 
@@ -141,8 +146,13 @@ public class JGridCanvas extends JComponent
      */
     public void paintComponent(Graphics g)
     {
-        // logger.debug("start: painting");
-
+        logger.debug("start: painting");
+        long start = System.nanoTime();
+        if (updating == true)
+        {
+            return;
+        }
+        updating = true;
 
         if (GameConfiguration.drawTileOnce == true)
         {
@@ -202,9 +212,26 @@ public class JGridCanvas extends JComponent
             paintGridLines(g);
 
             paintHighlighting(g);
+
+            paintHighlightedMapTile(g);
         }
-        //logger.debug("end painting");
+        updating = false;
+        logger.debug("end painting: {}", System.nanoTime() - start);
     }
+
+    private void paintHighlightedMapTile(Graphics g)
+    {
+        if (UIStateMachine.isSelectTile())
+        {
+            if (UIStateMachine.getCurrentSelectedTile() != null)
+            {
+                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
+                g.setColor(Color.WHITE);
+                g.drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+            }
+        }
+    }
+
 
     private void paintHighlighting(Graphics g)
     {
@@ -484,6 +511,15 @@ public class JGridCanvas extends JComponent
             this.repaint();
         });
     }
+
+    public void paint(int x, int y, int width, int height)
+    {
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            this.repaint(x, y, width, height);
+        });
+    }
+
 
     /**
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity

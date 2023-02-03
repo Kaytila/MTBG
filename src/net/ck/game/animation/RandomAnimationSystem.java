@@ -16,24 +16,14 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Random;
 
-public class RandomAnimationSystem extends AnimationSystem
+/**
+ * RandomAnimationSystem takes all lifeforms on map and
+ */
+public class RandomAnimationSystem extends AnimationSystem implements Runnable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private final Random rand = new Random();
-    private int randomNumber;
-
-    public int getRandomNumber()
-    {
-        return randomNumber;
-    }
-
-    public void setRandomNumber(int randomNumber)
-    {
-        this.randomNumber = randomNumber;
-    }
-
-
 
     public RandomAnimationSystem()
     {
@@ -43,7 +33,10 @@ public class RandomAnimationSystem extends AnimationSystem
     public void run()
     {
         while (Game.getCurrent().isRunning() == true)
-        { // I hate 0 index //if I make the standard
+        {
+            //long start = System.nanoTime();
+
+            // I hate 0 index //if I make the standard
             // image part of the animation list, then I don't need the default
             // state at all.
             // that means, 2 animation cycles, no +1 needed.
@@ -63,14 +56,13 @@ public class RandomAnimationSystem extends AnimationSystem
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
                 } else// (p.getState().equals(LifeFormState.ALIVE))
                 {
-                    setRandomNumber(rand.nextInt(GameConfiguration.animationCycles));
-                    p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(getRandomNumber()));
+                    p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
                 }
                 if (UIStateMachine.isUiOpen()) {
                     EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
                 }
             }
-
+            //logger.info("time taken: {}", System.nanoTime() - start);
             try
             {
                 Game.getCurrent().getThreadController().sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
@@ -79,6 +71,7 @@ public class RandomAnimationSystem extends AnimationSystem
             {
                 e.printStackTrace();
             }
+
         }
         logger.error("game no longer running, thread {} is closing hopefully?", ThreadNames.LIFEFORM_ANIMATION);
     }

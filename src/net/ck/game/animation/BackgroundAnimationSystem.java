@@ -12,22 +12,22 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
 
-public class BackgroundAnimationSystem extends IndividualAnimationSystem
+public class BackgroundAnimationSystem implements Runnable
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-	public BackgroundAnimationSystem()
-	{
-		setCurrentBackgroundImage(0);
-	}
+    public BackgroundAnimationSystem()
+    {
+        setCurrentBackgroundImage(0);
+    }
 
-	private int currentBackgroundImage;
+    private int currentBackgroundImage;
 
 	/**
 	 * just trying to iterate over i to get a same looking animation for background images
 	 */
-	@Override
-	public void run()
+
+    public void run()
 	{
 		while (Game.getCurrent().isRunning() == true)
 		{

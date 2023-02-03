@@ -754,3 +754,5 @@ History of the changes:
 2023-02-01: rename getTile... to getMapTile....
 2023-02-01: updated CursorUtils: you can switch between mouse and keyboard for targeting a tile now, keyboard will
             always center on the tile, perhaps I change the mouse that it only centers on the tile automatically as well?
+2023-02-02: UIStateMachine will always need to know about move position.
+2023-02-03: white rectangle is now drawn only when the target cursor is active

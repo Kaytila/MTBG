@@ -1,10 +1,15 @@
 package net.ck.game.backend.state;
 
+import net.ck.game.map.MapTile;
+
+import java.awt.*;
+
 /**
  * In order to make Controller more of what it is - listener and action caller
  * it shall be stateless - the state needs to go here into State machine.
  */
-public class UIStateMachine {
+public class UIStateMachine
+{
     /**
      * is the UI open? has it finished opening?
      */
@@ -21,15 +26,31 @@ public class UIStateMachine {
      */
     private static boolean isDialogOpened;
 
-    public static boolean isUiOpen() {
+    /**
+     * when the mouse is in the grid, store the mouse position
+     * no need to request it from the Toolkit again and again.
+     */
+    private static Point currentMousePosition;
+
+    /**
+     * store always what tile is currently selected or would be selected.
+     * this applies to all 2-step actions.
+     */
+    private static MapTile currentSelectedTile;
+
+
+    public static boolean isUiOpen()
+    {
         return uiOpen;
     }
 
-    public static void setUiOpen(boolean uo) {
+    public static void setUiOpen(boolean uo)
+    {
         uiOpen = uo;
     }
 
-    public static boolean isSelectTile() {
+    public static boolean isSelectTile()
+    {
         return selectTile;
     }
 
@@ -37,13 +58,34 @@ public class UIStateMachine {
         selectTile = sT;
     }
 
-    public static boolean isDialogOpened() {
+    public static boolean isDialogOpened()
+    {
         return isDialogOpened;
     }
 
-    public static void setDialogOpened(boolean dO) {
+    public static void setDialogOpened(boolean dO)
+    {
         //logger.info("new value: {}", isDialogOpened);
         isDialogOpened = dO;
     }
 
+    public static Point getCurrentMousePosition()
+    {
+        return currentMousePosition;
+    }
+
+    public static void setCurrentMousePosition(Point currentMousePosition)
+    {
+        UIStateMachine.currentMousePosition = currentMousePosition;
+    }
+
+    public static MapTile getCurrentSelectedTile()
+    {
+        return currentSelectedTile;
+    }
+
+    public static void setCurrentSelectedTile(MapTile currentSelectedTile)
+    {
+        UIStateMachine.currentSelectedTile = currentSelectedTile;
+    }
 }

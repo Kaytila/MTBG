@@ -239,9 +239,12 @@ public class CursorUtils
 	 */
 	public static void calculateCursorFromGridPosition(AbstractEntity currentPlayer, Point point)
 	{
-        if (UIStateMachine.isSelectTile()) {
+        if (UIStateMachine.isSelectTile())
+        {
             setCursor(getTargetCursor());
-        } else {
+        }
+        else
+        {
             // this is the position on the grid, tile x and y + half tile size to each
             int Px = (currentPlayer.getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;
             int Py = (currentPlayer.getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);// + border;

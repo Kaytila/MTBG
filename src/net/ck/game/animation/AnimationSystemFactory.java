@@ -28,7 +28,7 @@ public class AnimationSystemFactory
             if (GameConfiguration.animationCycles > 0) {
                 return new RandomAnimationSystem();
             } else {
-                return new IndividualAnimationSystem();
+				return new NoAnimationSystem();
             }
         } else {
             return new NoAnimationSystem();

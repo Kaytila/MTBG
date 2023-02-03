@@ -98,3 +98,6 @@ Will need to switch Map parsing to have a x/y 2d array.
 another todo:
 slow movement, where one step for player is two steps for World and NPCs.
 
+when in targetmode, when mouse is moved, highlight tile that would be the target of the action - slashie
+that means that the statemachine will carry mouseposition on the grid and tile under cursor at all times
+Will reduce getting mouse position again and again and again, if mouse is moved, store it once, get it back
