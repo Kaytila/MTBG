@@ -765,3 +765,4 @@ History of the changes:
             If I find better data structure for retrieving the cached images, things will be way way faster.
             moved identifyVisibleTiles to game startup and advance turn. no need to calculate this each time something
             paints.
+2023-02-06: made gridlines configurable.

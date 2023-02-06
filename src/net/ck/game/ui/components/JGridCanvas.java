@@ -222,7 +222,10 @@ public class JGridCanvas extends JComponent
 
             // take component size and draw lines every $tileSize pixels.
             //start2 = System.nanoTime();
-            paintGridLines(g);
+            if (GameConfiguration.paintGridLines == true)
+            {
+                paintGridLines(g);
+            }
             //logger.debug("end paint grid: {}", System.nanoTime() - start2);
 
             //start2 = System.nanoTime();

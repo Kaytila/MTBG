@@ -136,4 +136,6 @@ public class GameConfiguration
     public static final boolean drawTileOnce = false;
 
     public static final boolean brightenUpImages = true;
+
+    public static final boolean paintGridLines = true;
 }
