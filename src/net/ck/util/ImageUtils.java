@@ -4,6 +4,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.backend.game.Game;
+import net.ck.game.graphics.ImagePair;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.MapTile;
 import net.ck.game.weather.WeatherTypes;
@@ -43,6 +44,9 @@ public class ImageUtils
     private static BufferedImage missImage;
 
     private static BufferedImage inventoryImage;
+
+    private static ArrayList<ImagePair> brightenedImages = new ArrayList();
+
 
     /**
      * Compares two images pixel by pixel.
@@ -607,39 +611,72 @@ public class ImageUtils
      */
     public static BufferedImage brightenUpImage(BufferedImage image, int x, int y)
     {
-        BufferedImage img = copyImage(image);
-        Graphics g = img.getGraphics();
-        float percentage = 1.0f;
-        int max = Math.max(x, y);
-        int half = Math.floorDiv(GameConfiguration.numberOfTiles, 2);
+        if (GameConfiguration.brightenUpImages == true)
+        {
+            //long start = System.nanoTime();
 
-        if (max <= 2)
-        {
-            percentage = 1.0f;
-        }
-        else if (max < half)
-        {
-            percentage = 0.8f;
-        }
-        else if (max == half)
-        {
-            percentage = 0.6f;
-        }
-        // float percentage2 = 1.0f * (1.0f - 100 / (Math.max(x,y)) ;// / (Math.max(x,y)); // 50% bright - change this (or set dynamically) as you feel fit
+            float percentage = 1.0f;
+            int max = Math.max(x, y);
+            int half = Math.floorDiv(GameConfiguration.numberOfTiles, 2);
 
-        int brightness = (int) (256 - 256 * percentage);
-        if (brightness >= 0)
-        {
-            g.setColor(new Color(0, 0, 0, brightness));
-            g.fillRect(0, 0, img.getWidth(), img.getHeight());
+            if (max <= 2)
+            {
+                percentage = 1.0f;
+            }
+            else if (max < half)
+            {
+                percentage = 0.8f;
+            }
+            else if (max == half)
+            {
+                percentage = 0.6f;
+            }
+            // float percentage2 = 1.0f * (1.0f - 100 / (Math.max(x,y)) ;// / (Math.max(x,y)); // 50% bright - change this (or set dynamically) as you feel fit
+
+            for (ImagePair iP : brightenedImages)
+            {
+                if (iP.getPercentage() == percentage)
+                {
+                    if (iP.getSourceImage().equals(image))
+                    {
+                        //logger.debug("brighen up image just return image takes: {}", System.nanoTime() - start);
+                        return iP.getResultImage();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            BufferedImage img = copyImage(image);
+            Graphics g = img.getGraphics();
+
+            int brightness = (int) (256 - 256 * percentage);
+            if (brightness >= 0)
+            {
+                g.setColor(new Color(0, 0, 0, brightness));
+                g.fillRect(0, 0, img.getWidth(), img.getHeight());
+            }
+            else
+            {
+                logger.error("why?");
+                g.setColor(new Color(0, 0, 0, 0));
+                g.fillRect(0, 0, img.getWidth(), img.getHeight());
+            }
+            brightenedImages.add((new ImagePair(percentage, image, img)));
+            //logger.debug("brighen up image create image takes: {}", System.nanoTime() - start);
+            return img;
         }
+        //just return the image, do nothing
         else
         {
-            logger.info("why?");
-            g.setColor(new Color(0, 0, 0, 0));
-            g.fillRect(0, 0, img.getWidth(), img.getHeight());
+            return image;
         }
-        return img;
     }
 
     /**

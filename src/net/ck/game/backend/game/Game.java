@@ -24,6 +24,7 @@ import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
+import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Game Main class also Y6MU+=A7B=NpmQSs
@@ -504,6 +506,7 @@ public class Game implements Runnable
         getIdleTimer().start();
         getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
+        UILense.getCurrent().identifyVisibleTilesNew();
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
     }
@@ -634,6 +637,8 @@ public class Game implements Runnable
     public synchronized void stopGame()
     {
         getThreadController().listThreads();
+        logger.info("Paint times on average: {} miliseconds", TimeUnit.NANOSECONDS.toMillis(GameLogs.calculatePaintTimeAverage()));
+        //logger.info("Paint times on average: {} seconds",  TimeUnit.NANOSECONDS.toSeconds(GameLogs.calculatePaintTimeAverage()));
         logger.info("stopping game");
         setRunning(false);
         System.exit(0);

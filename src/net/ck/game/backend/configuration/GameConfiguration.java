@@ -18,7 +18,7 @@ public class GameConfiguration
     /**
      * how long shall the game wait until sending a pass message in ms
      */
-    public static final long turnwait = 3000;
+    public static final long turnwait = 5000;
 
     /**
      * frames per second, if i really want to switch to this in the future
@@ -134,4 +134,6 @@ public class GameConfiguration
      * do not draw over again for background, foreground, npc, furniture, blocked, light
      */
     public static final boolean drawTileOnce = false;
+
+    public static final boolean brightenUpImages = true;
 }

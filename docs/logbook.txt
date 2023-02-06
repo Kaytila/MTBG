@@ -756,3 +756,12 @@ History of the changes:
             always center on the tile, perhaps I change the mouse that it only centers on the tile automatically as well?
 2023-02-02: UIStateMachine will always need to know about move position.
 2023-02-03: white rectangle is now drawn only when the target cursor is active
+2023-02-06: being somewhat ill left a lot of time and brain cycles to spend here:
+            updated painting and made it way faster. Brightened up images are only done once and stored then, to be
+            retrieved as necessary.
+            introduced imagepair class to store the percentage, sourceimage, resultimage for brightening up images.
+            introduced gamelogs for gathering statistics about the game.
+            Much time is still lost in draw furniture, but that can be rectified as well. Sooner or later.
+            If I find better data structure for retrieving the cached images, things will be way way faster.
+            moved identifyVisibleTiles to game startup and advance turn. no need to calculate this each time something
+            paints.

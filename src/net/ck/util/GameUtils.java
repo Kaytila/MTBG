@@ -449,6 +449,7 @@ public class GameUtils
             logger.info("setting UI position: {}", e.getMapPosition());
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
         }
+        UILense.getCurrent().identifyVisibleTilesNew();
     }
 
     public static void listMaps()
