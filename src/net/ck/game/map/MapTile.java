@@ -1,6 +1,7 @@
 package net.ck.game.map;
 
 import net.ck.game.backend.entities.Inventory;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.items.FurnitureItem;
 import net.ck.util.CodeUtils;
@@ -16,6 +17,7 @@ import java.awt.*;
 public class MapTile implements Comparable<MapTile>
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
     /**
      * x coordinate, not sure I need that at all
      * basically position.getX()
@@ -25,7 +27,15 @@ public class MapTile implements Comparable<MapTile>
      * y coordinate, basically position.getY()
      */
     public int y;
-
+    /**
+     * parent tile for a* calculation
+     */
+    public MapTile parent;
+    // Evaluation functions
+    public int finalCost;
+    public int g;
+    // Hardcoded heuristic
+    public int h;
     /**
      * what things are piled on the tile?
      */
@@ -60,12 +70,6 @@ public class MapTile implements Comparable<MapTile>
      * by ID, by listPosition, by coordinates
      */
     private int id;
-
-    /**
-     * describes the position in the Map's list, probably easier to handle than to
-     * iterating all the time
-     */
-    private int listPosition;
     /**
      * what is the maptile to the north?
      */
@@ -87,25 +91,37 @@ public class MapTile implements Comparable<MapTile>
      * what map tile is to the west?
      */
     private MapTile west;
-
     /**
      * furniture - items you can take, furniture you can only see
      */
     private FurnitureItem furniture;
-
-    /**
-     * parent tile for a* calculation
-     */
-    public MapTile parent;
-
-
     /**
      * is the tile currently hidden from view? If so, dont allow it to be selected.
      */
     private boolean hidden;
 
-    // Evaluation functions
-    public int finalCost;
+    /**
+     * there can only be one lifeform on the tile, either player or an npc
+     * move the npc to here instead of iterating over all npcs on the map
+     * for drawing. for calculating what they are doing keep using getCurrentMap().getLifeForms()
+     */
+    private LifeForm lifeForm;
+
+    public MapTile()
+    {
+        super();
+        inventory = new Inventory();
+        setBlocked(false);
+        this.h = 1;
+    }
+
+    public MapTile(int i, int j)
+    {
+        setX(i);
+        setY(j);
+        inventory = new Inventory();
+        setBlocked(false);
+    }
 
     public int getFinalCost()
     {
@@ -135,27 +151,6 @@ public class MapTile implements Comparable<MapTile>
     public void setH(int h)
     {
         this.h = h;
-    }
-
-    public int g;
-    // Hardcoded heuristic
-    public int h;
-
-
-    public MapTile()
-    {
-        super();
-        inventory = new Inventory();
-        setBlocked(false);
-        this.h = 1;
-    }
-
-    public MapTile(int i, int j)
-    {
-        setX(i);
-        setY(j);
-        inventory = new Inventory();
-        setBlocked(false);
     }
 
     public Inventory getInventory()
@@ -206,16 +201,6 @@ public class MapTile implements Comparable<MapTile>
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    public int getListPosition()
-    {
-        return this.listPosition;
-    }
-
-    public void setListPosition(int listPosition)
-    {
-        this.listPosition = listPosition;
     }
 
     public MapTile getNorth()
@@ -385,7 +370,7 @@ public class MapTile implements Comparable<MapTile>
             case BUSHES:
             case BUSH:
             case DENSEFOREST:
-               return blocked;
+                return blocked;
 
             case MOUNTAIN:
             case RIVERES:
@@ -445,7 +430,7 @@ public class MapTile implements Comparable<MapTile>
             case WOODDOORCLOSED:
             case WOODWALL:
             case DENSEFOREST:
-            return true;
+                return true;
 
             case DESERT:
             case DIRTFLOOR:
@@ -483,11 +468,11 @@ public class MapTile implements Comparable<MapTile>
             case BUSH:
             case SHALLOWOCEAN:
             case REEF:
-            return false;
+                return false;
 
             default:
-            logger.error("forgotten a tile type - how? {}", getType().toString());
-            return false;
+                logger.error("forgotten a tile type - how? {}", getType().toString());
+                return false;
         }
     }
 
@@ -557,7 +542,8 @@ public class MapTile implements Comparable<MapTile>
 
 
     @Override
-    public int compareTo(MapTile n) {
+    public int compareTo(MapTile n)
+    {
         return Integer.compare(this.finalCost, n.finalCost);
     }
 
@@ -569,5 +555,15 @@ public class MapTile implements Comparable<MapTile>
     public void setHidden(boolean hidden)
     {
         this.hidden = hidden;
+    }
+
+    public LifeForm getLifeForm()
+    {
+        return lifeForm;
+    }
+
+    public void setLifeForm(LifeForm lifeForm)
+    {
+        this.lifeForm = lifeForm;
     }
 }

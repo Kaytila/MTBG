@@ -276,7 +276,7 @@ public class JGridCanvas extends JComponent
         }
     }
 
-    private void paintFurniture(Graphics g)
+    private synchronized void paintFurniture(Graphics g)
     {
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {

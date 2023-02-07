@@ -21,10 +21,7 @@ import net.ck.game.soundeffects.SoundPlayerNoThread;
 import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.AbstractWeatherSystem;
-import net.ck.util.CodeUtils;
-import net.ck.util.GameUtils;
-import net.ck.util.MapUtils;
-import net.ck.util.UILense;
+import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
@@ -509,6 +506,7 @@ public class Game implements Runnable
         UILense.getCurrent().identifyVisibleTilesNew();
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
+        logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
     }
 
 
@@ -637,7 +635,9 @@ public class Game implements Runnable
     public synchronized void stopGame()
     {
         getThreadController().listThreads();
-        logger.info("Paint times on average: {} miliseconds", TimeUnit.NANOSECONDS.toMillis(GameLogs.calculatePaintTimeAverage()));
+        logger.info("Paint times on average: {} miliseconds", TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
+        logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
+        logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
         //logger.info("Paint times on average: {} seconds",  TimeUnit.NANOSECONDS.toSeconds(GameLogs.calculatePaintTimeAverage()));
         logger.info("stopping game");
         setRunning(false);

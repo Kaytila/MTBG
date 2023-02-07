@@ -114,6 +114,7 @@ public class MapUtils
      *
      * @return a list of points (map positions) as I do not have a better map
      * utility yet
+     * TODO - rewrite as array
      */
     public static List<Point> getVisibleMapPointsAroundPlayer()
     {
@@ -135,6 +136,28 @@ public class MapUtils
         }
         return points;
     }
+
+    public static Point[][] getVisibleMapPointsAroundPlayerasArray()
+    {
+        Point[][] points = new Point[GameConfiguration.numberOfTiles][GameConfiguration.numberOfTiles];
+        Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
+        //topleft corner tile
+
+        int maxX = center.x + middle;
+        int minX = center.x - middle;
+        int maxY = center.y + middle;
+        int minY = center.y - middle;
+
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = minY; y <= maxY; y++)
+            {
+                points[x][y] = new Point(x, y);
+            }
+        }
+        return points;
+    }
+
 
     /**
      * calculates the visible tiles based on player position.

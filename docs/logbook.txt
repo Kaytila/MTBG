@@ -768,3 +768,7 @@ History of the changes:
 2023-02-06: made gridlines configurable.
 2023-02-07: made identifyTiles in UILense synchronized in order to avoid concurrent modification: when painting happens
             while PC move hence the tiles change and this is happening on different threads.
+2023-02-07: bugfix: visible maptiles was ever increasing.
+            introduced lifeform for maptile, maptile can have inventory or furniture or lifeform on it.
+            will remove iterating over lifeforms from paintComponent completely as we iterate over each visible tile
+            only once anyhow

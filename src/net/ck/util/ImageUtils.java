@@ -4,6 +4,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.game.GameLogs;
 import net.ck.game.graphics.ImagePair;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.MapTile;
@@ -45,11 +46,23 @@ public class ImageUtils
 
     private static BufferedImage inventoryImage;
 
-    private static ArrayList<ImagePair> brightenedImages = new ArrayList();
+    public static ArrayList<ImagePair> getBrightenedImages()
+    {
+        return brightenedImages;
+    }
+
+    public static void setBrightenedImages(ArrayList<ImagePair> brightenedImages)
+    {
+        ImageUtils.brightenedImages = brightenedImages;
+    }
+
+    private static ArrayList<ImagePair> brightenedImages = new ArrayList<>();
 
 
     /**
      * Compares two images pixel by pixel.
+     * <a href="https://stackoverflow.com/questions/11006394/is-there-a-simple-way-to-compare-bufferedimage-instances">
+     * https://stackoverflow.com/questions/11006394/is-there-a-simple-way-to-compare-bufferedimage-instances</a>
      *
      * @param imgA the first image.
      * @param imgB the second image.
@@ -80,6 +93,44 @@ public class ImageUtils
         }
 
         return true;
+    }
+
+
+    public static boolean betterCompareImages(BufferedImage source, BufferedImage target)
+    {
+        int w1 = source.getWidth();
+        int w2 = target.getWidth();
+        int h1 = source.getHeight();
+        int h2 = target.getHeight();
+
+        if ((w1 != w2) || (h1 != h2))
+        {
+            return false;
+        }
+        else
+        {
+            for (int j = 0; j < h1; j++)
+            {
+                for (int i = 0; i < w1; i++)
+                {
+                    //Getting the RGB values of a pixel
+                    int pixel1 = source.getRGB(i, j);
+                    Color color1 = new Color(pixel1, true);
+                    int r1 = color1.getRed();
+                    int g1 = color1.getGreen();
+                    int b1 = color1.getBlue();
+                    int pixel2 = target.getRGB(i, j);
+                    Color color2 = new Color(pixel2, true);
+                    int r2 = color2.getRed();
+                    int g2 = color2.getGreen();
+                    int b2 = color2.getBlue();
+                    //sum of differences of RGB values of the two images
+                    int data = Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
+                    return data <= 0;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -204,7 +255,7 @@ public class ImageUtils
 
     public static ArrayList<BufferedImage> loadMovingPlayerImages(Player player)
     {
-        BufferedImage movingImage = null;
+        BufferedImage movingImage;
         ArrayList<BufferedImage> images = new ArrayList<>();
         for (int i = 1; i < GameConfiguration.animationCycles; i++)
         {
@@ -329,7 +380,7 @@ public class ImageUtils
     }
 
     /**
-     * return bufferedimage but i do not know whether i need this, probably not
+     * create Ocean Images to show off graphics know how.
      */
     public static void createOceanImages()
     {
@@ -344,7 +395,7 @@ public class ImageUtils
                 }
             }
             Graphics2D gr = img.createGraphics();
-            QuadCurve2D.Double curve = new QuadCurve2D.Double(0, i + 16, 8, i + 0, 16, i + 16);
+            QuadCurve2D.Double curve = new QuadCurve2D.Double(0, i + 16, 8, i, 16, i + 16);
             gr.draw(curve);
             QuadCurve2D.Double curve2 = new QuadCurve2D.Double(16, i + 16, 24, 32, 32, i + 16);
             gr.draw(curve2);
@@ -613,7 +664,6 @@ public class ImageUtils
     {
         if (GameConfiguration.brightenUpImages == true)
         {
-            //long start = System.nanoTime();
 
             float percentage = 1.0f;
             int max = Math.max(x, y);
@@ -633,26 +683,23 @@ public class ImageUtils
             }
             // float percentage2 = 1.0f * (1.0f - 100 / (Math.max(x,y)) ;// / (Math.max(x,y)); // 50% bright - change this (or set dynamically) as you feel fit
 
+            long start;
             for (ImagePair iP : brightenedImages)
             {
                 if (iP.getPercentage() == percentage)
                 {
-                    if (iP.getSourceImage().equals(image))
+                    //if (compareImages(iP.getSourceImage(), image))
+                    //if (iP.getSourceImage().equals(image))
+                    start = System.nanoTime();
+                    if (compareImages(iP.getSourceImage(), image))
                     {
-                        //logger.debug("brighen up image just return image takes: {}", System.nanoTime() - start);
+                        GameLogs.getRetrieveBrightImages().add(System.nanoTime() - start);
+                        //logger.debug("betterCompareImages brighen up image just return image takes: {}", System.nanoTime() - start);
                         return iP.getResultImage();
                     }
-                    else
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    continue;
                 }
             }
-
+            start = System.nanoTime();
             BufferedImage img = copyImage(image);
             Graphics g = img.getGraphics();
 
@@ -669,7 +716,8 @@ public class ImageUtils
                 g.fillRect(0, 0, img.getWidth(), img.getHeight());
             }
             brightenedImages.add((new ImagePair(percentage, image, img)));
-            //logger.debug("brighen up image create image takes: {}", System.nanoTime() - start);
+            //logger.debug("brighten up image create image takes: {}", System.nanoTime() - start);
+            GameLogs.getCreateBrightImages().add(System.nanoTime() - start);
             return img;
         }
         //just return the image, do nothing

@@ -4,14 +4,19 @@ import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class GameLogs
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(GameLogs.class));
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(GameLogs.class));
 
 
 	private static ArrayList<Long> paintTimes = new ArrayList();
+
+	private static ArrayList<Long> retrieveBrightImages = new ArrayList();
+
+	private static ArrayList<Long> createBrightImages = new ArrayList();
 
 	public static ArrayList<Long> getPaintTimes()
 	{
@@ -23,15 +28,44 @@ public class GameLogs
 		paintTimes = pT;
 	}
 
-	public static Long calculatePaintTimeAverage()
+	public static Long calculateTimeAverage(ArrayList<Long> list)
 	{
 		long sum = 0;
 		int counter = 0;
-		for (long re : getPaintTimes())
+		for (long re : list)
 		{
 			counter++;
 			sum = sum + re;
 		}
 		return Math.floorDiv(sum, counter);
 	}
+
+	public static ArrayList<Long> getRetrieveBrightImages()
+	{
+		return retrieveBrightImages;
+	}
+
+	public static void setRetrieveBrightImages(ArrayList<Long> retrieveBrightImages)
+	{
+		GameLogs.retrieveBrightImages = retrieveBrightImages;
+	}
+
+	public static ArrayList<Long> getCreateBrightImages()
+	{
+		return createBrightImages;
+	}
+
+	public static void setCreateBrightImages(ArrayList<Long> createBrightImages)
+	{
+		GameLogs.createBrightImages = createBrightImages;
+	}
+
+	public static void dumpStatistics()
+	{
+		for (Field field : GameLogs.class.getDeclaredFields())
+		{
+			logger.info("field: {}", field.toString());
+		}
+	}
+
 }

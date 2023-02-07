@@ -45,6 +45,7 @@ public class UILense
      */
     private ArrayList<MapTile> visibleMapTiles;
 
+    public MapTile[][] mapTiles;
     private ArrayList<Point> visibleUICoordinates;
 
     /**
@@ -55,7 +56,7 @@ public class UILense
         logger.info("initializing lense");
 
         visibleMapTiles = new ArrayList<>();
-
+        mapTiles = new MapTile[GameConfiguration.numberOfTiles][GameConfiguration.numberOfTiles];
         xCoordinateSystem = new ArrayList<>(GameConfiguration.numberOfTiles);
         yCoordinateSystem = new ArrayList<>(GameConfiguration.numberOfTiles);
 
@@ -166,8 +167,15 @@ public class UILense
         this.visibleMapTiles = visibleTiles;
     }
 
+    /**
+     * identify which maptiles are visible around the player
+     * currently this is a dumb list but needs to be switched to array
+     * where screenposition is the x and y coordinate of the 2d array and the tile is the value.
+     */
     public synchronized void identifyVisibleTilesNew()
     {
+        //long start = System.nanoTime();
+        getVisibleMapTiles().clear();
         for (Point p : MapUtils.getVisibleMapPointsAroundPlayer())
         {
             if ((p.x >= 0 && p.y >= 0) && (p.x < Game.getCurrent().getCurrentMap().getSize().x && p.y < Game.getCurrent().getCurrentMap().getSize().y))
@@ -183,7 +191,37 @@ public class UILense
                 }
             }
         }
+        logger.info("how many visible map tiles: {}", getVisibleMapTiles().size());
+        //logger.info("time taken identifying tiles: {}", System.nanoTime() - start);
     }
+
+    public synchronized void identifyVisibleTilesBroken()
+    {
+        long start = System.nanoTime();
+        getVisibleMapTiles().clear();
+        Point[][] points = MapUtils.getVisibleMapPointsAroundPlayerasArray();
+        for (int i = 0; i < GameConfiguration.numberOfTiles; i++)
+        {
+            for (int j = 0; j < GameConfiguration.numberOfTiles; j++)
+            {
+                if ((points[i][j].x >= 0 && points[i][j].y >= 0) && (points[i][j].x < Game.getCurrent().getCurrentMap().getSize().x && points[i][j].y < Game.getCurrent().getCurrentMap().getSize().y))
+                {
+                    MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[points[i][j].x][points[i][j].y];
+                    if (tile != null)
+                    {
+                        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+                        // these are the visible tiles
+                        add(screenPosition);
+                        getVisibleMapTiles().add(tile);
+                        tile.setHidden(false);
+                    }
+                }
+            }
+        }
+        //logger.info("how many visible map tiles: {}", getVisibleMapTiles().size());
+        logger.info("time taken identifying tiles array: {}", System.nanoTime() - start);
+    }
+
 
     /**
      * identify which tiles of the map are currently visible

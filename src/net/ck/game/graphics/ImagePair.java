@@ -15,11 +15,14 @@ public class ImagePair
 		this.percentage = percentage;
 		this.sourceImage = sourceImage;
 		this.resultImage = resultImage;
+		this.hash = percentage + sourceImage.toString();
 	}
 
 	private float percentage;
 	private BufferedImage sourceImage;
 	private BufferedImage resultImage;
+
+	private String hash;
 
 	public BufferedImage getResultImage()
 	{
@@ -49,5 +52,15 @@ public class ImagePair
 	public void setPercentage(float percentage)
 	{
 		this.percentage = percentage;
+	}
+
+	public String getHash()
+	{
+		return hash;
+	}
+
+	public void setHash(String hash)
+	{
+		this.hash = hash;
 	}
 }
