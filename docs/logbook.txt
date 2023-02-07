@@ -766,3 +766,5 @@ History of the changes:
             moved identifyVisibleTiles to game startup and advance turn. no need to calculate this each time something
             paints.
 2023-02-06: made gridlines configurable.
+2023-02-07: made identifyTiles in UILense synchronized in order to avoid concurrent modification: when painting happens
+            while PC move hence the tiles change and this is happening on different threads.

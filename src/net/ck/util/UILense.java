@@ -156,17 +156,17 @@ public class UILense
         return Boolean.logicalAnd(xCoordinateSystem.get(p.x), yCoordinateSystem.get(p.y));
     }
 
-    public ArrayList<MapTile> getVisibleMapTiles()
+    public synchronized ArrayList<MapTile> getVisibleMapTiles()
     {
         return visibleMapTiles;
     }
 
-    public void setVisibleMapTiles(ArrayList<MapTile> visibleTiles)
+    public synchronized void setVisibleMapTiles(ArrayList<MapTile> visibleTiles)
     {
         this.visibleMapTiles = visibleTiles;
     }
 
-    public void identifyVisibleTilesNew()
+    public synchronized void identifyVisibleTilesNew()
     {
         for (Point p : MapUtils.getVisibleMapPointsAroundPlayer())
         {
