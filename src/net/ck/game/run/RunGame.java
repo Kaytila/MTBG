@@ -79,7 +79,6 @@ public class RunGame
 					ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
 				}
 				GameUtils.initializeAllItems();
-				GameUtils.initializeNPCs();
 				GameUtils.initializeMaps();
 				game.addPlayers(startPosition);
 				//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
@@ -149,12 +148,7 @@ public class RunGame
 					}
 					GameUtils.initializeAllItems();
 					renderSplashFrame(g, size);
-					GameUtils.initializeNPCs();
-					renderSplashFrame(g, size);
-
 					GameUtils.initializeMaps();
-					//GameUtils.listMaps();
-					//game.stopGame();
 					renderSplashFrame(g, size);
 					game.addPlayers(startPosition);
 					renderSplashFrame(g, size);

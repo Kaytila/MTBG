@@ -1,6 +1,7 @@
 package net.ck.util.xml;
 
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.Map;
@@ -13,14 +14,58 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Objects;
 
+
+/**
+ * /**
+ * <tile>
+ * <id>12544</id>
+ * <type>GRASS</type>
+ * <x>111</x>
+ * <y>111</y>
+ * <east></east>
+ * <west>12543</west>
+ * <south></south>
+ * <north>12432</north>
+ * </tile>
+ * * <npc>
+ * * <id>1</id>
+ * * <type>WARRIOR</type>
+ * * <x>3</x>
+ * * <y>2</y>
+ * * <mobasks>
+ * * <mobask>
+ * * <question>Hello</question>
+ * * <answer>Hello, how do you do?</answer>
+ * * </mobask>
+ * * <mobask>
+ * * <question>Name</question>
+ * * <answer>My name is orc</answer>
+ * * </mobask>
+ * * <mobask>
+ * * <question>job</question>
+ * * <answer>I am an orc warrior!</answer>
+ * * </mobask>
+ * * <mobask>
+ * * <question>bye</question>
+ * * <answer>Ort!</answer>
+ * * </mobask>
+ * * </mobasks>
+ * <targetPosition>
+ * <x>10</x>
+ * <y>3</y>
+ * </targetPosition>
+ * * </npc>
+ */
 public class MapXMLReader extends DefaultHandler
 {
 	private final Logger logger = LogManager.getLogger(getRealClass());
 
 	private ArrayList<MapTile> maptiles;
 	private MapTile maptile;
+
 	private NPC np;
 	private Map gameMap;
 	private boolean tile;
@@ -29,8 +74,14 @@ public class MapXMLReader extends DefaultHandler
 	private int x;
 	private int y;
 
+	private Hashtable<String, String> mobasks;
 
+	private String question;
+	private String answer;
 	private boolean targetPosition;
+
+	private boolean mapPosition;
+	private Point mapPos;
 
 	private Point targetPos;
 
@@ -94,17 +145,19 @@ public class MapXMLReader extends DefaultHandler
 		for (NPC n : getNpcs())
 		{
 			// logger.info("adding npc: {} to map: {}", n, gameMap);
-			NPC realNPC = new NPC(n.getNumber(), n.getMapPosition());
-			/*realNPC.setPatrolling(n.isPatrolling());
+			/*NPC realNPC = new NPC(n.getNumber(), n.getMapPosition());
+			realNPC.setPatrolling(n.isPatrolling());
 			realNPC.setOriginalTargetMapPosition(n.getOriginalTargetMapPosition());
 			realNPC.setTargetMapPosition(n.getOriginalTargetMapPosition());
 			realNPC.setOriginalMapPosition(realNPC.getMapPosition());
-			*/
+
 			realNPC.setPatrolling(true);
 			realNPC.setTargetMapPosition(new Point(10, 3));
-			realNPC.setOriginalTargetMapPosition(new Point(10, 3));
-			realNPC.initialize();
-			gameMap.getNpcs().add(realNPC);
+			realNPC.setOriginalTargetMapPosition(new Point(10, 3));*/
+
+			logger.info("initialize properly");
+			n.initialize();
+			gameMap.getNpcs().add(n);
 		}
 	}
 
@@ -117,8 +170,6 @@ public class MapXMLReader extends DefaultHandler
 	{
 		switch (qName)
 		{
-			case "npcs":
-				break;
 			case "east":
 				break;
 			case "north":
@@ -163,14 +214,6 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "targetID":
 				break;
-			case "npc":
-				np = new NPC();
-				if (npcs == null)
-				{
-					npcs = new ArrayList<>();
-				}
-				npc = true;
-				break;
 			case "minutesperturn":
 				break;
 			case "synchronweather":
@@ -179,9 +222,32 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "gamestate":
 				break;
+			case "npcs":
+				break;
+			case "npc":
+				np = new NPC();
+				if (npcs == null)
+				{
+					npcs = new ArrayList<>();
+				}
+				npc = true;
+				break;
+			case "mobasks":
+				mobasks = new Hashtable<>();
+				break;
 			case "targetPosition":
 				targetPosition = true;
 				targetPos = new Point();
+				break;
+			case "mapPosition":
+				mapPosition = true;
+				mapPos = new Point();
+				break;
+			case "mobask":
+				break;
+			case "question":
+				break;
+			case "answer":
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);
@@ -211,23 +277,34 @@ public class MapXMLReader extends DefaultHandler
 				if (tile)
 				{
 					maptile.setId(Integer.parseInt(data.toString()));
-					tile = false;
 				}
 				if (npc)
 				{
 					np.setNumber(Integer.parseInt(data.toString()));
-					npc = false;
+
 				}
 				break;
-
 			case "type":
-				maptile.setType(TileTypes.valueOf(data.toString()));
-				break;
-
-			case "x":
-				if (targetPosition)
+				if (tile)
 				{
-					targetPos.x = Integer.parseInt(data.toString());
+					maptile.setType(TileTypes.valueOf(data.toString()));
+				}
+				if (npc)
+				{
+					np.setType(NPCTypes.valueOf(data.toString()));
+				}
+				break;
+			case "x":
+				if (npc)
+				{
+					if (mapPosition)
+					{
+						mapPos.x = Integer.parseInt(data.toString());
+					}
+					if (targetPosition)
+					{
+						targetPos.x = Integer.parseInt(data.toString());
+					}
 				}
 				else
 				{
@@ -235,9 +312,16 @@ public class MapXMLReader extends DefaultHandler
 				}
 				break;
 			case "y":
-				if (targetPosition)
+				if (npc)
 				{
-					targetPos.x = Integer.parseInt(data.toString());
+					if (mapPosition)
+					{
+						mapPos.y = Integer.parseInt(data.toString());
+					}
+					if (targetPosition)
+					{
+						targetPos.y = Integer.parseInt(data.toString());
+					}
 				}
 				else
 				{
@@ -256,13 +340,12 @@ public class MapXMLReader extends DefaultHandler
 				maptile.setY(y);
 				maptile.setMapPosition(new Point(x, y));
 				maptiles.add(maptile);
-
+				tile = false;
 				//logger.info("maptile: {}", maptile);
 				break;
 			case "npc":
 				npcs.add(np);
-				np.setMapPosition(new Point(x, y));
-				//logger.info("npc: {}", np);
+				npc = false;
 				break;
 			case "weather":
 				if (gameMap == null)
@@ -306,10 +389,28 @@ public class MapXMLReader extends DefaultHandler
 			case "gamestate":
 				gameMap.setGameState(GameState.valueOf(data.toString()));
 				break;
+			case "mapPosition":
+				np.setMapPosition(mapPos);
+				np.setOriginalMapPosition(new Point(mapPos.x, mapPos.y));
+				mapPosition = false;
+				break;
 			case "targetPosition":
 				np.setOriginalTargetMapPosition(targetPos);
+				np.setTargetMapPosition(targetPos);
 				np.setPatrolling(true);
-				logger.info("targetPosition and patrolling set");
+				logger.info("targetPosition and patrolling set for id: {}", np.getNumber());
+				targetPosition = false;
+				break;
+			case "question":
+				question = (data.toString());
+				break;
+			case "answer":
+				answer = (data.toString());
+				break;
+			case "mobask":
+				mobasks.put(question, answer);
+			case "mobasks":
+				np.setMobasks(mobasks);
 				break;
 			default:
 				throw new IllegalStateException("Unexpected value: " + qName);
@@ -317,7 +418,8 @@ public class MapXMLReader extends DefaultHandler
 	}
 
 	@Override
-    public void characters(char[] ch, int start, int length) {
-        data.append(new String(ch, start, length));
-    }
+	public void characters(char[] ch, int start, int length)
+	{
+		data.append(new String(ch, start, length));
+	}
 }

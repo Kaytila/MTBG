@@ -1,6 +1,7 @@
 
 package net.ck.util.astar;
 
+import net.ck.game.backend.game.Game;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
@@ -30,12 +31,14 @@ public class AStar
     private static MapTile initialNode;
     private static MapTile finalNode;
 
+    private static net.ck.game.map.Map previousMap;
+
     public static void initialize(int rows, int cols, MapTile initialNode, MapTile finalNode, net.ck.game.map.Map map)
     {
         long start = System.nanoTime();
-        logger.info("start: ASTAR");
+        logger.info("start initialize: ASTAR");
         realInitialize(rows, cols, initialNode, finalNode, DEFAULT_HV_COST, DEFAULT_DIAGONAL_COST, map);
-        logger.info("end: ASTAR {}", System.nanoTime() - start);
+        logger.info("end initialize: ASTAR {}", System.nanoTime() - start);
     }
 
     private static void realInitialize(int rows, int cols, MapTile initialNode, MapTile finalNode, int defaultHvCost, int defaultDiagonalCost, net.ck.game.map.Map ma)
@@ -52,24 +55,61 @@ public class AStar
                 return Integer.compare(node0.getFinalCost(), node1.getFinalCost());
             }
         });
-        searchArea = new MapTile[rows][cols];
-        setNodes();
+
+        if (previousMap != null)
+        {
+            if (previousMap.equals(ma))
+            {
+                logger.info("same map, do not initialize");
+                //same map, do nothing
+            }
+            else
+            {
+                logger.info("new map, do initialize");
+                //previousMap = ma;
+                setNodesOld(rows, cols);
+            }
+        }
+        else
+        {
+            logger.info("first map, do initialize");
+            //previousMap = ma;
+            setNodesOld(rows, cols);
+        }
         closedSet = new HashSet<>();
     }
 
-
-    private static void setNodes()
+    private static void setNodes(int rows, int cols)
     {
-        for (int i = 0; i < getSearchArea().length; i++)
+        long start = System.nanoTime();
+        searchArea = Game.getCurrent().getCurrentMap().mapTiles.clone();
+        for (int i = 0; i < searchArea.length; i++)
         {
-            for (int j = 0; j < getSearchArea()[0].length; j++)
+            for (int j = 0; j < searchArea[0].length; j++)
+            {
+                searchArea[i][j].setParent(null);
+                searchArea[i][j].calculateHeuristic(getFinalNode());
+            }
+        }
+        logger.info("time taken for set nodes: {}", System.nanoTime() - start);
+    }
+
+
+    private static void setNodesOld(int rows, int cols)
+    {
+        long start = System.nanoTime();
+        searchArea = new MapTile[rows][cols];
+        for (int i = 0; i < searchArea.length; i++)
+        {
+            for (int j = 0; j < searchArea[0].length; j++)
             {
                 MapTile node = MapUtils.getMapTileByCoordinates(j, i);
                 node.setParent(null);
                 Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
-                getSearchArea()[i][j] = node;
+                searchArea[i][j] = node;
             }
         }
+        logger.info("time taken for set nodes: {}", System.nanoTime() - start);
     }
 
     public static void setBlocks(int[][] blocksArray)
@@ -84,6 +124,7 @@ public class AStar
 
     public static List<MapTile> findPath()
     {
+        long start = System.nanoTime();
         openList.add(initialNode);
         while (!isEmpty(openList))
         {
@@ -91,6 +132,7 @@ public class AStar
             closedSet.add(currentNode);
             if (isFinalNode(currentNode))
             {
+                logger.info("ASTAR find path: {}", System.nanoTime() - start);
                 return getPath(currentNode);
             }
             else
@@ -98,6 +140,7 @@ public class AStar
                 addAdjacentNodes(currentNode);
             }
         }
+        logger.info("ASTAR find path: {}", System.nanoTime() - start);
         return new ArrayList<>();
     }
 

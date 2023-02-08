@@ -1,6 +1,5 @@
 package net.ck.util.xml;
 
-import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.Armor;
 import net.ck.game.items.FurnitureItem;
@@ -63,13 +62,6 @@ public class RunXMLParser
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			MapXMLReader handler = new MapXMLReader();
 			saxParser.parse(new File(fileName), handler);
-			
-			//ArrayList<MapTile> maptiles = handler.getMaptiles();
-			//MapUtils.calculateTileDirections(maptiles);
-			//for (MapTile ti : maptiles)
-			//{
-				//logger.info(ti.toString());
-			//}
 			return handler.getGameMap();
 		}
 		catch (Exception e)
@@ -145,26 +137,6 @@ public class RunXMLParser
 		}
 		return null;
 
-	}
-
-	public static Hashtable<Integer, NPC> parseNPCs(String fileName)
-	{
-		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-		try
-		{
-			SAXParser saxParser = saxParserFactory.newSAXParser();
-			NPCReader handler = new NPCReader();
-			saxParser.parse(new File(fileName), handler);
-
-			return handler.getNpcs();
-		}
-		catch (Exception e)
-		{
-			logger.error("hmmm");
-			e.printStackTrace();
-			Game.getCurrent().stopGame();
-		}
-		return null;
 	}
 
 	public static Hashtable<Integer, FurnitureItem> parseFurniture(String fileName)

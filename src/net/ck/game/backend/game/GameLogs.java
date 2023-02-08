@@ -37,7 +37,14 @@ public class GameLogs
 			counter++;
 			sum = sum + re;
 		}
-		return Math.floorDiv(sum, counter);
+		if (counter > 0)
+		{
+			return Math.floorDiv(sum, counter);
+		}
+		else
+		{
+			return (long) 0;
+		}
 	}
 
 	public static ArrayList<Long> getRetrieveBrightImages()

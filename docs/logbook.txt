@@ -773,3 +773,6 @@ History of the changes:
             will remove iterating over lifeforms from paintComponent completely as we iterate over each visible tile
             only once anyhow
 2023-02-08: planning the full rewrite of painting. doing this somewhen soon somehow.
+2023-02-08: add npc to gamemap directly. remove the prototypes. Ran into issue where I used a reference instead of a new
+            object. Tried to make AStar initialize a bit faster, but failed.
+            The initialize should be way faster, but I do not comprehend how this works right now.

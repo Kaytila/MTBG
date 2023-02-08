@@ -121,3 +121,9 @@ whether it needs ot be brightened up based on player or furniture
 draw background, then draw npc or furniture or inventory on top.
 should be much much much faster
 for (int x = 0; i < tilesize; x++)...
+
+
+
+todo:
+remove NPC generics and just move them into map. This is only a bit more XML in contrast to all of the issues this is
+causing

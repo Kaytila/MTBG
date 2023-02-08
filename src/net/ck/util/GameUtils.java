@@ -384,27 +384,6 @@ public class GameUtils
         }
     }
 
-    public static void initializeNPCs()
-    {
-        logger.info("start: initialize npcs");
-
-        File folder = new File(GameConfiguration.npcFileRootPath);
-        File[] listOfFiles = folder.listFiles();
-
-        assert listOfFiles != null;
-        for (File file : listOfFiles)
-        {
-            if (file.isFile())
-            {
-                if (file.getName().equalsIgnoreCase("npc.xml"))
-                {
-                    logger.info("parsing npcs: {}", GameConfiguration.npcFileRootPath + File.separator + file.getName());
-                    Game.getCurrent().setNpcList(RunXMLParser.parseNPCs(GameConfiguration.npcFileRootPath + File.separator + file.getName()));
-                }
-            }
-        }
-        logger.info("end: initialize items");
-    }
 
     public static void listArmor()
     {

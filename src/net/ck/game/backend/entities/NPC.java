@@ -57,7 +57,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
     public NPC(Integer i, Point p)
     {
-        logger.info("initialize properly");
+        //logger.info("initialize properly");
         setStatic(false);
         setOriginalMapPosition(new Point(p.x, p.y));
         NPC master = Game.getCurrent().getNpcList().get(i);
@@ -217,6 +217,20 @@ public class NPC extends AbstractEntity implements LifeForm
 
     public void initialize()
     {
+        setStatic(false);
+        setNpcSchedules(new ArrayList<>());
+        setQueuedActions(new CommandQueue());
+        EventBus.getDefault().register(this);
+        getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
+        getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
+        getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
+        getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
+        setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
+        setState(LifeFormState.ALIVE);
+        setArmorClass(0);
+        getInventory().add(Game.getCurrent().getWeaponList().get(3));
+        wieldWeapon(Game.getCurrent().getWeaponList().get(1));
+
         ArrayList<BufferedImage> images = new ArrayList<>();
 
         BufferedImage standardImage;
@@ -323,21 +337,23 @@ public class NPC extends AbstractEntity implements LifeForm
         //logger.info("start: check schedules");
         if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 2) {
             // logger.info("check schedule");
-            if (getMobasks().size() > 0) {
+            if (getMobasks().size() > 0)
+            {
                 //logger.info("running");
-                MoveAction action = new MoveAction();
-                action.setGetWhere(new Point(1, 0));
-                doAction(new PlayerAction(action));
+                // MoveAction action = new MoveAction();
+                // action.setGetWhere(new Point(1, 0));
+                //doAction(new PlayerAction(action));
             }
         }
 
         if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 20) {
             //logger.info("check schedule");
-            if (getMobasks().size() > 0) {
+            if (getMobasks().size() > 0)
+            {
                 //logger.info("running");
-                MoveAction action = new MoveAction();
-                action.setGetWhere(getOriginalMapPosition());
-                doAction(new PlayerAction(action));
+                //MoveAction action = new MoveAction();
+                //action.setGetWhere(getOriginalMapPosition());
+                //doAction(new PlayerAction(action));
             }
         }
         //logger.info("end: check schedules");
