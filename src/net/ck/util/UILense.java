@@ -46,6 +46,7 @@ public class UILense
     private ArrayList<MapTile> visibleMapTiles;
 
     public MapTile[][] mapTiles;
+    //TODO
     private ArrayList<Point> visibleUICoordinates;
 
     /**

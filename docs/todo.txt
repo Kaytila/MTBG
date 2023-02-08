@@ -101,3 +101,23 @@ slow movement, where one step for player is two steps for World and NPCs.
 when in targetmode, when mouse is moved, highlight tile that would be the target of the action - slashie
 that means that the statemachine will carry mouseposition on the grid and tile under cursor at all times
 Will reduce getting mouse position again and again and again, if mouse is moved, store it once, get it back
+
+
+todo update way to think of playground
+  |00|01|02|03|
+------------------------
+00|xx|mt|mt|mt|
+01|xx|mt|mt|mt|
+02|xx|mt|mt|mt|
+
+so I have a 2d array with MapTile[tilesize][tilesize], a smaller version of the whole map
+I always work within this array and add, or remove rows, depening on the movement direction.
+or I can just re-create this with each step
+That way: no need for calculating screenposition, I know it already. No need to calculate the offset,
+I dont care.
+I can iterate once over the x*y array,
+for each tile, check whether it is black or dark or hidden
+whether it needs ot be brightened up based on player or furniture
+draw background, then draw npc or furniture or inventory on top.
+should be much much much faster
+for (int x = 0; i < tilesize; x++)...

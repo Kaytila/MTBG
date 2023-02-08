@@ -226,7 +226,7 @@ public class Map extends AbstractMap
 	{
 		for (NPC n : getNpcs())
 		{
-			logger.info("npc: {}", n);
+			logger.info("listing npc: {}", n);
 		}
 	}
 

@@ -11,11 +11,9 @@ import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.astar.AStar;
-import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import java.util.Objects;
  *
  * @author Claus
  */
-public abstract class AbstractEntity
+public abstract class AbstractEntity implements LifeForm
 {
 
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
@@ -467,12 +465,18 @@ public abstract class AbstractEntity
     }
 
 
+    /**
+     * @param x
+     * @param y
+     */
     public void move(int x, int y)
     {
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
+        MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
         this.getMapPosition().move(x, y);
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(true);
-        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
+        MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(this);
+        //EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 
     public boolean isLightSource()
@@ -562,5 +566,5 @@ public abstract class AbstractEntity
         return false;
     }
 
-    protected abstract CommandQueue getQueuedActions();
+    public abstract CommandQueue getQueuedActions();
 }

@@ -772,3 +772,4 @@ History of the changes:
             introduced lifeform for maptile, maptile can have inventory or furniture or lifeform on it.
             will remove iterating over lifeforms from paintComponent completely as we iterate over each visible tile
             only once anyhow
+2023-02-08: planning the full rewrite of painting. doing this somewhen soon somehow.

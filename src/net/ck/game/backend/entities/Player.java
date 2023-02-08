@@ -19,6 +19,7 @@ import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
 import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
@@ -598,6 +599,16 @@ public class Player extends AbstractEntity implements LifeForm
         }
         //logger.info("should not be reachable");
         return false;
+    }
+
+    /**
+     * @param x
+     * @param y
+     */
+    public void move(int x, int y)
+    {
+        super.move(x, y);
+        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 
     public boolean moveTo(MapTile tileByCoordinates)
