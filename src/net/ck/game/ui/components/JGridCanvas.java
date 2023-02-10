@@ -157,7 +157,15 @@ public class JGridCanvas extends JComponent
 
         if (GameConfiguration.drawTileOnce == true)
         {
-            //int i = 0;
+            int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
+            int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
+
+            int frameTop = Game.getCurrent().getCurrentPlayer().getUIPosition().y - Game.getCurrent().getCurrentMap().getVisibilityRange();
+            int frameBottom = Game.getCurrent().getCurrentPlayer().getUIPosition().y + Game.getCurrent().getCurrentMap().getVisibilityRange();
+            int frameLeft = Game.getCurrent().getCurrentPlayer().getUIPosition().x - Game.getCurrent().getCurrentMap().getVisibilityRange();
+            int frameRight = Game.getCurrent().getCurrentPlayer().getUIPosition().x + Game.getCurrent().getCurrentMap().getVisibilityRange();
+
+            int i = 0;
             for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
             {
                 for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
@@ -165,18 +173,91 @@ public class JGridCanvas extends JComponent
                     if (UILense.getCurrent().mapTiles[row][column] == null)
                     {
                         g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
                     }
                     //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize));
                     //i++;
+
+                    //paint darkness
+                    if (row < frameTop)
+                    {
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
+                    }
+                    if (row > frameBottom)
+                    {
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
+                    }
+
+                    if (column < frameLeft)
+                    {
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
+                    }
+                    if (column > frameRight)
+                    {
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
+                    }
+
+                    //paint LoS
+                    boolean blocked = false;
+                    ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), new Point(row, column));
+                    for (Point po : line)
+                    {
+                        MapTile t = UILense.getCurrent().mapTiles[po.x][po.y];
+                        if (t == null)
+                        {
+                            continue;
+                        }
+
+                        if (t.isBlocksLOS())
+                        {
+                            blocked = true;
+                            continue;
+                        }
+                        if (blocked)
+                        {
+                            t.setHidden(true);
+                            g.drawImage(blackImage, (po.x * GameConfiguration.tileSize), (po.y * GameConfiguration.tileSize), this);
+                        }
+                    }
+                    //paint background
+                    MapTile tile = UILense.getCurrent().mapTiles[row][column];
+                    BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
+                    if (img == null)
+                    {
+                        logger.error("tile has no image: {}", tile);
+                    }
+                    // logger.info("buffered image: {}", img.toString());
+                    int absX = Math.abs(pX - row);
+                    int absY = Math.abs(pY - column);
+                    img = ImageUtils.brightenUpImage(img, absX, absY);
+                    g.drawImage(img, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                    //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize - GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize));
+                    //i++;
+
+                    //paint npc
+                    if (tile.getLifeForm() != null)
+                    {
+                        if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
+                        {
+                            g.drawImage(tile.getLifeForm().getAppearance().getCurrentImage(), row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+                        }
+                        else
+                        {
+                            if (GameConfiguration.tileSize / GameConfiguration.imageSize.x == 2)
+                            {
+                                g.drawImage(tile.getLifeForm().getAppearance().getCurrentImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                            }
+                        }
+                    }
                 }
-
             }
-
         }
         else
         {
-
-
             // identify which tiles are visible at first!
             // long startTime = System.nanoTime();
             //identifyVisibleTiles();

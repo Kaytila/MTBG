@@ -293,15 +293,6 @@ public class GameUtils
                     logger.info("parsing map: {}", GameConfiguration.mapFileRootPath + File.separator + file.getName());
                     Map map = RunXMLParser.parseMap(GameConfiguration.mapFileRootPath + File.separator + file.getName());
 
-                    map.setSize(MapUtils.calculateMapSize(map));
-                    map.setMapTiles(new MapTile[map.getSize().x][map.getSize().y]);
-
-                    logger.debug("start: adding maptiles to 2d array");
-                    for (MapTile t : map.getTiles())
-                    {
-                        map.mapTiles[t.x][t.y] = t;
-                    }
-                    logger.debug("end: adding maptiles to 2d array");
 
                     String gameMapName = "testname";
                     if (Objects.requireNonNull(map).getName().equalsIgnoreCase(gameMapName))

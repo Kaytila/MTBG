@@ -7,6 +7,7 @@ import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.weather.WeatherTypes;
+import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -142,6 +143,15 @@ public class MapXMLReader extends DefaultHandler
 			gameMap.getTiles().add(t);
 		}
 
+		gameMap.setSize(MapUtils.calculateMapSize(gameMap));
+		gameMap.setMapTiles(new MapTile[gameMap.getSize().x][gameMap.getSize().y]);
+
+		logger.debug("start: adding maptiles to 2d array");
+		for (MapTile t : gameMap.getTiles())
+		{
+			gameMap.mapTiles[t.x][t.y] = t;
+		}
+
 		for (NPC n : getNpcs())
 		{
 			// logger.info("adding npc: {} to map: {}", n, gameMap);
@@ -158,6 +168,7 @@ public class MapXMLReader extends DefaultHandler
 			logger.info("initialize properly");
 			n.initialize();
 			gameMap.getNpcs().add(n);
+			gameMap.mapTiles[n.getMapPosition().x][n.getMapPosition().y].setLifeForm(n);
 		}
 	}
 

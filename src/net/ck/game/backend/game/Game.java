@@ -696,6 +696,10 @@ public class Game implements Runnable
         {
             getCurrentPlayer().setMapPosition(new Point(2, 2));
         }
+
+        Game.getCurrent().getCurrentMap().mapTiles[getCurrentPlayer().getMapPosition().x][getCurrentPlayer().getMapPosition().y].setLifeForm(getCurrentPlayer());
+
+
         Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
         for (ArmorPositions pos : positions)
         {
