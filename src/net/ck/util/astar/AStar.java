@@ -74,6 +74,7 @@ public class AStar
         {
             logger.info("first map, do initialize");
             //previousMap = ma;
+            //TODO check implementation again to distinguish initialization and use
             setNodesOld(rows, cols);
         }
         closedSet = new HashSet<>();

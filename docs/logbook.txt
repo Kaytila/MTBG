@@ -776,3 +776,6 @@ History of the changes:
 2023-02-08: add npc to gamemap directly. remove the prototypes. Ran into issue where I used a reference instead of a new
             object. Tried to make AStar initialize a bit faster, but failed.
             The initialize should be way faster, but I do not comprehend how this works right now.
+2023-02-09: played around a bit with a* but failing :D thinking about the rewrite of paintComponent a bit.
+2023-02-10: calculation of visible map tiles already in screenposition is working properly. initial drawing of no map vs
+            map is working now. commit.

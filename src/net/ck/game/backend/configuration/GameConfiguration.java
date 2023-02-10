@@ -127,13 +127,13 @@ public class GameConfiguration
     /**
      * use Events only for redrawing or do 60 fps :D
      */
-    public static final boolean useEvents = true;
+    public static final boolean useEvents = false;
 
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
      */
-    public static final boolean drawTileOnce = false;
+    public static final boolean drawTileOnce = true;
 
     public static final boolean brightenUpImages = true;
 

@@ -157,6 +157,20 @@ public class JGridCanvas extends JComponent
 
         if (GameConfiguration.drawTileOnce == true)
         {
+            //int i = 0;
+            for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
+            {
+                for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
+                {
+                    if (UILense.getCurrent().mapTiles[row][column] == null)
+                    {
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                    }
+                    //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize));
+                    //i++;
+                }
+
+            }
 
         }
         else
