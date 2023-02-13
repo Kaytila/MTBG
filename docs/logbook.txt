@@ -780,3 +780,7 @@ History of the changes:
 2023-02-10: calculation of visible map tiles already in screenposition is working properly. initial drawing of no map vs
             map is working now. commit.
 2023-02-10: drawOnlyOnce is implemented halfway. lifeform and player now work.
+2023-02-13: no surgery therefore some code - drawHighlightedTile had a huge bug, fixed now, not calling paint too often.
+            still looking for the bug for drawing or actually calculating hidden tiles, something is off there.
+            also - in drawonce mode, it is not necessary to center the tile contents (i smell an interface!) anymore.
+            why? need to figure out, but first things first.

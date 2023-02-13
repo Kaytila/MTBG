@@ -503,7 +503,8 @@ public class Game implements Runnable
         getIdleTimer().start();
         getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
-        UILense.getCurrent().identifyVisibleTilesNew();
+        UILense.getCurrent().identifyVisibleTilesBest();
+        //MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
         logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
@@ -635,7 +636,7 @@ public class Game implements Runnable
     public synchronized void stopGame()
     {
         getThreadController().listThreads();
-        logger.info("Paint times on average: {} miliseconds", TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
+        logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
         logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
         logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
         //logger.info("Paint times on average: {} seconds",  TimeUnit.NANOSECONDS.toSeconds(GameLogs.calculatePaintTimeAverage()));

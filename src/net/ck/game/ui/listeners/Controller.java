@@ -314,23 +314,35 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         this.mouseOutsideOfGrid = mouseOutsideOfGrid;
     }
 
+    /**
+     * make sure we catch the selected tile, but only if selectTile is filled
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mouseMoved(MouseEvent e)
     {
         UIStateMachine.setCurrentMousePosition(MouseInfo.getPointerInfo().getLocation());
-        if (UIStateMachine.getCurrentSelectedTile() == null)
-        {
-            UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
-        }
-        else
+        //
+        if (UIStateMachine.isSelectTile() == true)
         {
             if (UIStateMachine.getCurrentSelectedTile() != MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())))
             {
                 UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
-                //WindowBuilder.getGridCanvas().paint(e.getX() - GameConfiguration.tileSize, e.getY() - GameConfiguration.tileSize, - GameConfiguration.tileSize * 2, - GameConfiguration.tileSize * 2);
                 WindowBuilder.getGridCanvas().paint();
+                //logger.debug("calling paint");
+            }
+            else
+            {
+                //logger.debug("same tile is selected, do not redraw");
             }
         }
+        else
+        {
+            //logger.debug("select tile is not active");
+        }
+
+
         if (getCurrentAction() != null)
         {
             if (getCurrentAction().getType().equals(KeyboardActionType.ATTACK))

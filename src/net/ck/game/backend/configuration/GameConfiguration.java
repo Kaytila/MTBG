@@ -127,7 +127,7 @@ public class GameConfiguration
     /**
      * use Events only for redrawing or do 60 fps :D
      */
-    public static final boolean useEvents = false;
+    public static final boolean useEvents = true;
 
     /**
      * only draw each tile of the visible area once,
@@ -138,4 +138,7 @@ public class GameConfiguration
     public static final boolean brightenUpImages = true;
 
     public static final boolean paintGridLines = true;
+
+
+    public static final boolean debugASTAR = false;
 }

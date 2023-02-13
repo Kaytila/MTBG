@@ -1,6 +1,7 @@
 
 package net.ck.util.astar;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.map.MapTile;
 import net.ck.util.MapUtils;
@@ -35,10 +36,17 @@ public class AStar
 
     public static void initialize(int rows, int cols, MapTile initialNode, MapTile finalNode, net.ck.game.map.Map map)
     {
-        long start = System.nanoTime();
-        logger.info("start initialize: ASTAR");
+        long start;
+        if (GameConfiguration.debugASTAR == true)
+        {
+            start = System.nanoTime();
+            logger.info("start initialize: ASTAR");
+        }
         realInitialize(rows, cols, initialNode, finalNode, DEFAULT_HV_COST, DEFAULT_DIAGONAL_COST, map);
-        logger.info("end initialize: ASTAR {}", System.nanoTime() - start);
+        if (GameConfiguration.debugASTAR == true)
+        {
+            logger.info("end initialize: ASTAR {}", System.nanoTime() - start);
+        }
     }
 
     private static void realInitialize(int rows, int cols, MapTile initialNode, MapTile finalNode, int defaultHvCost, int defaultDiagonalCost, net.ck.game.map.Map ma)
@@ -56,25 +64,32 @@ public class AStar
             }
         });
 
-        if (previousMap != null)
+        if (GameConfiguration.debugASTAR == true)
         {
-            if (previousMap.equals(ma))
+            if (previousMap != null)
             {
-                logger.info("same map, do not initialize");
-                //same map, do nothing
+                if (previousMap.equals(ma))
+                {
+                    logger.info("same map, do not initialize");
+                    //same map, do nothing
+                }
+                else
+                {
+                    logger.info("new map, do initialize");
+                    //previousMap = ma;
+                    setNodesOld(rows, cols);
+                }
             }
             else
             {
-                logger.info("new map, do initialize");
+                logger.info("first map, do initialize");
                 //previousMap = ma;
+                //TODO check implementation again to distinguish initialization and use
                 setNodesOld(rows, cols);
             }
         }
         else
         {
-            logger.info("first map, do initialize");
-            //previousMap = ma;
-            //TODO check implementation again to distinguish initialization and use
             setNodesOld(rows, cols);
         }
         closedSet = new HashSet<>();
@@ -133,7 +148,10 @@ public class AStar
             closedSet.add(currentNode);
             if (isFinalNode(currentNode))
             {
-                logger.info("ASTAR find path: {}", System.nanoTime() - start);
+                if (GameConfiguration.debugASTAR == true)
+                {
+                    logger.info("ASTAR find path: {}", System.nanoTime() - start);
+                }
                 return getPath(currentNode);
             }
             else
@@ -141,7 +159,6 @@ public class AStar
                 addAdjacentNodes(currentNode);
             }
         }
-        logger.info("ASTAR find path: {}", System.nanoTime() - start);
         return new ArrayList<>();
     }
 
@@ -268,37 +285,37 @@ public class AStar
         initialNode = iN;
     }
 
-    public static MapTile getFinalNode()
+    private static MapTile getFinalNode()
     {
         return finalNode;
     }
 
-    public static void setFinalNode(MapTile fN)
+    private static void setFinalNode(MapTile fN)
     {
         finalNode = fN;
     }
 
-    public static MapTile[][] getSearchArea()
+    private static MapTile[][] getSearchArea()
     {
         return searchArea;
     }
 
-    public static void setSearchArea(MapTile[][] sA)
+    private static void setSearchArea(MapTile[][] sA)
     {
         searchArea = sA;
     }
 
-    public static PriorityQueue<MapTile> getOpenList()
+    private static PriorityQueue<MapTile> getOpenList()
     {
         return openList;
     }
 
-    public static void setOpenList(PriorityQueue<MapTile> oL)
+    private static void setOpenList(PriorityQueue<MapTile> oL)
     {
         openList = oL;
     }
 
-    public static Set<MapTile> getClosedSet()
+    private static Set<MapTile> getClosedSet()
     {
         return closedSet;
     }

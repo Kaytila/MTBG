@@ -27,6 +27,7 @@ import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.*;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
+import net.ck.util.ui.WindowBuilder;
 import net.ck.util.xml.RunXMLParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -419,7 +420,8 @@ public class GameUtils
             logger.info("setting UI position: {}", e.getMapPosition());
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
         }
-        UILense.getCurrent().identifyVisibleTilesNew();
+        UILense.getCurrent().identifyVisibleTilesBest();
+        MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
     }
 
     public static void listMaps()
