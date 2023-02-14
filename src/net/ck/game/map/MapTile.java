@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * @author Claus each individual tile, has x and y coordinates, connectors in
@@ -106,6 +107,11 @@ public class MapTile implements Comparable<MapTile>
      * for drawing. for calculating what they are doing keep using getCurrentMap().getLifeForms()
      */
     private LifeForm lifeForm;
+
+
+    private int brightenFactor;
+
+    private BufferedImage brightenedImage;
 
     public MapTile()
     {
@@ -565,5 +571,25 @@ public class MapTile implements Comparable<MapTile>
     public void setLifeForm(LifeForm lifeForm)
     {
         this.lifeForm = lifeForm;
+    }
+
+    public int getBrightenFactor()
+    {
+        return brightenFactor;
+    }
+
+    public void setBrightenFactor(int brightenFactor)
+    {
+        this.brightenFactor = brightenFactor;
+    }
+
+    public BufferedImage getBrightenedImage()
+    {
+        return brightenedImage;
+    }
+
+    public void setBrightenedImage(BufferedImage brightenedImage)
+    {
+        this.brightenedImage = brightenedImage;
     }
 }

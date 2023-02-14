@@ -166,9 +166,7 @@ public class JGridCanvas extends JComponent
             int frameLeft = Game.getCurrent().getCurrentPlayer().getUIPosition().x - Game.getCurrent().getCurrentMap().getVisibilityRange();
             int frameRight = Game.getCurrent().getCurrentPlayer().getUIPosition().x + Game.getCurrent().getCurrentMap().getVisibilityRange();
 
-            //MapUtils.calculateHiddenTiles(g);
 
-            int i = 0;
             for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
             {
                 for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
@@ -206,11 +204,7 @@ public class JGridCanvas extends JComponent
 
                     //paint background
                     MapTile tile = UILense.getCurrent().mapTiles[row][column];
-                    BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
-                    if (img == null)
-                    {
-                        logger.error("tile has no image: {}", tile);
-                    }
+
                     // logger.info("buffered image: {}", img.toString());
                     /**
                      * if the tile is hidden, paint black image then stop
@@ -225,15 +219,37 @@ public class JGridCanvas extends JComponent
                      */
                     else
                     {
-                        int absX = Math.abs(pX - row);
-                        int absY = Math.abs(pY - column);
-                        img = ImageUtils.brightenUpImage(img, absX, absY);
-                        g.drawImage(img, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
-                    }
-                    //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize - GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize));
-                    //i++;
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+                        {
+                            g.drawImage(tile.getBrightenedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        }
+                        else
+                        {
+                            BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
+                            if (img == null)
+                            {
+                                logger.error("tile has no image: {}", tile);
+                            }
+                            /*
+                             * if there is a lightsource in the vicinity, the factor is set hard
+                             */
+                            if (tile.getBrightenFactor() > 0)
+                            {
+                                img = ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor());
+                            }
 
-                    //paint npc
+                            //if not, calculate it based on range from player position
+                            else
+                            {
+                                int absX = Math.abs(pX - row);
+                                int absY = Math.abs(pY - column);
+                                img = ImageUtils.brightenUpImage(img, absX, absY);
+                            }
+                            g.drawImage(img, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        }
+                    }
+
+                    //paint furniture
                     if (tile.getFurniture() != null)
                     {
                         if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
@@ -267,7 +283,7 @@ public class JGridCanvas extends JComponent
                         }
                     }
 
-                    //paint npc
+                    //paint lifeforms
                     if (tile.getLifeForm() != null)
                     {
                         if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
@@ -286,6 +302,9 @@ public class JGridCanvas extends JComponent
                 }
             }
 
+            /**
+             *
+             */
             if (GameConfiguration.paintGridLines == true)
             {
                 paintGridLines(g);
@@ -300,7 +319,7 @@ public class JGridCanvas extends JComponent
             paintHighlightedMapTile(g);
             //MapUtils.calculateHiddenTiles(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
-            paintDarkness(g);
+            //paintDarkness(g);
         }
         else
         {
@@ -790,10 +809,6 @@ public class JGridCanvas extends JComponent
     }
 
 
-
-
-
-
     /**
      * step two in creating a better draw system
      * there is actually still room for improvement - visible tiles around player cannot change during paint they can only change during
@@ -937,7 +952,6 @@ public class JGridCanvas extends JComponent
         }
         logger.debug("end: paintNPC");
     }*/
-
     private void paintNPCsNew(Graphics g)
     {
         //logger.debug("start: paintNPCNew");

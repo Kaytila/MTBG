@@ -6,9 +6,11 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.backend.game.Game;
 import net.ck.game.graphics.TileTypes;
+import net.ck.game.items.FurnitureItem;
 import net.ck.game.map.AbstractMap;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +27,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -372,11 +375,19 @@ public class MapUtils
         Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
         Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
 
-        for (MapTile t : map.getTiles())
+        for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
         {
-            if ((rangeY.contains(t.getY()) && (rangeX.contains(t.getX()))))
+            for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
             {
-                visibleTiles.add(t);
+                if (UILense.getCurrent().mapTiles[row][column] == null)
+                {
+                    continue;
+                }
+                if ((rangeY.contains(UILense.getCurrent().mapTiles[row][column].getY()) && (rangeX.contains(UILense.getCurrent().mapTiles[row][column].getX()))))
+                {
+                    visibleTiles.add(UILense.getCurrent().mapTiles[row][column]);
+                }
+
             }
         }
         logger.info("calculate visible tiles old: {}", System.nanoTime() - start);
@@ -449,38 +460,11 @@ public class MapUtils
         return t.isBlocked();
          */
         //shorthand:
-        return getMapTileByCoordinates(x, y).isBlocked();
-    }
-
-
-    /**
-     * @param x x coordinate of the tile
-     * @param y y coordinate of the tile
-     * @return if the tile is blocked, so need to check for FALSE instead of TRUE
-     */
-    public static boolean lookAheadOld(int x, int y)
-    {
-        long start = System.nanoTime();
-        for (MapTile t : Game.getCurrent().getCurrentMap().getTiles())
+        if (getMapTileByCoordinates(x, y) == null)
         {
-            // same tile
-            if ((t.getX() != x))
-            {
-                continue;
-            }
-            if ((t.getY() != y))
-            {
-                continue;
-            }
-            if ((t.getX() == x) && (t.getY() == y))
-            {
-                //logger.info("found tile: {}, blocked: {}", t.toString(), t.isBlocked());
-                logger.info("time it takes here: {}", System.nanoTime() - start);
-                return t.isBlocked();
-            }
+            return true;
         }
-        logger.error("Big Problem, did not find the tile on the map - returning true");
-        return true;
+        return getMapTileByCoordinates(x, y).isBlocked();
     }
 
     /**
@@ -491,7 +475,7 @@ public class MapUtils
      */
     public static MapTile getMapTileByCoordinatesAsPoint(Point p)
     {
-        if ((p.x >= 0) && (p.y >= 0))
+        if ((p.x >= 0) && (p.y >= 0) && (p.x < Game.getCurrent().getCurrentMap().getSize().x) && (p.y < Game.getCurrent().getCurrentMap().getSize().y))
         {
             return Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
         }
@@ -510,7 +494,7 @@ public class MapUtils
      */
     public static MapTile getMapTileByCoordinates(int x, int y)
     {
-        if ((x >= 0) && (y >= 0))
+        if ((x >= 0) && (y >= 0) && (x < Game.getCurrent().getCurrentMap().getSize().x) && (y < Game.getCurrent().getCurrentMap().getSize().y))
         {
             return Game.getCurrent().getCurrentMap().mapTiles[x][y];
         }
@@ -850,6 +834,7 @@ public class MapUtils
             {
                 boolean blocked = false;
                 boolean first = true;
+                BufferedImage img;
                 MapTile t = UILense.getCurrent().mapTiles[row][column];
                 if (t == null)
                 {
@@ -857,16 +842,45 @@ public class MapUtils
                 }
                 t.setHidden(false);
 
-                /*if (t.getFurniture() != null)
+
+                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+                {
+                    t.setBrightenedImage(null);
+                    img = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
+                }
+                /**
+                 * identify the light range
+                 * pre-brighten the images
+                 */
+                if (t.getFurniture() != null)
                 {
                     FurnitureItem item = t.getFurniture();
                     if (item.isLightSource() == true)
                     {
                         int lightrange = item.getLightRange();
                         ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange, Game.getCurrent().getCurrentMap());
+                        for (MapTile tile : tiles)
+                        {
+                            tile.setBrightenFactor(1);
+                            if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+                            {
+                                tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
+                            }
+                        }
                     }
-                }*/
+                }
 
+                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+                {
+                    if (t.getBrightenedImage() == null)
+                    {
+                        int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
+                        int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
+                        int absX = Math.abs(pX - row);
+                        int absY = Math.abs(pY - column);
+                        t.setBrightenedImage(ImageUtils.brightenUpImage(img, absX, absY));
+                    }
+                }
                 /**
                  * raycasting starts here
                  */
