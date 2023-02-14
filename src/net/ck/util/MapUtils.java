@@ -824,6 +824,7 @@ public class MapUtils
             for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
             {
                 boolean blocked = false;
+                boolean first = true;
                 MapTile t = UILense.getCurrent().mapTiles[row][column];
                 if (t == null)
                 {
@@ -848,17 +849,51 @@ public class MapUtils
                     {
                         //logger.info("t: {}", t);
                         blocked = true;
-                        continue;
+                        if (first)
+                        {
+                            first = false;
+                            continue;
+                        }
+                        else
+                        {
+                            if (isAdjacent(t.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
+                            {
+                                if (GameConfiguration.debugLOS)
+                                {
+                                    logger.debug("next to player, do not block");
+                                }
+                            }
+                            else
+                            {
+                                t.setHidden(true);
+                                if (GameConfiguration.debugLOS)
+                                {
+                                    g.setColor(Color.GRAY);
+                                    g.drawString("B", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                                }
+                            }
+                        }
+
                     }
                     if (blocked)
                     {
-                        t.setHidden(true);
-                        if (GameConfiguration.debugLOS)
+                        if (isAdjacent(t.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
                         {
-                            g.setColor(Color.GRAY);
-                            g.drawString("B", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                            if (GameConfiguration.debugLOS)
+                            {
+                                logger.debug("next to player, do not block");
+                            }
                         }
-                        //logger.info("Maptile {} is hidden", t);
+                        else
+                        {
+                            t.setHidden(true);
+                            if (GameConfiguration.debugLOS)
+                            {
+                                g.setColor(Color.GRAY);
+                                g.drawString("B", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                            }
+                            //logger.info("Maptile {} is hidden", t);
+                        }
                     }
                 }
             }
