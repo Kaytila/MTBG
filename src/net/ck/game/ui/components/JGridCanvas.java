@@ -182,7 +182,7 @@ public class JGridCanvas extends JComponent
                     //i++;
 
                     //paint darkness
-                    /*if (row < frameTop)
+                    if (row < frameTop)
                     {
                         g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                         continue;
@@ -202,7 +202,7 @@ public class JGridCanvas extends JComponent
                     {
                         g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                         continue;
-                    }*/
+                    }
 
                     //paint background
                     MapTile tile = UILense.getCurrent().mapTiles[row][column];
@@ -300,7 +300,7 @@ public class JGridCanvas extends JComponent
             paintHighlightedMapTile(g);
             //MapUtils.calculateHiddenTiles(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
-
+            paintDarkness(g);
         }
         else
         {

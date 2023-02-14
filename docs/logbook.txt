@@ -787,3 +787,4 @@ History of the changes:
 2023-02-14: fixed the bug - initialized a variable outside of the scope in calculateHiddenTiles and one variable inside.
 2023-02-14: calculatehidden is now also hiding every tile after the first LoS block. This is /almost/ perfect.
             Now also not hiding the first tile if walking on LOS blocking tile. Also not quite perfect.
+2023-02-14: bugfix - yet again another scoping issue

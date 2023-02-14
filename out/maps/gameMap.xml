@@ -7,7 +7,7 @@
 		<weatherrandomness>10</weatherrandomness>
 		<wrapping>false</wrapping>
 		<name>testname</name>
-		<visibility>3</visibility>
+		<visibility>1</visibility>
 		<minutesperturn>1</minutesperturn>
 		<parent></parent>
 		<gamestate>WORLD</gamestate>

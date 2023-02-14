@@ -29,9 +29,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MapUtils
 {
@@ -367,6 +366,7 @@ public class MapUtils
 
     public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range, Map map)
     {
+        long start = System.nanoTime();
         ArrayList<MapTile> visibleTiles = new ArrayList<>();
         Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
         Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
@@ -379,8 +379,33 @@ public class MapUtils
                 visibleTiles.add(t);
             }
         }
+        logger.info("calculate visible tiles old: {}", System.nanoTime() - start);
         return visibleTiles;
     }
+
+    public static ArrayList<MapTile> calculateVisibleTilesNew(MapTile tile, int range, Map map)
+    {
+        long start = System.nanoTime();
+        ArrayList<MapTile> visibleTiles = new ArrayList<>();
+        Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
+        Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
+        Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
+
+        for (MapTile[] tiles : map.mapTiles)
+        {
+            for (Iterator<MapTile> it = Arrays.stream(tiles).iterator(); it.hasNext(); )
+            {
+                MapTile t = it.next();
+                if ((rangeY.contains(t.getY()) && (rangeX.contains(t.getX()))))
+                {
+                    visibleTiles.add(t);
+                }
+            }
+        }
+        logger.info("calculate visible tiles new: {}", System.nanoTime() - start);
+        return visibleTiles;
+    }
+
 
     /**
      * @param position describes the point the mouse is at
@@ -831,12 +856,26 @@ public class MapUtils
                     continue;
                 }
                 t.setHidden(false);
+
+                /*if (t.getFurniture() != null)
+                {
+                    FurnitureItem item = t.getFurniture();
+                    if (item.isLightSource() == true)
+                    {
+                        int lightrange = item.getLightRange();
+                        ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange, Game.getCurrent().getCurrentMap());
+                    }
+                }*/
+
+                /**
+                 * raycasting starts here
+                 */
                 ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), new Point(row, column));
                 for (Point po : line)
                 {
-                    t = UILense.getCurrent().mapTiles[po.x][po.y];
+                    MapTile tl = UILense.getCurrent().mapTiles[po.x][po.y];
 
-                    if (t == null)
+                    if (tl == null)
                     {
                         continue;
                     }
@@ -845,7 +884,7 @@ public class MapUtils
                         g.setColor(Color.YELLOW);
                         g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
                     }
-                    if (t.isBlocksLOS())
+                    if (tl.isBlocksLOS())
                     {
                         //logger.info("t: {}", t);
                         blocked = true;
@@ -856,7 +895,7 @@ public class MapUtils
                         }
                         else
                         {
-                            if (isAdjacent(t.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
+                            if (isAdjacent(tl.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
                             {
                                 if (GameConfiguration.debugLOS)
                                 {
@@ -865,7 +904,7 @@ public class MapUtils
                             }
                             else
                             {
-                                t.setHidden(true);
+                                tl.setHidden(true);
                                 if (GameConfiguration.debugLOS)
                                 {
                                     g.setColor(Color.GRAY);
@@ -877,7 +916,7 @@ public class MapUtils
                     }
                     if (blocked)
                     {
-                        if (isAdjacent(t.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
+                        if (isAdjacent(tl.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
                         {
                             if (GameConfiguration.debugLOS)
                             {
@@ -886,7 +925,7 @@ public class MapUtils
                         }
                         else
                         {
-                            t.setHidden(true);
+                            tl.setHidden(true);
                             if (GameConfiguration.debugLOS)
                             {
                                 g.setColor(Color.GRAY);
