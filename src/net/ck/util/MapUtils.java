@@ -819,31 +819,45 @@ public class MapUtils
     {
         //paint LoS
         long start = System.nanoTime();
-        boolean blocked = false;
         for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
         {
             for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
             {
+                boolean blocked = false;
+                MapTile t = UILense.getCurrent().mapTiles[row][column];
+                if (t == null)
+                {
+                    continue;
+                }
+                t.setHidden(false);
                 ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), new Point(row, column));
                 for (Point po : line)
                 {
-                    MapTile t = UILense.getCurrent().mapTiles[po.x][po.y];
+                    t = UILense.getCurrent().mapTiles[po.x][po.y];
 
                     if (t == null)
                     {
                         continue;
                     }
-                    g.setColor(Color.YELLOW);
-                    g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
-                    t.setHidden(false);
+                    if (GameConfiguration.debugLOS)
+                    {
+                        g.setColor(Color.YELLOW);
+                        g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                    }
                     if (t.isBlocksLOS())
                     {
+                        //logger.info("t: {}", t);
                         blocked = true;
                         continue;
                     }
                     if (blocked)
                     {
                         t.setHidden(true);
+                        if (GameConfiguration.debugLOS)
+                        {
+                            g.setColor(Color.GRAY);
+                            g.drawString("B", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                        }
                         //logger.info("Maptile {} is hidden", t);
                     }
                 }

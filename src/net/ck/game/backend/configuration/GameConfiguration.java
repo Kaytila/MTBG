@@ -141,4 +141,6 @@ public class GameConfiguration
 
 
     public static final boolean debugASTAR = false;
+
+    public static final boolean debugLOS = false;
 }

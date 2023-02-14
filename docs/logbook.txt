@@ -784,3 +784,4 @@ History of the changes:
             still looking for the bug for drawing or actually calculating hidden tiles, something is off there.
             also - in drawonce mode, it is not necessary to center the tile contents (i smell an interface!) anymore.
             why? need to figure out, but first things first.
+2023-02-14: fixed the bug - initialized a variable outside of the scope in calculateHiddenTiles and one variable inside.

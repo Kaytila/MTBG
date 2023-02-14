@@ -212,16 +212,22 @@ public class JGridCanvas extends JComponent
                         logger.error("tile has no image: {}", tile);
                     }
                     // logger.info("buffered image: {}", img.toString());
-                    int absX = Math.abs(pX - row);
-                    int absY = Math.abs(pY - column);
-                    img = ImageUtils.brightenUpImage(img, absX, absY);
+                    /**
+                     * if the tile is hidden, paint black image then stop
+                     */
                     if (tile.isHidden())
                     {
-                        //g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
-
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
                     }
+                    /**
+                     * if its not hidden, check to brighten up image
+                     */
                     else
                     {
+                        int absX = Math.abs(pX - row);
+                        int absY = Math.abs(pY - column);
+                        img = ImageUtils.brightenUpImage(img, absX, absY);
                         g.drawImage(img, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                     }
                     //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize - GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize));
@@ -292,7 +298,7 @@ public class JGridCanvas extends JComponent
 
             //start2 = System.nanoTime();
             paintHighlightedMapTile(g);
-            MapUtils.calculateHiddenTiles(g);
+            //MapUtils.calculateHiddenTiles(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
 
         }

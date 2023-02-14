@@ -504,7 +504,7 @@ public class Game implements Runnable
         getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         UILense.getCurrent().identifyVisibleTilesBest();
-        //MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
+        MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
         logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
