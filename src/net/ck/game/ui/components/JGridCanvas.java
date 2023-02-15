@@ -664,7 +664,6 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
-        logger.info("npc image changed: redraw");
         if (GameConfiguration.useEvents)
         {
             javax.swing.SwingUtilities.invokeLater(() ->

@@ -197,7 +197,7 @@ public class Game implements Runnable
 
         setCommandQueue(new CommandQueue());
         setGameTime(new GameTime());
-        getGameTime().setCurrentHour(17);
+        getGameTime().setCurrentHour(8);
 
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");

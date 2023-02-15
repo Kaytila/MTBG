@@ -165,10 +165,6 @@ public class UILense
         return visibleMapTiles;
     }
 
-    public synchronized void setVisibleMapTiles(ArrayList<MapTile> visibleTiles)
-    {
-        this.visibleMapTiles = visibleTiles;
-    }
 
     /**
      * identify the map tiles around player:

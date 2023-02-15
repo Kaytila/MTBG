@@ -108,6 +108,8 @@ public class Player extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
         setState(LifeFormState.ALIVE);
+
+        getAppearance().setCurrentImage(((AnimatedRepresentation) getAppearance()).getAnimationImageList().get(0));
     }
 
     public int getAnimationCycles()

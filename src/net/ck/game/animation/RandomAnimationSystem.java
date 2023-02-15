@@ -7,8 +7,10 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.graphics.AnimatedRepresentation;
+import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
+import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,22 +37,34 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
         while (Game.getCurrent().isRunning() == true)
         {
             // random variant
-            for (LifeForm p : Game.getCurrent().getCurrentMap().getLifeForms())
+            logger.info("running");
+            for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
             {
-                //logger.info("p: {}", p);
-                // if dead, stay corpse, or blood stain
-                if (p.getState().equals(LifeFormState.DEAD))
+                for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
                 {
-                    p.getAppearance().setCurrentImage(ImageUtils.getBloodstainImage());
-                }
-                //if unconcious, stay unmoving
-                else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
-                {
-                    p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
-                }
-                else// (p.getState().equals(LifeFormState.ALIVE))
-                {
-                    p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
+                    MapTile tile = UILense.getCurrent().mapTiles[row][column];
+                    if (tile != null)
+                    {
+                        LifeForm p = tile.getLifeForm();
+                        if (p != null)
+                        {
+                            logger.info("p: {}", p);
+                            // if dead, stay corpse, or blood stain
+                            if (p.getState().equals(LifeFormState.DEAD))
+                            {
+                                p.getAppearance().setCurrentImage(ImageUtils.getBloodstainImage());
+                            }
+                            //if unconcious, stay unmoving
+                            else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
+                            {
+                                p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
+                            }
+                            else// (p.getState().equals(LifeFormState.ALIVE))
+                            {
+                                p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
+                            }
+                        }
+                    }
                 }
             }
 

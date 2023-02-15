@@ -78,6 +78,7 @@ public class NPC extends AbstractEntity implements LifeForm
     public NPC()
     {
         super();
+
         mobasks = new Hashtable<>();
     }
 
@@ -239,6 +240,7 @@ public class NPC extends AbstractEntity implements LifeForm
         images.add(standardImage);
         images.addAll(movingImages);
         setAppearance(new AnimatedRepresentation(standardImage, images));
+        getAppearance().setCurrentImage(((AnimatedRepresentation) getAppearance()).getAnimationImageList().get(0));
     }
 
     public Point getMapPosition()

@@ -8,7 +8,7 @@
 		<wrapping>false</wrapping>
 		<name>testname</name>
 		<visibility>1</visibility>
-		<minutesperturn>10</minutesperturn>
+		<minutesperturn>1</minutesperturn>
 		<parent></parent>
 		<gamestate>WORLD</gamestate>
 	</meta>
