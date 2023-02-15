@@ -34,13 +34,6 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
     {
         while (Game.getCurrent().isRunning() == true)
         {
-            //long start = System.nanoTime();
-
-            // I hate 0 index //if I make the standard
-            // image part of the animation list, then I don't need the default
-            // state at all.
-            // that means, 2 animation cycles, no +1 needed.
-
             // random variant
             for (LifeForm p : Game.getCurrent().getCurrentMap().getLifeForms())
             {
@@ -54,24 +47,25 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
                 else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
                 {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
-                } else// (p.getState().equals(LifeFormState.ALIVE))
+                }
+                else// (p.getState().equals(LifeFormState.ALIVE))
                 {
                     p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
                 }
-                if (UIStateMachine.isUiOpen()) {
-                    EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
-                }
             }
-            //logger.info("time taken: {}", System.nanoTime() - start);
+
+            if (UIStateMachine.isUiOpen())
+            {
+                EventBus.getDefault().post(new AnimatedRepresentationChanged(null));
+            }
+
             try
             {
                 Game.getCurrent().getThreadController().sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
-
         }
         logger.error("game no longer running, thread {} is closing hopefully?", ThreadNames.LIFEFORM_ANIMATION);
     }

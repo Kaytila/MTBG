@@ -46,23 +46,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class Game implements Runnable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     /**
      * Singleton
      */
     private static final Game game = new Game();
-
-
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    /**
+     * the arraylist holds all the maps
+     * not sure if I do need to do that or can load from disk on demand,
+     * but the average map won't be that big
+     */
+    ArrayList<Map> maps = new ArrayList<>();
     /**
      * list that contains all utility items
      */
     private Hashtable<Integer, Utility> utilityList;
-
     /**
      * list that contains all furniture items
      */
     private Hashtable<Integer, FurnitureItem> furnitureList;
-
     /**
      * so weaponList has two entries now, but as these are referenced, I need to make an item factory which gets a prototype from the list and creates a new instance with the values instead.
      * weapon list get returns ID, not position.
@@ -72,13 +74,6 @@ public class Game implements Runnable
      * this is the list of all armor items that exist, ids will need to match the npc equipment. how much will this be used? not really sure
      */
     private Hashtable<Integer, Armor> armorList;
-
-    /**
-     * the arraylist holds all the maps
-     * not sure if I do need to do that or can load from disk on demand,
-     * but the average map won't be that big
-     */
-    ArrayList<Map> maps = new ArrayList<>();
     /**
      * holds the current map, might be game map, might be any map
      */
@@ -90,10 +85,6 @@ public class Game implements Runnable
      */
     private IdleTimer idleTimer;
 
-    /**
-     * the player has moved
-     */
-    private boolean moved = true;
     /**
      * is the game still running or shutting down?
      */
@@ -152,71 +143,29 @@ public class Game implements Runnable
      * so if we have a goto command, this needs to go into a command queue
      */
     private CommandQueue commandQueue;
-
-    public MusicTimer getMusicTimer()
-    {
-        return musicTimer;
-    }
-
-    public void setMusicTimer(MusicTimer musicTimer)
-    {
-        this.musicTimer = musicTimer;
-    }
-
     private MusicTimer musicTimer;
-
-    public QuequeTimer getQuequeTimer()
-    {
-        return quequeTimer;
-    }
-
     private GameState previousGameState;
-
-
-    public void setQuequeTimer(QuequeTimer quequeTimer)
-    {
-        this.quequeTimer = quequeTimer;
-    }
-
     /**
      * so how long is the time between movements being run from the command queue?
      */
     private QuequeTimer quequeTimer;
-
-
-    public MissileTimer getMissileTimer()
-    {
-        return missileTimer;
-    }
-
-    public void setMissileTimer(MissileTimer missileTimer)
-    {
-        this.missileTimer = missileTimer;
-    }
-
     /**
      * how long is the time period between missiles being drawn on the map?
      */
     private MissileTimer missileTimer;
-
     /**
      * base health is the basic health points number, i.e. does a NPC start with 10, 100, 1000 - depending on how far you want to go
      */
     private int baseHealth;
-
     /**
      * ready for next turn?
      */
     private boolean nextTurn;
-
-
     /**
      * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
-
     private HighlightTimer highlightTimer;
-
 
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -261,6 +210,36 @@ public class Game implements Runnable
     public static Game getCurrent()
     {
         return game;
+    }
+
+    public MusicTimer getMusicTimer()
+    {
+        return musicTimer;
+    }
+
+    public void setMusicTimer(MusicTimer musicTimer)
+    {
+        this.musicTimer = musicTimer;
+    }
+
+    public QuequeTimer getQuequeTimer()
+    {
+        return quequeTimer;
+    }
+
+    public void setQuequeTimer(QuequeTimer quequeTimer)
+    {
+        this.quequeTimer = quequeTimer;
+    }
+
+    public MissileTimer getMissileTimer()
+    {
+        return missileTimer;
+    }
+
+    public void setMissileTimer(MissileTimer missileTimer)
+    {
+        this.missileTimer = missileTimer;
     }
 
     public Hashtable<Integer, Utility> getUtilityList()
@@ -511,15 +490,29 @@ public class Game implements Runnable
         return currentTurn;
     }
 
+    public void setCurrentTurn(Turn currentTurn)
+    {
+        this.currentTurn = currentTurn;
+    }
+
     public World getEn()
     {
         return en;
     }
 
+    public void setEn(World en)
+    {
+        this.en = en;
+    }
 
     public ThreadController getThreadController()
     {
         return threadController;
+    }
+
+    public void setThreadController(ThreadController threadController)
+    {
+        this.threadController = threadController;
     }
 
     public int getTurnNumber()
@@ -527,14 +520,29 @@ public class Game implements Runnable
         return turnNumber;
     }
 
-   public ArrayList<Turn> getTurns()
-   {
-       return turns;
-   }
+    public void setTurnNumber(int turnNumber)
+    {
+        this.turnNumber = turnNumber;
+    }
+
+    public ArrayList<Turn> getTurns()
+    {
+        return turns;
+    }
+
+    public void setTurns(ArrayList<Turn> turns)
+    {
+        this.turns = turns;
+    }
 
     public AbstractWeatherSystem getWeatherSystem()
     {
         return weatherSystem;
+    }
+
+    public void setWeatherSystem(AbstractWeatherSystem weatherSystem)
+    {
+        this.weatherSystem = weatherSystem;
     }
 
     /**
@@ -584,38 +592,6 @@ public class Game implements Runnable
             //Game.getCurrent().setCurrentTurn(turn);
         }
         return getTurnNumber();
-    }
-
-    public void setCurrentTurn(Turn currentTurn)
-    {
-        this.currentTurn = currentTurn;
-    }
-
-    public void setEn(World en)
-    {
-        this.en = en;
-    }
-
-    public void setThreadController(ThreadController threadController)
-    {
-        this.threadController = threadController;
-    }
-
-    public void setTurnNumber(int turnNumber)
-    {
-        this.turnNumber = turnNumber;
-    }
-
-
-    public void setTurns(ArrayList<Turn> turns)
-    {
-        this.turns = turns;
-    }
-
-
-    public void setWeatherSystem(AbstractWeatherSystem weatherSystem)
-    {
-        this.weatherSystem = weatherSystem;
     }
 
     public synchronized void stopGame()
@@ -686,16 +662,6 @@ public class Game implements Runnable
         this.controller = controller;
     }
 
-    public boolean isMoved()
-    {
-        return moved;
-    }
-
-    public void setMoved(boolean moved)
-    {
-        logger.info("set moved set to: {}", moved);
-        this.moved = moved;
-    }
 
     /**
      * <a href="https://www.youtube.com/watch?v=VpH33Uw-_0E">https://www.youtube.com/watch?v=VpH33Uw-_0E</a>

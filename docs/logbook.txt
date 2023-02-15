@@ -795,3 +795,4 @@ History of the changes:
             Also removed players and npcs from game and controller.
             TODO: do not iterate over the lifeforms on map for switching images, only for
             those who are actually visible on the map.
+2023-02-14: only send one repaint message per repaint cycle. removed more code from game.
