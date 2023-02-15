@@ -60,10 +60,7 @@ public class NPC extends AbstractEntity implements LifeForm
         //logger.info("initialize properly");
         setStatic(false);
         setOriginalMapPosition(new Point(p.x, p.y));
-        NPC master = Game.getCurrent().getNpcList().get(i);
         setMapPosition(new Point(p.x, p.y));
-        setType(master.getType());
-        setMobasks(master.getMobasks());
         setNpcSchedules(new ArrayList<>());
         setQueuedActions(new CommandQueue());
         EventBus.getDefault().register(this);
@@ -316,7 +313,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Subscribe
     public void onMessageEvent(GameTimeChanged event)
     {
-        for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+        for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
         {
             if (this.equals(n))
             {

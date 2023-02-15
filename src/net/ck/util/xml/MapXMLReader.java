@@ -79,26 +79,28 @@ public class MapXMLReader extends DefaultHandler
 
 	private String question;
 	private String answer;
-	private boolean targetPosition;
+    private boolean targetPosition;
 
-	private boolean mapPosition;
-	private Point mapPos;
+    private boolean mapPosition;
+    private Point mapPos;
 
-	private Point targetPos;
+    private Point targetPos;
 
-	private GameState gameState;
+    private GameState gameState;
 
-	private ArrayList<NPC> npcs;
+    private ArrayList<NPC> npcs;
+    private boolean exit;
+    private Point exitPos;
 
-	public ArrayList<NPC> getNpcs()
-	{
-		return npcs;
-	}
+    public ArrayList<NPC> getNpcs()
+    {
+        return npcs;
+    }
 
-	public void setNpcs(ArrayList<NPC> npcs)
-	{
-		this.npcs = npcs;
-	}
+    public void setNpcs(ArrayList<NPC> npcs)
+    {
+        this.npcs = npcs;
+    }
 
 	public Map getGameMap()
 	{
@@ -129,7 +131,6 @@ public class MapXMLReader extends DefaultHandler
 	@Override
 	public void startDocument()
 	{
-		npcs = new ArrayList<>();
 		maptiles = new ArrayList<>();
 		gameMap = new Map();
 	}
@@ -137,38 +138,21 @@ public class MapXMLReader extends DefaultHandler
 	@Override
 	public void endDocument()
 	{
-		for (MapTile t : getMaptiles())
-		{
-			// logger.info("adding tile: {} to map: {}", t, gameMap);
-			gameMap.getTiles().add(t);
-		}
-
-		gameMap.setSize(MapUtils.calculateMapSize(gameMap));
-		gameMap.setMapTiles(new MapTile[gameMap.getSize().x][gameMap.getSize().y]);
+        gameMap.setSize(MapUtils.calculateMapSize(getMaptiles()));
+        gameMap.setMapTiles(new MapTile[gameMap.getSize().x][gameMap.getSize().y]);
 
 		logger.debug("start: adding maptiles to 2d array");
-		for (MapTile t : gameMap.getTiles())
-		{
-			gameMap.mapTiles[t.x][t.y] = t;
-		}
+        for (MapTile t : getMaptiles())
+        {
+            gameMap.mapTiles[t.x][t.y] = t;
+        }
 
 		for (NPC n : getNpcs())
 		{
-			// logger.info("adding npc: {} to map: {}", n, gameMap);
-			/*NPC realNPC = new NPC(n.getNumber(), n.getMapPosition());
-			realNPC.setPatrolling(n.isPatrolling());
-			realNPC.setOriginalTargetMapPosition(n.getOriginalTargetMapPosition());
-			realNPC.setTargetMapPosition(n.getOriginalTargetMapPosition());
-			realNPC.setOriginalMapPosition(realNPC.getMapPosition());
-
-			realNPC.setPatrolling(true);
-			realNPC.setTargetMapPosition(new Point(10, 3));
-			realNPC.setOriginalTargetMapPosition(new Point(10, 3));*/
-
 			logger.info("initialize properly");
-			n.initialize();
-			gameMap.getNpcs().add(n);
-			gameMap.mapTiles[n.getMapPosition().x][n.getMapPosition().y].setLifeForm(n);
+            n.initialize();
+            gameMap.getLifeForms().add(n);
+            gameMap.mapTiles[n.getMapPosition().x][n.getMapPosition().y].setLifeForm(n);
 		}
 	}
 
@@ -181,14 +165,6 @@ public class MapXMLReader extends DefaultHandler
 	{
 		switch (qName)
 		{
-			case "east":
-				break;
-			case "north":
-				break;
-			case "south":
-				break;
-			case "west":
-				break;
 			case "visibility":
 				break;
 			case "map":
@@ -221,10 +197,6 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "y":
 				break;
-			case "targetMap":
-				break;
-			case "targetID":
-				break;
 			case "minutesperturn":
 				break;
 			case "synchronweather":
@@ -249,20 +221,28 @@ public class MapXMLReader extends DefaultHandler
 			case "targetPosition":
 				targetPosition = true;
 				targetPos = new Point();
-				break;
-			case "mapPosition":
-				mapPosition = true;
-				mapPos = new Point();
-				break;
-			case "mobask":
-				break;
-			case "question":
-				break;
-			case "answer":
-				break;
-			default:
-				throw new IllegalStateException("Unexpected value: " + qName);
-		}
+                break;
+            case "mapPosition":
+                mapPosition = true;
+                mapPos = new Point();
+                break;
+            case "mobask":
+                break;
+            case "question":
+                break;
+            case "answer":
+                break;
+            case "exit":
+                exit = true;
+                exitPos = new Point();
+                break;
+            case "targetMap":
+                break;
+            case "targetCoordinates":
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + qName);
+        }
 		data = new StringBuilder();
 	}
 
@@ -275,14 +255,6 @@ public class MapXMLReader extends DefaultHandler
 		switch (qName)
 		{
 			case "npcs":
-				break;
-			case "east":
-				break;
-			case "north":
-				break;
-			case "south":
-				break;
-			case "west":
 				break;
 			case "id":
 				if (tile)
@@ -307,37 +279,45 @@ public class MapXMLReader extends DefaultHandler
 				break;
 			case "x":
 				if (npc)
-				{
-					if (mapPosition)
-					{
-						mapPos.x = Integer.parseInt(data.toString());
-					}
-					if (targetPosition)
-					{
-						targetPos.x = Integer.parseInt(data.toString());
-					}
-				}
-				else
-				{
-					x = Integer.parseInt(data.toString());
-				}
+                {
+                    if (mapPosition)
+                    {
+                        mapPos.x = Integer.parseInt(data.toString());
+                    }
+                    if (targetPosition)
+                    {
+                        targetPos.x = Integer.parseInt(data.toString());
+                    }
+                }
+                else if (exit)
+                {
+                    exitPos.x = Integer.parseInt(data.toString());
+                }
+                else
+                {
+                    x = Integer.parseInt(data.toString());
+                }
 				break;
 			case "y":
 				if (npc)
-				{
-					if (mapPosition)
-					{
-						mapPos.y = Integer.parseInt(data.toString());
-					}
-					if (targetPosition)
-					{
-						targetPos.y = Integer.parseInt(data.toString());
-					}
-				}
-				else
-				{
-					y = Integer.parseInt(data.toString());
-				}
+                {
+                    if (mapPosition)
+                    {
+                        mapPos.y = Integer.parseInt(data.toString());
+                    }
+                    if (targetPosition)
+                    {
+                        targetPos.y = Integer.parseInt(data.toString());
+                    }
+                }
+                else if (exit)
+                {
+                    exitPos.y = Integer.parseInt(data.toString());
+                }
+                else
+                {
+                    y = Integer.parseInt(data.toString());
+                }
 				break;
 			case "targetMap":
 				maptile.setTargetMap(data.toString());
@@ -412,20 +392,25 @@ public class MapXMLReader extends DefaultHandler
 				logger.info("targetPosition and patrolling set for id: {}", np.getNumber());
 				targetPosition = false;
 				break;
-			case "question":
-				question = (data.toString());
-				break;
-			case "answer":
-				answer = (data.toString());
-				break;
-			case "mobask":
-				mobasks.put(question, answer);
-			case "mobasks":
-				np.setMobasks(mobasks);
-				break;
-			default:
-				throw new IllegalStateException("Unexpected value: " + qName);
-		}
+            case "question":
+                question = (data.toString());
+                break;
+            case "answer":
+                answer = (data.toString());
+                break;
+            case "mobask":
+                mobasks.put(question, answer);
+            case "mobasks":
+                np.setMobasks(mobasks);
+                break;
+            case "exit":
+                gameMap.setTargetCoordinates(exitPos);
+                exit = false;
+            case "targetCoordinates":
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + qName);
+        }
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package net.ck.game.map;
 
 import net.ck.game.backend.entities.Missile;
-import net.ck.game.backend.entities.NPC;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.weather.Weather;
 import net.ck.game.weather.WeatherTypes;
@@ -55,10 +54,7 @@ public class AbstractMap
 	 */
 	private Point size;
 
-	/**
-	 * Tiles are currently just stored in a stupid array list.
-	 */
-	protected ArrayList<MapTile> tiles;
+	private Point targetCoordinates;
 
 	public MapTile[][] getMapTiles()
 	{
@@ -74,11 +70,6 @@ public class AbstractMap
 	 *
 	 */
 	public MapTile[][] mapTiles;
-
-	/**
-	 * npc is close to player but not quite the same :D
-	 */
-	private ArrayList<NPC> npcs;
 
 	/**
 	 * the items littering the ground -
@@ -140,10 +131,6 @@ public class AbstractMap
 		return size;
 	}
 
-	public ArrayList<MapTile> getTiles()
-	{
-		return tiles;
-	}
 
 	public void setChildMaps(ArrayList<Map> childMaps)
 	{
@@ -160,10 +147,6 @@ public class AbstractMap
 		this.size = size;
 	}
 
-	public void setTiles(ArrayList<MapTile> tiles)
-	{
-		this.tiles = tiles;
-	}
 
 	public String getName()
 	{
@@ -173,16 +156,6 @@ public class AbstractMap
 	public void setName(String name)
 	{
 		this.name = name;
-	}
-
-	public ArrayList<NPC> getNpcs()
-	{
-		return npcs;
-	}
-
-	public void setNpcs(ArrayList<NPC> arrayList)
-	{
-		this.npcs = arrayList;
 	}
 
 	public Weather getWeather()
@@ -225,13 +198,23 @@ public class AbstractMap
 		this.fixedWeather = fixedWeather;
 	}
 
-	public ArrayList<Missile> getMissiles()
-	{
-		return missiles;
-	}
+    public ArrayList<Missile> getMissiles()
+    {
+        return missiles;
+    }
 
-	public void setMissiles(ArrayList<Missile> missiles)
-	{
-		this.missiles = missiles;
-	}
+    public void setMissiles(ArrayList<Missile> missiles)
+    {
+        this.missiles = missiles;
+    }
+
+    public Point getTargetCoordinates()
+    {
+        return targetCoordinates;
+    }
+
+    public void setTargetCoordinates(Point targetCoordinates)
+    {
+        this.targetCoordinates = targetCoordinates;
+    }
 }

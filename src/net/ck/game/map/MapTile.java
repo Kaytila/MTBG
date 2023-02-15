@@ -62,36 +62,24 @@ public class MapTile implements Comparable<MapTile>
      * this is the tile the exit leads to
      */
     private int targetID;
-    /**
-     * what maptile is to the east?
-     */
-    private MapTile east;
+
     /**
      * id is just the ID of the maptile, so we have three ways to find a tile:
      * by ID, by listPosition, by coordinates
      */
     private int id;
-    /**
-     * what is the maptile to the north?
-     */
-    private MapTile north;
+
     /**
      * describes the position on the map in x and y coordinates
      * currently also have x and y as separate attributes, not sure yet which to use
      */
     private Point mapPosition;
-    /**
-     * what is the maptile to the south;
-     */
-    private MapTile south;
+
     /**
      * what type is the tile?
      */
     private TileTypes type;
-    /**
-     * what map tile is to the west?
-     */
-    private MapTile west;
+
     /**
      * furniture - items you can take, furniture you can only see
      */
@@ -189,16 +177,6 @@ public class MapTile implements Comparable<MapTile>
         this.targetID = targetID;
     }
 
-    public MapTile getEast()
-    {
-        return east;
-    }
-
-    public void setEast(MapTile east)
-    {
-        this.east = east;
-    }
-
     public int getId()
     {
         return id;
@@ -209,15 +187,6 @@ public class MapTile implements Comparable<MapTile>
         this.id = id;
     }
 
-    public MapTile getNorth()
-    {
-        return north;
-    }
-
-    public void setNorth(MapTile north)
-    {
-        this.north = north;
-    }
 
     public Point getMapPosition()
     {
@@ -229,16 +198,6 @@ public class MapTile implements Comparable<MapTile>
         this.mapPosition = position;
     }
 
-    public MapTile getSouth()
-    {
-        return south;
-    }
-
-    public void setSouth(MapTile south)
-    {
-        this.south = south;
-    }
-
     public TileTypes getType()
     {
         return type;
@@ -247,16 +206,6 @@ public class MapTile implements Comparable<MapTile>
     public void setType(TileTypes type)
     {
         this.type = type;
-    }
-
-    public MapTile getWest()
-    {
-        return west;
-    }
-
-    public void setWest(MapTile west)
-    {
-        this.west = west;
     }
 
     public int getX()

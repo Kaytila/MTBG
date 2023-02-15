@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.util.Hashtable;
 import java.util.Random;
 
 /**
@@ -255,25 +256,31 @@ public class World extends AbstractEntity implements LifeForm
 
 	@Override
 	public boolean isPatrolling()
-	{
-		return false;
-	}
+    {
+        return false;
+    }
 
-	@Override
-	public void setPatrolling(boolean patrolling)
-	{
+    @Override
+    public void setPatrolling(boolean patrolling)
+    {
 
-	}
+    }
 
-	@Override
-	public LifeFormState getState()
-	{
-		return null;
-	}
+    @Override
+    public Hashtable<String, String> getMobasks()
+    {
+        return null;
+    }
 
-	@Override
-	public void setState(LifeFormState state)
-	{
+    @Override
+    public LifeFormState getState()
+    {
+        return null;
+    }
+
+    @Override
+    public void setState(LifeFormState state)
+    {
 
 	}
 

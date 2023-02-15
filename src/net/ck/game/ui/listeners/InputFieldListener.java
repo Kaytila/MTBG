@@ -1,6 +1,6 @@
 package net.ck.game.ui.listeners;
 
-import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.ui.dialogs.TalkDialog;
 import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
@@ -16,18 +16,18 @@ public class InputFieldListener implements ActionListener
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JTextField inputField;
-	private JTextArea textArea;
-	private NPC npc;
-	private TalkDialog talkDialog;
+    private JTextArea textArea;
+    private LifeForm npc;
+    private TalkDialog talkDialog;
 	private boolean endDialog;
-	
-	public InputFieldListener(TalkDialog dialog, JTextField textField, JTextArea textArea, NPC n)
-	{
-		setInputField(textField);
-		setTextArea(textArea);
-		setTalkDialog(dialog);
-		setNpc(n);
-	}
+
+    public InputFieldListener(TalkDialog dialog, JTextField textField, JTextArea textArea, LifeForm n)
+    {
+        setInputField(textField);
+        setTextArea(textArea);
+        setTalkDialog(dialog);
+        setNpc(n);
+    }
 
 
 	@Override
@@ -98,15 +98,15 @@ public class InputFieldListener implements ActionListener
 		this.textArea = textArea;
 	}
 
-	public NPC getNpc()
-	{
-		return npc;
-	}
+    public LifeForm getNpc()
+    {
+        return npc;
+    }
 
-	public void setNpc(NPC npc)
-	{
-		this.npc = npc;
-	}
+    public void setNpc(LifeForm npc)
+    {
+        this.npc = npc;
+    }
 
 	public TalkDialog getTalkDialog()
 	{

@@ -3,7 +3,7 @@ package net.ck.util;
 import com.google.common.collect.Lists;
 import net.ck.game.animation.*;
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.state.GameState;
@@ -408,14 +408,16 @@ public class GameUtils
      * I want to fix this by simply initializing the things at the end of game start.
      * it appears, UI is not yet open.
      */
-    public static void initializeRest()
+    public static synchronized void initializeRest()
     {
+
         Game.getCurrent().getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         MapUtils.calculateDayOrNight();
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         //let us see whether this works:
-        for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
+
+        for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
         {
             logger.info("setting UI position: {}", e.getMapPosition());
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));

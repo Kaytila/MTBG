@@ -3,7 +3,6 @@ package net.ck.game.ui.components;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.Missile;
-import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.GameLogs;
 import net.ck.game.backend.state.UIStateMachine;
@@ -483,9 +482,9 @@ public class JGridCanvas extends JComponent
                             {
                                 g.drawImage(ImageUtils.brightenUpImage(t.getInventory().get(0).getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
                             }
-                            NPC n = null;
+                            LifeForm n = null;
                             boolean filled = false;
-                            for (NPC npc : Game.getCurrent().getCurrentMap().getNpcs())
+                            for (LifeForm npc : Game.getCurrent().getCurrentMap().getLifeForms())
                             {
                                 if (t.getMapPosition().equals(npc.getMapPosition()))
                                 {

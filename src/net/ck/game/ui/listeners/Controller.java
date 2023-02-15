@@ -3,7 +3,7 @@ package net.ck.game.ui.listeners;
 
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.items.AbstractItem;
@@ -39,7 +39,8 @@ import java.awt.event.*;
  *
  * @author Claus
  */
-public class Controller implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener {
+public class Controller implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
+{
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
@@ -75,7 +76,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     Timer pressedTimer;
 
 
-
     /**
      * this variable is being set if the numpad movement keys
      * are used for moving the cross-hairs currently.
@@ -102,7 +102,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     /**
      * standard constructor
      */
-    public Controller() {
+    public Controller()
+    {
         EventBus.getDefault().register(this);
         setMouseOutsideOfGrid(true);
         WindowBuilder.buildWindow(this);
@@ -239,7 +240,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     }
 
 
-
     public boolean isMousePressed()
     {
         return mousePressed;
@@ -266,19 +266,24 @@ public class Controller implements WindowListener, ActionListener, MouseListener
          */
         if (e.getButton() == MouseEvent.BUTTON3)
         {
-            if (!UIStateMachine.isSelectTile()) {
+            if (!UIStateMachine.isSelectTile())
+            {
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
             }
         }
 
         if (e.getButton() == MouseEvent.BUTTON1)
         {
-            if (WindowBuilder.getGridCanvas().isDragEnabled()) {
+            if (WindowBuilder.getGridCanvas().isDragEnabled())
+            {
                 final TransferHandler transferHandler = WindowBuilder.getGridCanvas().getTransferHandler();
-                if (transferHandler != null) {
+                if (transferHandler != null)
+                {
                     // TODO here could be more "logic" to initiate the drag
                     transferHandler.exportAsDrag(WindowBuilder.getGridCanvas(), e, DnDConstants.ACTION_MOVE);
-                } else {
+                }
+                else
+                {
                     logger.info("hmmm");
                 }
             }
@@ -396,7 +401,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             if (e.getButton() == MouseEvent.BUTTON3)
             {
                 //we are not in cross hair mode, need to figure out a way to identify drag drop!
-                if (!UIStateMachine.isSelectTile()) {
+                if (!UIStateMachine.isSelectTile())
+                {
                     int delay = 500; // milliseconds
                     logger.info("we are in movement mode with mouse 3");
                     ActionListener taskPerformer = new MouseActionListener(this);
@@ -420,12 +426,15 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         if (e.getButton() == MouseEvent.BUTTON3)
         {
             logger.info("stop pressing mouse3");
-            if (!UIStateMachine.isSelectTile()) {
-                if (pressedTimer != null) {
+            if (!UIStateMachine.isSelectTile())
+            {
+                if (pressedTimer != null)
+                {
                     pressedTimer.stop();
                 }
                 //logger.info("mouse released");
-                if (isMousePressed()) {
+                if (isMousePressed())
+                {
                     // logger.info("do nothing");
                     setMousePressed(false);
                 }
@@ -482,8 +491,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     case TALK:
                         boolean found = false;
                         getCurrentAction().setHaveNPCAction(true);
-                        NPC npc = null;
-                        for (NPC n : Game.getCurrent().getCurrentMap().getNpcs())
+                        LifeForm npc = null;
+                        for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
                         {
                             if (n.getMapPosition().equals(tile.getMapPosition()))
                             {
@@ -497,9 +506,12 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                             UIStateMachine.setSelectTile(false);
                             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                             getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                            if (UIStateMachine.isDialogOpened() == true) {
+                            if (UIStateMachine.isDialogOpened() == true)
+                            {
                                 break;
-                            } else {
+                            }
+                            else
+                            {
                                 UIStateMachine.setDialogOpened(true);
                                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), npc);
                                 logger.info("talk: {}", "");
@@ -558,28 +570,22 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         }
     }
 
-    private void runActions(AbstractKeyboardAction action) {
+    private void runActions(AbstractKeyboardAction action)
+    {
         //logger.info("Current action: {}", action);
         Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
         //Game.getCurrent().getIdleTimer().stop();
         WindowBuilder.getTextArea().append(action.getType().name());
         WindowBuilder.getTextArea().append("\n");
         WindowBuilder.getTextField().setText(action.getType().name());
-        // move to next player
-        if (Game.getCurrent().getCurrentPlayer().getNumber() < (Game.getCurrent().getPlayers().size() - 1)) {
-            Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(Game.getCurrent().getCurrentPlayer().getNumber() + 1));
 
-        }
         // all players have moved - en is no player.
         // NPCs are handled in game because the npcs on the current map
         // are loaded into game
-        else
-        {
-            WindowBuilder.getUndoButton().setEnabled(true);
-            Game.getCurrent().setCurrentPlayer(Game.getCurrent().getPlayers().get(0));
-            //Game.getCurrent().advanceTurn(hasNPCAction);
-            EventBus.getDefault().post(new AdvanceTurnEvent(action.isHaveNPCAction()));
-        }
+
+        WindowBuilder.getUndoButton().setEnabled(true);
+        EventBus.getDefault().post(new AdvanceTurnEvent(action.isHaveNPCAction()));
+
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         setCurrentAction(null);
     }
@@ -591,7 +597,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         switch (action.getType())
         {
             case EQ:
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     logger.info("We do not stack dialogs for now");
                     break;
                 }
@@ -607,7 +614,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case OPTIONS:
             {
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     logger.info("We do not stack dialogs for now");
                     break;
                 }
@@ -620,10 +628,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case INVENTORY:
             {
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     logger.info("dialog already open");
                     break;
-                } else {
+                }
+                else
+                {
                     action.setHaveNPCAction(false);
 
                     logger.info("inventory as separate event type, lets not add this to the action queue");
@@ -638,9 +649,12 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case ZSTATS:
             {
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     break;
-                } else {
+                }
+                else
+                {
                     action.setHaveNPCAction(false);
 
                     logger.info("zstats as separate event type, lets not add this to the action queue");
@@ -654,13 +668,17 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case DROP:
             {
-                if (UIStateMachine.isSelectTile() == true) {
+                if (UIStateMachine.isSelectTile() == true)
+                {
                     logger.info("select tile is active, dont do anything");
                     break;
                 }
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     break;
-                } else {
+                }
+                else
+                {
                     Game.getCurrent().getIdleTimer().stop();
                     action.setHaveNPCAction(false);
                     UIStateMachine.setSelectTile(true);
@@ -680,7 +698,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             case ESC:
             {
                 //logger.info("ESC Pressed");
-                if (UIStateMachine.isSelectTile() == true) {
+                if (UIStateMachine.isSelectTile() == true)
+                {
                     logger.info("selection is true");
                     UIStateMachine.setSelectTile(false);
                     setMovementForSelectTile(false);
@@ -688,7 +707,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(null);
                     break;
-                } else
+                }
+                else
                 {
                     logger.info("stopping game");
                     WindowBuilder.getFrame().dispatchEvent(new WindowEvent(WindowBuilder.getFrame(), WindowEvent.WINDOW_CLOSING));
@@ -699,7 +719,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case GET:
             {
-                if (UIStateMachine.isSelectTile() == true) {
+                if (UIStateMachine.isSelectTile() == true)
+                {
                     //logger.info("select tile is active, dont do anything");
                     UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
@@ -725,7 +746,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             }
 
             case LOOK:
-                if (UIStateMachine.isSelectTile() == true) {
+                if (UIStateMachine.isSelectTile() == true)
+                {
                     //logger.info("select tile is active, dont do anything");
                     UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
@@ -749,15 +771,20 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case TALK:
             {
-                if (UIStateMachine.isSelectTile() == true) {
+                if (UIStateMachine.isSelectTile() == true)
+                {
                     logger.info("select tile is active, dont do anything");
                     break;
                 }
                 //logger.info("talk");
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     break;
-                } else {
-                    if (isMouseOutsideOfGrid() == true) {
+                }
+                else
+                {
+                    if (isMouseOutsideOfGrid() == true)
+                    {
                         CursorUtils.centerCursorOnPlayer();
                     }
                     action.setHaveNPCAction(false);
@@ -812,7 +839,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             case ATTACK:
                 //second time a is pressed
                 //action is already set
-                if (UIStateMachine.isSelectTile() == true) {
+                if (UIStateMachine.isSelectTile() == true)
+                {
                     logger.info("select tile is active, allow attack");
                     UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
@@ -995,8 +1023,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         logger.info("deactivated");
         // if (Game.getCurrent().getSoundSystem().isMusicIsRunning())
         // {
-        if (UIStateMachine.isDialogOpened() == false) {
-            if (GameConfiguration.playMusic) {
+        if (UIStateMachine.isDialogOpened() == false)
+        {
+            if (GameConfiguration.playMusic)
+            {
                 //Game.getCurrent().getSoundSystem().stopMusic();
                 //Game.getCurrent().getSoundSystemNoThread().stopMusic();
                 Game.getCurrent().getMusicSystemNoThread().pauseMusic();

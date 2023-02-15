@@ -9,6 +9,7 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.GetAction;
 
 import java.awt.*;
+import java.util.Hashtable;
 import java.util.Queue;
 
 
@@ -93,4 +94,5 @@ public interface LifeForm
 
     void setPatrolling(boolean patrolling);
 
+    Hashtable<String, String> getMobasks();
 }

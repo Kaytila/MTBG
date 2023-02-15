@@ -47,25 +47,7 @@ public class MapUtils
         return middle;
     }
 
-    public static int getIDOfMapTileEast(MapTile tile)
-    {
-        return tile.getEast().getId();
-    }
 
-    public static int getIDOfMapTileNorth(MapTile tile)
-    {
-        return tile.getNorth().getId();
-    }
-
-    public static int getIDOfMapTileSouth(MapTile tile)
-    {
-        return tile.getSouth().getId();
-    }
-
-    public static int getIDOfMapTileWest(MapTile tile)
-    {
-        return tile.getWest().getId();
-    }
 
     /**
      * Helper Method because I am lazy not actually sure how useful this in a real context is, but for testing purposes
@@ -76,34 +58,24 @@ public class MapUtils
      */
     public static MapTile getMapTileByID(AbstractMap map, int ID)
     {
-        for (MapTile tile : map.getTiles())
+        for (int x = 0; x < map.getSize().x; x++)
         {
-            if (tile.getId() == ID)
+            for (int y = 0; y < map.getSize().y; y++)
             {
-                return tile;
+                MapTile tile = map.mapTiles[x][y];
+                if (tile.getId() == ID)
+                {
+                    return tile;
+                }
             }
         }
         return null;
     }
 
 
-    public static Point calculateMapSize(AbstractMap map)
+    public static MapTile getMapTileByCoordinates(AbstractMap map, int x, int y)
     {
-        int x = 0;
-        int y = 0;
-        for (MapTile tile : map.getTiles())
-        {
-            if (tile.getX() > x)
-            {
-                x = tile.getX();
-            }
-
-            if (tile.getY() > y)
-            {
-                y = tile.getY();
-            }
-        }
-        return new Point(x + 1, y + 1);
+        return map.mapTiles[x][y];
     }
 
 
@@ -183,66 +155,7 @@ public class MapUtils
     }
 
 
-    public static void calculateTileDirections(ArrayList<MapTile> list)
-    {
-        logger.info("start: calculate tile directions");
-        // iterate over all tiles
-        for (MapTile tile : list)
-        {
-            int x = tile.getX();
-            int y = tile.getY();
-            tile.setMapPosition(new Point(x, y));
-            // now for each tile try to find whether there is a tile whose x and y coordinates are in the +-1 range
-            // do i really want to do this in one go? hmmm
-            for (MapTile otherTile : list)
-            {
-                // check if the other tile is one tile north
-                if (otherTile.getY() - y == -1)
-                {
-                    // if X is the same coordinate, then its really north
-                    if (otherTile.getX() - x == 0)
-                    {
-                        tile.setNorth(otherTile);
-                        otherTile.setSouth(tile);
-                    }
-                }
 
-                // check if the other tile is one tile south
-                if (otherTile.getY() - y == 1)
-                {
-                    // if X is the same coordinate, then its really south
-                    if (otherTile.getX() - x == 0)
-                    {
-                        tile.setSouth(otherTile);
-                        otherTile.setNorth(tile);
-                    }
-                }
-
-                // check if the other tile is one tile east
-                if (otherTile.getX() - x == 1)
-                {
-                    // if Y is the same coordinate, then its really east
-                    if (otherTile.getY() - y == 0)
-                    {
-                        tile.setEast(otherTile);
-                        otherTile.setWest(tile);
-                    }
-                }
-
-                // check if the other tile is one tile west
-                if (otherTile.getX() - x == -1)
-                {
-                    // if Y is the same coordinate, then its really west
-                    if (otherTile.getY() - y == 0)
-                    {
-                        tile.setWest(otherTile);
-                        otherTile.setEast(tile);
-                    }
-                }
-            }
-        }
-        logger.info("end: calculate tile directions");
-    }
 
     /**
      * creates a map, all of type grassland or ocean in random with a little help from stackoverflow:
@@ -255,10 +168,6 @@ public class MapUtils
     {
         logger.info("begin creating Map with (zero-indexed) x: {} and y: {} and type: {}", x, y, type);
         int id;
-        String north;
-        String south;
-        String east;
-        String west;
 
         String fileName = ("maps" + File.separator + "Testmap2.xml");
         StringBuilder contents = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<map>\r\n" + "\t<meta>\r\n" + "\t\t<weather>true</weather>\r\n" + "\t\t<weatherrandomness>10</weatherrandomness>\r\n"
@@ -279,32 +188,8 @@ public class MapUtils
                     type = TileTypes.OCEAN;
                 }
 
-                north = String.valueOf(id - (x + 1));
-                south = String.valueOf(id + (x + 1));
-                east = String.valueOf(id + 1);
-                west = String.valueOf(id - 1);
 
-                if (j == 0)
-                {
-                    north = "";
-                }
-
-                if (i == 0)
-                {
-                    west = "";
-                }
-
-                if (i == x)
-                {
-                    east = "";
-                }
-
-                if (j == y)
-                {
-                    south = "";
-                }
-
-                contents.append("\t\t<tile>\r\n").append("\t\t\t<id>").append(id).append("</id>\r\n").append("\t\t\t<type>").append(type).append("</type>\r\n").append("\t\t\t<x>").append(i).append("</x>\r\n").append("\t\t\t<y>").append(j).append("</y>\r\n").append("\t\t\t<east>").append(east).append("</east>\r\n").append("\t\t\t<west>").append(west).append("</west>\r\n").append("\t\t\t<south>").append(south).append("</south>\r\n").append("\t\t\t<north>").append(north).append("</north>\r\n").append("\t\t</tile>\r\n");
+                contents.append("\t\t<tile>\r\n").append("\t\t\t<id>").append(id).append("</id>\r\n").append("\t\t\t<type>").append(type).append("</type>\r\n").append("\t\t\t<x>").append(i).append("</x>\r\n").append("\t\t\t<y>").append(j).append("</y>\r\n").append("\t\t</tile>\r\n");
             }
         }
 
@@ -348,24 +233,6 @@ public class MapUtils
                 MapUtils.getMiddle() + MapUtils.getMiddle());
     }
 
-    public static ArrayList<MapTile> calculateVisibleTiles(Rectangle visibleRect, Map map)
-    {
-        ArrayList<MapTile> visibleTiles = new ArrayList<>();
-
-        Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
-        Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
-
-        for (MapTile t : map.getTiles())
-        {
-
-            if ((rangeY.contains(t.getY()) && (rangeX.contains(t.getX()))))
-            {
-                visibleTiles.add(t);
-            }
-        }
-
-        return visibleTiles;
-    }
 
     public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range, Map map)
     {
@@ -569,6 +436,7 @@ public class MapUtils
         ultima4Map.setSyncedWeatherSystem(false);
         ultima4Map.setWeatherRandomness(10);
         ultima4Map.setSize(new Point(255, 255));
+        MapTile mapTiles[][] = new MapTile[255][255];
         try (CSVReader reader = new CSVReader(new FileReader("maps" + File.separator + "ultima4._Clean terrain.csv")))
         {
             List<String[]> r = reader.readAll();
@@ -627,7 +495,7 @@ public class MapUtils
                             break;
                     }
                     //logger.info("tile: {}", tile);
-                    ultima4Map.getTiles().add(tile);
+                    mapTiles[column][row] = tile;
                     id++;
                 }
                 row++;
@@ -645,6 +513,7 @@ public class MapUtils
         {
             e.printStackTrace();
         }
+        ultima4Map.setMapTiles(mapTiles);
         return ultima4Map;
     }
 
@@ -684,50 +553,22 @@ public class MapUtils
         writer.write("<parent>" + map.getParentMap() + "</parent>");
         writer.write("</meta>");
         writer.write("<tiles>");
-        ArrayList<MapTile> tiles = map.getTiles();
 
-        for (MapTile tile : tiles)
+
+        for (int x = 0; x < map.getSize().x; x++)
         {
-            writer.write("<tile>");
-            writer.write("<id>" + tile.getId() + "</id>");
-            writer.write("<type>" + tile.getType() + "</type>");
-            writer.write("<x>" + tile.getX() + "</x>");
-            writer.write("<y>" + tile.getY() + "</y>");
-            if (tile.getNorth() != null)
+            for (int y = 0; y < map.getSize().y; y++)
             {
-                writer.write("<north>" + tile.getNorth().getId() + "</north>");
+                MapTile tile = map.mapTiles[x][y];
+                writer.write("<tile>");
+                writer.write("<id>" + tile.getId() + "</id>");
+                writer.write("<type>" + tile.getType() + "</type>");
+                writer.write("<x>" + tile.getX() + "</x>");
+                writer.write("<y>" + tile.getY() + "</y>");
+                writer.write("<targetMap>" + tile.getTargetMap() + "</targetMap>");
+                writer.write("<targetID>" + tile.getTargetID() + "</targetID>");
+                writer.write("</tile>");
             }
-            else
-            {
-                writer.write("<north>" + "" + "</north>");
-            }
-            if (tile.getEast() != null)
-            {
-                writer.write("<east>" + tile.getEast().getId() + "</east>");
-            }
-            else
-            {
-                writer.write("<east>" + "" + "</east>");
-            }
-            if (tile.getSouth() != null)
-            {
-                writer.write("<south>" + tile.getSouth().getId() + "</south>");
-            }
-            else
-            {
-                writer.write("<south>" + "" + "</south>");
-            }
-            if (tile.getWest() != null)
-            {
-                writer.write("<west>" + tile.getWest().getId() + "</west>");
-            }
-            else
-            {
-                writer.write("<west>" + "" + "</west>");
-            }
-            writer.write("<targetMap>" + tile.getTargetMap() + "</targetMap>");
-            writer.write("<targetID>" + tile.getTargetID() + "</targetID>");
-            writer.write("</tile>");
         }
         writer.write("</tiles>");
         writer.write("</map>");
@@ -952,5 +793,26 @@ public class MapUtils
             }
         }
         logger.info("raycasting calculation takes: {} nanoseconds", System.nanoTime() - start);
+    }
+
+    public static Point calculateMapSize(ArrayList<MapTile> maptiles)
+    {
+        int x = 0;
+        int y = 0;
+        for (MapTile tile : maptiles)
+        {
+            if (tile.x > x)
+            {
+                x = tile.x;
+            }
+
+            if (tile.y > y)
+            {
+                y = tile.y;
+            }
+        }
+        return new Point(x + 1, y + 1);
+
+
     }
 }

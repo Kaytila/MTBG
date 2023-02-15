@@ -1,6 +1,6 @@
 package net.ck.game.ui.dialogs;
 
-import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.ui.buttons.CancelButton;
 import net.ck.game.ui.buttons.OKButton;
 import net.ck.util.CodeUtils;
@@ -79,9 +79,9 @@ public class AbstractDialog extends JDialog
 		cancelButton.setBounds(getWidth() - 90, getHeight() - 70, 70, 30);
 	}
 
-	public static TalkDialog createDialog(JFrame frame, String string, boolean b, AbstractKeyboardAction currentAction, NPC n)
-	{
+    public static TalkDialog createDialog(JFrame frame, String string, boolean b, AbstractKeyboardAction currentAction, LifeForm n)
+    {
         return new TalkDialog(frame, string, b, null, n);
-		
-	}
+
+    }
 }

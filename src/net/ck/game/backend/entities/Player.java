@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Objects;
 
 public class Player extends AbstractEntity implements LifeForm
@@ -464,6 +465,12 @@ public class Player extends AbstractEntity implements LifeForm
     public void setPatrolling(boolean patrolling)
     {
 
+    }
+
+    @Override
+    public Hashtable<String, String> getMobasks()
+    {
+        return null;
     }
 
     /*

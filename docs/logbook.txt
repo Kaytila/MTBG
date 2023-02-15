@@ -790,3 +790,8 @@ History of the changes:
 2023-02-14: bugfix - yet again another scoping issue
 2023-02-14: bright up range is configurable either done during paint or precalculated. precalculated is slower actually.
             next stop: calculate darkness tile before.
+2023-02-14: first stop: remove array list tilelist from Map - also removed east/south/west/north from Map and the lists
+            also removed npcs from map.
+            Also removed players and npcs from game and controller.
+            TODO: do not iterate over the lifeforms on map for switching images, only for
+            those who are actually visible on the map.

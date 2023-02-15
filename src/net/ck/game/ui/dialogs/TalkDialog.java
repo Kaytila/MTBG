@@ -1,7 +1,7 @@
 package net.ck.game.ui.dialogs;
 
 import net.ck.game.backend.entities.AbstractEntity;
-import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.ui.listeners.InputFieldListener;
 import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
@@ -17,24 +17,24 @@ public class TalkDialog extends AbstractDialog
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private JTextArea textArea;
-	private JTextField textField;
-	private NPC npc;
+    private JTextField textField;
+    private LifeForm npc;
 	
 	public TalkDialog()
 	{
 	}
 
-	public TalkDialog(Frame owner, String title, boolean modal, AbstractEntity target, NPC n)
-	{
-		setTitle(title);
-		setNpc(n);
-		this.setBounds(0, 100, 700, 700);
-		this.setLayout(null);	
-		this.setLocationRelativeTo(owner);
-		final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
-		root = this.getRootPane();
-		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
-		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
+    public TalkDialog(Frame owner, String title, boolean modal, AbstractEntity target, LifeForm n)
+    {
+        setTitle(title);
+        setNpc(n);
+        this.setBounds(0, 100, 700, 700);
+        this.setLayout(null);
+        this.setLocationRelativeTo(owner);
+        final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
+        root = this.getRootPane();
+        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
+        root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
 		root.setOpaque(false);
 
 		JPanel panel = new JPanel();
@@ -143,13 +143,13 @@ public class TalkDialog extends AbstractDialog
 		return logger;
 	}
 
-	public NPC getNpc()
-	{
-		return npc;
-	}
+    public LifeForm getNpc()
+    {
+        return npc;
+    }
 
-	public void setNpc(NPC npc)
-	{
-		this.npc = npc;
-	}
+    public void setNpc(LifeForm npc)
+    {
+        this.npc = npc;
+    }
 }

@@ -44,7 +44,7 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
             // random variant
             for (LifeForm p : Game.getCurrent().getCurrentMap().getLifeForms())
             {
-                //logger.info("lifeform state: {}", p.getState());
+                //logger.info("p: {}", p);
                 // if dead, stay corpse, or blood stain
                 if (p.getState().equals(LifeFormState.DEAD))
                 {

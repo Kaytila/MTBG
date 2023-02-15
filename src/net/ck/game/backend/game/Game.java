@@ -54,11 +54,6 @@ public class Game implements Runnable
 
 
     /**
-     * list that contains all the NPC prototypes
-     */
-    private Hashtable<Integer, NPC> npcList;
-
-    /**
      * list that contains all utility items
      */
     private Hashtable<Integer, Utility> utilityList;
@@ -116,14 +111,7 @@ public class Game implements Runnable
      * world is doing the random events
      */
     private World en;
-    /**
-     * NPC Number, running ID for NPCs, not sure whether this can be kept game-wide, or needs to go down to GameMap
-     */
-    private int npcNumber;
-    /**
-     * list of players
-     */
-    private ArrayList<Player> players = new ArrayList<>();
+
     /**
      * threadController
      */
@@ -249,7 +237,7 @@ public class Game implements Runnable
         setThreadController(new ThreadController());
         getThreadController().add(Thread.currentThread());
 
-
+        GameStateMachine.getCurrent();
         setTurnNumber(0);
         Turn turn = new Turn(getTurnNumber());
 
@@ -260,9 +248,7 @@ public class Game implements Runnable
 
         setCommandQueue(new CommandQueue());
         setGameTime(new GameTime());
-        getGameTime().setCurrentHour(9);
-
-        GameStateMachine.getCurrent();
+        getGameTime().setCurrentHour(17);
 
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");
@@ -334,7 +320,7 @@ public class Game implements Runnable
             np.setNumber(i + 5);
             np.setType(NPCTypes.WARRIOR);
             np.initialize();
-            map.getNpcs().add(np);
+            map.getLifeForms().add(np);
         }
 
     }
@@ -430,8 +416,13 @@ public class Game implements Runnable
 
         if (haveNPCAction)
         {
-            for (NPC e : Game.getCurrent().getCurrentMap().getNpcs())
+            for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
             {
+                if (e instanceof Player)
+                {
+                    logger.info("found player, continue");
+                    continue;
+                }
                 logger.info("npc: {}", e);
                 //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                 //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
@@ -526,11 +517,6 @@ public class Game implements Runnable
     }
 
 
-    public ArrayList<Player> getPlayers()
-    {
-        return players;
-    }
-
     public ThreadController getThreadController()
     {
         return threadController;
@@ -610,11 +596,6 @@ public class Game implements Runnable
         this.en = en;
     }
 
-    public void setPlayers(ArrayList<Player> players)
-    {
-        this.players = players;
-    }
-
     public void setThreadController(ThreadController threadController)
     {
         this.threadController = threadController;
@@ -659,22 +640,6 @@ public class Game implements Runnable
         this.currentPlayer = abstractEntity;
     }
 
-    public int getNpcNumber()
-    {
-        return npcNumber;
-    }
-
-    public void setNpcNumber(int npcNumber)
-    {
-        this.npcNumber = npcNumber;
-    }
-
-    @SuppressWarnings("unused")
-    public int getNextNPCNumber()
-    {
-        setNpcNumber(getNpcNumber() + 1);
-        return getNpcNumber();
-    }
 
     /**
      * so the game starts so the first player has the first movement action. Then it goes to the second player ... when all players have moved, roll over turn there only will be one player without
@@ -689,8 +654,8 @@ public class Game implements Runnable
         p1.getInventory().add(sling);
         p1.setWeapon(sling);
 
-        getPlayers().add(p1);
-        setCurrentPlayer(getPlayers().get(0));
+
+        setCurrentPlayer(p1);
         //for ultima IV map
         //getCurrentPlayer().setMapPosition(new Point(38, 38));
         if (startPosition != null)
@@ -710,6 +675,7 @@ public class Game implements Runnable
         {
             logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
         }
+        Game.getCurrent().getCurrentMap().getLifeForms().add(Game.getCurrent().getCurrentPlayer());
     }
 
     public Controller getController() {
@@ -836,25 +802,6 @@ public class Game implements Runnable
     public void setWeaponList(Hashtable<Integer, Weapon> weaponList)
     {
         this.weaponList = weaponList;
-    }
-
-    public Hashtable<Integer, NPC> getNpcList()
-    {
-        return npcList;
-    }
-
-    public void setNpcList(Hashtable<Integer, NPC> npcList)
-    {
-        this.npcList = npcList;
-    }
-
-    @SuppressWarnings("unused")
-    public void listNPCs()
-    {
-        for (NPC i : getNpcList().values())
-        {
-            logger.info("npc: {}", i);
-        }
     }
 
     public Hashtable<Integer, FurnitureItem> getFurnitureList()
