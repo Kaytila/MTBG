@@ -37,7 +37,7 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
         while (Game.getCurrent().isRunning() == true)
         {
             // random variant
-            logger.info("running");
+            //logger.info("running");
             for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
             {
                 for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
@@ -48,7 +48,7 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
                         LifeForm p = tile.getLifeForm();
                         if (p != null)
                         {
-                            logger.info("p: {}", p);
+                            //logger.info("p: {}", p);
                             // if dead, stay corpse, or blood stain
                             if (p.getState().equals(LifeFormState.DEAD))
                             {

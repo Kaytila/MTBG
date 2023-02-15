@@ -125,10 +125,10 @@ public class NPCReader extends DefaultHandler
                 break;
             case "npc":
                 n.initialize();
-                npcs.put(n.getNumber(), n);
+                npcs.put(n.getId(), n);
                 break;
             case "id":
-                n.setNumber(Integer.parseInt(data.toString()));
+                n.setId(Integer.parseInt(data.toString()));
                 break;
             case "type":
                 n.setType(NPCTypes.valueOf(data.toString()));

@@ -4,8 +4,11 @@ import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.queuing.Schedule;
+import net.ck.game.backend.queuing.ScheduleActivity;
 import net.ck.game.backend.state.CommandSuccessMachine;
 import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.time.GameTime;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.AbstractItem;
@@ -40,7 +43,7 @@ public class NPC extends AbstractEntity implements LifeForm
     private Hashtable<String, String> mobasks;
     private boolean hostile;
     private boolean isStatic;
-    private ArrayList<NPCSchedule> npcSchedules;
+
     private CommandQueue queuedActions;
     private LifeForm victim;
     private boolean ranged;
@@ -55,13 +58,15 @@ public class NPC extends AbstractEntity implements LifeForm
     private Point targetMapPosition;
     private boolean patrolling;
 
+    private Schedule schedule;
+
     public NPC(Integer i, Point p)
     {
         //logger.info("initialize properly");
         setStatic(false);
         setOriginalMapPosition(new Point(p.x, p.y));
         setMapPosition(new Point(p.x, p.y));
-        setNpcSchedules(new ArrayList<>());
+
         setQueuedActions(new CommandQueue());
         EventBus.getDefault().register(this);
         getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
@@ -216,7 +221,6 @@ public class NPC extends AbstractEntity implements LifeForm
     public void initialize()
     {
         setStatic(false);
-        setNpcSchedules(new ArrayList<>());
         setQueuedActions(new CommandQueue());
         EventBus.getDefault().register(this);
         getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
@@ -241,6 +245,10 @@ public class NPC extends AbstractEntity implements LifeForm
         images.addAll(movingImages);
         setAppearance(new AnimatedRepresentation(standardImage, images));
         getAppearance().setCurrentImage(((AnimatedRepresentation) getAppearance()).getAnimationImageList().get(0));
+        if (getId() == 4)
+        {
+            setSchedule(new Schedule(this));
+        }
     }
 
     public Point getMapPosition()
@@ -289,15 +297,6 @@ public class NPC extends AbstractEntity implements LifeForm
         this.mobasks = mobasks;
     }
 
-    public ArrayList<NPCSchedule> getNpcSchedules()
-    {
-        return npcSchedules;
-    }
-
-    public void setNpcSchedules(ArrayList<NPCSchedule> npcSchedules)
-    {
-        this.npcSchedules = npcSchedules;
-    }
 
     public CommandQueue getQueuedActions()
     {
@@ -315,26 +314,42 @@ public class NPC extends AbstractEntity implements LifeForm
     @Subscribe
     public void onMessageEvent(GameTimeChanged event)
     {
-        for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+        checkSchedules(event);
+    }
+
+
+    private void checkSchedules(GameTimeChanged event)
+    {
+        if (getSchedule() != null)
         {
-            if (this.equals(n))
+            //easy for now
+            if (getSchedule().getActivities() != null)
             {
-                this.checkSchedules(event);
-            }
-            else
-            {
+                for (ScheduleActivity activity : getSchedule().getActivities())
+                {
+                    GameTime startTime = activity.getStartTime();
+
+                    if (Game.getCurrent().getGameTime().getCurrentHour() == startTime.getCurrentHour())
+                    {
+                        if (Game.getCurrent().getGameTime().getCurrentMinute() == startTime.getCurrentMinute())
+                        {
+                            logger.error("activity: {}", activity.getActionString());
+                            doAction(new PlayerAction(activity.getAction()));
+                        }
+                    }
+                }
             }
         }
-
     }
 
     /**
      * @param event Game Time has changed
      */
-    private void checkSchedules(GameTimeChanged event)
+    private void checkSchedulesOld(GameTimeChanged event)
     {
         //logger.info("start: check schedules");
-        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 2) {
+        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 2)
+        {
             // logger.info("check schedule");
             if (getMobasks().size() > 0)
             {
@@ -345,7 +360,8 @@ public class NPC extends AbstractEntity implements LifeForm
             }
         }
 
-        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 20) {
+        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 20)
+        {
             //logger.info("check schedule");
             if (getMobasks().size() > 0)
             {
@@ -811,4 +827,14 @@ public class NPC extends AbstractEntity implements LifeForm
     }
 
 
+    public Schedule getSchedule()
+    {
+        return schedule;
+    }
+
+    @Override
+    public void setSchedule(Schedule schedule)
+    {
+        this.schedule = schedule;
+    }
 }

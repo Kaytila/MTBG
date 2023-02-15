@@ -221,6 +221,7 @@ public class JGridCanvas extends JComponent
                         if (GameConfiguration.calculateBrightenUpImageInPaint == false)
                         {
                             g.drawImage(tile.getBrightenedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                            continue;
                         }
                         else
                         {
@@ -637,17 +638,6 @@ public class JGridCanvas extends JComponent
     }
 
     /**
-     * clears th visible rectangle and also clears the lense
-     *
-     * @param g - graphics context
-     */
-    private void emptySlate(Graphics g)
-    {
-        g.clearRect(0, 0, this.getWidth(), this.getHeight());
-        UILense.getCurrent().initialize();
-    }
-
-    /**
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
      */
     @Subscribe
@@ -698,15 +688,6 @@ public class JGridCanvas extends JComponent
             this.repaint();
         });
     }
-
-    public void paint(int x, int y, int width, int height)
-    {
-        javax.swing.SwingUtilities.invokeLater(() ->
-        {
-            this.repaint(x, y, width, height);
-        });
-    }
-
 
     /**
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity

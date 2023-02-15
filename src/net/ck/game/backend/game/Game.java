@@ -186,7 +186,6 @@ public class Game implements Runnable
         setThreadController(new ThreadController());
         getThreadController().add(Thread.currentThread());
 
-        GameStateMachine.getCurrent();
         setTurnNumber(0);
         Turn turn = new Turn(getTurnNumber());
 
@@ -296,7 +295,7 @@ public class Game implements Runnable
         {
             NPC np = new NPC();
             np.setMapPosition(new Point(i, 1));
-            np.setNumber(i + 5);
+            np.setId(i + 5);
             np.setType(NPCTypes.WARRIOR);
             np.initialize();
             map.getLifeForms().add(np);
@@ -399,10 +398,10 @@ public class Game implements Runnable
             {
                 if (e instanceof Player)
                 {
-                    logger.info("found player, continue");
+                    //logger.info("found player, continue");
                     continue;
                 }
-                logger.info("npc: {}", e);
+                // logger.info("npc: {}", e);
                 //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                 //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                 if (e.isHostile())

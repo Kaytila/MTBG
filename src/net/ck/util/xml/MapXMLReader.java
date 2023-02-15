@@ -263,7 +263,7 @@ public class MapXMLReader extends DefaultHandler
 				}
 				if (npc)
 				{
-					np.setNumber(Integer.parseInt(data.toString()));
+					np.setId(Integer.parseInt(data.toString()));
 
 				}
 				break;
@@ -388,9 +388,9 @@ public class MapXMLReader extends DefaultHandler
 			case "targetPosition":
 				np.setOriginalTargetMapPosition(targetPos);
 				np.setTargetMapPosition(targetPos);
-				np.setPatrolling(true);
-				logger.info("targetPosition and patrolling set for id: {}", np.getNumber());
-				targetPosition = false;
+                np.setPatrolling(true);
+                logger.info("targetPosition and patrolling set for id: {}", np.getId());
+                targetPosition = false;
 				break;
             case "question":
                 question = (data.toString());

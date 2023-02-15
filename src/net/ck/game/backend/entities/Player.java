@@ -5,6 +5,7 @@ import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.backend.state.CommandSuccessMachine;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.graphics.AbstractRepresentation;
@@ -68,7 +69,7 @@ public class Player extends AbstractEntity implements LifeForm
         super();
         setLightSource(true);
         setLightRange(4);
-        setNumber(number);
+        setId(number);
 
         ArrayList<BufferedImage> images = new ArrayList<>();
 
@@ -473,6 +474,12 @@ public class Player extends AbstractEntity implements LifeForm
     public Hashtable<String, String> getMobasks()
     {
         return null;
+    }
+
+    @Override
+    public void setSchedule(Schedule schedule)
+    {
+
     }
 
     /*

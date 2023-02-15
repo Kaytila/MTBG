@@ -5,6 +5,7 @@ import net.ck.game.backend.actions.RandomAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
+import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -135,14 +136,14 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
-	public int getNumber()
+	public int getId()
 	{
 		logger.error("world does not have a number");
 		return -1;
 	}
 
 	@Override
-	public void setNumber(int i)
+	public void setId(int i)
 	{
 		logger.error("world does not have a number");
 	}
@@ -262,25 +263,31 @@ public class World extends AbstractEntity implements LifeForm
 
     @Override
     public void setPatrolling(boolean patrolling)
-    {
+	{
 
-    }
+	}
 
-    @Override
-    public Hashtable<String, String> getMobasks()
-    {
-        return null;
-    }
+	@Override
+	public Hashtable<String, String> getMobasks()
+	{
+		return null;
+	}
 
-    @Override
-    public LifeFormState getState()
-    {
-        return null;
-    }
+	@Override
+	public void setSchedule(Schedule schedule)
+	{
 
-    @Override
-    public void setState(LifeFormState state)
-    {
+	}
+
+	@Override
+	public LifeFormState getState()
+	{
+		return null;
+	}
+
+	@Override
+	public void setState(LifeFormState state)
+	{
 
 	}
 

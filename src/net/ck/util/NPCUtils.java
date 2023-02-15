@@ -38,7 +38,7 @@ public class NPCUtils
 
         if (e.getQueuedActions().size() > 0)
         {
-            //logger.info("action in queue: {}", npc.getQueuedActions().peek());
+            logger.info("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
             return new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll());
         }
         else

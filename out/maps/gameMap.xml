@@ -75308,8 +75308,8 @@
                 </mobask>
             </mobasks>
             <mapPosition>
-                <x>27</x>
-                <y>22</y>
+                <x>1</x>
+                <y>2</y>
             </mapPosition>
         </npc>
         <npc>
@@ -75328,19 +75328,18 @@
             <id>3</id>
             <type>WARRIOR</type>
             <mapPosition>
-                <x>15</x>
-                <y>14</y>
+                <x>5</x>
+                <y>4</y>
             </mapPosition>
         </npc>
         <npc>
             <id>4</id>
             <type>WARRIOR</type>
             <mapPosition>
-                <x>15</x>
-                <y>16</y>
+                <x>9</x>
+                <y>1</y>
             </mapPosition>
         </npc>
-
         <npc>
             <id>5</id>
             <type>WARRIOR</type>

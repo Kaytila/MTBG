@@ -1,6 +1,7 @@
 package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
+import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -39,7 +40,7 @@ public interface LifeForm
 
     void search();
 
-    int getNumber();
+    int getId();
 
     Point getMapPosition();
 
@@ -95,4 +96,6 @@ public interface LifeForm
     void setPatrolling(boolean patrolling);
 
     Hashtable<String, String> getMobasks();
+
+    void setSchedule(Schedule schedule);
 }

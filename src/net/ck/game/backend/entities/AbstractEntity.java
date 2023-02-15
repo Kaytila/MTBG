@@ -38,7 +38,7 @@ public abstract class AbstractEntity implements LifeForm
     /**
      * number has either the player number or the number of the npc on the current map
      */
-    private int number;
+    private int id;
 
     /**
      * the position on the UI, not sure whether it makes more sense to take position
@@ -237,14 +237,14 @@ public abstract class AbstractEntity implements LifeForm
         this.mapPosition = mapPosition;
     }
 
-    public int getNumber()
+    public int getId()
     {
-        return number;
+        return id;
     }
 
-    public void setNumber(int number)
+    public void setId(int id)
     {
-        this.number = number;
+        this.id = id;
     }
 
 
@@ -271,7 +271,7 @@ public abstract class AbstractEntity implements LifeForm
 
     public String toString()
     {
-        return (getClass().getName() + " Number: " + getNumber() + " Map Position: " + getMapPosition() + " UIPosition: " + getUIPosition());
+        return (getClass().getName() + " Number: " + getId() + " Map Position: " + getMapPosition() + " UIPosition: " + getUIPosition());
     }
 
     public boolean wearItemAtPosition(Armor armor, ArmorPositions pos)
