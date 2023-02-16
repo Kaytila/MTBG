@@ -98,4 +98,10 @@ public interface LifeForm
     Hashtable<String, String> getMobasks();
 
     void setSchedule(Schedule schedule);
+
+    Schedule getSchedule();
+
+    void setRunningAction(AbstractKeyboardAction action);
+
+    AbstractKeyboardAction getRunningAction();
 }

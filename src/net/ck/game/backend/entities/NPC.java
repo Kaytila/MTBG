@@ -60,6 +60,8 @@ public class NPC extends AbstractEntity implements LifeForm
 
     private Schedule schedule;
 
+    private AbstractKeyboardAction runningAction;
+
     public NPC(Integer i, Point p)
     {
         //logger.info("initialize properly");
@@ -334,6 +336,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         if (Game.getCurrent().getGameTime().getCurrentMinute() == startTime.getCurrentMinute())
                         {
                             logger.error("activity: {}", activity.getActionString());
+                            setRunningAction(activity.getAction());
                             doAction(new PlayerAction(activity.getAction()));
                         }
                     }
@@ -830,6 +833,18 @@ public class NPC extends AbstractEntity implements LifeForm
     public Schedule getSchedule()
     {
         return schedule;
+    }
+
+    @Override
+    public void setRunningAction(AbstractKeyboardAction action)
+    {
+        this.runningAction = action;
+    }
+
+    @Override
+    public AbstractKeyboardAction getRunningAction()
+    {
+        return runningAction;
     }
 
     @Override

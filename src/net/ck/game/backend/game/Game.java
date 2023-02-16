@@ -24,6 +24,7 @@ import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
+import net.ck.util.communication.keyboard.KeyboardActionType;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.ui.WindowBuilder;
@@ -406,17 +407,24 @@ public class Game implements Runnable
                 //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                 if (e.isHostile())
                 {
-                    logger.info("npc hostile");
+                    logger.info("npc {} is hostile", e.getId());
                     AIBehaviour.determineCombat(e);
                 }
                 else if (e.isPatrolling())
                 {
-                    logger.info("npc patrolling");
+                    logger.info("npc {} is patrolling", e.getId());
                     AIBehaviour.determinePatrol(e);
+                }
+                else if (e.getRunningAction() != null)
+                {
+                    if (e.getRunningAction().getType().equals(KeyboardActionType.MOVE))
+                    {
+                        AIBehaviour.determineMove(e);
+                    }
                 }
                 else
                 {
-                    logger.info("NPC is random");
+                    logger.info("NPC {} is random", e.getId());
                     AIBehaviour.determineRandom(e);
                 }
                 //logger.info("setting UI position: {}", e.getMapPosition());

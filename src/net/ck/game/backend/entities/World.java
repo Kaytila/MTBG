@@ -280,6 +280,24 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public Schedule getSchedule()
+	{
+		return null;
+	}
+
+	@Override
+	public void setRunningAction(AbstractKeyboardAction action)
+	{
+
+	}
+
+	@Override
+	public AbstractKeyboardAction getRunningAction()
+	{
+		return null;
+	}
+
+	@Override
 	public LifeFormState getState()
 	{
 		return null;

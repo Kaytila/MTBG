@@ -124,4 +124,19 @@ public class AIBehaviour
             }
         //}
     }
+
+    public static void determineMove(LifeForm e)
+    {
+        if (!(e.getMapPosition().equals(e.getRunningAction().getGetWhere())))
+        {
+            logger.info("npc {} move towards target map position: {}", e.getId(), e.getRunningAction().getGetWhere());
+            e.doAction(new PlayerAction(e.getRunningAction()));
+            //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
+        }
+        else
+        {
+            logger.info("ncp {} has reached target", e.getId());
+            e.setRunningAction(null);
+        }
+    }
 }

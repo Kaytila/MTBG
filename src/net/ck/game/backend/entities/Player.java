@@ -482,6 +482,24 @@ public class Player extends AbstractEntity implements LifeForm
 
     }
 
+    @Override
+    public Schedule getSchedule()
+    {
+        return null;
+    }
+
+    @Override
+    public void setRunningAction(AbstractKeyboardAction action)
+    {
+
+    }
+
+    @Override
+    public AbstractKeyboardAction getRunningAction()
+    {
+        return null;
+    }
+
     /*
      * @param action keyboard action (attack action)
      * @return returns whether it is a hit
