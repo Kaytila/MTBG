@@ -19,6 +19,7 @@ import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
+import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
@@ -198,6 +199,18 @@ public class Player extends AbstractEntity implements LifeForm
      */
     public void doAction(AbstractAction action)
     {
+        if (getQueuedActions() != null)
+        {
+            if (!(getQueuedActions().isEmpty()))
+            {
+                logger.info("queued action, lets do this: {}", getQueuedActions().peek());
+                AbstractKeyboardAction realAction = (AbstractKeyboardAction) getQueuedActions().poll();
+                doAction(new PlayerAction(realAction));
+                EventBus.getDefault().post(new AdvanceTurnEvent(realAction.isHaveNPCAction()));
+
+
+            }
+        }
         //TODO make this more elegant ... somehow
         //TODO think about specifying sound effects and music
         //logger.info("do action: {}", action.toString());

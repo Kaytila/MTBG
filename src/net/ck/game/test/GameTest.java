@@ -8,6 +8,8 @@ import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.junit.*;
 
+import java.awt.*;
+
 public class GameTest
 {
 
@@ -84,8 +86,25 @@ public class GameTest
 	 **/
 	/**
 	 * @Test public void testTurnCounterIncrease() { logger.error("turn counter
-	 *       increase test start"); for (int i = 0; i < 10; i++) { game.runTurn();
-	 *       assertEquals(game.getTurnNumber(), i + 1); } logger.error("turn counter
-	 *       increase test finish"); }
+	 * increase test start"); for (int i = 0; i < 10; i++) { game.runTurn();
+	 * assertEquals(game.getTurnNumber(), i + 1); } logger.error("turn counter
+	 * increase test finish"); }
 	 **/
+	@Test
+	public void movePlayer()
+	{
+		game.getCurrentPlayer().setMapPosition(new Point(0, 0));
+		game.getCurrentPlayer().moveTo(game.getCurrentMap().mapTiles[10][0]);
+		for (int i = 0; i < 10; i++)
+		{
+			EventBus.getDefault().post(new AdvanceTurnEvent(true));
+			logger.info("Player position: {}", game.getCurrentPlayer().getMapPosition());
+			for (Thread t : game.getThreadController().getThreads())
+			{
+				game.getThreadController().sleep(100, ThreadNames.MAIN);
+			}
+		}
+		assert (game.getCurrentPlayer().getMapPosition().x == 10);
+		assert (game.getCurrentPlayer().getMapPosition().y == 0);
+	}
 }
