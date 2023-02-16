@@ -2,7 +2,6 @@ package net.ck.util.ui;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
-import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.ui.buttons.*;
 import net.ck.game.ui.components.InputField;
 import net.ck.game.ui.components.JGridCanvas;
@@ -255,7 +254,7 @@ public class WindowBuilder {
 
         Game.getCurrent().setController(controller);
         frame.setVisible(true);
-        UIStateMachine.setUiOpen(true);
+
         logger.info("finish: build window: UI is open");
     }
 

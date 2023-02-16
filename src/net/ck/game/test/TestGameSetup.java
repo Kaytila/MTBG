@@ -41,23 +41,26 @@ public class TestGameSetup
 
 		if (game != null)
 		{
-			GameUtils.initializeMaps();
+
 			GameUtils.initializeAllItems();
-
+			GameUtils.initializeMaps();
 			game.addPlayers(null);
-
-			ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
-
+			//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 			//game.addAnimatedEntities();
 			GameUtils.initializeAnimationSystem();
 			GameUtils.initializeBackgroundAnimationSystem();
 			GameUtils.initializeForegroundAnimationSystem();
 			GameUtils.initializeWeatherSystem();
 			GameUtils.initializeIdleTimer();
-			GameUtils.initializeSoundSystemNoThread();
-
+			GameUtils.initializeQuequeTimer();
+			GameUtils.initializeMissileTimer();
+			GameUtils.initializeMusicTimer();
 			ImageUtils.initializeBackgroundImages();
 			ImageUtils.initializeForegroundImages();
+			game.startThreads();
+			GameUtils.initializeHighlightingTimer();
+			GameUtils.initializeMusicSystemNoThread();
+			GameUtils.initializeSoundSystemNoThread();
 		}
 	}
 

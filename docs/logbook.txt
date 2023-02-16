@@ -800,3 +800,4 @@ History of the changes:
             I would rather not have a queue but just store the command instead and run it again
             next time. Good for commit, though.
 2023-02-16: move to schedule is added as separate routine in AI. I need to clean up Game, AI, NPC, NPCUtils.
+2023-02-16: minimal cleanup and test framework is ready to run without UI

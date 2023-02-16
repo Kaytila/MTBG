@@ -478,14 +478,18 @@ public class Game implements Runnable
         logger.info("TURN ENDS");
         logger.info("=======================================================================================");
         getIdleTimer().start();
-        getHighlightTimer().start();
-        EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
-        UILense.getCurrent().identifyVisibleTilesBest();
-        MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
-        if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+        if (UIStateMachine.isUiOpen())
         {
-            WindowBuilder.getGridCanvas().paint();
+            getHighlightTimer().start();
+            EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
+            UILense.getCurrent().identifyVisibleTilesBest();
+            MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
+            if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+            {
+                WindowBuilder.getGridCanvas().paint();
+            }
         }
+
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
         logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());

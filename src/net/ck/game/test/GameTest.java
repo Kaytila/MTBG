@@ -1,11 +1,12 @@
 package net.ck.game.test;
 
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadNames;
+import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
+import org.greenrobot.eventbus.EventBus;
 import org.junit.*;
-
-import static org.junit.Assert.fail;
 
 public class GameTest
 {
@@ -61,26 +62,16 @@ public class GameTest
 	@Test
 	public void testMainLoopTenTimes()
 	{
-		logger.error("testMainLoopTenTimes start");
-		try
-		{
+		logger.info("testMainLoopTenTimes start");
 			for (int i = 0; i < 10; i++)
 			{
-				game.advanceTurn(true);
-				
+				EventBus.getDefault().post(new AdvanceTurnEvent(true));
 				for (Thread t : game.getThreadController().getThreads())
 				{
-					if (t.getName().equalsIgnoreCase("main"))
-					{
-						t.sleep(1000);
-					}
+					game.getThreadController().sleep(100, ThreadNames.MAIN);
 				}
 			}
-		} catch (Exception e)
-		{
-			fail("game loop does not work for ten turns!");
-		}
-		logger.error("testMainLoopTenTimes end");
+		logger.info("testMainLoopTenTimes end");
 	}
 
 	/**

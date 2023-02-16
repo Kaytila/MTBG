@@ -1,6 +1,7 @@
 package net.ck.game.run;
 
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.ui.listeners.Controller;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CursorUtils;
@@ -34,10 +35,6 @@ public class RunGame
 	 * generate is used to create images or not. As these are already created, no need to do this
 	 */
 	final static boolean generate = false;
-	public static Game getGame()
-	{
-		return game;
-	}
 
 	//TODO
 	//https://stackoverflow.com/questions/29290178/gui-has-to-wait-until-splashscreen-finishes-executing
@@ -106,7 +103,7 @@ public class RunGame
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-
+			UIStateMachine.setUiOpen(true);
 			//make this synchronous to make sure the UI is finished.
 			//initialize remaining stuff _after_ UI is definitely open
 			GameUtils.initializeRest();
@@ -212,6 +209,7 @@ public class RunGame
 					throw new RuntimeException(e);
 				}
 			}
+			UIStateMachine.setUiOpen(true);
 			//make this synchronous to make sure the UI is finished.
 			//initialize remaining stuff _after_ UI is definitely open
 			GameUtils.initializeRest();
