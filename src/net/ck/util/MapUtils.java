@@ -257,7 +257,7 @@ public class MapUtils
 
             }
         }
-        logger.info("calculate visible tiles old: {}", System.nanoTime() - start);
+        //logger.info("calculate visible tiles old: {}", System.nanoTime() - start);
         return visibleTiles;
     }
 
@@ -792,7 +792,7 @@ public class MapUtils
                 }
             }
         }
-        logger.info("raycasting calculation takes: {} nanoseconds", System.nanoTime() - start);
+        //logger.info("raycasting calculation takes: {} nanoseconds", System.nanoTime() - start);
     }
 
     public static Point calculateMapSize(ArrayList<MapTile> maptiles)

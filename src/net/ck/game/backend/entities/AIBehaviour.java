@@ -104,7 +104,7 @@ public class AIBehaviour
             {
                 MoveAction action = new MoveAction();
                 action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
-                logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
                 e.doAction(new PlayerAction(action));
                 //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
             }
@@ -129,7 +129,7 @@ public class AIBehaviour
     {
         if (!(e.getMapPosition().equals(e.getRunningAction().getGetWhere())))
         {
-            logger.info("npc {} move towards target map position: {}", e.getId(), e.getRunningAction().getGetWhere());
+            //logger.info("npc {} move towards target map position: {}", e.getId(), e.getRunningAction().getGetWhere());
             e.doAction(new PlayerAction(e.getRunningAction()));
             //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
         }

@@ -558,7 +558,7 @@ public abstract class AbstractEntity implements LifeForm
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
-                logger.info("target can be reached");
+               // logger.info("target can be reached");
                 //return true;
                 //((NPC) this).doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
             }

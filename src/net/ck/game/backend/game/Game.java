@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Game Main class also Y6MU+=A7B=NpmQSs
@@ -194,7 +193,7 @@ public class Game implements Runnable
         setCurrentTurn(turn);
         getTurns().add(turn);
         setEn(new World());
-
+        GameStateMachine.getCurrent().setCurrentState(GameState.WORLD);
         setCommandQueue(new CommandQueue());
         setGameTime(new GameTime());
         getGameTime().setCurrentHour(8);
@@ -436,7 +435,7 @@ public class Game implements Runnable
         //logger.info("advance turn!");
         setTurnNumber(getTurnNumber() + 1);
 
-        logger.info("game game state: {}", GameStateMachine.getCurrent().getCurrentState());
+        //logger.info("game game state: {}", GameStateMachine.getCurrent().getCurrentState());
         if (GameStateMachine.getCurrent().getCurrentState() == GameState.COMBAT)
         {
             boolean stillaggro = false;
@@ -607,12 +606,12 @@ public class Game implements Runnable
 
     public synchronized void stopGame()
     {
-        getThreadController().listThreads();
-        logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
-        logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
-        logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
+        //getThreadController().listThreads();
+        //logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
+        //logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
+        //logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
         //logger.info("Paint times on average: {} seconds",  TimeUnit.NANOSECONDS.toSeconds(GameLogs.calculatePaintTimeAverage()));
-        logger.info("stopping game");
+        //logger.info("stopping game");
         setRunning(false);
         System.exit(0);
     }

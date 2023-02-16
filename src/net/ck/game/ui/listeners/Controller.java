@@ -799,9 +799,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             case MOVE:
             {
                 logger.info("move");
-                logger.info("currently broken");
-                break;
-               /* if (isMouseOutsideOfGrid() == true)
+                if (isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
@@ -813,15 +811,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    action.setHaveNPCAction(true);
-                    MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
-                    action.setGetWhere(new Point(tile.getX(), tile.getY()));
-                    Game.getCurrent().getIdleTimer().stop();
-                    runActions(getCurrentAction());
-                    logger.info("move here");
-
-
-
                     action.setHaveNPCAction(false);
                     Game.getCurrent().getIdleTimer().stop();
                     UIStateMachine.setSelectTile(true);
@@ -833,7 +822,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     setCurrentAction(action);
 
                     break;
-                }*/
+                }
             }
 
             case ATTACK:

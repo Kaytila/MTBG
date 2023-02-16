@@ -821,7 +821,7 @@ public class NPC extends AbstractEntity implements LifeForm
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
-                logger.info("target can be reached");
+                //logger.info("target can be reached");
                 //return true;
                 doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
             }

@@ -40,7 +40,7 @@ public class Schedule
         activity.setActionString("TADATADATADATADATADATADATADATADATADATADATADATADATADATADATADATADATADATADA");
         MoveAction action = new MoveAction();
         action.setGetWhere(new Point(0, 0));
-        logger.info("move towards target map position: {},{}", 0, 0);
+        //logger.info("move towards target map position: {},{}", 0, 0);
         activity.setAction(action);
         activities.add(activity);
     }

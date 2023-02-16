@@ -107,7 +107,7 @@ public class AStar
                 searchArea[i][j].calculateHeuristic(getFinalNode());
             }
         }
-        logger.info("time taken for set nodes: {}", System.nanoTime() - start);
+       // logger.info("time taken for set nodes: {}", System.nanoTime() - start);
     }
 
 
@@ -125,7 +125,7 @@ public class AStar
                 searchArea[i][j] = node;
             }
         }
-        logger.info("time taken for set nodes: {}", System.nanoTime() - start);
+        //logger.info("time taken for set nodes: {}", System.nanoTime() - start);
     }
 
     public static void setBlocks(int[][] blocksArray)
