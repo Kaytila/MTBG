@@ -9,8 +9,6 @@ import net.ck.game.backend.queuing.ScheduleActivity;
 import net.ck.game.backend.state.CommandSuccessMachine;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.time.GameTime;
-import net.ck.game.graphics.AbstractRepresentation;
-import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -37,8 +35,6 @@ public class NPC extends AbstractEntity implements LifeForm
 {
 
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    private AbstractRepresentation appearance;
-
     private NPCTypes type;
     private Hashtable<String, String> mobasks;
     private boolean hostile;
@@ -112,7 +108,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void evade()
     {
-        this.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+        this.setCurrentImage(ImageUtils.getMissImage());
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
 
@@ -245,8 +241,10 @@ public class NPC extends AbstractEntity implements LifeForm
 
         images.add(standardImage);
         images.addAll(movingImages);
-        setAppearance(new AnimatedRepresentation(standardImage, images));
-        getAppearance().setCurrentImage(((AnimatedRepresentation) getAppearance()).getAnimationImageList().get(0));
+        setAnimationImageList(images);
+        setStandardImage(standardImage);
+
+        setCurrentImage(getAnimationImageList().get(0));
         if (getId() == 4)
         {
             setSchedule(new Schedule(this));
@@ -261,17 +259,6 @@ public class NPC extends AbstractEntity implements LifeForm
     public void setMapPosition(Point position)
     {
         this.mapPosition = position;
-    }
-
-    @Override
-    public AbstractRepresentation getAppearance()
-    {
-        return appearance;
-    }
-
-    public void setAppearance(AbstractRepresentation appearance)
-    {
-        this.appearance = appearance;
     }
 
     public Logger getLogger()
@@ -562,14 +549,14 @@ public class NPC extends AbstractEntity implements LifeForm
                             if (NPCUtils.calculateHit(this, n))
                             {
                                 logger.info("hit");
-                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+                                n.setCurrentImage(ImageUtils.getHitImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                                 return true;
                             }
                             else
                             {
                                 logger.info("miss");
-                                n.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+                                n.setCurrentImage(ImageUtils.getMissImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                                 return false;
                             }
@@ -593,14 +580,14 @@ public class NPC extends AbstractEntity implements LifeForm
                             if (NPCUtils.calculateHit(this, n))
                             {
                                 logger.info("hit");
-                                n.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+                                n.setCurrentImage(ImageUtils.getHitImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                                 return true;
                             }
                             else
                             {
                                 logger.info("miss");
-                                n.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+                                n.setCurrentImage(ImageUtils.getMissImage());
                                 EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                                 return false;
                             }
@@ -631,7 +618,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void increaseHealth(int i)
     {
-        this.getAppearance().setCurrentImage(ImageUtils.getHealImage());
+        this.setCurrentImage(ImageUtils.getHealImage());
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
         if (getHealth() >= 0)
@@ -651,7 +638,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void decreaseHealth(int i)
     {
-        this.getAppearance().setCurrentImage(ImageUtils.getHitImage());
+        this.setCurrentImage(ImageUtils.getHitImage());
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
         if (getHealth() - i > 0)

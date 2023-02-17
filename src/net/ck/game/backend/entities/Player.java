@@ -3,13 +3,10 @@ package net.ck.game.backend.entities;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
-import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.backend.state.CommandSuccessMachine;
 import net.ck.game.backend.state.GameState;
-import net.ck.game.graphics.AbstractRepresentation;
-import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -37,12 +34,7 @@ import java.util.Objects;
 public class Player extends AbstractEntity implements LifeForm
 {
 
-    /**
-     * appearance is something that both player and npc have, en does not, so separate parent class?
-     */
-    private AbstractRepresentation appearance;
     private CommandQueue queuedActions;
-    private int animationCycles = 0;
 
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
 
@@ -82,7 +74,10 @@ public class Player extends AbstractEntity implements LifeForm
 
         images.add(standardImage);
         images.addAll(movingImages);
-        setAppearance(new AnimatedRepresentation(standardImage, images));
+        setAnimationImageList(images);
+        setStandardImage(standardImage);
+
+        setCurrentImage(getAnimationImageList().get(0));
 
         this.getItem(Game.getCurrent().getArmorList().get(1));
         this.getItem(Game.getCurrent().getArmorList().get(2));
@@ -110,33 +105,6 @@ public class Player extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
         setState(LifeFormState.ALIVE);
-
-        getAppearance().setCurrentImage(((AnimatedRepresentation) getAppearance()).getAnimationImageList().get(0));
-    }
-
-    public int getAnimationCycles()
-    {
-        return this.animationCycles;
-    }
-
-    public void setAnimationCycles(int animationCycles)
-    {
-        this.animationCycles = animationCycles;
-    }
-
-    public AbstractRepresentation getAppearance()
-    {
-        return appearance;
-    }
-
-    public Turn getCurrentTurn()
-    {
-        return Game.getCurrent().getCurrentTurn();
-    }
-
-    public void setAppearance(AbstractRepresentation appearance)
-    {
-        this.appearance = appearance;
     }
 
     @Override
@@ -443,7 +411,7 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void evade()
     {
-        this.getAppearance().setCurrentImage(ImageUtils.getMissImage());
+        this.setCurrentImage(ImageUtils.getMissImage());
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
 

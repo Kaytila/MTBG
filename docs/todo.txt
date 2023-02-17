@@ -124,7 +124,7 @@ for (int x = 0; i < tilesize; x++)...
 
 
 
-todo:
+todo <-- done
 remove NPC generics and just move them into map. This is only a bit more XML in contrast to all of the issues this is
 causing
 
@@ -133,4 +133,5 @@ todo:
 
 finally take away the representationlayer, it adds nothing of value.
 
-todo: start again tests, lets see how much ui dependency we have
+todo: start again tests, lets see how much ui dependency we have <-- done
+

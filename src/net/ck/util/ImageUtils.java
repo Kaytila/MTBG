@@ -340,7 +340,7 @@ public class ImageUtils
     public static void checkImageSize(Player player)
     {
         // first player
-        Point p = new Point(player.getAppearance().getStandardImage().getWidth(), player.getAppearance().getStandardImage().getHeight());
+        Point p = new Point(player.getStandardImage().getWidth(), player.getStandardImage().getHeight());
 
         // check if the dimensions match, first x
         if (GameConfiguration.imageSize.x == p.x)

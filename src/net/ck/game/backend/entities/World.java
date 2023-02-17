@@ -6,7 +6,6 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
-import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
@@ -128,12 +127,6 @@ public class World extends AbstractEntity implements LifeForm
 
 	}
 
-	@Override
-	public AnimatedRepresentation getAppearance()
-	{
-		logger.error("world does not have a graphical appearance");
-		return null;
-	}
 
 	@Override
 	public int getId()

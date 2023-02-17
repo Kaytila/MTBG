@@ -115,7 +115,7 @@ public class MissileTimer implements Runnable
             {
                 if (m.isSuccess())
                 {
-                    m.getAppearance().setStandardImage(ImageUtils.loadImage("combat", "explosion"));
+                    m.setStandardImage(ImageUtils.loadImage("combat", "explosion"));
                 }
                 //logger.info("finished missile");
                 m.setFinished(true);
@@ -130,7 +130,7 @@ public class MissileTimer implements Runnable
                 {
                     if (m.isSuccess())
                     {
-                        m.getAppearance().setStandardImage(ImageUtils.loadImage("combat", "explosion"));
+                        m.setStandardImage(ImageUtils.loadImage("combat", "explosion"));
                     }
                     m.setFinished(true);
                     finishedMissiles.add(m);

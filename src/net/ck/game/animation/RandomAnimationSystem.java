@@ -6,7 +6,6 @@ import net.ck.game.backend.entities.LifeFormState;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.backend.threading.ThreadNames;
-import net.ck.game.graphics.AnimatedRepresentation;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
@@ -52,16 +51,16 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
                             // if dead, stay corpse, or blood stain
                             if (p.getState().equals(LifeFormState.DEAD))
                             {
-                                p.getAppearance().setCurrentImage(ImageUtils.getBloodstainImage());
+                                p.setCurrentImage(ImageUtils.getBloodstainImage());
                             }
                             //if unconcious, stay unmoving
                             else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
                             {
-                                p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(0));
+                                p.setCurrentImage(p.getAnimationImageList().get(0));
                             }
                             else// (p.getState().equals(LifeFormState.ALIVE))
                             {
-                                p.getAppearance().setCurrentImage(((AnimatedRepresentation) p.getAppearance()).getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
+                                p.setCurrentImage(p.getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
                             }
                         }
                     }

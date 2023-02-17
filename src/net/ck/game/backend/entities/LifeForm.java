@@ -2,7 +2,6 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.queuing.Schedule;
-import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
@@ -10,6 +9,8 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.GetAction;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Queue;
 
@@ -46,7 +47,6 @@ public interface LifeForm
 
     void setMapPosition(Point position);
 
-    AbstractRepresentation getAppearance();
 
     Attributes getAttributes();
 
@@ -104,4 +104,10 @@ public interface LifeForm
     void setRunningAction(AbstractKeyboardAction action);
 
     AbstractKeyboardAction getRunningAction();
+
+    void setCurrentImage(BufferedImage hitImage);
+
+    BufferedImage getCurrentImage();
+
+    ArrayList<BufferedImage> getAnimationImageList();
 }

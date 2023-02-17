@@ -1,8 +1,6 @@
 package net.ck.game.backend.entities;
 
 
-import net.ck.game.graphics.AbstractRepresentation;
-import net.ck.game.graphics.UnanimatedRepresentation;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
@@ -10,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Missile
@@ -25,10 +24,12 @@ public class Missile
      */
     private MapTile targetTile;
     private Point currentPosition;
-    private AbstractRepresentation appearance;
+
     private Point sourceCoordinates;
     private Point targetCoordinates;
     private boolean finished;
+
+    private BufferedImage standardImage;
 
     public ArrayList<Point> getLine()
     {
@@ -52,7 +53,7 @@ public class Missile
 
     public Missile(Point source, Point target)
     {
-        setAppearance(new UnanimatedRepresentation(ImageUtils.loadImage("combat", "missile")));
+        setStandardImage(ImageUtils.loadImage("combat", "missile"));
         setSourceCoordinates(source);
         setTargetCoordinates(target);
     }
@@ -61,7 +62,7 @@ public class Missile
     {
         setSourceTile(source);
         setTargetTile(target);
-        setAppearance(new UnanimatedRepresentation(ImageUtils.loadImage("combat", "missile")));
+        setStandardImage(ImageUtils.loadImage("combat", "missile"));
     }
 
     public Point getCurrentPosition()
@@ -91,7 +92,7 @@ public class Missile
                 "sourceTile=" + sourceTile +
                 ", targetTile=" + targetTile +
                 ", currentPosition=" + currentPosition +
-                ", appearance=" + appearance +
+                ", standardImage=" + standardImage +
                 ", sourceCoordinates=" + sourceCoordinates +
                 ", targetCoordinates=" + targetCoordinates +
                 ", finished=" + finished +
@@ -128,16 +129,6 @@ public class Missile
         this.targetTile = targetTile;
     }
 
-    public AbstractRepresentation getAppearance()
-    {
-        return appearance;
-    }
-
-    public void setAppearance(AbstractRepresentation appearance)
-    {
-        this.appearance = appearance;
-    }
-
     public Point getSourceCoordinates()
     {
         return sourceCoordinates;
@@ -161,5 +152,15 @@ public class Missile
     public void setLine(ArrayList<Point> line)
     {
         this.line = line;
+    }
+
+    public void setStandardImage(BufferedImage loadImage)
+    {
+        standardImage = loadImage;
+    }
+
+    public BufferedImage getStandardImage()
+    {
+        return standardImage;
     }
 }

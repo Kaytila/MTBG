@@ -32,7 +32,7 @@ public class IndividualAnimationSystem extends AnimationSystem implements Runnab
             {
                 try
                 {
-                    Game.getCurrent().getCurrentPlayer().getAppearance().setCurrentImage(Game.getCurrent().getCurrentPlayer().getAppearance().getStandardImage());
+                    Game.getCurrent().getCurrentPlayer().setCurrentImage(Game.getCurrent().getCurrentPlayer().getStandardImage());
                 } catch (Exception e)
                 {
                     logger.error("problem setting image");

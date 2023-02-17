@@ -2,7 +2,6 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
-import net.ck.game.graphics.AbstractRepresentation;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Armor;
 import net.ck.game.items.ArmorPositions;
@@ -16,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -34,77 +34,107 @@ public abstract class AbstractEntity implements LifeForm
      * the position on the map, filled for NPC and Player, not filled for World
      */
     protected Point mapPosition;
-
-    /**
-     * number has either the player number or the number of the npc on the current map
-     */
-    private int id;
-
-    /**
-     * the position on the UI, not sure whether it makes more sense to take position
-     */
-    private Point UIPosition;
-
-    /**
-     * hashtable with weapon, not sure whether this is one or two slots. TBD
-     */
-    private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
-
-
     protected Weapon weapon;
-
-    private AbstractItem shield;
-
-    /**
-     * armor types contains all the armor positions, so this is the way to go.
-     */
-    private Hashtable<ArmorPositions, AbstractItem> wearEquipment = new Hashtable<>();
-
-    /**
-     * each AbstractEntity has an inventory.
-     */
-    private Inventory inventory;
-
-    /**
-     * each Abstract Entity has attributes
-     */
-    private Attributes attributes;
-
-    /**
-     * is the entity a light source
-     */
-    private boolean lightSource;
-
-    /**
-     * how far does the light range go
-     */
-    private int lightRange;
-
-    /**
-     * what level does the entity have?
-     */
-    private int level;
-
     /**
      * how much health does the entity have?
      */
     protected int health;
-
     /**
      * armor class - we just add ac on top of each other, no body parts and so on
      */
     protected int armorClass;
-
     /**
      * state of the PC/NPC - alive or dead or any other really.
      */
     protected LifeFormState state;
+    /**
+     * this the currently visible image.
+     * in case of animation this is where the currently visible image is stored
+     * in unanimated cases, standard image and current are basically the same
+     * perhaps this will be changed
+     */
+    protected BufferedImage currentImage;
+    /**
+     * number has either the player number or the number of the npc on the current map
+     */
+    private int id;
+    /**
+     * the position on the UI, not sure whether it makes more sense to take position
+     */
+    private Point UIPosition;
+    /**
+     * hashtable with weapon, not sure whether this is one or two slots. TBD
+     */
+    private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
+    private AbstractItem shield;
+    /**
+     * armor types contains all the armor positions, so this is the way to go.
+     */
+    private Hashtable<ArmorPositions, AbstractItem> wearEquipment = new Hashtable<>();
+    /**
+     * each AbstractEntity has an inventory.
+     */
+    private Inventory inventory;
+    /**
+     * each Abstract Entity has attributes
+     */
+    private Attributes attributes;
+    /**
+     * is the entity a light source
+     */
+    private boolean lightSource;
+    /**
+     * how far does the light range go
+     */
+    private int lightRange;
+    /**
+     * what level does the entity have?
+     */
+    private int level;
+    /**
+     * fallback image not really sure I need that at all
+     */
+    private BufferedImage standardImage;
+
+
+    private ArrayList<BufferedImage> animationImageList;
+
 
     public AbstractEntity()
     {
         inventory = new Inventory();
         attributes = new Attributes();
         setLevel(1);
+    }
+
+    public BufferedImage getCurrentImage()
+    {
+        return currentImage;
+    }
+
+    public void setCurrentImage(BufferedImage currentImage)
+    {
+        this.currentImage = currentImage;
+    }
+
+    public BufferedImage getStandardImage()
+    {
+        return standardImage;
+    }
+
+    public void setStandardImage(BufferedImage standardImage)
+    {
+        this.standardImage = standardImage;
+    }
+
+    public ArrayList<BufferedImage> getAnimationImageList()
+    {
+        return animationImageList;
+    }
+
+    public void setAnimationImageList(ArrayList<BufferedImage> animationImageList)
+    {
+        this.animationImageList = animationImageList;
     }
 
     /**
@@ -209,8 +239,6 @@ public abstract class AbstractEntity implements LifeForm
         tile.getInventory().add(affectedItem);
         return this.dropItem(affectedItem);
     }
-
-    public abstract AbstractRepresentation getAppearance();
 
     public Hashtable<Weapon, AbstractItem> getHoldEquipment()
     {
