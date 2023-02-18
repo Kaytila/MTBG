@@ -376,11 +376,32 @@ public class Game implements Runnable
      * logger.error("shutdown: " + t.getName()); t.interrupt(); } } }
      */
     @Subscribe
-    public void onMessageEvent(AdvanceTurnEvent event)
+    public synchronized void onMessageEvent(AdvanceTurnEvent event)
     {
-        //logger.info("advance turn");
-        setNpcAction(event.isNpcAction());
-        setNextTurn(true);
+        if (GameConfiguration.useGameThread == false)
+        {
+            logger.info("running advance turn 1");
+            setNpcAction(event.isNpcAction());
+            setNextTurn(true);
+
+            if (Game.getCurrent().isRunning() == true)
+            {
+                logger.info("running advance turn 2");
+                if (isNextTurn() == true)
+                {
+                    logger.info("running advance turn 3");
+                    advanceTurn(isNpcAction());
+                    setNextTurn(false);
+                    setNpcAction(false);
+                }
+            }
+        }
+        else
+        {
+            //logger.info("advance turn");
+            setNpcAction(event.isNpcAction());
+            setNextTurn(true);
+        }
     }
 
 
@@ -837,11 +858,18 @@ public class Game implements Runnable
 
     public void startThreads()
     {
-        logger.info("initializing game thread");
-        Thread gameThread = new Thread(this);
-        gameThread.setName(String.valueOf(ThreadNames.GAME_THREAD));
-        threadController.add(gameThread);
-        getThreadController().startThreads();
+        if (GameConfiguration.useGameThread == false)
+        {
+
+        }
+        else
+        {
+            logger.info("initializing game thread");
+            Thread gameThread = new Thread(this);
+            gameThread.setName(String.valueOf(ThreadNames.GAME_THREAD));
+            threadController.add(gameThread);
+            getThreadController().startThreads();
+        }
     }
 
     public GameState getPreviousGameState()

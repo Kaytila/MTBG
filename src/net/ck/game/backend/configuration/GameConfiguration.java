@@ -159,8 +159,12 @@ public class GameConfiguration
 
     public static final boolean useTimersForAnimations = true;
 
-
     public static final boolean useTimerForMissiles = true;
+
+    /**
+     * use a thread for Game or not - if not, where does it run?
+     */
+    public static final boolean useGameThread = false;
 }
 
 
