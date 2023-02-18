@@ -335,6 +335,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             {
                 UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
                 WindowBuilder.getGridCanvas().paint();
+                //WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10 , GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20 );
                 //logger.debug("calling paint");
             }
             else

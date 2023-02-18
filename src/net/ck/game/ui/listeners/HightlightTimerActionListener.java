@@ -22,7 +22,9 @@ public class HightlightTimerActionListener implements ActionListener {
      * @param e the event to be processed
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e)
+    {
+        //logger.info("calling increase highlight count");
         WindowBuilder.getGridCanvas().increaseHighlightCount();
     }
 }

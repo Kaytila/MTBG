@@ -21,7 +21,10 @@ import net.ck.game.soundeffects.SoundPlayerNoThread;
 import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.AbstractWeatherSystem;
-import net.ck.util.*;
+import net.ck.util.CodeUtils;
+import net.ck.util.GameUtils;
+import net.ck.util.MapUtils;
+import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.keyboard.KeyboardActionType;
@@ -491,7 +494,7 @@ public class Game implements Runnable
 
         // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
         // Game.getCurrent().initializeTurnTimer();
-        logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
+        //logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
     }
 
 

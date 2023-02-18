@@ -64,17 +64,26 @@ public class GameConfiguration
     /**
      * how big are the images, check this somewhere.
      */
-    public static final Point imageSize = new Point(16,16);
+    public static final Point imageSize = new Point(16, 16);
 
     /**
-     * wait turns defines how many turns sound engine will wait until it switches music
+     * how many turns to wait until music switches back to before from victory fanfare music?
      */
     public static final int waitTurns = 3;
 
+    /**
+     * how many miliseconds to wait until music switches back to before from victory fanfare music?
+     */
     public static final int victoryWait = 7000;
 
+    /**
+     * how long to wait until to pick the next command queued up
+     */
     public static final int quequeWait = 700;
 
+    /**
+     * delay for missile timer to tick in ms
+     */
     public static final int missileWait = 5;
 
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
@@ -145,4 +154,8 @@ public class GameConfiguration
     public static final boolean debugLOS = false;
 
     public static final boolean calculateBrightenUpImageInPaint = true;
+
+    public static final int skippedPixelsForDrawingMissiles = 5;
 }
+
+

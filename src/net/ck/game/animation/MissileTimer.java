@@ -1,5 +1,6 @@
 package net.ck.game.animation;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
@@ -136,8 +137,8 @@ public class MissileTimer implements Runnable
                     finishedMissiles.add(m);
                 }
 
-                //only paint missile every 5 pixels
-                for (int i = 0; i <= 4; i++)
+                //only paint missile every configured pixel
+                for (int i = 0; i <= (GameConfiguration.skippedPixelsForDrawingMissiles - 1); i++)
                 {
                     if (m.getLine().size() > 0)
                     {

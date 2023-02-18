@@ -302,6 +302,9 @@ public class JGridCanvas extends JComponent
                 }
             }
 
+
+            //paintMissiles(g);
+
             /*
              * after all tiles have been painted, paint stuff on top of it:
              *
@@ -416,9 +419,15 @@ public class JGridCanvas extends JComponent
         {
             if (UIStateMachine.getCurrentSelectedTile() != null)
             {
-                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
-                g.setColor(Color.WHITE);
-                g.drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+                if (UIStateMachine.getCurrentSelectedTile().isHidden() == false)
+                {
+                    if (UIStateMachine.getCurrentSelectedTile().isBlocked() == false)
+                    {
+                        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
+                        g.setColor(Color.WHITE);
+                        g.drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+                    }
+                }
             }
         }
     }
@@ -574,6 +583,7 @@ public class JGridCanvas extends JComponent
 
     private void paintMissiles(Graphics g)
     {
+        logger.info("paint missile called");
         if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
         {
             return;
@@ -670,6 +680,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(HighlightEvent event)
     {
+
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             setHighlightPosition(event.getMapPosition());
@@ -682,6 +693,34 @@ public class JGridCanvas extends JComponent
                 this.paint();
             });
         }
+        /*javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            setHighlightPosition(event.getMapPosition());
+        });
+
+        if (GameConfiguration.useEvents)
+        {
+            setHighlightPosition(event.getMapPosition());
+            if (getHighlightPosition() != null)
+            {
+                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(getHighlightPosition());
+                this.getGraphics().setColor(Color.YELLOW);
+
+                if (getHighlightPosition() == Game.getCurrent().getCurrentPlayer().getMapPosition())
+                {
+                    this.getGraphics().setColor(Color.YELLOW);
+                    this.getGraphics().drawRect((screenPosition.x * GameConfiguration.tileSize) + getHighlightCount(), (screenPosition.y * GameConfiguration.tileSize) + getHighlightCount(), GameConfiguration.tileSize - (getHighlightCount() * 2), GameConfiguration.tileSize - (getHighlightCount() * 2));
+                    logger.info("highlight count: {}", getHighlightCount());
+                }
+                else
+                {
+                    this.getGraphics().setColor(Color.YELLOW);
+                    this.getGraphics().drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+                    logger.info("drawing here????");
+                }
+                this.paint(screenPosition.x * GameConfiguration.tileSize - 10, screenPosition.y * GameConfiguration.tileSize - 10, screenPosition.x * GameConfiguration.tileSize *GameConfiguration.tileSize + 10, screenPosition.y * GameConfiguration.tileSize * GameConfiguration.tileSize + 10);
+            }
+        }*/
     }
 
 
@@ -693,13 +732,30 @@ public class JGridCanvas extends JComponent
         });
     }
 
+    public void paint(int x, int y, int width, int height)
+    {
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            this.repaint(0, x, y, width, height);
+        });
+    }
+
+
     /**
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
      */
     @Subscribe
     public synchronized void onMessageEvent(MissilePositionChanged event)
     {
-        this.paint();
+        if (Game.getCurrent().getCurrentMap().getMissiles() != null)
+        {
+            if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
+            {
+                Missile m = Game.getCurrent().getCurrentMap().getMissiles().get(0);
+                this.getGraphics().drawImage(m.getStandardImage(), m.getCurrentPosition().x, m.getCurrentPosition().y, this);
+                this.paint(m.getCurrentPosition().x - (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().y - (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().x + (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().y + (GameConfiguration.skippedPixelsForDrawingMissiles * 2));
+            }
+        }
     }
 
 
@@ -1041,12 +1097,12 @@ public class JGridCanvas extends JComponent
         }
     }
 
-    public Point getHighlightPosition()
+    public synchronized Point getHighlightPosition()
     {
         return highlightPosition;
     }
 
-    public void setHighlightPosition(Point highlightPosition)
+    public synchronized void setHighlightPosition(Point highlightPosition)
     {
         //logger.info("set highlight position: {}", SwingUtilities.isEventDispatchThread());
         this.highlightPosition = highlightPosition;
@@ -1084,6 +1140,5 @@ public class JGridCanvas extends JComponent
         {
             logger.error("not possible");
         }
-        //this.paint();
     }
 }

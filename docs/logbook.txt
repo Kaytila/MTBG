@@ -805,3 +805,6 @@ History of the changes:
 2023-02-16: turned off much logging to make sure to debug move. Implemented teleport by accident.
 2022-02-17: take away representation layer - was a good idea if I meant to change designs or switch to ascii it would be
             easy. but not going to support that anymore.
+2022-02-18: updated missile draw to do a paint with a rectangle instead of a full only. tried to do the same for
+            highlighting, but failed. tried to do the same for selectTile highlighting,
+            tile highlighting does not work anymore for hidden tiles.

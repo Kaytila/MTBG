@@ -198,7 +198,7 @@ public class UILense
                 //logger.info("new maptile calculation {}, {}, {}", row, column, mapTiles[row][column]);
             }
         }
-        logger.info("time taken identifying tiles best: {}", System.nanoTime() - start);
+        //logger.info("time taken identifying tiles best: {}", System.nanoTime() - start);
     }
 
 
