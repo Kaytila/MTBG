@@ -810,3 +810,4 @@ History of the changes:
             tile highlighting does not work anymore for hidden tiles.
 2022-02-18: implemented timers as alternative for graphic threads, all three done. Work as expected. Missile and sound
             are another option. Thinking about taking thread away from Game as well. Or at least, make it configurable.
+2022-02-18: implemented Missile Thread as Util Timer. Takes away 10% CPU time right away.

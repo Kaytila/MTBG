@@ -53,8 +53,8 @@ public class TestGameSetup
 			GameUtils.initializeWeatherSystem();
 			GameUtils.initializeIdleTimer();
 			GameUtils.initializeQuequeTimer();
-			GameUtils.initializeMissileTimer();
-			GameUtils.initializeMusicTimer();
+            GameUtils.initializeMissileThread();
+            GameUtils.initializeMusicTimer();
 			ImageUtils.initializeBackgroundImages();
 			ImageUtils.initializeForegroundImages();
 			game.startThreads();

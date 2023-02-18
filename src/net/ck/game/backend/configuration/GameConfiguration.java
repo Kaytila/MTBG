@@ -158,6 +158,9 @@ public class GameConfiguration
     public static final int skippedPixelsForDrawingMissiles = 5;
 
     public static final boolean useTimersForAnimations = true;
+
+
+    public static final boolean useTimerForMissiles = true;
 }
 
 

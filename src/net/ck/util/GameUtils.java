@@ -160,14 +160,21 @@ public class GameUtils
 
     }
 
-    public static void initializeMissileTimer()
+    public static void initializeMissileThread()
     {
-
-        logger.info("initializing Missile Timer as Thread");
-        Game.getCurrent().setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
-        Thread missileTimerThread = new Thread(Game.getCurrent().getMissileTimer());
-        missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
-        Game.getCurrent().getThreadController().add(missileTimerThread);
+        if (GameConfiguration.useTimerForMissiles == true)
+        {
+            logger.info("initializing missile timer as util timer");
+            Game.getCurrent().setMissileUtilTimer(new MissileUtilTimer());
+        }
+        else
+        {
+            logger.info("initializing Missile Timer as Thread");
+            Game.getCurrent().setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
+            Thread missileTimerThread = new Thread(Game.getCurrent().getMissileTimer());
+            missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
+            Game.getCurrent().getThreadController().add(missileTimerThread);
+        }
     }
 
     public static void initializeQuequeTimer()

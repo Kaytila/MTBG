@@ -178,6 +178,8 @@ public class Game implements Runnable
 
     private BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
 
+    private MissileUtilTimer missileUtilTimer;
+
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
      * depends on how far I want to go
@@ -933,6 +935,16 @@ public class Game implements Runnable
     public void setForegroundAnimationSystemTimer(ForegroundAnimationSystemTimer foregroundAnimationSystemTimer)
     {
         this.foregroundAnimationSystemTimer = foregroundAnimationSystemTimer;
+    }
+
+    public MissileUtilTimer getMissileUtilTimer()
+    {
+        return missileUtilTimer;
+    }
+
+    public void setMissileUtilTimer(MissileUtilTimer missileUtilTimer)
+    {
+        this.missileUtilTimer = missileUtilTimer;
     }
 }
 

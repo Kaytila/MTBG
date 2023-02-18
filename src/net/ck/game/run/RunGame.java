@@ -86,8 +86,8 @@ public class RunGame
 				GameUtils.initializeWeatherSystem();
 				GameUtils.initializeIdleTimer();
 				GameUtils.initializeQuequeTimer();
-				GameUtils.initializeMissileTimer();
-				GameUtils.initializeMusicTimer();
+                GameUtils.initializeMissileThread();
+                GameUtils.initializeMusicTimer();
 				ImageUtils.initializeBackgroundImages();
 				ImageUtils.initializeForegroundImages();
 				game.startThreads();
@@ -163,9 +163,9 @@ public class RunGame
 					GameUtils.initializeIdleTimer();
 					renderSplashFrame(g, size);
 					GameUtils.initializeQuequeTimer();
-					renderSplashFrame(g, size);
-					GameUtils.initializeMissileTimer();
-					renderSplashFrame(g, size);
+                    renderSplashFrame(g, size);
+                    GameUtils.initializeMissileThread();
+                    renderSplashFrame(g, size);
 					GameUtils.initializeMusicTimer();
 					renderSplashFrame(g, size);
 					renderSplashFrame(g, size);
