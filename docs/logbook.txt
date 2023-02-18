@@ -817,3 +817,5 @@ History of the changes:
             up in Game. blocked tiles are highlighted again. I need to distinguish between blocked naturally - mountain,
             or wall - or blocked by NPC - both cannot be stepped on, but one can be targeted, one not.
             To be done in the future.
+2022-02-18: Bugfix - missile util timer was not caught during advanceTurn(). Also removed AIBehaviour if/else from Game
+            into ... AIBehaviour. Surprise.

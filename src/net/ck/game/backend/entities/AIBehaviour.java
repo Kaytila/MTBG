@@ -8,6 +8,7 @@ import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.communication.keyboard.AttackAction;
 import net.ck.util.communication.keyboard.GetAction;
+import net.ck.util.communication.keyboard.KeyboardActionType;
 import net.ck.util.communication.keyboard.MoveAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -137,6 +138,32 @@ public class AIBehaviour
         {
             logger.info("ncp {} has reached target", e.getId());
             e.setRunningAction(null);
+        }
+    }
+
+    public static void determineAction(LifeForm e)
+    {
+        if (e.isHostile())
+        {
+            logger.info("npc {} is hostile", e.getId());
+            AIBehaviour.determineCombat(e);
+        }
+        else if (e.isPatrolling())
+        {
+            logger.info("npc {} is patrolling", e.getId());
+            AIBehaviour.determinePatrol(e);
+        }
+        else if (e.getRunningAction() != null)
+        {
+            if (e.getRunningAction().getType().equals(KeyboardActionType.MOVE))
+            {
+                AIBehaviour.determineMove(e);
+            }
+        }
+        else
+        {
+            logger.info("NPC {} is random", e.getId());
+            AIBehaviour.determineRandom(e);
         }
     }
 }

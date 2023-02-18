@@ -9,11 +9,22 @@ import java.util.Timer;
 public class MissileUtilTimer extends Timer
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+	private MissileTimerTask missileTimerTask;
+
+	public MissileTimerTask getMissileTimerTask()
+	{
+		return missileTimerTask;
+	}
+
+	public void setMissileTimerTask(MissileTimerTask missileTimerTask)
+	{
+		this.missileTimerTask = missileTimerTask;
+	}
 
 	public MissileUtilTimer()
 	{
 		super(true);
-		MissileTimerTask missileTimerTask = new MissileTimerTask();
+		missileTimerTask = new MissileTimerTask();
 		this.schedule(missileTimerTask, 0, GameConfiguration.missileWait);
 	}
 }

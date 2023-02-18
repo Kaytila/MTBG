@@ -24,7 +24,6 @@ import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
-import net.ck.util.communication.keyboard.KeyboardActionType;
 import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.ui.WindowBuilder;
@@ -414,15 +413,28 @@ public class Game implements Runnable
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
         Game.getCurrent().getIdleTimer().stop();
         Game.getCurrent().getHighlightTimer().stop();
-        if (Game.getCurrent().getMissileTimer() != null)
-        {
-            //noinspection StatementWithEmptyBody
-            while (Game.getCurrent().getMissileTimer().isRunning())
-            {
 
+        if (GameConfiguration.useTimerForMissiles == true)
+        {
+            if (Game.getCurrent().getMissileUtilTimer() != null)
+            {
+                while (Game.getCurrent().getMissileUtilTimer().getMissileTimerTask().isRunning())
+                {
+
+                }
             }
         }
+        else
+        {
+            if (Game.getCurrent().getMissileTimer() != null)
+            {
+                //noinspection StatementWithEmptyBody
+                while (Game.getCurrent().getMissileTimer().isRunning())
+                {
 
+                }
+            }
+        }
         if (haveNPCAction)
         {
             for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
@@ -435,28 +447,8 @@ public class Game implements Runnable
                 // logger.info("npc: {}", e);
                 //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                 //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
-                if (e.isHostile())
-                {
-                    logger.info("npc {} is hostile", e.getId());
-                    AIBehaviour.determineCombat(e);
-                }
-                else if (e.isPatrolling())
-                {
-                    logger.info("npc {} is patrolling", e.getId());
-                    AIBehaviour.determinePatrol(e);
-                }
-                else if (e.getRunningAction() != null)
-                {
-                    if (e.getRunningAction().getType().equals(KeyboardActionType.MOVE))
-                    {
-                        AIBehaviour.determineMove(e);
-                    }
-                }
-                else
-                {
-                    logger.info("NPC {} is random", e.getId());
-                    AIBehaviour.determineRandom(e);
-                }
+                AIBehaviour.determineAction(e);
+
                 //logger.info("setting UI position: {}", e.getMapPosition());
                 e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
             }
