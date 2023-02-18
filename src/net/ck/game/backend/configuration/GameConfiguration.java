@@ -156,6 +156,8 @@ public class GameConfiguration
     public static final boolean calculateBrightenUpImageInPaint = true;
 
     public static final int skippedPixelsForDrawingMissiles = 5;
+
+    public static final boolean useTimersForAnimations = true;
 }
 
 

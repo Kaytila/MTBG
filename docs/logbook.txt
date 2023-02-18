@@ -808,3 +808,5 @@ History of the changes:
 2022-02-18: updated missile draw to do a paint with a rectangle instead of a full only. tried to do the same for
             highlighting, but failed. tried to do the same for selectTile highlighting,
             tile highlighting does not work anymore for hidden tiles.
+2022-02-18: implemented timers as alternative for graphic threads, all three done. Work as expected. Missile and sound
+            are another option. Thinking about taking thread away from Game as well. Or at least, make it configurable.

@@ -180,18 +180,18 @@ public class GameUtils
 
     public static void initializeIdleTimer()
     {
-
         logger.info("initializing Turn Timer as Swing Timer");
         IdleActionListener idleActionListener = new IdleActionListener();
         Game.getCurrent().setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
         Game.getCurrent().getIdleTimer().setRepeats(true);
         Game.getCurrent().getIdleTimer().start();
-
     }
 
     public static void initializeWeatherSystem()
     {
         logger.info("BEGIN: initializing weather system");
+
+
         AbstractWeatherSystem weatherSystem = WeatherSystemFactory.createWeatherSystem(Game.getCurrent().getCurrentMap());
 
         switch ((CodeUtils.getRealClass(weatherSystem)).getSimpleName())
@@ -230,43 +230,85 @@ public class GameUtils
     {
         if (GameConfiguration.animated == true)
         {
-            logger.info("initializing ForegroundAnimationSystem animation system");
-            ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem();
+            if (GameConfiguration.useTimersForAnimations == true)
+            {
+                logger.info("initializing Foregroundanimation System as Swing Timer");
+                ForegroundAnimationSystemActionListener foregroundAnimationSystemActionListener = new ForegroundAnimationSystemActionListener();
+                Game.getCurrent().setForegroundAnimationSystemTimer(new ForegroundAnimationSystemTimer(GameConfiguration.animationForeGroundDelay, foregroundAnimationSystemActionListener));
+                Game.getCurrent().getForegroundAnimationSystemTimer().setRepeats(true);
+                Game.getCurrent().getForegroundAnimationSystemTimer().start();
+            }
+            else
+            {
+                logger.info("initializing ForegroundAnimationSystem animation system");
+                ForegroundAnimationSystem foregroundAnimationSystem = new ForegroundAnimationSystem();
 
-            Thread foregroundAnimationSystemThread = new Thread(foregroundAnimationSystem);
-            foregroundAnimationSystemThread.setName(String.valueOf(ThreadNames.FOREGROUND_ANIMATION));
+                Thread foregroundAnimationSystemThread = new Thread(foregroundAnimationSystem);
+                foregroundAnimationSystemThread.setName(String.valueOf(ThreadNames.FOREGROUND_ANIMATION));
 
-            Game.getCurrent().getThreadController().add(foregroundAnimationSystemThread);
+                Game.getCurrent().getThreadController().add(foregroundAnimationSystemThread);
+            }
         }
     }
 
     public static void initializeBackgroundAnimationSystem()
     {
-
         if (GameConfiguration.animated == true)
         {
-            logger.info("start: initializing BackgroundAnimationSystem animation system");
-            BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem();
+            if (GameConfiguration.useTimersForAnimations == true)
+            {
+                logger.info("initializing Backgroundanimation System as Swing Timer");
+                BackgroundAnimationSystemActionListener backgroundAnimationSystemActionListener = new BackgroundAnimationSystemActionListener();
+                Game.getCurrent().setBackgroundAnimationSystemTimer(new BackgroundAnimationSystemTimer(GameConfiguration.animationBackGroundDelay, backgroundAnimationSystemActionListener));
+                Game.getCurrent().getBackgroundAnimationSystemTimer().setRepeats(true);
+                Game.getCurrent().getBackgroundAnimationSystemTimer().start();
+            }
+            else
+            {
+                logger.info("start: initializing BackgroundAnimationSystem animation system");
+                BackgroundAnimationSystem backgroundAnimationSystem = new BackgroundAnimationSystem();
 
-            Thread backgroundAnimationSystemThread = new Thread(backgroundAnimationSystem);
-            backgroundAnimationSystemThread.setName(String.valueOf(ThreadNames.BACKGROUND_ANIMATION));
+                Thread backgroundAnimationSystemThread = new Thread(backgroundAnimationSystem);
+                backgroundAnimationSystemThread.setName(String.valueOf(ThreadNames.BACKGROUND_ANIMATION));
 
-            Game.getCurrent().getThreadController().add(backgroundAnimationSystemThread);
-            logger.info("finish: initializing BackgroundAnimationSystem animation system");
+                Game.getCurrent().getThreadController().add(backgroundAnimationSystemThread);
+                logger.info("finish: initializing BackgroundAnimationSystem animation system");
+            }
         }
     }
 
     public static void initializeAnimationSystem()
     {
-        AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem();
-        //if (GameConfiguration.animated == true)
-        //{
-        logger.info("start: initializing animation system");
-        Thread animationSystemThread = new Thread(animationSystem);
-        animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
-        Game.getCurrent().getThreadController().add(animationSystemThread);
-        logger.info("finish: initializing animation system");
-        //}
+
+
+
+        /*    logger.info("initializing Turn Timer as Swing Timer");
+            IdleActionListener idleActionListener = new IdleActionListener();
+            Game.getCurrent().setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
+            Game.getCurrent().getIdleTimer().setRepeats(true);
+            Game.getCurrent().getIdleTimer().start();
+        */
+
+        if (GameConfiguration.useTimersForAnimations == true)
+        {
+            logger.info("initializing Animation System as Swing Timer");
+            AnimationSystemActionListener animationSystemActionListener = new AnimationSystemActionListener();
+            Game.getCurrent().setAnimationSystemTimer(new AnimationSystemTimer((int) GameConfiguration.animationLifeformDelay, animationSystemActionListener));
+            Game.getCurrent().getAnimationSystemTimer().setRepeats(true);
+            Game.getCurrent().getAnimationSystemTimer().start();
+        }
+        else
+        {
+            AnimationSystem animationSystem = AnimationSystemFactory.createAnymationSystem();
+            //if (GameConfiguration.animated == true)
+            //{
+            logger.info("start: initializing animation system as thread");
+            Thread animationSystemThread = new Thread(animationSystem);
+            animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
+            Game.getCurrent().getThreadController().add(animationSystemThread);
+            logger.info("finish: initializing animation system");
+            //}
+        }
     }
 
 

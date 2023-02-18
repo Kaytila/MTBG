@@ -21,10 +21,7 @@ import net.ck.game.soundeffects.SoundPlayerNoThread;
 import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.timers.HighlightTimer;
 import net.ck.game.weather.AbstractWeatherSystem;
-import net.ck.util.CodeUtils;
-import net.ck.util.GameUtils;
-import net.ck.util.MapUtils;
-import net.ck.util.UILense;
+import net.ck.util.*;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.keyboard.KeyboardActionType;
@@ -87,6 +84,13 @@ public class Game implements Runnable
      * how many milliseconds until the turn is passed?
      */
     private IdleTimer idleTimer;
+
+
+    /**
+     * how many milliseconds until the turn is passed?
+     */
+    private AnimationSystemTimer animationSystemTimer;
+
 
     /**
      * is the game still running or shutting down?
@@ -169,6 +173,10 @@ public class Game implements Runnable
      */
     private boolean npcAction;
     private HighlightTimer highlightTimer;
+
+    private ForegroundAnimationSystemTimer foregroundAnimationSystemTimer;
+
+    private BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
 
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -609,7 +617,7 @@ public class Game implements Runnable
 
     public synchronized void stopGame()
     {
-        //getThreadController().listThreads();
+        getThreadController().listThreads();
         //logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
         //logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
         //logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
@@ -895,6 +903,36 @@ public class Game implements Runnable
     public void setSoundPlayerNoThread(SoundPlayerNoThread soundPlayerNoThread)
     {
         this.soundPlayerNoThread = soundPlayerNoThread;
+    }
+
+    public AnimationSystemTimer getAnimationSystemTimer()
+    {
+        return animationSystemTimer;
+    }
+
+    public void setAnimationSystemTimer(AnimationSystemTimer animationSystemTimer)
+    {
+        this.animationSystemTimer = animationSystemTimer;
+    }
+
+    public BackgroundAnimationSystemTimer getBackgroundAnimationSystemTimer()
+    {
+        return backgroundAnimationSystemTimer;
+    }
+
+    public void setBackgroundAnimationSystemTimer(BackgroundAnimationSystemTimer backgroundAnimationSystemTimer)
+    {
+        this.backgroundAnimationSystemTimer = backgroundAnimationSystemTimer;
+    }
+
+    public ForegroundAnimationSystemTimer getForegroundAnimationSystemTimer()
+    {
+        return foregroundAnimationSystemTimer;
+    }
+
+    public void setForegroundAnimationSystemTimer(ForegroundAnimationSystemTimer foregroundAnimationSystemTimer)
+    {
+        this.foregroundAnimationSystemTimer = foregroundAnimationSystemTimer;
     }
 }
 
