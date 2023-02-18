@@ -366,14 +366,11 @@ public class Game implements Runnable
     }
 
     /**
-     * <a href="https://stackoverflow.com/questions/9317461/get-the-application-closing-event">https://stackoverflow.com/questions/9317461/get-the-application-closing-event</a>
-     * it appears you can only do it this way not really necessary, but I guess can be used for later on but its interesting that in order to get the shutdown event, you need yet another thread also,
-     * when the fuck is this running? ThreadController is initialized way before
-     */
-    /*
-     * public void addShutdownHook() { Runtime.getRuntime().addShutdownHook(new Thread() { public void run() { logger.error("Shutdown Hook is running !"); } });
-     * logger.error("Application Terminating ..."); setRunning(false); if (threadController != null) { for (Thread t : threadController.getThreads()) { // how the heck is this supposed to work?
-     * logger.error("shutdown: " + t.getName()); t.interrupt(); } } }
+     * so all can run on the EDT. I wonder where this will fuck things up, according to this:
+     * https://stackoverflow.com/questions/11825281/java-swing-running-on-edt
+     * this could kind of even work. But should it?
+     *
+     * @param event
      */
     @Subscribe
     public synchronized void onMessageEvent(AdvanceTurnEvent event)
@@ -589,54 +586,7 @@ public class Game implements Runnable
         this.weatherSystem = weatherSystem;
     }
 
-    /**
-     * go back one turn in history
-     * <p>
-     * three ideas how to implement this:
-     * <p>
-     * 1. get the last turn, just add it in front 2. get the last turn, delete it from the list, then replay it. 3. get the last turn, play it, just overwrite.
-     * <p>
-     * I went for option 2, which gets the last turn and then replays it hoping the implementation is correct
-     */
-    public int retractTurn()
-    {
-        // logger.info("current turn info: {}, action sizes: {}",
-        // getCurrentTurn().getTurnNumber() ,
-        // getCurrentTurn().getActions().size());
-        //logger.info("retracting turn, current turn: {}", getCurrentTurn().getTurnNumber());
 
-        if (getTurnNumber() == 0)
-        {
-            logger.info("current turn is the first one");
-        }
-        else
-        {
-            // C Stupidity of 0-indexed lists, I will never ever understand it
-            // Start turn is 0, index position is zero,
-            // first rollover means, turn is 1, index position is also 1.
-            // remove last turn, as it is blank anyhow.
-            // we are at i - 1 again.
-            //getTurns().remove(getTurnNumber());
-            // remove turnNumber
-            setTurnNumber(getTurnNumber() - 1);
-
-            // get last Turn
-            // C Stupidity of 0-indexed lists, I will never ever understand it
-            //Turn turn = getTurns().get(getTurnNumber());
-            //GameUtils.invertActions(turn);
-            /*for (AbstractAction e : turn.getActions())
-            {
-                //e.getEntity().doAction(e);
-                logger.error("this does not work anymore: {}", e);
-            }*/
-
-            WindowBuilder.getTextField().retractTurn();
-
-            //turn.getActions().clear();
-            //Game.getCurrent().setCurrentTurn(turn);
-        }
-        return getTurnNumber();
-    }
 
     public synchronized void stopGame()
     {
@@ -758,14 +708,7 @@ public class Game implements Runnable
 
                     if (timeTaken < GameConfiguration.targetTime)
                     {
-                        try
-                        {
-                            Thread.sleep((GameConfiguration.targetTime - timeTaken) / 1000000);
-                        }
-                        catch (InterruptedException e)
-                        {
-                            throw new RuntimeException(e);
-                        }
+                        getThreadController().sleep((int) ((GameConfiguration.targetTime - timeTaken) / 1000000), ThreadNames.GAME_THREAD);
                     }
                 }
             }

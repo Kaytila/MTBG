@@ -421,12 +421,10 @@ public class JGridCanvas extends JComponent
             {
                 if (UIStateMachine.getCurrentSelectedTile().isHidden() == false)
                 {
-                    if (UIStateMachine.getCurrentSelectedTile().isBlocked() == false)
-                    {
-                        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
-                        g.setColor(Color.WHITE);
-                        g.drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
-                    }
+                    Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
+                    g.setColor(Color.WHITE);
+                    g.drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+
                 }
             }
         }

@@ -813,3 +813,7 @@ History of the changes:
 2022-02-18: implemented Missile Thread as Util Timer. Takes away 10% CPU time right away.
 2022-02-18: implemented Game without thread. takes away all CPU time, but not sure whether things will still work at all.
             sound behaves oddly at least.
+2022-02-18: so going to use no events for now, takes less cpu. did some comments on game configuration. did some clean
+            up in Game. blocked tiles are highlighted again. I need to distinguish between blocked naturally - mountain,
+            or wall - or blocked by NPC - both cannot be stepped on, but one can be targeted, one not.
+            To be done in the future.

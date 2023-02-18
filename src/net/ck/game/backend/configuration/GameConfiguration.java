@@ -127,16 +127,25 @@ public class GameConfiguration
 
     public static final String npcImages = "graphics" + File.separator + "npcs" + File.separator;
 
+    /**
+     * where to find the maps
+     */
     public static final String mapFileRootPath = "maps";
 
+    /**
+     * where to find the npcs xml
+     */
     public static final String npcFileRootPath = "npcs";
 
+    /**
+     * where to find items xml
+     */
     public static final String itemFileRootPath = "items";
 
     /**
      * use Events only for redrawing or do 60 fps :D
      */
-    public static final boolean useEvents = true;
+    public static final boolean useEvents = false;
 
     /**
      * only draw each tile of the visible area once,
@@ -144,8 +153,14 @@ public class GameConfiguration
      */
     public static final boolean drawTileOnce = true;
 
+    /**
+     * brighten up images or not - used for drawing bright, less bright and almost dark tiles
+     */
     public static final boolean brightenUpImages = true;
 
+    /**
+     * paint grid lines or not
+     */
     public static final boolean paintGridLines = true;
 
 
@@ -153,18 +168,32 @@ public class GameConfiguration
 
     public static final boolean debugLOS = false;
 
+    /**
+     * calculate the brightened up image during drawing or before
+     */
     public static final boolean calculateBrightenUpImageInPaint = true;
 
+
+    /**
+     * when drawing the missile, skip how many pixels per redraw:
+     * less means slower draw, faster means skipping.
+     */
     public static final int skippedPixelsForDrawingMissiles = 5;
 
+    /**
+     * use swing timers for background, foreground and lifeform animation
+     */
     public static final boolean useTimersForAnimations = true;
 
+    /**
+     * use an util timer or a thread
+     */
     public static final boolean useTimerForMissiles = true;
 
     /**
      * use a thread for Game or not - if not, where does it run?
      */
-    public static final boolean useGameThread = false;
+    public static final boolean useGameThread = true;
 }
 
 
