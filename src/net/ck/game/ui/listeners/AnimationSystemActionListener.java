@@ -1,4 +1,4 @@
-package net.ck.util;
+package net.ck.game.ui.listeners;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.LifeForm;
@@ -6,6 +6,9 @@ import net.ck.game.backend.entities.LifeFormState;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.map.MapTile;
+import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
+import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

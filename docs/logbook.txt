@@ -819,3 +819,5 @@ History of the changes:
             To be done in the future.
 2022-02-18: Bugfix - missile util timer was not caught during advanceTurn(). Also removed AIBehaviour if/else from Game
             into ... AIBehaviour. Surprise.
+2022-02-19: refactored the timers and action listeners from yesterday to better packages. changed wanderer to do a
+            look ahead before moving - this should help checking.

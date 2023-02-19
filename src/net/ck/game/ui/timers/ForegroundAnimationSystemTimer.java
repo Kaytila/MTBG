@@ -1,14 +1,21 @@
-package net.ck.util;
+package net.ck.game.ui.timers;
 
+import net.ck.game.ui.listeners.ForegroundAnimationSystemActionListener;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
-public class AnimationSystemTimer extends Timer
+public class ForegroundAnimationSystemTimer extends Timer
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
+
+    public ForegroundAnimationSystemTimer(int delay, ForegroundAnimationSystemActionListener listener)
+    {
+        super(delay, listener);
+    }
 
     @Override
     public void start()
@@ -22,10 +29,5 @@ public class AnimationSystemTimer extends Timer
     {
         //logger.info("stopping idle timer");
         super.stop();
-    }
-
-    public AnimationSystemTimer(int delay, ActionListener listener)
-    {
-        super(delay, listener);
     }
 }

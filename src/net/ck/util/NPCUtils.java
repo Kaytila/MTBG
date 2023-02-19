@@ -70,7 +70,7 @@ public class NPCUtils
         {
             // north
             case 0:
-                if (rangeY.contains(e.getMapPosition().y))
+                if (rangeY.contains(e.getMapPosition().y - 1))
                 {
                     return new PlayerAction(new NorthAction());
                 }
@@ -81,7 +81,7 @@ public class NPCUtils
                 }
             // east
             case 1:
-                if (rangeX.contains(e.getMapPosition().x))
+                if (rangeX.contains(e.getMapPosition().x + 1))
                 {
                     return new PlayerAction(new EastAction());
                 }
@@ -92,7 +92,7 @@ public class NPCUtils
                 }
             // south
             case 2:
-                if (rangeY.contains(e.getMapPosition().y))
+                if (rangeY.contains(e.getMapPosition().y + 1))
                 {
                     return new PlayerAction(new SouthAction());
                 }
@@ -103,7 +103,7 @@ public class NPCUtils
                 }
             // west
             case 3:
-                if (rangeX.contains(e.getMapPosition().x))
+                if (rangeX.contains(e.getMapPosition().x - 1))
                 {
                     return new PlayerAction(new WestAction());
                 }
