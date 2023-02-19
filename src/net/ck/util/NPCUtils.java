@@ -25,98 +25,9 @@ public class NPCUtils
 
     private static final Logger logger = LogManager.getLogger(NPCUtils.class);
 
-    /**
-     * this is the pseudo AI which calculates actions done by NPCs. There probably needs to be a difference between hostile and friendly NPCs meaning that there will need to be a separate class for
-     * that instead of having this in a Utils class.
-     *
-     * @param e the abstract entity, npc probably
-     * @return an action that is done once the npc is doing action
-     */
-    public static PlayerAction calculateAction(LifeForm e)
-    {
-        //logger.info("calculate action");
 
-        if (e.getQueuedActions().size() > 0)
-        {
-            logger.info("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
-            return new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll());
-        }
-        else
-        {
-            if (!(e.isStatic()))
-            {
-                return initializeWanderer(e);
-            }
-            return new PlayerAction(new SpaceAction());
-        }
-    }
 
-    /**
-     *
-     * @param e AbstractEntity - the npc
-     * @return PlayerAction which direction the NPC will move to
-     * only move 2 squares in any direction
-     */
-    private static PlayerAction initializeWanderer(LifeForm e)
-    {
 
-        final Range<Integer> rangeX = Range.between(e.getOriginalMapPosition().x - 2, e.getOriginalMapPosition().x + 2);
-        final Range<Integer> rangeY = Range.between(e.getOriginalMapPosition().y - 2, e.getOriginalMapPosition().y + 2);
-
-        Random rand = new Random();
-        //logger.info("npc {}, original position {}, map position: {}",e,  e.getOriginalMapPosition(), e.getMapPosition());
-
-        switch (rand.nextInt(4))
-        {
-            // north
-            case 0:
-                if (rangeY.contains(e.getMapPosition().y - 1))
-                {
-                    return new PlayerAction(new NorthAction());
-                }
-                else
-                {
-                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
-                    return new PlayerAction(new SouthAction());
-                }
-            // east
-            case 1:
-                if (rangeX.contains(e.getMapPosition().x + 1))
-                {
-                    return new PlayerAction(new EastAction());
-                }
-                else
-                {
-                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
-                    return new PlayerAction(new WestAction());
-                }
-            // south
-            case 2:
-                if (rangeY.contains(e.getMapPosition().y + 1))
-                {
-                    return new PlayerAction(new SouthAction());
-                }
-                else
-                {
-                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
-                    return new PlayerAction(new NorthAction());
-                }
-            // west
-            case 3:
-                if (rangeX.contains(e.getMapPosition().x - 1))
-                {
-                    return new PlayerAction(new WestAction());
-                }
-                else
-                {
-                    //logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
-                    return new PlayerAction(new EastAction());
-                }
-            default:
-                return new PlayerAction(new SpaceAction());
-        }
-
-    }
 
     public static boolean calculateHit(LifeForm attacker, LifeForm defender)
     {

@@ -1,5 +1,6 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.items.AbstractItem;
@@ -555,8 +556,11 @@ public abstract class AbstractEntity implements LifeForm
      */
     public boolean moveTo(MapTile tileByCoordinates)
     {
-        logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-        logger.info("finish: {}", tileByCoordinates);
+        if (GameConfiguration.debugASTAR == true)
+        {
+            logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
+            logger.info("finish: {}", tileByCoordinates);
+        }
 
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();

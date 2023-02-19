@@ -75308,10 +75308,11 @@
                 </mobask>
             </mobasks>
             <mapPosition>
-                <x>1</x>
+                <x>2</x>
                 <y>2</y>
             </mapPosition>
         </npc>
+        <!--
         <npc>
             <id>2</id>
             <type>WARRIOR2</type>
@@ -75352,5 +75353,6 @@
                 <y>10</y>
             </targetPosition>
         </npc>
+        -->
     </npcs>
 </map>

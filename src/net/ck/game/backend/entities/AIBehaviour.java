@@ -6,14 +6,13 @@ import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
-import net.ck.util.communication.keyboard.AttackAction;
-import net.ck.util.communication.keyboard.GetAction;
-import net.ck.util.communication.keyboard.KeyboardActionType;
-import net.ck.util.communication.keyboard.MoveAction;
+import net.ck.util.communication.keyboard.*;
+import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.util.Random;
 
 public class AIBehaviour
 {
@@ -87,7 +86,7 @@ public class AIBehaviour
         }
         else
         {
-            e.doAction(NPCUtils.calculateAction(e));
+            e.doAction(calculateAction(e));
         }
     }
 
@@ -100,29 +99,29 @@ public class AIBehaviour
         }
         else
         {*/
-            //we have not reached the target
-            if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
+        //we have not reached the target
+        if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
+        {
+            MoveAction action = new MoveAction();
+            action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
+            //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+            e.doAction(new PlayerAction(action));
+            //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
+        }
+        //we have reached the target
+        else
+        {
+            //we have reached the original position, switch to original target
+            if (e.getMapPosition().equals(e.getOriginalMapPosition()))
             {
-                MoveAction action = new MoveAction();
-                action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
-                //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
-                e.doAction(new PlayerAction(action));
-                //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
+                e.setTargetMapPosition(e.getOriginalTargetMapPosition());
             }
-            //we have reached the target
+            //we have reached the original target, switch to original position
             else
             {
-                //we have reached the original position, switch to original target
-                if (e.getMapPosition().equals(e.getOriginalMapPosition()))
-                {
-                    e.setTargetMapPosition(e.getOriginalTargetMapPosition());
-                }
-                //we have reached the original target, switch to original position
-                else
-                {
-                    e.setTargetMapPosition(e.getOriginalMapPosition());
-                }
+                e.setTargetMapPosition(e.getOriginalMapPosition());
             }
+        }
         //}
     }
 
@@ -141,16 +140,21 @@ public class AIBehaviour
         }
     }
 
+    /**
+     * this is the global method that is called in game in advance turn
+     *
+     * @param e - the lifeform in question
+     */
     public static void determineAction(LifeForm e)
     {
         if (e.isHostile())
         {
-            logger.info("npc {} is hostile", e.getId());
+            //logger.info("npc {} is hostile", e.getId());
             AIBehaviour.determineCombat(e);
         }
         else if (e.isPatrolling())
         {
-            logger.info("npc {} is patrolling", e.getId());
+            //logger.info("npc {} is patrolling", e.getId());
             AIBehaviour.determinePatrol(e);
         }
         else if (e.getRunningAction() != null)
@@ -166,4 +170,114 @@ public class AIBehaviour
             AIBehaviour.determineRandom(e);
         }
     }
+
+    /**
+     * this is the pseudo AI which calculates actions done by NPCs. There probably needs to be a difference between hostile and friendly NPCs meaning that there will need to be a separate class for
+     * that instead of having this in a Utils class.
+     *
+     * @param e the abstract entity, npc probably
+     * @return an action that is done once the npc is doing action
+     */
+    public static PlayerAction calculateAction(LifeForm e)
+    {
+        //logger.info("calculate action");
+
+        if (e.getQueuedActions().size() > 0)
+        {
+            logger.info("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
+            return new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll());
+        }
+        else
+        {
+            if (!(e.isStatic()))
+            {
+                return initializeWanderer(e, -1);
+            }
+            return new PlayerAction(new SpaceAction());
+        }
+    }
+
+
+    /**
+     * @param e AbstractEntity - the npc
+     * @return PlayerAction which direction the NPC will move to
+     * only move 2 squares in any direction
+     */
+    private static PlayerAction initializeWanderer(LifeForm e, int i)
+    {
+        if (!(i == -1) || ((i <= 3) && (i >= 0)))
+        {
+            logger.error("issue in calling wanderer!");
+            Game.getCurrent().stopGame();
+        }
+        //logger.info("lifeform {} current map position: {}", e.getId(), e.getMapPosition());
+        //logger.info("lifeform {} original map position {}", e.getId(), e.getOriginalMapPosition());
+
+        if (e.getOriginalMapPosition() == null)
+        {
+            e.setOriginalTargetMapPosition(new Point(e.getMapPosition()));
+        }
+
+        final Range<Integer> rangeX = Range.between(e.getOriginalMapPosition().x - 2, e.getOriginalMapPosition().x + 2);
+        final Range<Integer> rangeY = Range.between(e.getOriginalMapPosition().y - 2, e.getOriginalMapPosition().y + 2);
+
+        if (i == -1)
+        {
+            Random rand = new Random();
+            i = rand.nextInt(4);
+        }
+        //logger.info("npc {}, original position {}, map position: {}",e,  e.getOriginalMapPosition(), e.getMapPosition());
+        switch (i)
+        {
+            // north
+            case 0:
+                if (rangeY.contains(e.getMapPosition().y - 1))
+                {
+                    return new PlayerAction(new NorthAction());
+                }
+                else
+                {
+                    logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
+                    return new PlayerAction(new SouthAction());
+                }
+                // east
+            case 1:
+                if (rangeX.contains(e.getMapPosition().x + 1))
+                {
+                    return new PlayerAction(new EastAction());
+                }
+                else
+                {
+                    logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
+                    return new PlayerAction(new WestAction());
+                }
+                // south
+            case 2:
+                if (rangeY.contains(e.getMapPosition().y + 1))
+                {
+                    return new PlayerAction(new SouthAction());
+                }
+                else
+                {
+                    logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
+                    return new PlayerAction(new NorthAction());
+                }
+                // west
+            case 3:
+                if (rangeX.contains(e.getMapPosition().x - 1))
+                {
+                    return new PlayerAction(new WestAction());
+                }
+                else
+                {
+                    logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
+                    return new PlayerAction(new EastAction());
+                }
+            default:
+                logger.info("npc {} spaces out", e);
+                return new PlayerAction(new SpaceAction());
+        }
+
+    }
+
 }
