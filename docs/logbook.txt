@@ -824,3 +824,4 @@ History of the changes:
 2022-02-20: made a check for wanderer, also made it usable in a test. will craete test case tomorrow where all edge
             cases are being tested - move wanderer along all borders.
             did some refactoring and moved AI code into AI class.
+2022-02-20: added wanderer test. will add another wanderer test.

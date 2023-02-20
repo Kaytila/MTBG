@@ -249,6 +249,11 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             setSchedule(new Schedule(this));
         }
+
+        if (getOriginalMapPosition() == null)
+        {
+            setOriginalMapPosition(new Point(getMapPosition()));
+        }
     }
 
     public Point getMapPosition()

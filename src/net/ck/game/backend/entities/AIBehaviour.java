@@ -203,81 +203,85 @@ public class AIBehaviour
      * @return PlayerAction which direction the NPC will move to
      * only move 2 squares in any direction
      */
-    private static PlayerAction initializeWanderer(LifeForm e, int i)
+    public static PlayerAction initializeWanderer(LifeForm e, int i)
     {
-        if (!(i == -1) || ((i <= 3) && (i >= 0)))
+        logger.info("npc: {} is wanderer", e);
+        if (!(i == -1))
         {
-            logger.error("issue in calling wanderer!");
-            Game.getCurrent().stopGame();
-        }
-        //logger.info("lifeform {} current map position: {}", e.getId(), e.getMapPosition());
-        //logger.info("lifeform {} original map position {}", e.getId(), e.getOriginalMapPosition());
+            if (!((i <= 3) && (i >= 0)))
+            {
+                logger.error("issue in calling wanderer!");
+                Game.getCurrent().stopGame();
+                //logger.info("lifeform {} current map position: {}", e.getId(), e.getMapPosition());
+                //logger.info("lifeform {} original map position {}", e.getId(), e.getOriginalMapPosition());
 
-        if (e.getOriginalMapPosition() == null)
-        {
-            e.setOriginalTargetMapPosition(new Point(e.getMapPosition()));
-        }
+                if (e.getOriginalMapPosition() == null)
+                {
+                    e.setOriginalTargetMapPosition(new Point(e.getMapPosition()));
+                }
 
-        final Range<Integer> rangeX = Range.between(e.getOriginalMapPosition().x - 2, e.getOriginalMapPosition().x + 2);
-        final Range<Integer> rangeY = Range.between(e.getOriginalMapPosition().y - 2, e.getOriginalMapPosition().y + 2);
+                final Range<Integer> rangeX = Range.between(e.getOriginalMapPosition().x - 2, e.getOriginalMapPosition().x + 2);
+                final Range<Integer> rangeY = Range.between(e.getOriginalMapPosition().y - 2, e.getOriginalMapPosition().y + 2);
 
-        if (i == -1)
-        {
-            Random rand = new Random();
-            i = rand.nextInt(4);
+                if (i == -1)
+                {
+                    Random rand = new Random();
+                    i = rand.nextInt(4);
+                }
+                //logger.info("npc {}, original position {}, map position: {}",e,  e.getOriginalMapPosition(), e.getMapPosition());
+                switch (i)
+                {
+                    // north
+                    case 0:
+                        if (rangeY.contains(e.getMapPosition().y - 1))
+                        {
+                            return new PlayerAction(new NorthAction());
+                        }
+                        else
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
+                            return new PlayerAction(new SouthAction());
+                        }
+                        // east
+                    case 1:
+                        if (rangeX.contains(e.getMapPosition().x + 1))
+                        {
+                            return new PlayerAction(new EastAction());
+                        }
+                        else
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
+                            return new PlayerAction(new WestAction());
+                        }
+                        // south
+                    case 2:
+                        if (rangeY.contains(e.getMapPosition().y + 1))
+                        {
+                            return new PlayerAction(new SouthAction());
+                        }
+                        else
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
+                            return new PlayerAction(new NorthAction());
+                        }
+                        // west
+                    case 3:
+                        if (rangeX.contains(e.getMapPosition().x - 1))
+                        {
+                            return new PlayerAction(new WestAction());
+                        }
+                        else
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
+                            return new PlayerAction(new EastAction());
+                        }
+                    default:
+                        logger.info("npc {} spaces out", e);
+                        return new PlayerAction(new SpaceAction());
+                }
+            }
         }
-        //logger.info("npc {}, original position {}, map position: {}",e,  e.getOriginalMapPosition(), e.getMapPosition());
-        switch (i)
-        {
-            // north
-            case 0:
-                if (rangeY.contains(e.getMapPosition().y - 1))
-                {
-                    return new PlayerAction(new NorthAction());
-                }
-                else
-                {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
-                    return new PlayerAction(new SouthAction());
-                }
-                // east
-            case 1:
-                if (rangeX.contains(e.getMapPosition().x + 1))
-                {
-                    return new PlayerAction(new EastAction());
-                }
-                else
-                {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
-                    return new PlayerAction(new WestAction());
-                }
-                // south
-            case 2:
-                if (rangeY.contains(e.getMapPosition().y + 1))
-                {
-                    return new PlayerAction(new SouthAction());
-                }
-                else
-                {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
-                    return new PlayerAction(new NorthAction());
-                }
-                // west
-            case 3:
-                if (rangeX.contains(e.getMapPosition().x - 1))
-                {
-                    return new PlayerAction(new WestAction());
-                }
-                else
-                {
-                    logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
-                    return new PlayerAction(new EastAction());
-                }
-            default:
-                logger.info("npc {} spaces out", e);
-                return new PlayerAction(new SpaceAction());
-        }
-
+        logger.info("npc {} spaces outside of the if if statements", e);
+        return new PlayerAction(new SpaceAction());
     }
-
 }
