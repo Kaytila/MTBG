@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Alltests" type="JUnit" factoryName="JUnit">
+    <module name="MyTurnBasedGame" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="16" />
+    <option name="PACKAGE_NAME" value="net.ck.game.test" />
+    <option name="MAIN_CLASS_NAME" value="net.ck.game.test.GameTest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
+    <option name="VM_PARAMETERS" value="-ea -splash:graphics/splash/splash.jpg -Djava.security.manager -Djava.security.policy==policy.txt" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
