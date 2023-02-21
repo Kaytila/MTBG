@@ -58,7 +58,7 @@ public abstract class AbstractEntity implements LifeForm
     /**
      * number has either the player number or the number of the npc on the current map
      */
-    private int id;
+    protected int id;
     /**
      * the position on the UI, not sure whether it makes more sense to take position
      */

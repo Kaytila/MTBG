@@ -138,7 +138,7 @@ public class Map extends AbstractMap
 			+ super.toString() +  "]";
 	}
 
-	public ArrayList<LifeForm> getLifeForms()
+	public synchronized ArrayList<LifeForm> getLifeForms()
 	{
 		if (lifeForms == null)
 		{

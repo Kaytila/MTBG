@@ -36,8 +36,7 @@ public class GameTest
 	public static void tearDownAfterClass()
 	{
 		logger.info("GameTest - shutting down everything hopefully");
-		game = null;
-		logger.info("GameTest - finished shutting down");
+		game.stopGame();
 	}
 
 	@Before
@@ -73,10 +72,7 @@ public class GameTest
 			for (int i = 0; i < 10; i++)
 			{
 				EventBus.getDefault().post(new AdvanceTurnEvent(true));
-				for (Thread t : game.getThreadController().getThreads())
-				{
-					game.getThreadController().sleep(100, ThreadNames.MAIN);
-				}
+				game.getThreadController().sleep(100, ThreadNames.MAIN);
 			}
 		logger.info("testMainLoopTenTimes end");
 	}
@@ -122,6 +118,7 @@ public class GameTest
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(2, 2));
 		n1.initialize();
+		logger.info("npc position: {}", n1.getMapPosition());
 		n1.doAction(new PlayerAction(new EastAction()));
 		n1.doAction(new PlayerAction(new EastAction()));
 
@@ -130,8 +127,7 @@ public class GameTest
 		n1.doAction(AIBehaviour.initializeWanderer(n1, 1));
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
 		logger.info("npc position: {}", n1.getMapPosition());
-		assert (n1.getMapPosition().x == 4);
-		n1.move(3, 2);
+		assert (n1.getMapPosition().x == 3);
 		n1.move(2, 2);
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
 		n1.move(1, 2);
@@ -146,5 +142,25 @@ public class GameTest
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
 		logger.info("npc position: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 0);
+	}
+
+	@Test
+	public void testActionFrameWork()
+	{
+		NPC n1 = new NPC();
+		n1.setId(98);
+		n1.setType(NPCTypes.WARRIOR);
+		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
+		n1.setMapPosition(new Point(2, 2));
+		n1.initialize();
+		logger.info("npc position before: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new EastAction());
+		EventBus.getDefault().post(new AdvanceTurnEvent(true));
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+
+		logger.info("npc position afer: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().x == 3);
+		assert (n1.getMapPosition().y == 2);
+
 	}
 }

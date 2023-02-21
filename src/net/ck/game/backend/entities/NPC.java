@@ -166,7 +166,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public String toString()
     {
-        return "NPC [type=" + type + ", mapposition=" + mapPosition + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet()) : null) + "]";
+        return "NPC [id=" + id + ", mapposition=" + mapPosition + ", mobasks=" + (mobasks != null ? toString(mobasks.entrySet()) : null) + "]";
     }
 
     @Override

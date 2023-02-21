@@ -803,25 +803,26 @@ History of the changes:
 2023-02-16: minimal cleanup and test framework is ready to run without UI
 2023-02-16: added a test for player running from 0.0 to 10.0, actually works
 2023-02-16: turned off much logging to make sure to debug move. Implemented teleport by accident.
-2022-02-17: take away representation layer - was a good idea if I meant to change designs or switch to ascii it would be
+2023-02-17: take away representation layer - was a good idea if I meant to change designs or switch to ascii it would be
             easy. but not going to support that anymore.
-2022-02-18: updated missile draw to do a paint with a rectangle instead of a full only. tried to do the same for
+2023-02-18: updated missile draw to do a paint with a rectangle instead of a full only. tried to do the same for
             highlighting, but failed. tried to do the same for selectTile highlighting,
             tile highlighting does not work anymore for hidden tiles.
-2022-02-18: implemented timers as alternative for graphic threads, all three done. Work as expected. Missile and sound
+2023-02-18: implemented timers as alternative for graphic threads, all three done. Work as expected. Missile and sound
             are another option. Thinking about taking thread away from Game as well. Or at least, make it configurable.
-2022-02-18: implemented Missile Thread as Util Timer. Takes away 10% CPU time right away.
-2022-02-18: implemented Game without thread. takes away all CPU time, but not sure whether things will still work at all.
+2023-02-18: implemented Missile Thread as Util Timer. Takes away 10% CPU time right away.
+2023-02-18: implemented Game without thread. takes away all CPU time, but not sure whether things will still work at all.
             sound behaves oddly at least.
-2022-02-18: so going to use no events for now, takes less cpu. did some comments on game configuration. did some clean
+2023-02-18: so going to use no events for now, takes less cpu. did some comments on game configuration. did some clean
             up in Game. blocked tiles are highlighted again. I need to distinguish between blocked naturally - mountain,
             or wall - or blocked by NPC - both cannot be stepped on, but one can be targeted, one not.
             To be done in the future.
-2022-02-18: Bugfix - missile util timer was not caught during advanceTurn(). Also removed AIBehaviour if/else from Game
+2023-02-18: Bugfix - missile util timer was not caught during advanceTurn(). Also removed AIBehaviour if/else from Game
             into ... AIBehaviour. Surprise.
-2022-02-19: refactored the timers and action listeners from yesterday to better packages. changed wanderer to do a
+2023-02-19: refactored the timers and action listeners from yesterday to better packages. changed wanderer to do a
             look ahead before moving - this should help checking.
-2022-02-20: made a check for wanderer, also made it usable in a test. will craete test case tomorrow where all edge
+2023-02-20: made a check for wanderer, also made it usable in a test. will craete test case tomorrow where all edge
             cases are being tested - move wanderer along all borders.
             did some refactoring and moved AI code into AI class.
-2022-02-20: added wanderer test. will add another wanderer test.
+2023-02-20: added wanderer test. will add another wanderer test.
+2023-02-21: added npc movement framework test. Will need to do some more work on AI planning and configuration.
