@@ -1,13 +1,16 @@
 package net.ck.game.test;
 
-import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.entities.AIBehaviour;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
+import net.ck.util.MapUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
-import net.ck.util.communication.keyboard.*;
+import net.ck.util.communication.keyboard.EastAction;
+import net.ck.util.communication.keyboard.NorthAction;
+import net.ck.util.communication.keyboard.SouthAction;
+import net.ck.util.communication.keyboard.WestAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -242,7 +245,7 @@ public class GameTest
 		game.addPlayers(null);
 		for (int i = 0; i < game.getCurrentPlayer().getInventory().getSize(); i++)
 		{
-			logger.info("inventory: {}", game.getCurrentPlayer().getInventory().get(i));
+			//logger.info("inventory: {}", game.getCurrentPlayer().getInventory().get(i));
 		}
 
 		//game.getCurrentPlayer().equipItem();
@@ -252,8 +255,6 @@ public class GameTest
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(3, 2));
 		n1.initialize();
-		AttackAction ac = new AttackAction();
-		ac.setTargetCoordinates(n1.getUIPosition());
-		game.getCurrentPlayer().doAction(new PlayerAction(ac));
+		n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(game.getCurrentPlayer().getMapPosition()));
 	}
 }

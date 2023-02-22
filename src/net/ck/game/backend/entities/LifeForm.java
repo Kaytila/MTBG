@@ -21,6 +21,8 @@ public interface LifeForm
 
     boolean attack(AbstractKeyboardAction action);
 
+    boolean attack(MapTile tile);
+
     int getHealth();
 
     void setHealth(int i);
@@ -29,7 +31,7 @@ public interface LifeForm
 
     void decreaseHealth(int i);
 
-     int getArmorClass();
+    int getArmorClass();
 
 
      void setArmorClass(int armorClass);

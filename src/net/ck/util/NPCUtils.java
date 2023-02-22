@@ -221,6 +221,12 @@ public class NPCUtils
         return action;
     }
 
+    public static Point calculateUIPointFromMapPosition(Point position)
+    {
+        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(position);
+        return (new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+    }
+
     public static Point calculatePlayerPosition()
     {
         int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);

@@ -757,9 +757,103 @@ public class NPC extends AbstractEntity implements LifeForm
         }
     }
 
-    private void attack(MapTile tileByCoordinates)
+    public boolean attack(MapTile tileByCoordinates)
     {
-        Game.getCurrent().getCurrentMap().getMissiles().add(new Missile(MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates));
+        if (getState() == LifeFormState.DEAD)
+        {
+            logger.info("NPC Dead");
+            return false;
+        }
+        logger.info("NPC Attacking");
+        MapTile tile;
+        if (getVictim() != null)
+        {
+            tile = MapUtils.getMapTileByCoordinatesAsPoint(getVictim().getMapPosition());
+        }
+        else
+        {
+            tile = tileByCoordinates;
+        }
+        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
+
+        if (tile != null)
+        {
+            logger.info("we found the tile, its the players: {}", tile);
+            if (getWeapon() == null)
+            {
+                setWeapon(Game.getCurrent().getWeaponList().get(1));
+            }
+
+            if (getWeapon().getType().equals(WeaponTypes.RANGED))
+            {
+                logger.info("here at ranged attack");
+                Point sourcePosition = NPCUtils.calculateUIPointFromMapPosition(this.getMapPosition());
+                Point targetPosition = NPCUtils.calculateUIPointFromMapPosition(tile.getMapPosition());
+                Missile m = new Missile(sourcePosition, targetPosition);
+                Game.getCurrent().getCurrentMap().getMissiles().add(m);
+
+                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
+                {
+                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+                    {
+                        if (n.getMapPosition().equals(tile.getMapPosition()))
+                        {
+                            logger.info("hitting player: {}", n);
+                            if (NPCUtils.calculateHit(this, n))
+                            {
+                                logger.info("hit");
+                                n.setCurrentImage(ImageUtils.getHitImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return true;
+                            }
+                            else
+                            {
+                                logger.info("miss");
+                                n.setCurrentImage(ImageUtils.getMissImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return false;
+                            }
+                        }
+                    }
+                }
+                //No NPCs
+            }
+            else
+            {
+                logger.info("meleee");
+                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
+                {
+                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+                    {
+                        if (n.getMapPosition().equals(tile.getMapPosition()))
+                        {
+                            logger.info("hitting player: {}", n);
+                            n.setHostile(true);
+                            n.setVictim(this);
+                            if (NPCUtils.calculateHit(this, n))
+                            {
+                                logger.info("hit");
+                                n.setCurrentImage(ImageUtils.getHitImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return true;
+                            }
+                            else
+                            {
+                                logger.info("miss");
+                                n.setCurrentImage(ImageUtils.getMissImage());
+                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            logger.info("here, tile is null");
+        }
+        return false;
     }
 
     public boolean isPatrolling()

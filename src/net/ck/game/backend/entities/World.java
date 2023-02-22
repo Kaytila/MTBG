@@ -80,6 +80,12 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public boolean attack(MapTile tile)
+	{
+		return false;
+	}
+
+	@Override
 	public int getHealth()
 	{
 		return 0;

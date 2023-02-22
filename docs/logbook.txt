@@ -828,3 +828,4 @@ History of the changes:
 2023-02-21: added npc movement framework test. Will need to do some more work on AI planning and configuration.
 2023-02-22: added some more tests. found a nice bug in attack() - for player this expects a mouse. need to disentangle
             this.
+2023-02-22: added a melee test: changed NPC attack() not to depend on mouse or graphics. TODO for player.
