@@ -612,7 +612,7 @@ public class Game implements Runnable
      */
     public void addPlayers(Point startPosition)
     {
-        logger.info("adding players");
+        logger.info("adding player");
         Player p1 = new Player(0);
         Weapon sling = getWeaponList().get(3);
         Weapon club = getWeaponList().get(1);
@@ -639,7 +639,7 @@ public class Game implements Runnable
         Set<ArmorPositions> positions = Game.getCurrent().getCurrentPlayer().getWearEquipment().keySet();
         for (ArmorPositions pos : positions)
         {
-            logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
+            //logger.info("equipment position:{}  item: {} ", pos, Game.getCurrent().getCurrentPlayer().getWearEquipment().get(pos));
         }
         Game.getCurrent().getCurrentMap().getLifeForms().add(Game.getCurrent().getCurrentPlayer());
     }

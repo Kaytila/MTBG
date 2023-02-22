@@ -221,9 +221,15 @@ public class NPCUtils
         return action;
     }
 
-    public static Point calculateUIPointFromMapPosition(Point position)
+    /**
+     * calculate the on screen pixel position of the provided Map Point.
+     *
+     * @param mapPoint - the map point
+     * @return a point with screen position (NOT UI Position)
+     */
+    public static Point calculateScreenPositionFromMapPosition(Point mapPoint)
     {
-        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(position);
+        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(mapPoint);
         return (new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
     }
 

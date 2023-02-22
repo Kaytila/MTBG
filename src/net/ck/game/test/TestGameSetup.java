@@ -41,7 +41,6 @@ public class TestGameSetup
 
 		if (game != null)
 		{
-
 			GameUtils.initializeAllItems();
 			GameUtils.initializeMaps();
 			game.addPlayers(null);

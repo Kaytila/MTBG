@@ -5,7 +5,6 @@ import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
-import net.ck.util.MapUtils;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.EastAction;
 import net.ck.util.communication.keyboard.NorthAction;
@@ -17,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.junit.*;
 
 import java.awt.*;
+
 
 public class GameTest
 {
@@ -46,13 +46,14 @@ public class GameTest
 	@Before
 	public void setUp()
 	{
-
+		game.addPlayers(null);
 	}
 
 	@After
 	public void tearDown()
 	{
-
+		logger.debug("clean up lifeforms");
+		Game.getCurrent().getCurrentMap().getLifeForms().clear();
 	}
 
 	/**
@@ -135,7 +136,6 @@ public class GameTest
 		n1.doAction(AIBehaviour.wanderAround(n1, 1));
 		logger.info("npc position 4: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 4);
-		Game.getCurrent().getCurrentMap().getLifeForms().clear();
 	}
 
 
@@ -163,7 +163,6 @@ public class GameTest
 		n1.doAction(AIBehaviour.wanderAround(n1, 3));
 		logger.info("npc position 5: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 3);
-		Game.getCurrent().getCurrentMap().getLifeForms().clear();
 	}
 
 	@Test
@@ -173,7 +172,7 @@ public class GameTest
 		n1.setId(90);
 		n1.setType(NPCTypes.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-		n1.setMapPosition(new Point(4, 3));
+		n1.setMapPosition(new Point(5, 3));
 		n1.initialize();
 		logger.info("npc position 1: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new NorthAction());
@@ -186,11 +185,10 @@ public class GameTest
 		logger.info("npc position 3: {}", n1.getMapPosition());
 		n1.doAction(AIBehaviour.wanderAround(n1, 0));
 		logger.info("npc position 4: {}", n1.getMapPosition());
-		assert (n1.getMapPosition().x == 4);
+		assert (n1.getMapPosition().x == 5);
 		n1.doAction(AIBehaviour.wanderAround(n1, 0));
 		logger.info("npc position 5: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().y == 1);
-		Game.getCurrent().getCurrentMap().getLifeForms().clear();
 	}
 
 	@Test
@@ -217,7 +215,6 @@ public class GameTest
 		n1.doAction(AIBehaviour.wanderAround(n1, 2));
 		logger.info("npc position 5: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().y == 5);
-		Game.getCurrent().getCurrentMap().getLifeForms().clear();
 	}
 
 	@Test
@@ -227,7 +224,7 @@ public class GameTest
 		n1.setId(98);
 		n1.setType(NPCTypes.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-		n1.setMapPosition(new Point(2, 2));
+		n1.setMapPosition(new Point(5, 2));
 		n1.initialize();
 		logger.info("npc position before: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new EastAction());
@@ -235,68 +232,7 @@ public class GameTest
 		game.getThreadController().sleep(100, ThreadNames.MAIN);
 
 		logger.info("npc position afer: {}", n1.getMapPosition());
-		assert (n1.getMapPosition().x == 3);
+		assert (n1.getMapPosition().x == 6);
 		assert (n1.getMapPosition().y == 2);
 	}
-
-	@Test
-	public void testNPCMeleeAttackingPlayer()
-	{
-		game.addPlayers(null);
-		for (int i = 0; i < game.getCurrentPlayer().getInventory().getSize(); i++)
-		{
-			//logger.info("inventory: {}", game.getCurrentPlayer().getInventory().get(i));
-		}
-
-		//game.getCurrentPlayer().equipItem();
-		NPC n1 = new NPC();
-		n1.setId(98);
-		n1.setType(NPCTypes.WARRIOR);
-		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-		n1.setMapPosition(new Point(3, 2));
-		n1.initialize();
-		n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(game.getCurrentPlayer().getMapPosition()));
-		game.getCurrentMap().getLifeForms().clear();
-	}
-
-
-	@Test
-	public void testNPCRangeAttackingPlayer()
-	{
-		game.addPlayers(null);
-		for (int i = 0; i < game.getCurrentPlayer().getInventory().getSize(); i++)
-		{
-			//logger.info("inventory: {}", game.getCurrentPlayer().getInventory().get(i));
-		}
-
-		//game.getCurrentPlayer().equipItem();
-		NPC n1 = new NPC();
-		n1.setId(94);
-		n1.setType(NPCTypes.WARRIOR);
-		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-		n1.setMapPosition(new Point(4, 2));
-		n1.initialize();
-		n1.wieldWeapon(Game.getCurrent().getWeaponList().get(3));
-		n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(game.getCurrentPlayer().getMapPosition()));
-		game.getCurrentMap().getLifeForms().clear();
-	}
-
-
-	@Test
-	public void testPlayerCRangeAttackingNPC()
-	{
-		game.addPlayers(null);
-		//game.getCurrentPlayer().equipItem();
-		NPC n1 = new NPC();
-		n1.setId(95);
-		n1.setType(NPCTypes.WARRIOR);
-		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-		n1.setMapPosition(new Point(4, 2));
-		n1.initialize();
-		n1.wieldWeapon(Game.getCurrent().getWeaponList().get(3));
-		//game.getCurrentPlayer().attack()
-		game.getCurrentMap().getLifeForms().clear();
-	}
-
-
 }

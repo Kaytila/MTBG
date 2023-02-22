@@ -375,12 +375,13 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     public void doAction(AbstractAction action)
     {
+        logger.info("do action: {}", action.toString());
         if (getState() == LifeFormState.DEAD)
         {
             logger.info("npc dead");
             return;
         }
-        //logger.info("do action: {}", action.toString());
+
         Point p = getMapPosition();
         Point mapsize = Game.getCurrent().getCurrentMap().getSize();
 
@@ -398,12 +399,13 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
                     {
+                        logger.info("move east");
                         this.move((p.x + 1), p.y);
                         success = true;
                     }
                     else
                     {
-                        //logger.info("EAST blocked");
+                        logger.info("EAST blocked");
                     }
                 }
                 else
@@ -423,12 +425,13 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (!(MapUtils.lookAhead((p.x), (p.y - 1))))
                     {
+                        logger.info("move north");
                         this.move((p.x), (p.y - 1));
                         success = true;
                     }
                     else
                     {
-                        //logger.info("NORTH blocked");
+                        logger.info("NORTH blocked");
                     }
                 }
                 else
@@ -444,6 +447,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
                     {
+                        logger.info("move south");
                         this.move((p.x), (p.y + 1));
                         success = true;
                     }
@@ -464,6 +468,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (!(MapUtils.lookAhead((p.x - 1), (p.y))))
                     {
+                        logger.info("move west");
                         this.move((p.x - 1), (p.y));
                         success = true;
                     }
@@ -501,7 +506,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 break;
 
             case ATTACK:
-                success = attack(action.getEvent());
+                success = attack(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
@@ -787,8 +792,8 @@ public class NPC extends AbstractEntity implements LifeForm
             if (getWeapon().getType().equals(WeaponTypes.RANGED))
             {
                 logger.info("here at ranged attack");
-                Point sourcePosition = NPCUtils.calculateUIPointFromMapPosition(this.getMapPosition());
-                Point targetPosition = NPCUtils.calculateUIPointFromMapPosition(tile.getMapPosition());
+                Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
+                Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
                 Missile m = new Missile(sourcePosition, targetPosition);
                 Game.getCurrent().getCurrentMap().getMissiles().add(m);
 

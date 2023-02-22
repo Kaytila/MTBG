@@ -547,6 +547,59 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public boolean attack(MapTile tile)
     {
+        //TODO clean this mess up somewhen not sure I need to have so much duplicate code
+        logger.info("player attacking");
+        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
+        //Game.getCurrent().getSoundSystem().restartMusic();
+
+        if (tile != null)
+        {
+            if (getWeapon() == null)
+            {
+                setWeapon(Game.getCurrent().getWeaponList().get(1));
+            }
+
+            if (getWeapon().getType().equals(WeaponTypes.RANGED))
+            {
+                logger.info("here at ranged attack");
+                Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
+                Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
+                Missile m = new Missile(sourcePosition, targetPosition);
+                Game.getCurrent().getCurrentMap().getMissiles().add(m);
+                //logger.info("tile: {}", tile)
+            }
+
+            if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
+            {
+                for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+                {
+                    if (n.getMapPosition().equals(tile.getMapPosition()))
+                    {
+                        n.setHostile(true);
+                        n.setVictim(this);
+                        this.setVictim(n);
+                        if (NPCUtils.calculateHit(this, n))
+                        {
+                            logger.info("hit");
+                            n.decreaseHealth(5);
+                            //n.increaseHealth(5);
+                            return true;
+                        }
+                        else
+                        {
+                            logger.info("miss");
+                            n.evade();
+                            return false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                logger.error("no NPCs?");
+                return false;
+            }
+        }
         return false;
     }
 

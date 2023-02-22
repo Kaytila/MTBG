@@ -1,5 +1,6 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.backend.actions.NPCAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.Weapon;
@@ -27,7 +28,7 @@ public class AIBehaviour
         if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
         {
             logger.info("attacking");
-            e.doAction(new PlayerAction(new AttackAction()));
+            e.doAction(new NPCAction(new AttackAction()));
             //return;
         }
         //victim is not adjacent
@@ -167,7 +168,7 @@ public class AIBehaviour
         else if (e.getQueuedActions().size() > 0)
         {
             logger.info("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
-            e.doAction(new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll()));
+            e.doAction(new NPCAction((AbstractKeyboardAction) e.getQueuedActions().poll()));
         }
         else
         {
