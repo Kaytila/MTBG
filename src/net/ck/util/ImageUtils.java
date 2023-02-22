@@ -4,7 +4,6 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.backend.game.Game;
-import net.ck.game.backend.game.GameLogs;
 import net.ck.game.graphics.ImagePair;
 import net.ck.game.graphics.TileTypes;
 import net.ck.game.map.MapTile;
@@ -693,7 +692,7 @@ public class ImageUtils
                     start = System.nanoTime();
                     if (compareImages(iP.getSourceImage(), image))
                     {
-                        GameLogs.getRetrieveBrightImages().add(System.nanoTime() - start);
+                        //GameLogs.getRetrieveBrightImages().add(System.nanoTime() - start);
                         //logger.debug("betterCompareImages brighen up image just return image takes: {}", System.nanoTime() - start);
                         return iP.getResultImage();
                     }
@@ -717,7 +716,7 @@ public class ImageUtils
             }
             brightenedImages.add((new ImagePair(percentage, image, img)));
             //logger.debug("brighten up image create image takes: {}", System.nanoTime() - start);
-            GameLogs.getCreateBrightImages().add(System.nanoTime() - start);
+            //GameLogs.getCreateBrightImages().add(System.nanoTime() - start);
             return img;
         }
         //just return the image, do nothing

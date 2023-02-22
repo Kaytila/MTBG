@@ -148,6 +148,7 @@ public class JGridCanvas extends JComponent
     {
         //logger.debug("start: painting");
         long start = System.nanoTime();
+
         if (updating == true)
         {
             logger.info("already drawing, dont do again");
@@ -407,8 +408,11 @@ public class JGridCanvas extends JComponent
             MapUtils.calculateHiddenTiles(g);
         }
         updating = false;
-        long end = System.nanoTime() - start;
-        GameLogs.getPaintTimes().add(end);
+        if (GameConfiguration.debugPaint == true)
+        {
+            long end = System.nanoTime() - start;
+            GameLogs.getPaintTimes().add(end);
+        }
         //logger.debug("end painting: {}", System.nanoTime() - start);
         //logger.debug("-----------");
     }

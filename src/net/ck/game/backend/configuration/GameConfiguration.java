@@ -168,6 +168,8 @@ public class GameConfiguration
 
     public static final boolean debugLOS = false;
 
+    public static final boolean debugPaint = false;
+
     /**
      * calculate the brightened up image during drawing or before
      */

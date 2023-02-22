@@ -1,6 +1,7 @@
 package net.ck.game.backend.state;
 
 import net.ck.game.map.MapTile;
+import net.ck.game.ui.UIState;
 
 import java.awt.*;
 
@@ -38,6 +39,17 @@ public class UIStateMachine
      */
     private static MapTile currentSelectedTile;
 
+    public static UIState getUiState()
+    {
+        return uiState;
+    }
+
+    public static void setUiState(UIState uiState)
+    {
+        UIStateMachine.uiState = uiState;
+    }
+
+    private static UIState uiState;
 
     public static boolean isUiOpen()
     {

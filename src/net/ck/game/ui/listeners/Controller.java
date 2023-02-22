@@ -9,6 +9,7 @@ import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
+import net.ck.game.ui.UIState;
 import net.ck.game.ui.components.JGridCanvas;
 import net.ck.game.ui.dialogs.AbstractDialog;
 import net.ck.game.ui.dialogs.InventoryDialog;
@@ -967,6 +968,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowActivated(WindowEvent e)
     {
+        UIStateMachine.setUiState(UIState.ACTIVATED);
         logger.info("activated");
         if (GameConfiguration.playMusic)
         {
@@ -981,12 +983,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowClosed(WindowEvent e)
     {
-
+        UIStateMachine.setUiState(UIState.CLOSED);
     }
 
     @Override
     public void windowClosing(WindowEvent e)
     {
+        UIStateMachine.setUiState(UIState.CLOSED);
         // logger.info("WindowListener method called: windowClosing.");
         // can only be null for pure UI testing
         if (Game.getCurrent() != null)
@@ -1011,6 +1014,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     public void windowDeactivated(WindowEvent e)
     {
         logger.info("deactivated");
+        UIStateMachine.setUiState(UIState.DEACTIVATED);
         // if (Game.getCurrent().getSoundSystem().isMusicIsRunning())
         // {
         if (UIStateMachine.isDialogOpened() == false)
@@ -1029,6 +1033,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowDeiconified(WindowEvent e)
     {
+        UIStateMachine.setUiState(UIState.DEICONIFIED);
         logger.info("deiconified");
         if (GameConfiguration.playMusic)
         {
@@ -1042,6 +1047,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowIconified(WindowEvent e)
     {
+        UIStateMachine.setUiState(UIState.ICONIFIED);
         logger.info("iconified");
         if (GameConfiguration.playMusic)
         {
@@ -1055,6 +1061,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowOpened(WindowEvent e)
     {
+        UIStateMachine.setUiState(UIState.OPENED);
         WindowBuilder.getGridCanvas().requestFocus();
         Game.getCurrent().getHighlightTimer().start();
         //Game.getCurrent().setUiOpen(true);
@@ -1071,41 +1078,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         logger.info("who lost the focus here: {}", e.getComponent().getName());
     }
-
-//	public void moveMouse(Point p)
-//	{
-//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//		GraphicsDevice[] gs = ge.getScreenDevices();
-//
-//		// Search the devices for the one that draws the specified point.
-//		for (GraphicsDevice device : gs)
-//		{
-//			GraphicsConfiguration[] configurations = device.getConfigurations();
-//			for (GraphicsConfiguration config : configurations)
-//			{
-//				Rectangle bounds = config.getBounds();
-//				if (bounds.contains(p))
-//				{
-//					// Set point to screen coordinates.
-//					Point b = bounds.getLocation();
-//					Point s = new Point(p.x - b.x, p.y - b.y);
-//
-//					try
-//					{
-//						Robot r = new Robot(device);
-//						r.mouseMove(s.x, s.y);
-//					}
-//					catch (AWTException e)
-//					{
-//						e.printStackTrace();
-//					}
-//
-//					return;
-//				}
-//			}
-//		}
-//		// Couldn't move to the point, it may be off screen.
-//	}
 
     public AbstractKeyboardAction getCurrentAction()
     {
