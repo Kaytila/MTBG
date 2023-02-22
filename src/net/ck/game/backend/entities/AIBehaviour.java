@@ -187,7 +187,7 @@ public class AIBehaviour
     {
             if (!(e.isStatic()))
             {
-                return initializeWanderer(e, -1);
+                return wanderAround(e, -1);
             }
             return new PlayerAction(new SpaceAction());
     }
@@ -198,7 +198,7 @@ public class AIBehaviour
      * @return PlayerAction which direction the NPC will move to
      * only move 2 squares in any direction
      */
-    public static PlayerAction initializeWanderer(LifeForm e, int i)
+    public static PlayerAction wanderAround(LifeForm e, int i)
     {
         logger.info("npc: {} is wanderer, move {}", e, i);
 

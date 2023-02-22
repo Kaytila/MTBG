@@ -826,3 +826,5 @@ History of the changes:
             did some refactoring and moved AI code into AI class.
 2023-02-20: added wanderer test. will add another wanderer test.
 2023-02-21: added npc movement framework test. Will need to do some more work on AI planning and configuration.
+2023-02-22: added some more tests. found a nice bug in attack() - for player this expects a mouse. need to disentangle
+            this.

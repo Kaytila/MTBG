@@ -7,7 +7,7 @@ import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
-import net.ck.util.communication.keyboard.EastAction;
+import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -28,7 +28,8 @@ public class GameTest
 	{
 		logger.info("GameTest: setupBeforeClass begin");
 		TestGameSetup.SetupGameForTest();
-		game = TestGameSetup.getGame();		
+		game = TestGameSetup.getGame();
+		game.getCurrentMap().getLifeForms().clear();
 		logger.info("GameTest: setupBeforeClass end");
 	}
 
@@ -110,38 +111,110 @@ public class GameTest
 	}
 
 	@Test
-	public void testWanderer()
+	public void testWandererEAST()
 	{
 		NPC n1 = new NPC();
 		n1.setId(99);
 		n1.setType(NPCTypes.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-		n1.setMapPosition(new Point(2, 2));
+		n1.setMapPosition(new Point(3, 2));
 		n1.initialize();
 		logger.info("npc position: {}", n1.getMapPosition());
-		n1.doAction(new PlayerAction(new EastAction()));
-		n1.doAction(new PlayerAction(new EastAction()));
-
-		logger.info("npc position: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new EastAction());
+		EventBus.getDefault().post(new AdvanceTurnEvent(true));
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 2: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new EastAction());
+		EventBus.getDefault().post(new AdvanceTurnEvent(true));
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 3: {}", n1.getMapPosition());
 		logger.info("now test wanderer east");
-		n1.doAction(AIBehaviour.initializeWanderer(n1, 1));
+		n1.doAction(AIBehaviour.wanderAround(n1, 1));
+		logger.info("npc position 4: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().x == 4);
+		Game.getCurrent().getCurrentMap().getLifeForms().clear();
+	}
+
+
+	@Test
+	public void testWandererWEST()
+	{
+		NPC n1 = new NPC();
+		n1.setId(90);
+		n1.setType(NPCTypes.WARRIOR);
+		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
+		n1.setMapPosition(new Point(4, 2));
+		n1.initialize();
+		logger.info("npc position 1: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new WestAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		logger.info("npc position: {}", n1.getMapPosition());
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 2: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new WestAction());
+		EventBus.getDefault().post(new AdvanceTurnEvent(true));
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 3: {}", n1.getMapPosition());
+		n1.doAction(AIBehaviour.wanderAround(n1, 3));
+		logger.info("npc position 4: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 3);
-		n1.move(2, 2);
+		n1.doAction(AIBehaviour.wanderAround(n1, 3));
+		logger.info("npc position 5: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().x == 3);
+		Game.getCurrent().getCurrentMap().getLifeForms().clear();
+	}
+
+	@Test
+	public void testWandererNORTH()
+	{
+		NPC n1 = new NPC();
+		n1.setId(90);
+		n1.setType(NPCTypes.WARRIOR);
+		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
+		n1.setMapPosition(new Point(4, 3));
+		n1.initialize();
+		logger.info("npc position 1: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new NorthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		n1.move(1, 2);
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 2: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new NorthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		n1.move(0, 2);
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 3: {}", n1.getMapPosition());
+		n1.doAction(AIBehaviour.wanderAround(n1, 0));
+		logger.info("npc position 4: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().x == 4);
+		n1.doAction(AIBehaviour.wanderAround(n1, 0));
+		logger.info("npc position 5: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().y == 1);
+		Game.getCurrent().getCurrentMap().getLifeForms().clear();
+	}
+
+	@Test
+	public void testWandererSOUTH()
+	{
+		NPC n1 = new NPC();
+		n1.setId(90);
+		n1.setType(NPCTypes.WARRIOR);
+		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
+		n1.setMapPosition(new Point(4, 3));
+		n1.initialize();
+		logger.info("npc position 1: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new SouthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		AIBehaviour.initializeWanderer(n1, 3);
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 2: {}", n1.getMapPosition());
+		n1.getQueuedActions().addEntry(new SouthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		logger.info("npc position: {}", n1.getMapPosition());
-		assert (n1.getMapPosition().x == 0);
-		AIBehaviour.initializeWanderer(n1, 3);
-		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		logger.info("npc position: {}", n1.getMapPosition());
-		assert (n1.getMapPosition().x == 0);
+		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		logger.info("npc position 3: {}", n1.getMapPosition());
+		n1.doAction(AIBehaviour.wanderAround(n1, 2));
+		logger.info("npc position 4: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().x == 4);
+		n1.doAction(AIBehaviour.wanderAround(n1, 2));
+		logger.info("npc position 5: {}", n1.getMapPosition());
+		assert (n1.getMapPosition().y == 5);
+		Game.getCurrent().getCurrentMap().getLifeForms().clear();
 	}
 
 	@Test
@@ -161,6 +234,26 @@ public class GameTest
 		logger.info("npc position afer: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 3);
 		assert (n1.getMapPosition().y == 2);
+	}
 
+	@Test
+	public void testMelee()
+	{
+		game.addPlayers(null);
+		for (int i = 0; i < game.getCurrentPlayer().getInventory().getSize(); i++)
+		{
+			logger.info("inventory: {}", game.getCurrentPlayer().getInventory().get(i));
+		}
+
+		//game.getCurrentPlayer().equipItem();
+		NPC n1 = new NPC();
+		n1.setId(98);
+		n1.setType(NPCTypes.WARRIOR);
+		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
+		n1.setMapPosition(new Point(3, 2));
+		n1.initialize();
+		AttackAction ac = new AttackAction();
+		ac.setTargetCoordinates(n1.getUIPosition());
+		game.getCurrentPlayer().doAction(new PlayerAction(ac));
 	}
 }
