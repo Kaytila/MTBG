@@ -2,8 +2,6 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.RandomAction;
-import net.ck.game.backend.game.Game;
-import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.items.Weapon;
@@ -53,11 +51,6 @@ public class World extends AbstractEntity implements LifeForm
 		// logger.info("random event: " + event.getTitle());
 		event.setEntity(this);
 		return event;
-	}
-
-	public Turn getCurrentTurn()
-	{
-		return Game.getCurrent().getCurrentTurn();
 	}
 
 	@Override
