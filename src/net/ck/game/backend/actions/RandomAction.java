@@ -14,13 +14,12 @@ public class RandomAction extends AbstractAction
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-
 	public RandomAction()
 	{
 		super();
 
 	}
-	
+
 	public KeyboardActionType getType()
 	{
 		return KeyboardActionType.NULL;

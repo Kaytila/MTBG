@@ -835,3 +835,5 @@ History of the changes:
             are all over the place right now. Was wondering about memory growth, turns out it was the array lists of
             timings. will make those pluggable, then its fine.
 2023-02-23: removed some additional memory overhead. now it stays at around 180mb.
+2023-02-23: found a bug in NPC actions, NPC Action returned null by accident. Made AbstractAction abstract to get
+            around this.

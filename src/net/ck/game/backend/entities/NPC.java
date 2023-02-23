@@ -440,6 +440,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 }
                 break;
             case NULL:
+                logger.error("NULL?");
                 break;
             case SOUTH:
                 // logger.info("p: {}", p.toString());

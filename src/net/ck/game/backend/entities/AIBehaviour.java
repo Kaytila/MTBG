@@ -82,7 +82,7 @@ public class AIBehaviour
         if (action != null)
         {
             logger.info("trying to get");
-            PlayerAction ac = new PlayerAction(action);
+            NPCAction ac = new NPCAction(action);
             e.doAction(ac);
         }
         else
@@ -106,7 +106,7 @@ public class AIBehaviour
             MoveAction action = new MoveAction();
             action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
             //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
-            e.doAction(new PlayerAction(action));
+            e.doAction(new NPCAction(action));
             //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
         }
         //we have reached the target
@@ -131,7 +131,7 @@ public class AIBehaviour
         if (!(e.getMapPosition().equals(e.getRunningAction().getGetWhere())))
         {
             //logger.info("npc {} move towards target map position: {}", e.getId(), e.getRunningAction().getGetWhere());
-            e.doAction(new PlayerAction(e.getRunningAction()));
+            e.doAction(new NPCAction(e.getRunningAction()));
             //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
         }
         else
@@ -184,13 +184,13 @@ public class AIBehaviour
      * @param e the abstract entity, npc probably
      * @return an action that is done once the npc is doing action
      */
-    public static PlayerAction calculateAction(LifeForm e)
+    public static NPCAction calculateAction(LifeForm e)
     {
-            if (!(e.isStatic()))
-            {
-                return wanderAround(e, -1);
-            }
-            return new PlayerAction(new SpaceAction());
+        if (!(e.isStatic()))
+        {
+            return wanderAround(e, -1);
+        }
+        return new NPCAction(new SpaceAction());
     }
 
 
@@ -199,7 +199,7 @@ public class AIBehaviour
      * @return PlayerAction which direction the NPC will move to
      * only move 2 squares in any direction
      */
-    public static PlayerAction wanderAround(LifeForm e, int i)
+    public static NPCAction wanderAround(LifeForm e, int i)
     {
         logger.info("npc: {} is wanderer, move {}", e, i);
 
@@ -230,51 +230,51 @@ public class AIBehaviour
                 case 0:
                     if (rangeY.contains(e.getMapPosition().y - 1))
                     {
-                        return new PlayerAction(new NorthAction());
+                        return new NPCAction(new NorthAction());
                     }
                     else
                     {
                         logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
-                        return new PlayerAction(new SouthAction());
+                        return new NPCAction(new SouthAction());
                     }
                     // east
                 case 1:
                     if (rangeX.contains(e.getMapPosition().x + 1))
                     {
                         logger.info("wander east");
-                        return new PlayerAction(new EastAction());
+                        return new NPCAction(new EastAction());
                     }
                     else
                     {
                         logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
                         logger.info("wander west");
-                        return new PlayerAction(new WestAction());
+                        return new NPCAction(new WestAction());
                     }
                     // south
                 case 2:
                     if (rangeY.contains(e.getMapPosition().y + 1))
                     {
-                        return new PlayerAction(new SouthAction());
+                        return new NPCAction(new SouthAction());
                     }
                     else
                     {
                         logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
-                        return new PlayerAction(new NorthAction());
+                        return new NPCAction(new NorthAction());
                     }
                     // west
                 case 3:
                     if (rangeX.contains(e.getMapPosition().x - 1))
                     {
-                        return new PlayerAction(new WestAction());
+                        return new NPCAction(new WestAction());
                     }
                     else
                     {
                         logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
-                        return new PlayerAction(new EastAction());
+                        return new NPCAction(new EastAction());
                     }
                 default:
                     logger.info("npc {} spaces out", e);
-                    return new PlayerAction(new SpaceAction());
+                    return new NPCAction(new SpaceAction());
             }
         }
         else

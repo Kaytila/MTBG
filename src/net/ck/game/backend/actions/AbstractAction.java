@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class AbstractAction
+public abstract class AbstractAction
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
@@ -61,10 +61,8 @@ public class AbstractAction
 		this.entity = ent;
 	}
 
-	public KeyboardActionType getType()
-	{
-		return KeyboardActionType.NULL;
-	}
+	public abstract KeyboardActionType getType();
+
 
 	public AbstractKeyboardAction getEvent()
 	{

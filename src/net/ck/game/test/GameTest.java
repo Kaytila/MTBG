@@ -229,8 +229,7 @@ public class GameTest
 		logger.info("npc position before: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new EastAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(true));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
-
+		game.getThreadController().sleep(1000, ThreadNames.MAIN);
 		logger.info("npc position afer: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 6);
 		assert (n1.getMapPosition().y == 2);
