@@ -574,12 +574,11 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
     private void runActions(AbstractKeyboardAction action)
     {
-        //logger.info("Current action: {}", action);
         Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
-        //Game.getCurrent().getIdleTimer().stop();
-        WindowBuilder.getTextArea().append(action.getType().name());
-        WindowBuilder.getTextArea().append("\n");
-        WindowBuilder.getTextField().setText(action.getType().name());
+
+        //WindowBuilder.getTextArea().append(action.getType().name());
+        //WindowBuilder.getTextArea().append("\n");
+        //WindowBuilder.getTextField().setText(action.getType().name());
 
         // all players have moved - en is no player.
         // NPCs are handled in game because the npcs on the current map

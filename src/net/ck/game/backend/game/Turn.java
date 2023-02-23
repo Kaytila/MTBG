@@ -1,9 +1,6 @@
 package net.ck.game.backend.game;
 
 import net.ck.game.backend.state.GameState;
-import net.ck.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * so  a turn is a turn.
@@ -15,8 +12,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class Turn
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	private int turnNumber;
 
 	private GameState gameState;

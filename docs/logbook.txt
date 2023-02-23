@@ -834,3 +834,4 @@ History of the changes:
 2023-02-22: introduced UIState ENUM. Will use it and a kind of message mechanism and a TimerManager, as Timer stop/start
             are all over the place right now. Was wondering about memory growth, turns out it was the array lists of
             timings. will make those pluggable, then its fine.
+2023-02-23: removed some additional memory overhead. now it stays at around 180mb.
