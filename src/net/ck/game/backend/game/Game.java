@@ -1,6 +1,7 @@
 package net.ck.game.backend.game;
 
 import net.ck.game.animation.MissileTimer;
+import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
 import net.ck.game.backend.queuing.CommandQueue;
@@ -181,6 +182,18 @@ public class Game implements Runnable
     private BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
 
     private MissileUtilTimer missileUtilTimer;
+
+    public PlayerAction getPlayerAction()
+    {
+        return playerAction;
+    }
+
+    public void setPlayerAction(PlayerAction playerAction)
+    {
+        this.playerAction = playerAction;
+    }
+
+    private PlayerAction playerAction;
 
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -377,10 +390,13 @@ public class Game implements Runnable
     @Subscribe
     public synchronized void onMessageEvent(AdvanceTurnEvent event)
     {
+        setNpcAction(event.getAction().getEvent().isHaveNPCAction());
+        setPlayerAction(event.getAction());
+
         if (GameConfiguration.useGameThread == false)
         {
             logger.info("running advance turn 1");
-            setNpcAction(event.isNpcAction());
+
             setNextTurn(true);
 
             if (Game.getCurrent().isRunning() == true)
@@ -389,7 +405,7 @@ public class Game implements Runnable
                 if (isNextTurn() == true)
                 {
                     logger.info("running advance turn 3");
-                    advanceTurn(isNpcAction());
+                    advanceTurn(event.getAction());
                     setNextTurn(false);
                     setNpcAction(false);
                 }
@@ -398,7 +414,6 @@ public class Game implements Runnable
         else
         {
             //logger.info("advance turn");
-            setNpcAction(event.isNpcAction());
             setNextTurn(true);
         }
     }
@@ -409,10 +424,12 @@ public class Game implements Runnable
      * <p>
      * <a href="https://stackoverflow.com/questions/30989558/java-8-retry-a-method-until-a-condition-is-fulfilled-in-intervals">...</a>
      *
-     * @param haveNPCAction is a npc action allowed or not
+     * @param action to determine what to do for player and to get this out of controller
      */
-    public synchronized void advanceTurn(boolean haveNPCAction)
+    public synchronized void advanceTurn(PlayerAction action)
     {
+
+        Game.getCurrent().getCurrentPlayer().doAction(action);
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
         Game.getCurrent().getIdleTimer().stop();
         Game.getCurrent().getHighlightTimer().stop();
@@ -438,7 +455,10 @@ public class Game implements Runnable
                 }
             }
         }
-        if (haveNPCAction)
+
+        Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
+
+        if (action.getEvent().isHaveNPCAction())
         {
             for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
             {
@@ -456,7 +476,7 @@ public class Game implements Runnable
                 e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
             }
             // logger.info("environment action");
-            Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent());
+
         }
         //logger.info("advance turn!");
         setTurnNumber(getTurnNumber() + 1);
@@ -690,7 +710,7 @@ public class Game implements Runnable
             if (isNextTurn() == true)
             {
                 //logger.info("running advance turn");
-                advanceTurn(isNpcAction());
+                advanceTurn(getPlayerAction());
                 setNextTurn(false);
                 setNpcAction(false);
             }

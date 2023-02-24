@@ -574,8 +574,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
     private void runActions(AbstractKeyboardAction action)
     {
-        Game.getCurrent().getCurrentPlayer().doAction(new PlayerAction(action));
-
         //WindowBuilder.getTextArea().append(action.getType().name());
         //WindowBuilder.getTextArea().append("\n");
         //WindowBuilder.getTextField().setText(action.getType().name());
@@ -585,7 +583,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         // are loaded into game
 
         WindowBuilder.getUndoButton().setEnabled(true);
-        EventBus.getDefault().post(new AdvanceTurnEvent(action.isHaveNPCAction()));
+        EventBus.getDefault().post(new AdvanceTurnEvent(new PlayerAction(action)));
 
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         setCurrentAction(null);

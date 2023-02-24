@@ -229,6 +229,7 @@ public class NPC extends AbstractEntity implements LifeForm
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
         getInventory().add(Game.getCurrent().getWeaponList().get(3));
+        getInventory().add(Game.getCurrent().getWeaponList().get(1));
         wieldWeapon(Game.getCurrent().getWeaponList().get(1));
 
         ArrayList<BufferedImage> images = new ArrayList<>();

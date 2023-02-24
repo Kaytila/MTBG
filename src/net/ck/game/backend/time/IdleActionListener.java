@@ -1,8 +1,10 @@
 package net.ck.game.backend.time;
 
+import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
@@ -23,10 +25,12 @@ public class IdleActionListener implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e)
-	{
-		logger.info("sending space");
-		EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.SPACE));
-		EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
-		//Game.getCurrent().listThreads();
-	}
+    {
+        logger.info("sending space");
+        AbstractKeyboardAction spaceAction = ActionFactory.createAction(KeyboardActionType.SPACE);
+        Game.getCurrent().setPlayerAction(new PlayerAction(spaceAction));
+        EventBus.getDefault().post(spaceAction);
+        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
+        //Game.getCurrent().listThreads();
+    }
 }

@@ -1,18 +1,34 @@
 package net.ck.util.communication.graphics;
 
-import net.ck.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.ck.game.backend.actions.PlayerAction;
 
 public class AdvanceTurnEvent extends ChangedEvent
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private boolean npcAction;
+
+    private PlayerAction action;
+
+    public PlayerAction getAction()
+    {
+        return action;
+    }
+
+    public void setAction(PlayerAction action)
+    {
+        this.action = action;
+    }
+
 
     public AdvanceTurnEvent(boolean npcAction)
     {
         setNpcAction(npcAction);
     }
+
+    public AdvanceTurnEvent(PlayerAction action)
+    {
+        setAction(action);
+    }
+
 
     public boolean isNpcAction()
     {

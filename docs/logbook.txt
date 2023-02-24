@@ -837,3 +837,5 @@ History of the changes:
 2023-02-23: removed some additional memory overhead. now it stays at around 180mb.
 2023-02-23: found a bug in NPC actions, NPC Action returned null by accident. Made AbstractAction abstract to get
             around this.
+2023-02-24: added simple monster spawner to World as world event. player action is now done during advance turn.
+            combat AI has a fix or two.

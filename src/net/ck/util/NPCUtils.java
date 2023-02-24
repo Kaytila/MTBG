@@ -1,6 +1,6 @@
 package net.ck.util;
 
-import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.actions.NPCAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.LifeForm;
@@ -104,12 +104,11 @@ public class NPCUtils
     }
 
 
-
     /**
-     *  Helper method, dumb calculation - move towards the player for attacking in melee
-     *  need to write the opposite for fleeing
+     * Helper method, dumb calculation - move towards the player for attacking in melee
+     * need to write the opposite for fleeing
      */
-    public static PlayerAction calculateVictimDirection(LifeForm n)
+    public static NPCAction calculateVictimDirection(LifeForm n)
     {
         Point sourcePoint = n.getMapPosition();
         Point targetPoint = n.getVictim().getMapPosition();
@@ -122,7 +121,7 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x - 1, sourcePoint.y)))
             {
                 logger.info("tile to the west is free, move");
-                return new PlayerAction(new WestAction());
+                return new NPCAction(new WestAction());
             }
         }
 
@@ -133,7 +132,7 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x + 1 , sourcePoint.y)))
             {
                 logger.info("Tile to the east is free, move east");
-                return new PlayerAction(new EastAction());
+                return new NPCAction(new EastAction());
             }
         }
 
@@ -144,7 +143,7 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y - 1)))
             {
                 logger.info("tile to the north is free, move north");
-                return new PlayerAction(new NorthAction());
+                return new NPCAction(new NorthAction());
             }
         }
 
@@ -155,13 +154,13 @@ public class NPCUtils
             if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y + 1)))
             {
                 logger.info("tile to the south is free, move south");
-                return new PlayerAction(new SouthAction());
+                return new NPCAction(new SouthAction());
             }
         }
-        return new PlayerAction(new SpaceAction());
+        return new NPCAction(new SpaceAction());
     }
 
-    public static PlayerAction calculateVictimDirectionAStar(LifeForm n)
+    public static NPCAction calculateVictimDirectionAStar(LifeForm n)
     {
         //TODO
         Point sourcePoint = n.getMapPosition();
@@ -185,26 +184,26 @@ public class NPCUtils
                 //logger.info(node);
                 if (node.x > n.getMapPosition().x)
                 {
-                    return (new PlayerAction(new EastAction()));
+                    return (new NPCAction(new EastAction()));
                 }
 
                 else if (node.x < n.getMapPosition().x)
                 {
-                    return (new PlayerAction(new WestAction()));
+                    return (new NPCAction(new WestAction()));
                 }
 
                 else if (node.y > n.getMapPosition().y)
                 {
-                    return (new PlayerAction(new SouthAction()));
+                    return (new NPCAction(new SouthAction()));
                 }
 
                 else if (node.y < n.getMapPosition().y)
                 {
-                    return (new PlayerAction(new NorthAction()));
+                    return (new NPCAction(new NorthAction()));
                 }
             }
         }
-        return  new PlayerAction(new SpaceAction());
+        return new NPCAction(new SpaceAction());
     }
 
 

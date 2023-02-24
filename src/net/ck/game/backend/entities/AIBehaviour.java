@@ -1,7 +1,6 @@
 package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.NPCAction;
-import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.game.Game;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -23,31 +22,35 @@ public class AIBehaviour
 
     public static void determineCombat(LifeForm e)
     {
-        logger.info("trying to attack");
+        logger.info(" {} trying to attack", e);
         //attack with melee
         if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
         {
             logger.info("attacking");
-            e.doAction(new NPCAction(new AttackAction()));
+            AttackAction action = new AttackAction();
+            action.setGetWhere(e.getVictim().getMapPosition());
+            e.doAction(new NPCAction(action));
             //return;
         }
         //victim is not adjacent
         else
         {
-            logger.info("out of melee range, what to do");
+            logger.info("npc {} is out of melee range, what to do", e.getId());
             //Weapon sling = getWeaponList().get(3);
             //e.getItem(sling);
             //npc has ranged weapon wielded or has one in inventory
             if (e.isRanged())
             {
-                logger.info("NPC has ranged capabilities");
+                logger.info("NPC {} has ranged capabilities", e.getId());
                 //wielded attack
                 if (e.getWeapon() != null)
                 {
                     if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
                     {
                         logger.info("npc already wields ranged weapon, attack!");
-                        PlayerAction action = new PlayerAction(new AttackAction());
+                        AttackAction ac = new AttackAction();
+                        ac.setGetWhere(e.getVictim().getMapPosition());
+                        NPCAction action = new NPCAction(ac);
                         e.doAction(action);
                         //return;
                     }
@@ -61,6 +64,7 @@ public class AIBehaviour
                 }
                 else
                 {
+                    logger.info("npc {} weapon is null", e.getId());
                     Weapon club = Game.getCurrent().getWeaponList().get(1);
                     e.wieldWeapon(club);
                 }

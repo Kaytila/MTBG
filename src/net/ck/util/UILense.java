@@ -179,7 +179,7 @@ public class UILense
      */
     public synchronized void identifyVisibleTilesBest()
     {
-        long start = System.nanoTime();
+        //long start = System.nanoTime();
         Point offSet = MapUtils.calculateUIOffsetFromMapPoint();
         for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
         {
@@ -257,28 +257,4 @@ public class UILense
         //logger.info("how many visible map tiles: {}", getVisibleMapTiles().size());
         logger.info("time taken identifying tiles array: {}", System.nanoTime() - start);
     }
-
-
-    /**
-     * identify which tiles of the map are currently visible
-     * also set back hidden state cause this is calculated again
-     * Currently doing this every paint
-     * question is do I need to?
-     * Think i only need to do it once something changes.
-     */
-  /*  private void identifyVisibleTiles()
-    {
-        for (MapTile tile : Game.getCurrent().getCurrentMap().getTiles())
-        {
-            Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-            // these are the visible tiles
-            if (rangeX.contains(screenPosition.x) && rangeY.contains(screenPosition.y))
-            {
-                UILense.getCurrent().add(screenPosition);
-                UILense.getCurrent().getVisibleMapTiles().add(tile);
-                tile.setHidden(false);
-            }
-        }
-    }*/
-
 }
