@@ -841,3 +841,4 @@ History of the changes:
             combat AI has a fix or two.
 2023-02-24: fix for isRanged - if melee weapon is equipped but ranged is in inventory, also switch weapons.
             fix for switch weapons - the currently wielded weapon goes back into inventory of course.
+2023-02-24: made a small change - undo button is now Debug button  and always active

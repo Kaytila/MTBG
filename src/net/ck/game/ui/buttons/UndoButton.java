@@ -14,15 +14,15 @@ public class UndoButton extends JButton
 
 
 	public UndoButton(Point p)
-	{		
+	{
 		logger.info("creating button");
-		this.setText("UNDO");
-		setBounds(p.x, p.y, 70, 30);		
+		this.setText("DEBUG");
+		setBounds(p.x, p.y, 70, 30);
 		this.setVisible(true);
 		this.setFocusable(false);
 		this.setMnemonic(KeyEvent.VK_U);
-		this.setActionCommand("Undo");
-		this.setEnabled(false);
+		this.setActionCommand("Debug");
+		this.setEnabled(true);
 		this.setDoubleBuffered(true);
 		//this.setToolTipText(getLogger().getName());
 	}

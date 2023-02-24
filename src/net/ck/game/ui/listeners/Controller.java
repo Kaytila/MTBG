@@ -119,9 +119,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getActionCommand().equalsIgnoreCase("Undo"))
+        if (e.getActionCommand().equalsIgnoreCase("Debug"))
         {
-            logger.info("undo");
+            logger.info("Debug");
             Game.getCurrent().getIdleTimer().stop();
             /*if (Game.getCurrent().retractTurn() == 0)
             {
@@ -581,8 +581,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         // all players have moved - en is no player.
         // NPCs are handled in game because the npcs on the current map
         // are loaded into game
-
-        WindowBuilder.getUndoButton().setEnabled(true);
         EventBus.getDefault().post(new AdvanceTurnEvent(new PlayerAction(action)));
 
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
