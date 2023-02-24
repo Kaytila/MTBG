@@ -26,11 +26,17 @@ public class AIBehaviour
         //attack with melee
         if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
         {
-            logger.info("attacking");
-            AttackAction action = new AttackAction();
-            action.setGetWhere(e.getVictim().getMapPosition());
-            e.doAction(new NPCAction(action));
-            //return;
+            if (e.isRanged())
+            {
+                e.switchWeapon(WeaponTypes.MELEE);
+            }
+            else
+            {
+                logger.info("attacking");
+                AttackAction action = new AttackAction();
+                action.setGetWhere(e.getVictim().getMapPosition());
+                e.doAction(new NPCAction(action));
+            }
         }
         //victim is not adjacent
         else

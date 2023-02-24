@@ -195,7 +195,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Override
     public void setWeapon(Weapon weapon)
     {
-        logger.info("weapon for npc: {}", weapon);
+        logger.info("weapon {} for npc: {}", weapon, this.getId());
         this.weapon = weapon;
     }
 
@@ -733,6 +733,16 @@ public class NPC extends AbstractEntity implements LifeForm
 
             if (this.getWeapon().getType().equals(WeaponTypes.MELEE))
             {
+                for (AbstractItem item : this.getInventory().getInventory())
+                {
+                    if (item instanceof Weapon)
+                    {
+                        if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+                        {
+                            return true;
+                        }
+                    }
+                }
                 return false;
             }
         }
@@ -751,8 +761,13 @@ public class NPC extends AbstractEntity implements LifeForm
     public void switchWeapon(WeaponTypes ranged)
     {
         logger.info("switching weapon");
+
+        if (getWeapon() != null)
+        {
+            getInventory().add(getWeapon());
+        }
         this.setWeapon(null);
-        for (int i = 0; i <= getInventory().getSize(); i++)
+        for (int i = 0; i < getInventory().getSize(); i++)
         {
             if (getInventory().getElementAt(i) instanceof Weapon)
             {

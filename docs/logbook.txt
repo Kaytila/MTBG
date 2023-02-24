@@ -839,3 +839,5 @@ History of the changes:
             around this.
 2023-02-24: added simple monster spawner to World as world event. player action is now done during advance turn.
             combat AI has a fix or two.
+2023-02-24: fix for isRanged - if melee weapon is equipped but ranged is in inventory, also switch weapons.
+            fix for switch weapons - the currently wielded weapon goes back into inventory of course.
