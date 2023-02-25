@@ -30,20 +30,23 @@ module myTurnedBasedGame
 	exports net.ck.game.music;
 	exports net.ck.game.items;
 	exports net.ck.util.communication.sound;
-	exports net.ck.game.animation;
-    exports net.ck.game.backend.threading;
+	exports net.ck.game.backend.threading;
 	exports net.ck.game.backend.time;
 	exports net.ck.game.soundeffects;
     exports net.ck.game.backend.game;
 	exports net.ck.game.backend.state;
 	exports net.ck.game.backend.configuration;
 	exports net.ck.game.backend.queuing;
-    exports net.ck.game.ui.dialogs;
+	exports net.ck.game.ui.dialogs;
 	exports net.ck.game.ui.components;
 	exports net.ck.game.ui.buttons;
 	exports net.ck.game.ui.listeners;
 	exports net.ck.game.ui.dnd;
 	exports net.ck.game.ui.renderers;
-	exports net.ck.game.ui.timers;
-    exports net.ck.game.ui.mainframes;
+	exports net.ck.game.ui.highlighting;
+	exports net.ck.game.ui.mainframes;
+	exports net.ck.game.animation.missile;
+	exports net.ck.game.animation.background;
+	exports net.ck.game.animation.foreground;
+	exports net.ck.game.animation.lifeform;
 }

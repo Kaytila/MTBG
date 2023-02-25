@@ -845,3 +845,5 @@ History of the changes:
 2023-02-25: so there now is a timer for showing hit or miss image that is kind of working.
             Lifeform image is switched inside the timer task. this sounds and looks dirty.
             the task is now of type util as to not be blocking.
+2023-02-25: did a little refactoring to group classes (particularly timers and listeners or tasks) by theme (missile,
+            foreground, background, lifeform animation) and not by technical type

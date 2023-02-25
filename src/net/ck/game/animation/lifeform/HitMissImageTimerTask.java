@@ -1,7 +1,9 @@
-package net.ck.util;
+package net.ck.game.animation.lifeform;
 
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
+import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

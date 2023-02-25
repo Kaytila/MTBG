@@ -1,5 +1,6 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.animation.lifeform.HitMissImageTimerTask;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
@@ -12,7 +13,10 @@ import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
-import net.ck.util.*;
+import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
+import net.ck.util.MapUtils;
+import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;

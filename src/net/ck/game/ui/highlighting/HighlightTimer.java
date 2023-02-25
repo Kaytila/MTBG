@@ -1,4 +1,4 @@
-package net.ck.game.ui.timers;
+package net.ck.game.ui.highlighting;
 
 import net.ck.util.CodeUtils;
 import net.ck.util.ui.WindowBuilder;

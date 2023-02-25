@@ -1,6 +1,5 @@
-package net.ck.game.ui.timers;
+package net.ck.game.animation.background;
 
-import net.ck.game.ui.listeners.BackgroundAnimationSystemActionListener;
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,4 +1,4 @@
-package net.ck.game.animation;
+package net.ck.game.animation.lifeform;
 
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;

@@ -1,5 +1,6 @@
-package net.ck.game.animation;
+package net.ck.game.animation.foreground;
 
+import net.ck.game.animation.lifeform.IndividualAnimationSystem;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.UIStateMachine;

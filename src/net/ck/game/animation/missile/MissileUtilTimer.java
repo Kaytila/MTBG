@@ -1,6 +1,7 @@
-package net.ck.util;
+package net.ck.game.animation.missile;
 
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,5 +1,6 @@
-package net.ck.util;
+package net.ck.game.animation.lifeform;
 
+import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

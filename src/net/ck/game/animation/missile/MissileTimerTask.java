@@ -1,8 +1,11 @@
-package net.ck.util;
+package net.ck.game.animation.missile;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.Missile;
 import net.ck.game.backend.game.Game;
+import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
+import net.ck.util.MapUtils;
 import net.ck.util.communication.graphics.MissilePositionChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

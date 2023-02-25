@@ -1,4 +1,4 @@
-package net.ck.game.animation;
+package net.ck.game.animation.lifeform;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;

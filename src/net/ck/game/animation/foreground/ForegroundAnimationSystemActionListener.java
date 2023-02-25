@@ -1,4 +1,4 @@
-package net.ck.game.ui.listeners;
+package net.ck.game.animation.foreground;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
