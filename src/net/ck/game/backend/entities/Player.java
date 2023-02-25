@@ -2,6 +2,7 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
@@ -11,10 +12,7 @@ import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
-import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
-import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
+import net.ck.util.*;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
@@ -491,7 +489,7 @@ public class Player extends AbstractEntity implements LifeForm
     public boolean attack(AbstractKeyboardAction action)
     {
         //TODO clean this mess up somewhen not sure I need to have so much duplicate code
-        logger.info("player attacking");
+        logger.info("player attacking old");
 
         MapTile tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
         EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
@@ -517,6 +515,18 @@ public class Player extends AbstractEntity implements LifeForm
                 {
                     if (n.getMapPosition().equals(tile.getMapPosition()))
                     {
+                        try
+                        {
+                            HitMissImageTimerTask task = new HitMissImageTimerTask(n);
+                            task.setRunning(true);
+                            Game.getCurrent().getHitMissImageTimer().setHitMissImageTimerTask(task);
+                            Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
+                            Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
+                        } catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
                         n.setHostile(true);
                         n.setVictim(this);
                         this.setVictim(n);
@@ -548,7 +558,7 @@ public class Player extends AbstractEntity implements LifeForm
     public boolean attack(MapTile tile)
     {
         //TODO clean this mess up somewhen not sure I need to have so much duplicate code
-        logger.info("player attacking");
+        logger.info("player attacking new");
         EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
         //Game.getCurrent().getSoundSystem().restartMusic();
 
@@ -578,6 +588,7 @@ public class Player extends AbstractEntity implements LifeForm
                         n.setHostile(true);
                         n.setVictim(this);
                         this.setVictim(n);
+                        Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
                         if (NPCUtils.calculateHit(this, n))
                         {
                             logger.info("hit");

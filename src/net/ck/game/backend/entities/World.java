@@ -41,7 +41,7 @@ public class World extends AbstractEntity implements LifeForm
 	{
 		RandomAction event = new RandomAction();
 		Random rand = new Random();
-		int result = rand.nextInt(3);
+		int result = rand.nextInt(1111113);
 
 		switch (result)
 		{

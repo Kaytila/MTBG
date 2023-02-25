@@ -196,6 +196,11 @@ public class GameConfiguration
      * use a thread for Game or not - if not, where does it run?
      */
     public static final boolean useGameThread = true;
+
+    public static final boolean useUtilTimerForAnimation = true;
+
+
+    public static final int hitormissTimerDuration = 2000;
 }
 
 

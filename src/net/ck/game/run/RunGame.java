@@ -92,6 +92,7 @@ public class RunGame
 				ImageUtils.initializeForegroundImages();
 				game.startThreads();
 				GameUtils.initializeHighlightingTimer();
+				GameUtils.initializeHitOrMissTimer();
 				GameUtils.initializeMusicSystemNoThread();
 				GameUtils.initializeSoundSystemNoThread();
 			} else {
@@ -176,6 +177,7 @@ public class RunGame
 					game.startThreads();
 					renderSplashFrame(g, size);
 					GameUtils.initializeHighlightingTimer();
+					GameUtils.initializeHitOrMissTimer();
 					GameUtils.initializeMusicSystemNoThread();
 					GameUtils.initializeSoundSystemNoThread();
 

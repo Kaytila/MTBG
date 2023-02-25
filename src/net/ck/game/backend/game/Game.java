@@ -181,7 +181,38 @@ public class Game implements Runnable
 
     private BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
 
+    /**
+     * make missile timer use an util timer that does not run on
+     * Event Dispatch Thread for not blocking the UI
+     */
     private MissileUtilTimer missileUtilTimer;
+
+
+    /**
+     * make animation system timer use an util timer that does not run on
+     * Event Dispatch Thread for not blocking the UI
+     */
+    private AnimationSystemUtilTimer animationSystemUtilTimer;
+
+    /**
+     * make an UTIL timer for hit or miss to make sure its visible a bit before overwritten by
+     * the next animation image
+     */
+    private HitMissImageTimer hitMissImageTimer;
+
+    private boolean hitAnimationRunning;
+
+
+    public AnimationSystemUtilTimer getAnimationSystemUtilTimer()
+    {
+        return animationSystemUtilTimer;
+    }
+
+    public void setAnimationSystemUtilTimer(AnimationSystemUtilTimer animationSystemUtilTimer)
+    {
+        this.animationSystemUtilTimer = animationSystemUtilTimer;
+    }
+
 
     public PlayerAction getPlayerAction()
     {
@@ -434,6 +465,7 @@ public class Game implements Runnable
         Game.getCurrent().getIdleTimer().stop();
         Game.getCurrent().getHighlightTimer().stop();
 
+        logger.info("waiting for missile to finish");
         if (GameConfiguration.useTimerForMissiles == true)
         {
             if (Game.getCurrent().getMissileUtilTimer() != null)
@@ -455,6 +487,15 @@ public class Game implements Runnable
                 }
             }
         }
+        logger.info("waiting for hit animation to run");
+        while (Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+        {
+            logger.info("waiting for animation to finish");
+            getThreadController().sleep(50, ThreadNames.GAME_THREAD);
+        }
+        logger.info("hit animation has finished");
+        Game.getCurrent().getHitMissImageTimer().purge();
+
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
 
@@ -932,6 +973,27 @@ public class Game implements Runnable
     public void setMissileUtilTimer(MissileUtilTimer missileUtilTimer)
     {
         this.missileUtilTimer = missileUtilTimer;
+    }
+
+    public synchronized HitMissImageTimer getHitMissImageTimer()
+    {
+        return hitMissImageTimer;
+    }
+
+    public synchronized void setHitMissImageTimer(HitMissImageTimer hitMissImageTimer)
+    {
+        this.hitMissImageTimer = hitMissImageTimer;
+    }
+
+    public synchronized boolean isHitAnimationRunning()
+    {
+        return hitAnimationRunning;
+    }
+
+    public synchronized void setHitAnimationRunning(boolean hitAnimationRunning)
+    {
+        logger.info("setting hitanimation to {}", hitAnimationRunning);
+        this.hitAnimationRunning = hitAnimationRunning;
     }
 }
 

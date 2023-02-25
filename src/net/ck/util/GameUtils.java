@@ -304,11 +304,19 @@ public class GameUtils
 
         if (GameConfiguration.useTimersForAnimations == true)
         {
-            logger.info("initializing Animation System as Swing Timer");
-            AnimationSystemActionListener animationSystemActionListener = new AnimationSystemActionListener();
-            Game.getCurrent().setAnimationSystemTimer(new AnimationSystemTimer((int) GameConfiguration.animationLifeformDelay, animationSystemActionListener));
-            Game.getCurrent().getAnimationSystemTimer().setRepeats(true);
-            Game.getCurrent().getAnimationSystemTimer().start();
+            if (GameConfiguration.useUtilTimerForAnimation)
+            {
+                logger.info("initializing animation system timer as util timer");
+                Game.getCurrent().setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
+            }
+            else
+            {
+                logger.info("initializing Animation System as Swing Timer");
+                AnimationSystemActionListener animationSystemActionListener = new AnimationSystemActionListener();
+                Game.getCurrent().setAnimationSystemTimer(new AnimationSystemTimer((int) GameConfiguration.animationLifeformDelay, animationSystemActionListener));
+                Game.getCurrent().getAnimationSystemTimer().setRepeats(true);
+                Game.getCurrent().getAnimationSystemTimer().start();
+            }
         }
         else
         {
@@ -494,6 +502,14 @@ public class GameUtils
             }
         }
     }
+
+
+    public static void initializeHitOrMissTimer()
+    {
+        HitMissImageTimer hitMissImageTimer = new HitMissImageTimer();
+        Game.getCurrent().setHitMissImageTimer(hitMissImageTimer);
+    }
+
 }
 
 
