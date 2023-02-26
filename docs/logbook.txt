@@ -857,3 +857,6 @@ History of the changes:
 2023-02-26: took timers and music system out of game into manager classes. Everything appears to work still.
             Need to take Map also out of game, game does contain game state thats worth keeping.
             Do maps need to be serialized? not sure. Perhaps, perhaps not. If not, then they go into Map Manager.
+2023-02-26: check which music to run in advanceTurn? moved to NoiseManager
+2023-02-27: todo for today: check whether we have one club on the map, or several. do we need to have only one item of
+            todo: a kind? if the item is stateless, then yes. If not, then hmmmm.

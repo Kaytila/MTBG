@@ -7,6 +7,7 @@ import net.ck.game.backend.entities.*;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.GameStateMachine;
+import net.ck.game.backend.state.NoiseManager;
 import net.ck.game.backend.state.TimerManager;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
@@ -18,7 +19,6 @@ import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.CodeUtils;
-import net.ck.util.GameUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
@@ -421,38 +421,8 @@ public class Game implements Runnable, Serializable
         setTurnNumber(getTurnNumber() + 1);
 
         //logger.info("game game state: {}", GameStateMachine.getCurrent().getCurrentState());
-        if (GameStateMachine.getCurrent().getCurrentState() == GameState.COMBAT)
-        {
-            boolean stillaggro = false;
-            for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
-            {
-                if (e.isHostile())
-                {
-                    stillaggro = true;
-                    break;
-                }
-            }
 
-            logger.info("still aggro: {}", stillaggro);
-
-            if (stillaggro == false)
-            {
-                EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
-                TimerManager.getMusicTimer().start();
-            }
-        }
-
-        if (GameStateMachine.getCurrent().getCurrentState() == GameState.VICTORY)
-        {
-            if (GameUtils.checkVictoryGameStateDuration())
-            {
-                EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-                if (TimerManager.getMusicTimer().isRunning() == false)
-                {
-                    TimerManager.getMusicTimer().start();
-                }
-            }
-        }
+        NoiseManager.calculateMusictoRun();
 
         Turn turn = new Turn(getTurnNumber());
         getTurns().add(turn);
