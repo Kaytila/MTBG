@@ -33,7 +33,8 @@ public interface LifeForm
 
 
      void setArmorClass(int armorClass);
-     Weapon getWeapon();
+
+    Weapon getWeapon();
 
     boolean wieldWeapon(Weapon weapon);
 

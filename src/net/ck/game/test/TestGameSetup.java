@@ -58,6 +58,7 @@ public class TestGameSetup
 			ImageUtils.initializeForegroundImages();
 			game.startThreads();
 			GameUtils.initializeHighlightingTimer();
+			GameUtils.initializeHitOrMissTimer();
 			GameUtils.initializeMusicSystemNoThread();
 			GameUtils.initializeSoundSystemNoThread();
 		}

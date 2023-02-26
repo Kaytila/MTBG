@@ -850,3 +850,4 @@ History of the changes:
 2023-02-26: switched player to attack(maptile) - removed attack(abstractkeyboardaction) everywhere. now we can do just
             attack(maptile) in testing. Testing breaks for now, need to figure that out first.
             also switched and check for npc state when entering AI not during actions.
+2023-02-26: fixed for test: need to remember that the maptile now carries the lifeform, not the map per se.
