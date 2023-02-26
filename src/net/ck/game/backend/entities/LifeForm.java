@@ -19,8 +19,6 @@ public interface LifeForm
 {
     void doAction(AbstractAction action);
 
-    boolean attack(AbstractKeyboardAction action);
-
     boolean attack(MapTile tile);
 
     int getHealth();

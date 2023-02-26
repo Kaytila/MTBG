@@ -847,3 +847,6 @@ History of the changes:
             the task is now of type util as to not be blocking.
 2023-02-25: did a little refactoring to group classes (particularly timers and listeners or tasks) by theme (missile,
             foreground, background, lifeform animation) and not by technical type
+2023-02-26: switched player to attack(maptile) - removed attack(abstractkeyboardaction) everywhere. now we can do just
+            attack(maptile) in testing. Testing breaks for now, need to figure that out first.
+            also switched and check for npc state when entering AI not during actions.

@@ -1,19 +1,23 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.animation.lifeform.HitMissImageTimerTask;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
-import net.ck.game.items.AbstractItem;
-import net.ck.game.items.Armor;
-import net.ck.game.items.ArmorPositions;
-import net.ck.game.items.Weapon;
+import net.ck.game.backend.state.GameState;
+import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
+import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
+import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.*;
+import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -590,13 +594,127 @@ public abstract class AbstractEntity implements LifeForm
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
-               // logger.info("target can be reached");
+                // logger.info("target can be reached");
                 //return true;
                 //((NPC) this).doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
             }
         }
         return false;
     }
+
+
+    public boolean attack(MapTile tileByCoordinates)
+    {
+        if (getState() == LifeFormState.DEAD)
+        {
+            logger.info("Dead");
+            return false;
+        }
+
+        logger.info("Attacking");
+        MapTile tile;
+
+        if (getVictim() != null)
+        {
+            tile = MapUtils.getMapTileByCoordinatesAsPoint(getVictim().getMapPosition());
+        }
+        else
+        {
+            tile = tileByCoordinates;
+        }
+
+        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
+
+        if (tile != null)
+        {
+            if (tile.getLifeForm() != null)
+            {
+                LifeForm n = tile.getLifeForm();
+                logger.info("we found the tile {}, its the victims: {}", tile, n);
+
+                if (getWeapon() == null)
+                {
+                    setWeapon(Game.getCurrent().getWeaponList().get(1));
+                }
+
+                n.setHostile(true);
+                n.setVictim(this);
+
+                if (getWeapon().getType().equals(WeaponTypes.RANGED))
+                {
+                    logger.info("here at ranged attack");
+                    Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
+                    Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
+                    Missile m = new Missile(sourcePosition, targetPosition);
+                    Game.getCurrent().getCurrentMap().getMissiles().add(m);
+
+                    try
+                    {
+                        HitMissImageTimerTask task = new HitMissImageTimerTask(n);
+                        task.setRunning(true);
+                        Game.getCurrent().getHitMissImageTimer().setHitMissImageTimerTask(task);
+                        Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
+                        Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    logger.info("hitting victim: {}", n);
+
+                    if (NPCUtils.calculateHit(this, n))
+                    {
+                        logger.info("hit");
+                        n.decreaseHealth(5);
+                        n.setCurrentImage(ImageUtils.getHitImage());
+                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                        return true;
+                    }
+                    else
+                    {
+                        logger.info("miss");
+                        n.evade();
+                        n.setCurrentImage(ImageUtils.getMissImage());
+                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                        return false;
+                    }
+                }
+                else
+                {
+                    logger.info("meleee");
+
+                    logger.info("hitting victim: {}", n);
+                    if (NPCUtils.calculateHit(this, n))
+                    {
+                        logger.info("hit");
+                        n.decreaseHealth(5);
+                        n.setCurrentImage(ImageUtils.getHitImage());
+                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                        return true;
+                    }
+                    else
+                    {
+                        logger.info("miss");
+                        n.evade();
+                        n.setCurrentImage(ImageUtils.getMissImage());
+                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                logger.debug("no lifeform on tile");
+                return false;
+            }
+        }
+        else
+        {
+            logger.debug("no tile");
+            return false;
+        }
+    }
+
 
     public abstract CommandQueue getQueuedActions();
 }

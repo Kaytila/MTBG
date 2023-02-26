@@ -325,7 +325,7 @@ public class JGridCanvas extends JComponent
 
             //start2 = System.nanoTime();
             paintHighlightedMapTile(g);
-            //MapUtils.calculateHiddenTiles(g);
+            MapUtils.calculateHiddenTiles(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
             //paintDarkness(g);
         }

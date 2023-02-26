@@ -1,15 +1,12 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.animation.lifeform.HitMissImageTimerTask;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
-import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.backend.queuing.ScheduleActivity;
 import net.ck.game.backend.state.CommandSuccessMachine;
-import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.time.GameTime;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
@@ -18,11 +15,9 @@ import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.*;
-import net.ck.util.communication.sound.GameStateChanged;
 import net.ck.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -107,6 +102,11 @@ public class NPC extends AbstractEntity implements LifeForm
         return hostile;
     }
 
+    public void setHostile(boolean hostile)
+    {
+        this.hostile = hostile;
+    }
+
     @Override
     public void evade()
     {
@@ -138,14 +138,14 @@ public class NPC extends AbstractEntity implements LifeForm
         this.targetMapPosition = targetMapPosition;
     }
 
-    public void setHostile(boolean hostile)
-    {
-        this.hostile = hostile;
-    }
-
     public Point getOriginalMapPosition()
     {
         return originalMapPosition;
+    }
+
+    public void setOriginalMapPosition(Point originalMapPosition)
+    {
+        this.originalMapPosition = originalMapPosition;
     }
 
     @Override
@@ -158,11 +158,6 @@ public class NPC extends AbstractEntity implements LifeForm
     public void setState(LifeFormState state)
     {
         this.state = state;
-    }
-
-    public void setOriginalMapPosition(Point originalMapPosition)
-    {
-        this.originalMapPosition = originalMapPosition;
     }
 
     @Override
@@ -192,13 +187,6 @@ public class NPC extends AbstractEntity implements LifeForm
         }
         //logger.info("should not be reachable");
         return false;
-    }
-
-    @Override
-    public void setWeapon(Weapon weapon)
-    {
-        logger.info("weapon {} for npc: {}", weapon, this.getId());
-        this.weapon = weapon;
     }
 
     private String toString(Collection<?> collection)
@@ -294,7 +282,6 @@ public class NPC extends AbstractEntity implements LifeForm
         this.mobasks = mobasks;
     }
 
-
     public CommandQueue getQueuedActions()
     {
         return queuedActions;
@@ -313,7 +300,6 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         checkSchedules(event);
     }
-
 
     private void checkSchedules(GameTimeChanged event)
     {
@@ -371,7 +357,6 @@ public class NPC extends AbstractEntity implements LifeForm
         }
         //logger.info("end: check schedules");
     }
-
 
     /**
      * @param action KeyboardAction.type
@@ -521,101 +506,7 @@ public class NPC extends AbstractEntity implements LifeForm
         CommandSuccessMachine.calculateSoundEffectNPC(action);
     }
 
-    /**
-     * @param action keyboard action (attack action)
-     * @return returns whether it is a hit
-     * <p>
-     */
 
-    public boolean attack(AbstractKeyboardAction action)
-    {
-        if (getState() == LifeFormState.DEAD)
-        {
-            logger.info("NPC Dead");
-            return false;
-        }
-        logger.info("NPC Attacking");
-        MapTile tile = MapUtils.getMapTileByCoordinatesAsPoint(getVictim().getMapPosition());
-        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
-        action = NPCUtils.calculateCoordinatesFromActionAndTile(action, tile, this);
-
-        if (tile != null)
-        {
-            logger.info("we found the tile, its the players: {}", tile);
-            if (getWeapon() == null)
-            {
-                setWeapon(Game.getCurrent().getWeaponList().get(1));
-            }
-
-            if (getWeapon().getType().equals(WeaponTypes.RANGED))
-            {
-                logger.info("here at ranged attack");
-                Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
-                Game.getCurrent().getCurrentMap().getMissiles().add(m);
-
-                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
-                {
-                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
-                    {
-                        if (n.getMapPosition().equals(tile.getMapPosition()))
-                        {
-                            logger.info("hitting player: {}", n);
-                            if (NPCUtils.calculateHit(this, n))
-                            {
-                                logger.info("hit");
-                                n.setCurrentImage(ImageUtils.getHitImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return true;
-                            }
-                            else
-                            {
-                                logger.info("miss");
-                                n.setCurrentImage(ImageUtils.getMissImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return false;
-                            }
-                        }
-                    }
-                }
-                //No NPCs
-            }
-            else
-            {
-                logger.info("meleee");
-                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
-                {
-                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
-                    {
-                        if (n.getMapPosition().equals(tile.getMapPosition()))
-                        {
-                            logger.info("hitting player: {}", n);
-                            n.setHostile(true);
-                            n.setVictim(this);
-                            if (NPCUtils.calculateHit(this, n))
-                            {
-                                logger.info("hit");
-                                n.setCurrentImage(ImageUtils.getHitImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return true;
-                            }
-                            else
-                            {
-                                logger.info("miss");
-                                n.setCurrentImage(ImageUtils.getMissImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else
-        {
-            logger.info("here, tile is null");
-        }
-        return false;
-    }
 
     @Override
     public int getHealth()
@@ -692,6 +583,13 @@ public class NPC extends AbstractEntity implements LifeForm
     public Weapon getWeapon()
     {
         return this.weapon;
+    }
+
+    @Override
+    public void setWeapon(Weapon weapon)
+    {
+        logger.info("weapon {} for npc: {}", weapon, this.getId());
+        this.weapon = weapon;
     }
 
     @Override
@@ -781,115 +679,8 @@ public class NPC extends AbstractEntity implements LifeForm
         }
     }
 
-    public boolean attack(MapTile tileByCoordinates)
-    {
-        if (getState() == LifeFormState.DEAD)
-        {
-            logger.info("NPC Dead");
-            return false;
-        }
-        logger.info("NPC Attacking");
-        MapTile tile;
-        if (getVictim() != null)
-        {
-            tile = MapUtils.getMapTileByCoordinatesAsPoint(getVictim().getMapPosition());
-        }
-        else
-        {
-            tile = tileByCoordinates;
-        }
-        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
 
-        if (tile != null)
-        {
-            logger.info("we found the tile, its the players: {}", tile);
-            if (getWeapon() == null)
-            {
-                setWeapon(Game.getCurrent().getWeaponList().get(1));
-            }
 
-            if (getWeapon().getType().equals(WeaponTypes.RANGED))
-            {
-                logger.info("here at ranged attack");
-                Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
-                Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
-                Missile m = new Missile(sourcePosition, targetPosition);
-                Game.getCurrent().getCurrentMap().getMissiles().add(m);
-
-                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
-                {
-                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
-                    {
-                        if (n.getMapPosition().equals(tile.getMapPosition()))
-                        {
-                            try
-                            {
-                                HitMissImageTimerTask task = new HitMissImageTimerTask(n);
-                                task.setRunning(true);
-                                Game.getCurrent().getHitMissImageTimer().setHitMissImageTimerTask(task);
-                                Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
-                                Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
-                            } catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-                            logger.info("hitting player: {}", n);
-                            if (NPCUtils.calculateHit(this, n))
-                            {
-                                logger.info("hit");
-                                n.setCurrentImage(ImageUtils.getHitImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return true;
-                            }
-                            else
-                            {
-                                logger.info("miss");
-                                n.setCurrentImage(ImageUtils.getMissImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return false;
-                            }
-                        }
-                    }
-                }
-                //No NPCs
-            }
-            else
-            {
-                logger.info("meleee");
-                if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
-                {
-                    for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
-                    {
-                        if (n.getMapPosition().equals(tile.getMapPosition()))
-                        {
-                            logger.info("hitting player: {}", n);
-                            n.setHostile(true);
-                            n.setVictim(this);
-                            if (NPCUtils.calculateHit(this, n))
-                            {
-                                logger.info("hit");
-                                n.setCurrentImage(ImageUtils.getHitImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return true;
-                            }
-                            else
-                            {
-                                logger.info("miss");
-                                n.setCurrentImage(ImageUtils.getMissImage());
-                                EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else
-        {
-            logger.info("here, tile is null");
-        }
-        return false;
-    }
 
     public boolean isPatrolling()
     {
@@ -957,9 +748,9 @@ public class NPC extends AbstractEntity implements LifeForm
     }
 
     @Override
-    public void setRunningAction(AbstractKeyboardAction action)
+    public void setSchedule(Schedule schedule)
     {
-        this.runningAction = action;
+        this.schedule = schedule;
     }
 
     @Override
@@ -969,8 +760,8 @@ public class NPC extends AbstractEntity implements LifeForm
     }
 
     @Override
-    public void setSchedule(Schedule schedule)
+    public void setRunningAction(AbstractKeyboardAction action)
     {
-        this.schedule = schedule;
+        this.runningAction = action;
     }
 }

@@ -73,11 +73,6 @@ public class World extends AbstractEntity implements LifeForm
 		logger.error("world does not have a position, do not set");
 	}
 
-	@Override
-	public boolean attack(AbstractKeyboardAction action)
-	{
-		return false;
-	}
 
 	@Override
 	public boolean attack(MapTile tile)

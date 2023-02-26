@@ -158,6 +158,12 @@ public class AIBehaviour
      */
     public static void determineAction(LifeForm e)
     {
+        if ((e.getState().equals(LifeFormState.DEAD)) || (e.getState().equals(LifeFormState.UNCONSCIOUS)) || (e.getState().equals(LifeFormState.ASLEEP)))
+        {
+            logger.info("NPC {}", e.getState());
+            return;
+        }
+
         if (e.isHostile())
         {
             //logger.info("npc {} is hostile", e.getId());

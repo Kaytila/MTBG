@@ -200,7 +200,7 @@ public class GameConfiguration
     public static final boolean useUtilTimerForAnimation = true;
 
 
-    public static final int hitormissTimerDuration = 2000;
+    public static final int hitormissTimerDuration = 200;
 }
 
 

@@ -1,14 +1,11 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.animation.lifeform.HitMissImageTimerTask;
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.actions.PlayerAction;
-import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.backend.state.CommandSuccessMachine;
-import net.ck.game.backend.state.GameState;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -16,13 +13,11 @@ import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
-import net.ck.util.communication.sound.GameStateChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -322,7 +317,7 @@ public class Player extends AbstractEntity implements LifeForm
                 break;
 
             case ATTACK:
-                success = this.attack(action.getEvent());
+                success = attack(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
 
             case LOOK:
@@ -483,140 +478,7 @@ public class Player extends AbstractEntity implements LifeForm
         return null;
     }
 
-    /*
-     * @param action keyboard action (attack action)
-     * @return returns whether it is a hit
-     * different implementation for player and NPC now.
-     *
-     *
-     */
-    public boolean attack(AbstractKeyboardAction action)
-    {
-        //TODO clean this mess up somewhen not sure I need to have so much duplicate code
-        logger.info("player attacking old");
 
-        MapTile tile = MapUtils.calculateMapTileUnderCursor(action.getTargetCoordinates());
-        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
-        //Game.getCurrent().getSoundSystem().restartMusic();
-
-        if (tile != null)
-        {
-            if (getWeapon() == null)
-            {
-                setWeapon(Game.getCurrent().getWeaponList().get(1));
-            }
-
-            if (getWeapon().getType().equals(WeaponTypes.RANGED))
-            {
-                Missile m = new Missile(action.getSourceCoordinates(), action.getTargetCoordinates());
-                Game.getCurrent().getCurrentMap().getMissiles().add(m);
-                //logger.info("tile: {}", tile)
-            }
-
-            if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
-            {
-                for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
-                {
-                    if (n.getMapPosition().equals(tile.getMapPosition()))
-                    {
-                        try
-                        {
-                            HitMissImageTimerTask task = new HitMissImageTimerTask(n);
-                            task.setRunning(true);
-                            Game.getCurrent().getHitMissImageTimer().setHitMissImageTimerTask(task);
-                            Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
-                            Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
-                        } catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                        n.setHostile(true);
-                        n.setVictim(this);
-                        this.setVictim(n);
-                        if (NPCUtils.calculateHit(this, n))
-                        {
-                            logger.info("hit");
-                            n.decreaseHealth(5);
-                            //n.increaseHealth(5);
-                            return true;
-                        }
-                        else
-                        {
-                            logger.info("miss");
-                            n.evade();
-                            return false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //No NPCs
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean attack(MapTile tile)
-    {
-        //TODO clean this mess up somewhen not sure I need to have so much duplicate code
-        logger.info("player attacking new");
-        EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
-        //Game.getCurrent().getSoundSystem().restartMusic();
-
-        if (tile != null)
-        {
-            if (getWeapon() == null)
-            {
-                setWeapon(Game.getCurrent().getWeaponList().get(1));
-            }
-
-            if (getWeapon().getType().equals(WeaponTypes.RANGED))
-            {
-                logger.info("here at ranged attack");
-                Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
-                Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
-                Missile m = new Missile(sourcePosition, targetPosition);
-                Game.getCurrent().getCurrentMap().getMissiles().add(m);
-                //logger.info("tile: {}", tile)
-            }
-
-            if (Game.getCurrent().getCurrentMap().getLifeForms().size() > 0)
-            {
-                for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
-                {
-                    if (n.getMapPosition().equals(tile.getMapPosition()))
-                    {
-                        n.setHostile(true);
-                        n.setVictim(this);
-                        this.setVictim(n);
-                        Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
-                        if (NPCUtils.calculateHit(this, n))
-                        {
-                            logger.info("hit");
-                            n.decreaseHealth(5);
-                            //n.increaseHealth(5);
-                            return true;
-                        }
-                        else
-                        {
-                            logger.info("miss");
-                            n.evade();
-                            return false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                logger.error("no NPCs?");
-                return false;
-            }
-        }
-        return false;
-    }
 
     @Override
     public int getHealth()
