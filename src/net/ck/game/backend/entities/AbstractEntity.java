@@ -5,6 +5,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
@@ -635,7 +636,7 @@ public abstract class AbstractEntity implements LifeForm
 
                 if (getWeapon() == null)
                 {
-                    setWeapon(Game.getCurrent().getWeaponList().get(1));
+                    setWeapon(ItemManager.getWeaponList().get(1));
                 }
 
                 n.setHostile(true);

@@ -15,6 +15,7 @@ import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.game.backend.state.NoiseManager;
 import net.ck.game.backend.state.TimerManager;
 import net.ck.game.backend.threading.ThreadNames;
@@ -370,6 +371,7 @@ public class GameUtils
 
                         Game.getCurrent().setCurrentMap(map);
                         Game.getCurrent().addItemsToFloor();
+                        Game.getCurrent().addManyNPCs(map);
                     }
                     else
                     {
@@ -404,25 +406,25 @@ public class GameUtils
                 if (file.getName().equalsIgnoreCase("armor.xml"))
                 {
                     logger.info("parsing armor: {}", GameConfiguration.itemFileRootPath + File.separator + file.getName());
-                    Game.getCurrent().setArmorList(RunXMLParser.parseArmor(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
+                    ItemManager.setArmorList(RunXMLParser.parseArmor(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
                 }
 
                 else if (file.getName().equalsIgnoreCase("weapons.xml"))
                 {
                     logger.info("parsing weapons: {}", GameConfiguration.itemFileRootPath + File.separator + file.getName());
-                    Game.getCurrent().setWeaponList(RunXMLParser.parseWeapons(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
+                    ItemManager.setWeaponList(RunXMLParser.parseWeapons(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
                 }
 
                 else if (file.getName().equalsIgnoreCase("utilities.xml"))
                 {
                     logger.info("parsing utilities: {}", GameConfiguration.itemFileRootPath + File.separator + file.getName());
-                    Game.getCurrent().setUtilityList(RunXMLParser.parseUtilities(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
+                    ItemManager.setUtilityList(RunXMLParser.parseUtilities(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
                 }
 
                 else if (file.getName().equalsIgnoreCase("furniture.xml"))
                 {
                     logger.info("parsing furniture: {}", GameConfiguration.itemFileRootPath + File.separator + file.getName());
-                    Game.getCurrent().setFurnitureList(RunXMLParser.parseFurniture(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
+                    ItemManager.setFurnitureList(RunXMLParser.parseFurniture(GameConfiguration.itemFileRootPath + File.separator + file.getName()));
                 }
 
             }
@@ -437,7 +439,7 @@ public class GameUtils
 
     private static void listFurniture()
     {
-        for (FurnitureItem t : Game.getCurrent().getFurnitureList().values())
+        for (FurnitureItem t : ItemManager.getFurnitureList().values())
         {
             logger.info("furniture item: {} ", t.toString());
         }
@@ -446,7 +448,7 @@ public class GameUtils
 
     public static void listArmor()
     {
-        for (Armor t : Game.getCurrent().getArmorList().values())
+        for (Armor t : ItemManager.getArmorList().values())
         {
             logger.info("armor item: {} ", t.toString());
         }
@@ -455,7 +457,7 @@ public class GameUtils
 
     public static void listWeapons()
     {
-        for (Weapon t : Game.getCurrent().getWeaponList().values())
+        for (Weapon t : ItemManager.getWeaponList().values())
         {
             logger.info("weapon item: {} ", t.toString());
         }
@@ -464,7 +466,7 @@ public class GameUtils
 
     public static void listUtilities()
     {
-        for (Utility t : Game.getCurrent().getUtilityList().values())
+        for (Utility t : ItemManager.getUtilityList().values())
         {
             logger.info("utility item: {} ", t.toString());
         }

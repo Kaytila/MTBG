@@ -1,6 +1,7 @@
 package net.ck.game.test;
 
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import org.apache.logging.log4j.LogManager;
@@ -53,7 +54,7 @@ public class SearchGetDropTest
     @Test
     public void testGet()
     {
-        Weapon club1 = Game.getCurrent().getWeaponList().get(2);
+        Weapon club1 = ItemManager.getWeaponList().get(2);
         game.getCurrentMap().mapTiles[4][2].getInventory().add(club1);
         assert (game.getCurrentMap().mapTiles[4][2].getInventory() != null);
         assert (game.getCurrentMap().mapTiles[4][2].getInventory().getSize() > 0);

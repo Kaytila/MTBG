@@ -5,14 +5,12 @@ import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
 import net.ck.game.backend.queuing.CommandQueue;
-import net.ck.game.backend.state.GameState;
-import net.ck.game.backend.state.GameStateMachine;
-import net.ck.game.backend.state.NoiseManager;
-import net.ck.game.backend.state.TimerManager;
+import net.ck.game.backend.state.*;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.GameTime;
-import net.ck.game.items.*;
+import net.ck.game.items.ArmorPositions;
+import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.listeners.Controller;
@@ -34,7 +32,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Set;
 
@@ -56,30 +53,11 @@ public class Game implements Runnable, Serializable
      * but the average map won't be that big
      */
     ArrayList<Map> maps = new ArrayList<>();
-    /**
-     * list that contains all utility items
-     */
-    private Hashtable<Integer, Utility> utilityList;
-    /**
-     * list that contains all furniture items
-     */
-    private Hashtable<Integer, FurnitureItem> furnitureList;
-    /**
-     * so weaponList has two entries now, but as these are referenced, I need to make an item factory which gets a prototype from the list and creates a new instance with the values instead.
-     * weapon list get returns ID, not position.
-     */
-    private Hashtable<Integer, Weapon> weaponList;
-    /**
-     * this is the list of all armor items that exist, ids will need to match the npc equipment. how much will this be used? not really sure
-     */
-    private Hashtable<Integer, Armor> armorList;
-    /**
+
+    /*
      * holds the current map, might be game map, might be any map
      */
     private Map currentMap;
-
-
-
 
 
     /**
@@ -121,9 +99,6 @@ public class Game implements Runnable, Serializable
      * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
      */
     private Controller controller;
-
-
-
 
     /**
      * this holds the actual game time which is increasing with time
@@ -207,17 +182,6 @@ public class Game implements Runnable, Serializable
     }
 
 
-    public Hashtable<Integer, Utility> getUtilityList()
-    {
-        return utilityList;
-    }
-
-    public void setUtilityList(Hashtable<Integer, Utility> utilityList)
-    {
-        this.utilityList = utilityList;
-    }
-
-
     public boolean isRunning()
     {
         return this.running;
@@ -231,19 +195,18 @@ public class Game implements Runnable, Serializable
 
     public void addItemsToFloor()
     {
-        Weapon club = getWeaponList().get(1);
-        Weapon magicClub = getWeaponList().get(2);
-        Weapon sling = getWeaponList().get(3);
+        Weapon club = ItemManager.getWeaponList().get(1);
+        Weapon magicClub = ItemManager.getWeaponList().get(2);
+        Weapon sling = ItemManager.getWeaponList().get(3);
         Objects.requireNonNull(MapUtils.getMapTileByCoordinates(3, 0)).getInventory().add(club);
         Objects.requireNonNull(MapUtils.getMapTileByCoordinates(9, 3)).getInventory().add(magicClub);
         Objects.requireNonNull(MapUtils.getMapTileByCoordinates(6, 6)).getInventory().add(sling);
         //logger.info("furniture: {}", getFurnitureList().get(0));
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinates(9, 4)).setFurniture(getFurnitureList().get(1));
+        Objects.requireNonNull(MapUtils.getMapTileByCoordinates(9, 4)).setFurniture(ItemManager.getFurnitureList().get(1));
     }
 
 
-    @SuppressWarnings("unused")
-    private void addManyNPCs(Map map)
+    public void addManyNPCs(Map map)
     {
         int max = 100;
         for (int i = 0; i <= max; i++)
@@ -543,8 +506,8 @@ public class Game implements Runnable, Serializable
     {
         logger.info("adding player");
         Player p1 = new Player(0);
-        Weapon sling = getWeaponList().get(3);
-        Weapon club = getWeaponList().get(1);
+        Weapon sling = ItemManager.getWeaponList().get(3);
+        Weapon club = ItemManager.getWeaponList().get(1);
         p1.getInventory().add(sling);
         p1.getInventory().add(club);
         p1.wieldWeapon(sling);
@@ -660,37 +623,6 @@ public class Game implements Runnable, Serializable
     public void setMaps(ArrayList<Map> maps)
     {
         this.maps = maps;
-    }
-
-    public Hashtable<Integer, Armor> getArmorList()
-    {
-        return armorList;
-    }
-
-    public void setArmorList(Hashtable<Integer, Armor> armorList)
-    {
-        this.armorList = armorList;
-    }
-
-    public Hashtable<Integer, Weapon> getWeaponList()
-    {
-        return weaponList;
-    }
-
-    public void setWeaponList(Hashtable<Integer, Weapon> weaponList)
-    {
-        this.weaponList = weaponList;
-    }
-
-    public Hashtable<Integer, FurnitureItem> getFurnitureList()
-    {
-        return furnitureList;
-    }
-
-    public void setFurnitureList(Hashtable<Integer, FurnitureItem> furnitureList)
-    {
-        //logger.info("setting Furniture list");
-        this.furnitureList = furnitureList;
     }
 
     public GameTime getGameTime()

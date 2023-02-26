@@ -6,6 +6,7 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.backend.state.CommandSuccessMachine;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -76,26 +77,26 @@ public class Player extends AbstractEntity implements LifeForm
 
         setCurrentImage(getAnimationImageList().get(0));
 
-        this.getItem(Game.getCurrent().getArmorList().get(1));
-        this.getItem(Game.getCurrent().getArmorList().get(2));
-        this.getItem(Game.getCurrent().getArmorList().get(3));
-        this.getItem(Game.getCurrent().getArmorList().get(4));
-        this.getItem(Game.getCurrent().getArmorList().get(5));
-        this.getItem(Game.getCurrent().getArmorList().get(6));
-        this.getItem(Game.getCurrent().getArmorList().get(7));
+        this.getItem(ItemManager.getArmorList().get(1));
+        this.getItem(ItemManager.getArmorList().get(2));
+        this.getItem(ItemManager.getArmorList().get(3));
+        this.getItem(ItemManager.getArmorList().get(4));
+        this.getItem(ItemManager.getArmorList().get(5));
+        this.getItem(ItemManager.getArmorList().get(6));
+        this.getItem(ItemManager.getArmorList().get(7));
 
-        wearItem(Game.getCurrent().getArmorList().get(1));
-        wearItem(Game.getCurrent().getArmorList().get(2));
-        wearItem(Game.getCurrent().getArmorList().get(3));
-        wearItem(Game.getCurrent().getArmorList().get(4));
-        wearItem(Game.getCurrent().getArmorList().get(5));
-        wearItem(Game.getCurrent().getArmorList().get(6));
-        wearItem(Game.getCurrent().getArmorList().get(7));
+        wearItem(ItemManager.getArmorList().get(1));
+        wearItem(ItemManager.getArmorList().get(2));
+        wearItem(ItemManager.getArmorList().get(3));
+        wearItem(ItemManager.getArmorList().get(4));
+        wearItem(ItemManager.getArmorList().get(5));
+        wearItem(ItemManager.getArmorList().get(6));
+        wearItem(ItemManager.getArmorList().get(7));
 
 
-        this.getItem(Game.getCurrent().getWeaponList().get(1));
-        this.getItem(Game.getCurrent().getWeaponList().get(2));
-        this.getItem(Game.getCurrent().getUtilityList().get(1));
+        this.getItem(ItemManager.getWeaponList().get(1));
+        this.getItem(ItemManager.getWeaponList().get(2));
+        this.getItem(ItemManager.getUtilityList().get(1));
 
         getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
         getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);

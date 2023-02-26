@@ -7,6 +7,7 @@ import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.backend.queuing.ScheduleActivity;
 import net.ck.game.backend.state.CommandSuccessMachine;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.game.backend.time.GameTime;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.Weapon;
@@ -71,8 +72,8 @@ public class NPC extends AbstractEntity implements LifeForm
         setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
-        getInventory().add(Game.getCurrent().getWeaponList().get(3));
-        wieldWeapon(Game.getCurrent().getWeaponList().get(1));
+        getInventory().add(ItemManager.getWeaponList().get(3));
+        wieldWeapon(ItemManager.getWeaponList().get(1));
     }
 
     public NPC()
@@ -218,9 +219,9 @@ public class NPC extends AbstractEntity implements LifeForm
         setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
-        getInventory().add(Game.getCurrent().getWeaponList().get(3));
-        getInventory().add(Game.getCurrent().getWeaponList().get(1));
-        wieldWeapon(Game.getCurrent().getWeaponList().get(1));
+        getInventory().add(ItemManager.getWeaponList().get(3));
+        getInventory().add(ItemManager.getWeaponList().get(1));
+        wieldWeapon(ItemManager.getWeaponList().get(1));
 
         ArrayList<BufferedImage> images = new ArrayList<>();
 

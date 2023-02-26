@@ -3,6 +3,7 @@ package net.ck.game.test;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.util.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,7 +71,7 @@ public class BattleTest
 		game.getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(4, 2));
 		n1.initialize();
-		n1.wieldWeapon(game.getWeaponList().get(3));
+		n1.wieldWeapon(ItemManager.getWeaponList().get(3));
 		n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(game.getCurrentPlayer().getMapPosition()));
 	}
 
@@ -85,7 +86,7 @@ public class BattleTest
 		n1.setMapPosition(new Point(4, 2));
 		game.getCurrentMap().mapTiles[4][2].setLifeForm(n1);
 		n1.initialize();
-		n1.wieldWeapon(Game.getCurrent().getWeaponList().get(3));
+		n1.wieldWeapon(ItemManager.getWeaponList().get(3));
 		game.getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
 	}
 
@@ -100,7 +101,7 @@ public class BattleTest
 		n1.setMapPosition(new Point(3, 2));
 		game.getCurrentMap().mapTiles[3][2].setLifeForm(n1);
 		n1.initialize();
-		n1.wieldWeapon(Game.getCurrent().getWeaponList().get(3));
+		n1.wieldWeapon(ItemManager.getWeaponList().get(3));
 		game.getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
 	}
 

@@ -2,6 +2,7 @@ package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.NPCAction;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.ItemManager;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.util.MapUtils;
@@ -71,7 +72,7 @@ public class AIBehaviour
                 else
                 {
                     logger.info("npc {} weapon is null", e.getId());
-                    Weapon club = Game.getCurrent().getWeaponList().get(1);
+                    Weapon club = ItemManager.getWeaponList().get(1);
                     e.wieldWeapon(club);
                 }
             }
