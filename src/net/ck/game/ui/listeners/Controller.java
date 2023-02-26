@@ -5,15 +5,17 @@ import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.game.Game;
-import net.ck.game.backend.state.UIStateMachine;
+import net.ck.game.backend.state.NoiseManager;
+import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
-import net.ck.game.ui.UIState;
 import net.ck.game.ui.components.JGridCanvas;
 import net.ck.game.ui.dialogs.AbstractDialog;
 import net.ck.game.ui.dialogs.InventoryDialog;
 import net.ck.game.ui.dialogs.StatsDialog;
+import net.ck.game.ui.state.UIState;
+import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.CursorUtils;
 import net.ck.util.MapUtils;
@@ -32,6 +34,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 
 /**
@@ -122,7 +128,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         if (e.getActionCommand().equalsIgnoreCase("Debug"))
         {
             logger.info("Debug");
-            Game.getCurrent().getIdleTimer().stop();
+            TimerManager.getIdleTimer().stop();
             /*if (Game.getCurrent().retractTurn() == 0)
             {
                 WindowBuilder.getUndoButton().setEnabled(false);
@@ -149,7 +155,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             if (GameConfiguration.playMusic)
             {
                 //Game.getCurrent().getSoundSystem().startMusic();
-                Game.getCurrent().getMusicSystemNoThread().continueMusic();
+                NoiseManager.getMusicSystemNoThread().continueMusic();
                 //EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
             }
 
@@ -161,7 +167,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             if (GameConfiguration.playMusic)
             {
                 //Game.getCurrent().getSoundSystem().stopMusic();
-                Game.getCurrent().getMusicSystemNoThread().pauseMusic();
+                NoiseManager.getMusicSystemNoThread().pauseMusic();
             }
         }
 
@@ -170,7 +176,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             logger.info("louder");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getMusicSystemNoThread().increaseVolume();
+                NoiseManager.getMusicSystemNoThread().increaseVolume();
             }
         }
 
@@ -179,9 +185,52 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             logger.info("leiser");
             if (GameConfiguration.playMusic)
             {
-                Game.getCurrent().getMusicSystemNoThread().decreaseVolume();
+                NoiseManager.getMusicSystemNoThread().decreaseVolume();
             }
         }
+
+        if (e.getActionCommand().equalsIgnoreCase("Save"))
+        {
+            logger.info("save");
+            FileOutputStream fileOutputStream = null;
+            ObjectOutputStream objectOutputStream;
+            try
+            {
+                fileOutputStream = new FileOutputStream("test.txt");
+            } catch (FileNotFoundException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+
+            try
+            {
+                objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            } catch (IOException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+            try
+            {
+                objectOutputStream.writeObject(Game.getCurrent());
+            } catch (IOException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+            try
+            {
+                objectOutputStream.close();
+            } catch (IOException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        if (e.getActionCommand().equalsIgnoreCase("Load"))
+        {
+            logger.info("load");
+        }
+
+
     }
 
     /**
@@ -564,7 +613,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
     public void runQueue()
     {
-        Game.getCurrent().getQuequeTimer().start();
+        TimerManager.getQuequeTimer().start();
         for (AbstractKeyboardAction ac : Game.getCurrent().getCommandQueue().getActionList())
         {
             logger.info("ac: {}", ac);
@@ -601,7 +650,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 UIStateMachine.setDialogOpened(true);
                 action.setHaveNPCAction(false);
-                Game.getCurrent().getIdleTimer().stop();
+                TimerManager.getIdleTimer().stop();
                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
                 break;
 
@@ -618,7 +667,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 UIStateMachine.setDialogOpened(true);
                 action.setHaveNPCAction(false);
-                Game.getCurrent().getIdleTimer().stop();
+                TimerManager.getIdleTimer().stop();
                 break;
             }
 
@@ -635,7 +684,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     action.setHaveNPCAction(false);
 
                     logger.info("inventory as separate event type, lets not add this to the action queue");
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
 
@@ -655,7 +704,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     action.setHaveNPCAction(false);
 
                     logger.info("zstats as separate event type, lets not add this to the action queue");
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
                     logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
@@ -676,7 +725,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     action.setHaveNPCAction(false);
                     UIStateMachine.setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -700,7 +749,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     logger.info("selection is true");
                     UIStateMachine.setSelectTile(false);
                     setMovementForSelectTile(false);
-                    Game.getCurrent().getIdleTimer().start();
+                    TimerManager.getIdleTimer().start();
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(null);
                     break;
@@ -725,7 +774,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     logger.debug("time taken: {}", System.nanoTime() - start);
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     runActions(getCurrentAction());
                     break;
                 }
@@ -735,7 +784,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 action.setHaveNPCAction(false);
                 //logger.info("get");
-                Game.getCurrent().getIdleTimer().stop();
+                TimerManager.getIdleTimer().stop();
                 UIStateMachine.setSelectTile(true);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
@@ -750,7 +799,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     getCurrentAction().setHaveNPCAction(true);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     runActions(getCurrentAction());
                     break;
                 }
@@ -760,7 +809,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 action.setHaveNPCAction(false);
                 //logger.info("get");
-                Game.getCurrent().getIdleTimer().stop();
+                TimerManager.getIdleTimer().stop();
                 UIStateMachine.setSelectTile(true);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
@@ -785,7 +834,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         CursorUtils.centerCursorOnPlayer();
                     }
                     action.setHaveNPCAction(false);
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     UIStateMachine.setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
@@ -809,7 +858,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 else
                 {
                     action.setHaveNPCAction(false);
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     UIStateMachine.setSelectTile(true);
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
@@ -834,7 +883,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                     Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                     getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
-                    Game.getCurrent().getIdleTimer().stop();
+                    TimerManager.getIdleTimer().stop();
                     runActions(getCurrentAction());
                     break;
                 }
@@ -844,7 +893,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     CursorUtils.centerCursorOnPlayer();
                 }
                 action.setHaveNPCAction(false);
-                Game.getCurrent().getIdleTimer().stop();
+                TimerManager.getIdleTimer().stop();
                 //ranged
                 if (Game.getCurrent().getCurrentPlayer().getWeapon() != null)
                 {
@@ -969,9 +1018,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             //Game.getCurrent().getSoundSystem().startMusic();
             //Game.getCurrent().getSoundSystemNoThread().startMusic();
-            Game.getCurrent().getMusicSystemNoThread().continueMusic();
+            NoiseManager.getMusicSystemNoThread().continueMusic();
         }
-        Game.getCurrent().getIdleTimer().start();
+        TimerManager.getIdleTimer().start();
         //focusManager.dispatchEvent(new FocusEvent(gridCanvas, FocusEvent.FOCUS_GAINED, false));
     }
 
@@ -1016,13 +1065,11 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             if (GameConfiguration.playMusic)
             {
-                //Game.getCurrent().getSoundSystem().stopMusic();
-                //Game.getCurrent().getSoundSystemNoThread().stopMusic();
-                Game.getCurrent().getMusicSystemNoThread().pauseMusic();
+                NoiseManager.getMusicSystemNoThread().pauseMusic();
             }
         }
         // }
-        Game.getCurrent().getIdleTimer().stop();
+        TimerManager.getIdleTimer().stop();
     }
 
     @Override
@@ -1032,11 +1079,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         logger.info("deiconified");
         if (GameConfiguration.playMusic)
         {
-            //Game.getCurrent().getSoundSystem().startMusic();
-            //Game.getCurrent().getSoundSystemNoThread().startMusic();
-            Game.getCurrent().getMusicSystemNoThread().continueMusic();
+            NoiseManager.getMusicSystemNoThread().continueMusic();
         }
-        Game.getCurrent().getIdleTimer().start();
+        TimerManager.getIdleTimer().start();
     }
 
     @Override
@@ -1046,11 +1091,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         logger.info("iconified");
         if (GameConfiguration.playMusic)
         {
-            //Game.getCurrent().getSoundSystem().stopMusic();
-            //Game.getCurrent().getSoundSystemNoThread().stopMusic();
-            Game.getCurrent().getMusicSystemNoThread().pauseMusic();
+            NoiseManager.getMusicSystemNoThread().pauseMusic();
         }
-        Game.getCurrent().getIdleTimer().stop();
+        TimerManager.getIdleTimer().stop();
     }
 
     @Override
@@ -1058,7 +1101,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         UIStateMachine.setUiState(UIState.OPENED);
         WindowBuilder.getGridCanvas().requestFocus();
-        Game.getCurrent().getHighlightTimer().start();
+        TimerManager.getHighlightTimer().start();
         //Game.getCurrent().setUiOpen(true);
     }
 

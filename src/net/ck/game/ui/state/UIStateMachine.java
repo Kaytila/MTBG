@@ -1,7 +1,6 @@
-package net.ck.game.backend.state;
+package net.ck.game.ui.state;
 
 import net.ck.game.map.MapTile;
-import net.ck.game.ui.UIState;
 
 import java.awt.*;
 
@@ -38,6 +37,9 @@ public class UIStateMachine
      * this applies to all 2-step actions.
      */
     private static MapTile currentSelectedTile;
+    private static UIState uiState;
+
+    private static boolean hitAnimationRunning;
 
     public static UIState getUiState()
     {
@@ -48,8 +50,6 @@ public class UIStateMachine
     {
         UIStateMachine.uiState = uiState;
     }
-
-    private static UIState uiState;
 
     public static boolean isUiOpen()
     {
@@ -99,5 +99,15 @@ public class UIStateMachine
     public static void setCurrentSelectedTile(MapTile currentSelectedTile)
     {
         UIStateMachine.currentSelectedTile = currentSelectedTile;
+    }
+
+    public static boolean isHitAnimationRunning()
+    {
+        return hitAnimationRunning;
+    }
+
+    public static void setHitAnimationRunning(boolean hitAnimationRunning)
+    {
+        UIStateMachine.hitAnimationRunning = hitAnimationRunning;
     }
 }

@@ -49,4 +49,5 @@ module myTurnedBasedGame
 	exports net.ck.game.animation.background;
 	exports net.ck.game.animation.foreground;
 	exports net.ck.game.animation.lifeform;
+    exports net.ck.game.ui.state;
 }

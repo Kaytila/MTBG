@@ -1,32 +1,21 @@
 package net.ck.game.backend.game;
 
-import net.ck.game.animation.background.BackgroundAnimationSystemTimer;
-import net.ck.game.animation.foreground.ForegroundAnimationSystemTimer;
-import net.ck.game.animation.lifeform.AnimationSystemTimer;
-import net.ck.game.animation.lifeform.AnimationSystemUtilTimer;
-import net.ck.game.animation.lifeform.HitMissImageTimer;
-import net.ck.game.animation.missile.MissileTimer;
-import net.ck.game.animation.missile.MissileUtilTimer;
+
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.GameStateMachine;
-import net.ck.game.backend.state.UIStateMachine;
+import net.ck.game.backend.state.TimerManager;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.GameTime;
-import net.ck.game.backend.time.IdleTimer;
-import net.ck.game.backend.time.QuequeTimer;
 import net.ck.game.items.*;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
-import net.ck.game.music.MusicPlayerNoThread;
-import net.ck.game.music.MusicTimer;
-import net.ck.game.soundeffects.SoundPlayerNoThread;
-import net.ck.game.ui.highlighting.HighlightTimer;
 import net.ck.game.ui.listeners.Controller;
+import net.ck.game.ui.state.UIStateMachine;
 import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.CodeUtils;
 import net.ck.util.GameUtils;
@@ -43,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -53,7 +43,7 @@ import java.util.Set;
  *
  * @author Claus
  */
-public class Game implements Runnable
+public class Game implements Runnable, Serializable
 {
     /**
      * Singleton
@@ -89,16 +79,7 @@ public class Game implements Runnable
     private Map currentMap;
 
 
-    /**
-     * how many milliseconds until the turn is passed?
-     */
-    private IdleTimer idleTimer;
 
-
-    /**
-     * how many milliseconds until the turn is passed?
-     */
-    private AnimationSystemTimer animationSystemTimer;
 
 
     /**
@@ -142,13 +123,7 @@ public class Game implements Runnable
     private Controller controller;
 
 
-    /**
-     * soundSystem is the class dealing with the music. currently only taking files from a directory and trying to play one random song at a time
-     */
-    private MusicPlayerNoThread musicSystemNoThread;
 
-
-    private SoundPlayerNoThread soundPlayerNoThread;
 
     /**
      * this holds the actual game time which is increasing with time
@@ -159,18 +134,10 @@ public class Game implements Runnable
      * so if we have a goto command, this needs to go into a command queue
      */
     private CommandQueue commandQueue;
-    private MusicTimer musicTimer;
+
     private GameState previousGameState;
-    /**
-     * so how long is the time between movements being run from the command queue?
-     */
-    private QuequeTimer quequeTimer;
-    /**
-     * how long is the time period between missiles being drawn on the map?
-     */
-    private MissileTimer missileTimer;
-    /**
-     * base health is the basic health points number, i.e. does a NPC start with 10, 100, 1000 - depending on how far you want to go
+
+    /* base health is the basic health points number, i.e. does a NPC start with 10, 100, 1000 - depending on how far you want to go
      */
     private int baseHealth;
     /**
@@ -181,43 +148,6 @@ public class Game implements Runnable
      * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
-    private HighlightTimer highlightTimer;
-
-    private ForegroundAnimationSystemTimer foregroundAnimationSystemTimer;
-
-    private BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
-
-    /**
-     * make missile timer use an util timer that does not run on
-     * Event Dispatch Thread for not blocking the UI
-     */
-    private MissileUtilTimer missileUtilTimer;
-
-
-    /**
-     * make animation system timer use an util timer that does not run on
-     * Event Dispatch Thread for not blocking the UI
-     */
-    private AnimationSystemUtilTimer animationSystemUtilTimer;
-
-    /**
-     * make an UTIL timer for hit or miss to make sure its visible a bit before overwritten by
-     * the next animation image
-     */
-    private HitMissImageTimer hitMissImageTimer;
-
-    private boolean hitAnimationRunning;
-
-
-    public AnimationSystemUtilTimer getAnimationSystemUtilTimer()
-    {
-        return animationSystemUtilTimer;
-    }
-
-    public void setAnimationSystemUtilTimer(AnimationSystemUtilTimer animationSystemUtilTimer)
-    {
-        this.animationSystemUtilTimer = animationSystemUtilTimer;
-    }
 
 
     public PlayerAction getPlayerAction()
@@ -276,35 +206,6 @@ public class Game implements Runnable
         return game;
     }
 
-    public MusicTimer getMusicTimer()
-    {
-        return musicTimer;
-    }
-
-    public void setMusicTimer(MusicTimer musicTimer)
-    {
-        this.musicTimer = musicTimer;
-    }
-
-    public QuequeTimer getQuequeTimer()
-    {
-        return quequeTimer;
-    }
-
-    public void setQuequeTimer(QuequeTimer quequeTimer)
-    {
-        this.quequeTimer = quequeTimer;
-    }
-
-    public MissileTimer getMissileTimer()
-    {
-        return missileTimer;
-    }
-
-    public void setMissileTimer(MissileTimer missileTimer)
-    {
-        this.missileTimer = missileTimer;
-    }
 
     public Hashtable<Integer, Utility> getUtilityList()
     {
@@ -314,17 +215,6 @@ public class Game implements Runnable
     public void setUtilityList(Hashtable<Integer, Utility> utilityList)
     {
         this.utilityList = utilityList;
-    }
-
-
-    public IdleTimer getIdleTimer()
-    {
-        return idleTimer;
-    }
-
-    public void setIdleTimer(IdleTimer idleTimer)
-    {
-        this.idleTimer = idleTimer;
     }
 
 
@@ -412,7 +302,7 @@ public class Game implements Runnable
         //update the Game to switch to the current state of the new map - might be different after all
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
 
-        getIdleTimer().start();
+        TimerManager.getIdleTimer().start();
         //TODO clear running schedules? how? currently they are on NPC.
         logger.info("end: switching map");
     }
@@ -467,15 +357,15 @@ public class Game implements Runnable
     {
         Game.getCurrent().getCurrentPlayer().doAction(action);
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
-        Game.getCurrent().getIdleTimer().stop();
-        Game.getCurrent().getHighlightTimer().stop();
+        TimerManager.getIdleTimer().stop();
+        TimerManager.getHighlightTimer().stop();
 
         //logger.info("waiting for missile to finish");
         if (GameConfiguration.useTimerForMissiles == true)
         {
-            if (Game.getCurrent().getMissileUtilTimer() != null)
+            if (TimerManager.getMissileUtilTimer() != null)
             {
-                while (Game.getCurrent().getMissileUtilTimer().getMissileTimerTask().isRunning())
+                while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
                 {
 
                 }
@@ -483,26 +373,26 @@ public class Game implements Runnable
         }
         else
         {
-            if (Game.getCurrent().getMissileTimer() != null)
+            if (TimerManager.getMissileTimer() != null)
             {
                 //noinspection StatementWithEmptyBody
-                while (Game.getCurrent().getMissileTimer().isRunning())
+                while (TimerManager.getMissileTimer().isRunning())
                 {
 
                 }
             }
         }
         //logger.info("waiting for hit animation to run");
-        if (Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask() != null)
+        if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
         {
-            while (Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+            while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
             {
                 logger.info("waiting for animation to finish");
                 getThreadController().sleep(50, ThreadNames.GAME_THREAD);
             }
         }
         //logger.info("hit animation has finished");
-        Game.getCurrent().getHitMissImageTimer().purge();
+        TimerManager.getHitMissImageTimer().purge();
 
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
@@ -548,7 +438,7 @@ public class Game implements Runnable
             if (stillaggro == false)
             {
                 EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
-                getMusicTimer().start();
+                TimerManager.getMusicTimer().start();
             }
         }
 
@@ -557,9 +447,9 @@ public class Game implements Runnable
             if (GameUtils.checkVictoryGameStateDuration())
             {
                 EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-                if (getMusicTimer().isRunning() == false)
+                if (TimerManager.getMusicTimer().isRunning() == false)
                 {
-                    getMusicTimer().start();
+                    TimerManager.getMusicTimer().start();
                 }
             }
         }
@@ -571,10 +461,10 @@ public class Game implements Runnable
         MapUtils.calculateDayOrNight();
         logger.info("TURN ENDS");
         logger.info("=======================================================================================");
-        getIdleTimer().start();
+        TimerManager.getIdleTimer().start();
         if (UIStateMachine.isUiOpen())
         {
-            getHighlightTimer().start();
+            TimerManager.getHighlightTimer().start();
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
             UILense.getCurrent().identifyVisibleTilesBest();
             MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
@@ -911,97 +801,6 @@ public class Game implements Runnable
     {
         //logger.info("setting npcAction to: {}", npcAction);
         this.npcAction = npcAction;
-    }
-
-    public MusicPlayerNoThread getMusicSystemNoThread()
-    {
-        return musicSystemNoThread;
-    }
-
-    public void setMusicSystemNoThread(MusicPlayerNoThread soundSystemNoThread)
-    {
-        this.musicSystemNoThread = soundSystemNoThread;
-    }
-
-    public HighlightTimer getHighlightTimer()
-    {
-        return highlightTimer;
-    }
-
-    public void setHighlightTimer(HighlightTimer highlightTimer)
-    {
-        this.highlightTimer = highlightTimer;
-    }
-
-    public SoundPlayerNoThread getSoundPlayerNoThread()
-    {
-        return soundPlayerNoThread;
-    }
-
-    public void setSoundPlayerNoThread(SoundPlayerNoThread soundPlayerNoThread)
-    {
-        this.soundPlayerNoThread = soundPlayerNoThread;
-    }
-
-    public AnimationSystemTimer getAnimationSystemTimer()
-    {
-        return animationSystemTimer;
-    }
-
-    public void setAnimationSystemTimer(AnimationSystemTimer animationSystemTimer)
-    {
-        this.animationSystemTimer = animationSystemTimer;
-    }
-
-    public BackgroundAnimationSystemTimer getBackgroundAnimationSystemTimer()
-    {
-        return backgroundAnimationSystemTimer;
-    }
-
-    public void setBackgroundAnimationSystemTimer(BackgroundAnimationSystemTimer backgroundAnimationSystemTimer)
-    {
-        this.backgroundAnimationSystemTimer = backgroundAnimationSystemTimer;
-    }
-
-    public ForegroundAnimationSystemTimer getForegroundAnimationSystemTimer()
-    {
-        return foregroundAnimationSystemTimer;
-    }
-
-    public void setForegroundAnimationSystemTimer(ForegroundAnimationSystemTimer foregroundAnimationSystemTimer)
-    {
-        this.foregroundAnimationSystemTimer = foregroundAnimationSystemTimer;
-    }
-
-    public MissileUtilTimer getMissileUtilTimer()
-    {
-        return missileUtilTimer;
-    }
-
-    public void setMissileUtilTimer(MissileUtilTimer missileUtilTimer)
-    {
-        this.missileUtilTimer = missileUtilTimer;
-    }
-
-    public synchronized HitMissImageTimer getHitMissImageTimer()
-    {
-        return hitMissImageTimer;
-    }
-
-    public synchronized void setHitMissImageTimer(HitMissImageTimer hitMissImageTimer)
-    {
-        this.hitMissImageTimer = hitMissImageTimer;
-    }
-
-    public synchronized boolean isHitAnimationRunning()
-    {
-        return hitAnimationRunning;
-    }
-
-    public synchronized void setHitAnimationRunning(boolean hitAnimationRunning)
-    {
-        logger.info("setting hitanimation to {}", hitAnimationRunning);
-        this.hitAnimationRunning = hitAnimationRunning;
     }
 }
 

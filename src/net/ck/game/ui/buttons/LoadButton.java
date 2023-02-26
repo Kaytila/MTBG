@@ -14,71 +14,65 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 
-public class CancelButton extends JButton implements MouseListener
+public class LoadButton extends JButton implements MouseListener
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private boolean hovered;
-    private String label = "Cancel";
 
-	public CancelButton()
+	private String label = "Load";
+
+
+	public LoadButton(Point p)
 	{
 		setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
-        this.setFont(getFont());
-        setText(label);
-		//this.setToolTipText(getLogger().getName());
-        this.setActionCommand(label);
-        this.addActionListener(Game.getCurrent().getController());
+		this.setFont(GameConfiguration.font);
+		setText(label);
+		setBounds(p.x, p.y, 70, 30);
+		this.setActionCommand(label);
+		this.addActionListener(Game.getCurrent().getController());
 		hovered = false;
 		this.addMouseListener(this);
 		this.setVisible(true);
-		
 	}
 
-	
-	protected void paintBorder(Graphics g)
-	{
-		super.paintBorder(g);
-		//g.setColor(Color.red);
-		//g.drawRect(0, 0, getWidth(), getHeight());
-		
-	}
 
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		if (hovered)
-		{	
-			g.setColor(Color.white);			
+		{
+			g.setColor(Color.white);
 		}
 		else
 		{
 			g.setColor(Color.black);
 		}
-		
+
 		Graphics2D g2d = (Graphics2D) g;
-        FontMetrics fm = g2d.getFontMetrics();
-        Rectangle2D r = fm.getStringBounds(label, g2d);
-        int x = (this.getWidth() - (int) r.getWidth()) / 2;
-        int y = (this.getHeight() - (int) r.getHeight()) / 2 + fm.getAscent();
-        g.drawString(label, x, y);
+		FontMetrics fm = g2d.getFontMetrics();
+		Rectangle2D r = fm.getStringBounds(label, g2d);
+		int x = (this.getWidth() - (int) r.getWidth()) / 2;
+		int y = (this.getHeight() - (int) r.getHeight()) / 2 + fm.getAscent();
+		g.drawString(label, x, y);
 	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-	
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-	
+
 	}
 
 	@Override
@@ -90,7 +84,7 @@ public class CancelButton extends JButton implements MouseListener
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		hovered = false;		
+		hovered = false;
 	}
 
 }

@@ -2,7 +2,7 @@ package net.ck.game.animation.background;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
-import net.ck.game.backend.state.UIStateMachine;
+import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.communication.graphics.BackgroundRepresentationChanged;
 import org.apache.logging.log4j.LogManager;

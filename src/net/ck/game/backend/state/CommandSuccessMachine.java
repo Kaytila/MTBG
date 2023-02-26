@@ -2,7 +2,6 @@ package net.ck.game.backend.state;
 
 import net.ck.game.backend.actions.AbstractAction;
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.game.Game;
 import net.ck.game.soundeffects.SoundEffects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,21 +30,21 @@ public class CommandSuccessMachine
                 case ENTER:
                     if (action.isSuccess())
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.WALK);
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
                     }
                     break;
                 case ATTACK:
                     if (action.isSuccess())
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
                     }
                     break;
                 default:
@@ -63,11 +62,11 @@ public class CommandSuccessMachine
                 case ATTACK:
                     if (action.isSuccess())
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
                     }
                     else
                     {
-                        Game.getCurrent().getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
                     }
                     break;
                 default:

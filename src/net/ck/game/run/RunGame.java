@@ -1,8 +1,8 @@
 package net.ck.game.run;
 
 import net.ck.game.backend.game.Game;
-import net.ck.game.backend.state.UIStateMachine;
 import net.ck.game.ui.listeners.Controller;
+import net.ck.game.ui.state.UIStateMachine;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CursorUtils;
 import net.ck.util.GameUtils;

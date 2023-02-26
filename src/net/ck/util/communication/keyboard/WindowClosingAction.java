@@ -1,6 +1,6 @@
 package net.ck.util.communication.keyboard;
 
-import net.ck.game.backend.state.UIStateMachine;
+import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;

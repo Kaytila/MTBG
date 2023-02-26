@@ -1,4 +1,4 @@
-package net.ck.game.ui;
+package net.ck.game.ui.state;
 
 public enum UIState
 {

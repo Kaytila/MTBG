@@ -1,6 +1,6 @@
 package net.ck.game.weather;
 
-import net.ck.game.backend.state.UIStateMachine;
+import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
 import net.ck.util.WeatherUtils;
 import net.ck.util.communication.graphics.WeatherChangedEvent;

@@ -854,3 +854,6 @@ History of the changes:
 2023-02-26: fix for move test: in normal game, for queues, I do the action and this then posts the event.
             in test: I dont do the action just post the event with the action.
             Crazy, I know, but it works. And needs a re-think and a re-write.
+2023-02-26: took timers and music system out of game into manager classes. Everything appears to work still.
+            Need to take Map also out of game, game does contain game state thats worth keeping.
+            Do maps need to be serialized? not sure. Perhaps, perhaps not. If not, then they go into Map Manager.

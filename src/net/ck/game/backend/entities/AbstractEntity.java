@@ -5,6 +5,7 @@ import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
@@ -652,9 +653,9 @@ public abstract class AbstractEntity implements LifeForm
                     {
                         HitMissImageTimerTask task = new HitMissImageTimerTask(n);
                         task.setRunning(true);
-                        Game.getCurrent().getHitMissImageTimer().setHitMissImageTimerTask(task);
-                        Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
-                        Game.getCurrent().getHitMissImageTimer().schedule(Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
+                        TimerManager.getHitMissImageTimer().setHitMissImageTimerTask(task);
+                        TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
+                        TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
                     } catch (Exception e)
                     {
                         e.printStackTrace();

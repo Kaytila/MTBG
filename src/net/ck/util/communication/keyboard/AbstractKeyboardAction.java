@@ -1,6 +1,6 @@
 package net.ck.util.communication.keyboard;
 
-import net.ck.game.backend.game.Game;
+import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.AbstractItem;
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
@@ -97,9 +97,9 @@ public class AbstractKeyboardAction extends AbstractAction
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (Game.getCurrent().getMissileTimer() != null)
+        if (TimerManager.getMissileTimer() != null)
         {
-            if (Game.getCurrent().getMissileTimer().isRunning())
+            if (TimerManager.getMissileTimer().isRunning())
             {
                 logger.info("missile timer dont run, ignore command");
             }

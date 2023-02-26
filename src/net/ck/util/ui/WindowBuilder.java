@@ -87,12 +87,18 @@ public class WindowBuilder {
      */
     private static DecreaseVolumeButton decreaseVolumeButton;
 
+
+    private static SaveButton saveButton;
+
+    private static LoadButton loadButton;
+
     /**
      * mainWindow is not the mainWindow, this is actually the controller
      */
     private static Controller controller;
 
-    public static StatsDialog getStatsDialog() {
+    public static StatsDialog getStatsDialog()
+    {
         return statsDialog;
     }
 
@@ -225,6 +231,19 @@ public class WindowBuilder {
         decreaseVolumeButton.addActionListener(controller);
         frame.add(decreaseVolumeButton);
 
+        /*
+        save load buttons
+         */
+
+        loadButton = new LoadButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 170));
+        loadButton.addActionListener(controller);
+        frame.add(loadButton);
+
+        saveButton = new SaveButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 170));
+        saveButton.addActionListener(controller);
+        frame.add(saveButton);
+
+
         gridCanvas = new JGridCanvas();
         gridCanvas.addFocusListener(myFocusListener);
         frame.add(gridCanvas);
@@ -258,4 +277,23 @@ public class WindowBuilder {
         logger.info("finish: build window: UI is open");
     }
 
+    public static LoadButton getLoadButton()
+    {
+        return loadButton;
+    }
+
+    public static void setLoadButton(LoadButton loadButton)
+    {
+        WindowBuilder.loadButton = loadButton;
+    }
+
+    public static SaveButton getSaveButton()
+    {
+        return saveButton;
+    }
+
+    public static void setSaveButton(SaveButton saveButton)
+    {
+        WindowBuilder.saveButton = saveButton;
+    }
 }

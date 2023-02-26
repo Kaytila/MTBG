@@ -15,6 +15,8 @@ import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.game.Turn;
 import net.ck.game.backend.state.GameState;
+import net.ck.game.backend.state.NoiseManager;
+import net.ck.game.backend.state.TimerManager;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.IdleActionListener;
 import net.ck.game.backend.time.IdleTimer;
@@ -137,7 +139,7 @@ public class GameUtils
         if (GameConfiguration.playSound == true)
         {
             logger.info("initializing sound system no thread");
-            Game.getCurrent().setSoundPlayerNoThread(new SoundPlayerNoThread());
+            NoiseManager.setSoundPlayerNoThread(new SoundPlayerNoThread());
         }
     }
 
@@ -146,8 +148,8 @@ public class GameUtils
         if (GameConfiguration.playMusic == true)
         {
             logger.info("initializing music system no thread");
-            Game.getCurrent().setMusicSystemNoThread(new MusicPlayerNoThread());
-            Game.getCurrent().getMusicSystemNoThread().setMusicIsRunning(true);
+            NoiseManager.setMusicSystemNoThread(new MusicPlayerNoThread());
+            NoiseManager.getMusicSystemNoThread().setMusicIsRunning(true);
         }
     }
 
@@ -155,16 +157,16 @@ public class GameUtils
     {
         logger.info("initializing Highlighting Timer as Swing Timer");
         HightlightTimerActionListener actionListener = new HightlightTimerActionListener();
-        Game.getCurrent().setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
-        Game.getCurrent().getHighlightTimer().setRepeats(true);
+        TimerManager.setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
+        TimerManager.getHighlightTimer().setRepeats(true);
     }
 
     public static void initializeMusicTimer()
     {
         logger.info("initializing Music Timer as Swing Timer");
         MusicTimerActionListener actionListener = new MusicTimerActionListener();
-        Game.getCurrent().setMusicTimer(new MusicTimer(GameConfiguration.victoryWait, actionListener));
-        Game.getCurrent().getMusicTimer().setRepeats(false);
+        TimerManager.setMusicTimer(new MusicTimer(GameConfiguration.victoryWait, actionListener));
+        TimerManager.getMusicTimer().setRepeats(false);
 
     }
 
@@ -173,13 +175,13 @@ public class GameUtils
         if (GameConfiguration.useTimerForMissiles == true)
         {
             logger.info("initializing missile timer as util timer");
-            Game.getCurrent().setMissileUtilTimer(new MissileUtilTimer());
+            TimerManager.setMissileUtilTimer(new MissileUtilTimer());
         }
         else
         {
             logger.info("initializing Missile Timer as Thread");
-            Game.getCurrent().setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
-            Thread missileTimerThread = new Thread(Game.getCurrent().getMissileTimer());
+            TimerManager.setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
+            Thread missileTimerThread = new Thread(TimerManager.getMissileTimer());
             missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
             Game.getCurrent().getThreadController().add(missileTimerThread);
         }
@@ -189,17 +191,17 @@ public class GameUtils
     {
         logger.info("initializing Movement Timer as Swing Timer");
         QuequeTimerActionListener quequeTimerActionListener = new QuequeTimerActionListener();
-        Game.getCurrent().setQuequeTimer(new QuequeTimer(GameConfiguration.quequeWait, quequeTimerActionListener));
-        Game.getCurrent().getQuequeTimer().setRepeats(true);
+        TimerManager.setQuequeTimer(new QuequeTimer(GameConfiguration.quequeWait, quequeTimerActionListener));
+        TimerManager.getQuequeTimer().setRepeats(true);
     }
 
     public static void initializeIdleTimer()
     {
         logger.info("initializing Turn Timer as Swing Timer");
         IdleActionListener idleActionListener = new IdleActionListener();
-        Game.getCurrent().setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
-        Game.getCurrent().getIdleTimer().setRepeats(true);
-        Game.getCurrent().getIdleTimer().start();
+        TimerManager.setIdleTimer(new IdleTimer((int) GameConfiguration.turnwait, idleActionListener));
+        TimerManager.getIdleTimer().setRepeats(true);
+        TimerManager.getIdleTimer().start();
     }
 
     public static void initializeWeatherSystem()
@@ -249,9 +251,9 @@ public class GameUtils
             {
                 logger.info("initializing Foregroundanimation System as Swing Timer");
                 ForegroundAnimationSystemActionListener foregroundAnimationSystemActionListener = new ForegroundAnimationSystemActionListener();
-                Game.getCurrent().setForegroundAnimationSystemTimer(new ForegroundAnimationSystemTimer(GameConfiguration.animationForeGroundDelay, foregroundAnimationSystemActionListener));
-                Game.getCurrent().getForegroundAnimationSystemTimer().setRepeats(true);
-                Game.getCurrent().getForegroundAnimationSystemTimer().start();
+                TimerManager.setForegroundAnimationSystemTimer(new ForegroundAnimationSystemTimer(GameConfiguration.animationForeGroundDelay, foregroundAnimationSystemActionListener));
+                TimerManager.getForegroundAnimationSystemTimer().setRepeats(true);
+                TimerManager.getForegroundAnimationSystemTimer().start();
             }
             else
             {
@@ -274,9 +276,9 @@ public class GameUtils
             {
                 logger.info("initializing Backgroundanimation System as Swing Timer");
                 BackgroundAnimationSystemActionListener backgroundAnimationSystemActionListener = new BackgroundAnimationSystemActionListener();
-                Game.getCurrent().setBackgroundAnimationSystemTimer(new BackgroundAnimationSystemTimer(GameConfiguration.animationBackGroundDelay, backgroundAnimationSystemActionListener));
-                Game.getCurrent().getBackgroundAnimationSystemTimer().setRepeats(true);
-                Game.getCurrent().getBackgroundAnimationSystemTimer().start();
+                TimerManager.setBackgroundAnimationSystemTimer(new BackgroundAnimationSystemTimer(GameConfiguration.animationBackGroundDelay, backgroundAnimationSystemActionListener));
+                TimerManager.getBackgroundAnimationSystemTimer().setRepeats(true);
+                TimerManager.getBackgroundAnimationSystemTimer().start();
             }
             else
             {
@@ -309,15 +311,15 @@ public class GameUtils
             if (GameConfiguration.useUtilTimerForAnimation)
             {
                 logger.info("initializing animation system timer as util timer");
-                Game.getCurrent().setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
+                TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
             }
             else
             {
                 logger.info("initializing Animation System as Swing Timer");
                 AnimationSystemActionListener animationSystemActionListener = new AnimationSystemActionListener();
-                Game.getCurrent().setAnimationSystemTimer(new AnimationSystemTimer((int) GameConfiguration.animationLifeformDelay, animationSystemActionListener));
-                Game.getCurrent().getAnimationSystemTimer().setRepeats(true);
-                Game.getCurrent().getAnimationSystemTimer().start();
+                TimerManager.setAnimationSystemTimer(new AnimationSystemTimer((int) GameConfiguration.animationLifeformDelay, animationSystemActionListener));
+                TimerManager.getAnimationSystemTimer().setRepeats(true);
+                TimerManager.getAnimationSystemTimer().start();
             }
         }
         else
@@ -476,7 +478,7 @@ public class GameUtils
     public static synchronized void initializeRest()
     {
 
-        Game.getCurrent().getHighlightTimer().start();
+        TimerManager.getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         MapUtils.calculateDayOrNight();
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
@@ -509,7 +511,7 @@ public class GameUtils
     public static void initializeHitOrMissTimer()
     {
         HitMissImageTimer hitMissImageTimer = new HitMissImageTimer();
-        Game.getCurrent().setHitMissImageTimer(hitMissImageTimer);
+        TimerManager.setHitMissImageTimer(hitMissImageTimer);
     }
 
 }
