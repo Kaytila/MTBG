@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BattleTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <module name="MyTurnBasedGame" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="net.ck.game.test.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="ALTERNATIVE_JRE_PATH" value="17" />
+    <option name="PACKAGE_NAME" value="net.ck.game.test" />
+    <option name="MAIN_CLASS_NAME" value="net.ck.game.test.BattleTest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
+    <option name="VM_PARAMETERS" value="-ea -Djava.security.manager -Djava.security.policy==policy.txt " />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

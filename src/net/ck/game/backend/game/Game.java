@@ -465,13 +465,12 @@ public class Game implements Runnable
      */
     public synchronized void advanceTurn(PlayerAction action)
     {
-
         Game.getCurrent().getCurrentPlayer().doAction(action);
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
         Game.getCurrent().getIdleTimer().stop();
         Game.getCurrent().getHighlightTimer().stop();
 
-        logger.info("waiting for missile to finish");
+        //logger.info("waiting for missile to finish");
         if (GameConfiguration.useTimerForMissiles == true)
         {
             if (Game.getCurrent().getMissileUtilTimer() != null)
@@ -493,19 +492,22 @@ public class Game implements Runnable
                 }
             }
         }
-        logger.info("waiting for hit animation to run");
-        while (Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+        //logger.info("waiting for hit animation to run");
+        if (Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask() != null)
         {
-            logger.info("waiting for animation to finish");
-            getThreadController().sleep(50, ThreadNames.GAME_THREAD);
+            while (Game.getCurrent().getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+            {
+                logger.info("waiting for animation to finish");
+                getThreadController().sleep(50, ThreadNames.GAME_THREAD);
+            }
         }
-        logger.info("hit animation has finished");
+        //logger.info("hit animation has finished");
         Game.getCurrent().getHitMissImageTimer().purge();
 
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
 
-        if (action.getEvent().isHaveNPCAction())
+        if (action.isHaveNPCAction())
         {
             for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
             {

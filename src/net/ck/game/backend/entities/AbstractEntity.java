@@ -239,7 +239,7 @@ public abstract class AbstractEntity implements LifeForm
 
 
 
-    boolean dropItem(AbstractItem affectedItem, MapTile tile)
+    public boolean dropItem(AbstractItem affectedItem, MapTile tile)
     {
         tile.getInventory().add(affectedItem);
         return this.dropItem(affectedItem);

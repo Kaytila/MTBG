@@ -82,6 +82,17 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 		return false;
 	}
 
+
+	public boolean contains(AbstractItem item)
+	{
+		if (getInventory().contains(item))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 	public boolean contains(Weapon weapon)
 	{
 		if (getInventory().contains(weapon))

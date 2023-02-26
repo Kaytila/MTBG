@@ -18,6 +18,4 @@ public class NorthAction extends AbstractKeyboardAction
 	{
 		return true;
 	}
-
-	
 }

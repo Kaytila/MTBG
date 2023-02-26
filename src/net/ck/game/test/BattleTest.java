@@ -82,12 +82,10 @@ public class BattleTest
 		n1.setId(95);
 		n1.setType(NPCTypes.WARRIOR);
 		game.getCurrentMap().getLifeForms().add(n1);
-		logger.info("npcs: {}", game.getCurrentMap().getLifeForms().size());
 		n1.setMapPosition(new Point(4, 2));
+		game.getCurrentMap().mapTiles[4][2].setLifeForm(n1);
 		n1.initialize();
 		n1.wieldWeapon(Game.getCurrent().getWeaponList().get(3));
-		game.getCurrentMap().mapTiles[4][2].setLifeForm(n1);
-		//game.getCurrentPlayer().attack()
 		game.getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
 	}
 
@@ -99,12 +97,10 @@ public class BattleTest
 		n1.setId(93);
 		n1.setType(NPCTypes.WARRIOR);
 		game.getCurrentMap().getLifeForms().add(n1);
-		logger.info("npcs: {}", game.getCurrentMap().getLifeForms().size());
 		n1.setMapPosition(new Point(3, 2));
 		game.getCurrentMap().mapTiles[3][2].setLifeForm(n1);
 		n1.initialize();
 		n1.wieldWeapon(Game.getCurrent().getWeaponList().get(3));
-		//game.getCurrentPlayer().attack()
 		game.getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
 	}
 

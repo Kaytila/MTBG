@@ -170,15 +170,15 @@ public class Player extends AbstractEntity implements LifeForm
             {
                 logger.info("queued action, lets do this: {}", getQueuedActions().peek());
                 AbstractKeyboardAction realAction = (AbstractKeyboardAction) getQueuedActions().poll();
-                doAction(new PlayerAction(realAction));
-                EventBus.getDefault().post(new AdvanceTurnEvent(realAction.isHaveNPCAction()));
-
-
+                PlayerAction playerAction = new PlayerAction(realAction);
+                doAction(playerAction);
+                EventBus.getDefault().post(new AdvanceTurnEvent(playerAction));
+                return;
             }
         }
         //TODO make this more elegant ... somehow
         //TODO think about specifying sound effects and music
-        //logger.info("do action: {}", action.toString());
+        logger.info("do action: {}", action.toString());
         Point p = getMapPosition();
         Point mapsize = Game.getCurrent().getCurrentMap().getSize();
 
@@ -605,7 +605,7 @@ public class Player extends AbstractEntity implements LifeForm
             {
                 //logger.info("target can be reached");
                 //return true;
-                doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
+                //doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
             }
         }
         return false;

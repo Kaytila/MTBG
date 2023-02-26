@@ -56,7 +56,7 @@ public class World extends AbstractEntity implements LifeForm
 				break;
 		}
 		//getCurrentTurn().getEvents().add(event);
-		logger.info("random event: " + event.getTitle());
+		//logger.info("random event: " + event.getTitle());
 		return event;
 	}
 
@@ -315,11 +315,11 @@ public class World extends AbstractEntity implements LifeForm
 		switch (action.getTitle())
 		{
 			case "Bla 1":
-				logger.info("do something");
+				//logger.info("do something");
 				spawnNPC();
 				break;
 			default:
-				logger.info("nothing");
+				//logger.info("nothing");
 				break;
 		}
 	}
