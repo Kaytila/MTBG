@@ -9,25 +9,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Abstract Map, to define the most basic properties of a map extension parent
  * children
- * 
- * 
- * @author Claus
  *
+ * @author Claus
  */
 
 
-public class AbstractMap
+public class AbstractMap implements Serializable
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 	@Override
 	public String toString()
 	{
-		return "AbstractMap [name=" + name + ", childMaps=" + childMaps + ", parentMap=" + parentMap + ", size=" + size  + "]";
+		return "AbstractMap [name=" + name + ", childMaps=" + childMaps + ", parentMap=" + parentMap + ", size=" + size + "]";
 	}
 
 

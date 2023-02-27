@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -33,7 +34,7 @@ import java.util.Objects;
  *
  * @author Claus
  */
-public abstract class AbstractEntity implements LifeForm
+public abstract class AbstractEntity implements LifeForm, Serializable
 {
 
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));

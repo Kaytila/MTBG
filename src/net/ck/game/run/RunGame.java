@@ -190,24 +190,33 @@ public class RunGame
 						renderSplashFrame(g, 100, size);
 					}
 				}
-				else {
+				else
+				{
 					logger.error("game is null, how did this happen?");
 				}
+				g.dispose();
 			}
 			//finish splash, open UI
 			logger.info("splash finished");
 
-			if (splash != null) {
+			if (splash != null)
+			{
 				splash.close();
-				try {
+				try
+				{
 					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-				} catch (Exception e) {
+				} catch (Exception e)
+				{
 					throw new RuntimeException(e);
 				}
-			} else {
-				try {
+			}
+			else
+			{
+				try
+				{
 					javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-				} catch (Exception e) {
+				} catch (Exception e)
+				{
 					throw new RuntimeException(e);
 				}
 			}

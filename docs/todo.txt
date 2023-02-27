@@ -133,3 +133,6 @@ DONE finally take away the representationlayer, it adds nothing of value. <-- do
 
 DONE start again tests, lets see how much ui dependency we have <-- done
 
+todo take all image references out of the classes and exchange them by ints which point to the image in an image list.
+todo for today: check whether we have one club on the map, or several. do we need to have only one item of
+            todo: a kind? if the item is stateless, then yes. If not, then hmmmm.

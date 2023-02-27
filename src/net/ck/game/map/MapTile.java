@@ -10,12 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * @author Claus each individual tile, has x and y coordinates, connectors in
  * each direction and a type
  */
-public class MapTile implements Comparable<MapTile>
+public class MapTile implements Comparable<MapTile>, Serializable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 

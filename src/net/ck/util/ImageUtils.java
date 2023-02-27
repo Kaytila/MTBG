@@ -34,9 +34,11 @@ public class ImageUtils
 {
     private static final Logger logger = LogManager.getLogger(ImageUtils.class);
 
+    private static final int tileTypeEnumSize = TileTypes.values().length;
 
-    private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>();
-    private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>();
+    private static final int weatherTypeEnumSize = WeatherTypes.values().length;
+    private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>(tileTypeEnumSize);
+    private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>(weatherTypeEnumSize);
     private static BufferedImage bloodstainImage;
     private static BufferedImage healImage;
     private static BufferedImage hitImage;
@@ -44,6 +46,11 @@ public class ImageUtils
     private static BufferedImage missImage;
 
     private static BufferedImage inventoryImage;
+
+    /**
+     * contains the list of brightened up images
+     */
+    private static ArrayList<ImagePair> brightenedImages = new ArrayList<>();
 
     public static ArrayList<ImagePair> getBrightenedImages()
     {
@@ -55,7 +62,7 @@ public class ImageUtils
         ImageUtils.brightenedImages = brightenedImages;
     }
 
-    private static ArrayList<ImagePair> brightenedImages = new ArrayList<>();
+
 
 
     /**
@@ -683,7 +690,7 @@ public class ImageUtils
             // float percentage2 = 1.0f * (1.0f - 100 / (Math.max(x,y)) ;// / (Math.max(x,y)); // 50% bright - change this (or set dynamically) as you feel fit
 
             long start;
-            for (ImagePair iP : brightenedImages)
+            for (ImagePair iP : getBrightenedImages())
             {
                 if (iP.getPercentage() == percentage)
                 {
@@ -714,9 +721,10 @@ public class ImageUtils
                 g.setColor(new Color(0, 0, 0, 0));
                 g.fillRect(0, 0, img.getWidth(), img.getHeight());
             }
-            brightenedImages.add((new ImagePair(percentage, image, img)));
+            getBrightenedImages().add((new ImagePair(percentage, image, img)));
             //logger.debug("brighten up image create image takes: {}", System.nanoTime() - start);
             //GameLogs.getCreateBrightImages().add(System.nanoTime() - start);
+            g.dispose();
             return img;
         }
         //just return the image, do nothing
@@ -749,9 +757,7 @@ public class ImageUtils
     {
         BufferedImage newImage = createCompatibleImage(width, height);
         Graphics graphics = newImage.createGraphics();
-
         graphics.drawImage(image, 0, 0, width, height, null);
-
         graphics.dispose();
         return newImage;
     }
@@ -818,5 +824,4 @@ public class ImageUtils
 
         return inventoryImage;
     }
-
 }
