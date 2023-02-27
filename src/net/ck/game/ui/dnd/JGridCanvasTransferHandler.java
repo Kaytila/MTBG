@@ -1,12 +1,12 @@
 package net.ck.game.ui.dnd;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.items.AbstractItem;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.components.JGridCanvas;
 import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.DropAction;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,7 +87,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public boolean importData(TransferSupport support)
     {
-        Game.getCurrent().getController().setCurrentAction(new DropAction());
+        WindowBuilder.getController().setCurrentAction(new DropAction());
         int x = MouseInfo.getPointerInfo().getLocation().x - getGridCanvas().getLocationOnScreen().x;
         int y = MouseInfo.getPointerInfo().getLocation().y - getGridCanvas().getLocationOnScreen().y;
         logger.info("mouse position: {}", new Point(x, y));
@@ -108,7 +108,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public boolean canImport(TransferSupport support)
     {
-        if (Game.getCurrent().getController().getCurrentAction() != null)
+        if (WindowBuilder.getController().getCurrentAction() != null)
         {
             return false;
         }

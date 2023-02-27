@@ -859,5 +859,8 @@ History of the changes:
             Do maps need to be serialized? not sure. Perhaps, perhaps not. If not, then they go into Map Manager.
 2023-02-26: check which music to run in advanceTurn? moved to NoiseManager
 2023-02-26: introduced ItemManager.
+2023-02-27: moved commandqueue to Player where it belongs. took mousegrid state to UIStateMachine.
+            fixed a bug in runActions(). took controller out of game into WindowBuilder as this needs to be out of game
+            and all things gamey.
 2023-02-27: todo for today: check whether we have one club on the map, or several. do we need to have only one item of
             todo: a kind? if the item is stateless, then yes. If not, then hmmmm.

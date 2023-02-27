@@ -61,7 +61,7 @@ public class Player extends AbstractEntity implements LifeForm
         setLightSource(true);
         setLightRange(4);
         setId(number);
-
+        setQueuedActions(new CommandQueue());
         ArrayList<BufferedImage> images = new ArrayList<>();
 
         BufferedImage standardImage;
@@ -505,10 +505,6 @@ public class Player extends AbstractEntity implements LifeForm
         health = health - i;
     }
 
-    public CommandQueue getQueuedActions()
-    {
-        return Game.getCurrent().getCommandQueue();
-    }
 
     public int getArmorClass()
     {
@@ -611,11 +607,4 @@ public class Player extends AbstractEntity implements LifeForm
         }
         return false;
     }
-
-
-    public void setQueuedActions(CommandQueue queuedActions)
-    {
-        this.queuedActions = queuedActions;
-    }
-
 }

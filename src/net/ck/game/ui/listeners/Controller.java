@@ -95,11 +95,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
      */
     private StatsDialog statsDialog;
 
-    /**
-     * is the mouse outside of the grid?
-     * used for centering on player to make the mouse ways shorter
-     */
-    private boolean mouseOutsideOfGrid;
+
 
     /**
      * is drag Enabled
@@ -112,7 +108,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     public Controller()
     {
         EventBus.getDefault().register(this);
-        setMouseOutsideOfGrid(true);
+        UIStateMachine.setMouseOutsideOfGrid(true);
         WindowBuilder.buildWindow(this);
     }
 
@@ -345,7 +341,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     public void mouseEntered(MouseEvent e)
     {
         UIStateMachine.setCurrentMousePosition(MouseInfo.getPointerInfo().getLocation());
-        setMouseOutsideOfGrid(false);
+        UIStateMachine.setMouseOutsideOfGrid(false);
         WindowBuilder.getGridCanvas().requestFocusInWindow();
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
     }
@@ -355,19 +351,11 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         UIStateMachine.setCurrentMousePosition(null);
         UIStateMachine.setCurrentSelectedTile(null);
-        setMouseOutsideOfGrid(true);
+        UIStateMachine.setMouseOutsideOfGrid(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
     }
 
-    public boolean isMouseOutsideOfGrid()
-    {
-        return mouseOutsideOfGrid;
-    }
 
-    public void setMouseOutsideOfGrid(boolean mouseOutsideOfGrid)
-    {
-        this.mouseOutsideOfGrid = mouseOutsideOfGrid;
-    }
 
     /**
      * make sure we catch the selected tile, but only if selectTile is filled
@@ -614,7 +602,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     public void runQueue()
     {
         TimerManager.getQuequeTimer().start();
-        for (AbstractKeyboardAction ac : Game.getCurrent().getCommandQueue().getActionList())
+        for (AbstractKeyboardAction ac : Game.getCurrent().getCurrentPlayer().getQueuedActions().getActionList())
         {
             logger.info("ac: {}", ac);
             //runActions(ac, true);
@@ -630,7 +618,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         // all players have moved - en is no player.
         // NPCs are handled in game because the npcs on the current map
         // are loaded into game
-        EventBus.getDefault().post(new AdvanceTurnEvent(new PlayerAction(action)));
+        PlayerAction ac = new PlayerAction(action);
+        EventBus.getDefault().post(new AdvanceTurnEvent(ac));
 
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         setCurrentAction(null);
@@ -778,7 +767,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     runActions(getCurrentAction());
                     break;
                 }
-                if (isMouseOutsideOfGrid() == true)
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
@@ -803,7 +792,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     runActions(getCurrentAction());
                     break;
                 }
-                if (isMouseOutsideOfGrid() == true)
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
@@ -829,7 +818,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 }
                 else
                 {
-                    if (isMouseOutsideOfGrid() == true)
+                    if (UIStateMachine.isMouseOutsideOfGrid() == true)
                     {
                         CursorUtils.centerCursorOnPlayer();
                     }
@@ -845,7 +834,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             case MOVE:
             {
                 logger.info("move");
-                if (isMouseOutsideOfGrid() == true)
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }
@@ -888,7 +877,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     break;
                 }
                 //logger.info("attack");
-                if (isMouseOutsideOfGrid() == true)
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
                 {
                     CursorUtils.centerCursorOnPlayer();
                 }

@@ -17,6 +17,7 @@ import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.*;
 import net.ck.util.communication.sound.GameStateChanged;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -107,6 +108,9 @@ public abstract class AbstractEntity implements LifeForm
     private ArrayList<BufferedImage> animationImageList;
 
 
+    private CommandQueue queuedActions;
+
+
     public AbstractEntity()
     {
         inventory = new Inventory();
@@ -144,6 +148,17 @@ public abstract class AbstractEntity implements LifeForm
         this.animationImageList = animationImageList;
     }
 
+    public CommandQueue getQueuedActions()
+    {
+        return queuedActions;
+    }
+
+    public void setQueuedActions(CommandQueue queuedActions)
+    {
+        this.queuedActions = queuedActions;
+    }
+
+
     /**
      * so this is the method where the a* algorithm needs to go into.
      * TBD.
@@ -176,27 +191,27 @@ public abstract class AbstractEntity implements LifeForm
                 if (nextTile.x > getMapPosition().x)
                 {
                     logger.info("add east");
-                    Game.getCurrent().getCommandQueue().addEntry(new EastAction());
+                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new EastAction());
                 }
 
                 else if (nextTile.x < getMapPosition().x)
                 {
                     logger.info("add west");
-                    Game.getCurrent().getCommandQueue().addEntry(new WestAction());
+                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new WestAction());
                 }
 
                 else if (nextTile.y > getMapPosition().y)
                 {
                     logger.info("add south");
-                    Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
+                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new SouthAction());
                 }
 
                 else if (nextTile.y < getMapPosition().y)
                 {
                     logger.info("add north");
-                    Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
+                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new NorthAction());
                 }
-                Game.getCurrent().getController().runQueue();
+                WindowBuilder.getController().runQueue();
             }
         }
         return true;
@@ -211,13 +226,13 @@ public abstract class AbstractEntity implements LifeForm
         while (p.x < tileByCoordinates.getMapPosition().x)
         {
             p.move((p.x + 1), p.y);
-            Game.getCurrent().getCommandQueue().addEntry(new EastAction());
+            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new EastAction());
             logger.info("move east");
         }
 
         while (p.x > tileByCoordinates.getMapPosition().x)
         {
-            Game.getCurrent().getCommandQueue().addEntry(new WestAction());
+            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new WestAction());
             p.move((p.x - 1), p.y);
             logger.info("move west");
         }
@@ -225,14 +240,14 @@ public abstract class AbstractEntity implements LifeForm
         while (p.y < tileByCoordinates.getMapPosition().y)
         {
             p.move((p.x), p.y + 1);
-            Game.getCurrent().getCommandQueue().addEntry(new SouthAction());
+            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new SouthAction());
             logger.info("move south");
         }
 
         while (p.y > tileByCoordinates.getMapPosition().y)
         {
             p.move((p.x), p.y - 1);
-            Game.getCurrent().getCommandQueue().addEntry(new NorthAction());
+            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new NorthAction());
             logger.info("move north");
         }
         return true;
@@ -716,7 +731,4 @@ public abstract class AbstractEntity implements LifeForm
             return false;
         }
     }
-
-
-    public abstract CommandQueue getQueuedActions();
 }

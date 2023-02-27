@@ -41,6 +41,13 @@ public class UIStateMachine
 
     private static boolean hitAnimationRunning;
 
+
+    /**
+     * is the mouse outside of the grid?
+     * used for centering on player to make the mouse ways shorter
+     */
+    private static boolean mouseOutsideOfGrid;
+
     public static UIState getUiState()
     {
         return uiState;
@@ -50,6 +57,17 @@ public class UIStateMachine
     {
         UIStateMachine.uiState = uiState;
     }
+
+    public static boolean isMouseOutsideOfGrid()
+    {
+        return mouseOutsideOfGrid;
+    }
+
+    public static void setMouseOutsideOfGrid(boolean mo)
+    {
+        mouseOutsideOfGrid = mo;
+    }
+
 
     public static boolean isUiOpen()
     {

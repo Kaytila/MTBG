@@ -5,10 +5,11 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Queue;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * so I guess we need to have a command queue for running more than one commands after the other,
@@ -54,9 +55,21 @@ public class CommandQueue implements Queue
     }
 
     @Override
+    public void forEach(Consumer action)
+    {
+        Queue.super.forEach(action);
+    }
+
+    @Override
     public Object[] toArray()
     {
         return getActionList().toArray();
+    }
+
+    @Override
+    public Object[] toArray(IntFunction generator)
+    {
+        return Queue.super.toArray(generator);
     }
 
     @Override
@@ -75,28 +88,52 @@ public class CommandQueue implements Queue
         actionList = new ArrayList<>();
     }
 
-    @Override
-    public boolean add(Object o)
+
+    public boolean add(AbstractKeyboardAction o)
     {
-        return getActionList().add((AbstractKeyboardAction) o);
+        return getActionList().add(o);
     }
 
-    @Override
-    public boolean remove(Object o)
+
+    public boolean remove(AbstractKeyboardAction o)
     {
-        return getActionList().remove((AbstractKeyboardAction) o);
+        return getActionList().remove(o);
     }
 
     @Override
     public boolean addAll(Collection c)
     {
-         return getActionList().addAll(c);
+        return getActionList().addAll(c);
+    }
+
+    @Override
+    public boolean removeIf(Predicate filter)
+    {
+        return Queue.super.removeIf(filter);
     }
 
     @Override
     public void clear()
     {
         getActionList().clear();
+    }
+
+    @Override
+    public Spliterator spliterator()
+    {
+        return Queue.super.spliterator();
+    }
+
+    @Override
+    public Stream stream()
+    {
+        return Queue.super.stream();
+    }
+
+    @Override
+    public Stream parallelStream()
+    {
+        return Queue.super.parallelStream();
     }
 
     @Override
@@ -108,7 +145,7 @@ public class CommandQueue implements Queue
     @Override
     public boolean removeAll(Collection c)
     {
-         return getActionList().removeAll(c);
+        return getActionList().removeAll(c);
     }
 
     @Override
@@ -118,31 +155,43 @@ public class CommandQueue implements Queue
     }
 
     @Override
+    public boolean add(Object o)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean remove(Object o)
+    {
+        return false;
+    }
+
+    @Override
     public boolean offer(Object o)
     {
         return false;
     }
 
     @Override
-    public Object remove()
+    public AbstractKeyboardAction remove()
     {
         return getActionList().remove(0);
     }
 
     @Override
-    public Object poll()
+    public AbstractKeyboardAction poll()
     {
         return getActionList().remove(0);
     }
 
     @Override
-    public Object element()
+    public AbstractKeyboardAction element()
     {
-        return  getActionList().get(0);
+        return getActionList().get(0);
     }
 
     @Override
-    public Object peek()
+    public AbstractKeyboardAction peek()
     {
         return getActionList().get(0);
     }

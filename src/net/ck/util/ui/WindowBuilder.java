@@ -1,7 +1,6 @@
 package net.ck.util.ui;
 
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.game.Game;
 import net.ck.game.ui.buttons.*;
 import net.ck.game.ui.components.InputField;
 import net.ck.game.ui.components.JGridCanvas;
@@ -91,6 +90,16 @@ public class WindowBuilder {
     private static SaveButton saveButton;
 
     private static LoadButton loadButton;
+
+    public static Controller getController()
+    {
+        return controller;
+    }
+
+    public static void setController(Controller controller)
+    {
+        WindowBuilder.controller = controller;
+    }
 
     /**
      * mainWindow is not the mainWindow, this is actually the controller
@@ -271,7 +280,7 @@ public class WindowBuilder {
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
 
-        Game.getCurrent().setController(controller);
+        WindowBuilder.setController(controller);
         frame.setVisible(true);
 
         logger.info("finish: build window: UI is open");

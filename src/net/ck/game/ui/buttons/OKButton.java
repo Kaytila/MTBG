@@ -1,9 +1,9 @@
 package net.ck.game.ui.buttons;
 
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,9 +25,9 @@ public class OKButton extends JButton implements MouseListener
 		this.setFont(getFont());
 		setText("OK");
 		//this.setToolTipText(getLogger().getName());
-		this.setActionCommand("OK");
-		this.addActionListener(Game.getCurrent().getController());
-		this.setVisible(true);
+        this.setActionCommand("OK");
+        this.addActionListener(WindowBuilder.getController());
+        this.setVisible(true);
 		hovered = false;
 		this.addMouseListener(this);
 	}

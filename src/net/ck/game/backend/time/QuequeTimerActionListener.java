@@ -3,6 +3,7 @@ package net.ck.game.backend.time;
 import net.ck.game.backend.game.Game;
 import net.ck.game.backend.state.TimerManager;
 import net.ck.util.CodeUtils;
+import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.ActionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,12 +20,12 @@ public class QuequeTimerActionListener implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         //logger.info("action in queue timer");
-        if (Game.getCurrent().getCommandQueue().getActionList().isEmpty())
+        if (Game.getCurrent().getCurrentPlayer().getQueuedActions().getActionList().isEmpty())
         {
             TimerManager.getQuequeTimer().stop();
             return;
         }
-        EventBus.getDefault().post(ActionFactory.createAction(Game.getCurrent().getCommandQueue().getActionList().get(0).getType()));
-        Game.getCurrent().getCommandQueue().getActionList().remove(0);
+        AbstractKeyboardAction action = Game.getCurrent().getCurrentPlayer().getQueuedActions().poll();
+        EventBus.getDefault().post(ActionFactory.createAction(action.getType()));
     }
 }

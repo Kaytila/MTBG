@@ -8,6 +8,7 @@ import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.communication.keyboard.DropAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,20 +85,20 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
 	 */
 	@Override
 	public void drop(DropTargetDropEvent dtde)
-	{
-		logger.info("drop");
-		Game.getCurrent().getController().setCurrentAction(new DropAction());
-		if (!(Game.getCurrent().getController().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
-		{
-			logger.info("current action: {}", Game.getCurrent().getController().getCurrentAction());
-			return;
-		}
-		else
-		{
-			if (dtde.getTransferable().isDataFlavorSupported(ItemTransferable.ITEM_DATA_FLAVOR))
-			{
-				Transferable t = dtde.getTransferable();
-				if (t.isDataFlavorSupported(ItemTransferable.ITEM_DATA_FLAVOR))
+    {
+        logger.info("drop");
+        WindowBuilder.getController().setCurrentAction(new DropAction());
+        if (!(WindowBuilder.getController().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
+        {
+            logger.info("current action: {}", WindowBuilder.getController().getCurrentAction());
+            return;
+        }
+        else
+        {
+            if (dtde.getTransferable().isDataFlavorSupported(ItemTransferable.ITEM_DATA_FLAVOR))
+            {
+                Transferable t = dtde.getTransferable();
+                if (t.isDataFlavorSupported(ItemTransferable.ITEM_DATA_FLAVOR))
 				{
 					try
 					{

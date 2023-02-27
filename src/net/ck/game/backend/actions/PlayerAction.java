@@ -26,6 +26,7 @@ public class PlayerAction extends AbstractAction
 	public PlayerAction(AbstractKeyboardAction ev)
 	{
 		setEvent(ev);
+        setHaveNPCAction(ev.isHaveNPCAction());
 	}
 
 

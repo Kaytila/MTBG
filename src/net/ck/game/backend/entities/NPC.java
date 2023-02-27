@@ -38,7 +38,7 @@ public class NPC extends AbstractEntity implements LifeForm
     private boolean hostile;
     private boolean isStatic;
 
-    private CommandQueue queuedActions;
+
     private LifeForm victim;
     private boolean ranged;
     /**
@@ -283,15 +283,7 @@ public class NPC extends AbstractEntity implements LifeForm
         this.mobasks = mobasks;
     }
 
-    public CommandQueue getQueuedActions()
-    {
-        return queuedActions;
-    }
 
-    public void setQueuedActions(CommandQueue queuedActions)
-    {
-        this.queuedActions = queuedActions;
-    }
 
     /**
      * @param event GameTime has changed, check if there is a defined schedule for the npc

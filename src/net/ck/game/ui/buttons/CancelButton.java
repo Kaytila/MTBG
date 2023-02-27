@@ -1,9 +1,9 @@
 package net.ck.game.ui.buttons;
 
 import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.game.backend.game.Game;
 import net.ck.util.CodeUtils;
 import net.ck.util.ImageUtils;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,8 +27,8 @@ public class CancelButton extends JButton implements MouseListener
         setText(label);
 		//this.setToolTipText(getLogger().getName());
         this.setActionCommand(label);
-        this.addActionListener(Game.getCurrent().getController());
-		hovered = false;
+        this.addActionListener(WindowBuilder.getController());
+        hovered = false;
 		this.addMouseListener(this);
 		this.setVisible(true);
 		

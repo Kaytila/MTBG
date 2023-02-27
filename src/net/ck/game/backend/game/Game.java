@@ -4,7 +4,6 @@ package net.ck.game.backend.game;
 import net.ck.game.backend.actions.PlayerAction;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.*;
-import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.state.*;
 import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
@@ -13,7 +12,6 @@ import net.ck.game.items.ArmorPositions;
 import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
-import net.ck.game.ui.listeners.Controller;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.game.weather.AbstractWeatherSystem;
 import net.ck.util.CodeUtils;
@@ -96,11 +94,6 @@ public class Game implements Runnable, Serializable
     private AbstractWeatherSystem weatherSystem;
 
     /**
-     * controller as interaction between MainWindow and Game and controller here is the WindowBuilder and the Controller class in one. This actually needs to be treated differently.
-     */
-    private Controller controller;
-
-    /**
      * this holds the actual game time which is increasing with time
      */
     private GameTime gameTime;
@@ -108,7 +101,7 @@ public class Game implements Runnable, Serializable
     /**
      * so if we have a goto command, this needs to go into a command queue
      */
-    private CommandQueue commandQueue;
+
 
     private GameState previousGameState;
 
@@ -164,7 +157,7 @@ public class Game implements Runnable, Serializable
         getTurns().add(turn);
         setEn(new World());
         GameStateMachine.getCurrent().setCurrentState(GameState.WORLD);
-        setCommandQueue(new CommandQueue());
+
         setGameTime(new GameTime());
         getGameTime().setCurrentHour(8);
 
@@ -209,10 +202,11 @@ public class Game implements Runnable, Serializable
     public void addManyNPCs(Map map)
     {
         int max = 100;
-        for (int i = 0; i <= max; i++)
+        for (int i = 1; i <= max; i++)
         {
             NPC np = new NPC();
-            np.setMapPosition(new Point(i, 1));
+            np.setMapPosition(new Point(i, i));
+            map.mapTiles[i][i].setLifeForm(np);
             np.setId(i + 5);
             np.setType(NPCTypes.WARRIOR);
             np.initialize();
@@ -536,14 +530,6 @@ public class Game implements Runnable, Serializable
         Game.getCurrent().getCurrentMap().getLifeForms().add(Game.getCurrent().getCurrentPlayer());
     }
 
-    public Controller getController() {
-        return controller;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
 
     /**
      * <a href="https://www.youtube.com/watch?v=VpH33Uw-_0E">https://www.youtube.com/watch?v=VpH33Uw-_0E</a>
@@ -633,16 +619,6 @@ public class Game implements Runnable, Serializable
     public void setGameTime(GameTime gameTime)
     {
         this.gameTime = gameTime;
-    }
-
-    public CommandQueue getCommandQueue()
-    {
-        return commandQueue;
-    }
-
-    public void setCommandQueue(CommandQueue commandQueue)
-    {
-        this.commandQueue = commandQueue;
     }
 
     public int getBaseHealth()

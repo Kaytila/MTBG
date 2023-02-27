@@ -495,8 +495,6 @@ public class CursorUtils
         int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
         Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
 		CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
-		Game.getCurrent().getController().setMouseOutsideOfGrid(false);
+		UIStateMachine.setMouseOutsideOfGrid(false);
 	}
-
-
 }

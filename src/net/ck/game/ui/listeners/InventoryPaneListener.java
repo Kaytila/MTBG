@@ -10,6 +10,7 @@ import net.ck.util.communication.graphics.CursorChangeEvent;
 import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.KeyboardActionType;
 import net.ck.util.communication.keyboard.WindowClosingAction;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -137,8 +138,8 @@ public class InventoryPaneListener implements ActionListener, ItemListener, List
 			if (getAction().getType().equals(KeyboardActionType.DROP))
 			{
 				e.consume();
-				EventBus.getDefault().post(new CursorChangeEvent(CursorUtils.createCustomCursorFromImage(getInventoryPane().getSelectedValue().getItemImage())));
-				Game.getCurrent().getController().setCurrentItemInHand(getInventoryPane().getSelectedValue());
+                EventBus.getDefault().post(new CursorChangeEvent(CursorUtils.createCustomCursorFromImage(getInventoryPane().getSelectedValue().getItemImage())));
+                WindowBuilder.getController().setCurrentItemInHand(getInventoryPane().getSelectedValue());
 				WindowClosingAction close = new WindowClosingAction(getInventoryPane().getParentDialog());
 				close.actionPerformed(null);
 				

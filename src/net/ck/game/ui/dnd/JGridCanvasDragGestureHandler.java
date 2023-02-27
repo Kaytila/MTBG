@@ -1,10 +1,10 @@
 package net.ck.game.ui.dnd;
 
-import net.ck.game.backend.game.Game;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.components.JGridCanvas;
 import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
+import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,17 +33,17 @@ public class JGridCanvasDragGestureHandler implements DragGestureListener
 	 */
 	public void dragGestureRecognized(DragGestureEvent dge)
 	{
-		if (Game.getCurrent().getController().isMousePressed())
-		{
-			return;
-		}
-		else
-		{
-			logger.info("dragGestureRecognized");
-			MapTile tile = MapUtils.getMapTileByCoordinatesAsPoint(dge.getDragOrigin());
-			//how the flying fuck this can be null i do not comprehend but it appears to fix it.
-			if (tile == null)
-			{
+        if (WindowBuilder.getController().isMousePressed())
+        {
+            return;
+        }
+        else
+        {
+            logger.info("dragGestureRecognized");
+            MapTile tile = MapUtils.getMapTileByCoordinatesAsPoint(dge.getDragOrigin());
+            //how the flying fuck this can be null i do not comprehend but it appears to fix it.
+            if (tile == null)
+            {
 
 			}
 			else
