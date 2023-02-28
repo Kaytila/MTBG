@@ -7,7 +7,6 @@ import net.ck.game.backend.game.Game;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
 import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
@@ -44,19 +43,16 @@ public class AnimationSystemTimerTask extends TimerTask
                             // if dead, stay corpse, or blood stain
                             if (p.getState().equals(LifeFormState.DEAD))
                             {
-                                p.setCurrentImage(ImageUtils.getBloodstainImage());
+                                p.setSpecialImage(0);
                             }
                             //if unconcious, stay unmoving
                             else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
                             {
                                 p.setCurrImage(0);
-                                p.setCurrentImage(p.getAnimationImageList().get(0));
                             }
                             else// (p.getState().equals(LifeFormState.ALIVE))
                             {
-                                int ra = rand.nextInt(GameConfiguration.animationCycles);
-                                p.setCurrImage(ra);
-                                p.setCurrentImage(p.getAnimationImageList().get(ra));
+                                p.setCurrImage(rand.nextInt(GameConfiguration.animationCycles));
                             }
                         }
                     }

@@ -3,7 +3,6 @@ package net.ck.game.animation.lifeform;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
 import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,11 +27,11 @@ public class HitMissImageTimerTask extends TimerTask
 		setRunning(false);
 		if (getLifeForm().getState().equals(LifeFormState.DEAD))
 		{
-			getLifeForm().setCurrentImage(ImageUtils.getBloodstainImage());
+			getLifeForm().setSpecialImage(0);
 		}
 		else
 		{
-			getLifeForm().setCurrentImage(getLifeForm().getAnimationImageList().get(0));
+			getLifeForm().setCurrImage(0);
 		}
 	}
 

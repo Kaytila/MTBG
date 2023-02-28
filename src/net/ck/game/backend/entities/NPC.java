@@ -14,10 +14,8 @@ import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.astar.AStar;
-import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.*;
 import net.ck.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.*;
 
 public class NPC extends AbstractEntity implements LifeForm
@@ -108,12 +105,7 @@ public class NPC extends AbstractEntity implements LifeForm
         this.hostile = hostile;
     }
 
-    @Override
-    public void evade()
-    {
-        this.setCurrentImage(ImageUtils.getMissImage());
-        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
-    }
+
 
     @Override
     public Point getOriginalTargetMapPosition()
@@ -223,20 +215,8 @@ public class NPC extends AbstractEntity implements LifeForm
         getInventory().add(ItemManager.getWeaponList().get(1));
         wieldWeapon(ItemManager.getWeaponList().get(1));
 
-        ArrayList<BufferedImage> images = new ArrayList<>();
+        setCurrImage(0);
 
-        BufferedImage standardImage;
-        ArrayList<BufferedImage> movingImages;
-
-        standardImage = ImageUtils.loadStandardPlayerImage(this);
-        movingImages = ImageUtils.loadMovingPlayerImages(this);
-
-        images.add(standardImage);
-        images.addAll(movingImages);
-        setAnimationImageList(images);
-        setStandardImage(standardImage);
-
-        setCurrentImage(getAnimationImageList().get(0));
         if (getId() == 4)
         {
             setSchedule(new Schedule(this));
@@ -505,52 +485,9 @@ public class NPC extends AbstractEntity implements LifeForm
 
     }
 
-    @Override
-    public void increaseHealth(int i)
-    {
-        this.setCurrentImage(ImageUtils.getHealImage());
-        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
-        if (getHealth() >= 0)
-        {
-            setHealth(getHealth() + i);
-            setState(LifeFormState.ALIVE);
-        }
-        else
-        //what is dead will stay dead
-        {
-            setHealth(-1);
-            setState(LifeFormState.DEAD);
-            setHostile(false);
-        }
-    }
 
-    @Override
-    public void decreaseHealth(int i)
-    {
-        this.setCurrentImage(ImageUtils.getHitImage());
-        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
-        if (getHealth() - i > 0)
-        {
-            setHealth(getHealth() - i);
-        }
-        else if (getHealth() - i == 0)
-        {
-            setHealth(0);
-            setState(LifeFormState.UNCONSCIOUS);
-            setHostile(false);
-        }
-        else
-        {
-            setHealth(-1);
-            setState(LifeFormState.DEAD);
-            setHostile(false);
-        }
-        setHealth(0);
-        setState(LifeFormState.DEAD);
-        setHostile(false);
-    }
 
     @Override
     public int getArmorClass()

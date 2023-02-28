@@ -12,11 +12,9 @@ import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
-import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.graphics.PlayerPositionChanged;
 import net.ck.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -61,22 +58,10 @@ public class Player extends AbstractEntity implements LifeForm
         setLightRange(4);
         setId(number);
         setQueuedActions(new CommandQueue());
-        ArrayList<BufferedImage> images = new ArrayList<>();
 
-        BufferedImage standardImage;
-        ArrayList<BufferedImage> movingImages;
-
-        standardImage = ImageUtils.loadStandardPlayerImage();
-        movingImages = ImageUtils.loadMovingPlayerImages();
-
-        images.add(standardImage);
-        images.addAll(movingImages);
-        setAnimationImageList(images);
-        setStandardImage(standardImage);
 
         setType(NPCTypes.PLAYER);
 
-        setCurrentImage(getAnimationImageList().get(0));
 
         this.getItem(ItemManager.getArmorList().get(1));
         this.getItem(ItemManager.getArmorList().get(2));
@@ -103,7 +88,7 @@ public class Player extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
-        setState(LifeFormState.ALIVE);
+
     }
 
     @Override
@@ -408,13 +393,6 @@ public class Player extends AbstractEntity implements LifeForm
     }
 
     @Override
-    public void evade()
-    {
-        this.setCurrentImage(ImageUtils.getMissImage());
-        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
-    }
-
-    @Override
     public Point getOriginalTargetMapPosition()
     {
         return null;
@@ -492,18 +470,6 @@ public class Player extends AbstractEntity implements LifeForm
     public void setHealth(int i)
     {
         health = i;
-    }
-
-    @Override
-    public void increaseHealth(int i)
-    {
-        health = health + i;
-    }
-
-    @Override
-    public void decreaseHealth(int i)
-    {
-        health = health - i;
     }
 
 

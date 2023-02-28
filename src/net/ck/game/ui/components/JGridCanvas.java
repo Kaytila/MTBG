@@ -294,7 +294,7 @@ public class JGridCanvas extends JComponent
                             }
                             else
                             {
-                                g.drawImage(tile.getLifeForm().getCurrentImage(), row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+                                //g.drawImage(tile.getLifeForm().getCurrentImage(), row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
                             }
                         }
                         else
@@ -308,7 +308,7 @@ public class JGridCanvas extends JComponent
                                 }
                                 else
                                 {
-                                    g.drawImage(tile.getLifeForm().getCurrentImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                    //g.drawImage(tile.getLifeForm().getCurrentImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
                                 }
                             }
                         }
@@ -526,13 +526,13 @@ public class JGridCanvas extends JComponent
                             //there is a npc on the tile
                             if (filled)
                             {
-                                g.drawImage(ImageUtils.brightenUpImage(n.getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
+                                //g.drawImage(ImageUtils.brightenUpImage(n.getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
                             }
 
                             //PC !!!
                             if (t.getMapPosition().equals(Game.getCurrent().getCurrentPlayer().getMapPosition()))
                             {
-                                g.drawImage(ImageUtils.brightenUpImage(Game.getCurrent().getCurrentPlayer().getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
+                                //g.drawImage(ImageUtils.brightenUpImage(Game.getCurrent().getCurrentPlayer().getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
                             }
                         }
                     }
@@ -1026,13 +1026,13 @@ public class JGridCanvas extends JComponent
                 int y = entity.getUIPosition().y;
                 if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
                 {
-                    g.drawImage(entity.getCurrentImage(), GameConfiguration.tileSize * x, GameConfiguration.tileSize * y, this);
+                    //g.drawImage(entity.getCurrentImage(), GameConfiguration.tileSize * x, GameConfiguration.tileSize * y, this);
                 }
                 else
                 {
                     if (GameConfiguration.tileSize / GameConfiguration.imageSize.x == 2)
                     {
-                        g.drawImage(entity.getCurrentImage(), ((GameConfiguration.tileSize * x) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * y) + (GameConfiguration.tileSize / 4)), this);
+                        //g.drawImage(entity.getCurrentImage(), ((GameConfiguration.tileSize * x) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * y) + (GameConfiguration.tileSize / 4)), this);
                     }
                 }
             }

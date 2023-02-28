@@ -2,6 +2,7 @@ package net.ck.util;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.NPC;
+import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.entities.Player;
 import net.ck.game.backend.game.Game;
 import net.ck.game.graphics.ImagePair;
@@ -347,7 +348,10 @@ public class ImageUtils
     public static void checkImageSize(Player player)
     {
         // first player
-        Point p = new Point(player.getStandardImage().getWidth(), player.getStandardImage().getHeight());
+
+        BufferedImage image = ImageManager.getLifeformImages().get(NPCTypes.PLAYER)[0];
+
+        Point p = new Point(image.getWidth(), image.getHeight());
 
         // check if the dimensions match, first x
         if (GameConfiguration.imageSize.x == p.x)

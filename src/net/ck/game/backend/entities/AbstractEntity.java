@@ -10,7 +10,6 @@ import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
@@ -23,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -36,7 +34,6 @@ import java.util.Objects;
  */
 public abstract class AbstractEntity implements LifeForm, Serializable
 {
-
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
@@ -56,13 +53,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      * state of the PC/NPC - alive or dead or any other really.
      */
     protected LifeFormState state;
-    /**
-     * this the currently visible image.
-     * in case of animation this is where the currently visible image is stored
-     * in unanimated cases, standard image and current are basically the same
-     * perhaps this will be changed
-     */
-    protected BufferedImage currentImage;
+
     /**
      * number has either the player number or the number of the npc on the current map
      */
@@ -100,18 +91,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      * what level does the entity have?
      */
     private int level;
-    /**
-     * fallback image not really sure I need that at all
-     */
-    private BufferedImage standardImage;
-
 
     private int currImage;
 
     private int specialImage = -1;
-
-    private ArrayList<BufferedImage> animationImageList;
-
 
     private CommandQueue queuedActions;
 
@@ -123,6 +106,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         inventory = new Inventory();
         attributes = new Attributes();
         setLevel(1);
+        setCurrImage(0);
+        setState(LifeFormState.ALIVE);
     }
 
     public NPCTypes getType()
@@ -133,37 +118,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     public void setType(NPCTypes type)
     {
         this.type = type;
-    }
-
-
-    public BufferedImage getCurrentImage()
-    {
-        return currentImage;
-    }
-
-    public void setCurrentImage(BufferedImage currentImage)
-    {
-        this.currentImage = currentImage;
-    }
-
-    public BufferedImage getStandardImage()
-    {
-        return standardImage;
-    }
-
-    public void setStandardImage(BufferedImage standardImage)
-    {
-        this.standardImage = standardImage;
-    }
-
-    public ArrayList<BufferedImage> getAnimationImageList()
-    {
-        return animationImageList;
-    }
-
-    public void setAnimationImageList(ArrayList<BufferedImage> animationImageList)
-    {
-        this.animationImageList = animationImageList;
     }
 
     public CommandQueue getQueuedActions()
@@ -701,7 +655,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         logger.info("hit");
                         n.decreaseHealth(5);
-                        n.setCurrentImage(ImageUtils.getHitImage());
                         EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                         return true;
                     }
@@ -709,7 +662,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         logger.info("miss");
                         n.evade();
-                        n.setCurrentImage(ImageUtils.getMissImage());
                         EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                         return false;
                     }
@@ -723,16 +675,12 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         logger.info("hit");
                         n.decreaseHealth(5);
-                        n.setCurrentImage(ImageUtils.getHitImage());
-                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                         return true;
                     }
                     else
                     {
                         logger.info("miss");
                         n.evade();
-                        n.setCurrentImage(ImageUtils.getMissImage());
-                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                         return false;
                     }
                 }
@@ -769,4 +717,62 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     {
         this.specialImage = specialImage;
     }
+
+
+    @Override
+    public void evade()
+    {
+        this.setSpecialImage(0);
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+    }
+
+
+    @Override
+    public void increaseHealth(int i)
+    {
+        this.setSpecialImage(1);
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+
+        if (getHealth() >= 0)
+        {
+            setHealth(getHealth() + i);
+            setState(LifeFormState.ALIVE);
+        }
+        else
+        //what is dead will stay dead
+        {
+            setHealth(-1);
+            setState(LifeFormState.DEAD);
+            setHostile(false);
+        }
+    }
+
+    @Override
+    public void decreaseHealth(int i)
+    {
+        this.setSpecialImage(2);
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+
+        if (getHealth() - i > 0)
+        {
+            setHealth(getHealth() - i);
+        }
+        else if (getHealth() - i == 0)
+        {
+            setHealth(0);
+            setState(LifeFormState.UNCONSCIOUS);
+            setHostile(false);
+        }
+        else
+        {
+            setHealth(-1);
+            setState(LifeFormState.DEAD);
+            setHostile(false);
+        }
+        setHealth(-1);
+        setState(LifeFormState.DEAD);
+        setHostile(false);
+    }
+
+
 }

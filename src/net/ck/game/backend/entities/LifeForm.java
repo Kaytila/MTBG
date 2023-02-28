@@ -9,8 +9,6 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.util.communication.keyboard.GetAction;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Queue;
 
@@ -106,17 +104,9 @@ public interface LifeForm
 
     AbstractKeyboardAction getRunningAction();
 
-    void setCurrentImage(BufferedImage hitImage);
-
-    BufferedImage getCurrentImage();
-
-    ArrayList<BufferedImage> getAnimationImageList();
-
     int getCurrImage();
 
-
     void setCurrImage(int currImage);
-
 
     int getSpecialImage();
 
