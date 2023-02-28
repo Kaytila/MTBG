@@ -20,6 +20,7 @@ public class HitMissImageTimerTask extends TimerTask
 	public HitMissImageTimerTask(LifeForm n)
 	{
 		setLifeForm(n);
+		setRunning(true);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package net.ck.game.backend.entities;
 
+import net.ck.game.animation.lifeform.AnimationSystemTimerTask;
+import net.ck.game.animation.lifeform.AnimationSystemUtilTimer;
 import net.ck.game.animation.lifeform.HitMissImageTimerTask;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
@@ -639,10 +641,13 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     try
                     {
                         HitMissImageTimerTask task = new HitMissImageTimerTask(n);
-                        task.setRunning(true);
                         TimerManager.getHitMissImageTimer().setHitMissImageTimerTask(task);
-                        TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().setRunning(true);
                         TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
+                        TimerManager.getAnimationSystemUtilTimer().cancel();
+                        TimerManager.getAnimationSystemUtilTimer().purge();
+                        TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
+                        AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
+                        TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
                     } catch (Exception e)
                     {
                         e.printStackTrace();

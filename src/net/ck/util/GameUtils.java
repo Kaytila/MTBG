@@ -313,12 +313,14 @@ public class GameUtils
             {
                 logger.info("initializing animation system timer as util timer");
                 TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
+                AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
+                TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, 0, GameConfiguration.animationLifeformDelay);
             }
             else
             {
                 logger.info("initializing Animation System as Swing Timer");
                 AnimationSystemActionListener animationSystemActionListener = new AnimationSystemActionListener();
-                TimerManager.setAnimationSystemTimer(new AnimationSystemTimer((int) GameConfiguration.animationLifeformDelay, animationSystemActionListener));
+                TimerManager.setAnimationSystemTimer(new AnimationSystemTimer(GameConfiguration.animationLifeformDelay, animationSystemActionListener));
                 TimerManager.getAnimationSystemTimer().setRepeats(true);
                 TimerManager.getAnimationSystemTimer().start();
             }
