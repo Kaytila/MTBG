@@ -709,34 +709,7 @@ public class JGridCanvas extends JComponent
                 this.paint();
             });
         }
-        /*javax.swing.SwingUtilities.invokeLater(() ->
-        {
-            setHighlightPosition(event.getMapPosition());
-        });
 
-        if (GameConfiguration.useEvents)
-        {
-            setHighlightPosition(event.getMapPosition());
-            if (getHighlightPosition() != null)
-            {
-                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(getHighlightPosition());
-                this.getGraphics().setColor(Color.YELLOW);
-
-                if (getHighlightPosition() == Game.getCurrent().getCurrentPlayer().getMapPosition())
-                {
-                    this.getGraphics().setColor(Color.YELLOW);
-                    this.getGraphics().drawRect((screenPosition.x * GameConfiguration.tileSize) + getHighlightCount(), (screenPosition.y * GameConfiguration.tileSize) + getHighlightCount(), GameConfiguration.tileSize - (getHighlightCount() * 2), GameConfiguration.tileSize - (getHighlightCount() * 2));
-                    logger.info("highlight count: {}", getHighlightCount());
-                }
-                else
-                {
-                    this.getGraphics().setColor(Color.YELLOW);
-                    this.getGraphics().drawRect((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
-                    logger.info("drawing here????");
-                }
-                this.paint(screenPosition.x * GameConfiguration.tileSize - 10, screenPosition.y * GameConfiguration.tileSize - 10, screenPosition.x * GameConfiguration.tileSize *GameConfiguration.tileSize + 10, screenPosition.y * GameConfiguration.tileSize * GameConfiguration.tileSize + 10);
-            }
-        }*/
     }
 
 

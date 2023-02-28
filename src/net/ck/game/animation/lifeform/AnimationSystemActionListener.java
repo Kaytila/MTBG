@@ -1,12 +1,14 @@
 package net.ck.game.animation.lifeform;
 
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.backend.entities.ActionStates;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
 import net.ck.game.backend.game.Game;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageManager;
 import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import org.apache.logging.log4j.LogManager;
@@ -44,7 +46,7 @@ public class AnimationSystemActionListener implements ActionListener
                             // if dead, stay corpse, or blood stain
                             if (p.getState().equals(LifeFormState.DEAD))
                             {
-                                p.setSpecialImage(0);
+                                p.setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
                             }
                             //if unconcious, stay unmoving
                             else if (p.getState().equals(LifeFormState.UNCONSCIOUS))

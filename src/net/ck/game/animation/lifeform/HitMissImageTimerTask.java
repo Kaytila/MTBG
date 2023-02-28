@@ -1,8 +1,10 @@
 package net.ck.game.animation.lifeform;
 
+import net.ck.game.backend.entities.ActionStates;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,11 +25,11 @@ public class HitMissImageTimerTask extends TimerTask
 	@Override
 	public void run()
 	{
-		logger.info("HitMissImageTimerTask is running running running why does it not do anything");
+		logger.info("HitMissImageTimerTask is running");
 		setRunning(false);
 		if (getLifeForm().getState().equals(LifeFormState.DEAD))
 		{
-			getLifeForm().setSpecialImage(0);
+			getLifeForm().setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
 		}
 		else
 		{

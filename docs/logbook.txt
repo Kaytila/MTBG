@@ -866,3 +866,5 @@ History of the changes:
 2023-02-28: first step to removing images from lifeforms is done. ImageManager is taking care of standard images now.
             safety commit.
 2023-02-28: removing images is done. Special images are not yet working. Need to think of a good way to deal with that.
+2023-02-28: updated generic image lists to include the special images for each type. a little bit of overhead in images
+            but very easy to deal with as I just need to alter one place.

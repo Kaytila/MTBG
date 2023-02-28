@@ -1,6 +1,7 @@
 package net.ck.util;
 
 import net.ck.game.backend.configuration.GameConfiguration;
+import net.ck.game.backend.entities.ActionStates;
 import net.ck.game.backend.entities.NPCTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,14 +21,17 @@ public class ImageManager
      * this contains the images like hit miss, bloodstain, need to keep a list somewhere
      * or rather change the helpers in imageutils accordingly.
      */
-    private static Hashtable<Integer, BufferedImage[]> additionalImages = new Hashtable<>();
+    private static Hashtable<ActionStates, BufferedImage> additionalImages = new Hashtable<>(ActionStates.values().length);
 
-    public static Hashtable<Integer, BufferedImage[]> getAdditionalImages()
+
+    private static Hashtable<ActionStates, Integer> actionImages = new Hashtable<>(ActionStates.values().length);
+
+    public static Hashtable<ActionStates, BufferedImage> getAdditionalImages()
     {
         return additionalImages;
     }
 
-    public static void setAdditionalImages(Hashtable<Integer, BufferedImage[]> additionalImages)
+    public static void setAdditionalImages(Hashtable<ActionStates, BufferedImage> additionalImages)
     {
         ImageManager.additionalImages = additionalImages;
     }
@@ -50,19 +54,78 @@ public class ImageManager
             try
             {
                 logger.info("type: {}", type);
-                BufferedImage[] images = new BufferedImage[GameConfiguration.animationCycles];
-                for (int i = 0; i < GameConfiguration.animationCycles; i++)
+                BufferedImage[] images = new BufferedImage[GameConfiguration.animationCycles + GameConfiguration.numberOfAdditionalImages];
+                int i;
+                for (i = 0; i < GameConfiguration.animationCycles; i++)
                 {
                     logger.info("image: {}", i);
                     BufferedImage image = ImageUtils.makeImageTransparent(GameConfiguration.npcImages + type + File.separator + "image" + i + ".png");
                     images[i] = image;
                 }
+                images[i] = ImageUtils.loadImage("combat", "hit");
+                getActionImages().put(ActionStates.HIT, i);
+                i++;
+                images[i] = ImageUtils.loadImage("combat", "miss");
+                getActionImages().put(ActionStates.MISS, i);
+                i++;
+                images[i] = ImageUtils.loadImage("combat", "kill");
+                getActionImages().put(ActionStates.KILL, i);
+                i++;
+                images[i] = ImageUtils.loadImage("combat", "heal");
+                getActionImages().put(ActionStates.HEAL, i);
+
                 getLifeformImages().put(type, images);
+                i = 0;
             } catch (Exception e)
             {
+                e.printStackTrace();
                 logger.debug("missing images for type: {}", type);
             }
         }
+    }
+
+    public static void loadAdditionalImages()
+    {
+
+        for (ActionStates state : ActionStates.values())
+        {
+            switch (state)
+            {
+                case HIT:
+                    getAdditionalImages().put(state, ImageUtils.loadImage("combat", "hit"));
+                    break;
+                case HEAL:
+                    getAdditionalImages().put(state, ImageUtils.loadImage("combat", "heal"));
+                    break;
+                case MISS:
+                    getAdditionalImages().put(state, ImageUtils.loadImage("combat", "miss"));
+                    break;
+                case KILL:
+                    getAdditionalImages().put(state, ImageUtils.loadImage("combat", "kill"));
+                    break;
+                case POISON:
+                    break;
+                default:
+                    logger.info("interesting");
+                    break;
+            }
+        }
+    }
+
+
+    public static Hashtable<ActionStates, Integer> getActionImages()
+    {
+        return actionImages;
+    }
+
+    public static void setActionImages(Hashtable<ActionStates, Integer> actionImages)
+    {
+        ImageManager.actionImages = actionImages;
+    }
+
+    public static Integer getActionImage(ActionStates state)
+    {
+        return getActionImages().get(state);
     }
 
 }

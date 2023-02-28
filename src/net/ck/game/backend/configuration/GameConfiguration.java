@@ -204,6 +204,7 @@ public class GameConfiguration
 
 
     public static final boolean useImageManager = true;
+    public static final int numberOfAdditionalImages = 4;
 }
 
 

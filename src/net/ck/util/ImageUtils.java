@@ -35,16 +35,9 @@ public class ImageUtils
 {
     private static final Logger logger = LogManager.getLogger(ImageUtils.class);
 
-    private static final int tileTypeEnumSize = TileTypes.values().length;
-
-    private static final int weatherTypeEnumSize = WeatherTypes.values().length;
-    private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>(tileTypeEnumSize);
-    private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>(weatherTypeEnumSize);
+    private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>(TileTypes.values().length);
+    private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>(WeatherTypes.values().length);
     private static BufferedImage bloodstainImage;
-    private static BufferedImage healImage;
-    private static BufferedImage hitImage;
-
-    private static BufferedImage missImage;
 
     private static BufferedImage inventoryImage;
 
@@ -777,48 +770,6 @@ public class ImageUtils
         GraphicsConfiguration configuration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
         return configuration.createCompatibleImage(width, height, Transparency.TRANSLUCENT);
     }
-
-    public static BufferedImage getHitImage()
-    {
-        if (hitImage == null)
-        {
-            hitImage = ImageUtils.loadImage("combat", "explosion");
-        }
-
-        return hitImage;
-    }
-
-
-    public static BufferedImage getBloodstainImage()
-    {
-        if (bloodstainImage == null)
-        {
-            bloodstainImage = ImageUtils.loadImage("combat", "bloodstain");
-        }
-
-        return bloodstainImage;
-    }
-
-    public static BufferedImage getHealImage()
-    {
-        if (healImage == null)
-        {
-            healImage = ImageUtils.loadImage("combat", "heal");
-        }
-
-        return healImage;
-    }
-
-    public static BufferedImage getMissImage()
-    {
-        if (missImage == null)
-        {
-            missImage = ImageUtils.loadImage("combat", "miss");
-        }
-
-        return missImage;
-    }
-
 
     public static BufferedImage getInventoryImage()
     {

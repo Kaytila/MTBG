@@ -10,6 +10,7 @@ import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageManager;
 import net.ck.util.MapUtils;
 import net.ck.util.NPCUtils;
 import net.ck.util.astar.AStar;
@@ -93,8 +94,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     private int level;
 
     private int currImage;
-
-    private int specialImage = -1;
 
     private CommandQueue queuedActions;
 
@@ -708,21 +707,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         this.currImage = currImage;
     }
 
-    public int getSpecialImage()
-    {
-        return specialImage;
-    }
-
-    public void setSpecialImage(int specialImage)
-    {
-        this.specialImage = specialImage;
-    }
-
-
     @Override
     public void evade()
     {
-        this.setSpecialImage(0);
+        this.setCurrImage(ImageManager.getActionImage(ActionStates.MISS));
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
 
@@ -730,7 +718,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     @Override
     public void increaseHealth(int i)
     {
-        this.setSpecialImage(1);
+        this.setCurrImage(ImageManager.getActionImage(ActionStates.HEAL));
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
         if (getHealth() >= 0)
@@ -750,7 +738,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     @Override
     public void decreaseHealth(int i)
     {
-        this.setSpecialImage(2);
+        this.setCurrImage(ImageManager.getActionImage(ActionStates.HIT));
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
         if (getHealth() - i > 0)
