@@ -106,10 +106,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     private BufferedImage standardImage;
 
 
+    private int currImage;
+
+    private int specialImage = -1;
+
     private ArrayList<BufferedImage> animationImageList;
 
 
     private CommandQueue queuedActions;
+
+    private NPCTypes type;
 
 
     public AbstractEntity()
@@ -118,6 +124,17 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         attributes = new Attributes();
         setLevel(1);
     }
+
+    public NPCTypes getType()
+    {
+        return type;
+    }
+
+    public void setType(NPCTypes type)
+    {
+        this.type = type;
+    }
+
 
     public BufferedImage getCurrentImage()
     {
@@ -731,5 +748,25 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             logger.debug("no tile");
             return false;
         }
+    }
+
+    public int getCurrImage()
+    {
+        return currImage;
+    }
+
+    public void setCurrImage(int currImage)
+    {
+        this.currImage = currImage;
+    }
+
+    public int getSpecialImage()
+    {
+        return specialImage;
+    }
+
+    public void setSpecialImage(int specialImage)
+    {
+        this.specialImage = specialImage;
     }
 }

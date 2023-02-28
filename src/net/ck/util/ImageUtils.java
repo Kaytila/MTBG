@@ -254,17 +254,18 @@ public class ImageUtils
         return bimage;
     }
 
-    public static BufferedImage loadStandardPlayerImage(Player player)
+    public static BufferedImage loadStandardPlayerImage()
     {
-        return ImageUtils.makeImageTransparent(GameConfiguration.playerImages + "image1.png");
+        return ImageUtils.makeImageTransparent(GameConfiguration.playerImages + "image0.png");
     }
 
-    public static ArrayList<BufferedImage> loadMovingPlayerImages(Player player)
+    public static ArrayList<BufferedImage> loadMovingPlayerImages()
     {
         BufferedImage movingImage;
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < GameConfiguration.animationCycles; i++)
+        for (int i = 0; i < GameConfiguration.animationCycles; i++)
         {
+            logger.info("image" + i + ".png");
             movingImage = ImageUtils.makeImageTransparent(GameConfiguration.playerImages + "image" + i + ".png");
             images.add(movingImage);
         }
@@ -370,14 +371,14 @@ public class ImageUtils
 
     public static BufferedImage loadStandardPlayerImage(NPC npc)
     {
-        return ImageUtils.makeImageTransparent(GameConfiguration.npcImages + npc.getType() + File.separator + "image1.png");
+        return ImageUtils.makeImageTransparent(GameConfiguration.npcImages + npc.getType() + File.separator + "image0.png");
     }
 
     public static ArrayList<BufferedImage> loadMovingPlayerImages(NPC npc)
     {
         BufferedImage movingImage = null;
         ArrayList<BufferedImage> images = new ArrayList<>();
-        for (int i = 1; i < GameConfiguration.animationCycles; i++)
+        for (int i = 0; i < GameConfiguration.animationCycles; i++)
         {
             movingImage = ImageUtils.makeImageTransparent(GameConfiguration.npcImages + npc.getType() + File.separator + "image" + i + ".png");
             images.add(movingImage);

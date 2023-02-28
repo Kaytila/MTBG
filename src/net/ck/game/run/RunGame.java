@@ -6,6 +6,7 @@ import net.ck.game.ui.state.UIStateMachine;
 import net.ck.game.weather.WeatherTypes;
 import net.ck.util.CursorUtils;
 import net.ck.util.GameUtils;
+import net.ck.util.ImageManager;
 import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,6 +96,7 @@ public class RunGame
 				GameUtils.initializeHitOrMissTimer();
 				GameUtils.initializeMusicSystemNoThread();
 				GameUtils.initializeSoundSystemNoThread();
+				ImageManager.loadLifeFormImages();
 			} else {
 				logger.error("game is null, how did this happen?");
 			}
@@ -108,6 +110,7 @@ public class RunGame
 			//make this synchronous to make sure the UI is finished.
 			//initialize remaining stuff _after_ UI is definitely open
 			GameUtils.initializeRest();
+
 		}
 		else
 		{
@@ -180,7 +183,7 @@ public class RunGame
 					GameUtils.initializeHitOrMissTimer();
 					GameUtils.initializeMusicSystemNoThread();
 					GameUtils.initializeSoundSystemNoThread();
-
+					ImageManager.loadLifeFormImages();
 					if (progress < 100)
 					{
 						renderSplashFrame(g, 100, size);
@@ -224,9 +227,9 @@ public class RunGame
 			//make this synchronous to make sure the UI is finished.
 			//initialize remaining stuff _after_ UI is definitely open
 			GameUtils.initializeRest();
+
 			//System.gc();
 		}
-
 	}
 
 	public static void setGame(Game game)

@@ -32,7 +32,6 @@ import java.util.Objects;
 public class Player extends AbstractEntity implements LifeForm
 {
 
-    private CommandQueue queuedActions;
 
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
 
@@ -67,13 +66,15 @@ public class Player extends AbstractEntity implements LifeForm
         BufferedImage standardImage;
         ArrayList<BufferedImage> movingImages;
 
-        standardImage = ImageUtils.loadStandardPlayerImage(this);
-        movingImages = ImageUtils.loadMovingPlayerImages(this);
+        standardImage = ImageUtils.loadStandardPlayerImage();
+        movingImages = ImageUtils.loadMovingPlayerImages();
 
         images.add(standardImage);
         images.addAll(movingImages);
         setAnimationImageList(images);
         setStandardImage(standardImage);
+
+        setType(NPCTypes.PLAYER);
 
         setCurrentImage(getAnimationImageList().get(0));
 
@@ -170,7 +171,7 @@ public class Player extends AbstractEntity implements LifeForm
             if (!(getQueuedActions().isEmpty()))
             {
                 logger.info("queued action, lets do this: {}", getQueuedActions().peek());
-                AbstractKeyboardAction realAction = (AbstractKeyboardAction) getQueuedActions().poll();
+                AbstractKeyboardAction realAction = getQueuedActions().poll();
                 PlayerAction playerAction = new PlayerAction(realAction);
                 doAction(playerAction);
                 EventBus.getDefault().post(new AdvanceTurnEvent(playerAction));

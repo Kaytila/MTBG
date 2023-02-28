@@ -33,7 +33,7 @@ public class NPC extends AbstractEntity implements LifeForm
 {
 
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    private NPCTypes type;
+
     private Hashtable<String, String> mobasks;
     private boolean hostile;
     private boolean isStatic;
@@ -263,15 +263,7 @@ public class NPC extends AbstractEntity implements LifeForm
         return logger;
     }
 
-    public NPCTypes getType()
-    {
-        return type;
-    }
 
-    public void setType(NPCTypes type)
-    {
-        this.type = type;
-    }
 
     public Hashtable<String, String> getMobasks()
     {

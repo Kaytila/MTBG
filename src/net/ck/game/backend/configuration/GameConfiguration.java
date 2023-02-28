@@ -125,7 +125,7 @@ public class GameConfiguration
 
     public static final String playerImages = "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
 
-    public static final String npcImages = "graphics" + File.separator + "npcs" + File.separator;
+    public static final String npcImages = "graphics" + File.separator + "lifeforms" + File.separator;
 
     /**
      * where to find the maps
@@ -201,6 +201,9 @@ public class GameConfiguration
 
 
     public static final int hitormissTimerDuration = 200;
+
+
+    public static final boolean useImageManager = true;
 }
 
 

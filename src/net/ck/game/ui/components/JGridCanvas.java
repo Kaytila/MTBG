@@ -10,10 +10,7 @@ import net.ck.game.map.MapTile;
 import net.ck.game.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.game.weather.WeatherTypes;
-import net.ck.util.CodeUtils;
-import net.ck.util.ImageUtils;
-import net.ck.util.MapUtils;
-import net.ck.util.UILense;
+import net.ck.util.*;
 import net.ck.util.communication.graphics.*;
 import net.ck.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
@@ -289,13 +286,30 @@ public class JGridCanvas extends JComponent
                     {
                         if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
                         {
-                            g.drawImage(tile.getLifeForm().getCurrentImage(), row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+                            if (GameConfiguration.useImageManager == true)
+                            {
+                                BufferedImage bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+                                g.drawImage(bufferedImage, row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+
+                            }
+                            else
+                            {
+                                g.drawImage(tile.getLifeForm().getCurrentImage(), row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+                            }
                         }
                         else
                         {
                             if (GameConfiguration.tileSize / GameConfiguration.imageSize.x == 2)
                             {
-                                g.drawImage(tile.getLifeForm().getCurrentImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                if (GameConfiguration.useImageManager == true)
+                                {
+                                    BufferedImage bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+                                    g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                }
+                                else
+                                {
+                                    g.drawImage(tile.getLifeForm().getCurrentImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                }
                             }
                         }
                     }

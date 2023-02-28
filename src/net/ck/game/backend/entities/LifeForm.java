@@ -111,4 +111,18 @@ public interface LifeForm
     BufferedImage getCurrentImage();
 
     ArrayList<BufferedImage> getAnimationImageList();
+
+    int getCurrImage();
+
+
+    void setCurrImage(int currImage);
+
+
+    int getSpecialImage();
+
+    void setSpecialImage(int specialImage);
+
+    NPCTypes getType();
+
+    void setType(NPCTypes type);
 }

@@ -49,11 +49,14 @@ public class AnimationSystemTimerTask extends TimerTask
                             //if unconcious, stay unmoving
                             else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
                             {
+                                p.setCurrImage(0);
                                 p.setCurrentImage(p.getAnimationImageList().get(0));
                             }
                             else// (p.getState().equals(LifeFormState.ALIVE))
                             {
-                                p.setCurrentImage(p.getAnimationImageList().get(rand.nextInt(GameConfiguration.animationCycles)));
+                                int ra = rand.nextInt(GameConfiguration.animationCycles);
+                                p.setCurrImage(ra);
+                                p.setCurrentImage(p.getAnimationImageList().get(ra));
                             }
                         }
                     }

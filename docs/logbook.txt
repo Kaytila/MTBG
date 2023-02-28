@@ -863,3 +863,5 @@ History of the changes:
             fixed a bug in runActions(). took controller out of game into WindowBuilder as this needs to be out of game
             and all things gamey.
 2023-02-27: fixed one minor resource leak. added a few serializable statements.
+2023-02-28: first step to removing images from lifeforms is done. ImageManager is taking care of standard images now.
+            safety commit.
