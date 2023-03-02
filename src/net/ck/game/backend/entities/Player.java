@@ -293,6 +293,7 @@ public class Player extends AbstractEntity implements LifeForm
 
             case TALK:
                 logger.info("doing talk action");
+                this.talk((MapUtils.getMapTileByCoordinates(action.getEvent().getGetWhere().x, action.getEvent().getGetWhere().y).getLifeForm()));
                 break;
 
             case MOVE:
@@ -348,6 +349,47 @@ public class Player extends AbstractEntity implements LifeForm
         CommandSuccessMachine.calculateSoundEffect(action);
         //Game.getCurrent().getController().setCurrentAction(null);
     }
+
+    private void talk(LifeForm lifeForm)
+    {
+        if (lifeForm.getMobasks() != null)
+        {
+            if (lifeForm.getMobasks().size() > 0)
+            {
+                logger.info("npc {} has something to say", lifeForm);
+            }
+        }
+        else
+        {
+            logger.info("nothing");
+        }
+    }
+
+    public String talk(LifeForm lifeForm, String question)
+    {
+        if (lifeForm.getMobasks() != null)
+        {
+            if (lifeForm.getMobasks().size() > 0)
+            {
+                logger.info("npc {} has something to say", lifeForm);
+                if (lifeForm.getMobasks().get(question) != null)
+                {
+                    logger.info("lifeform {} has something to say about {}", lifeForm, question);
+                    return lifeForm.getMobasks().get(question);
+                }
+            }
+            else
+            {
+                logger.info("initialized Mobasks but nothing to say");
+            }
+        }
+        else
+        {
+            logger.info("nothing");
+        }
+        return null;
+    }
+
 
     /**
      * looks at the maptile - will show tile type, furniture, inventory in some way or another.

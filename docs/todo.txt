@@ -133,6 +133,13 @@ DONE finally take away the representationlayer, it adds nothing of value. <-- do
 
 DONE start again tests, lets see how much ui dependency we have <-- done
 
-todo take all image references out of the classes and exchange them by ints which point to the image in an image list.
+done take all image references out of the classes and exchange them by ints which point to the image in an image list.
 todo for today: check whether we have one club on the map, or several. do we need to have only one item of
             todo: a kind? if the item is stateless, then yes. If not, then hmmmm.
+
+TODO - get a city map and convert it, or re-create one - with a few npcs and furniture and so on for testing.
+TODO - create a test case for talking
+TODO - create a fix framework for passing a turn during a test. best write this down as method only.
+TODO - test foreground animation, let it snow
+TODO - do some more battle tests
+TODO - implement fleeing for NPCS

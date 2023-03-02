@@ -531,14 +531,12 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         boolean found = false;
                         getCurrentAction().setHaveNPCAction(true);
                         LifeForm npc = null;
-                        for (LifeForm n : Game.getCurrent().getCurrentMap().getLifeForms())
+                        if (tile.getLifeForm() != null)
                         {
-                            if (n.getMapPosition().equals(tile.getMapPosition()))
-                            {
-                                found = true;
-                                npc = n;
-                            }
+                            found = true;
+                            npc = tile.getLifeForm();
                         }
+
                         if (found)
                         {
                             logger.info("found the npc");
