@@ -371,11 +371,16 @@ public class Player extends AbstractEntity implements LifeForm
         {
             if (lifeForm.getMobasks().size() > 0)
             {
-                logger.info("npc {} has something to say", lifeForm);
+                //logger.info("npc {} has something to say", lifeForm);
                 if (lifeForm.getMobasks().get(question) != null)
                 {
                     logger.info("lifeform {} has something to say about {}", lifeForm, question);
                     return lifeForm.getMobasks().get(question);
+                }
+                else
+                {
+                    logger.info("lifeform {} has nothing to say about {}", lifeForm, question);
+                    return null;
                 }
             }
             else

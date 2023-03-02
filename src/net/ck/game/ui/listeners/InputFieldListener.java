@@ -1,6 +1,7 @@
 package net.ck.game.ui.listeners;
 
 import net.ck.game.backend.entities.LifeForm;
+import net.ck.game.backend.game.Game;
 import net.ck.game.ui.dialogs.TalkDialog;
 import net.ck.util.CodeUtils;
 import net.ck.util.communication.keyboard.WindowClosingAction;
@@ -29,7 +30,6 @@ public class InputFieldListener implements ActionListener
         setNpc(n);
     }
 
-
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -46,37 +46,33 @@ public class InputFieldListener implements ActionListener
 					close.actionPerformed(null);
 				}
 
-				//EventBus.getDefault().post(new TalkInputEvent(getInputField().getDocument().getText(0, getInputField().getDocument().getLength())));
-				getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "You ask: " + getInputField().getDocument().getText(0, getInputField().getDocument().getLength()) + "?" + "\n", null);				
+				getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "You ask: " + question + "?" + "\n", null);
 				getInputField().getDocument().remove(0, getInputField().getDocument().getLength());
-				boolean found = false;
-				for (String q : getNpc().getMobasks().keySet())
+
+				String response = Game.getCurrent().getCurrentPlayer().talk(npc, question);
+				if (response != null)
 				{
-					if (question.equalsIgnoreCase(q))
-					{
-						found = true;
-						getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "NPC says: " + getNpc().getMobasks().get(q) + "\n", null);
-						if (question.equalsIgnoreCase("bye"))
-						{
-							endDialog = true;
-						}
-					}
+					getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "NPC says: " + response + "\n", null);
 				}
-				
-				if (found == false)
+
+				if (question.equalsIgnoreCase("bye"))
+				{
+					endDialog = true;
+				}
+
+				if (response == null)
 				{
 					getTextArea().getDocument().insertString(getTextArea().getDocument().getLength(), "NPC says: " + "Hu?" + "\n", null);
 				}
-				
-			}
-			catch (BadLocationException e1)
+
+			} catch (BadLocationException e1)
 			{
 
 				e1.printStackTrace();
 			}
 		}
-
 	}
+
 
 	public JTextField getInputField()
 	{

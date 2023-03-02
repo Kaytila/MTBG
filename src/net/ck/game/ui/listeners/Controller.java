@@ -529,7 +529,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         break;
                     case TALK:
                         boolean found = false;
-                        getCurrentAction().setHaveNPCAction(true);
+                        getCurrentAction().setHaveNPCAction(false);
                         LifeForm npc = null;
                         if (tile.getLifeForm() != null)
                         {
@@ -541,6 +541,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         {
                             logger.info("found the npc");
                             UIStateMachine.setSelectTile(false);
+
                             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                             getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                             if (UIStateMachine.isDialogOpened() == true)
@@ -552,6 +553,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                                 UIStateMachine.setDialogOpened(true);
                                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), npc);
                                 logger.info("talk: {}", "");
+                                TimerManager.getIdleTimer().stop();
                             }
                         }
                         else
@@ -626,7 +628,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Subscribe
     public void onMessageEvent(AbstractKeyboardAction action)
     {
-        //logger.info("Event in MainWindow: {}", action.getType());
         switch (action.getType())
         {
             case EQ:
@@ -757,9 +758,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     //logger.info("select tile is active, dont do anything");
                     UIStateMachine.setSelectTile(false);
                     getCurrentAction().setHaveNPCAction(true);
-                    long start = System.nanoTime();
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
-                    logger.debug("time taken: {}", System.nanoTime() - start);
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
                     TimerManager.getIdleTimer().stop();
                     runActions(getCurrentAction());
@@ -806,7 +805,15 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             {
                 if (UIStateMachine.isSelectTile() == true)
                 {
-                    logger.info("select tile is active, dont do anything");
+                    UIStateMachine.setSelectTile(false);
+                    getCurrentAction().setHaveNPCAction(false);
+                    MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+                    getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    UIStateMachine.setDialogOpened(true);
+                    AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), tile.getLifeForm());
+                    logger.info("talk: {}", "");
+                    TimerManager.getIdleTimer().stop();
+                    runActions(getCurrentAction());
                     break;
                 }
                 //logger.info("talk");

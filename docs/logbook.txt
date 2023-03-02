@@ -871,3 +871,5 @@ History of the changes:
 2023-02-28: changed animation util timer to be scrapped and restarted once hitmiss timer is running, that way the
             overwrite is simply not there and the hitmiss can always run to the full extent.
 2023-03-02: implemented talk test. Now I only need to get talk actually involved in the dialog handling.
+2023-03-02: updated talk command and talk dialog - its still ugly, but now it gets contents from the npc and the
+            question/answer pair. still ugly as fuck.

@@ -28,8 +28,8 @@ public class TalkDialog extends AbstractDialog
     {
         setTitle(title);
         setNpc(n);
-        this.setBounds(0, 100, 700, 700);
-        this.setLayout(null);
+		this.setBounds(0, 200, 700, 700);
+		this.setLayout(null);
         this.setLocationRelativeTo(owner);
         final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
         root = this.getRootPane();
@@ -38,7 +38,7 @@ public class TalkDialog extends AbstractDialog
 		root.setOpaque(false);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 100, 700, 700);
+		panel.setBounds(0, 200, 700, 700);
 		panel.setLayout(null);
 		this.setContentPane(panel);
 		this.setUndecorated(true);
@@ -126,16 +126,6 @@ public class TalkDialog extends AbstractDialog
 		layout.setVerticalGroup(vGroup);
 		pack();
 		this.setVisible(true);
-
-		
-		/*cancelButton = new CancelButton();
-		okButton = new OKButton();
-		okButton.setBounds(300 - 160, 300 - 70, 70, 30);
-		cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
-		this.add(cancelButton);
-		this.add(okButton);
-		this.setVisible(true);
-		*/
 	}
 
 	public Logger getLogger()

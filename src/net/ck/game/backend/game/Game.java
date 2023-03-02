@@ -388,7 +388,14 @@ public class Game implements Runnable, Serializable
         MapUtils.calculateDayOrNight();
         logger.info("TURN ENDS");
         logger.info("=======================================================================================");
-        TimerManager.getIdleTimer().start();
+        if (UIStateMachine.isDialogOpened())
+        {
+            logger.info("do nothing, wait");
+        }
+        else
+        {
+            TimerManager.getIdleTimer().start();
+        }
         if (UIStateMachine.isUiOpen())
         {
             TimerManager.getHighlightTimer().start();

@@ -373,7 +373,7 @@ public class GameUtils
 
                         Game.getCurrent().setCurrentMap(map);
                         Game.getCurrent().addItemsToFloor();
-                        Game.getCurrent().addManyNPCs(map);
+                        //Game.getCurrent().addManyNPCs(map);
                     }
                     else
                     {
