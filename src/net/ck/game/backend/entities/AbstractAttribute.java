@@ -8,8 +8,9 @@ import org.imgscalr.Scalr;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 
-public abstract class AbstractAttribute
+public abstract class AbstractAttribute implements Serializable
 {
 
 	private final Logger logger = LogManager.getLogger(this);
@@ -17,7 +18,7 @@ public abstract class AbstractAttribute
 	protected AttributeTypes type;
 	protected int value;
 	protected BufferedImage image;
-	
+
 	public BufferedImage getImage()
 	{
 		if (image == null)

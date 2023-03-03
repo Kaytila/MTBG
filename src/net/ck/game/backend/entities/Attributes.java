@@ -6,9 +6,10 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Attributes implements ListModel<AbstractAttribute>
+public class Attributes implements ListModel<AbstractAttribute>, Serializable
 {
 
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));

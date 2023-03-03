@@ -143,3 +143,4 @@ TODO - create a fix framework for passing a turn during a test. best write this 
 TODO - test foreground animation, let it snow
 TODO - do some more battle tests
 TODO - implement fleeing for NPCS
+TODO - remove last image references from equipment and attributes

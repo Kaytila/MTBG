@@ -8,9 +8,10 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class AbstractItem implements Transferable
+public abstract class AbstractItem implements Transferable, Serializable
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<Effects> additionalEffects;
