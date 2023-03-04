@@ -5,6 +5,8 @@ import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.image.BufferedImage;
+
 public class Weapon extends AbstractItem
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
@@ -41,25 +43,31 @@ public class Weapon extends AbstractItem
 		this.type = type;
 	}
 
-	public double getAverageDamage()
-	{
-		return averageDamage;
-	}
+    public double getAverageDamage()
+    {
+        return averageDamage;
+    }
 
-	public void setAverageDamage(double averageDamage)
-	{
-		this.averageDamage = averageDamage;
-	}
+    public void setAverageDamage(double averageDamage)
+    {
+        this.averageDamage = averageDamage;
+    }
 
-	public Range<Integer> getWeaponDamage()
-	{
-		return weaponDamage;
-	}
+    @Override
+    public BufferedImage getItemImage()
+    {
+        return null;
+    }
 
-	public void setWeaponDamage(Range<Integer> weaponDamage)
-	{
-		this.weaponDamage = weaponDamage;
-	}
+    public Range<Integer> getWeaponDamage()
+    {
+        return weaponDamage;
+    }
+
+    public void setWeaponDamage(Range<Integer> weaponDamage)
+    {
+        this.weaponDamage = weaponDamage;
+    }
 
 	public WeaponDamageTypes getDamageType()
 	{

@@ -2,7 +2,6 @@ package net.ck.util.xml;
 
 import net.ck.game.items.ArmorTypes;
 import net.ck.game.items.Utility;
-import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -187,7 +186,7 @@ public class UtilityXMLReader extends DefaultHandler
 		else if (qName.equalsIgnoreCase("image"))
 		{
 			image = false;
-			utilityItem.setItemImage(ImageUtils.loadImage("items", data.toString()));		
+			//utilityItem.setItemImage(ImageUtils.loadImage("items", data.toString()));
 		}
 		
 	}

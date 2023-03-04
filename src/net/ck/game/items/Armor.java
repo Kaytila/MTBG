@@ -30,11 +30,7 @@ public class Armor extends AbstractItem
 	@Override
 	public BufferedImage getItemImage()
 	{
-		if (itemImage == null)
-		{
-			setItemImage(ImageUtils.loadImage("armor" + File.separator + getType().name(), getPosition().name()));
-		}
-		return itemImage;
+		return (ImageUtils.loadImage("armor" + File.separator + getType().name(), getPosition().name()));
 	}
 
 	public ArmorTypes getType()

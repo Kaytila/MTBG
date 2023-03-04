@@ -17,7 +17,7 @@ public abstract class AbstractItem implements Transferable, Serializable
 	private ArrayList<Effects> additionalEffects;
 	private int id;
 	private boolean isContainer;
-	protected BufferedImage itemImage;
+
 	private String name;
 	private double value;
 	private double weight;
@@ -38,10 +38,7 @@ public abstract class AbstractItem implements Transferable, Serializable
 		return id;
 	}
 
-	public BufferedImage getItemImage()
-	{
-		return itemImage;
-	}
+	public abstract BufferedImage getItemImage();
 
 	public Logger getLogger()
 	{
@@ -83,11 +80,6 @@ public abstract class AbstractItem implements Transferable, Serializable
 		this.id = id;
 	}
 
-	public void setItemImage(BufferedImage itemImage)
-	{
-		this.itemImage = itemImage;
-	}
-
 	public void setName(String name)
 	{
 		this.name = name;
@@ -106,7 +98,7 @@ public abstract class AbstractItem implements Transferable, Serializable
 	@Override
 	public String toString()
 	{
-		return "AbstractItem [value=" + value + ", weight=" + weight + ", isContainer=" + isContainer + ", id=" + id + ", name=" + name + ", itemImage=" + itemImage + "]";
+		return "AbstractItem [value=" + value + ", weight=" + weight + ", isContainer=" + isContainer + ", id=" + id + ", name=" + name + ", itemImage=" + getItemImage() + "]";
 	}
 
 	public Point getMapPosition()

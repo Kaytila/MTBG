@@ -3,7 +3,6 @@ package net.ck.util.xml;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponDamageTypes;
 import net.ck.game.items.WeaponTypes;
-import net.ck.util.ImageUtils;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -208,7 +207,7 @@ public class WeaponXMLReader extends DefaultHandler
 		else if(image)
 		{
 			image = false;
-			weapon.setItemImage(ImageUtils.loadImage("weapons", data.toString()));
+			//weapon.setItemImage(ImageUtils.loadImage("weapons", data.toString()));
 		}
 		
 	}

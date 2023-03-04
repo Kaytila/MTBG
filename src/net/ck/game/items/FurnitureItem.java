@@ -1,8 +1,11 @@
 package net.ck.game.items;
 
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.awt.image.BufferedImage;
 
 public class FurnitureItem extends AbstractItem
 {
@@ -10,6 +13,11 @@ public class FurnitureItem extends AbstractItem
     private boolean lightSource;
     private int lightRange;
 
+    @Override
+    public BufferedImage getItemImage()
+    {
+        return ImageUtils.loadImage("furniture", "torch");
+    }
 
     public boolean isLightSource()
     {

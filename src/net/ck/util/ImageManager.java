@@ -65,6 +65,21 @@ public class ImageManager
 
     public static void initializeItemImages()
     {
+        initializeArmorImages();
+        initializeWeaponImages();
+        initializeFurnitureItemImages();
+    }
+
+    private static void initializeWeaponImages()
+    {
+    }
+
+    private static void initializeArmorImages()
+    {
+    }
+
+    private static void initializeFurnitureItemImages()
+    {
 
     }
 

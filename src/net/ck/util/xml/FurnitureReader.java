@@ -1,7 +1,6 @@
 package net.ck.util.xml;
 
 import net.ck.game.items.FurnitureItem;
-import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -135,7 +134,7 @@ public class FurnitureReader extends DefaultHandler
             case "items":
                 break;
             case "image":
-                item.setItemImage(ImageUtils.loadImage("furniture", data.toString()));
+                //item.setItemImage(ImageUtils.loadImage("furniture", data.toString()));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);

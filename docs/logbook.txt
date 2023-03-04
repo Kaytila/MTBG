@@ -874,3 +874,4 @@ History of the changes:
 2023-03-02: updated talk command and talk dialog - its still ugly, but now it gets contents from the npc and the
             question/answer pair. still ugly as fuck.
 2023-03-04: AttributeImages are now handled by image manager
+2023-03-04: ItemImages are now handled by image manager, need to re-arrange this.
