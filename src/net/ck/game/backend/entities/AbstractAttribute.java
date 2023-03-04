@@ -1,13 +1,10 @@
 package net.ck.game.backend.entities;
 
-import net.ck.game.backend.configuration.GameConfiguration;
-import net.ck.util.ImageUtils;
+import net.ck.util.ImageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.imgscalr.Scalr;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.Serializable;
 
 public abstract class AbstractAttribute implements Serializable
@@ -17,20 +14,11 @@ public abstract class AbstractAttribute implements Serializable
 
 	protected AttributeTypes type;
 	protected int value;
-	protected BufferedImage image;
+	private int imageNumber;
 
 	public BufferedImage getImage()
 	{
-		if (image == null)
-		{
-			setImage(Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", getType().toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameConfiguration.lineHight, GameConfiguration.lineHight, Scalr.OP_ANTIALIAS));
-		}
-		return image;
-	}
-
-	public void setImage(BufferedImage image)
-	{
-		this.image = image;
+		return ImageManager.getAttributeImages().get(getType());
 	}
 
 	@Override
@@ -68,5 +56,15 @@ public abstract class AbstractAttribute implements Serializable
 	public AbstractAttribute()
 	{
 
+	}
+
+	public int getImageNumber()
+	{
+		return imageNumber;
+	}
+
+	public void setImageNumber(int imageNumber)
+	{
+		this.imageNumber = imageNumber;
 	}
 }

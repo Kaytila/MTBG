@@ -2,9 +2,11 @@ package net.ck.util;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.entities.ActionStates;
+import net.ck.game.backend.entities.AttributeTypes;
 import net.ck.game.backend.entities.NPCTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.imgscalr.Scalr;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -31,6 +33,10 @@ public class ImageManager
         return additionalImages;
     }
 
+
+    private static Hashtable<AttributeTypes, BufferedImage> attributeImages = new Hashtable<>(AttributeTypes.values().length);
+
+
     public static void setAdditionalImages(Hashtable<ActionStates, BufferedImage> additionalImages)
     {
         ImageManager.additionalImages = additionalImages;
@@ -45,6 +51,23 @@ public class ImageManager
     {
         ImageManager.lifeformImages = lifeformImages;
     }
+
+
+    public static void initializeAttributeImages()
+    {
+        for (AttributeTypes type : AttributeTypes.values())
+        {
+            getAttributeImages().put(type, (Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", type.toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameConfiguration.lineHight, GameConfiguration.lineHight, Scalr.OP_ANTIALIAS)));
+            //setImage(Scalr.resize(ImageUtils.loadImage("players" + File.separator + "attributes", getType().toString()), Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, GameConfiguration.lineHight, GameConfiguration.lineHight, Scalr.OP_ANTIALIAS));
+        }
+    }
+
+
+    public static void initializeItemImages()
+    {
+
+    }
+
 
     public static void loadLifeFormImages()
     {
@@ -128,4 +151,13 @@ public class ImageManager
         return getActionImages().get(state);
     }
 
+    public static Hashtable<AttributeTypes, BufferedImage> getAttributeImages()
+    {
+        return attributeImages;
+    }
+
+    public static void setAttributeImages(Hashtable<AttributeTypes, BufferedImage> attributeImages)
+    {
+        ImageManager.attributeImages = attributeImages;
+    }
 }

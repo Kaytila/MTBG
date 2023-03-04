@@ -97,6 +97,7 @@ public class RunGame
 				GameUtils.initializeMusicSystemNoThread();
 				GameUtils.initializeSoundSystemNoThread();
 				ImageManager.loadLifeFormImages();
+				ImageManager.initializeAttributeImages();
 				//ImageManager.loadAdditionalImages();
 			} else {
 				logger.error("game is null, how did this happen?");
@@ -185,6 +186,7 @@ public class RunGame
 					GameUtils.initializeMusicSystemNoThread();
 					GameUtils.initializeSoundSystemNoThread();
 					ImageManager.loadLifeFormImages();
+					ImageManager.initializeAttributeImages();
 					//ImageManager.loadAdditionalImages();
 
 					if (progress < 100)
