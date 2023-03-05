@@ -875,3 +875,6 @@ History of the changes:
             question/answer pair. still ugly as fuck.
 2023-03-04: AttributeImages are now handled by image manager
 2023-03-04: ItemImages are now handled by image manager, need to re-arrange this.
+2023-03-04: All direct references to BufferedImage are removed. Took out ThreadController and made all access static.
+            Pondering what to do with weathersystem. It is mostly for showing off animation after all.
+            This is currently coupled somewhere but definitely needs a rewrite.

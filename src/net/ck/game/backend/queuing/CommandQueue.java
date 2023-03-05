@@ -5,6 +5,7 @@ import net.ck.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
  * so I guess we need to have a command queue for running more than one commands after the other,
  * currently we are single command, even with multi input
  */
-public class CommandQueue implements Queue
+public class CommandQueue implements Queue, Serializable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 

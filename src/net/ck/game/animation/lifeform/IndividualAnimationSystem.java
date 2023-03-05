@@ -2,6 +2,7 @@ package net.ck.game.animation.lifeform;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +41,7 @@ public class IndividualAnimationSystem extends AnimationSystem implements Runnab
 
                 try
                 {
-                    Game.getCurrent().getThreadController().sleep(200, ThreadNames.LIFEFORM_ANIMATION);
+                    ThreadController.sleep(200, ThreadNames.LIFEFORM_ANIMATION);
                 }
                 catch (Exception e)
                 {

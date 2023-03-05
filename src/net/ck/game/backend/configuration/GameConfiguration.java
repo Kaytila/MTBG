@@ -205,6 +205,7 @@ public class GameConfiguration
 
     public static final boolean useImageManager = true;
     public static final int numberOfAdditionalImages = 4;
+    public static final int weatherWait = 10000;
 }
 
 

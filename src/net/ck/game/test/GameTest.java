@@ -5,6 +5,7 @@ import net.ck.game.backend.entities.AIBehaviour;
 import net.ck.game.backend.entities.NPC;
 import net.ck.game.backend.entities.NPCTypes;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.keyboard.*;
@@ -67,7 +68,7 @@ public class GameTest
 		for (int i = 0; i < 10; i++)
 		{
 			EventBus.getDefault().post(new AdvanceTurnEvent(playerAction));
-			game.getThreadController().sleep(100, ThreadNames.MAIN);
+			ThreadController.sleep(100, ThreadNames.MAIN);
 		}
 		logger.info("testMainLoopTenTimes end");
 	}
@@ -88,9 +89,9 @@ public class GameTest
 			//game.getCurrentPlayer().doAction(action);
 			EventBus.getDefault().post(new AdvanceTurnEvent(action));
 			logger.info("Player position: {}", game.getCurrentPlayer().getMapPosition());
-			for (Thread t : game.getThreadController().getThreads())
+			for (Thread t : ThreadController.getThreads())
 			{
-				game.getThreadController().sleep(100, ThreadNames.MAIN);
+				ThreadController.sleep(100, ThreadNames.MAIN);
 			}
 		}
 		assert (game.getCurrentPlayer().getMapPosition().x == 10);
@@ -113,11 +114,11 @@ public class GameTest
 		logger.info("npc position: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new EastAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 		logger.info("npc position 2: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new EastAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 		logger.info("npc position 3: {}", n1.getMapPosition());
 		logger.info("now test wanderer east");
 		n1.doAction(AIBehaviour.wanderAround(n1, 1));
@@ -141,12 +142,12 @@ public class GameTest
 		logger.info("npc position 1: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new WestAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 
 		logger.info("npc position 2: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new WestAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 
 		logger.info("npc position 3: {}", n1.getMapPosition());
 		n1.doAction(AIBehaviour.wanderAround(n1, 3));
@@ -174,11 +175,11 @@ public class GameTest
 		logger.info("npc position 1: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new NorthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 		logger.info("npc position 2: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new NorthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 		logger.info("npc position 3: {}", n1.getMapPosition());
 		n1.doAction(AIBehaviour.wanderAround(n1, 0));
 		logger.info("npc position 4: {}", n1.getMapPosition());
@@ -203,11 +204,11 @@ public class GameTest
 		logger.info("npc position 1: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new SouthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 		logger.info("npc position 2: {}", n1.getMapPosition());
 		n1.getQueuedActions().addEntry(new SouthAction());
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(100, ThreadNames.MAIN);
+		ThreadController.sleep(100, ThreadNames.MAIN);
 		logger.info("npc position 3: {}", n1.getMapPosition());
 		n1.doAction(AIBehaviour.wanderAround(n1, 2));
 		logger.info("npc position 4: {}", n1.getMapPosition());
@@ -233,7 +234,7 @@ public class GameTest
 		PlayerAction action = new PlayerAction(spaceAction);
 		action.setHaveNPCAction(true);
 		EventBus.getDefault().post(new AdvanceTurnEvent(action));
-		game.getThreadController().sleep(1000, ThreadNames.MAIN);
+		ThreadController.sleep(1000, ThreadNames.MAIN);
 		logger.info("npc position afer: {}", n1.getMapPosition());
 		assert (n1.getMapPosition().x == 6);
 		assert (n1.getMapPosition().y == 2);

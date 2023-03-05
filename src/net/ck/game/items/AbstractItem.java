@@ -98,7 +98,7 @@ public abstract class AbstractItem implements Transferable, Serializable
 	@Override
 	public String toString()
 	{
-		return "AbstractItem [value=" + value + ", weight=" + weight + ", isContainer=" + isContainer + ", id=" + id + ", name=" + name + ", itemImage=" + getItemImage() + "]";
+		return "AbstractItem [value=" + value + ", weight=" + weight + ", isContainer=" + isContainer + ", id=" + id + ", name=" + name + "]";
 	}
 
 	public Point getMapPosition()

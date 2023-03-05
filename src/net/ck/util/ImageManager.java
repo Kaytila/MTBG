@@ -91,12 +91,11 @@ public class ImageManager
         {
             try
             {
-                logger.info("type: {}", type);
+                //logger.info("type: {}", type);
                 BufferedImage[] images = new BufferedImage[GameConfiguration.animationCycles + GameConfiguration.numberOfAdditionalImages];
                 int i;
                 for (i = 0; i < GameConfiguration.animationCycles; i++)
                 {
-                    logger.info("image: {}", i);
                     BufferedImage image = ImageUtils.makeImageTransparent(GameConfiguration.npcImages + type + File.separator + "image" + i + ".png");
                     images[i] = image;
                 }

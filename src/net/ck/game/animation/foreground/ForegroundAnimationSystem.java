@@ -3,6 +3,7 @@ package net.ck.game.animation.foreground;
 import net.ck.game.animation.lifeform.IndividualAnimationSystem;
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
@@ -48,7 +49,7 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
                     EventBus.getDefault().post(new ForegroundRepresentationChanged(getCurrentForegroundImage()));
                 }
                 try {
-                    Game.getCurrent().getThreadController().sleep(GameConfiguration.animationForeGroundDelay, ThreadNames.FOREGROUND_ANIMATION);
+					ThreadController.sleep(GameConfiguration.animationForeGroundDelay, ThreadNames.FOREGROUND_ANIMATION);
                 } catch (ConcurrentModificationException e) {
                     logger.error("caught ConcurrentModificationException");
                 }

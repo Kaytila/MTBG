@@ -2,10 +2,12 @@ package net.ck.game.items;
 
 import net.ck.game.backend.entities.Inventory;
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Utility extends AbstractItem
 {
@@ -26,10 +28,9 @@ public class Utility extends AbstractItem
         inventory = new Inventory();
     }
 
-    @Override
     public BufferedImage getItemImage()
     {
-        return null;
+        return (ImageUtils.loadImage("utilities" + File.separator, getName()));
     }
 
     public Double getCapacity()

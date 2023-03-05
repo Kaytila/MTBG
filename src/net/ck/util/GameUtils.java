@@ -18,6 +18,7 @@ import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.ItemManager;
 import net.ck.game.backend.state.NoiseManager;
 import net.ck.game.backend.state.TimerManager;
+import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.backend.time.IdleActionListener;
 import net.ck.game.backend.time.IdleTimer;
@@ -184,7 +185,7 @@ public class GameUtils
             TimerManager.setMissileTimer(new MissileTimer(GameConfiguration.missileWait));
             Thread missileTimerThread = new Thread(TimerManager.getMissileTimer());
             missileTimerThread.setName(String.valueOf(ThreadNames.MISSILE));
-            Game.getCurrent().getThreadController().add(missileTimerThread);
+            ThreadController.add(missileTimerThread);
         }
     }
 
@@ -221,7 +222,7 @@ public class GameUtils
                 logger.info("initializing  async weather system");
                 Thread weatherSystemThread = new Thread((AsyncWeatherSystem) weatherSystem);
                 weatherSystemThread.setName(String.valueOf(ThreadNames.WEATHER_ANIMATION));
-                Game.getCurrent().getThreadController().add(weatherSystemThread);
+                ThreadController.add(weatherSystemThread);
                 //weatherSystemThread.start();
                 break;
             case "FixedWeatherSystem":
@@ -264,7 +265,7 @@ public class GameUtils
                 Thread foregroundAnimationSystemThread = new Thread(foregroundAnimationSystem);
                 foregroundAnimationSystemThread.setName(String.valueOf(ThreadNames.FOREGROUND_ANIMATION));
 
-                Game.getCurrent().getThreadController().add(foregroundAnimationSystemThread);
+                ThreadController.add(foregroundAnimationSystemThread);
             }
         }
     }
@@ -289,7 +290,7 @@ public class GameUtils
                 Thread backgroundAnimationSystemThread = new Thread(backgroundAnimationSystem);
                 backgroundAnimationSystemThread.setName(String.valueOf(ThreadNames.BACKGROUND_ANIMATION));
 
-                Game.getCurrent().getThreadController().add(backgroundAnimationSystemThread);
+                ThreadController.add(backgroundAnimationSystemThread);
                 logger.info("finish: initializing BackgroundAnimationSystem animation system");
             }
         }
@@ -333,7 +334,7 @@ public class GameUtils
             logger.info("start: initializing animation system as thread");
             Thread animationSystemThread = new Thread(animationSystem);
             animationSystemThread.setName(String.valueOf(ThreadNames.LIFEFORM_ANIMATION));
-            Game.getCurrent().getThreadController().add(animationSystemThread);
+            ThreadController.add(animationSystemThread);
             logger.info("finish: initializing animation system");
             //}
         }

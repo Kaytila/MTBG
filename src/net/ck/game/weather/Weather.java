@@ -9,11 +9,13 @@ import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * @author Claus weather will have an impact on things, perhaps? perhaps not, perhaps only graphics
  */
-public class Weather {
+public class Weather implements Serializable
+{
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
@@ -23,8 +25,6 @@ public class Weather {
     /**
      * contains the weather image of the currently decided weather
      */
-    private BufferedImage weatherImage;
-
 
     /**
      * so yeah, we do not need to dynamically load the weather image again from disk
@@ -42,34 +42,27 @@ public class Weather {
 
     public BufferedImage getWeatherImage()
     {
-        return this.weatherImage;
+        return WeatherUtils.getWeatherImage(type);
     }
 
-    public void setWeatherImage(BufferedImage weatherImage)
-    {
-        this.weatherImage = weatherImage;
-    }
 
     public WeatherTypes getType()
     {
         return type;
     }
 
-    public void setType(WeatherTypes typ) {
+    public void setType(WeatherTypes typ)
+    {
         this.type = typ;
-        if (UIStateMachine.isUiOpen()) {
+        if (UIStateMachine.isUiOpen())
+        {
             EventBus.getDefault().post(new WeatherChangedEvent("imageChanged"));
-        }
-        try {
-            setWeatherImage(WeatherUtils.getWeatherImage(type));
-        } catch (Exception e) {
-            logger.error("image {} does not exist", type);
         }
     }
 
     @Override
     public String toString()
     {
-        return "Weather [type=" + type + ", weatherImage=" + weatherImage + "]";
+        return "Weather [type=" + type + "]";
     }
 }

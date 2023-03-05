@@ -2,6 +2,8 @@ package net.ck.game.backend.game;
 
 import net.ck.game.backend.state.GameState;
 
+import java.io.Serializable;
+
 /**
  * so  a turn is a turn.
  * A turn is downgraded to just storing a number (turn counter) and the game state of that turn in order to make sure
@@ -10,7 +12,7 @@ import net.ck.game.backend.state.GameState;
  *
  * @author Claus
  */
-public class Turn
+public class Turn implements Serializable
 {
 	private int turnNumber;
 

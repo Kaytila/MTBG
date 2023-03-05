@@ -77,10 +77,6 @@ public class Game implements Runnable, Serializable
     private World en;
 
     /**
-     * threadController
-     */
-    private ThreadController threadController;
-    /**
      * turn number
      */
     private int turnNumber;
@@ -146,8 +142,7 @@ public class Game implements Runnable, Serializable
         // thread handling
         logger.info("setting up thread system");
         setRunning(true);
-        setThreadController(new ThreadController());
-        getThreadController().add(Thread.currentThread());
+        ThreadController.add(Thread.currentThread());
 
         setTurnNumber(0);
         Turn turn = new Turn(getTurnNumber());
@@ -345,7 +340,7 @@ public class Game implements Runnable, Serializable
             while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
             {
                 logger.info("waiting for animation to finish");
-                getThreadController().sleep(50, ThreadNames.GAME_THREAD);
+                ThreadController.sleep(50, ThreadNames.GAME_THREAD);
             }
         }
         //logger.info("hit animation has finished");
@@ -434,16 +429,6 @@ public class Game implements Runnable, Serializable
         this.en = en;
     }
 
-    public ThreadController getThreadController()
-    {
-        return threadController;
-    }
-
-    public void setThreadController(ThreadController threadController)
-    {
-        this.threadController = threadController;
-    }
-
     public int getTurnNumber()
     {
         return turnNumber;
@@ -478,7 +463,7 @@ public class Game implements Runnable, Serializable
 
     public synchronized void stopGame()
     {
-        getThreadController().listThreads();
+        ThreadController.listThreads();
         //logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
         //logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
         //logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
@@ -589,7 +574,7 @@ public class Game implements Runnable, Serializable
 
                     if (timeTaken < GameConfiguration.targetTime)
                     {
-                        getThreadController().sleep((int) ((GameConfiguration.targetTime - timeTaken) / 1000000), ThreadNames.GAME_THREAD);
+                        ThreadController.sleep((int) ((GameConfiguration.targetTime - timeTaken) / 1000000), ThreadNames.GAME_THREAD);
                     }
                 }
             }
@@ -650,8 +635,8 @@ public class Game implements Runnable, Serializable
             logger.info("initializing game thread");
             Thread gameThread = new Thread(this);
             gameThread.setName(String.valueOf(ThreadNames.GAME_THREAD));
-            threadController.add(gameThread);
-            getThreadController().startThreads();
+            ThreadController.add(gameThread);
+            ThreadController.startThreads();
         }
     }
 

@@ -10,38 +10,30 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  So I want to do proper thread handling:
- *  <a href="https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume/45786529#45786529">...</a>
- *  and
- *  <a href="https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume">...</a>
- * @author Claus
+ * So I want to do proper thread handling:
+ * <a href="https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume/45786529#45786529">...</a>
+ * and
+ * <a href="https://stackoverflow.com/questions/28922040/alternative-to-thread-suspend-and-resume">...</a>
  *
+ * @author Claus
  */
 public class ThreadController
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(ThreadController.class));
+	private static final List<Thread> threads = Collections.synchronizedList(new ArrayList<>(10));
+	private static boolean wakeupNeeded;
 
-
-	private boolean wakeupNeeded;
-	private final List<Thread> threads;
-
-	public ThreadController()
-	{
-		threads = Collections.synchronizedList(new ArrayList<>(10));
-	}
-
-
-	public synchronized void add(Thread thread)
+	public static synchronized void add(Thread thread)
 	{
 		getThreads().add(thread);
 	}
 
-	public List<Thread> getThreads()
+	public static List<Thread> getThreads()
 	{
 		return threads;
 	}
 
-	public void reanimateAnimation()
+	public static void reanimateAnimation()
 	{
 
 		for (Thread t : List.copyOf(getThreads()))
@@ -81,19 +73,19 @@ public class ThreadController
 	 * logger.error("caught IllegalMonitorStateException"); } }
 	 */
 
-	private void makeWakeupNeeded()
+	private static void makeWakeupNeeded()
 	{
 		wakeupNeeded = true;
 	}
 
-	public void suspendAnimation()
+	public static void suspendAnimation()
 	{
 
 		// logger.error("iconified");
 
 		/*
 		 * try { game.getLock().wait(); } catch (InterruptedException e1) { //
-		 * 
+		 *
 		 */
 		for (Thread t : List.copyOf(getThreads()))
 		{
@@ -153,13 +145,13 @@ public class ThreadController
 		}
 	}
 
-	private boolean isWakeupNeeded()
+	private static boolean isWakeupNeeded()
 	{
 		return wakeupNeeded;
 	}
 
-	@SuppressWarnings("static-access")
-	public void sleep(int ms, ThreadNames threadName)
+
+	public static void sleep(int ms, ThreadNames threadName)
 	{
 		for (Thread t : List.copyOf(getThreads()))
 		{
@@ -168,8 +160,7 @@ public class ThreadController
 				try
 				{
 					t.sleep(ms);
-				}
-				catch (Exception e)
+				} catch (Exception e)
 				{
 					e.printStackTrace();
 				}
@@ -177,7 +168,7 @@ public class ThreadController
 		}
 	}
 
-	public void startThreads()
+	public static void startThreads()
 	{
 		for (Thread t : List.copyOf(getThreads()))
 		{
@@ -231,12 +222,11 @@ public class ThreadController
 		}
 	}
 
-	public void listThreads ()
+	public static void listThreads()
 	{
 		for (Thread t : getThreads())
 		{
 			logger.info("Thread running: {}, priority: {}, state: {}", t.getName(), t.getPriority(), t.getState());
 		}
 	}
-
 }

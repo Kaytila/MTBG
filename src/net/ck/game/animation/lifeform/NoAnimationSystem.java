@@ -5,6 +5,7 @@ import net.ck.game.backend.entities.ActionStates;
 import net.ck.game.backend.entities.LifeForm;
 import net.ck.game.backend.entities.LifeFormState;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
@@ -54,7 +55,7 @@ public class NoAnimationSystem extends AnimationSystem
 
             try
             {
-                Game.getCurrent().getThreadController().sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
+                ThreadController.sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
             } catch (Exception e)
             {
                 e.printStackTrace();

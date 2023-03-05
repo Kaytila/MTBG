@@ -1,11 +1,13 @@
 package net.ck.game.items;
 
 import net.ck.util.CodeUtils;
+import net.ck.util.ImageUtils;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Weapon extends AbstractItem
 {
@@ -53,10 +55,11 @@ public class Weapon extends AbstractItem
         this.averageDamage = averageDamage;
     }
 
+
     @Override
     public BufferedImage getItemImage()
     {
-        return null;
+        return (ImageUtils.loadImage("weapons" + File.separator, getName()));
     }
 
     public Range<Integer> getWeaponDamage()

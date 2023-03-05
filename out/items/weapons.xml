@@ -12,7 +12,7 @@
 </weapon>
 <weapon>
 <id>2</id>
-<name>club +1</name>
+<name>club1</name>
 <type>MELEE</type>
 <damage>BLUNT</damage>
 <image>club1</image>

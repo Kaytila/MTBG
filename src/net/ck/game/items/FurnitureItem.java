@@ -16,7 +16,7 @@ public class FurnitureItem extends AbstractItem
     @Override
     public BufferedImage getItemImage()
     {
-        return ImageUtils.loadImage("furniture", "torch");
+        return ImageUtils.loadImage("furniture", getName());
     }
 
     public boolean isLightSource()

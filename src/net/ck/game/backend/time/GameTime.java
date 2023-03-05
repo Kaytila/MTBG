@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
+
 /**
  * So Game Time starts with 0:0:0 at day 1, month 1, year 1.
  * An hour has 60 minutes,
@@ -15,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
  * a year has 12 months.
  * No need for more, this is good enough anyhow.
  */
-public class GameTime
+public class GameTime implements Serializable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 

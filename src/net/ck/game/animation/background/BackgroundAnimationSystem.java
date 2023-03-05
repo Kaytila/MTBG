@@ -2,6 +2,7 @@ package net.ck.game.animation.background;
 
 import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.game.Game;
+import net.ck.game.backend.threading.ThreadController;
 import net.ck.game.backend.threading.ThreadNames;
 import net.ck.game.ui.state.UIStateMachine;
 import net.ck.util.CodeUtils;
@@ -38,7 +39,7 @@ public class BackgroundAnimationSystem implements Runnable
                     EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
                 }
                 try {
-                    Game.getCurrent().getThreadController().sleep(GameConfiguration.animationBackGroundDelay, ThreadNames.BACKGROUND_ANIMATION);
+					ThreadController.sleep(GameConfiguration.animationBackGroundDelay, ThreadNames.BACKGROUND_ANIMATION);
                 } catch (ConcurrentModificationException e) {
                     logger.error("caught ConcurrentModificationException");
                 }
