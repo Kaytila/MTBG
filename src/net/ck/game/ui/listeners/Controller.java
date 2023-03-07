@@ -525,6 +525,21 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             {
                 switch (this.getCurrentAction().getType())
                 {
+                    case PUSH:
+                        UIStateMachine.setSelectTile(false);
+                        getCurrentAction().setHaveNPCAction(true);
+                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                        break;
+
+                    case YANK:
+                        UIStateMachine.setSelectTile(false);
+                        getCurrentAction().setHaveNPCAction(true);
+                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                        break;
+
+
                     case GET:
                         UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);

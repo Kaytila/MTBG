@@ -11,10 +11,7 @@ import net.ck.game.backend.state.ItemManager;
 import net.ck.game.backend.state.TimerManager;
 import net.ck.game.items.*;
 import net.ck.game.map.MapTile;
-import net.ck.util.CodeUtils;
-import net.ck.util.ImageManager;
-import net.ck.util.MapUtils;
-import net.ck.util.NPCUtils;
+import net.ck.util.*;
 import net.ck.util.astar.AStar;
 import net.ck.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.util.communication.keyboard.*;
@@ -768,14 +765,40 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     }
 
 
-    protected void push(Point source)
+    protected boolean push(Point source)
     {
         MapTile sourceTile = Game.getCurrent().getCurrentMap().mapTiles[source.x][source.y];
-        MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
+        Direction sourceDir = MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
+        MapTile targetTile = MapUtils.calculateTileByDirection(sourceTile.getMapPosition(), sourceDir);
+
+        if (sourceTile.getFurniture() != null)
+        {
+            targetTile.setFurniture(sourceTile.getFurniture());
+            sourceTile.setFurniture(null);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    protected void yank(Point source)
+    protected boolean yank(Point source)
     {
+        MapTile sourceTile = Game.getCurrent().getCurrentMap().mapTiles[source.x][source.y];
+        Direction sourceDir = MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
+        Direction targetDir = MapUtils.invertDirection(sourceDir);
+        MapTile targetTile = MapUtils.calculateTileByDirection(this.getMapPosition(), targetDir);
 
+        if (sourceTile.getFurniture() != null)
+        {
+            targetTile.setFurniture(sourceTile.getFurniture());
+            sourceTile.setFurniture(null);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

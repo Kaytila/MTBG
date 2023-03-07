@@ -48,7 +48,6 @@ public class MapUtils
     }
 
 
-
     /**
      * Helper Method because I am lazy not actually sure how useful this in a real context is, but for testing purposes
      *
@@ -155,8 +154,6 @@ public class MapUtils
     }
 
 
-
-
     /**
      * creates a map, all of type grassland or ocean in random with a little help from stackoverflow:
      * <a href="https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio">https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio</a>
@@ -198,8 +195,7 @@ public class MapUtils
         try
         {
             Files.writeString(Paths.get(fileName), contents.toString(), StandardCharsets.UTF_8);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -501,16 +497,14 @@ public class MapUtils
                 }
                 row++;
             }
-        }
-        catch (IOException | CsvException e)
+        } catch (IOException | CsvException e)
         {
             e.printStackTrace();
         }
         try
         {
             MapUtils.writeMapToXML(ultima4Map);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -537,8 +531,7 @@ public class MapUtils
         try
         {
             writer = new BufferedWriter(new FileWriter(fileName));
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -581,8 +574,7 @@ public class MapUtils
         try
         {
             db = dbf.newDocumentBuilder();
-        }
-        catch (ParserConfigurationException e)
+        } catch (ParserConfigurationException e)
         {
             e.printStackTrace();
         }
@@ -591,16 +583,14 @@ public class MapUtils
         try
         {
             doc = Objects.requireNonNull(db).parse(new FileInputStream(fileName));
-        }
-        catch (SAXException e)
+        } catch (SAXException e)
         {
             e.printStackTrace();
         }
         try
         {
             prettyPrint(doc, fileName);
-        }
-        catch (TransformerException e)
+        } catch (TransformerException e)
         {
             e.printStackTrace();
         }
@@ -683,7 +673,7 @@ public class MapUtils
                     continue;
                 }
                 t.setHidden(false);
-
+                t.setBrightenFactor(0);
 
                 if (GameConfiguration.calculateBrightenUpImageInPaint == false)
                 {
@@ -817,8 +807,97 @@ public class MapUtils
 
     }
 
-    public static Point calculateDirectionOfMapTileFromPlayer(Point mapPosition, Point playermapPosition1)
+    /**
+     * @param tP targetPosition
+     * @param pP playerPosition
+     * @return something
+     */
+    public static Direction calculateDirectionOfMapTileFromPlayer(Point tP, Point pP)
     {
-        return (new Point(mapPosition.x - playermapPosition1.x, mapPosition.y - playermapPosition1.y));
+        String value = "";
+
+        if (pP.y > tP.y)
+        {
+            logger.info("point {} is to top of player {}", tP, pP);
+            value += "N";
+        }
+        else if (pP.y == tP.y)
+        {
+            logger.info("point {} is at same y as player {}", tP, pP);
+            value = "";
+        }
+        else //(pP.y < tP.y)
+        {
+            logger.info("point {} is to the bottom of player {}", tP, pP);
+            value += "S";
+        }
+
+        if (pP.x > tP.x)
+        {
+            logger.info("point {} is to left of player {}", tP, pP);
+            value += "W";
+        }
+        else if (pP.x == tP.x)
+        {
+            logger.info("point {} is at same x as player {}", tP, pP);
+            value += "";
+        }
+        else //(pP.x < tP.x)
+        {
+            logger.info("point {} is to the right of player {}", tP, pP);
+            value += "E";
+        }
+        logger.info("direction string value: {}", value);
+        return Direction.valueOf(value);
+    }
+
+    public static Direction invertDirection(Direction sourceDir)
+    {
+        switch (sourceDir)
+        {
+            case N:
+                return Direction.S;
+            case NE:
+                return Direction.SW;
+            case E:
+                return Direction.W;
+            case SE:
+                return Direction.NW;
+            case S:
+                return Direction.N;
+            case SW:
+                return Direction.NE;
+            case W:
+                return Direction.E;
+            case NW:
+                return Direction.SE;
+            default:
+                return null;
+        }
+    }
+
+    public static MapTile calculateTileByDirection(Point pos, Direction targetDir)
+    {
+        switch (targetDir)
+        {
+            case N:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x][pos.y - 1];
+            case NE:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y - 1];
+            case E:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y];
+            case SE:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y + 1];
+            case S:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x][pos.y + 1];
+            case SW:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y + 1];
+            case W:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y];
+            case NW:
+                return Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y - 1];
+            default:
+                return null;
+        }
     }
 }

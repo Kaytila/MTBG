@@ -881,3 +881,5 @@ History of the changes:
 2023-03-06: did some more changes, am able to save the state now to file.
 2023-03-07: added push and yank. We will support keyboard definitely, perhaps even drag and drop.
             need to work on MapUtils for that.
+2023-03-07: implemented push and yank. both are working, not with checks whether the target is actually not blocked.
+            but that is for later. An npc can also yank and push.

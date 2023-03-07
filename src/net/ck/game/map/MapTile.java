@@ -298,7 +298,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public boolean isBlocked()
     {
-
         switch (getType())
         {
             case DESERT:
@@ -444,9 +443,17 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public void setFurniture(FurnitureItem furniture)
     {
-        logger.info("setting furniture");
-        this.furniture = furniture;
-        setBlocked(true);
+        if (furniture != null)
+        {
+            logger.info("setting furniture");
+            this.furniture = furniture;
+            setBlocked(true);
+        }
+        else
+        {
+            this.furniture = null;
+            setBlocked(false);
+        }
     }
 
     public void calculateHeuristic(MapTile finalNode)
