@@ -176,6 +176,13 @@ public class Player extends AbstractEntity implements LifeForm
         action.setSuccess(false);
         switch (action.getType())
         {
+            case PUSH:
+                this.push(action.getEvent().getGetWhere());
+                break;
+            case YANK:
+                this.yank(action.getEvent().getGetWhere());
+                break;
+
             case EAST:
                 // logger.info("p: {}", p.toString());
 

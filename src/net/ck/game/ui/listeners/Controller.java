@@ -648,6 +648,56 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         switch (action.getType())
         {
+            case PUSH:
+            {
+                if (UIStateMachine.isSelectTile() == true)
+                {
+                    //logger.info("select tile is active, dont do anything");
+                    UIStateMachine.setSelectTile(false);
+                    getCurrentAction().setHaveNPCAction(true);
+                    MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+                    getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    TimerManager.getIdleTimer().stop();
+                    runActions(getCurrentAction());
+                    break;
+                }
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
+                {
+                    CursorUtils.centerCursorOnPlayer();
+                }
+                action.setHaveNPCAction(false);
+                //logger.info("get");
+                TimerManager.getIdleTimer().stop();
+                UIStateMachine.setSelectTile(true);
+                CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                setCurrentAction(action);
+                break;
+            }
+            case YANK:
+            {
+                if (UIStateMachine.isSelectTile() == true)
+                {
+                    //logger.info("select tile is active, dont do anything");
+                    UIStateMachine.setSelectTile(false);
+                    getCurrentAction().setHaveNPCAction(true);
+                    MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+                    getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    TimerManager.getIdleTimer().stop();
+                    runActions(getCurrentAction());
+                    break;
+                }
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
+                {
+                    CursorUtils.centerCursorOnPlayer();
+                }
+                action.setHaveNPCAction(false);
+                //logger.info("get");
+                TimerManager.getIdleTimer().stop();
+                UIStateMachine.setSelectTile(true);
+                CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                setCurrentAction(action);
+                break;
+            }
             case EQ:
                 if (UIStateMachine.isDialogOpened() == true)
                 {

@@ -768,4 +768,14 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     }
 
 
+    protected void push(Point source)
+    {
+        MapTile sourceTile = Game.getCurrent().getCurrentMap().mapTiles[source.x][source.y];
+        MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
+    }
+
+    protected void yank(Point source)
+    {
+
+    }
 }

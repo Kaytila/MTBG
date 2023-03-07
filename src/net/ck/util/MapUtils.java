@@ -816,4 +816,9 @@ public class MapUtils
 
 
     }
+
+    public static Point calculateDirectionOfMapTileFromPlayer(Point mapPosition, Point playermapPosition1)
+    {
+        return (new Point(mapPosition.x - playermapPosition1.x, mapPosition.y - playermapPosition1.y));
+    }
 }

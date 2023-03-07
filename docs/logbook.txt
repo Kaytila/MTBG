@@ -878,4 +878,6 @@ History of the changes:
 2023-03-04: All direct references to BufferedImage are removed. Took out ThreadController and made all access static.
             Pondering what to do with weathersystem. It is mostly for showing off animation after all.
             This is currently coupled somewhere but definitely needs a rewrite.
-2023-03-07: did some more changes, am able to save the state now to file.
+2023-03-06: did some more changes, am able to save the state now to file.
+2023-03-07: added push and yank. We will support keyboard definitely, perhaps even drag and drop.
+            need to work on MapUtils for that.

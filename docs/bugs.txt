@@ -39,3 +39,5 @@ BUGS:
 2023-02-10  LoS is broken when looking from east to west. Why?
 2023-02-23  missile combat for npcs works for all distances.
 2023-02-23  missile combat appears to make the cpu speed up a lot
+2023-03-07  player lightsource is ignored
+
