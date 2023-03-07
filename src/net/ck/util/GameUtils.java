@@ -241,7 +241,8 @@ public class GameUtils
             weather.setType(WeatherTypes.SUN);
             Game.getCurrent().getCurrentMap().setWeather(weather);
         }
-        Game.getCurrent().setWeatherSystem(weatherSystem);
+
+        WeatherManager.setWeatherSystem(weatherSystem);
         logger.info("END: initializing weather system");
     }
 

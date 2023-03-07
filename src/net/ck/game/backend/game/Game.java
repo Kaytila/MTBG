@@ -13,7 +13,7 @@ import net.ck.game.items.Weapon;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
 import net.ck.game.ui.state.UIStateMachine;
-import net.ck.game.weather.AbstractWeatherSystem;
+import net.ck.game.weather.WeatherManager;
 import net.ck.util.CodeUtils;
 import net.ck.util.MapUtils;
 import net.ck.util.UILense;
@@ -87,7 +87,7 @@ public class Game implements Runnable, Serializable
     /**
      * this is the weather system
      */
-    private AbstractWeatherSystem weatherSystem;
+
 
     /**
      * this holds the actual game time which is increasing with time
@@ -248,7 +248,7 @@ public class Game implements Runnable, Serializable
         }
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
-        getWeatherSystem().checkWeather();
+        WeatherManager.getWeatherSystem().checkWeather();
         WindowBuilder.getGridCanvas().paint();
 
         //update the Game to switch to the current state of the new map - might be different after all
@@ -449,15 +449,6 @@ public class Game implements Runnable, Serializable
         this.turns = turns;
     }
 
-    public AbstractWeatherSystem getWeatherSystem()
-    {
-        return weatherSystem;
-    }
-
-    public void setWeatherSystem(AbstractWeatherSystem weatherSystem)
-    {
-        this.weatherSystem = weatherSystem;
-    }
 
 
 

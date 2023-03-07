@@ -34,10 +34,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 
 /**
@@ -190,6 +187,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             logger.info("save");
             FileOutputStream fileOutputStream = null;
             ObjectOutputStream objectOutputStream;
+
             try
             {
                 fileOutputStream = new FileOutputStream("test.txt");
@@ -224,6 +222,26 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         if (e.getActionCommand().equalsIgnoreCase("Load"))
         {
             logger.info("load");
+            FileInputStream fileInputStream;
+            ObjectInputStream objectInputStream;
+
+            try
+            {
+                fileInputStream = new FileInputStream("test.txt");
+            } catch (FileNotFoundException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+
+            try
+            {
+                objectInputStream = new ObjectInputStream(fileInputStream);
+            } catch (IOException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+            //TODO what to do here?
+
         }
 
 

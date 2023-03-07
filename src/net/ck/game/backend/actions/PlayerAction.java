@@ -6,18 +6,18 @@ import net.ck.util.communication.keyboard.KeyboardActionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.Serializable;
+
 
 /**
- * 
  * @author Claus This is one player action - currently this is there to
- *         distinguish between random event and one user action per turn.
- *
- *         No real idea yet as to how to structure this any further probably
- *         necessary to implement some kind of input and some kind of output.
- *         output comes via AbstractEvent
- *
+ * distinguish between random event and one user action per turn.
+ * <p>
+ * No real idea yet as to how to structure this any further probably
+ * necessary to implement some kind of input and some kind of output.
+ * output comes via AbstractEvent
  */
-public class PlayerAction extends AbstractAction
+public class PlayerAction extends AbstractAction implements Serializable
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
@@ -26,7 +26,7 @@ public class PlayerAction extends AbstractAction
 	public PlayerAction(AbstractKeyboardAction ev)
 	{
 		setEvent(ev);
-        setHaveNPCAction(ev.isHaveNPCAction());
+		setHaveNPCAction(ev.isHaveNPCAction());
 	}
 
 
