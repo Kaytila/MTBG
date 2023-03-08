@@ -230,6 +230,9 @@ public class JGridCanvas extends JComponent
                         }
                         else
                         {
+                            g.setColor(Color.white);
+                            g.drawString(String.valueOf(tile.getBrightenFactor()), (row * GameConfiguration.tileSize) - 10, (column * GameConfiguration.tileSize));
+                            logger.debug("tile: {}", tile);
                             BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
                             if (img == null)
                             {
@@ -346,7 +349,7 @@ public class JGridCanvas extends JComponent
 
             //start2 = System.nanoTime();
             paintHighlightedMapTile(g);
-            MapUtils.calculateHiddenTiles(g);
+            //MapUtils.calculateHiddenTiles(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
             //paintDarkness(g);
         }
@@ -426,7 +429,7 @@ public class JGridCanvas extends JComponent
             //start2 = System.nanoTime();
             paintHighlightedMapTile(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
-            MapUtils.calculateHiddenTiles(g);
+            //MapUtils.calculateHiddenTiles(g);
         }
         updating = false;
         if (GameConfiguration.debugPaint == true)

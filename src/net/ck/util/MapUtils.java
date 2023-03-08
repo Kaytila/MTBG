@@ -233,7 +233,6 @@ public class MapUtils
 
     public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range, Map map)
     {
-        long start = System.nanoTime();
         ArrayList<MapTile> visibleTiles = new ArrayList<>();
         Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
         Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
@@ -249,12 +248,12 @@ public class MapUtils
                 }
                 if ((rangeY.contains(UILense.getCurrent().mapTiles[row][column].getY()) && (rangeX.contains(UILense.getCurrent().mapTiles[row][column].getX()))))
                 {
+                    //logger.debug("tile: {}", UILense.getCurrent().mapTiles[row][column]);
                     visibleTiles.add(UILense.getCurrent().mapTiles[row][column]);
                 }
 
             }
         }
-        //logger.info("calculate visible tiles old: {}", System.nanoTime() - start);
         return visibleTiles;
     }
 

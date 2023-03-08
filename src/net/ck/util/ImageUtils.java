@@ -213,7 +213,7 @@ public class ImageUtils
         }
         catch (IOException e)
         {
-            // logger.error("error: {}", e);
+            //return null;
         }
         ImageIcon icon;
         icon = new ImageIcon(Objects.requireNonNull(img));

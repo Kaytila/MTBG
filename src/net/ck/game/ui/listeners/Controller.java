@@ -665,6 +665,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             case PUSH:
             {
+                CursorUtils.centerCursorOnPlayer();
                 if (UIStateMachine.isSelectTile() == true)
                 {
                     //logger.info("select tile is active, dont do anything");
@@ -690,6 +691,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             }
             case YANK:
             {
+                CursorUtils.centerCursorOnPlayer();
                 if (UIStateMachine.isSelectTile() == true)
                 {
                     //logger.info("select tile is active, dont do anything");

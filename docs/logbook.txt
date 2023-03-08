@@ -883,3 +883,4 @@ History of the changes:
             need to work on MapUtils for that.
 2023-03-07: implemented push and yank. both are working, not with checks whether the target is actually not blocked.
             but that is for later. An npc can also yank and push.
+2023-03-08: made the bug with bright images visible at least. will need to deal with this on friday.

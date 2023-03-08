@@ -273,7 +273,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
     @Override
     public String toString()
     {
-        return "MapTile [targetMap=" + targetMap + ", targetID=" + targetID + ", id=" + id + ", mapPosition=" + mapPosition + ", type=" + type + ", blocked=" + blocked + "]";
+        return "MapTile [mapPosition=" + mapPosition + ", type=" + type + ", blocked=" + blocked + ",brightFactor=" + brightenFactor + "]";
     }
 
     /**
