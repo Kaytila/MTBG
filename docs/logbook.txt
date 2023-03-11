@@ -886,3 +886,4 @@ History of the changes:
 2023-03-08: made the bug with bright images visible at least. will need to deal with this on friday.
 2023-03-10: image brightness is properly calculated now for visible area. will need to think about invisible area now.
 2023-03-11: bugfix for yank/push, little debug fix
+2023-03-11: yank/pull do not work on blocked tiles anymore

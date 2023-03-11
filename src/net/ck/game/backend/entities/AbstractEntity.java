@@ -773,9 +773,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
         if (sourceTile.getFurniture() != null)
         {
-            targetTile.setFurniture(sourceTile.getFurniture());
-            sourceTile.setFurniture(null);
-            return true;
+            if (targetTile.isBlocked())
+            {
+                return false;
+            }
+            else
+            {
+                targetTile.setFurniture(sourceTile.getFurniture());
+                sourceTile.setFurniture(null);
+                return true;
+            }
         }
         else
         {
@@ -792,9 +799,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
         if (sourceTile.getFurniture() != null)
         {
-            targetTile.setFurniture(sourceTile.getFurniture());
-            sourceTile.setFurniture(null);
-            return true;
+            if (targetTile.isBlocked())
+            {
+                return false;
+            }
+            else
+            {
+                targetTile.setFurniture(sourceTile.getFurniture());
+                sourceTile.setFurniture(null);
+                return true;
+            }
         }
         else
         {
