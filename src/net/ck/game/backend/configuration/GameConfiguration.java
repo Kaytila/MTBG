@@ -18,7 +18,7 @@ public class GameConfiguration
     /**
      * how long shall the game wait until sending a pass message in ms
      */
-    public static final long turnwait = 5000;
+    public static final long turnwait = 5000000;
 
     /**
      * frames per second, if i really want to switch to this in the future

@@ -657,8 +657,27 @@ public class MapUtils
 
     public static void calculateHiddenTiles(Graphics g)
     {
+        //reset
+        for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
+        {
+            for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
+            {
+                MapTile t = UILense.getCurrent().mapTiles[row][column];
+                if (t == null)
+                {
+                    continue;
+                }
+                t.setHidden(false);
+                t.setBrightenFactor(0);
+            }
+        }
+
+
         //paint LoS
         long start = System.nanoTime();
+        int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
+        int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
+
         for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
         {
             for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
@@ -671,8 +690,7 @@ public class MapUtils
                 {
                     continue;
                 }
-                t.setHidden(false);
-                t.setBrightenFactor(0);
+
 
                 if (GameConfiguration.calculateBrightenUpImageInPaint == false)
                 {
@@ -692,10 +710,14 @@ public class MapUtils
                         ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange, Game.getCurrent().getCurrentMap());
                         for (MapTile tile : tiles)
                         {
-                            tile.setBrightenFactor(1);
+                            // logger.debug("tile: {}", tile);
                             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
                             {
                                 tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
+                            }
+                            else
+                            {
+                                tile.setBrightenFactor(1);
                             }
                         }
                     }
@@ -705,11 +727,22 @@ public class MapUtils
                 {
                     if (t.getBrightenedImage() == null)
                     {
-                        int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
-                        int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
                         int absX = Math.abs(pX - row);
                         int absY = Math.abs(pY - column);
                         t.setBrightenedImage(ImageUtils.brightenUpImage(img, absX, absY));
+                    }
+                }
+                else
+                {
+                    if (t.getBrightenFactor() > 0)
+                    {
+
+                    }
+                    else
+                    {
+                        int absX = Math.abs(pX - row);
+                        int absY = Math.abs(pY - column);
+                        t.setBrightenFactor(Math.max(absX, absY));
                     }
                 }
                 /**

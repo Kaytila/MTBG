@@ -36,11 +36,11 @@ BUGS:
 2023-01-31  moveTo for Player is horribly broken
 2023-02-08  FIXED NPCs - using prototypes which to spawn during map does make it problematic. they share traits they should not.
 2023-02-08  FIXED patrol is broken again  - not the faintest idea why.
-2023-02-10  LoS is broken when looking from east to west. Why?
+2023-02-10  FIXED LoS is broken when looking from east to west. Why?
 2023-02-23  missile combat for npcs works for all distances.
 2023-02-23  missile combat appears to make the cpu speed up a lot
-2023-03-07  player lightsource is ignored
-2023-03-07  light source range calculation is off
+2023-03-07  FIXED player lightsource is ignored
+2023-03-07  FIXED light source range calculation is off
 2023-03-08  light source range calculation only works if the light source is visible on the map, need to change
             calculation of brightened factor to go either all over the map or to get an additional range outside of
             visibility

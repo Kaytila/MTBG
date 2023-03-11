@@ -230,9 +230,7 @@ public class JGridCanvas extends JComponent
                         }
                         else
                         {
-                            g.setColor(Color.white);
-                            g.drawString(String.valueOf(tile.getBrightenFactor()), (row * GameConfiguration.tileSize) - 10, (column * GameConfiguration.tileSize));
-                            logger.debug("tile: {}", tile);
+                            //logger.debug("tile: {}", tile);
                             BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
                             if (img == null)
                             {
@@ -249,9 +247,10 @@ public class JGridCanvas extends JComponent
                             //if not, calculate it based on range from player position
                             else
                             {
-                                int absX = Math.abs(pX - row);
-                                int absY = Math.abs(pY - column);
-                                img = ImageUtils.brightenUpImage(img, absX, absY);
+                                //TODO do this in maputils instead
+                                //int absX = Math.abs(pX - row);
+                                //int absY = Math.abs(pY - column);
+                                //img = ImageUtils.brightenUpImage(img, absX, absY);
                             }
                             g.drawImage(img, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                         }
@@ -323,7 +322,8 @@ public class JGridCanvas extends JComponent
                             }
                         }
                     }
-
+                    g.setColor(Color.white);
+                    g.drawString(String.valueOf(tile.getBrightenFactor()), ((row * GameConfiguration.tileSize) + 10), ((column * GameConfiguration.tileSize) + 15));
                 }
             }
 

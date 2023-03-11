@@ -687,14 +687,14 @@ public class ImageUtils
             }
             // float percentage2 = 1.0f * (1.0f - 100 / (Math.max(x,y)) ;// / (Math.max(x,y)); // 50% bright - change this (or set dynamically) as you feel fit
 
-            long start;
+            //long start;
             for (ImagePair iP : getBrightenedImages())
             {
                 if (iP.getPercentage() == percentage)
                 {
                     //if (compareImages(iP.getSourceImage(), image))
                     //if (iP.getSourceImage().equals(image))
-                    start = System.nanoTime();
+                    //start = System.nanoTime();
                     if (compareImages(iP.getSourceImage(), image))
                     {
                         //GameLogs.getRetrieveBrightImages().add(System.nanoTime() - start);
@@ -703,7 +703,7 @@ public class ImageUtils
                     }
                 }
             }
-            start = System.nanoTime();
+            //start = System.nanoTime();
             BufferedImage img = copyImage(image);
             Graphics g = img.getGraphics();
 
