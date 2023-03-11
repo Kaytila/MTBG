@@ -216,6 +216,11 @@ public class JGridCanvas extends JComponent
                     if (tile.isHidden())
                     {
                         g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        if (GameConfiguration.debugLOS)
+                        {
+                            g.setColor(Color.GRAY);
+                            g.drawString("B", row * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), column * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                        }
                         continue;
                     }
                     /*
@@ -242,15 +247,6 @@ public class JGridCanvas extends JComponent
                             if (tile.getBrightenFactor() > 0)
                             {
                                 img = ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor());
-                            }
-
-                            //if not, calculate it based on range from player position
-                            else
-                            {
-                                //TODO do this in maputils instead
-                                //int absX = Math.abs(pX - row);
-                                //int absY = Math.abs(pY - column);
-                                //img = ImageUtils.brightenUpImage(img, absX, absY);
                             }
                             g.drawImage(img, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                         }
@@ -322,8 +318,19 @@ public class JGridCanvas extends JComponent
                             }
                         }
                     }
-                    g.setColor(Color.white);
-                    g.drawString(String.valueOf(tile.getBrightenFactor()), ((row * GameConfiguration.tileSize) + 10), ((column * GameConfiguration.tileSize) + 15));
+
+                    if (GameConfiguration.debugBrightenImages)
+                    {
+                        g.setColor(Color.white);
+                        g.drawString(String.valueOf(tile.getBrightenFactor()), ((row * GameConfiguration.tileSize) + 10), ((column * GameConfiguration.tileSize) + 15));
+                    }
+
+                    if (GameConfiguration.debugLOS)
+                    {
+                        g.setColor(Color.YELLOW);
+                        g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), (row * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2));
+                    }
+
                 }
             }
 

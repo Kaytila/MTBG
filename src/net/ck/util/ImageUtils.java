@@ -37,8 +37,6 @@ public class ImageUtils
 
     private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>(TileTypes.values().length);
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>(WeatherTypes.values().length);
-    private static BufferedImage bloodstainImage;
-
     private static BufferedImage inventoryImage;
 
     /**

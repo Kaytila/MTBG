@@ -671,10 +671,8 @@ public class MapUtils
                 t.setBrightenFactor(0);
             }
         }
-
-
         //paint LoS
-        long start = System.nanoTime();
+//        long start = System.nanoTime();
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
         int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
 
