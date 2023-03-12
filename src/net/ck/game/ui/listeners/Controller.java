@@ -367,10 +367,19 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void mouseExited(MouseEvent e)
     {
-        UIStateMachine.setCurrentMousePosition(null);
-        UIStateMachine.setCurrentSelectedTile(null);
-        UIStateMachine.setMouseOutsideOfGrid(true);
-        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+        if (UIStateMachine.isSelectTile())
+        {
+            Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
+            Point p = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
+            CursorUtils.moveMouse(new Point(p.x * GameConfiguration.tileSize + relativePoint.x + GameConfiguration.tileSize / 2, p.y * GameConfiguration.tileSize + relativePoint.y + GameConfiguration.tileSize / 2));
+        }
+        else
+        {
+            UIStateMachine.setCurrentMousePosition(null);
+            UIStateMachine.setCurrentSelectedTile(null);
+            UIStateMachine.setMouseOutsideOfGrid(true);
+            CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+        }
     }
 
 
