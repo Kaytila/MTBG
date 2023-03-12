@@ -39,7 +39,9 @@ public class WeaponXMLReader extends DefaultHandler
 	private boolean weapons;
 	private boolean name;
 	private boolean image;
-	
+
+	private boolean range;
+
 	public Hashtable<Integer, Weapon> getWeaponList()
 	{
 		return weaponList;
@@ -144,6 +146,12 @@ public class WeaponXMLReader extends DefaultHandler
 			weight = true;
 
 		}
+
+		if (qName.equalsIgnoreCase("range"))
+		{
+			range = true;
+		}
+
 		data = new StringBuilder();
 	}
 
@@ -204,10 +212,16 @@ public class WeaponXMLReader extends DefaultHandler
 			weapon.setName(data.toString());
 		}
 		
-		else if(image)
+		else if (image)
 		{
 			image = false;
 			//weapon.setItemImage(ImageUtils.loadImage("weapons", data.toString()));
+		}
+
+		else if (range)
+		{
+			range = false;
+			weapon.setRange(Integer.parseInt(data.toString()));
 		}
 		
 	}

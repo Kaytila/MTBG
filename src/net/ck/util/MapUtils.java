@@ -840,7 +840,7 @@ public class MapUtils
     /**
      * @param tP targetPosition
      * @param pP playerPosition
-     * @return something
+     * @return the direction
      */
     public static Direction calculateDirectionOfMapTileFromPlayer(Point tP, Point pP)
     {
@@ -848,36 +848,36 @@ public class MapUtils
 
         if (pP.y > tP.y)
         {
-            logger.info("point {} is to top of player {}", tP, pP);
+            //logger.info("point {} is to top of player {}", tP, pP);
             value += "N";
         }
         else if (pP.y == tP.y)
         {
-            logger.info("point {} is at same y as player {}", tP, pP);
+            //logger.info("point {} is at same y as player {}", tP, pP);
             value = "";
         }
         else //(pP.y < tP.y)
         {
-            logger.info("point {} is to the bottom of player {}", tP, pP);
+            //logger.info("point {} is to the bottom of player {}", tP, pP);
             value += "S";
         }
 
         if (pP.x > tP.x)
         {
-            logger.info("point {} is to left of player {}", tP, pP);
+            //logger.info("point {} is to left of player {}", tP, pP);
             value += "W";
         }
         else if (pP.x == tP.x)
         {
-            logger.info("point {} is at same x as player {}", tP, pP);
+            //logger.info("point {} is at same x as player {}", tP, pP);
             value += "";
         }
         else //(pP.x < tP.x)
         {
-            logger.info("point {} is to the right of player {}", tP, pP);
+            //logger.info("point {} is to the right of player {}", tP, pP);
             value += "E";
         }
-        logger.info("direction string value: {}", value);
+        //logger.info("direction string value: {}", value);
         return Direction.valueOf(value);
     }
 
@@ -929,5 +929,12 @@ public class MapUtils
             default:
                 return null;
         }
+    }
+
+    public static int calculateMaxDistance(Point mapPosition, Point mapPosition1)
+    {
+        int xDistance = Math.abs(mapPosition.x - mapPosition1.x);
+        int yDistance = Math.abs(mapPosition.y - mapPosition1.y);
+        return (Math.max(xDistance, yDistance));
     }
 }

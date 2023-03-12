@@ -9,6 +9,7 @@
 <image>club</image>
 <weight>1.0</weight>
 <value>1.0</value>
+<range>1</range>
 </weapon>
 <weapon>
 <id>2</id>
@@ -19,6 +20,7 @@
 <weaponDamage>1-4</weaponDamage>
 <weight>1.0</weight>
 <value>1.0</value>
+    <range>1</range>
 </weapon>
 <weapon>
 <id>3</id>
@@ -29,5 +31,6 @@
 <weaponDamage>1-4</weaponDamage>
 <weight>1.0</weight>
 <value>1.0</value>
+    <range>4</range>
 </weapon>
 </weapons>

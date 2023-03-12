@@ -24,7 +24,19 @@ public class Weapon extends AbstractItem
 	private WeaponDamageTypes damageType;
 	private Range<Integer> weaponDamage;
 	private double averageDamage;
-	
+
+	private int range;
+
+	public int getRange()
+	{
+		return range;
+	}
+
+	public void setRange(int range)
+	{
+		this.range = range;
+	}
+
 	public Weapon()
 	{
 		setContainer(false);

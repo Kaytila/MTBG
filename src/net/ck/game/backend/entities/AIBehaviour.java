@@ -54,11 +54,23 @@ public class AIBehaviour
                 {
                     if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
                     {
-                        logger.info("npc already wields ranged weapon, attack!");
-                        AttackAction ac = new AttackAction();
-                        ac.setGetWhere(e.getVictim().getMapPosition());
-                        NPCAction action = new NPCAction(ac);
-                        e.doAction(action);
+                        if (e.getWeapon().getRange() < MapUtils.calculateMaxDistance(e.getMapPosition(), e.getVictim().getMapPosition()))
+                        {
+                            logger.info("out of range move towards victim");
+                            //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
+                            e.doAction((NPCUtils.calculateVictimDirection(e)));
+                        }
+                        else
+                        {
+                            //todo check weapon range here
+                            //todo implement range check
+                            //todo implement rage on weapon
+                            logger.info("npc already wields ranged weapon, attack!");
+                            AttackAction ac = new AttackAction();
+                            ac.setGetWhere(e.getVictim().getMapPosition());
+                            NPCAction action = new NPCAction(ac);
+                            e.doAction(action);
+                        }
                         //return;
                     }
                     //in inventory, wield
