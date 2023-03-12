@@ -205,12 +205,22 @@ public class CursorUtils
 
 		Point p = CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation());
 		MapTile tile = MapUtils.calculateMapTileUnderCursor(p);
-		Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+		if (tile != null)
+		{
+			Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
 
-		int Px = (screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		int Py = (screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
-		Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
-		CursorUtils.moveMouse(new Point(Px + relativePoint.x + addX, Py + relativePoint.y + addY));
+			int Px = (screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+			int Py = (screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
+			Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
+			if (MapUtils.lookAheadForTile(tile.getMapPosition(), action.getType()))
+			{
+				CursorUtils.moveMouse(new Point(Px + relativePoint.x + addX, Py + relativePoint.y + addY));
+			}
+			else
+			{
+				logger.debug("no tile {}, of {}", action.getType(), tile);
+			}
+		}
 	}
 
 	/**

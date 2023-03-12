@@ -10,6 +10,7 @@ import net.ck.game.items.FurnitureItem;
 import net.ck.game.map.AbstractMap;
 import net.ck.game.map.Map;
 import net.ck.game.map.MapTile;
+import net.ck.util.communication.keyboard.KeyboardActionType;
 import net.ck.util.ui.WindowBuilder;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
@@ -936,5 +937,33 @@ public class MapUtils
         int xDistance = Math.abs(mapPosition.x - mapPosition1.x);
         int yDistance = Math.abs(mapPosition.y - mapPosition1.y);
         return (Math.max(xDistance, yDistance));
+    }
+
+    public static boolean lookAheadForTile(Point mapPos, KeyboardActionType type)
+    {
+        int x = mapPos.x;
+        int y = mapPos.y;
+
+        switch (type)
+        {
+            case EAST:
+                x++;
+                break;
+            case SOUTH:
+                y++;
+                break;
+            case WEST:
+                x--;
+                break;
+            case NORTH:
+                y--;
+                break;
+        }
+        //logger.debug("looking at x: {}, y: {}", x , y);
+        if (getMapTileByCoordinates(x, y) == null)
+        {
+            return false;
+        }
+        return true;
     }
 }

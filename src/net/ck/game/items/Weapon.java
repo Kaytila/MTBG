@@ -29,6 +29,10 @@ public class Weapon extends AbstractItem
 
 	public int getRange()
 	{
+		if (getType().equals(WeaponTypes.MELEE))
+		{
+			return 1;
+		}
 		return range;
 	}
 

@@ -409,9 +409,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             if (getCurrentAction().getType().equals(KeyboardActionType.ATTACK))
             {
-                if (Game.getCurrent().getCurrentPlayer().getWeapon().getType().equals(WeaponTypes.MELEE))
+                if (Game.getCurrent().getCurrentPlayer().getWeapon() != null)
                 {
-                    CursorUtils.limitMouseMovementToRange(1);
+                    CursorUtils.limitMouseMovementToRange(Game.getCurrent().getCurrentPlayer().getWeapon().getRange());
                 }
             }
         }
