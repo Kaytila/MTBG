@@ -889,3 +889,4 @@ History of the changes:
 2023-03-11: yank/pull do not work on blocked tiles anymore
 2023-03-12: ranged attacks now check the range of the weapon for npcs.
 2023-03-12: ranged attacks are now also checked for player. out of map crosshair movement is also fixed
+2023-03-12: select tile will no longer allow any selection outside of a tile

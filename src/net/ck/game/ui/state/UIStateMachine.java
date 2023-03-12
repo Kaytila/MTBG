@@ -24,7 +24,7 @@ public class UIStateMachine
     /**
      * is a Dialog open?
      */
-    private static boolean isDialogOpened;
+    private static boolean dialogOpened;
 
     /**
      * when the mouse is in the grid, store the mouse position
@@ -47,6 +47,18 @@ public class UIStateMachine
      * used for centering on player to make the mouse ways shorter
      */
     private static boolean mouseOutsideOfGrid;
+
+    private static Point lastMousePosition;
+
+    public static Point getLastMousePosition()
+    {
+        return lastMousePosition;
+    }
+
+    public static void setLastMousePosition(Point lastMousePosition)
+    {
+        UIStateMachine.lastMousePosition = lastMousePosition;
+    }
 
     public static UIState getUiState()
     {
@@ -90,13 +102,13 @@ public class UIStateMachine
 
     public static boolean isDialogOpened()
     {
-        return isDialogOpened;
+        return dialogOpened;
     }
 
     public static void setDialogOpened(boolean dO)
     {
         //logger.info("new value: {}", isDialogOpened);
-        isDialogOpened = dO;
+        dialogOpened = dO;
     }
 
     public static Point getCurrentMousePosition()

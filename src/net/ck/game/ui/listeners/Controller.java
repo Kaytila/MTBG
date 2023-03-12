@@ -387,16 +387,33 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         //
         if (UIStateMachine.isSelectTile() == true)
         {
-            if (UIStateMachine.getCurrentSelectedTile() != MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())))
+            if (MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())) != null)
             {
-                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
-                WindowBuilder.getGridCanvas().paint();
-                //WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10 , GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20 );
-                //logger.debug("calling paint");
+                if (UIStateMachine.getCurrentSelectedTile() != MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())))
+                {
+                    UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                    WindowBuilder.getGridCanvas().paint();
+                    //WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10 , GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20 );
+                    //logger.debug("calling paint");
+                }
+                else
+                {
+                    //logger.debug("same tile is selected, do not redraw");
+                }
             }
             else
             {
-                //logger.debug("same tile is selected, do not redraw");
+                //logger.info("no tile");
+                if (UIStateMachine.getCurrentSelectedTile() == null)
+                {
+                    CursorUtils.centerCursorOnPlayer();
+                }
+                else
+                {
+                    Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
+                    Point p = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
+                    CursorUtils.moveMouse(new Point(p.x * GameConfiguration.tileSize + relativePoint.x + GameConfiguration.tileSize / 2, p.y * GameConfiguration.tileSize + relativePoint.y + GameConfiguration.tileSize / 2));
+                }
             }
         }
         else

@@ -120,19 +120,19 @@ public class CursorUtils
 
 		Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 
-		if (lastMousePosition == null)
+		if (UIStateMachine.getLastMousePosition() == null)
 		{
-			lastMousePosition = MouseInfo.getPointerInfo().getLocation();
+			UIStateMachine.setLastMousePosition(MouseInfo.getPointerInfo().getLocation());
 		}
 
 		if (rangeX.contains(mousePosition.x) && (rangeY.contains(mousePosition.y)))
 		{
-			lastMousePosition = MouseInfo.getPointerInfo().getLocation();
+			UIStateMachine.setLastMousePosition(MouseInfo.getPointerInfo().getLocation());
 		}
 		else
 		{
 			//get back to last position
-			moveMouse(lastMousePosition);
+			moveMouse(UIStateMachine.getLastMousePosition());
 		}
 	}
 
@@ -167,7 +167,6 @@ public class CursorUtils
 					{
 						e.printStackTrace();
 					}
-
 					return;
 				}
 			}
