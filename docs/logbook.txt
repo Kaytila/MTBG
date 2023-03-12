@@ -891,3 +891,4 @@ History of the changes:
 2023-03-12: ranged attacks are now also checked for player. out of map crosshair movement is also fixed
 2023-03-12: select tile will no longer allow any selection outside of a tile
 2023-03-12: select tile will no longer allow leaving the grid
+2023-03-12: select tile will now automatically directly highlight the tile under cursor

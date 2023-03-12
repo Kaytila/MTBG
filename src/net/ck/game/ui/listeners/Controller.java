@@ -711,6 +711,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 //logger.info("get");
                 TimerManager.getIdleTimer().stop();
                 UIStateMachine.setSelectTile(true);
+                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
                 break;
@@ -737,6 +739,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 //logger.info("get");
                 TimerManager.getIdleTimer().stop();
                 UIStateMachine.setSelectTile(true);
+                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
                 break;
@@ -827,6 +832,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     TimerManager.getIdleTimer().stop();
                     action.setHaveNPCAction(false);
                     UIStateMachine.setSelectTile(true);
+                    UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                    WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
@@ -883,6 +891,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 //logger.info("get");
                 TimerManager.getIdleTimer().stop();
                 UIStateMachine.setSelectTile(true);
+                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
                 break;
@@ -908,6 +919,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 //logger.info("get");
                 TimerManager.getIdleTimer().stop();
                 UIStateMachine.setSelectTile(true);
+                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 setCurrentAction(action);
                 break;
@@ -941,6 +955,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     action.setHaveNPCAction(false);
                     TimerManager.getIdleTimer().stop();
                     UIStateMachine.setSelectTile(true);
+                    UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                    WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
                     break;
@@ -965,6 +982,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     action.setHaveNPCAction(false);
                     TimerManager.getIdleTimer().stop();
                     UIStateMachine.setSelectTile(true);
+                    UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                    WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     //TODO why is get currect Action null?
@@ -1011,6 +1031,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         CursorUtils.moveMouse(action.getOldMousePosition());
 
                         UIStateMachine.setSelectTile(true);
+                        UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                        WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                         setCurrentAction(action);
                     }
@@ -1020,6 +1043,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         logger.info("real melee");
                         CursorUtils.centerCursorOnPlayer();
                         UIStateMachine.setSelectTile(true);
+                        UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                        WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
                         setCurrentAction(action);
                     }
                 }
