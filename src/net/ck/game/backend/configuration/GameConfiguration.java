@@ -18,7 +18,7 @@ public class GameConfiguration
     /**
      * how long shall the game wait until sending a pass message in ms
      */
-    public static final long turnwait = 5000000;
+    public static final long turnwait = 5000;
 
     /**
      * frames per second, if i really want to switch to this in the future
@@ -39,12 +39,12 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = false;
+    public static final boolean playMusic = true;
 
     /**
      * do we want to play sound effects?
      */
-    public static final boolean playSound = false;
+    public static final boolean playSound = true;
 
     /**
      * Tile Size
@@ -114,33 +114,39 @@ public class GameConfiguration
 
     public static final int lineHight = font.getSize() + padding;
 
-    public static final String miscImages = "graphics" + File.separator + "misc" + File.separator;
-    public static final String cursorPath = miscImages + "CURSORS" + File.separator;
+    public static final String out = "out";
+    public static final String miscImages = out + "/" + "graphics" + "/" + "misc" + "/";
+    public static final String cursorPath = miscImages + "CURSORS" + "/";
 
-    public static final String weatherImagesPath = "graphics" + File.separator + "weather" + File.separator;
+    public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
 
-    public static final String weatherTypesImagesPath = "graphics" + File.separator + "weathertypes" + File.separator;
+    public static final String weatherTypesImagesPath = out + File.separator + "graphics" + File.separator + "weathertypes" + File.separator;
 
-    public static final String imagesRootPath = "graphics" + File.separator;
+    public static final String imagesRootPath = out + File.separator + "graphics" + File.separator;
 
-    public static final String playerImages = "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
+    public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
 
-    public static final String npcImages = "graphics" + File.separator + "lifeforms" + File.separator;
+    public static final String npcImages = out + File.separator + "graphics" + File.separator + "lifeforms" + File.separator;
+
+
+    public static final String musicPath = out + File.separator + "music";
+
+    public static final String soundeffectsPath = out + File.separator + "soundeffects";
 
     /**
      * where to find the maps
      */
-    public static final String mapFileRootPath = "maps";
+    public static final String mapFileRootPath = out + File.separator + "maps";
 
     /**
      * where to find the npcs xml
      */
-    public static final String npcFileRootPath = "npcs";
+    public static final String npcFileRootPath = out + File.separator + "npcs";
 
     /**
      * where to find items xml
      */
-    public static final String itemFileRootPath = "items";
+    public static final String itemFileRootPath = out + File.separator + "items";
 
     /**
      * use Events only for redrawing or do 60 fps :D

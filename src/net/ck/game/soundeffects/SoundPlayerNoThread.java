@@ -1,5 +1,6 @@
 package net.ck.game.soundeffects;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.util.CodeUtils;
 import net.ck.util.SoundUtils;
 import org.apache.logging.log4j.LogManager;
@@ -18,8 +19,6 @@ public class SoundPlayerNoThread
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-    private static final String soundBasePath = "soundeffects";
-
     private ArrayList<Path> soundEffects;
 
     private Clip currentSound;
@@ -33,7 +32,7 @@ public class SoundPlayerNoThread
         //getLogger().info("initialize sound player no threaded");
        // EventBus.getDefault().register(this);
         soundEffects = new ArrayList<>();
-        readSoundEffectDirectory(getSoundBasePath());
+        readSoundEffectDirectory(GameConfiguration.soundeffectsPath);
     }
 
     private void readSoundEffectDirectory(String soundBasePath)
@@ -56,12 +55,6 @@ public class SoundPlayerNoThread
             throw new RuntimeException(e);
         }
         //Game.getCurrent().stopGame();
-    }
-
-
-    private String getSoundBasePath()
-    {
-        return soundBasePath;
     }
 
     /*@Subscribe

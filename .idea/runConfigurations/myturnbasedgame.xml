@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="myturnbasedgame" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="net.ck.game.run.RunGame" />
+    <module name="MyTurnBasedGame" />
+    <option name="PROGRAM_PARAMETERS" value="quick startPosition:3@0" />
+    <option name="VM_PARAMETERS" value="-splash:out/graphics/splash/splash.jpg -Djava.security.manager -Djava.security.policy==out/policy.txt" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

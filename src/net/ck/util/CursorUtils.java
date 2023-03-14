@@ -37,16 +37,14 @@ public class CursorUtils
 	private static Cursor westCursor;
 	private static Cursor targetCursor;
 
-	private static Point lastMousePosition;
-
 	public static void initializeCursors()
 	{
 		logger.info("start: initializing cursors");
 
 		Dimension bestSize = Toolkit.getDefaultToolkit().getBestCursorSize(0, 0);
-
+		logger.info("cursor path: {}", GameConfiguration.cursorPath);
 		setWestCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "270.png"),
-			new Point(bestSize.width / 2, bestSize.height / 2), "westCursor"));
+				new Point(bestSize.width / 2, bestSize.height / 2), "westCursor"));
 		setEastCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "90.png"),
 			new Point(bestSize.width / 2, bestSize.height / 2), "eastCursor"));
 		setNorthCursor(Toolkit.getDefaultToolkit().createCustomCursor(ImageUtils.makeImageTransparent(GameConfiguration.cursorPath + "0.png"),

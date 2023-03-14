@@ -12,7 +12,7 @@ public class GameLogs
 	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(GameLogs.class));
 
 
-	private static ArrayList<Long> paintTimes = new ArrayList();
+	private static ArrayList<Long> paintTimes = new ArrayList<Long>();
 
 	private static ArrayList<Long> retrieveBrightImages = new ArrayList();
 

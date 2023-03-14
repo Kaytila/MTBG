@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="MyTurnBasedGame:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/MyTurnBasedGame_jar</output-path>
+    <output-path>$PROJECT_DIR$/bin</output-path>
     <root id="archive" name="MyTurnBasedGame.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
@@ -56,9 +56,6 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.2/jogl-all-2.3.2-natives-windows-i586.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-text/1.9/commons-text-1.9.jar" path-in-jar="/" />
-      <element id="directory" name="out">
-        <element id="dir-copy" path="$PROJECT_DIR$/out" />
-      </element>
     </root>
   </artifact>
 </component>

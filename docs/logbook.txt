@@ -892,3 +892,4 @@ History of the changes:
 2023-03-12: select tile will no longer allow any selection outside of a tile
 2023-03-12: select tile will no longer allow leaving the grid
 2023-03-12: select tile will now automatically directly highlight the tile under cursor
+2023-03-14: fixed paths for music and soundeffects demo now working

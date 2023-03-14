@@ -37,19 +37,19 @@ implement drop <-- done
 implement get <-- done
 implement basic talk <-- done
 implement drag'n'drop <-- done
-implement monster spawn :D
+implement monster spawn <-- done
 implement move <-- done
 implement checkpoints
 implement basic scheduling <-- done
 implement melee attack <-- almost done
 implement game state depending music <-- DONE
-implement better game state
-implement UI Model
+implement better game state <-- done
+implement UI Model <-- done
 think about adding game loop not to block EDT <-- DONE
 remove timer from EDT <-- DONE
 implement real game state from game mechanics
 extract game configuration <-- DONE
-bug: NPC will first move to melee, then if you move away, NPC will switch to ranged
+bug: NPC will first move to melee, then if you move away, NPC will switch to ranged <-- done
 
 make music stop victory, once the song is done. how to do this?
 perhaps just state variable will take care of this?

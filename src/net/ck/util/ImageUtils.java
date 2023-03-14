@@ -201,12 +201,20 @@ public class ImageUtils
      * @return ImageIcon which is then used to take away the white.
      * <p>
      * <a href="https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images">https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images</a>
+     * https://www.tutorialspoint.com/How-to-convert-Byte-Array-to-Image-in-java
      */
     public static ImageIcon createImageIcon(String path, String description)
     {
         BufferedImage img = null;
         try
         {
+            //TODO how to get class loader files
+            //logger.debug("path {}", path);
+            //InputStream in = ImageUtils.class.getClassLoader().getResourceAsStream("/" + path);
+            //img = ImageIO.read(in);
+            //byte[] bytes = in.readAllBytes();
+            //ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+
             img = ImageIO.read(new File(path));
         }
         catch (IOException e)

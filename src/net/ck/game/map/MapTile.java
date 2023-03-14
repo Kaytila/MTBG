@@ -298,68 +298,14 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public boolean isBlocked()
     {
-        switch (getType())
-        {
-            case DESERT:
-            case HILL:
-            case GRASS:
-            case SWAMP:
-            case LADDERUP:
-            case LADDERDOWN:
-            case STAIRSUP:
-            case STAIRSDOWN:
-            case CASTLEENTRANCE:
-            case TOWNENTRANCE:
-            case VILLAGEENTRANCE:
-            case GATEOPEN:
-            case WOODDOOROPEN:
-            case STONEDOOROPEN:
-            case DIRTROAD:
-            case PAVEDROAD:
-            case WOODFLOOR:
-            case STONEFLOOR:
-            case MARBLEFLOOR:
-            case DIRTFLOOR:
-            case CAVEENTRANCE:
-            case LIGHTFOREST:
-            case BUSHES:
-            case BUSH:
-            case DENSEFOREST:
-                return blocked;
-
-            case MOUNTAIN:
-            case RIVERES:
-            case RIVEREE:
-            case RIVEREN:
-            case RIVERNE:
-            case OCEAN:
-            case RIVERNS:
-            case RIVERNW:
-            case RIVERSE:
-            case RIVERSS:
-            case RIVERSW:
-            case RIVERWN:
-            case RIVERWS:
-            case RIVERWW:
-            case CASTLEWEST:
-            case CASTLEEAST:
-            case STONEWALL:
-            case STONEWINDOW:
-            case WOODWALL:
-            case WOODWINDOW:
-            case GATECLOSED:
-            case WOODDOORCLOSED:
-            case STONEDOORCLOSED:
-            case FOUNTAIN:
-            case WELL:
-            case SHALLOWOCEAN:
-            case REEF:
-            case LAVA:
-            case STEEPMOUNTAIN:
-                return true;
-            default:
-                throw new IllegalStateException("Unexpected value: " + getType());
-        }
+        return switch (getType())
+                {
+                    case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST ->
+                            blocked;
+                    case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN ->
+                            true;
+                    default -> throw new IllegalStateException("Unexpected value: " + getType());
+                };
     }
 
     public void setBlocked(boolean blocked)
@@ -427,7 +373,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
             default:
                 logger.error("forgotten a tile type - how? {}", getType().toString());
-                return false;
+                return blocksLOS;
         }
     }
 

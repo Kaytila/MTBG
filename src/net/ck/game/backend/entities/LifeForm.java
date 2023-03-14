@@ -1,6 +1,7 @@
 package net.ck.game.backend.entities;
 
 import net.ck.game.backend.actions.AbstractAction;
+import net.ck.game.backend.queuing.CommandQueue;
 import net.ck.game.backend.queuing.Schedule;
 import net.ck.game.items.Weapon;
 import net.ck.game.items.WeaponTypes;
@@ -10,7 +11,6 @@ import net.ck.util.communication.keyboard.GetAction;
 
 import java.awt.*;
 import java.util.Hashtable;
-import java.util.Queue;
 
 
 public interface LifeForm
@@ -73,7 +73,7 @@ public interface LifeForm
 
     GetAction lookAroundForItems();
 
-    Queue<Object> getQueuedActions();
+    CommandQueue getQueuedActions();
 
     boolean isStatic();
 

@@ -1,12 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="MTBG" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="net.ck.game.run.RunGame" />
-    <module name="MyTurnBasedGame" />
+  <configuration default="false" name="mtbg" type="JarApplication">
+    <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/MyTurnBasedGame_jar/MyTurnBasedGame.jar" />
+    <option name="VM_PARAMETERS" value="-splash:out/graphics/splash/splash.jpg -Djava.security.manager -Djava.security.policy==policy.txt" />
     <option name="PROGRAM_PARAMETERS" value="quick startPosition:3@0" />
-    <option name="VM_PARAMETERS" value="-splash:graphics/splash/splash.jpg -Djava.security.manager -Djava.security.policy==policy.txt" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/out" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+    <option name="WORKING_DIRECTORY" value="C:\Users\Claus\eclipse-workspace\MyTurnBasedGame\out" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="16" />
+    <method v="2" />
   </configuration>
 </component>

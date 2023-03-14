@@ -1,5 +1,6 @@
 package net.ck.game.music;
 
+import net.ck.game.backend.configuration.GameConfiguration;
 import net.ck.game.backend.state.GameState;
 import net.ck.game.backend.state.GameStateMachine;
 import net.ck.util.CodeUtils;
@@ -25,14 +26,6 @@ public class MusicPlayerNoThread
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private boolean gameStateChanged;
-
-    public static String getMusicBasePath()
-    {
-        return musicBasePath;
-    }
-
-    private static final String musicBasePath = "music";
-
 
 
     private Clip currentMusic;
@@ -87,7 +80,7 @@ public class MusicPlayerNoThread
         super();
         logger.info("initialize music player no threaded");
         EventBus.getDefault().register(this);
-        readMusicDirectories(getMusicBasePath());
+        readMusicDirectories(GameConfiguration.musicPath);
     }
 
 
