@@ -1,21 +1,23 @@
 module myTurnedBasedGame
 {
-	requires junit;
+    requires junit;
 
-	requires transitive java.desktop;
+    requires transitive java.desktop;
 
-	requires transitive org.apache.logging.log4j.core;
-	requires transitive org.apache.logging.log4j;
+    requires transitive org.apache.logging.log4j.core;
+    requires transitive org.apache.logging.log4j;
+
+    //requires javafx.graphics;
+    requires javafx.media;
 
     requires java.xml;
-	requires java.sql;
+    requires java.sql;
     requires eventbus.java;
-	requires org.apache.commons.lang3;
-	requires com.google.common;
-	requires imgscalr.lib;
-	requires java.datatransfer;
-	requires org.apache.commons.io;
-
+    requires org.apache.commons.lang3;
+    requires com.google.common;
+    requires imgscalr.lib;
+    requires java.datatransfer;
+    requires org.apache.commons.io;
     requires org.apache.tika.core;
 	requires com.opencsv;
 

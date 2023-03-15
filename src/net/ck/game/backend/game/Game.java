@@ -20,7 +20,6 @@ import net.ck.util.UILense;
 import net.ck.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.util.communication.graphics.HighlightEvent;
 import net.ck.util.communication.sound.GameStateChanged;
-import net.ck.util.security.SecurityManagerExtension;
 import net.ck.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -136,8 +135,8 @@ public class Game implements Runnable, Serializable
         // my nerves
         logger.info("setting up security manager");
         System.setProperty("java.security.policy", "policy.txt");
-        SecurityManagerExtension secMan = new SecurityManagerExtension();
-        java.lang.System.setSecurityManager(secMan);
+        //SecurityManagerExtension secMan = new SecurityManagerExtension();
+        //java.lang.System.setSecurityManager(secMan);
 
         // thread handling
         logger.info("setting up thread system");
