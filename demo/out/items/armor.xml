@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<armorItems>
+<armorItem>
+<id>1</id>
+<name>Cloth Cape</name>
+<type>CLOTH</type>
+<position>HEAD</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>2</id>
+<name>Shawl</name>
+<type>CLOTH</type>
+<position>NECK</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>3</id>
+<name>Cloth Shirt</name>
+<type>CLOTH</type>
+<position>TORSO</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>4</id>
+<name>Cloth trousers</name>
+<type>CLOTH</type>
+<position>LEGS</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>5</id>
+<name>Cloth Shoes</name>
+<type>CLOTH</type>
+<position>FEET</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>6</id>
+<name>Cloth Gloves</name>
+<type>CLOTH</type>
+<position>HANDS</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>7</id>
+<name>Cloth Belt</name>
+<type>CLOTH</type>
+<position>WAIST</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>8</id>
+<name>Cloth Shield</name>
+<type>CLOTH</type>
+<position>SHIELD</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>9</id>
+<name>Cloth Ring :D</name>
+<type>CLOTH</type>
+<position>FINGER</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+<armorItem>
+<id>10</id>
+<name>Cloth Backpack</name>
+<type>CLOTH</type>
+<position>BACKPACK</position>
+<armorclass>1</armorclass>
+<value>1</value>
+<weight>1.0</weight>
+</armorItem>
+</armorItems>

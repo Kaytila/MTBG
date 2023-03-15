@@ -1,0 +1,7 @@
+grant
+{
+    permission java.security.AllPermission "", "";
+    permission java.lang.RuntimePermission "getClassLoader";
+    permission java.lang.RuntimePermission "shutdownHooks";
+    permission java.lang.RuntimePermission "getenv.*";
+};
