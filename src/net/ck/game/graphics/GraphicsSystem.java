@@ -1,10 +1,10 @@
 package net.ck.game.graphics;
-/*import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GraphicsSystem extends Application implements Runnable
 {
@@ -51,4 +51,3 @@ public class GraphicsSystem extends Application implements Runnable
 
 	}
 }
-*/

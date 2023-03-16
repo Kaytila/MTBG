@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.stream.Collectors;
 
 public class SoundPlayerNoThread
@@ -21,9 +22,10 @@ public class SoundPlayerNoThread
 
     private ArrayList<Path> soundEffects;
 
+    private Hashtable<SoundEffects, Path> effectsList;
+
     private Clip currentSound;
     AudioInputStream audioInputStream = null;
-
 
 
     public SoundPlayerNoThread()
@@ -32,6 +34,7 @@ public class SoundPlayerNoThread
         //getLogger().info("initialize sound player no threaded");
        // EventBus.getDefault().register(this);
         soundEffects = new ArrayList<>();
+        effectsList = new Hashtable<>(SoundEffects.values().length);
         readSoundEffectDirectory(GameConfiguration.soundeffectsPath);
     }
 
@@ -46,15 +49,26 @@ public class SoundPlayerNoThread
                 {
                     //logger.info("Sound effect: {}", Paths.get(f.toURI()));
                     soundEffects.add(Paths.get(f.toURI()));
-                }
+                    String shortName = f.getName().substring(0, f.getName().length() - 4);
+                    for (SoundEffects ef : SoundEffects.values())
+                    {
+                        if (ef.toString().equals(shortName))
+                        {
+                            effectsList.put(ef, Paths.get(f.toURI()));
+                        }
+                    }
 
+                }
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             throw new RuntimeException(e);
         }
         //Game.getCurrent().stopGame();
+        for (SoundEffects ef : effectsList.keySet())
+        {
+            logger.debug("key: {}, value: {}", ef, effectsList.get(ef));
+        }
     }
 
     /*@Subscribe
@@ -65,25 +79,7 @@ public class SoundPlayerNoThread
 
     public synchronized  void playSoundEffect(SoundEffects type)
     {
-        Path path = null;
-        switch (type)
-        {
-            case WALK:
-            path = soundEffects.get(21);
-            break;
-
-            case HIT:
-                path = soundEffects.get(11);
-            break;
-
-            case BLOCKED:
-                path = soundEffects.get(0);
-            break;
-
-            case ATTACK:
-                path = soundEffects.get(12);
-            break;
-        }
+        Path path = effectsList.get(type);
 
         //logger.info("playing song: {}", path);
 

@@ -893,3 +893,5 @@ History of the changes:
 2023-03-12: select tile will no longer allow leaving the grid
 2023-03-12: select tile will now automatically directly highlight the tile under cursor
 2023-03-14: fixed paths for music and soundeffects demo now working
+2023-03-16: updated sound effects to use types instead of numbers. types derived from file name. added javafx sound on
+            debug button. still not working.

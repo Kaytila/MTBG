@@ -144,3 +144,6 @@ TODO - test foreground animation, let it snow
 TODO - do some more battle tests
 TODO - implement fleeing for NPCS
 TODO - remove last image references from equipment and attributes
+
+TODO separate sound effects and music manager from player
+todo properly annotate sound effects

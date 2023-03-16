@@ -20,6 +20,7 @@ module myTurnedBasedGame
     requires org.apache.commons.io;
     requires org.apache.tika.core;
 	requires com.opencsv;
+    requires javafx.swing;
 
 	exports net.ck.game.test;
 	exports net.ck.game.backend.entities;
