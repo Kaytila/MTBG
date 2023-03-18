@@ -138,21 +138,24 @@ public class MapXMLReader extends DefaultHandler
 	@Override
 	public void endDocument()
 	{
-        gameMap.setSize(MapUtils.calculateMapSize(getMaptiles()));
-        gameMap.setMapTiles(new MapTile[gameMap.getSize().x][gameMap.getSize().y]);
+		gameMap.setSize(MapUtils.calculateMapSize(getMaptiles()));
+		gameMap.setMapTiles(new MapTile[gameMap.getSize().x][gameMap.getSize().y]);
 
 		logger.debug("start: adding maptiles to 2d array");
-        for (MapTile t : getMaptiles())
-        {
-            gameMap.mapTiles[t.x][t.y] = t;
-        }
-
-		for (NPC n : getNpcs())
+		for (MapTile t : getMaptiles())
 		{
-			logger.info("initialize properly");
-            n.initialize();
-            gameMap.getLifeForms().add(n);
-            gameMap.mapTiles[n.getMapPosition().x][n.getMapPosition().y].setLifeForm(n);
+			gameMap.mapTiles[t.x][t.y] = t;
+		}
+
+		if (getNpcs() != null && getNpcs().size() > 0)
+		{
+			for (NPC n : getNpcs())
+			{
+				logger.info("initialize properly");
+				n.initialize();
+				gameMap.getLifeForms().add(n);
+				gameMap.mapTiles[n.getMapPosition().x][n.getMapPosition().y].setLifeForm(n);
+			}
 		}
 	}
 

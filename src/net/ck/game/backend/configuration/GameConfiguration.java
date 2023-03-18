@@ -114,7 +114,7 @@ public class GameConfiguration
 
     public static final int lineHight = font.getSize() + padding;
 
-    public static final String out = "out";
+    public static final String out = "resources";
     public static final String miscImages = out + "/" + "graphics" + "/" + "misc" + "/";
     public static final String cursorPath = miscImages + "CURSORS" + "/";
 

@@ -3,7 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="net.ck.game.run.RunGame" />
     <module name="MyTurnBasedGame" />
     <option name="PROGRAM_PARAMETERS" value="quick startPosition:3@0" />
-    <option name="VM_PARAMETERS" value="-splash:out/graphics/splash/splash.jpg -Djava.security.manager -Djava.security.policy==out/policy.txt" />
+    <option name="VM_PARAMETERS" value="-splash:resources/graphics/splash/splash.jpg -Djava.security.manager -Djava.security.policy==resources/policy.txt" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
