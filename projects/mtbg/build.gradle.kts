@@ -7,7 +7,7 @@ plugins {
 
 application {
     mainModule.set("net.ck.mtbg")
-    mainClass.set("net.ck.game.run.RunGame")
+    mainClass.set("net.ck.mtbg.run.RunGame")
 }
 
 // https://docs.gradle.org/current/userguide/application_plugin.html
@@ -18,8 +18,9 @@ distributions {
             exclude {
                 it.name.matches(Regex("javafx-.*-\\d\\d.jar"))
             }
-            from(projectDir.resolve("splash")) {
-                into("bin")
+            // add assets near the start-scripts
+            from(projectDir.resolve("assets")) {
+                into("bin/assets")
             }
         }
     }
@@ -28,7 +29,7 @@ distributions {
 // https://docs.gradle.org/current/dsl/org.gradle.jvm.application.tasks.CreateStartScripts.html
 tasks.getByName<CreateStartScripts>("startScripts") {
     defaultJvmOpts = listOf(
-        "-splash:splash.jpg"
+        "-splash:assets/graphics/splash/splash.jpg"
     )
 }
 
@@ -40,17 +41,10 @@ javafx {
     )
 }
 
-// https://docs.oracle.com/javase/7/docs/api/java/awt/SplashScreen.html
-tasks.getByName<Jar>("jar") {
-    manifest {
-        attributes["SplashScreen-Image"] = "splash.jpg"
-    }
-}
-
 // for application run only
 tasks.getByName<JavaExec>("run") {
     jvmArgs = listOf(
-        "-splash:" + projectDir.absolutePath + "/splash/splash.jpg"
+        "-splash:" + projectDir.absolutePath + "/assets/graphics/splash/splash.jpg"
     )
 }
 

@@ -1,0 +1,5 @@
+--add-modules
+  org.junit.platform.suite.api
+
+--add-reads
+  net.ck.mtbg=org.junit.platform.suite.api
