@@ -6,3 +6,6 @@ build
 
 # IntelliJ
 .idea/**
+
+# other
+test.txt
