@@ -1,3 +1,11 @@
-/ultima4/
-/target/
-/resources/artifacts/
+# Build
+build
+
+# Gradle
+.gradle
+
+# IntelliJ
+.idea/**
+
+# other
+test.txt

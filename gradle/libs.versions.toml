@@ -1,0 +1,40 @@
+[versions]
+# https://mvnrepository.com/artifact/com.google.guava/guava
+google-guava = "31.1-jre"
+# https://mvnrepository.com/artifact/org.junit.jupiter
+junit-general = "5.9.2"
+junit-sub = "1.9.2"
+# https://mvnrepository.com/artifact/org.greenrobot/eventbus
+greenrobot = "3.3.1"
+# https://mvnrepository.com/artifact/info.picocli/picocli
+picoli = "4.7.1"
+# https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib
+imgscalr = "4.2"
+# https://mvnrepository.com/artifact/org.locationtech.jts/jts-core
+locationtech = "1.19.0"
+# https://mvnrepository.com/artifact/com.opencsv/opencsv
+opencsv = "5.7.1"
+# https://mvnrepository.com/artifact/org.apache.tika/tika-core
+tika = "2.7.0"
+# https://mvnrepository.com/artifact/org.apache.logging.log4j
+log4j = "2.20.0"
+
+[libraries]
+google-guava = { module = "com.google.guava:guava", version.ref = "google-guava" }
+greenrobot = { module = "org.greenrobot:eventbus-java", version.ref = "greenrobot" }
+picoli = { module = "info.picocli:picocli", version.ref = "picoli" }
+imgscalr = { module = "org.imgscalr:imgscalr-lib", version.ref = "imgscalr" }
+locationtech = { module = "org.locationtech.jts:jts-core", version.ref = "locationtech" }
+opencsv = { module = "com.opencsv:opencsv", version.ref = "opencsv" }
+tika = { module = "org.apache.tika:tika-core", version.ref = "tika" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-general" }
+junit-suite-api = { module = "org.junit.platform:junit-platform-suite-api", version.ref = "junit-sub" }
+junit-suite-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "junit-sub" }
+
+[bundles]
+junit = ["junit-jupiter", "junit-suite-api", "junit-suite-engine"]
+log4j = ["log4j-api", "log4j-core"]
+
+[plugins]

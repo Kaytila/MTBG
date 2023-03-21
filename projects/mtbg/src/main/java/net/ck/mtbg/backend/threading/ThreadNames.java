@@ -1,0 +1,6 @@
+package net.ck.mtbg.backend.threading;
+
+public enum ThreadNames
+{
+    LIFEFORM_ANIMATION, FOREGROUND_ANIMATION, BACKGROUND_ANIMATION, WEATHER_ANIMATION, MAIN, GAME_THREAD, SOUND_SYSTEM, MISSILE
+}
