@@ -108,7 +108,7 @@ public interface LifeForm
 
     void setCurrImage(int currImage);
 
-    NPCTypes getType();
+    NPCType getType();
 
-    void setType(NPCTypes type);
+    void setType(NPCType type);
 }

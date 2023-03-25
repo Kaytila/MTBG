@@ -1,11 +1,10 @@
 package net.ck.mtbg.test;
 
 import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
-
 import org.junit.jupiter.api.*;
 
 import java.awt.*;
@@ -51,7 +50,7 @@ public class TalkTest
     {
         NPC n1 = new NPC();
         n1.setId(98);
-        n1.setType(NPCTypes.WARRIOR);
+        n1.setType(NPCType.WARRIOR);
         Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
         n1.setMapPosition(new Point(5, 2));
         n1.initialize();

@@ -1,7 +1,7 @@
 package net.ck.mtbg.test;
 
 import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.util.MapUtils;
@@ -54,7 +54,7 @@ public class BattleTest
 	{
 		NPC n1 = new NPC();
 		n1.setId(98);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(3, 2));
 		n1.initialize();
@@ -67,7 +67,7 @@ public class BattleTest
 	{
 		NPC n1 = new NPC();
 		n1.setId(94);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		game.getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(4, 2));
 		n1.initialize();
@@ -81,7 +81,7 @@ public class BattleTest
 	{
 		NPC n1 = new NPC();
 		n1.setId(95);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		game.getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(4, 2));
 		game.getCurrentMap().mapTiles[4][2].setLifeForm(n1);
@@ -96,7 +96,7 @@ public class BattleTest
 	{
 		NPC n1 = new NPC();
 		n1.setId(93);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		game.getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(3, 2));
 		game.getCurrentMap().mapTiles[3][2].setLifeForm(n1);

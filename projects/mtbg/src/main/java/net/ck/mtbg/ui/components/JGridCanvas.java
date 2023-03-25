@@ -9,38 +9,9 @@ import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
-import net.ck.mtbg.util.ImageManager;
-import net.ck.mtbg.util.ImageUtils;
-import net.ck.mtbg.util.MapUtils;
-import net.ck.mtbg.util.UILense;
-import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
-import net.ck.mtbg.util.communication.graphics.BackgroundRepresentationChanged;
-import net.ck.mtbg.util.communication.graphics.CursorChangeEvent;
-import net.ck.mtbg.util.communication.graphics.ForegroundRepresentationChanged;
-import net.ck.mtbg.util.communication.graphics.HighlightEvent;
-import net.ck.mtbg.util.communication.graphics.MissilePositionChanged;
-import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
-import net.ck.mtbg.util.communication.keyboard.AttackAction;
-import net.ck.mtbg.util.communication.keyboard.DropAction;
-import net.ck.mtbg.util.communication.keyboard.EQAction;
-import net.ck.mtbg.util.communication.keyboard.ESCAction;
-import net.ck.mtbg.util.communication.keyboard.EastAction;
-import net.ck.mtbg.util.communication.keyboard.EnterAction;
-import net.ck.mtbg.util.communication.keyboard.GetAction;
-import net.ck.mtbg.util.communication.keyboard.InventoryAction;
-import net.ck.mtbg.util.communication.keyboard.LookAction;
-import net.ck.mtbg.util.communication.keyboard.MoveAction;
-import net.ck.mtbg.util.communication.keyboard.NorthAction;
-import net.ck.mtbg.util.communication.keyboard.OptionsAction;
-import net.ck.mtbg.util.communication.keyboard.PushAction;
-import net.ck.mtbg.util.communication.keyboard.SearchAction;
-import net.ck.mtbg.util.communication.keyboard.SouthAction;
-import net.ck.mtbg.util.communication.keyboard.SpaceAction;
-import net.ck.mtbg.util.communication.keyboard.TalkAction;
-import net.ck.mtbg.util.communication.keyboard.WestAction;
-import net.ck.mtbg.util.communication.keyboard.YankAction;
-import net.ck.mtbg.util.communication.keyboard.ZStatsAction;
+import net.ck.mtbg.util.*;
+import net.ck.mtbg.util.communication.graphics.*;
+import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.weather.WeatherTypes;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
@@ -337,7 +308,15 @@ public class JGridCanvas extends JComponent
                             {
                                 if (GameConfiguration.useImageManager == true)
                                 {
-                                    BufferedImage bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+                                    BufferedImage bufferedImage = null;
+                                    try
+                                    {
+                                        bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        throw new RuntimeException(e);
+                                    }
                                     g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
                                 }
                                 else

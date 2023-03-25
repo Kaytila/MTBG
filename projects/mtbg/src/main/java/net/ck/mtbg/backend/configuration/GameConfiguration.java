@@ -115,8 +115,8 @@ public class GameConfiguration
     public static final int lineHight = font.getSize() + padding;
 
     public static final String out = "assets";
-    public static final String miscImages = out + "/" + "graphics" + "/" + "misc" + "/";
-    public static final String cursorPath = miscImages + "CURSORS" + "/";
+    public static final String miscImages = out + File.separator + "graphics" + File.separator + "misc" + File.separator;
+    public static final String cursorPath = miscImages + "CURSORS" + File.separator;
 
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
 
@@ -205,9 +205,7 @@ public class GameConfiguration
 
     public static final boolean useUtilTimerForAnimation = true;
 
-
     public static final int hitormissTimerDuration = 1000;
-
 
     public static final boolean useImageManager = true;
     public static final int numberOfAdditionalImages = 4;

@@ -1,13 +1,13 @@
 package net.ck.mtbg.util.xml;
 
 import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.weather.WeatherTypes;
 import net.ck.mtbg.util.MapUtils;
+import net.ck.mtbg.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -277,7 +277,7 @@ public class MapXMLReader extends DefaultHandler
 				}
 				if (npc)
 				{
-					np.setType(NPCTypes.valueOf(data.toString()));
+					np.setType(NPCType.valueOf(data.toString()));
 				}
 				break;
 			case "x":

@@ -147,3 +147,11 @@ TODO - remove last image references from equipment and attributes
 
 TODO separate sound effects and music manager from player
 todo properly annotate sound effects
+
+
+s of the Java 2 platform v1.2, this class was retrofitted to implement the Map interface,
+making it a member of the Java Collections Framework.
+Unlike the new collection implementations, Hashtable is synchronized.
+If a thread-safe implementation is not needed, it is recommended to use HashMap in place of Hashtable.
+If a thread-safe highly-concurrent implementation is desired,
+then it is recommended to use java.util.concurrent.ConcurrentHashMap in place of Hashtable.

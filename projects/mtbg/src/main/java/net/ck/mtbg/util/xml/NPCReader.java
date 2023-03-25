@@ -1,7 +1,7 @@
 package net.ck.mtbg.util.xml;
 
 import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -131,7 +131,7 @@ public class NPCReader extends DefaultHandler
                 n.setId(Integer.parseInt(data.toString()));
                 break;
             case "type":
-                n.setType(NPCTypes.valueOf(data.toString()));
+                n.setType(NPCType.valueOf(data.toString()));
                 break;
             case "x":
                 if (n.getMapPosition() == null)

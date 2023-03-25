@@ -44,7 +44,7 @@ javafx {
 // for application run only
 tasks.getByName<JavaExec>("run") {
     jvmArgs = listOf(
-        "-splash:" + projectDir.absolutePath + "/assets/graphics/splash/splash.jpg"
+        "-splash:" + projectDir.absolutePath + "/assets/graphics/splash/splash.jpg"//, "quick", "startPosition:1@1"
     )
 }
 

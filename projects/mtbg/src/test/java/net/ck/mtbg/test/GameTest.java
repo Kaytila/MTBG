@@ -3,17 +3,12 @@ package net.ck.mtbg.test;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.entities.AIBehaviour;
 import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.EastAction;
-import net.ck.mtbg.util.communication.keyboard.NorthAction;
-import net.ck.mtbg.util.communication.keyboard.SouthAction;
-import net.ck.mtbg.util.communication.keyboard.SpaceAction;
-import net.ck.mtbg.util.communication.keyboard.WestAction;
+import net.ck.mtbg.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -112,7 +107,7 @@ public class GameTest
 
 		NPC n1 = new NPC();
 		n1.setId(99);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(3, 2));
 		n1.initialize();
@@ -140,7 +135,7 @@ public class GameTest
 		action.setHaveNPCAction(true);
 		NPC n1 = new NPC();
 		n1.setId(90);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(4, 2));
 		n1.initialize();
@@ -173,7 +168,7 @@ public class GameTest
 		action.setHaveNPCAction(true);
 		NPC n1 = new NPC();
 		n1.setId(90);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(5, 3));
 		n1.initialize();
@@ -202,7 +197,7 @@ public class GameTest
 		action.setHaveNPCAction(true);
 		NPC n1 = new NPC();
 		n1.setId(90);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(4, 3));
 		n1.initialize();
@@ -228,7 +223,7 @@ public class GameTest
 	{
 		NPC n1 = new NPC();
 		n1.setId(98);
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
 		n1.setMapPosition(new Point(5, 2));
 		n1.initialize();

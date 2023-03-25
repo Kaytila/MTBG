@@ -333,7 +333,7 @@ public class World extends AbstractEntity implements LifeForm
 		}
 
 		NPC n1 = new NPC();
-		n1.setType(NPCTypes.WARRIOR);
+		n1.setType(NPCType.WARRIOR);
 		//identify which direction player is moving that we can spawn the npc:
 		MapTile tile = null;
 		switch (Game.getCurrent().getPlayerAction().getEvent().getType())

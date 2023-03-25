@@ -2,7 +2,7 @@ package net.ck.mtbg.util;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import net.ck.mtbg.backend.entities.Player;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.graphics.ImagePair;
@@ -348,7 +348,7 @@ public class ImageUtils
     {
         // first player
 
-        BufferedImage image = ImageManager.getLifeformImages().get(NPCTypes.PLAYER)[0];
+        BufferedImage image = ImageManager.getLifeformImages().get(NPCType.PLAYER)[0];
 
         Point p = new Point(image.getWidth(), image.getHeight());
 

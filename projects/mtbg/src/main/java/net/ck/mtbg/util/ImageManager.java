@@ -3,7 +3,7 @@ package net.ck.mtbg.util;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.AttributeTypes;
-import net.ck.mtbg.backend.entities.NPCTypes;
+import net.ck.mtbg.backend.entities.NPCType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
@@ -18,7 +18,8 @@ public class ImageManager
     /**
      * this contains the animation frames per TYPE: WARRIOR, PLAYER, BEGGAR ...
      */
-    private static Hashtable<NPCTypes, BufferedImage[]> lifeformImages = new Hashtable<>(NPCTypes.values().length);
+    //
+    private static Hashtable<NPCType, BufferedImage[]> lifeformImages = new Hashtable<>(NPCType.values().length);
     /**
      * this contains the images like hit miss, bloodstain, need to keep a list somewhere
      * or rather change the helpers in imageutils accordingly.
@@ -42,12 +43,12 @@ public class ImageManager
         ImageManager.additionalImages = additionalImages;
     }
 
-    public static Hashtable<NPCTypes, BufferedImage[]> getLifeformImages()
+    public static Hashtable<NPCType, BufferedImage[]> getLifeformImages()
     {
         return lifeformImages;
     }
 
-    public static void setLifeformImages(Hashtable<NPCTypes, BufferedImage[]> lifeformImages)
+    public static void setLifeformImages(Hashtable<NPCType, BufferedImage[]> lifeformImages)
     {
         ImageManager.lifeformImages = lifeformImages;
     }
@@ -87,7 +88,7 @@ public class ImageManager
     public static void loadLifeFormImages()
     {
 
-        for (NPCTypes type : NPCTypes.values())
+        for (NPCType type : NPCType.values())
         {
             try
             {

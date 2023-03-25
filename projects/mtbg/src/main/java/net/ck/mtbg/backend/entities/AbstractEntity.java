@@ -9,24 +9,12 @@ import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.backend.state.TimerManager;
-import net.ck.mtbg.items.AbstractItem;
-import net.ck.mtbg.items.Armor;
-import net.ck.mtbg.items.ArmorPositions;
-import net.ck.mtbg.items.Weapon;
-import net.ck.mtbg.items.WeaponTypes;
+import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.util.CodeUtils;
-import net.ck.mtbg.util.Direction;
-import net.ck.mtbg.util.ImageManager;
-import net.ck.mtbg.util.MapUtils;
-import net.ck.mtbg.util.NPCUtils;
-import net.ck.mtbg.util.communication.keyboard.EastAction;
-import net.ck.mtbg.util.communication.keyboard.GetAction;
-import net.ck.mtbg.util.communication.keyboard.NorthAction;
-import net.ck.mtbg.util.communication.keyboard.SouthAction;
-import net.ck.mtbg.util.communication.keyboard.WestAction;
+import net.ck.mtbg.util.*;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -108,7 +96,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private CommandQueue queuedActions;
 
-    private NPCTypes type;
+    private NPCType type;
 
 
     public AbstractEntity()
@@ -120,12 +108,12 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setState(LifeFormState.ALIVE);
     }
 
-    public NPCTypes getType()
+    public NPCType getType()
     {
         return type;
     }
 
-    public void setType(NPCTypes type)
+    public void setType(NPCType type)
     {
         this.type = type;
     }

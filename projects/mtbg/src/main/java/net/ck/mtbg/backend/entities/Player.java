@@ -16,11 +16,7 @@ import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.EastAction;
-import net.ck.mtbg.util.communication.keyboard.NorthAction;
-import net.ck.mtbg.util.communication.keyboard.SouthAction;
-import net.ck.mtbg.util.communication.keyboard.WestAction;
+import net.ck.mtbg.util.communication.keyboard.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +60,7 @@ public class Player extends AbstractEntity implements LifeForm
         setQueuedActions(new CommandQueue());
 
 
-        setType(NPCTypes.PLAYER);
+        setType(NPCType.PLAYER);
 
 
         this.getItem(ItemManager.getArmorList().get(1));
