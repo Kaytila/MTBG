@@ -211,6 +211,11 @@ public class GameConfiguration
     public static final int numberOfAdditionalImages = 4;
     public static final int weatherWait = 10000;
     public static final boolean debugBrightenImages = false;
+
+    public static final Point startPosition = new Point(2, 0);
+
+    public static final boolean quickstart = true;
+
 }
 
 

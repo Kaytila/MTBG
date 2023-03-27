@@ -1,13 +1,14 @@
 package net.ck.mtbg.run;
 
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.weather.WeatherTypes;
 import net.ck.mtbg.util.CursorUtils;
 import net.ck.mtbg.util.GameUtils;
 import net.ck.mtbg.util.ImageManager;
 import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +43,7 @@ public class RunGame
 	public static void main(String[] args)
 	{
 		logger.info("starting game");
-		boolean quickstart = false;
+	/*	boolean quickstart = false;
 		Point startPosition = null;
 		for (String ar : args)
 		{
@@ -62,23 +63,25 @@ public class RunGame
 				startPosition = new Point(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]));
 
 			}
-		}
+		}*/
 
-		if (quickstart)
+		if (GameConfiguration.quickstart)
 		{
 			logger.info("quickstart enabled, no splashscreen");
 			logger.info("initialize game");
 			CursorUtils.initializeCursors();
 			game = Game.getCurrent();
-			if (game != null) {
-				if (generate) {
+			if (game != null)
+			{
+				if (generate)
+				{
 					ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
 					ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
 					ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
 				}
 				GameUtils.initializeAllItems();
 				GameUtils.initializeMaps();
-				game.addPlayers(startPosition);
+				game.addPlayers(GameConfiguration.startPosition);
 				//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 				//game.addAnimatedEntities();
 				GameUtils.initializeAnimationSystem();
@@ -153,7 +156,7 @@ public class RunGame
 					renderSplashFrame(g, size);
 					GameUtils.initializeMaps();
 					renderSplashFrame(g, size);
-					game.addPlayers(startPosition);
+					game.addPlayers(GameConfiguration.startPosition);
 					renderSplashFrame(g, size);
 					//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
 					//game.addAnimatedEntities();
