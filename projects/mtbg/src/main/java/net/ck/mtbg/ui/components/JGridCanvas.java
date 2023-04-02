@@ -3,6 +3,7 @@ package net.ck.mtbg.ui.components;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.LifeForm;
 import net.ck.mtbg.backend.entities.Missile;
+import net.ck.mtbg.backend.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.GameLogs;
 import net.ck.mtbg.items.FurnitureItem;
@@ -156,6 +157,7 @@ public class JGridCanvas extends JComponent
         if (updating == true)
         {
             logger.info("already drawing, dont do again");
+            Game.getCurrent().stopGame();
             return;
         }
         updating = true;
@@ -311,10 +313,22 @@ public class JGridCanvas extends JComponent
                                     BufferedImage bufferedImage = null;
                                     try
                                     {
+                                        if (tile.getLifeForm().getType() == null)
+                                        {
+                                            logger.debug("why?");
+                                            tile.getLifeForm().setType(NPCType.WARRIOR);
+                                        }
                                         bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
                                     }
                                     catch (Exception e)
                                     {
+                                        logger.debug("tile: {}", tile);
+                                        logger.debug(("tile.getLifeForm() {}"), tile.getLifeForm());
+                                        logger.debug("lifeform image: {}", tile.getLifeForm().getCurrImage());
+                                        logger.debug("tile.getLifeForm().getType() {}", tile.getLifeForm().getType());
+                                        logger.debug("ImageManager.getLifeformImages() {}", ImageManager.getLifeformImages());
+
+
                                         throw new RuntimeException(e);
                                     }
                                     g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);

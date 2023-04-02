@@ -897,3 +897,5 @@ History of the changes:
             debug button. still not working.
 2023-03-18: mini commit to update maps.
 2023-03-27: removed command line arguments and switched to config
+2023-04-02: fixed the bug with the npc type null - it was due to an npc being initilaized incorrectly because the map
+            is not even active.

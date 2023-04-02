@@ -44,3 +44,5 @@ BUGS:
 2023-03-08  light source range calculation only works if the light source is visible on the map, need to change
             calculation of brightened factor to go either all over the map or to get an additional range outside of
             visibility
+2023-04-02  npcs are being initialized even if the map is not active. this caused a schedule to break as a
+            non-properly initialized npc was causing a draw error

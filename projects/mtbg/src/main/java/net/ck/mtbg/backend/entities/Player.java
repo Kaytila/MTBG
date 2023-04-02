@@ -127,6 +127,12 @@ public class Player extends AbstractEntity implements LifeForm
         return state;
     }
 
+    public NPCType getType()
+    {
+        return NPCType.PLAYER;
+    }
+
+
     @Override
     public void setState(LifeFormState state)
     {

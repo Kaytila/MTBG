@@ -16,11 +16,7 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.astar.AStar;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.EastAction;
-import net.ck.mtbg.util.communication.keyboard.NorthAction;
-import net.ck.mtbg.util.communication.keyboard.SouthAction;
-import net.ck.mtbg.util.communication.keyboard.WestAction;
+import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -221,10 +217,14 @@ public class NPC extends AbstractEntity implements LifeForm
 
         setCurrImage(0);
 
-        if (getId() == 4)
+        //TODO broken as fuck:
+        //TODO initialized a npc not even on this map, breaking things because it does not have a type then
+
+        /*if (getId() == 4)
         {
+            logger.info("add schedule");
             setSchedule(new Schedule(this));
-        }
+        }*/
 
         if (getOriginalMapPosition() == null)
         {
