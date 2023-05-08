@@ -656,7 +656,18 @@ public class MapUtils
         return (range.contains(source.x - target.x)) && (range.contains(source.y - target.y));
     }
 
-    public static void calculateHiddenTiles(Graphics g)
+    /**
+     * this is used to properly calculate the tiles before they are drawn
+     * ideally, there is no more logic in paintcomponent but everything is moved here.
+     * <p>
+     * what needs to be done here still:
+     * <p>
+     * calculate darkness
+     * pre-calculate brightened up images
+     *
+     * @param g
+     */
+    public static void calculateTiles(Graphics g)
     {
         //reset
         for (int row = 0; row < GameConfiguration.numberOfTiles; row++)

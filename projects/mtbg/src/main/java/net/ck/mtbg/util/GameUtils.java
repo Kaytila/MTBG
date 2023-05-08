@@ -7,13 +7,7 @@ import net.ck.mtbg.animation.background.BackgroundAnimationSystemTimer;
 import net.ck.mtbg.animation.foreground.ForegroundAnimationSystem;
 import net.ck.mtbg.animation.foreground.ForegroundAnimationSystemActionListener;
 import net.ck.mtbg.animation.foreground.ForegroundAnimationSystemTimer;
-import net.ck.mtbg.animation.lifeform.AnimationSystem;
-import net.ck.mtbg.animation.lifeform.AnimationSystemActionListener;
-import net.ck.mtbg.animation.lifeform.AnimationSystemFactory;
-import net.ck.mtbg.animation.lifeform.AnimationSystemTimer;
-import net.ck.mtbg.animation.lifeform.AnimationSystemTimerTask;
-import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
-import net.ck.mtbg.animation.lifeform.HitMissImageTimer;
+import net.ck.mtbg.animation.lifeform.*;
 import net.ck.mtbg.animation.missile.MissileTimer;
 import net.ck.mtbg.animation.missile.MissileUtilTimer;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
@@ -42,17 +36,11 @@ import net.ck.mtbg.music.MusicTimerActionListener;
 import net.ck.mtbg.soundeffects.SoundPlayerNoThread;
 import net.ck.mtbg.ui.highlighting.HighlightTimer;
 import net.ck.mtbg.ui.highlighting.HightlightTimerActionListener;
-import net.ck.mtbg.weather.*;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.xml.RunXMLParser;
-import net.ck.mtbg.weather.AbstractWeatherSystem;
-import net.ck.mtbg.weather.AsyncWeatherSystem;
-import net.ck.mtbg.weather.Weather;
-import net.ck.mtbg.weather.WeatherManager;
-import net.ck.mtbg.weather.WeatherSystemFactory;
-import net.ck.mtbg.weather.WeatherTypes;
+import net.ck.mtbg.weather.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -508,7 +496,7 @@ public class GameUtils
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
         }
         UILense.getCurrent().identifyVisibleTilesBest();
-        MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
+        MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
     }
 
     public static void listMaps()

@@ -395,7 +395,7 @@ public class Game implements Runnable, Serializable
             TimerManager.getHighlightTimer().start();
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
             UILense.getCurrent().identifyVisibleTilesBest();
-            MapUtils.calculateHiddenTiles(WindowBuilder.getGridCanvas().getGraphics());
+            MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
             {
                 WindowBuilder.getGridCanvas().paint();

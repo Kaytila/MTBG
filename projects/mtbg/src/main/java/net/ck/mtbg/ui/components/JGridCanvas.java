@@ -133,6 +133,8 @@ public class JGridCanvas extends JComponent
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, 0), "yank");
         this.getActionMap().put("yank", new YankAction());
 
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "cast");
+        this.getActionMap().put("cast", new CastAction());
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK), "options");
         this.getActionMap().put("options", new OptionsAction());
@@ -382,84 +384,7 @@ public class JGridCanvas extends JComponent
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
             //paintDarkness(g);
         }
-        else
-        {
-            // identify which tiles are visible at first!
-            // long startTime = System.nanoTime();
-            //identifyVisibleTiles();
-            //logger.info("OLD run time: {}", System.nanoTime() - startTime);
-            //UILense.getCurrent().initialize();
-            //startTime = System.nanoTime();
-            //UILense.getCurrent().identifyVisibleTilesNew();
-            //logger.debug("end identify tiles: {}", System.nanoTime() - start);
-            //logger.info("NEW run time: {}", System.nanoTime() - startTime);
-            // this somehow needs to be doable faster
-            // draw the background images
-            /*paintBackground(g);
-            paintBlackTiles(g);
-            */
-            //long start2 = System.nanoTime();
-            paintBackgroundNew(g);
-            //logger.debug("end paint background: {}", System.nanoTime() - start2);
-            // identify the black tiles
 
-
-            // iterate over the entities on the map
-            // calculate offset to the player.
-            //paintNPCs(g);
-
-            //start2 = System.nanoTime();
-            // here come the items on the map :D
-            paintItems(g);
-            //logger.debug("end paint items: {}", System.nanoTime() - start2);
-            //start2 = System.nanoTime();
-            paintNPCsNew(g);
-            //logger.debug("end paint npcs: {}", System.nanoTime() - start2);
-
-            // here comes the paintWeather part
-            // this somehow needs to be doable faster
-            //start2 = System.nanoTime();
-            paintWeather(g);
-            //logger.debug("end paint weather: {}", System.nanoTime() - start2);
-            // ring of darkness around the player
-            //start2 = System.nanoTime();
-            paintDarkness(g);
-            //logger.debug("end paint darkness: {}", System.nanoTime() - start2);
-            //paint furniture
-            //also: paint light effects
-            //start2 = System.nanoTime();
-            paintFurniture(g);
-            //logger.debug("end paint furniture: {}", System.nanoTime() - start2);
-            //paint line of sight or rather, paint black the tiles that are not visible
-            //based on the calculations which are not completely fitting but good enough
-            //start2 = System.nanoTime();
-            paintLoS(g);
-            //logger.debug("end paint los: {}", System.nanoTime() - start2);
-            //paint the missiles on the screen
-            //start2 = System.nanoTime();
-            paintMissiles(g);
-            //logger.debug("end paint missiles: {}", System.nanoTime() - start2);
-            //paintMissilesFullLineAtOnce(g);
-            //MapUtils.calculateHiddenTiles(g);
-
-
-            // take component size and draw lines every $tileSize pixels.
-            //start2 = System.nanoTime();
-            if (GameConfiguration.paintGridLines == true)
-            {
-                paintGridLines(g);
-            }
-            //logger.debug("end paint grid: {}", System.nanoTime() - start2);
-
-            //start2 = System.nanoTime();
-            paintHighlighting(g);
-            //logger.debug("end paint highlighting: {}", System.nanoTime() - start2);
-
-            //start2 = System.nanoTime();
-            paintHighlightedMapTile(g);
-            //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
-            //MapUtils.calculateHiddenTiles(g);
-        }
         updating = false;
         if (GameConfiguration.debugPaint == true)
         {
