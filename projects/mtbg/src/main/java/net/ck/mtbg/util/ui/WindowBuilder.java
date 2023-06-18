@@ -1,13 +1,7 @@
 package net.ck.mtbg.util.ui;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.buttons.DecreaseVolumeButton;
-import net.ck.mtbg.ui.buttons.IncreaseVolumeButton;
-import net.ck.mtbg.ui.buttons.LoadButton;
-import net.ck.mtbg.ui.buttons.SaveButton;
-import net.ck.mtbg.ui.buttons.StartMusicButton;
-import net.ck.mtbg.ui.buttons.StopMusicButton;
-import net.ck.mtbg.ui.buttons.UndoButton;
+import net.ck.mtbg.ui.buttons.*;
 import net.ck.mtbg.ui.components.InputField;
 import net.ck.mtbg.ui.components.JGridCanvas;
 import net.ck.mtbg.ui.components.JWeatherCanvas;
@@ -18,7 +12,7 @@ import net.ck.mtbg.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.mtbg.ui.dnd.JGridCanvasDropTargetHandler;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.listeners.MyFocusListener;
-import net.ck.mtbg.ui.mainframes.MainFrame;
+import net.ck.mtbg.ui.mainframes.GameFrame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -224,7 +218,7 @@ public class WindowBuilder {
     public static void buildWindow(Controller mW) {
         logger.info("start: build window");
         controller = mW;
-        frame = new MainFrame();
+        frame = new GameFrame();
         MyFocusListener myFocusListener = new MyFocusListener();
         undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
         undoButton.addFocusListener(myFocusListener);

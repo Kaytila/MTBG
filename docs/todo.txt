@@ -155,3 +155,12 @@ Unlike the new collection implementations, Hashtable is synchronized.
 If a thread-safe implementation is not needed, it is recommended to use HashMap in place of Hashtable.
 If a thread-safe highly-concurrent implementation is desired,
 then it is recommended to use java.util.concurrent.ConcurrentHashMap in place of Hashtable.
+
+
+
+todo:
+cut scene.
+simple cut scene - just draw an image across all screen on top
+cut scene + text - draw image plus text
+cut scene + text boxes - draw image plus textbox1, then image + text box 2
+cut scene elaborated - image + text, image + text

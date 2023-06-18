@@ -257,8 +257,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             //TODO what to do here?
 
         }
-
-
     }
 
     /**

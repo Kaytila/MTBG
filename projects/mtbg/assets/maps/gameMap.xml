@@ -75291,11 +75291,11 @@
             <type>WARRIOR</type>
             <mobasks>
                 <mobask>
-                    <question>Hello</question>
+                    <question>hello</question>
                     <answer>Hello, how do you do?</answer>
                 </mobask>
                 <mobask>
-                    <question>Name</question>
+                    <question>name</question>
                     <answer>My name is orc</answer>
                 </mobask>
                 <mobask>
@@ -75305,6 +75305,10 @@
                 <mobask>
                     <question>bye</question>
                     <answer>Ort!</answer>
+                </mobask>
+                <mobask>
+                    <question>history</question>
+                    <answer>cutscene</answer>
                 </mobask>
             </mobasks>
             <mapPosition>

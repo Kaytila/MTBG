@@ -11,6 +11,9 @@ import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.mainframes.SceneFrame;
+import net.ck.mtbg.ui.state.UIState;
+import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.astar.AStar;
@@ -31,16 +34,7 @@ public class Player extends AbstractEntity implements LifeForm
 
 
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
-
-    public void setMapPosition(Point position)
-    {
-        this.mapPosition = position;
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
-        //logger.info("player number {}, map position {}", getNumber(), mapPosition.toString());
-    }
-
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 
     /**
      * constructor for the player player has two images types defined now.
@@ -91,28 +85,30 @@ public class Player extends AbstractEntity implements LifeForm
 
     }
 
+    public void setMapPosition(Point position)
+    {
+        this.mapPosition = position;
+        Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
+        //logger.info("player number {}, map position {}", getNumber(), mapPosition.toString());
+    }
+
     @Override
-    public Point getUIPosition() {
+    public Point getUIPosition()
+    {
         return uiPosition;
         //return new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
-    }
-
-    @Override
-    public void setHostile(boolean b)
-    {
-        //nothing to do, this is player
-    }
-
-    @Override
-    public void setVictim(LifeForm npc)
-    {
-        //nothing to do, this is player
     }
 
     @Override
     public LifeForm getVictim()
     {
         return null;
+    }
+
+    @Override
+    public void setVictim(LifeForm npc)
+    {
+        //nothing to do, this is player
     }
 
     @Override
@@ -127,18 +123,16 @@ public class Player extends AbstractEntity implements LifeForm
         return state;
     }
 
-    public NPCType getType()
-    {
-        return NPCType.PLAYER;
-    }
-
-
     @Override
     public void setState(LifeFormState state)
     {
         this.state = state;
     }
 
+    public NPCType getType()
+    {
+        return NPCType.PLAYER;
+    }
 
     @Override
     public void search()
@@ -162,8 +156,8 @@ public class Player extends AbstractEntity implements LifeForm
             if (!(getQueuedActions().isEmpty()))
             {
                 logger.info("queued action, lets do this: {}", getQueuedActions().peek());
-                AbstractKeyboardAction realAction   = getQueuedActions().poll();
-                PlayerAction           playerAction = new PlayerAction(realAction);
+                AbstractKeyboardAction realAction = getQueuedActions().poll();
+                PlayerAction playerAction = new PlayerAction(realAction);
                 doAction(playerAction);
                 EventBus.getDefault().post(new AdvanceTurnEvent(playerAction));
                 return;
@@ -388,7 +382,22 @@ public class Player extends AbstractEntity implements LifeForm
                 if (lifeForm.getMobasks().get(question) != null)
                 {
                     logger.info("lifeform {} has something to say about {}", lifeForm, question);
-                    return lifeForm.getMobasks().get(question);
+                    //TODO this is icky as fuck but works for trying out
+                    if (question.equalsIgnoreCase("history"))
+                    {
+                        logger.info("play cutscene");
+                        UIStateMachine.setUiState(UIState.CUTSCENE);
+                        if (EventQueue.isDispatchThread())
+                        {
+                            SceneFrame frame = new SceneFrame();
+                            //not necessary but I dont like the frame to be greyed out due to not being used for this is heavy TBD.
+                            frame.setVisible(true);
+                        }
+                    }
+                    else
+                    {
+                        return lifeForm.getMobasks().get(question);
+                    }
                 }
                 else
                 {
@@ -408,7 +417,6 @@ public class Player extends AbstractEntity implements LifeForm
         return null;
     }
 
-
     /**
      * looks at the maptile - will show tile type, furniture, inventory in some way or another.
      *
@@ -426,7 +434,6 @@ public class Player extends AbstractEntity implements LifeForm
         }
 
     }
-
 
     @Override
     public boolean isRanged()
@@ -450,6 +457,12 @@ public class Player extends AbstractEntity implements LifeForm
     public boolean isHostile()
     {
         return false;
+    }
+
+    @Override
+    public void setHostile(boolean b)
+    {
+        //nothing to do, this is player
     }
 
     @Override
@@ -495,19 +508,13 @@ public class Player extends AbstractEntity implements LifeForm
     }
 
     @Override
-    public void setSchedule(Schedule schedule)
-    {
-
-    }
-
-    @Override
     public Schedule getSchedule()
     {
         return null;
     }
 
     @Override
-    public void setRunningAction(AbstractKeyboardAction action)
+    public void setSchedule(Schedule schedule)
     {
 
     }
@@ -518,7 +525,11 @@ public class Player extends AbstractEntity implements LifeForm
         return null;
     }
 
+    @Override
+    public void setRunningAction(AbstractKeyboardAction action)
+    {
 
+    }
 
     @Override
     public int getHealth()
