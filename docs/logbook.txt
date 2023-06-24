@@ -902,3 +902,4 @@ History of the changes:
 2023-05-08: long break - added cast as action type. will need to implement spellbook and magic somehow somewhen.
 2023-05-09: added tiletypes
 2023-06-18: simple way of adding a cutscene does exist now. refinement is to come, starting now.
+2023-06-24: cutscene with list of images is working, with list of text not yet quite, but good enough for a commit

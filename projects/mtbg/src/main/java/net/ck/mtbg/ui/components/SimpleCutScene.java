@@ -31,6 +31,10 @@ public class SimpleCutScene extends JComponent
         this.setBackground(Color.green);
     }
 
+    public SimpleCutScene()
+    {
+    }
+
     public BufferedImage getImage()
     {
         return image;
