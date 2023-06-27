@@ -39,7 +39,10 @@ public class SceneFrame extends JFrame
 		//JPanel mainPanel = new JPanel();
 		//mainPanel.setPreferredSize(new Dimension(GameConfiguration.UIwidth, GameConfiguration.UIheight));
 		//this.setContentPane(mainPanel);
+
+
 		//SimpleCutSceneWithText cutScene = new SimpleCutSceneWithText(ImageUtils.loadImage("cutscenes", "dischord"), "TEST TEST TEST");
+
 		ArrayList<BufferedImage> images = new ArrayList<>(2);
 		images.add(ImageUtils.loadImage("cutscenes", "dischord"));
 		images.add(ImageUtils.loadImage("cutscenes", "concerts"));
@@ -47,6 +50,8 @@ public class SceneFrame extends JFrame
 		texts.add("Hello, this is the text for the first image");
 		texts.add("And I am the text for the second image");
 		EnhancedCutSceneWithText cutScene = new EnhancedCutSceneWithText(images, texts);
+
+
 		//this.getContentPane().add(cutScene);
 		this.add(cutScene);
 		cutScene.setVisible(true);

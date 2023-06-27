@@ -20,10 +20,12 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private ArrayList<BufferedImage> images;
-    private ArrayList<String> textMessages;
+
     private int counter;
     private Timer counterTimer;
+    private ArrayList<AttributedString> attributeString = new ArrayList<>();
 
+    private Font font = new Font("Arial", Font.BOLD, 25);
 
     /**
      * https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
@@ -34,8 +36,16 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
     {
         images = img;
         counter = 0;
-        textMessages = texts;
 
+
+        for (String txt : texts)
+        {
+            AttributedString str = new AttributedString(txt);
+            str.addAttribute(TextAttribute.FONT, font);
+            str.addAttribute(TextAttribute.FOREGROUND, Color.GREEN);
+            attributeString.add(str);
+        }
+        logger.info("finished setup");
         counterTimer = new Timer();
         //TODO test - could work? should work!
         TimerTask task = new TimerTask()
@@ -43,7 +53,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
             @Override
             public void run()
             {
-                logger.info("counter 1: {}", counter);
+                //logger.info("counter 1: {}", counter);
                 if ((counter + 1) < images.size())
                 {
                     try
@@ -58,9 +68,9 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
                     {
                         throw new RuntimeException(e);
                     }
-                    logger.info("counter 2: {}", counter);
+                    //logger.info("counter 2: {}", counter);
                     counter++;
-                    logger.info("counter 3: {}", counter);
+                    //logger.info("counter 3: {}", counter);
 
                 }
                 else
@@ -69,7 +79,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
                     //https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
                     JFrame f2 = (JFrame) SwingUtilities.getWindowAncestor(EnhancedCutSceneWithText.this);
                     f2.dispatchEvent(new WindowEvent(f2, WindowEvent.WINDOW_CLOSING));
-
+                    counterTimer.cancel();
                 }
             }
         };
@@ -92,13 +102,6 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
         logger.debug("draw image number: {}", counter);
         g.drawImage(images.get(counter), 0, 0, GameConfiguration.UIwidth, GameConfiguration.UIheight, null);
 
-        Font font = new Font("Arial", Font.BOLD, 25);
-
-        logger.debug("get text: {}", getTextMessages().get(counter));
-        AttributedString attributedText = new AttributedString(getTextMessages().get(counter));
-        attributedText.addAttribute(TextAttribute.FONT, font);
-        attributedText.addAttribute(TextAttribute.FOREGROUND, Color.GREEN);
-
         Graphics g1 = (images.get(counter)).getGraphics();
 
         FontMetrics metrics = g1.getFontMetrics(font);
@@ -106,17 +109,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
         int positionX = 10;
         int positionY = (GameConfiguration.UIheight - metrics.getHeight() - 40) + metrics.getAscent();
 
-        g1.drawString(attributedText.getIterator(), positionX, positionY);
+        g.drawString(attributeString.get(counter).getIterator(), positionX, positionY);
         g1.dispose();
-    }
-
-    public ArrayList<String> getTextMessages()
-    {
-        return textMessages;
-    }
-
-    public void setTextMessages(ArrayList<String> textMessages)
-    {
-        this.textMessages = textMessages;
     }
 }

@@ -904,3 +904,4 @@ History of the changes:
 2023-06-18: simple way of adding a cutscene does exist now. refinement is to come, starting now.
 2023-06-24: cutscene with list of images is working, with list of text not yet quite, but good enough for a commit
 2023-06-27: closing cutscene will now only close the cutscene frame, not quit the game
+2023-06-27: enhanced cutscene now runs with texts, also cuts back to the scene afterwards ;)

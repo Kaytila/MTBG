@@ -50,6 +50,14 @@ public class SimpleCutSceneWithText extends SimpleCutScene
         int positionX = 10;
         int positionY = (GameConfiguration.UIheight - metrics.getHeight() - 40) + metrics.getAscent();
 
-        g1.drawString(attributedText.getIterator(), positionX, positionY);
+        g.drawString(attributedText.getIterator(), positionX, positionY);
+        g1.dispose();
     }
 }
+
+
+
+
+
+
+
