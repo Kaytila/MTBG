@@ -21,7 +21,7 @@ public class SceneFrame extends JFrame
 
 	public SceneFrame() throws HeadlessException
 	{
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		try
 		{
 			this.setIconImage(ImageIO.read(new File(GameConfiguration.miscImages + "sun.jpg")));
