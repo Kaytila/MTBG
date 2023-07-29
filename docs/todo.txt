@@ -164,3 +164,11 @@ simple cut scene - just draw an image across all screen on top
 cut scene + text - draw image plus text
 cut scene + text boxes - draw image plus textbox1, then image + text box 2
 cut scene elaborated - image + text, image + text
+
+
+todo:
+skill tree?
+tree or hyperbolic tree?
+spellbook
+books in general, probably just auto generated content within a book with
+clickable areas - perhaps a custom listview?

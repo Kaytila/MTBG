@@ -16,25 +16,20 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class EnhancedCutSceneWithText extends SimpleCutScene
+/**
+ * <a href="https://docs.oracle.com/javase/6/docs/api/javax/swing/SwingUtilities.html#getAncestorOfClass%28java.lang.Class,%20java.awt.Component%29">
+ * https://docs.oracle.com/javase/6/docs/api/javax/swing/SwingUtilities.html#getAncestorOfClass%28java.lang.Class,%20java.awt.Component%29
+ * </a>
+ */
+public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    protected final Font font = new Font("Arial", Font.BOLD, 25);
-    protected ArrayList<BufferedImage> images;
-    protected int counter;
-    protected Timer counterTimer;
-    protected ArrayList<AttributedString> attributeString = new ArrayList<>();
 
-    /**
-     * https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
-     *
-     * @param img
-     */
-    public EnhancedCutSceneWithText(ArrayList<BufferedImage> img, ArrayList<String> texts)
+
+    public EnhancedCutSceneWithDynamicText(ArrayList<BufferedImage> img, ArrayList<String> texts)
     {
         images = img;
         counter = 0;
-
 
         for (String txt : texts)
         {
@@ -56,7 +51,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
                 {
                     try
                     {
-                        SwingUtilities.invokeAndWait(() -> EnhancedCutSceneWithText.this.repaint());
+                        SwingUtilities.invokeAndWait(() -> EnhancedCutSceneWithDynamicText.this.repaint());
                     }
                     catch (InterruptedException e)
                     {
@@ -75,17 +70,13 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
                 {
                     logger.info("this is the end");
                     //https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
-                    JFrame f2 = (JFrame) SwingUtilities.getWindowAncestor(EnhancedCutSceneWithText.this);
+                    JFrame f2 = (JFrame) SwingUtilities.getWindowAncestor(EnhancedCutSceneWithDynamicText.this);
                     f2.dispatchEvent(new WindowEvent(f2, WindowEvent.WINDOW_CLOSING));
                     counterTimer.cancel();
                 }
             }
         };
         counterTimer.schedule(task, 5000, 5000);
-    }
-
-    public EnhancedCutSceneWithText()
-    {
     }
 
     public ArrayList<BufferedImage> getImages()
@@ -115,3 +106,4 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
         g1.dispose();
     }
 }
+
