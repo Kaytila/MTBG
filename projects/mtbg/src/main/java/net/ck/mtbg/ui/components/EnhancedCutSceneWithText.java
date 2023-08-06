@@ -21,7 +21,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     protected final Font font = new Font("Arial", Font.BOLD, 25);
     protected ArrayList<BufferedImage> images;
-    protected int counter;
+    protected int counterImages;
     protected Timer counterTimer;
     protected ArrayList<AttributedString> attributeString = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
     public EnhancedCutSceneWithText(ArrayList<BufferedImage> img, ArrayList<String> texts)
     {
         images = img;
-        counter = 0;
+        counterImages = 0;
 
 
         for (String txt : texts)
@@ -52,7 +52,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
             public void run()
             {
                 //logger.info("counter 1: {}", counter);
-                if ((counter + 1) < images.size())
+                if ((counterImages + 1) < images.size())
                 {
                     try
                     {
@@ -67,7 +67,7 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
                         throw new RuntimeException(e);
                     }
                     //logger.info("counter 2: {}", counter);
-                    counter++;
+                    counterImages++;
                     //logger.info("counter 3: {}", counter);
 
                 }
@@ -101,17 +101,17 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
 
     public void paintComponent(Graphics g)
     {
-        logger.debug("draw image number: {}", counter);
-        g.drawImage(images.get(counter), 0, 0, GameConfiguration.UIwidth, GameConfiguration.UIheight, null);
+        logger.debug("draw image number: {}", counterImages);
+        g.drawImage(images.get(counterImages), 0, 0, GameConfiguration.UIwidth, GameConfiguration.UIheight, null);
 
-        Graphics g1 = (images.get(counter)).getGraphics();
+        Graphics g1 = (images.get(counterImages)).getGraphics();
 
         FontMetrics metrics = g1.getFontMetrics(font);
         //int positionX = (getImage().getWidth() - metrics.stringWidth(getTextMessage()));
         int positionX = 10;
         int positionY = (GameConfiguration.UIheight - metrics.getHeight() - 40) + metrics.getAscent();
 
-        g.drawString(attributeString.get(counter).getIterator(), positionX, positionY);
+        g.drawString(attributeString.get(counterImages).getIterator(), positionX, positionY);
         g1.dispose();
     }
 }

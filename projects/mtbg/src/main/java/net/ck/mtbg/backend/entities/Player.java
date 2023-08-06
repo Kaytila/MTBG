@@ -383,7 +383,7 @@ public class Player extends AbstractEntity implements LifeForm
                 {
                     logger.info("lifeform {} has something to say about {}", lifeForm, question);
                     //TODO this is icky as fuck but works for trying out
-                    if (question.equalsIgnoreCase("history"))
+                    if (question.equalsIgnoreCase("hh"))
                     {
                         logger.info("play cutscene");
                         UIStateMachine.setUiState(UIState.CUTSCENE);

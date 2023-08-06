@@ -216,6 +216,11 @@ public class GameConfiguration
 
     public static final boolean quickstart = true;
 
+    public static final int cutSceneImageRolloverDelay = 5000;
+    public static final int cutSceneImageRolloverPeriod = 5000;
+
+    public static final int cutSceneImageRollOverBuffer = 1000;
+
 }
 
 

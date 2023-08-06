@@ -906,3 +906,5 @@ History of the changes:
 2023-06-27: closing cutscene will now only close the cutscene frame, not quit the game
 2023-06-27: enhanced cutscene now runs with texts, also cuts back to the scene afterwards ;)
 2023-07-29: commit to sync
+2023-08-06: after a month of not being able to work, tada, I have dynamic text in cutscenes.
+            Only one line of text per image, but worst case - repeat image for longer texts

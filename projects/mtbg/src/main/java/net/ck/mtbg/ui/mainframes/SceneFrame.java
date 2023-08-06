@@ -1,6 +1,7 @@
 package net.ck.mtbg.ui.mainframes;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.ui.components.EnhancedCutSceneWithDynamicText;
 import net.ck.mtbg.ui.components.EnhancedCutSceneWithText;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageUtils;
@@ -49,7 +50,7 @@ public class SceneFrame extends JFrame
 		ArrayList<String> texts = new ArrayList<>(2);
 		texts.add("Hello, this is the text for the first image");
 		texts.add("And I am the text for the second image");
-		EnhancedCutSceneWithText cutScene = new EnhancedCutSceneWithText(images, texts);
+		EnhancedCutSceneWithText cutScene = new EnhancedCutSceneWithDynamicText(images, texts);
 
 
 		//this.getContentPane().add(cutScene);
