@@ -1,6 +1,7 @@
 package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,16 +25,17 @@ import java.util.TimerTask;
 public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    private final int imageRolloverDelay = 5000;
-    private final int imageRolloverPeriod = 5000;
     private int counterCharacters = 0;
-    private ArrayList<String> textStrings;
-    private String currentText;
+    private final ArrayList<String> textStrings;
     private Timer counterTimerText;
     private Timer counterTimer;
 
-    public EnhancedCutSceneWithDynamicText(ArrayList<BufferedImage> img, ArrayList<String> texts)
-    {
+    public EnhancedCutSceneWithDynamicText(ArrayList<BufferedImage> img, ArrayList<String> texts) {
+        if (img.size() != texts.size()) {
+            logger.error("number of images and texts does not match");
+            Game.getCurrent().stopGame();
+        }
+
         images = img;
         counterImages = 0;
         textStrings = texts;
@@ -57,13 +59,7 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                     try
                     {
                         SwingUtilities.invokeAndWait(() -> EnhancedCutSceneWithDynamicText.this.repaint());
-                    }
-                    catch (InterruptedException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                    catch (InvocationTargetException e)
-                    {
+                    } catch (InterruptedException | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
                     //logger.info("counter 2: {}", counter);
@@ -84,7 +80,7 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                 }
             }
         };
-        counterTimer.schedule(taskImages, imageRolloverDelay, imageRolloverDelay);
+        counterTimer.schedule(taskImages, GameConfiguration.cutSceneImageRolloverDelay, GameConfiguration.cutSceneImageRolloverPeriod);
     }
 
     public ArrayList<BufferedImage> getImages()
@@ -135,13 +131,7 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                     try
                     {
                         SwingUtilities.invokeAndWait(() -> EnhancedCutSceneWithDynamicText.this.repaint());
-                    }
-                    catch (InterruptedException e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                    catch (InvocationTargetException e)
-                    {
+                    } catch (InterruptedException | InvocationTargetException e) {
                         throw new RuntimeException(e);
                     }
                     //logger.info("counter 2: {}", counter);
@@ -152,9 +142,6 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                 else
                 {
                     logger.info("this is the end");
-                    //https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
-                    //JFrame f2 = (JFrame) SwingUtilities.getWindowAncestor(EnhancedCutSceneWithDynamicText.this);
-                    //f2.dispatchEvent(new WindowEvent(f2, WindowEvent.WINDOW_CLOSING));
                     counterTimerText.cancel();
                 }
             }
