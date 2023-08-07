@@ -1,6 +1,7 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.entities;
 
 import net.ck.mtbg.backend.actions.AbstractAction;
+import net.ck.mtbg.backend.entities.attributes.Attributes;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.items.Weapon;

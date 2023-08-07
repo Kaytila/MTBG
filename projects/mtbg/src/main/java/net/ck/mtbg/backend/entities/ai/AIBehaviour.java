@@ -1,22 +1,15 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.ai;
 
 import net.ck.mtbg.backend.actions.NPCAction;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.NPCUtils;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.AttackAction;
-import net.ck.mtbg.util.communication.keyboard.EastAction;
-import net.ck.mtbg.util.communication.keyboard.GetAction;
-import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import net.ck.mtbg.util.communication.keyboard.MoveAction;
-import net.ck.mtbg.util.communication.keyboard.NorthAction;
-import net.ck.mtbg.util.communication.keyboard.SouthAction;
-import net.ck.mtbg.util.communication.keyboard.SpaceAction;
-import net.ck.mtbg.util.communication.keyboard.WestAction;
+import net.ck.mtbg.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

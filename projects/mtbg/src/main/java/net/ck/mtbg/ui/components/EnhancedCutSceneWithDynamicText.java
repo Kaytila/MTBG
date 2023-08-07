@@ -159,7 +159,6 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                 }
             }
         };
-
         counterTimerText.schedule(taskText, ((GameConfiguration.cutSceneImageRolloverDelay - GameConfiguration.cutSceneImageRollOverBuffer) / textStrings.get(counterImages).length()), ((GameConfiguration.cutSceneImageRolloverPeriod - GameConfiguration.cutSceneImageRollOverBuffer) / textStrings.get(counterImages).length()));
     }
 }

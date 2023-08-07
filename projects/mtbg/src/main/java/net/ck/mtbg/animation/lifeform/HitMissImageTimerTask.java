@@ -1,8 +1,8 @@
 package net.ck.mtbg.animation.lifeform;
 
 import net.ck.mtbg.backend.entities.ActionStates;
-import net.ck.mtbg.backend.entities.LifeForm;
-import net.ck.mtbg.backend.entities.LifeFormState;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageManager;
 import org.apache.logging.log4j.LogManager;

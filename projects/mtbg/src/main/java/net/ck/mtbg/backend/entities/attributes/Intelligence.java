@@ -1,10 +1,10 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.attributes;
 
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Strength extends AbstractAttribute
+public class Intelligence extends AbstractAttribute
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
@@ -13,16 +13,16 @@ public class Strength extends AbstractAttribute
 		return logger;
 	}
 
-	public Strength()
+	public Intelligence()
 	{
 
 	}
 
 	public AttributeTypes getType()
 	{
-		return AttributeTypes.STRENGTH;
+		return AttributeTypes.INTELLIGENCE;
 	}
-
+	
 	@Override
 	public String toString()
 	{

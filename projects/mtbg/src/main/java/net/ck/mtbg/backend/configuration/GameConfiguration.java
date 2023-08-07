@@ -221,6 +221,11 @@ public class GameConfiguration
 
     public static final int cutSceneImageRollOverBuffer = 1000;
 
+    /**
+     * describes the dex value where player will move twice
+     */
+    public static final int dexterityThreshold = 30;
+
 }
 
 

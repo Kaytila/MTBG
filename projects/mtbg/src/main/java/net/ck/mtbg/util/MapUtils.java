@@ -3,7 +3,7 @@ package net.ck.mtbg.util;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.Player;
+import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;

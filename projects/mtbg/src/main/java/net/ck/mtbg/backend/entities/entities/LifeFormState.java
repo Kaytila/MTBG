@@ -1,4 +1,4 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.entities;
 
 public enum LifeFormState
 {

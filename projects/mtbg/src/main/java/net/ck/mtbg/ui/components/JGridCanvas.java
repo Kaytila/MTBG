@@ -1,9 +1,9 @@
 package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.LifeForm;
 import net.ck.mtbg.backend.entities.Missile;
-import net.ck.mtbg.backend.entities.NPCType;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.GameLogs;
 import net.ck.mtbg.items.FurnitureItem;

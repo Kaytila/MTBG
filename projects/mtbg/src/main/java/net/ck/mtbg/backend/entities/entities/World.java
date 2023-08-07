@@ -1,4 +1,4 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.entities;
 
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;

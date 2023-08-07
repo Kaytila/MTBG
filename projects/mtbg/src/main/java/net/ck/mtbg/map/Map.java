@@ -1,11 +1,11 @@
 package net.ck.mtbg.map;
 
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.GameState;
+import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.weather.Weather;
 import net.ck.mtbg.weather.WeatherTypes;
-import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

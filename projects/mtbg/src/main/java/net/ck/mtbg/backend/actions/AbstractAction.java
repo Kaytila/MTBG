@@ -1,6 +1,6 @@
 package net.ck.mtbg.backend.actions;
 
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Result;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;

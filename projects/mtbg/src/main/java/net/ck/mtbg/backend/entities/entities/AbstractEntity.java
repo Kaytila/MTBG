@@ -1,9 +1,13 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.entities;
 
 import net.ck.mtbg.animation.lifeform.AnimationSystemTimerTask;
 import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
 import net.ck.mtbg.animation.lifeform.HitMissImageTimerTask;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.entities.ActionStates;
+import net.ck.mtbg.backend.entities.Inventory;
+import net.ck.mtbg.backend.entities.Missile;
+import net.ck.mtbg.backend.entities.attributes.Attributes;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
@@ -74,7 +78,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     /**
      * each AbstractEntity has an inventory.
      */
-    private Inventory                               inventory;
+    private Inventory inventory;
     /**
      * each Abstract Entity has attributes
      */

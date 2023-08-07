@@ -1,9 +1,9 @@
 package net.ck.mtbg.test;
 
 import net.ck.mtbg.backend.actions.PlayerAction;
-import net.ck.mtbg.backend.entities.AIBehaviour;
-import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCType;
+import net.ck.mtbg.backend.entities.ai.AIBehaviour;
+import net.ck.mtbg.backend.entities.entities.NPC;
+import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;

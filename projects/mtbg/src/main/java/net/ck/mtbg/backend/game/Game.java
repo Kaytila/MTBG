@@ -3,7 +3,9 @@ package net.ck.mtbg.backend.game;
 
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.*;
+import net.ck.mtbg.backend.entities.ai.AIBehaviour;
+import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
+import net.ck.mtbg.backend.entities.entities.*;
 import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
@@ -64,7 +66,7 @@ public class Game implements Runnable, Serializable
     /**
      * which is the currently active player, PC, NPCs are treated differently, but same :D
      */
-    private Player  currentPlayer;
+    private Player currentPlayer;
 
     /**
      * which turn is the current turn, filled up with each doAction(), rolled over in advanceTurn() or retractTurn()
@@ -111,6 +113,8 @@ public class Game implements Runnable, Serializable
      * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
+
+    private boolean playerMovedTwice = true;
 
 
     public PlayerAction getPlayerAction()
@@ -299,6 +303,7 @@ public class Game implements Runnable, Serializable
 
     /**
      * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
+     * need to think about implementing double speed, either due to DEX or due to transport
      * <p>
      * <a href="https://stackoverflow.com/questions/30989558/java-8-retry-a-method-until-a-condition-is-fulfilled-in-intervals">...</a>
      *
@@ -348,26 +353,40 @@ public class Game implements Runnable, Serializable
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
 
-        if (action.isHaveNPCAction())
+
+        if (Game.getCurrent().getCurrentPlayer().getAttributes().get(AttributeTypes.DEXTERITY).getValue() == GameConfiguration.dexterityThreshold)
         {
-            for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
+            if (playerMovedTwice == false)
             {
-                if (e instanceof Player)
+                logger.debug("player has moved twice, now world is allowed to");
+                if (action.isHaveNPCAction())
                 {
-                    //logger.info("found player, continue");
-                    continue;
+                    for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
+                    {
+                        if (e instanceof Player)
+                        {
+                            //logger.info("found player, continue");
+                            continue;
+                        }
+                        // logger.info("npc: {}", e);
+                        //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
+                        //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
+                        AIBehaviour.determineAction(e);
+
+                        //logger.info("setting UI position: {}", e.getMapPosition());
+                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                    }
+                    // logger.info("environment action");
+                    playerMovedTwice = true;
                 }
-                // logger.info("npc: {}", e);
-                //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
-                //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
-                AIBehaviour.determineAction(e);
-
-                //logger.info("setting UI position: {}", e.getMapPosition());
-                e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
             }
-            // logger.info("environment action");
-
+            else
+            {
+                logger.debug("player moving twice now");
+                playerMovedTwice = false;
+            }
         }
+
         //logger.info("advance turn!");
         setTurnNumber(getTurnNumber() + 1);
 

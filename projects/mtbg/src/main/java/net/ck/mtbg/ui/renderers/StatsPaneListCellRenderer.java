@@ -1,6 +1,6 @@
 package net.ck.mtbg.ui.renderers;
 
-import net.ck.mtbg.backend.entities.AbstractAttribute;
+import net.ck.mtbg.backend.entities.attributes.AbstractAttribute;
 import net.ck.mtbg.ui.components.StatsPane;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;

@@ -1,6 +1,6 @@
 package net.ck.mtbg.ui.dialogs;
 
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.util.CodeUtils;

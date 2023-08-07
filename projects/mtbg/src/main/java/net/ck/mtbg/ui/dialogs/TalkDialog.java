@@ -1,7 +1,7 @@
 package net.ck.mtbg.ui.dialogs;
 
-import net.ck.mtbg.backend.entities.AbstractEntity;
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.AbstractEntity;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.ui.listeners.InputFieldListener;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;

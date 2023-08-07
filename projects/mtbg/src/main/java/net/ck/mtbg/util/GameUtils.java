@@ -11,7 +11,7 @@ import net.ck.mtbg.animation.lifeform.*;
 import net.ck.mtbg.animation.missile.MissileTimer;
 import net.ck.mtbg.animation.missile.MissileUtilTimer;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.Turn;
 import net.ck.mtbg.backend.state.GameState;

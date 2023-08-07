@@ -1,13 +1,13 @@
 package net.ck.mtbg.util;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.AbstractEntity;
+import net.ck.mtbg.backend.entities.entities.AbstractEntity;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.CursorChangeEvent;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.ui.WindowBuilder;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

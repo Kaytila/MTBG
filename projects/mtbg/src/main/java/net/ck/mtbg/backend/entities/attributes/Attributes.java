@@ -1,4 +1,4 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.attributes;
 
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;

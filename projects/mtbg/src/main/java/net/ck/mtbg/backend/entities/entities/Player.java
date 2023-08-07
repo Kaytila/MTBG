@@ -1,7 +1,8 @@
-package net.ck.mtbg.backend.entities;
+package net.ck.mtbg.backend.entities.entities;
 
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
@@ -79,7 +80,7 @@ public class Player extends AbstractEntity implements LifeForm
         this.getItem(ItemManager.getUtilityList().get(1));
 
         getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
-        getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
+        getAttributes().get(AttributeTypes.DEXTERITY).setValue(30);
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
 

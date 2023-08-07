@@ -1,6 +1,6 @@
 package net.ck.mtbg.backend.state;
 
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.music.MusicPlayerNoThread;
 import net.ck.mtbg.soundeffects.SoundPlayerNoThread;

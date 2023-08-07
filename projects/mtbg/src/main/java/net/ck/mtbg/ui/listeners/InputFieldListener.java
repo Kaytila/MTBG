@@ -1,6 +1,6 @@
 package net.ck.mtbg.ui.listeners;
 
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.dialogs.TalkDialog;
 import net.ck.mtbg.util.CodeUtils;

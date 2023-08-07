@@ -2,8 +2,8 @@ package net.ck.mtbg.animation.lifeform;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
-import net.ck.mtbg.backend.entities.LifeForm;
-import net.ck.mtbg.backend.entities.LifeFormState;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;

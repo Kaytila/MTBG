@@ -1,7 +1,7 @@
 package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.AbstractAttribute;
+import net.ck.mtbg.backend.entities.attributes.AbstractAttribute;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;

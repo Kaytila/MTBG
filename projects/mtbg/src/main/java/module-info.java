@@ -51,13 +51,16 @@ open module net.ck.mtbg
 
 	exports net.ck.mtbg.weather;
 
-	exports net.ck.mtbg.music;
+    exports net.ck.mtbg.music;
 
-	exports net.ck.mtbg.items;
+    exports net.ck.mtbg.items;
 
-	exports net.ck.mtbg.soundeffects;
+    exports net.ck.mtbg.soundeffects;
 
-	exports net.ck.mtbg.util.communication.keyboard;
-	exports net.ck.mtbg.util.communication.graphics;
-	exports net.ck.mtbg.util.communication.sound;
+    exports net.ck.mtbg.util.communication.keyboard;
+    exports net.ck.mtbg.util.communication.graphics;
+    exports net.ck.mtbg.util.communication.sound;
+    exports net.ck.mtbg.backend.entities.attributes;
+    exports net.ck.mtbg.backend.entities.ai;
+    exports net.ck.mtbg.backend.entities.entities;
 }

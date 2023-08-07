@@ -2,8 +2,8 @@ package net.ck.mtbg.util;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
-import net.ck.mtbg.backend.entities.AttributeTypes;
-import net.ck.mtbg.backend.entities.NPCType;
+import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
+import net.ck.mtbg.backend.entities.entities.NPCType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;

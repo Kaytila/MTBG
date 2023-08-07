@@ -1,7 +1,7 @@
 package net.ck.mtbg.map;
 
 import net.ck.mtbg.backend.entities.Inventory;
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.util.CodeUtils;

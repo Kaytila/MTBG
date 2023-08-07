@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.listeners;
 
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.backend.state.TimerManager;

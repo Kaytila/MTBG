@@ -1,7 +1,7 @@
 package net.ck.mtbg.util.xml;
 
-import net.ck.mtbg.backend.entities.NPC;
-import net.ck.mtbg.backend.entities.NPCType;
+import net.ck.mtbg.backend.entities.entities.NPC;
+import net.ck.mtbg.backend.entities.entities.NPCType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
