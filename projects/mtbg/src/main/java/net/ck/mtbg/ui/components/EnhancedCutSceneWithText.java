@@ -1,6 +1,7 @@
 package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,18 +27,22 @@ public class EnhancedCutSceneWithText extends SimpleCutScene
     protected ArrayList<AttributedString> attributeString = new ArrayList<>();
 
     /**
-     * https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
+     * <a href="https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe">...</a>
      *
-     * @param img
+     * @param img   - the list of images used for the cutscene
+     * @param texts - the list of texts used for the cutscene
      */
-    public EnhancedCutSceneWithText(ArrayList<BufferedImage> img, ArrayList<String> texts)
-    {
+    public EnhancedCutSceneWithText(ArrayList<BufferedImage> img, ArrayList<String> texts) {
+        if (img.size() != texts.size()) {
+            logger.error("number of images and texts does not match");
+            Game.getCurrent().stopGame();
+        }
+
         images = img;
         counterImages = 0;
 
 
-        for (String txt : texts)
-        {
+        for (String txt : texts) {
             AttributedString str = new AttributedString(txt);
             str.addAttribute(TextAttribute.FONT, font);
             str.addAttribute(TextAttribute.FOREGROUND, Color.GREEN);
