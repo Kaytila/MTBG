@@ -7,6 +7,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.Missile;
+import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.attributes.Attributes;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
@@ -819,4 +820,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             return false;
         }
     }
+
+    @Override
+    public boolean hasTwoActions()
+    {
+        return getAttributes().get(AttributeTypes.DEXTERITY).getValue() >= GameConfiguration.dexterityThreshold;
+    }
+
 }

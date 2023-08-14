@@ -112,4 +112,6 @@ public interface LifeForm
     NPCType getType();
 
     void setType(NPCType type);
+
+    boolean hasTwoActions();
 }

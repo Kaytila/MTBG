@@ -135,6 +135,7 @@ public class Player extends AbstractEntity implements LifeForm
         return NPCType.PLAYER;
     }
 
+
     @Override
     public void search()
     {

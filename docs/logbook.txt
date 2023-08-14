@@ -912,3 +912,5 @@ History of the changes:
 2023-08-07: little bit of refactoring and thoughts about spells and skills.
             Implemented double movement for player with $DexThreshold reached
             This also gives me double transportation speed.
+2023-08-14: updates lifeform to include a method for checking dex also for npc. lets see whether i can implement this
+            for npc as well :D

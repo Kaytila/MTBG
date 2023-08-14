@@ -4,7 +4,6 @@ package net.ck.mtbg.backend.game;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ai.AIBehaviour;
-import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.entities.*;
 import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
@@ -354,7 +353,7 @@ public class Game implements Runnable, Serializable
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
 
 
-        if (Game.getCurrent().getCurrentPlayer().getAttributes().get(AttributeTypes.DEXTERITY).getValue() == GameConfiguration.dexterityThreshold)
+        if (Game.getCurrent().getCurrentPlayer().hasTwoActions())
         {
             if (playerMovedTwice == false)
             {
