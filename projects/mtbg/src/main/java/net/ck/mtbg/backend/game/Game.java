@@ -362,29 +362,63 @@ public class Game implements Runnable, Serializable
                 {
                     for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
                     {
-                        if (e instanceof Player)
-                        {
+                        if (e instanceof Player) {
                             //logger.info("found player, continue");
                             continue;
                         }
                         // logger.info("npc: {}", e);
                         //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                         //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
-                        AIBehaviour.determineAction(e);
-
-                        //logger.info("setting UI position: {}", e.getMapPosition());
-                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                        if (e.hasTwoActions()) {
+                            logger.debug("two actions");
+                            AIBehaviour.determineAction(e);
+                            logger.debug("first done");
+                            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                            AIBehaviour.determineAction(e);
+                            logger.debug("second done");
+                            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                        } else {
+                            AIBehaviour.determineAction(e);
+                            //logger.info("setting UI position: {}", e.getMapPosition());
+                            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                        }
                     }
                     // logger.info("environment action");
                     playerMovedTwice = true;
                 }
-            }
-            else
-            {
+            } else {
                 logger.debug("player moving twice now");
                 playerMovedTwice = false;
             }
+        } else {
+            if (action.isHaveNPCAction()) {
+                for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms()) {
+                    if (e instanceof Player) {
+                        //logger.info("found player, continue");
+                        continue;
+                    }
+                    // logger.info("npc: {}", e);
+                    //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
+                    //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
+                    if (e.hasTwoActions()) {
+                        logger.debug("two actions");
+                        AIBehaviour.determineAction(e);
+                        logger.debug("first done");
+                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                        WindowBuilder.getGridCanvas().paint();
+                        ThreadController.sleep(300, ThreadNames.GAME_THREAD);
+                        AIBehaviour.determineAction(e);
+                        logger.debug("second done");
+                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                    } else {
+                        AIBehaviour.determineAction(e);
+                        //logger.info("setting UI position: {}", e.getMapPosition());
+                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                    }
+                }
+            }
         }
+
 
         //logger.info("advance turn!");
         setTurnNumber(getTurnNumber() + 1);

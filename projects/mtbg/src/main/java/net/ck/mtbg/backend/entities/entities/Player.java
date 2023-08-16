@@ -80,7 +80,7 @@ public class Player extends AbstractEntity implements LifeForm
         this.getItem(ItemManager.getUtilityList().get(1));
 
         getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
-        getAttributes().get(AttributeTypes.DEXTERITY).setValue(30);
+        getAttributes().get(AttributeTypes.DEXTERITY).setValue(20);
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
 

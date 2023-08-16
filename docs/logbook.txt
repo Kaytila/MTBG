@@ -914,3 +914,6 @@ History of the changes:
             This also gives me double transportation speed.
 2023-08-14: updates lifeform to include a method for checking dex also for npc. lets see whether i can implement this
             for npc as well :D
+2023-08-16: implemented double movement for each NPC individually.
+            Double NPC movement will not lead to an extra turn.
+            Turn is for player action only, so it will have two NPC actions at the same time.
