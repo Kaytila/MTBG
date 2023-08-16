@@ -917,3 +917,5 @@ History of the changes:
 2023-08-16: implemented double movement for each NPC individually.
             Double NPC movement will not lead to an extra turn.
             Turn is for player action only, so it will have two NPC actions at the same time.
+2023-08-16: added a second NPC as in NPC the dex check is done based on ID not on proper attributes.
+            Works.

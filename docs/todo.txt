@@ -172,3 +172,9 @@ tree or hyperbolic tree?
 spellbook
 books in general, probably just auto generated content within a book with
 clickable areas - perhaps a custom listview?
+
+
+todo npcs:
+make something useful out of the XML here.
+have stats in XML instead of hard coding them.
+necessary for testing double movement further.
