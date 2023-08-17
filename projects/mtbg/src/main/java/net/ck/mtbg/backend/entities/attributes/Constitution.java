@@ -18,7 +18,7 @@ public class Constitution extends AbstractAttribute
 
 	public Constitution()
 	{
-		
+		value = 0;
 	}
 
 	public AttributeTypes getType()

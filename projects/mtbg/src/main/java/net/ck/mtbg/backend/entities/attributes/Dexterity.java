@@ -15,7 +15,7 @@ public class Dexterity extends AbstractAttribute
 
 	public Dexterity()
 	{
-
+		value = 0;
 	}
 
 	public AttributeTypes getType()

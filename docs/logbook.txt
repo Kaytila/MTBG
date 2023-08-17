@@ -919,3 +919,6 @@ History of the changes:
             Turn is for player action only, so it will have two NPC actions at the same time.
 2023-08-16: added a second NPC as in NPC the dex check is done based on ID not on proper attributes.
             Works.
+2023-08-17: introduced actual attribute values to npc.xml and npc parser.
+            updated NPC to work with that and default only if no values are
+            set.

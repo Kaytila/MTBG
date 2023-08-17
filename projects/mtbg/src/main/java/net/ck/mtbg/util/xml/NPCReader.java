@@ -1,5 +1,9 @@
 package net.ck.mtbg.util.xml;
 
+import net.ck.mtbg.backend.entities.attributes.Constitution;
+import net.ck.mtbg.backend.entities.attributes.Dexterity;
+import net.ck.mtbg.backend.entities.attributes.Intelligence;
+import net.ck.mtbg.backend.entities.attributes.Strength;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
 import org.apache.logging.log4j.LogManager;
@@ -37,8 +41,7 @@ import java.util.Objects;
  * </mobasks>
  * </npc>
  */
-public class NPCReader extends DefaultHandler
-{
+public class NPCReader extends DefaultHandler {
     private final Logger logger = LogManager.getLogger(getRealClass());
     private Hashtable<Integer, NPC> npcs;
     private StringBuilder data;
@@ -47,14 +50,14 @@ public class NPCReader extends DefaultHandler
     private String question;
     private String answer;
 
+    private net.ck.mtbg.backend.entities.attributes.Attributes attr;
 
-    public Hashtable<Integer, NPC> getNpcs()
-    {
+
+    public Hashtable<Integer, NPC> getNpcs() {
         return npcs;
     }
 
-    public void setNpcs(Hashtable<Integer, NPC> npcs)
-    {
+    public void setNpcs(Hashtable<Integer, NPC> npcs) {
         this.npcs = npcs;
     }
 
@@ -108,6 +111,17 @@ public class NPCReader extends DefaultHandler
             case "question":
                 break;
             case "answer":
+                break;
+            case "attributes":
+                attr = new net.ck.mtbg.backend.entities.attributes.Attributes();
+                break;
+            case "dexterity":
+                break;
+            case "strength":
+                break;
+            case "constitution":
+                break;
+            case "intelligence":
                 break;
         }
         data = new StringBuilder();
@@ -163,6 +177,25 @@ public class NPCReader extends DefaultHandler
                 mobasks.put(question, answer);
             case "mobasks":
                 n.setMobasks(mobasks);
+                break;
+            case "strength":
+                Strength str = new Strength();
+                str.setValue(Integer.parseInt(data.toString()));
+                break;
+            case "dexterity":
+                Dexterity dex = new Dexterity();
+                dex.setValue(Integer.parseInt(data.toString()));
+                break;
+            case "constitution":
+                Constitution con = new Constitution();
+                con.setValue(Integer.parseInt(data.toString()));
+                break;
+            case "intelligence":
+                Intelligence inte = new Intelligence();
+                inte.setValue(Integer.parseInt(data.toString()));
+                break;
+            case "attributes":
+                n.setAttributes(attr);
                 break;
 
         }

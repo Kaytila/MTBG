@@ -15,7 +15,7 @@ public class Strength extends AbstractAttribute
 
 	public Strength()
 	{
-
+		value = 0;
 	}
 
 	public AttributeTypes getType()

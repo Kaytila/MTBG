@@ -1,17 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <npcs>
 		<npc>
-			<id>1</id>
-			<type>WARRIOR</type>
-			<mobasks>
-			<mobask>
-			<question>Hello</question>
-			<answer>Hello, how do you do?</answer>
-			</mobask>
-			<mobask>
-			<question>Name</question>
-			<answer>My name is orc</answer>
-			</mobask>
+            <id>1</id>
+            <attributes>
+                <strength>7</strength>
+                <dexterity>12</dexterity>
+                <constitution>22</constitution>
+                <intelligence>2</intelligence>
+            </attributes>
+            <type>WARRIOR</type>
+            <mobasks>
+                <mobask>
+                    <question>Hello</question>
+                    <answer>Hello, how do you do?</answer>
+                </mobask>
+                <mobask>
+                    <question>Name</question>
+                    <answer>My name is orc</answer>
+                </mobask>
 			<mobask>
 			<question>job</question>
 			<answer>I am an orc warrior!</answer>
@@ -22,10 +28,16 @@
 			</mobask>
 			</mobasks>
 		</npc>
-		<npc>
-			<id>2</id>
-			<type>WARRIOR2</type>
-		</npc>	
+    <npc>
+        <id>2</id>
+        <attributes>
+            <strength>7</strength>
+            <dexterity>35</dexterity>
+            <constitution>22</constitution>
+            <intelligence>2</intelligence>
+        </attributes>
+        <type>WARRIOR2</type>
+    </npc>
 		<npc>
 			<id>3</id>
 			<type>WARRIOR</type>

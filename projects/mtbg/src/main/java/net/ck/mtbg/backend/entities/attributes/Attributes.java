@@ -9,15 +9,18 @@ import javax.swing.event.ListDataListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Attributes implements ListModel<AbstractAttribute>, Serializable
-{
+public class Attributes implements ListModel<AbstractAttribute>, Serializable {
 
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
+	public ArrayList<AbstractAttribute> getAttributes() {
+		return attributes;
+	}
+
 	private final ArrayList<AbstractAttribute> attributes;
 
 
-	public Logger getLogger()
-	{
+	public Logger getLogger() {
 		return logger;
 	}
 

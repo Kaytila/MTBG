@@ -75329,14 +75329,16 @@
                 <y>3</y>
             </targetPosition>
         </npc>
+		-->
         <npc>
             <id>3</id>
             <type>WARRIOR</type>
             <mapPosition>
-                <x>5</x>
-                <y>4</y>
+                <x>3</x>
+                <y>2</y>
             </mapPosition>
         </npc>
+        <!--
         <npc>
             <id>4</id>
             <type>WARRIOR</type>

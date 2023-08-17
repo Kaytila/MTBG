@@ -15,7 +15,7 @@ public class Intelligence extends AbstractAttribute
 
 	public Intelligence()
 	{
-
+		value = 0;
 	}
 
 	public AttributeTypes getType()
