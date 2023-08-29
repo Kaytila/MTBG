@@ -8,6 +8,7 @@ import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
 import net.ck.mtbg.backend.state.ItemManager;
+import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
@@ -433,6 +434,11 @@ public class Player extends AbstractEntity implements LifeForm
         for (AbstractItem item : maptile.getInventory().getInventory())
         {
             logger.info("item: {}", item);
+        }
+
+        if (maptile.getType().equals(TileTypes.SIGNPOST))
+        {
+            move(getTargetMapPosition().x, getTargetMapPosition().y);
         }
 
     }

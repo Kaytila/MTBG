@@ -922,3 +922,17 @@ History of the changes:
 2023-08-17: introduced actual attribute values to npc.xml and npc parser.
             updated NPC to work with that and default only if no values are
             set.
+2023-08-29: implemented basic teleport by looking at a signpost.
+            so I have implemented teleport by adding a SIGNPOST tile type.
+            Now several issues arise from that:
+            1. Is the sign post a tile type or really not rather an item which is
+            in the inventory of a tile?
+
+            2. is the teleport target part of the tile or part of the item?
+
+            3. I have a move(x,y) routine already, but it does not know another map yet.
+            switch maps is something that is done as part of the game
+            - triggered by player -  not as part of the player.
+            that needs to be moved in order to also have NPCs switching maps.
+
+            4.currently, the map only allows one exit.

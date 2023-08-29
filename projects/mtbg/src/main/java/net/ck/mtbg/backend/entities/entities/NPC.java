@@ -585,12 +585,6 @@ public class NPC extends AbstractEntity implements LifeForm
         return false;
     }
 
-    public boolean hasTwoActions() {
-        if (getId() == 1) {
-            return true;
-        }
-        return false;
-    }
 
     public void setRanged(boolean ranged) {
         this.ranged = ranged;

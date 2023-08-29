@@ -302,9 +302,9 @@ public class MapTile implements Comparable<MapTile>, Serializable
                 {
                     case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST ->
                             blocked;
-                    case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN ->
+                    case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST ->
                             true;
-                    default -> throw new IllegalStateException("Unexpected value: " + getType());
+                    default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
                 };
     }
 
@@ -369,10 +369,11 @@ public class MapTile implements Comparable<MapTile>, Serializable
             case BUSH:
             case SHALLOWOCEAN:
             case REEF:
+            case SIGNPOST:
                 return false;
 
             default:
-                logger.error("forgotten a tile type - how? {}", getType().toString());
+                logger.error("forgotten a tile type in isblockedLOS - this one? {}", getType().toString());
                 return blocksLOS;
         }
     }

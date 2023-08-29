@@ -222,6 +222,7 @@ public class ImageUtils
             //return null;
         }
         ImageIcon icon;
+
         icon = new ImageIcon(Objects.requireNonNull(img));
         icon.setDescription(description);
         return icon;

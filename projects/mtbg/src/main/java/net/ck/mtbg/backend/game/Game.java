@@ -311,6 +311,7 @@ public class Game implements Runnable, Serializable
     public synchronized void advanceTurn(PlayerAction action)
     {
         Game.getCurrent().getCurrentPlayer().doAction(action);
+        EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
         TimerManager.getIdleTimer().stop();
         TimerManager.getHighlightTimer().stop();
@@ -362,14 +363,16 @@ public class Game implements Runnable, Serializable
                 {
                     for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
                     {
-                        if (e instanceof Player) {
+                        if (e instanceof Player)
+                        {
                             //logger.info("found player, continue");
                             continue;
                         }
                         // logger.info("npc: {}", e);
                         //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                         //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
-                        if (e.hasTwoActions()) {
+                        if (e.hasTwoActions())
+                        {
                             logger.debug("two actions");
                             AIBehaviour.determineAction(e);
                             logger.debug("first done");
@@ -377,7 +380,9 @@ public class Game implements Runnable, Serializable
                             AIBehaviour.determineAction(e);
                             logger.debug("second done");
                             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                        } else {
+                        }
+                        else
+                        {
                             AIBehaviour.determineAction(e);
                             //logger.info("setting UI position: {}", e.getMapPosition());
                             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
@@ -390,17 +395,22 @@ public class Game implements Runnable, Serializable
                 logger.debug("player moving twice now");
                 playerMovedTwice = false;
             }
-        } else {
-            if (action.isHaveNPCAction()) {
-                for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms()) {
-                    if (e instanceof Player) {
+        } else
+        {
+            if (action.isHaveNPCAction())
+            {
+                for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
+                {
+                    if (e instanceof Player)
+                    {
                         //logger.info("found player, continue");
                         continue;
                     }
                     // logger.info("npc: {}", e);
                     //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
                     //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
-                    if (e.hasTwoActions()) {
+                    if (e.hasTwoActions())
+                    {
                         logger.debug("two actions");
                         AIBehaviour.determineAction(e);
                         logger.debug("first done");
@@ -410,7 +420,9 @@ public class Game implements Runnable, Serializable
                         AIBehaviour.determineAction(e);
                         logger.debug("second done");
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                    } else {
+                    }
+                    else
+                    {
                         AIBehaviour.determineAction(e);
                         //logger.info("setting UI position: {}", e.getMapPosition());
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));

@@ -75,11 +75,18 @@
 			<y>0</y>
 		</tile>
 		<tile>
-			<id>10</id>
-			<type>GRASS</type>
-			<x>9</x>
-			<y>0</y>
-		</tile>
+            <id>10</id>
+            <type>SIGNPOST</type>
+            <x>9</x>
+            <y>0</y>
+            <exit>
+                <targetMap>gameMap</targetMap>
+                <targetCoordinates>
+                    <x>2</x>
+                    <y>2</y>
+                </targetCoordinates>
+            </exit>
+        </tile>
 		<tile>
 			<id>11</id>
 			<type>GRASS</type>
