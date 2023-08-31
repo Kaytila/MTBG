@@ -15,6 +15,7 @@ import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.*;
+import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.*;
 import net.ck.mtbg.util.astar.AStar;
@@ -103,6 +104,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private NPCType type;
 
+    //TODO really necessary? Does NPC need to know its map or does
+    private Map currentMap;
 
     public AbstractEntity()
     {

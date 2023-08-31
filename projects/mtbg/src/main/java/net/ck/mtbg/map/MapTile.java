@@ -102,6 +102,19 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     private BufferedImage brightenedImage;
 
+    private Point targetCoordinates;
+
+    public Point getTargetCoordinates()
+    {
+        return targetCoordinates;
+    }
+
+    public void setTargetCoordinates(Point targetCoordinates)
+    {
+        this.targetCoordinates = targetCoordinates;
+    }
+
+
     public MapTile()
     {
         super();

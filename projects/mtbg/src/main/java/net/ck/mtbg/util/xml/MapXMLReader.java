@@ -408,7 +408,8 @@ public class MapXMLReader extends DefaultHandler
                 break;
             case "exit":
                 gameMap.setTargetCoordinates(exitPos);
-                exit = false;
+				maptile.setTargetCoordinates(exitPos);
+				exit = false;
             case "targetCoordinates":
                 break;
             default:

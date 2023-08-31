@@ -936,3 +936,6 @@ History of the changes:
             that needs to be moved in order to also have NPCs switching maps.
 
             4.currently, the map only allows one exit.
+2023-08-31: maptile now has its own exit that can be used.
+            switchMap had a bug relying on old targetID instead of coordinates.
+            thinking whether npc needs to know its map, or whether map needs to know its npcs.

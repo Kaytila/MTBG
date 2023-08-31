@@ -19,6 +19,7 @@ import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
+import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.WeatherManager;
@@ -228,17 +229,17 @@ public class Game implements Runnable, Serializable
         {
             mapName = exit.getTargetMap();
         }
-        int targetTileID = -1;
+        Point target = new Point();
         if (exit != null)
         {
-            targetTileID = exit.getTargetID();
+            target = exit.getTargetCoordinates();
         }
-        logger.info("mapname: {}, targetTileID: {}", mapName, targetTileID);
+        logger.info("mapname: {}, targetTileID: {}", mapName, target);
         for (Map m : getMaps())
         {
             if (m.getName().equalsIgnoreCase(mapName))
             {
-                MapTile targetTile = MapUtils.getMapTileByID(m, targetTileID);
+                MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
                 setCurrentMap(m);
                 m.initialize();
                 assert targetTile != null;
@@ -251,6 +252,7 @@ public class Game implements Runnable, Serializable
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
         WeatherManager.getWeatherSystem().checkWeather();
+        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
         WindowBuilder.getGridCanvas().paint();
 
         //update the Game to switch to the current state of the new map - might be different after all
