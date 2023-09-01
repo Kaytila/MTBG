@@ -13,6 +13,7 @@ import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
+import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
@@ -382,7 +383,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 break;
             case ENTER:
                 logger.info("loading new map");
-                Game.getCurrent().switchMap();
+                switchMap();
                 break;
             case ESC:
                 break;
@@ -698,5 +699,41 @@ public class NPC extends AbstractEntity implements LifeForm
     public void setRunningAction(AbstractKeyboardAction action)
     {
         this.runningAction = action;
+    }
+
+    public boolean switchMap()
+    {
+        logger.info("start: switching map");
+
+        MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
+        String mapName = null;
+        if (exit != null)
+
+        {
+            mapName = exit.getTargetMap();
+        }
+        Point target = new Point();
+        if (exit != null)
+        {
+            target = exit.getTargetCoordinates();
+        }
+        logger.info("mapname: {}, targetTileID: {}", mapName, target);
+        for (Map m : Game.getCurrent().getMaps())
+        {
+            if (m.getName().equalsIgnoreCase(mapName))
+            {
+                MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
+
+                Game.getCurrent().getCurrentMap().getLifeForms().remove(this);
+                m.getLifeForms().add(this);
+                assert targetTile != null;
+                this.setMapPosition(new Point(targetTile.x, targetTile.y));
+                logger.debug("new position: {}", this.getMapPosition());
+                //setAnimatedEntities(animatedEntities = new ArrayList<>());
+                //addAnimatedEntities();
+            }
+        }
+        logger.info("end: switching map");
+        return true;
     }
 }

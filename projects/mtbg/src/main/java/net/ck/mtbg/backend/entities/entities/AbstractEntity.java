@@ -20,9 +20,11 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.*;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.weather.WeatherManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -828,6 +830,52 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     public boolean hasTwoActions()
     {
         return getAttributes().get(AttributeTypes.DEXTERITY).getValue() >= GameConfiguration.dexterityThreshold;
+    }
+
+    public boolean switchMap()
+    {
+        logger.info("start: switching map");
+
+        MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
+        String mapName = null;
+        if (exit != null)
+
+        {
+            mapName = exit.getTargetMap();
+        }
+        Point target = new Point();
+        if (exit != null)
+        {
+            target = exit.getTargetCoordinates();
+        }
+        logger.info("mapname: {}, targetTileID: {}", mapName, target);
+        for (Map m : Game.getCurrent().getMaps())
+        {
+            if (m.getName().equalsIgnoreCase(mapName))
+            {
+                MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
+                Game.getCurrent().setCurrentMap(m);
+                m.initialize();
+                assert targetTile != null;
+                this.setMapPosition(new Point(targetTile.x, targetTile.y));
+                logger.debug("new position: {}", this.getMapPosition());
+                //setAnimatedEntities(animatedEntities = new ArrayList<>());
+                //addAnimatedEntities();
+            }
+        }
+        //these two are ugly and need to be done better somehow,
+        //but they make the switch faster, way faster
+        WeatherManager.getWeatherSystem().checkWeather();
+        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
+        WindowBuilder.getGridCanvas().paint();
+
+        //update the Game to switch to the current state of the new map - might be different after all
+        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+
+        TimerManager.getIdleTimer().start();
+        //TODO clear running schedules? how? currently they are on NPC.
+        logger.info("end: switching map");
+        return true;
     }
 
 }

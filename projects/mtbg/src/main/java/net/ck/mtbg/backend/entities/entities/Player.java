@@ -215,7 +215,7 @@ public class Player extends AbstractEntity implements LifeForm
                 if (mapName != null && targetTileID != -1)
                 {
                     logger.info("loading new map");
-                    Game.getCurrent().switchMap();
+                    switchMap();
                     success = true;
                     action.setSuccess(true);
                 }

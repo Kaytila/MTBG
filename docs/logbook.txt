@@ -939,3 +939,7 @@ History of the changes:
 2023-08-31: maptile now has its own exit that can be used.
             switchMap had a bug relying on old targetID instead of coordinates.
             thinking whether npc needs to know its map, or whether map needs to know its npcs.
+2023-09-01: switchMap is now handled by Player or NPC instead of Game. Player still has some Game logic in there but
+            it should work for both - does for player - for NPC need to implement that they actually switch the map or
+            know how to - guess will make it in a way with items, if an exit is right next to it, walk towards it and
+            enter - for "AI" testing.
