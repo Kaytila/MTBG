@@ -485,8 +485,12 @@ public class MapTile implements Comparable<MapTile>, Serializable
         return lifeForm;
     }
 
-    public void setLifeForm(LifeForm lifeForm)
+    public synchronized void setLifeForm(LifeForm lifeForm)
     {
+        if (lifeForm == null)
+        {
+            this.setBlocked(false);
+        }
         this.lifeForm = lifeForm;
     }
 

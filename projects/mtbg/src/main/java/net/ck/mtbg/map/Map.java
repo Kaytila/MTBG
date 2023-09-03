@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Map can be any map in the game but the main Map, so to speak. That is handled by GameMap
@@ -38,18 +39,18 @@ public class Map extends AbstractMap
      */
     private boolean weatherSystem;
 
-    /**
-     * does the map wrap around or not?
-     */
-    private boolean             wrapping;
-    private ArrayList<LifeForm> lifeForms;
-    private GameState           gameState;
+	/**
+	 * does the map wrap around or not?
+	 */
+	private boolean wrapping;
+	private CopyOnWriteArrayList<LifeForm> lifeForms;
+	private GameState gameState;
 
     public Map()
     {
         setName(null);
-        setMissiles(new ArrayList<>());
-        lifeForms = new ArrayList<>();
+		setMissiles(new ArrayList<>());
+		lifeForms = new CopyOnWriteArrayList<>();
     }
 
     public boolean isWrapping()
@@ -138,11 +139,11 @@ public class Map extends AbstractMap
 			+ super.toString() +  "]";
 	}
 
-	public synchronized ArrayList<LifeForm> getLifeForms()
+	public CopyOnWriteArrayList<LifeForm> getLifeForms()
 	{
 		if (lifeForms == null)
 		{
-			lifeForms = new ArrayList<>();
+			lifeForms = new CopyOnWriteArrayList<>();
 			lifeForms.add(Game.getCurrent().getCurrentPlayer());
 		}
 		return lifeForms;

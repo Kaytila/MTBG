@@ -20,11 +20,9 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.*;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
-import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.weather.WeatherManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
@@ -832,6 +830,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         return getAttributes().get(AttributeTypes.DEXTERITY).getValue() >= GameConfiguration.dexterityThreshold;
     }
 
+    /**
+     * So we have found an exit point - switch to the target map - map is identified by name for now NPCs stay on the map on the places in the state that they are in. If there is a time system in the
+     * future, perhaps there will be npc routines that are running even if the player is not on the map and only drawn once the player is on the map? Player needs to be removed from the map once the
+     * map is being switched. needs to be added to the new map.
+     */
     public boolean switchMap()
     {
         logger.info("start: switching map");
@@ -839,16 +842,20 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
         String mapName = null;
         if (exit != null)
-
         {
             mapName = exit.getTargetMap();
         }
+        else
+        {
+            return false;
+        }
         Point target = new Point();
+
         if (exit != null)
         {
             target = exit.getTargetCoordinates();
         }
-        logger.info("mapname: {}, targetTileID: {}", mapName, target);
+        logger.info("mapname: {}, target Tile coordinates: {}", mapName, target);
         for (Map m : Game.getCurrent().getMaps())
         {
             if (m.getName().equalsIgnoreCase(mapName))
@@ -863,17 +870,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 //addAnimatedEntities();
             }
         }
-        //these two are ugly and need to be done better somehow,
-        //but they make the switch faster, way faster
-        WeatherManager.getWeatherSystem().checkWeather();
-        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
-        WindowBuilder.getGridCanvas().paint();
-
-        //update the Game to switch to the current state of the new map - might be different after all
-        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-
-        TimerManager.getIdleTimer().start();
-        //TODO clear running schedules? how? currently they are on NPC.
         logger.info("end: switching map");
         return true;
     }

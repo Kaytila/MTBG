@@ -48,3 +48,5 @@ BUGS:
             non-properly initialized npc was causing a draw error
 2023-05-10  when moving crosshair with keyboard, you cannot get past what you should - if you use mouse, you can get
             one step beyond.
+2023-09-02  when switching maps - player is not redrawn
+2023-09-02  when a npc switches maps, not quite sure where it ends up at

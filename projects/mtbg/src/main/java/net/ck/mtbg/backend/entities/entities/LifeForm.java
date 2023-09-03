@@ -114,4 +114,6 @@ public interface LifeForm
     void setType(NPCType type);
 
     boolean hasTwoActions();
+
+    AbstractKeyboardAction lookForExit();
 }

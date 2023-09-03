@@ -103,7 +103,13 @@ public class AIBehaviour
 
     public static void determineRandom(LifeForm e)
     {
-        GetAction action = e.lookAroundForItems();
+        AbstractKeyboardAction action = null;
+        action = e.lookAroundForItems();
+
+        if (action == null)
+        {
+            action = e.lookForExit();
+        }
         if (action != null)
         {
             logger.info("trying to get");

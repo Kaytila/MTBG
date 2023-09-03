@@ -701,6 +701,13 @@ public class NPC extends AbstractEntity implements LifeForm
         this.runningAction = action;
     }
 
+    /**
+     * specialized method for NPC for switching maps.
+     * Kudos to:
+     * <a href="https://stackoverflow.com/questions/37793591/how-do-i-copy-arraylistt-in-java-multi-threaded-environment">https://stackoverflow.com/questions/37793591/how-do-i-copy-arraylistt-in-java-multi-threaded-environment</a>
+     *
+     * @return
+     */
     public boolean switchMap()
     {
         logger.info("start: switching map");
@@ -717,7 +724,7 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             target = exit.getTargetCoordinates();
         }
-        logger.info("mapname: {}, targetTileID: {}", mapName, target);
+        logger.info("mapname: {}, target Tile: {}", mapName, target);
         for (Map m : Game.getCurrent().getMaps())
         {
             if (m.getName().equalsIgnoreCase(mapName))
@@ -725,9 +732,11 @@ public class NPC extends AbstractEntity implements LifeForm
                 MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
 
                 Game.getCurrent().getCurrentMap().getLifeForms().remove(this);
+                MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
                 m.getLifeForms().add(this);
                 assert targetTile != null;
                 this.setMapPosition(new Point(targetTile.x, targetTile.y));
+                targetTile.setLifeForm(this);
                 logger.debug("new position: {}", this.getMapPosition());
                 //setAnimatedEntities(animatedEntities = new ArrayList<>());
                 //addAnimatedEntities();
@@ -735,5 +744,18 @@ public class NPC extends AbstractEntity implements LifeForm
         }
         logger.info("end: switching map");
         return true;
+    }
+
+    public EnterAction lookForExit()
+    {
+        EnterAction action = null;
+
+        MapTile currentTile = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
+
+        if (currentTile.getTargetCoordinates() != null)
+        {
+            action = new EnterAction();
+        }
+        return action;
     }
 }

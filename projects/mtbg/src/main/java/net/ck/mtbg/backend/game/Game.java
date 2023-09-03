@@ -12,7 +12,6 @@ import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.Map;
-import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
@@ -213,55 +212,6 @@ public class Game implements Runnable, Serializable
 
     }
 
-    /**
-     * So we have found an exit point - switch to the target map - map is identified by name for now NPCs stay on the map on the places in the state that they are in. If there is a time system in the
-     * future, perhaps there will be npc routines that are running even if the player is not on the map and only drawn once the player is on the map? Player needs to be removed from the map once the
-     * map is being switched. needs to be added to the new map.
-     */
-    public void switchMap()
-    {
-        logger.info("start: switching map");
-
-        MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(getCurrentPlayer().getMapPosition());
-        String mapName = null;
-        if (exit != null)
-
-        {
-            mapName = exit.getTargetMap();
-        }
-        Point target = new Point();
-        if (exit != null)
-        {
-            target = exit.getTargetCoordinates();
-        }
-        logger.info("mapname: {}, targetTileID: {}", mapName, target);
-        for (Map m : getMaps())
-        {
-            if (m.getName().equalsIgnoreCase(mapName))
-            {
-                MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
-                setCurrentMap(m);
-                m.initialize();
-                assert targetTile != null;
-                getCurrentPlayer().setMapPosition(new Point(targetTile.x, targetTile.y));
-                logger.debug("new player position: {}", getCurrentPlayer().getMapPosition());
-                //setAnimatedEntities(animatedEntities = new ArrayList<>());
-                //addAnimatedEntities();
-            }
-        }
-        //these two are ugly and need to be done better somehow,
-        //but they make the switch faster, way faster
-        WeatherManager.getWeatherSystem().checkWeather();
-        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
-        WindowBuilder.getGridCanvas().paint();
-
-        //update the Game to switch to the current state of the new map - might be different after all
-        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-
-        TimerManager.getIdleTimer().start();
-        //TODO clear running schedules? how? currently they are on NPC.
-        logger.info("end: switching map");
-    }
 
     /**
      * so all can run on the EDT. I wonder where this will fuck things up, according to this:
@@ -515,8 +465,6 @@ public class Game implements Runnable, Serializable
     }
 
 
-
-
     public synchronized void stopGame()
     {
         ThreadController.listThreads();
@@ -727,6 +675,27 @@ public class Game implements Runnable, Serializable
     {
         //logger.info("setting npcAction to: {}", npcAction);
         this.npcAction = npcAction;
+    }
+
+    /**
+     * is called by AbstractEntity - I could also move it to player and NPC as well
+     * and just call super() before doing the little bit different things.
+     * In fact, I think I will do so
+     * //TODO do standard work in AbstractEntity for map switch, then do the concrete stuff relevant to player and npc there
+     */
+    public void finishMapSwitch()
+    {
+        //these two are ugly and need to be done better somehow,
+        //but they make the switch faster, way faster
+        WeatherManager.getWeatherSystem().checkWeather();
+        EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
+        WindowBuilder.getGridCanvas().paint();
+
+        //update the Game to switch to the current state of the new map - might be different after all
+        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+
+        TimerManager.getIdleTimer().start();
+        //TODO clear running schedules? how? currently they are on NPC.
     }
 }
 

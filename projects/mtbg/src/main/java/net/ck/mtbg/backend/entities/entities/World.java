@@ -292,6 +292,12 @@ public class World extends AbstractEntity implements LifeForm
 	}
 
 	@Override
+	public AbstractKeyboardAction lookForExit()
+	{
+		return null;
+	}
+
+	@Override
 	public LifeFormState getState()
 	{
 		return null;

@@ -136,6 +136,12 @@ public class Player extends AbstractEntity implements LifeForm
         return NPCType.PLAYER;
     }
 
+    @Override
+    public AbstractKeyboardAction lookForExit()
+    {
+        return null;
+    }
+
 
     @Override
     public void search()
@@ -653,4 +659,13 @@ public class Player extends AbstractEntity implements LifeForm
         }
         return false;
     }
+
+    public boolean switchMap()
+    {
+        super.switchMap();
+        //TODO this one is kind of ugly - can this be handled otherwise?
+        Game.getCurrent().finishMapSwitch();
+        return true;
+    }
+
 }

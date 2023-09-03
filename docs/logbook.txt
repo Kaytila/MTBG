@@ -943,3 +943,7 @@ History of the changes:
             it should work for both - does for player - for NPC need to implement that they actually switch the map or
             know how to - guess will make it in a way with items, if an exit is right next to it, walk towards it and
             enter - for "AI" testing.
+2023-09-02: so NPC would switch map if npc finds one - the other map is a bit broken yet (where is the new NPC then)
+            as is the re-draw upon entering.
+            but at least i learned about CopyOnWriteArrayList which essentially does a thread-safe operation by doing
+            create copy, change, use as original internally without bothering developer.
