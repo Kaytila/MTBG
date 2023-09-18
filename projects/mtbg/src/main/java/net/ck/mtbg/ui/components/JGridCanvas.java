@@ -321,6 +321,7 @@ public class JGridCanvas extends JComponent
                                             tile.getLifeForm().setType(NPCType.WARRIOR);
                                         }
                                         bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+
                                     }
                                     catch (Exception e)
                                     {
@@ -329,8 +330,6 @@ public class JGridCanvas extends JComponent
                                         logger.debug("lifeform image: {}", tile.getLifeForm().getCurrImage());
                                         logger.debug("tile.getLifeForm().getType() {}", tile.getLifeForm().getType());
                                         logger.debug("ImageManager.getLifeformImages() {}", ImageManager.getLifeformImages());
-
-
                                         throw new RuntimeException(e);
                                     }
                                     g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
@@ -637,6 +636,11 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(PlayerPositionChanged event)
     {
+        logger.info("player position changed, lets see whether this is also called for NPCs");
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            this.paint();
+        });
         //logger.info("player position changed, lets see whether this is also called for NPCs");
         //this.paint();
     }

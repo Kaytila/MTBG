@@ -947,3 +947,5 @@ History of the changes:
             as is the re-draw upon entering.
             but at least i learned about CopyOnWriteArrayList which essentially does a thread-safe operation by doing
             create copy, change, use as original internally without bothering developer.
+2023-09-18: player map switch just works. NPC switch does not - breaks both player and npc actually. but at least i know
+            where to look. did some minor refactoring.

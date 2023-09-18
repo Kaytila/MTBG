@@ -710,6 +710,7 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     public boolean switchMap()
     {
+        //TODO something is buggy there somewhere
         logger.info("start: switching map");
 
         MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());

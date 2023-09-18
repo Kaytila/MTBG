@@ -856,16 +856,29 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             target = exit.getTargetCoordinates();
         }
         logger.info("mapname: {}, target Tile coordinates: {}", mapName, target);
+
         for (Map m : Game.getCurrent().getMaps())
         {
             if (m.getName().equalsIgnoreCase(mapName))
             {
+                m.initialize();
+                logger.debug("mapname: {}", mapName);
+                logger.debug("current map before: {}", Game.getCurrent().getCurrentMap());
                 MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
                 Game.getCurrent().setCurrentMap(m);
-                m.initialize();
+                logger.debug("current map after: {}", Game.getCurrent().getCurrentMap());
                 assert targetTile != null;
-                this.setMapPosition(new Point(targetTile.x, targetTile.y));
+                Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
+                MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
+                this.getMapPosition().move(targetTile.x, targetTile.y);
+                Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(true);
+                logger.info("player map pos: {}", this.getMapPosition());
+                logger.debug("target tile: {}", targetTile);
+                MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(this);
+                //EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
+
                 logger.debug("new position: {}", this.getMapPosition());
+                break;
                 //setAnimatedEntities(animatedEntities = new ArrayList<>());
                 //addAnimatedEntities();
             }
@@ -873,5 +886,4 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         logger.info("end: switching map");
         return true;
     }
-
 }

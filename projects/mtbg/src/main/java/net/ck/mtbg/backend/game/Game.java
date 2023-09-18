@@ -689,11 +689,9 @@ public class Game implements Runnable, Serializable
         //but they make the switch faster, way faster
         WeatherManager.getWeatherSystem().checkWeather();
         EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
-        WindowBuilder.getGridCanvas().paint();
-
+        //WindowBuilder.getGridCanvas().paint();
         //update the Game to switch to the current state of the new map - might be different after all
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-
         TimerManager.getIdleTimer().start();
         //TODO clear running schedules? how? currently they are on NPC.
     }

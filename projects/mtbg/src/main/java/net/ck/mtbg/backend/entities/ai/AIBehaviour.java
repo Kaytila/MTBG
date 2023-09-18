@@ -105,7 +105,7 @@ public class AIBehaviour
     {
         AbstractKeyboardAction action = null;
         action = e.lookAroundForItems();
-
+        //TODO - this is what leads to the bug
         if (action == null)
         {
             action = e.lookForExit();
