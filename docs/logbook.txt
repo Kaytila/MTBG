@@ -949,3 +949,4 @@ History of the changes:
             create copy, change, use as original internally without bothering developer.
 2023-09-18: player map switch just works. NPC switch does not - breaks both player and npc actually. but at least i know
             where to look. did some minor refactoring.
+2023-09-30: did some minor work - fixed simple teleport. This will need to be handled differently somewhen.

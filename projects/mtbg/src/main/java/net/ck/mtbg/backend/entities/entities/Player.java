@@ -444,7 +444,7 @@ public class Player extends AbstractEntity implements LifeForm
 
         if (maptile.getType().equals(TileTypes.SIGNPOST))
         {
-            move(getTargetMapPosition().x, getTargetMapPosition().y);
+            move(maptile.getTargetCoordinates().x, maptile.getTargetCoordinates().y);
         }
 
     }
