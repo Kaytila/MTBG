@@ -50,3 +50,4 @@ BUGS:
             one step beyond.
 2023-09-02  FIXED when switching maps - player is not redrawn, this is because of NPC that has switched before
 2023-09-02  when a npc switches maps, not quite sure where it ends up at this is still a problem. perhaps dont allow that
+2023-09-30  Dialog can only be opened once, not again.

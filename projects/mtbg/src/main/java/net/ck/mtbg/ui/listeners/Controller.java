@@ -38,7 +38,7 @@ import java.io.*;
 
 
 /**
- * MainWindow is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
+ * Controller is the "UI Application Class" that only keeps together the controls in order to be able to have the game work without the UI being instantiated (i.e. testing!!!) this needs to be
  * encapsulated better
  *
  * @author Claus
@@ -827,6 +827,26 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     break;
                 }
             }
+
+            case SPELLBOOK:
+            {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
+                    break;
+                }
+                else
+                {
+                    action.setHaveNPCAction(false);
+
+                    logger.info("spellbook as separate event type, lets not add this to the action queue");
+                    TimerManager.getIdleTimer().stop();
+                    UIStateMachine.setDialogOpened(true);
+                    AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", false, action);
+                    logger.info("spellbook");
+                    break;
+                }
+            }
+
 
             case DROP:
             {

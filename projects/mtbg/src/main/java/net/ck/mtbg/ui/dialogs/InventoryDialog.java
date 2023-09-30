@@ -22,7 +22,6 @@ public class InventoryDialog extends AbstractDialog
 
 	public InventoryDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
 	{
-		
 		setTitle(title);
 		this.setBounds(0, 0, 300, 300);
 		this.setLayout(null);	

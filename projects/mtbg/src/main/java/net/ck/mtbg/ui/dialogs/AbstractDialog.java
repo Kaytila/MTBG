@@ -38,22 +38,28 @@ public class AbstractDialog extends JDialog
 				return new StatsDialog(owner, title, modal);
 			}
 
-			case "Inventory" :
-			{
-				//dialog.addButtons();
+            case "Inventory":
+            {
+                //dialog.addButtons();
                 return new InventoryDialog(owner, title, modal, action);
-			}
+            }
 
-			case "Equipment" :
-			{
+            case "Equipment":
+            {
                 return new EQDialog(owner, title, modal);
-			}			
-			
-			default :
-			{
-				throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);
-			}
-		}
+            }
+
+            case "Spellbook":
+            {
+                return new SpellDialog(owner, title, modal);
+            }
+
+
+            default:
+            {
+                throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);
+            }
+        }
 	}
 
 	public AbstractDialog(Frame owner, String title, boolean modal)
