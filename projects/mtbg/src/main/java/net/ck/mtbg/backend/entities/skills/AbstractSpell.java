@@ -15,4 +15,64 @@ public class AbstractSpell
     protected BufferedImage menuImage;
     protected int costs;
     protected BufferedImage actionImage;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public boolean isAdjecient()
+    {
+        return adjecient;
+    }
+
+    public void setAdjecient(boolean adjecient)
+    {
+        this.adjecient = adjecient;
+    }
+
+    public boolean isImmediately()
+    {
+        return immediately;
+    }
+
+    public void setImmediately(boolean immediately)
+    {
+        this.immediately = immediately;
+    }
+
+    public BufferedImage getMenuImage()
+    {
+        return menuImage;
+    }
+
+    public void setMenuImage(BufferedImage menuImage)
+    {
+        this.menuImage = menuImage;
+    }
+
+    public int getCosts()
+    {
+        return costs;
+    }
+
+    public void setCosts(int costs)
+    {
+        this.costs = costs;
+    }
+
+    public BufferedImage getActionImage()
+    {
+        return actionImage;
+    }
+
+    public void setActionImage(BufferedImage actionImage)
+    {
+        this.actionImage = actionImage;
+    }
 }

@@ -27,6 +27,11 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
         logger.debug("simple mouse click");
     }
 
+    /**
+     * <a href="https://stackoverflow.com/questions/14852719/double-click-listener-on-jtable-in-java">https://stackoverflow.com/questions/14852719/double-click-listener-on-jtable-in-java</a>
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void mousePressed(MouseEvent e)
     {
@@ -39,7 +44,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
         if (e.getClickCount() == 2 && table.getSelectedRow() != -1)
         {
             logger.info("row: {}, column: {}", row, column);
-            table.getCellEditor().stopCellEditing();
+            //table.getCellEditor().stopCellEditing();
         }
         else if (e.getClickCount() == 1 && table.getSelectedRow() != -1)
         {
@@ -77,12 +82,12 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
     @Override
     public void mouseDragged(MouseEvent e)
     {
-        return;
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e)
     {
-        logger.info("hmmm");
+
     }
 }

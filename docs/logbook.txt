@@ -953,3 +953,8 @@ History of the changes:
 2023-09-30: created initial version of spellbook. Two columns of items, with limited functionality. double click and
             single click is working, should be extendable. multi-select is removed, mouse move highlighting needs to be
             removed yet.
+2023-10-01: added model for spellbook table. Renderer is not working properly yet. Also click and dbl click need to be
+            redone to work really properly.
+2023-10-01: problem found - tables are one data record per line, I have two columns and each cell represents a single
+            data point, lets see whether I can mold it that way or whether I need to switch to two lists.
+2023-10-05: safety commit for storing current state

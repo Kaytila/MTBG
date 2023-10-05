@@ -1,6 +1,9 @@
 package net.ck.mtbg.ui.components;
 
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.ui.listeners.SpellBookListener;
+import net.ck.mtbg.ui.models.SpellBookDataModel;
+import net.ck.mtbg.ui.renderers.SpellbookTableCellRenderer;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +30,22 @@ public class Spellbook extends JTable
 		this.addMouseListener(spellBookListener);
 		this.addMouseMotionListener(spellBookListener);
 
+	}
+
+	public Spellbook(SpellBookDataModel spellBookDataModel)
+	{
+		super(spellBookDataModel);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setBounds(20, 40, 200, 100);
+		setFillsViewportHeight(true);
+		setRowSelectionAllowed(false);
+		setColumnSelectionAllowed(false);
+		setCellSelectionEnabled(true);
+
+		SpellBookListener spellBookListener = new SpellBookListener();
+		this.addMouseListener(spellBookListener);
+		this.addMouseMotionListener(spellBookListener);
+		this.setDefaultRenderer(AbstractSpell.class, new SpellbookTableCellRenderer());
 	}
 
 	public Point getSelectionPoint()

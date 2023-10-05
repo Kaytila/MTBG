@@ -4,6 +4,7 @@ import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.Spellbook;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
+import net.ck.mtbg.ui.models.SpellBookDataModel;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
@@ -34,12 +35,7 @@ public class SpellDialog extends AbstractDialog
         panel.setLayout(null);
         this.setContentPane(panel);
 
-
-
-        /**/
-        String[] columnNames = {"First Name", "Last Name"};
-        Object[][] data = {{"Kathy", "Smith"}, {"John", "Doe"}, {"Sue", "Black"}, {"Jane", "White"}, {"Joe", "Brown"}};
-        final Spellbook table = new Spellbook(data, columnNames);
+        final Spellbook table = new Spellbook(new SpellBookDataModel());
         panel.add(table);
 
         cancelButton = new CancelButton();
