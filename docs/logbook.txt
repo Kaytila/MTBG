@@ -958,3 +958,6 @@ History of the changes:
 2023-10-01: problem found - tables are one data record per line, I have two columns and each cell represents a single
             data point, lets see whether I can mold it that way or whether I need to switch to two lists.
 2023-10-05: safety commit for storing current state
+2023-10-29: and a rather lengthy break due to vacation and sickness. But a small bugfix:
+            dialogs are undecorated now therefore no X anymore with will break UIStatemachine's Dialog State as this
+            appearantly cannot be handled. But now its looks more gamey anyways.

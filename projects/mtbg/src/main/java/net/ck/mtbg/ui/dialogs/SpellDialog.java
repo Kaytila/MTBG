@@ -34,7 +34,7 @@ public class SpellDialog extends AbstractDialog
         panel.setBounds(0, 0, 300, 300);
         panel.setLayout(null);
         this.setContentPane(panel);
-
+        this.setUndecorated(true);
         final Spellbook table = new Spellbook(new SpellBookDataModel());
         panel.add(table);
 

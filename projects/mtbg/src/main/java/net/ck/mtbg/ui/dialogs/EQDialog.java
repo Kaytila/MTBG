@@ -37,6 +37,7 @@ public class EQDialog extends AbstractDialog
 		root = this.getRootPane();
 		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
 		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
+		this.setUndecorated(true);
 		cancelButton = new CancelButton();
 		okButton = new OKButton();
 

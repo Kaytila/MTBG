@@ -36,16 +36,16 @@ public class InventoryDialog extends AbstractDialog
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 300, 300);
 		panel.setLayout(null);
-		this.setContentPane(panel);		
-		
+		this.setContentPane(panel);
+		this.setUndecorated(true);
 		InventoryPane invP = new InventoryPane(owner, Game.getCurrent().getCurrentPlayer().getInventory(), this, action);
 		invP.setBounds(0, 0, 300, 200);
 		this.add(invP.initializeScrollPane());
-		
+
 		InventoryPaneListCellRenderer listCellRenderer = new InventoryPaneListCellRenderer();
 		invP.setCellRenderer(listCellRenderer);
-		
-		
+
+
 		cancelButton = new CancelButton();
 		okButton = new OKButton();
 		okButton.setBounds(300 - 160, 300 - 70, 70, 30);

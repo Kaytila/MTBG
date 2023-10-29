@@ -41,7 +41,7 @@ public class ContainerDialog extends AbstractDialog
 		root = this.getRootPane();
 		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
 		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
-	
+		this.setUndecorated(true);
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 300, 300);
 		panel.setLayout(null);		

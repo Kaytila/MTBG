@@ -36,7 +36,7 @@ public class TalkDialog extends AbstractDialog
         root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
         root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
 		root.setOpaque(false);
-
+		this.setUndecorated(true);
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 200, 700, 700);
 		panel.setLayout(null);
