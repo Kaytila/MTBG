@@ -33,23 +33,41 @@
             </exit>
         </tile>
 		<tile>
-			<id>3</id>
-			<type>GRASS</type>
-			<x>2</x>
-			<y>0</y>
-		</tile>
+            <id>3</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>0</y>
+            <message>
+                <type>
+                    LEAVE
+                </type>
+                <repeat>true</repeat>
+                <description>
+                    You leave the grasslands behind.
+                </description>
+            </message>
+        </tile>
 		<tile>
 			<id>4</id>
 			<type>GRASS</type>
 			<x>3</x>
 			<y>0</y>
 		</tile>
-		<tile>
-			<id>5</id>
-			<type>GRASS</type>
-			<x>4</x>
-			<y>0</y>
-		</tile>
+        <tile>
+            <id>5</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>0</y>
+            <message>
+                <type>
+                    ENTER
+                </type>
+                <repeat>false</repeat>
+                <description>
+                    You enter the grasslands.
+                </description>
+            </message>
+        </tile>
 		<tile>
 			<id>6</id>
 			<type>GRASS</type>

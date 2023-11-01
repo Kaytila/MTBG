@@ -961,3 +961,6 @@ History of the changes:
 2023-10-29: and a rather lengthy break due to vacation and sickness. But a small bugfix:
             dialogs are undecorated now therefore no X anymore with will break UIStatemachine's Dialog State as this
             appearantly cannot be handled. But now its looks more gamey anyways.
+2023-11-01: implemented the XML and XML parser for enter_tile and leave_tile descriptions. not sure yet how to store
+            whether a message has been fired and shall not be repeated. dont have a framework for that yet.
+            to come: implement the dialog message for it. could be a little brother of cutscene.

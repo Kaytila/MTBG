@@ -6,6 +6,8 @@ import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.map.Message;
+import net.ck.mtbg.map.MessageTypes;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.weather.WeatherTypes;
 import org.apache.logging.log4j.LogManager;
@@ -81,26 +83,30 @@ public class MapXMLReader extends DefaultHandler
 	private String answer;
     private boolean targetPosition;
 
-    private boolean mapPosition;
-    private Point mapPos;
+	private boolean mapPosition;
+	private Point mapPos;
 
-    private Point targetPos;
+	private Point targetPos;
 
-    private GameState gameState;
+	private GameState gameState;
 
-    private ArrayList<NPC> npcs;
-    private boolean exit;
-    private Point exitPos;
+	private ArrayList<NPC> npcs;
+	private boolean exit;
+	private Point exitPos;
 
-    public ArrayList<NPC> getNpcs()
-    {
-        return npcs;
-    }
+	private Message message;
 
-    public void setNpcs(ArrayList<NPC> npcs)
-    {
-        this.npcs = npcs;
-    }
+	private boolean msg;
+
+	public ArrayList<NPC> getNpcs()
+	{
+		return npcs;
+	}
+
+	public void setNpcs(ArrayList<NPC> npcs)
+	{
+		this.npcs = npcs;
+	}
 
 	public Map getGameMap()
 	{
@@ -233,19 +239,27 @@ public class MapXMLReader extends DefaultHandler
                 break;
             case "question":
                 break;
-            case "answer":
-                break;
-            case "exit":
-                exit = true;
-                exitPos = new Point();
-                break;
-            case "targetMap":
-                break;
-            case "targetCoordinates":
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + qName);
-        }
+			case "answer":
+				break;
+			case "exit":
+				exit = true;
+				exitPos = new Point();
+				break;
+			case "targetMap":
+				break;
+			case "targetCoordinates":
+				break;
+			case "message":
+				msg = true;
+				message = new Message();
+				break;
+			case "description":
+				break;
+			case "repeat":
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + qName);
+		}
 		data = new StringBuilder();
 	}
 
@@ -271,13 +285,21 @@ public class MapXMLReader extends DefaultHandler
 				}
 				break;
 			case "type":
+				String str = data.toString().replaceAll("(\\r|\\n|\\t)", "");
 				if (tile)
 				{
-					maptile.setType(TileTypes.valueOf(data.toString()));
+					if (msg)
+					{
+						message.setMessageType(MessageTypes.valueOf(str));
+					}
+					else
+					{
+						maptile.setType(TileTypes.valueOf(str));
+					}
 				}
 				if (npc)
 				{
-					np.setType(NPCType.valueOf(data.toString()));
+					np.setType(NPCType.valueOf(str));
 				}
 				break;
 			case "x":
@@ -402,19 +424,29 @@ public class MapXMLReader extends DefaultHandler
                 answer = (data.toString());
                 break;
             case "mobask":
-                mobasks.put(question, answer);
-            case "mobasks":
-                np.setMobasks(mobasks);
-                break;
-            case "exit":
-                gameMap.setTargetCoordinates(exitPos);
+				mobasks.put(question, answer);
+			case "mobasks":
+				np.setMobasks(mobasks);
+				break;
+			case "exit":
+				gameMap.setTargetCoordinates(exitPos);
 				maptile.setTargetCoordinates(exitPos);
 				exit = false;
-            case "targetCoordinates":
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + qName);
-        }
+			case "targetCoordinates":
+				break;
+			case "repeat":
+				message.setRepeat(Boolean.valueOf(data.toString()));
+				break;
+			case "description":
+				message.setDescription(data.toString());
+				break;
+			case "message":
+				maptile.setMessage(message);
+				msg = false;
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + qName);
+		}
 	}
 
 	@Override

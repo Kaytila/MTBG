@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<items>
-    <item>
+<spells>
+    <spell>
         <id>1</id>
-        <name>torch</name>
-        <value>1</value>
-        <weight>1.0</weight>
-        <container>false</container>
-        <lightsource>true</lightsource>
-        <lightrange>2</lightrange>
-        <image>torch</image>
-    </item>
-</items>
+        <name>fire</name>
+        <costs>1</costs>
+        <menuImage>1.0</menuImage>
+        <actionImage>false</actionImage>
+    </spell>
+</spells>

@@ -104,6 +104,18 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     private Point targetCoordinates;
 
+    private Message message;
+
+    public Message getMessage()
+    {
+        return message;
+    }
+
+    public void setMessage(Message message)
+    {
+        this.message = message;
+    }
+
     public Point getTargetCoordinates()
     {
         return targetCoordinates;
