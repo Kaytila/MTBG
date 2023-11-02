@@ -965,3 +965,4 @@ History of the changes:
             whether a message has been fired and shall not be repeated. dont have a framework for that yet.
             to come: implement the dialog message for it. could be a little brother of cutscene.
 2023-11-02: added the framework for firing messages before move and after move. UI is still missing.
+2023-11-02: added prototype dialog for enter/leave descriptions

@@ -1,6 +1,7 @@
 package net.ck.mtbg.ui.dialogs;
 
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.util.CodeUtils;
@@ -74,7 +75,11 @@ public class AbstractDialog extends JDialog
 		root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
 		root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
 	}
-	
+
+	public static AbstractDialog createDialog(Frame owner, String title, boolean modal, Message message1)
+	{
+		return new MessageDialog(owner, title, modal, message1);
+	}
 
 
 	public void addButtons()
