@@ -7,6 +7,7 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
+import net.ck.mtbg.backend.state.EnvironmentalStoryTeller;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
@@ -607,7 +608,9 @@ public class Player extends AbstractEntity implements LifeForm
      */
     public void move(int x, int y)
     {
+        EnvironmentalStoryTeller.tellStoryLeave(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()));
         super.move(x, y);
+        EnvironmentalStoryTeller.tellStoryEnter(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()));
         EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 

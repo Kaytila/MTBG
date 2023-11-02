@@ -285,7 +285,7 @@ public class MapXMLReader extends DefaultHandler
 				}
 				break;
 			case "type":
-				String str = data.toString().replaceAll("(\\r|\\n|\\t)", "");
+				String str = data.toString().replaceAll("(\\r|\\n|\\t|\\W)", "");
 				if (tile)
 				{
 					if (msg)

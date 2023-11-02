@@ -499,11 +499,15 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      */
     public void move(int x, int y)
     {
+
+
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
         MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
         this.getMapPosition().move(x, y);
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(true);
         MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(this);
+
+
         //EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 
