@@ -966,3 +966,5 @@ History of the changes:
             to come: implement the dialog message for it. could be a little brother of cutscene.
 2023-11-02: added the framework for firing messages before move and after move. UI is still missing.
 2023-11-02: added prototype dialog for enter/leave descriptions
+2023-11-05: implemented a way to at least store the tiles whose message has already fired during run time, no persistence
+            yet.

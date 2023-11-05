@@ -676,7 +676,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         for (AbstractKeyboardAction ac : Game.getCurrent().getCurrentPlayer().getQueuedActions().getActionList())
         {
             logger.info("ac: {}", ac);
-            //runActions(ac, true);
+            //runActions(ac);
         }
     }
 
@@ -696,6 +696,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         setCurrentAction(null);
     }
 
+    /**
+     * on MessageEvent is being called from
+     * - createMovement() for mouse based movement in Controller
+     * - JGridCanvas has a huge action map for keyboard input
+     *
+     * @param action a "Keyboard" (also mouse) action - which implements javax.swing.Action
+     */
     @Subscribe
     public void onMessageEvent(AbstractKeyboardAction action)
     {
