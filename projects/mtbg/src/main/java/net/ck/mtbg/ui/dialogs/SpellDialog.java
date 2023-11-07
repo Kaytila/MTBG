@@ -2,9 +2,9 @@ package net.ck.mtbg.ui.dialogs;
 
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
-import net.ck.mtbg.ui.components.Spellbook;
+import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
-import net.ck.mtbg.ui.models.SpellBookDataModel;
+import net.ck.mtbg.ui.renderers.SpellbookListCellRenderer;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
@@ -35,8 +35,10 @@ public class SpellDialog extends AbstractDialog
         panel.setLayout(null);
         this.setContentPane(panel);
         this.setUndecorated(true);
-        final Spellbook table = new Spellbook(new SpellBookDataModel());
-        panel.add(table);
+        final SpellbookPane spellbookPane = new SpellbookPane();
+        SpellbookListCellRenderer listCellRenderer = new SpellbookListCellRenderer();
+        spellbookPane.setCellRenderer(listCellRenderer);
+        panel.add(spellbookPane);
 
         cancelButton = new CancelButton();
         okButton = new OKButton();

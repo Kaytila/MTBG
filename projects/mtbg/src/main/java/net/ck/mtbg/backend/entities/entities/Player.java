@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.entities.entities;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
@@ -86,6 +87,38 @@ public class Player extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
 
+        AbstractSpell spell1 = new AbstractSpell();
+        spell1.setName("Fireball");
+
+        AbstractSpell spell2 = new AbstractSpell();
+        spell2.setName("Heal");
+
+        AbstractSpell spell3 = new AbstractSpell();
+        spell3.setName("Slow");
+
+        AbstractSpell spell4 = new AbstractSpell();
+        spell4.setName("Haste");
+
+        AbstractSpell spell5 = new AbstractSpell();
+        spell5.setName("Magic Missile");
+
+        AbstractSpell spell6 = new AbstractSpell();
+        spell6.setName("Tremor");
+
+        AbstractSpell spell7 = new AbstractSpell();
+        spell7.setName("Great Heal");
+
+        AbstractSpell spell8 = new AbstractSpell();
+        spell8.setName("Resurrection");
+
+        getSpells().add(spell1);
+        getSpells().add(spell2);
+        getSpells().add(spell3);
+        getSpells().add(spell4);
+        getSpells().add(spell5);
+        getSpells().add(spell6);
+        getSpells().add(spell7);
+        getSpells().add(spell8);
     }
 
     public void setMapPosition(Point position)

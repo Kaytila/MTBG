@@ -1,6 +1,6 @@
 package net.ck.mtbg.ui.listeners;
 
-import net.ck.mtbg.ui.components.Spellbook;
+import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.CursorUtils;
 import org.apache.logging.log4j.LogManager;
@@ -35,37 +35,24 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
     @Override
     public void mousePressed(MouseEvent e)
     {
-        Spellbook table = (Spellbook) e.getSource();
+        SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
         Point point = e.getPoint();
-        int row = table.rowAtPoint(point);
-        int column = table.columnAtPoint(point);
 
-
-        if (e.getClickCount() == 2 && table.getSelectedRow() != -1)
-        {
-            logger.info("row: {}, column: {}", row, column);
-            //table.getCellEditor().stopCellEditing();
-        }
-        else if (e.getClickCount() == 1 && table.getSelectedRow() != -1)
-        {
-            logger.info("row: {}, column: {} is selected", row, column);
-            table.setSelectionPoint(new Point(row, column));
-        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
         logger.debug("simple mouse released");
-        Spellbook table = (Spellbook) e.getSource();
-        table.changeSelection(table.getSelectionPoint().x, table.getSelectionPoint().y, false, false);
+        SpellbookPane table = (SpellbookPane) e.getSource();
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e)
     {
         logger.debug("simple mouse entered");
-        Spellbook table = (Spellbook) e.getSource();
+        SpellbookPane table = (SpellbookPane) e.getSource();
         table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         CursorUtils.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
@@ -74,7 +61,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
     public void mouseExited(MouseEvent e)
     {
         logger.debug("simple mouse exit");
-        Spellbook table = (Spellbook) e.getSource();
+        SpellbookPane table = (SpellbookPane) e.getSource();
         table.setCursor(Cursor.getDefaultCursor());
         CursorUtils.setCursor(Cursor.getDefaultCursor());
     }

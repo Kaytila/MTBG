@@ -75,4 +75,9 @@ public class AbstractSpell
     {
         this.actionImage = actionImage;
     }
+
+    public String toString()
+    {
+        return getName() + " " + getMenuImage() + " " + getActionImage();
+    }
 }

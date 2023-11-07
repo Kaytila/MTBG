@@ -854,7 +854,7 @@ public class MapUtils
      * @param pP playerPosition
      * @return the direction
      */
-    public static Direction calculateDirectionOfMapTileFromPlayer(Point tP, Point pP)
+    public static Directions calculateDirectionOfMapTileFromPlayer(Point tP, Point pP)
     {
         String value = "";
 
@@ -890,35 +890,35 @@ public class MapUtils
             value += "E";
         }
         //logger.info("direction string value: {}", value);
-        return Direction.valueOf(value);
+        return Directions.valueOf(value);
     }
 
-    public static Direction invertDirection(Direction sourceDir)
+    public static Directions invertDirection(Directions sourceDir)
     {
         switch (sourceDir)
         {
             case N:
-                return Direction.S;
+                return Directions.S;
             case NE:
-                return Direction.SW;
+                return Directions.SW;
             case E:
-                return Direction.W;
+                return Directions.W;
             case SE:
-                return Direction.NW;
+                return Directions.NW;
             case S:
-                return Direction.N;
+                return Directions.N;
             case SW:
-                return Direction.NE;
+                return Directions.NE;
             case W:
-                return Direction.E;
+                return Directions.E;
             case NW:
-                return Direction.SE;
+                return Directions.SE;
             default:
                 return null;
         }
     }
 
-    public static MapTile calculateTileByDirection(Point pos, Direction targetDir)
+    public static MapTile calculateTileByDirection(Point pos, Directions targetDir)
     {
         switch (targetDir)
         {

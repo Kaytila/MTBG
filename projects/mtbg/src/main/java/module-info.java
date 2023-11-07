@@ -63,4 +63,5 @@ open module net.ck.mtbg
     exports net.ck.mtbg.backend.entities.attributes;
     exports net.ck.mtbg.backend.entities.ai;
     exports net.ck.mtbg.backend.entities.entities;
+    exports net.ck.mtbg.backend.entities.skills;
 }

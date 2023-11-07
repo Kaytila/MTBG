@@ -968,3 +968,5 @@ History of the changes:
 2023-11-02: added prototype dialog for enter/leave descriptions
 2023-11-05: implemented a way to at least store the tiles whose message has already fired during run time, no persistence
             yet.
+2023-11-07: changed the spellbook from table to multi-column list view. graphics for spells are needed here.
+            Added spells to AbstrctEntity.

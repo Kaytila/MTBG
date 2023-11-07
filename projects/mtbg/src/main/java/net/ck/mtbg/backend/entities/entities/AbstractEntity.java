@@ -9,6 +9,7 @@ import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.attributes.Attributes;
+import net.ck.mtbg.backend.entities.skills.Spells;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
@@ -102,18 +103,32 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private CommandQueue queuedActions;
 
+    private Spells spells;
+
+    public AbstractEntity()
+    {
+        spells = new Spells();
+        inventory = new Inventory();
+        attributes = new Attributes();
+
+        setLevel(1);
+        setCurrImage(0);
+        setState(LifeFormState.ALIVE);
+    }
+
+    public Spells getSpells()
+    {
+        return spells;
+    }
+
     private NPCType type;
 
     //TODO really necessary? Does NPC need to know its map or does
     private Map currentMap;
 
-    public AbstractEntity()
+    public void setSpells(Spells spells)
     {
-        inventory = new Inventory();
-        attributes = new Attributes();
-        setLevel(1);
-        setCurrImage(0);
-        setState(LifeFormState.ALIVE);
+        this.spells = spells;
     }
 
     public NPCType getType()
@@ -776,12 +791,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setHostile(false);
     }
 
-
     protected boolean push(Point source)
     {
-        MapTile   sourceTile = Game.getCurrent().getCurrentMap().mapTiles[source.x][source.y];
-        Direction sourceDir  = MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
-        MapTile   targetTile = MapUtils.calculateTileByDirection(sourceTile.getMapPosition(), sourceDir);
+        MapTile sourceTile = Game.getCurrent().getCurrentMap().mapTiles[source.x][source.y];
+        Directions sourceDir = MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
+        MapTile targetTile = MapUtils.calculateTileByDirection(sourceTile.getMapPosition(), sourceDir);
 
         if (sourceTile.getFurniture() != null)
         {
@@ -805,8 +819,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     protected boolean yank(Point source)
     {
         MapTile sourceTile = Game.getCurrent().getCurrentMap().mapTiles[source.x][source.y];
-        Direction sourceDir = MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
-        Direction targetDir = MapUtils.invertDirection(sourceDir);
+        Directions sourceDir = MapUtils.calculateDirectionOfMapTileFromPlayer(sourceTile.getMapPosition(), this.getMapPosition());
+        Directions targetDir = MapUtils.invertDirection(sourceDir);
         MapTile targetTile = MapUtils.calculateTileByDirection(this.getMapPosition(), targetDir);
 
         if (sourceTile.getFurniture() != null)
