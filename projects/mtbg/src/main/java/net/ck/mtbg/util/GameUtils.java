@@ -12,12 +12,10 @@ import net.ck.mtbg.animation.missile.MissileTimer;
 import net.ck.mtbg.animation.missile.MissileUtilTimer;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.Turn;
-import net.ck.mtbg.backend.state.GameState;
-import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.backend.state.NoiseManager;
-import net.ck.mtbg.backend.state.TimerManager;
+import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.backend.time.IdleActionListener;
@@ -439,6 +437,40 @@ public class GameUtils
         listUtilities();
         listArmor();
         listFurniture();
+    }
+
+
+    public static void initializeSpells()
+    {
+        logger.info("start: initialize spells");
+
+        File folder = new File(GameConfiguration.spellsFileRootPath);
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+        for (File file : listOfFiles)
+        {
+            if (file.isFile())
+            {
+                if (file.getName().equalsIgnoreCase("spells.xml"))
+                {
+                    logger.info("parsing spells: {}", GameConfiguration.spellsFileRootPath + File.separator + file.getName());
+                    SpellManager.setSpellList(RunXMLParser.parseSpells(GameConfiguration.spellsFileRootPath + File.separator + file.getName()));
+                }
+            }
+        }
+        logger.info("end: initialize spells");
+
+        listSpells();
+    }
+
+
+    private static void listSpells()
+    {
+        for (AbstractSpell s : SpellManager.getSpellList().values())
+        {
+            logger.info("spellid: {}, spell name: {}", s.getId(), s.getName());
+        }
     }
 
     private static void listFurniture()

@@ -2,6 +2,7 @@ package net.ck.mtbg.util.xml;
 
 import net.ck.mtbg.items.ArmorTypes;
 import net.ck.mtbg.items.Utility;
+import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -12,7 +13,7 @@ import java.util.Hashtable;
 public class UtilityXMLReader extends DefaultHandler
 {
 
-	private final Logger logger = (Logger) LogManager.getLogger(getRealClass());
+	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	private StringBuilder data = null;
 

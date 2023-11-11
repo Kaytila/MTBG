@@ -128,6 +128,7 @@ public class GameConfiguration
 
     public static final String npcImages = out + File.separator + "graphics" + File.separator + "lifeforms" + File.separator;
 
+    public static final String spellMenuImages = out + File.separator + "graphics" + File.separator + "spells" + File.separator;
 
     public static final String musicPath = out + File.separator + "music";
 
@@ -147,6 +148,12 @@ public class GameConfiguration
      * where to find items xml
      */
     public static final String itemFileRootPath = out + File.separator + "items";
+
+    /**
+     * where to find the spells xml
+     */
+    public static final String spellsFileRootPath = out + File.separator + "spells";
+
 
     /**
      * use Events only for redrawing or do 60 fps :D

@@ -4,6 +4,8 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.entities.NPCType;
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
+import net.ck.mtbg.backend.state.SpellManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
@@ -28,6 +30,19 @@ public class ImageManager
 
 
     private static Hashtable<ActionStates, Integer> actionImages = new Hashtable<>(ActionStates.values().length);
+
+    private static Hashtable<Integer, BufferedImage> spellMenuImages = new Hashtable<>(SpellManager.getSpellList().size());
+
+    public static Hashtable<Integer, BufferedImage> getSpellMenuImages()
+    {
+        return spellMenuImages;
+    }
+
+    public static void setSpellMenuImages(Hashtable<Integer, BufferedImage> spellMenuImages)
+    {
+        ImageManager.spellMenuImages = spellMenuImages;
+    }
+
 
     public static Hashtable<ActionStates, BufferedImage> getAdditionalImages()
     {
@@ -114,13 +129,26 @@ public class ImageManager
 
                 getLifeformImages().put(type, images);
                 i = 0;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
                 logger.debug("missing images for type: {}", type);
             }
         }
     }
+
+    public static void loadSpellMenuImages()
+    {
+
+        for (AbstractSpell spell : SpellManager.getSpellList().values())
+        {
+            logger.info("loading menu image for spell: {}", spell.getName());
+            BufferedImage image = ImageUtils.makeImageTransparent(GameConfiguration.spellMenuImages + spell.getName() + ".png");
+            getSpellMenuImages().put(spell.getId(), image);
+        }
+    }
+
 
     public static void loadAdditionalImages()
     {

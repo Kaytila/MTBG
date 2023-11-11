@@ -89,9 +89,11 @@ public class Player extends AbstractEntity implements LifeForm
 
         AbstractSpell spell1 = new AbstractSpell();
         spell1.setName("Fireball");
+        spell1.setId(1);
 
         AbstractSpell spell2 = new AbstractSpell();
         spell2.setName("Heal");
+        spell2.setId(2);
 
         AbstractSpell spell3 = new AbstractSpell();
         spell3.setName("Slow");
@@ -110,6 +112,7 @@ public class Player extends AbstractEntity implements LifeForm
 
         AbstractSpell spell8 = new AbstractSpell();
         spell8.setName("Resurrection");
+        spell8.setId(3);
 
         getSpells().add(spell1);
         getSpells().add(spell2);

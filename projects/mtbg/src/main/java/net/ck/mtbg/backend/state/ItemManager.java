@@ -36,6 +36,7 @@ public class ItemManager
      */
     private static Hashtable<Integer, Armor> armorList;
 
+
     public static Hashtable<Integer, Utility> getUtilityList()
     {
         return utilityList;

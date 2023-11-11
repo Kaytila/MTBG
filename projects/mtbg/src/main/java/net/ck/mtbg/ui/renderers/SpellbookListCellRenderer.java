@@ -39,6 +39,10 @@ public class SpellbookListCellRenderer extends JLabel implements ListCellRendere
 			ImageIcon icon = new ImageIcon(value.getMenuImage());
 			setIcon(icon);
 		}
+		else
+		{
+			logger.debug("Spell has no image: {}", value.getName());
+		}
 		setText(text);
 		setFont(list.getFont());
 		return this;

@@ -2,9 +2,27 @@
 <spells>
     <spell>
         <id>1</id>
-        <name>fire</name>
+        <name>fireball</name>
         <costs>1</costs>
-        <menuImage>1.0</menuImage>
+        <menuImage>fireball</menuImage>
+        <actionImage>false</actionImage>
+        <effect>Health</effect>
+        <amount>-10</amount>
+    </spell>
+    <spell>
+        <id>2</id>
+        <name>heal</name>
+        <costs>1</costs>
+        <menuImage>heal</menuImage>
+        <actionImage>false</actionImage>
+        <effect>Health</effect>
+        <amount>10</amount>
+    </spell>
+    <spell>
+        <id>3</id>
+        <name>resurrect</name>
+        <costs>1</costs>
+        <menuImage>resurrect</menuImage>
         <actionImage>false</actionImage>
     </spell>
 </spells>

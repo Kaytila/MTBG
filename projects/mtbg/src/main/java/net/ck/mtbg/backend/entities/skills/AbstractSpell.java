@@ -1,6 +1,7 @@
 package net.ck.mtbg.backend.entities.skills;
 
 import net.ck.mtbg.util.CodeUtils;
+import net.ck.mtbg.util.ImageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +16,18 @@ public class AbstractSpell
     protected BufferedImage menuImage;
     protected int costs;
     protected BufferedImage actionImage;
+
+    protected int id;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public String getName()
     {
@@ -48,7 +61,7 @@ public class AbstractSpell
 
     public BufferedImage getMenuImage()
     {
-        return menuImage;
+        return ImageManager.getSpellMenuImages().get(id);
     }
 
     public void setMenuImage(BufferedImage menuImage)

@@ -80,6 +80,7 @@ public class RunGame
 					ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
 				}
 				GameUtils.initializeAllItems();
+				GameUtils.initializeSpells();
 				GameUtils.initializeMaps();
 				game.addPlayers(GameConfiguration.startPosition);
 				//ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
@@ -100,6 +101,7 @@ public class RunGame
 				GameUtils.initializeMusicSystemNoThread();
 				GameUtils.initializeSoundSystemNoThread();
 				ImageManager.loadLifeFormImages();
+				ImageManager.loadSpellMenuImages();
 				ImageManager.initializeAttributeImages();
 				//ImageManager.loadAdditionalImages();
 			} else {
@@ -189,6 +191,7 @@ public class RunGame
 					GameUtils.initializeMusicSystemNoThread();
 					GameUtils.initializeSoundSystemNoThread();
 					ImageManager.loadLifeFormImages();
+					ImageManager.loadSpellMenuImages();
 					ImageManager.initializeAttributeImages();
 					//ImageManager.loadAdditionalImages();
 

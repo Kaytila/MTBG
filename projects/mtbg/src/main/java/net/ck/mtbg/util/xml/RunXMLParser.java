@@ -1,5 +1,6 @@
 package net.ck.mtbg.util.xml;
 
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.items.Armor;
 import net.ck.mtbg.items.FurnitureItem;
@@ -158,4 +159,28 @@ public class RunXMLParser
 		}
 		return null;
 	}
+
+
+	public static Hashtable<Integer, AbstractSpell> parseSpells(String fileName)
+	{
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		try
+		{
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+			SpellXMLReader handler = new SpellXMLReader();
+			saxParser.parse(new File(fileName), handler);
+
+			return handler.getSpellList();
+		}
+		catch (Exception e)
+		{
+			logger.error("issue during parsing spells");
+			e.printStackTrace();
+			Game.getCurrent().stopGame();
+		}
+		return null;
+
+	}
+
+
 }
