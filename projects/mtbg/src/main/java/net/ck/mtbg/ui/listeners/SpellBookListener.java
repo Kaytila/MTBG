@@ -3,7 +3,10 @@ package net.ck.mtbg.ui.listeners;
 import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.CursorUtils;
+import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.CastAction;
+import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,9 +21,25 @@ import java.awt.event.MouseMotionListener;
  *
  * <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#simple">https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#simple</a>
  */
-public class SpellBookListener implements MouseListener, MouseMotionListener
-{
+public class SpellBookListener implements MouseListener, MouseMotionListener {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
+    public SpellbookPane getSpellbookPane() {
+        return spellbookPane;
+    }
+
+    public void setSpellbookPane(SpellbookPane spellbookPane) {
+        this.spellbookPane = spellbookPane;
+    }
+
+    private SpellbookPane spellbookPane;
+    private AbstractKeyboardAction action;
+
+    public SpellBookListener(SpellbookPane pane, AbstractKeyboardAction action) {
+        this.spellbookPane = pane;
+        this.action = action;
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -30,6 +49,11 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
             CastAction castAction = new CastAction();
             castAction.setSpell(spellbookPane.getSelectedValue());
             //TODO how to get from select a spell to actually cast it
+            if (getAction().getType().equals(KeyboardActionType.CAST)) {
+                e.consume();
+                WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
+                close.actionPerformed(null);
+            }
         } else {
             logger.debug("simple mouse click");
             logger.info("selected spell: {}", ((SpellbookPane) e.getSource()).getSelectedValue().getName());
@@ -42,24 +66,21 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
      * @param e the event to be processed
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
         Point point = e.getPoint();
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         logger.debug("simple mouse released");
         SpellbookPane table = (SpellbookPane) e.getSource();
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
         logger.debug("simple mouse entered");
         SpellbookPane table = (SpellbookPane) e.getSource();
         table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -67,8 +88,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
         logger.debug("simple mouse exit");
         SpellbookPane table = (SpellbookPane) e.getSource();
         table.setCursor(Cursor.getDefaultCursor());
@@ -76,14 +96,20 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
+    public void mouseDragged(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
+    public void mouseMoved(MouseEvent e) {
 
+    }
+
+    public AbstractKeyboardAction getAction() {
+        return action;
+    }
+
+    public void setAction(AbstractKeyboardAction action) {
+        this.action = action;
     }
 }

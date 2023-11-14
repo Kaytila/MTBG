@@ -6,6 +6,7 @@ import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
 import net.ck.mtbg.ui.renderers.SpellbookListCellRenderer;
 import net.ck.mtbg.util.CodeUtils;
+import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,8 +18,7 @@ public class SpellDialog extends AbstractDialog
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-    public SpellDialog(Frame owner, String title, boolean modal)
-    {
+    public SpellDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action) {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(new GridLayout(1, 0));
@@ -35,7 +35,7 @@ public class SpellDialog extends AbstractDialog
         panel.setLayout(null);
         this.setContentPane(panel);
         this.setUndecorated(true);
-        final SpellbookPane spellbookPane = new SpellbookPane();
+        final SpellbookPane spellbookPane = new SpellbookPane(owner, this, action);
         SpellbookListCellRenderer listCellRenderer = new SpellbookListCellRenderer();
         spellbookPane.setCellRenderer(listCellRenderer);
         panel.add(spellbookPane);

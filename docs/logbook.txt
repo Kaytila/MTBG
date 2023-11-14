@@ -975,3 +975,4 @@ History of the changes:
             added entry for imagemanager, updated spellbooklistrenderer and voila, initial list is visible.
 2023-11-14: changes to spellbook dialog to make sure dbl click now selects a spell. now to think of how to close it,
             then get into cross hair mode and then actually run the spell.
+2023-11-14: extended spelldialog, will need to switch (C) to cast to open the spellbook.
