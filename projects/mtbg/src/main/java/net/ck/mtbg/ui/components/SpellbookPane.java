@@ -21,7 +21,7 @@ public class SpellbookPane extends JList<AbstractSpell>
 		setLayoutOrientation(VERTICAL_WRAP);
 		this.requestFocus();
 		this.setVisibleRowCount(-1);
-		setBounds(20, 40, 200, 100);
+		setBounds(20, 40, 300, 100);
 		SpellBookListener spellBookListener = new SpellBookListener();
 		this.addMouseListener(spellBookListener);
 		this.addMouseMotionListener(spellBookListener);

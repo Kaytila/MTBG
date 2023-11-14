@@ -21,6 +21,7 @@ public class SpellbookListCellRenderer extends JLabel implements ListCellRendere
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractSpell> list, AbstractSpell value, int index, boolean isSelected, boolean cellHasFocus)
 	{
+		setPreferredSize(new Dimension(100, 40));
 		if (isSelected)
 		{
 			setBackground(list.getSelectionBackground());
@@ -32,19 +33,16 @@ public class SpellbookListCellRenderer extends JLabel implements ListCellRendere
 			setForeground(list.getForeground());
 		}
 
-		logger.debug("spell book list: {}", value.toString());
-		String text = value.getName();
-		if (value.getMenuImage() != null)
-		{
-			ImageIcon icon = new ImageIcon(value.getMenuImage());
-			setIcon(icon);
-		}
-		else
-		{
-			logger.debug("Spell has no image: {}", value.getName());
-		}
-		setText(text);
-		setFont(list.getFont());
-		return this;
-	}
+        //logger.debug("spell book list: {}", value.toString());
+        String text = value.getName();
+        if (value.getMenuImage() != null) {
+            ImageIcon icon = new ImageIcon(value.getMenuImage());
+            setIcon(icon);
+        } else {
+            logger.debug("Spell has no image: {}", value.getName());
+        }
+        //setText(text);
+        //setFont(list.getFont());
+        return this;
+    }
 }

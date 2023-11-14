@@ -973,3 +973,5 @@ History of the changes:
 2023-11-10: added some spell data.
 2023-11-11: added SpellManager, added SpellsXMLReader, added entries to GameConfiguration. Added initializer.
             added entry for imagemanager, updated spellbooklistrenderer and voila, initial list is visible.
+2023-11-14: changes to spellbook dialog to make sure dbl click now selects a spell. now to think of how to close it,
+            then get into cross hair mode and then actually run the spell.

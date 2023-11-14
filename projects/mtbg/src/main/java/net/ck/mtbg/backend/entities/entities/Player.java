@@ -116,11 +116,11 @@ public class Player extends AbstractEntity implements LifeForm
 
         getSpells().add(spell1);
         getSpells().add(spell2);
-        getSpells().add(spell3);
-        getSpells().add(spell4);
-        getSpells().add(spell5);
-        getSpells().add(spell6);
-        getSpells().add(spell7);
+//        getSpells().add(spell3);
+//        getSpells().add(spell4);
+//        getSpells().add(spell5);
+//        getSpells().add(spell6);
+//        getSpells().add(spell7);
         getSpells().add(spell8);
     }
 

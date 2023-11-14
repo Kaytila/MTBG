@@ -3,6 +3,7 @@ package net.ck.mtbg.ui.listeners;
 import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.CursorUtils;
+import net.ck.mtbg.util.communication.keyboard.CastAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,9 +23,17 @@ public class SpellBookListener implements MouseListener, MouseMotionListener
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
-        logger.debug("simple mouse click");
+    public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2 && !e.isConsumed() && e.getButton() == MouseEvent.BUTTON1) {
+            SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
+
+            CastAction castAction = new CastAction();
+            castAction.setSpell(spellbookPane.getSelectedValue());
+            //TODO how to get from select a spell to actually cast it
+        } else {
+            logger.debug("simple mouse click");
+            logger.info("selected spell: {}", ((SpellbookPane) e.getSource()).getSelectedValue().getName());
+        }
     }
 
     /**
