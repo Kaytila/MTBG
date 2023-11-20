@@ -4,6 +4,7 @@ package net.ck.mtbg.ui.listeners;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.backend.state.TimerManager;
@@ -64,9 +65,24 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     private InventoryDialog inventoryDialog;
 
     /**
-     * set if a dialog is opened. Game is supposed to pause here
+     * double click in inventory dialog leads to this being filled.
      */
     private AbstractItem currentItemInHand;
+    /**
+     * double click in spellbook dialog leads to this being filled.
+     */
+    private AbstractSpell currentSpellInHand;
+
+    public AbstractSpell getCurrentSpellInHand()
+    {
+        return currentSpellInHand;
+    }
+
+    public void setCurrentSpellInHand(AbstractSpell currentSpellInHand)
+    {
+        this.currentSpellInHand = currentSpellInHand;
+    }
+
 
     /**
      * mouse pressed is used for moving via mouse, there is a delay defined in the timer
@@ -459,7 +475,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void mousePressed(MouseEvent e)
     {
-        //logger.info("mouse pressed");
+        logger.info("mouse pressed");
         if (this.getCurrentAction() != null)
         {
             //logger.info("current action: {}", this.getCurrentAction());
@@ -467,6 +483,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         }
         else
         {
+            logger.debug("get  current action: {}", this.getCurrentAction());
             //logger.info("if there is something draggable, drag");
             if (e.getButton() == MouseEvent.BUTTON1)
             {
@@ -517,6 +534,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void mouseReleased(MouseEvent e)
     {
+        logger.info("calling mouse released event");
         // we are in movement mode
         if (e.getButton() == MouseEvent.BUTTON3)
         {
@@ -649,6 +667,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                         getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
                         break;
+
+                    case SPELLBOOK:
+                        UIStateMachine.setSelectTile(false);
+                        getCurrentAction().setHaveNPCAction(true);
+                        logger.debug("calling click event");
+                        break;
+
                     default:
                         throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
                 }
@@ -849,7 +874,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     TimerManager.getIdleTimer().stop();
                     UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", false, action);
-                    logger.info("spellbook");
+                    logger.info("spellbook done");
+                    UIStateMachine.setSelectTile(true);
+                    UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                    WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
+                    CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                    setCurrentAction(action);
                     break;
                 }
             }

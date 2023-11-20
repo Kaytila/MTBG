@@ -904,4 +904,9 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         logger.info("end: switching map");
         return true;
     }
+
+    protected void castSpell()
+    {
+        logger.debug("to be implemented");
+    }
 }

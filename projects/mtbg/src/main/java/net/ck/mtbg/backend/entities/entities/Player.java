@@ -364,6 +364,9 @@ public class Player extends AbstractEntity implements LifeForm
             case LOOK:
                 this.look(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
+            case SPELLBOOK:
+                this.castSpell();
+                break;
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
                 break;

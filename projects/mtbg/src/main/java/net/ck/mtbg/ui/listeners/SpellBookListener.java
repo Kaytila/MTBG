@@ -42,19 +42,24 @@ public class SpellBookListener implements MouseListener, MouseMotionListener {
 
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2 && !e.isConsumed() && e.getButton() == MouseEvent.BUTTON1) {
+    public void mouseClicked(MouseEvent e)
+    {
+        if (e.getClickCount() == 2 && !e.isConsumed() && e.getButton() == MouseEvent.BUTTON1)
+        {
             SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
 
             CastAction castAction = new CastAction();
             castAction.setSpell(spellbookPane.getSelectedValue());
             //TODO how to get from select a spell to actually cast it
-            if (getAction().getType().equals(KeyboardActionType.CAST)) {
+            if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
+            {
                 e.consume();
                 WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
                 close.actionPerformed(null);
             }
-        } else {
+        }
+        else
+        {
             logger.debug("simple mouse click");
             logger.info("selected spell: {}", ((SpellbookPane) e.getSource()).getSelectedValue().getName());
         }

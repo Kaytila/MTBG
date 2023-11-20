@@ -52,7 +52,7 @@ public class AbstractDialog extends JDialog
 
             case "Spellbook":
             {
-                return new SpellDialog(owner, title, modal);
+                return new SpellDialog(owner, title, modal, action);
             }
 
 
