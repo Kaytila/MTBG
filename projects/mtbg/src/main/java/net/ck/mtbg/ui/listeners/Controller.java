@@ -671,6 +671,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     case SPELLBOOK:
                         UIStateMachine.setSelectTile(false);
                         getCurrentAction().setHaveNPCAction(true);
+                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                        getCurrentAction().setCurrentSpell(this.getCurrentSpellInHand());
                         logger.debug("calling click event");
                         break;
 

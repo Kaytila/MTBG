@@ -979,3 +979,8 @@ History of the changes:
 2023-11-21: a spell is now selected from the book and a target is selected, still problems with idletimer and with
             actually a proper implementation for casting a spell. So Spellbook is one way to select the spell.
             Cast will provide another means for it just because I can.
+2023-11-22: Finished implementing Spell selection from Spellbook - all in placeholder graphics still. Cast Spell action
+            on abstract entity now determines which spell to take and in a simple way calculates what will happen.
+            Resurrect actually works fine, NPC will reanimate with both icon and all that, even state stays.
+            Not sure how to treat proper spell calculation, sounds like delegator pattern honestly in a separate helper
+            class. But working for now.

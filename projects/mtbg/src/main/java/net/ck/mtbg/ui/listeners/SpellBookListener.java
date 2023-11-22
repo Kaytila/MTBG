@@ -4,9 +4,9 @@ import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.CursorUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.CastAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,16 +46,14 @@ public class SpellBookListener implements MouseListener, MouseMotionListener {
     {
         if (e.getClickCount() == 2 && !e.isConsumed() && e.getButton() == MouseEvent.BUTTON1)
         {
-            SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
-
-            CastAction castAction = new CastAction();
-            castAction.setSpell(spellbookPane.getSelectedValue());
             //TODO how to get from select a spell to actually cast it
             if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
             {
                 e.consume();
                 WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
+                WindowBuilder.getController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
                 close.actionPerformed(null);
+
             }
         }
         else

@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.entities.entities;
 import net.ck.mtbg.animation.lifeform.AnimationSystemTimerTask;
 import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
 import net.ck.mtbg.animation.lifeform.HitMissImageTimerTask;
+import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.Inventory;
@@ -905,8 +906,36 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         return true;
     }
 
-    protected void castSpell()
+    protected void castSpell(AbstractAction action)
     {
-        logger.debug("to be implemented");
+        MapTile tile = Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere()));
+        logger.info("cast spell: {}", action.getEvent().getCurrentSpell().getName());
+        switch (action.getEvent().getCurrentSpell().getId())
+        {
+            case 1:
+                if (tile.getLifeForm() != null)
+                {
+                    tile.getLifeForm().decreaseHealth(5);
+                    tile.getLifeForm().setHostile(true);
+                    tile.getLifeForm().setVictim(this);
+                }
+                break;
+            case 2:
+                if (tile.getLifeForm() != null)
+                {
+                    tile.getLifeForm().increaseHealth(5);
+                }
+                break;
+            case 3:
+                if (tile.getLifeForm() != null)
+                {
+                    tile.getLifeForm().setState(LifeFormState.ALIVE);
+                }
+                break;
+            default:
+                logger.debug("unknown spell");
+        }
+
+        //logger.debug("to be implemented");
     }
 }

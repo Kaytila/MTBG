@@ -1,5 +1,6 @@
 package net.ck.mtbg.util.communication.keyboard;
 
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.util.CodeUtils;
@@ -49,6 +50,19 @@ public class AbstractKeyboardAction extends AbstractAction
     private Point targetCoordinates;
 
     private boolean haveNPCAction;
+
+
+    private AbstractSpell currentSpell;
+
+    public AbstractSpell getCurrentSpell()
+    {
+        return currentSpell;
+    }
+
+    public void setCurrentSpell(AbstractSpell currentSpell)
+    {
+        this.currentSpell = currentSpell;
+    }
 
 
     public Point getOldMousePosition()
