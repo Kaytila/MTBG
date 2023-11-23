@@ -367,6 +367,9 @@ public class Player extends AbstractEntity implements LifeForm
             case SPELLBOOK:
                 this.castSpell(action);
                 break;
+            case CAST:
+                this.castSpell(action);
+                break;
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
                 break;

@@ -676,6 +676,15 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         logger.debug("calling click event");
                         break;
 
+                    case CAST:
+                        UIStateMachine.setSelectTile(false);
+                        getCurrentAction().setHaveNPCAction(true);
+                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                        getCurrentAction().setCurrentSpell(this.getCurrentSpellInHand());
+                        logger.debug("calling click event");
+                        break;
+
+
                     default:
                         throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
                 }
@@ -1152,16 +1161,32 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     action = new AbstractKeyboardAction();
                     break;
 
-                }
-                else
-                {
+                } else {
                     //logger.info("movement");
                     action.setHaveNPCAction(true);
                     break;
                 }
                 // default is what?
-            default:
-            {
+
+            case CAST:
+                if (UIStateMachine.isDialogOpened() == true) {
+                    break;
+                } else {
+                    action.setHaveNPCAction(false);
+
+                    logger.info("spellbook as separate event type, lets not add this to the action queue");
+                    TimerManager.getIdleTimer().stop();
+                    UIStateMachine.setSelectTile(true);
+                    UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                    WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
+                    CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                    setCurrentAction(action);
+                    break;
+                }
+
+
+            default: {
                 logger.info("remaining action: {}", action.getType());
                 break;
             }

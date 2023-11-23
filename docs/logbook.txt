@@ -984,3 +984,4 @@ History of the changes:
             Resurrect actually works fine, NPC will reanimate with both icon and all that, even state stays.
             Not sure how to treat proper spell calculation, sounds like delegator pattern honestly in a separate helper
             class. But working for now.
+2023-11-23: implemented (C)ast - this is the shortcut to just cast the spell that was last selected in the spelbook.
