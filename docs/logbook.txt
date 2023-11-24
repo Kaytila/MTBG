@@ -986,3 +986,5 @@ History of the changes:
             class. But working for now.
 2023-11-23: implemented (C)ast - this is the shortcut to just cast the spell that was last selected in the spelbook.
 2023-11-24: made sure you cannot cast without any spell readied.
+2023-11-24: closing a dialog activates the MainFrame, this led to IdleTimer being started right away even if crosshair
+            mode was still active. Fixed that. Hopefully, UIState is always correct.

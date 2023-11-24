@@ -1259,7 +1259,14 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             //Game.getCurrent().getSoundSystemNoThread().startMusic();
             NoiseManager.getMusicSystemNoThread().continueMusic();
         }
-        TimerManager.getIdleTimer().start();
+        if (UIStateMachine.isSelectTile() == true)
+        {
+
+        }
+        else
+        {
+            TimerManager.getIdleTimer().start();
+        }
         //focusManager.dispatchEvent(new FocusEvent(gridCanvas, FocusEvent.FOCUS_GAINED, false));
     }
 
