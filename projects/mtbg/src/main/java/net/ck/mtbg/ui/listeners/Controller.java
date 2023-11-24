@@ -1161,7 +1161,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     action = new AbstractKeyboardAction();
                     break;
 
-                } else {
+                }
+                else
+                {
                     //logger.info("movement");
                     action.setHaveNPCAction(true);
                     break;
@@ -1169,12 +1171,21 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 // default is what?
 
             case CAST:
-                if (UIStateMachine.isDialogOpened() == true) {
+                if (UIStateMachine.isDialogOpened() == true)
+                {
                     break;
-                } else {
+                }
+                else
+                {
+                    if (this.getCurrentSpellInHand() == null)
+                    {
+                        logger.debug("no spell ready");
+                        TimerManager.getIdleTimer().stop();
+                        TimerManager.getIdleTimer().start();
+                        break;
+                    }
                     action.setHaveNPCAction(false);
 
-                    logger.info("spellbook as separate event type, lets not add this to the action queue");
                     TimerManager.getIdleTimer().stop();
                     UIStateMachine.setSelectTile(true);
                     UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
