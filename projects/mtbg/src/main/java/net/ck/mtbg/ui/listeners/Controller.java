@@ -639,7 +639,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                             }
                             else
                             {
-                                UIStateMachine.setDialogOpened(true);
                                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), npc);
                                 logger.info("talk: {}", "");
                                 TimerManager.getIdleTimer().stop();
@@ -807,7 +806,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     logger.info("We do not stack dialogs for now");
                     break;
                 }
-                UIStateMachine.setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 TimerManager.getIdleTimer().stop();
                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
@@ -844,7 +842,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
                     logger.info("inventory as separate event type, lets not add this to the action queue");
                     TimerManager.getIdleTimer().stop();
-                    UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
 
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
@@ -864,7 +861,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
                     logger.info("zstats as separate event type, lets not add this to the action queue");
                     TimerManager.getIdleTimer().stop();
-                    UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
                     logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
                     break;
@@ -883,7 +879,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
                     logger.info("spellbook as separate event type, lets not add this to the action queue");
                     TimerManager.getIdleTimer().stop();
-                    UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", false, action);
                     logger.info("spellbook done");
                     UIStateMachine.setSelectTile(true);
@@ -1015,7 +1010,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     getCurrentAction().setHaveNPCAction(false);
                     MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
                     getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                    UIStateMachine.setDialogOpened(true);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), tile.getLifeForm());
                     logger.info("talk: {}", "");
                     TimerManager.getIdleTimer().stop();

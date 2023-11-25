@@ -4,6 +4,7 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
+import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
@@ -31,6 +32,7 @@ public class AbstractDialog extends JDialog
 	
 	public static AbstractDialog createDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
 	{
+		UIStateMachine.setDialogOpened(true);
 		switch (title)
 		{
 			case "Z-Stats" :

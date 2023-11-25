@@ -988,3 +988,5 @@ History of the changes:
 2023-11-24: made sure you cannot cast without any spell readied.
 2023-11-24: closing a dialog activates the MainFrame, this led to IdleTimer being started right away even if crosshair
             mode was still active. Fixed that. Hopefully, UIState is always correct.
+2023-11-25: little refactoring: UI State for Dialog is handled within AbstractDialog for making sure it is true and
+            within WindowClosingAction that it is set to false.
