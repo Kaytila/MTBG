@@ -993,3 +993,6 @@ History of the changes:
 2023-11-26: small bugfix: make sure that in Controller ESC is allowed to cancel crosshairs, but no other action is
             valid while one is already running, i.e. not trigger (A)ttack while (C)ast is already valid.
 2023-11-26: small refactoring: if dialog is open, dont trigger an action apart from ESC.
+2023-11-26: did refactoring on Controller->onMessageEvent() - this is awful code. need to do this systematically.
+            found an interesting bug with the not action triggering from above. this kills keyboard movement with an
+            active command. need to figure out how to properly handle that.

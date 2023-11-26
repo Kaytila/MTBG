@@ -57,7 +57,6 @@ public class AbstractDialog extends JDialog
                 return new SpellDialog(owner, title, modal, action);
             }
 
-
             default:
             {
                 throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);
