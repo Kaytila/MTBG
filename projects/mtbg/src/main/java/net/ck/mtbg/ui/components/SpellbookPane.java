@@ -14,31 +14,15 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class SpellbookPane extends JList<AbstractSpell> {
+public class SpellbookPane extends JList<AbstractSpell>
+{
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private Point selectionPoint;
 
 	private Frame owner;
 
-	public Frame getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Frame owner) {
-		this.owner = owner;
-	}
-
-	public AbstractDialog getParentDialog() {
-		return parentDialog;
-	}
-
-	public void setParentDialog(AbstractDialog parentDialog) {
-		this.parentDialog = parentDialog;
-	}
-
-	private AbstractDialog parentDialog;
-
-	public SpellbookPane(Frame owner, AbstractDialog dialog, AbstractKeyboardAction action) {
+	public SpellbookPane(Frame owner, AbstractDialog dialog, AbstractKeyboardAction action)
+	{
 		super();
 		this.setOwner(owner);
 		this.setParentDialog(dialog);
@@ -49,11 +33,33 @@ public class SpellbookPane extends JList<AbstractSpell> {
 		setLayoutOrientation(VERTICAL_WRAP);
 		this.requestFocus();
 		this.setVisibleRowCount(-1);
-		setBounds(20, 40, 300, 100);
+		setBounds(20, 40, 260, 100);
 		SpellBookListener spellBookListener = new SpellBookListener(this, action);
 		this.addMouseListener(spellBookListener);
 		this.addMouseMotionListener(spellBookListener);
 		this.setModel(Game.getCurrent().getCurrentPlayer().getSpells());
+	}
+
+	public Frame getOwner()
+	{
+		return owner;
+	}
+
+	public void setOwner(Frame owner)
+	{
+		this.owner = owner;
+	}
+
+	public AbstractDialog getParentDialog()
+	{
+		return parentDialog;
+	}
+
+	private AbstractDialog parentDialog;
+
+	public void setParentDialog(AbstractDialog parentDialog)
+	{
+		this.parentDialog = parentDialog;
 	}
 
 	public Point getSelectionPoint()

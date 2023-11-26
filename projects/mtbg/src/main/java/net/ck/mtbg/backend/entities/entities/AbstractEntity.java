@@ -10,7 +10,6 @@ import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.attributes.Attributes;
-import net.ck.mtbg.backend.entities.skills.Spells;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
@@ -19,6 +18,7 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.models.SpellBookListDataModel;
 import net.ck.mtbg.util.*;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
@@ -104,11 +104,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private CommandQueue queuedActions;
 
-    private Spells spells;
+    private SpellBookListDataModel spellBookListModel;
 
     public AbstractEntity()
     {
-        spells = new Spells();
+        spellBookListModel = new SpellBookListDataModel();
         inventory = new Inventory();
         attributes = new Attributes();
 
@@ -117,9 +117,9 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setState(LifeFormState.ALIVE);
     }
 
-    public Spells getSpells()
+    public SpellBookListDataModel getSpells()
     {
-        return spells;
+        return spellBookListModel;
     }
 
     private NPCType type;
@@ -127,9 +127,9 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     //TODO really necessary? Does NPC need to know its map or does
     private Map currentMap;
 
-    public void setSpells(Spells spells)
+    public void setSpells(SpellBookListDataModel spellBookListModel)
     {
-        this.spells = spells;
+        this.spellBookListModel = spellBookListModel;
     }
 
     public NPCType getType()

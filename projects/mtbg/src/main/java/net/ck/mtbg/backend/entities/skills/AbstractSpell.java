@@ -17,6 +17,18 @@ public class AbstractSpell
     protected int costs;
     protected BufferedImage actionImage;
 
+    protected int level;
+
+    public int getLevel()
+    {
+        return level;
+    }
+
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
+
     protected int id;
 
     public int getId()

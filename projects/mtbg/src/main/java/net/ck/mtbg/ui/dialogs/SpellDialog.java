@@ -3,6 +3,8 @@ package net.ck.mtbg.ui.dialogs;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.SpellbookPane;
+import net.ck.mtbg.ui.listeners.LeftSpellBookPagePanelMouseListener;
+import net.ck.mtbg.ui.listeners.RightSpellBookPageMouseListener;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
 import net.ck.mtbg.ui.renderers.SpellbookListCellRenderer;
 import net.ck.mtbg.util.CodeUtils;
@@ -36,6 +38,20 @@ public class SpellDialog extends AbstractDialog
         this.setContentPane(panel);
         this.setUndecorated(true);
         final SpellbookPane spellbookPane = new SpellbookPane(owner, this, action);
+
+        JPanel leftPagePanel = new JPanel();
+        leftPagePanel.setBounds(0, 0, 20, 300);
+        leftPagePanel.setBackground(Color.BLUE);
+        leftPagePanel.addMouseListener(new LeftSpellBookPagePanelMouseListener());
+        panel.add(leftPagePanel);
+
+        JPanel rightPagePanel = new JPanel();
+        rightPagePanel.setBounds(280, 0, 20, 300);
+        rightPagePanel.setBackground(Color.YELLOW);
+        rightPagePanel.addMouseListener(new RightSpellBookPageMouseListener());
+        panel.add(rightPagePanel);
+
+        spellbookPane.setBorder(BorderFactory.createLineBorder(Color.PINK));
         SpellbookListCellRenderer listCellRenderer = new SpellbookListCellRenderer();
         spellbookPane.setCellRenderer(listCellRenderer);
         panel.add(spellbookPane);

@@ -9,7 +9,7 @@ animation threads for
 - weather effects
 - npcs
 - missile weapons
-- spells
+- spellBookListModel
 
 - Full drag'n'drop support as in U7
 - Keyboard command framework as in U6

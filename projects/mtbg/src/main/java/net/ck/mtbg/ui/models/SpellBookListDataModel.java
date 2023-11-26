@@ -1,5 +1,6 @@
-package net.ck.mtbg.backend.entities.skills;
+package net.ck.mtbg.ui.models;
 
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,13 +10,13 @@ import javax.swing.event.ListDataListener;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Spells implements ListModel<AbstractSpell>, Serializable
+public class SpellBookListDataModel implements ListModel<AbstractSpell>, Serializable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private CopyOnWriteArrayList<AbstractSpell> spells;
 
-    public Spells()
+    public SpellBookListDataModel()
     {
         spells = new CopyOnWriteArrayList<>();
     }

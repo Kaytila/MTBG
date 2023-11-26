@@ -909,7 +909,7 @@ History of the changes:
 2023-08-06: after a month of not being able to work, tada, I have dynamic text in cutscenes.
             Only one line of text per image, but worst case - repeat image for longer texts
 2023-08-06: quick sanity check to make sure that texts and images have the same size
-2023-08-07: little bit of refactoring and thoughts about spells and skills.
+2023-08-07: little bit of refactoring and thoughts about spellBookListModel and skills.
             Implemented double movement for player with $DexThreshold reached
             This also gives me double transportation speed.
 2023-08-14: updates lifeform to include a method for checking dex also for npc. lets see whether i can implement this
@@ -968,8 +968,8 @@ History of the changes:
 2023-11-02: added prototype dialog for enter/leave descriptions
 2023-11-05: implemented a way to at least store the tiles whose message has already fired during run time, no persistence
             yet.
-2023-11-07: changed the spellbook from table to multi-column list view. graphics for spells are needed here.
-            Added spells to AbstrctEntity.
+2023-11-07: changed the spellbook from table to multi-column list view. graphics for spellBookListModel are needed here.
+            Added spellBookListModel to AbstrctEntity.
 2023-11-10: added some spell data.
 2023-11-11: added SpellManager, added SpellsXMLReader, added entries to GameConfiguration. Added initializer.
             added entry for imagemanager, updated spellbooklistrenderer and voila, initial list is visible.
@@ -997,3 +997,5 @@ History of the changes:
             found an interesting bug with the not action triggering from above. this kills keyboard movement with an
             active command. need to figure out how to properly handle that.
 2023-11-26: refactoring Controller->MouseReleased() to ControllerDelegator->handleMouseReleased<TYPE>.
+2023-11-26: added panels for page turning in spellbook. Will need to think about whether separate UIModel and ListModel
+            are needed or not. The soundeffect is at least already working.

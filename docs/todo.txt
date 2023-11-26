@@ -184,7 +184,7 @@ done necessary for testing double movement further.
 
 
 todo spellbook:
-implement more spells with graphics
+implement more spellBookListModel with graphics
 make a frame outside of the spellbook area that you can flip through the pages.
 implement sound effect for page flip
 
