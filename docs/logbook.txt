@@ -992,3 +992,4 @@ History of the changes:
             within WindowClosingAction that it is set to false.
 2023-11-26: small bugfix: make sure that in Controller ESC is allowed to cancel crosshairs, but no other action is
             valid while one is already running, i.e. not trigger (A)ttack while (C)ast is already valid.
+2023-11-26: small refactoring: if dialog is open, dont trigger an action apart from ESC.

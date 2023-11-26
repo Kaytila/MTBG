@@ -181,3 +181,12 @@ todo npcs:
 make something useful out of the XML here.
 have stats in XML instead of hard coding them.
 done necessary for testing double movement further.
+
+
+todo spellbook:
+implement more spells with graphics
+make a frame outside of the spellbook area that you can flip through the pages.
+implement sound effect for page flip
+
+todo controller:
+extract methods for each command (keyboard) and for command (mouse)

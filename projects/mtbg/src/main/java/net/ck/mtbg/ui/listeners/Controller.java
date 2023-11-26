@@ -756,6 +756,18 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             }
         }
 
+        if (UIStateMachine.isDialogOpened() == true)
+        {
+            if (action.getType().equals(KeyboardActionType.ESC))
+            {
+
+            }
+            else
+            {
+                return;
+            }
+        }
+
 
         switch (action.getType())
         {
@@ -817,11 +829,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 break;
             }
             case EQ:
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    logger.info("We do not stack dialogs for now");
-                    break;
-                }
                 action.setHaveNPCAction(false);
                 TimerManager.getIdleTimer().stop();
                 AbstractDialog.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
@@ -833,11 +840,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case OPTIONS:
             {
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    logger.info("We do not stack dialogs for now");
-                    break;
-                }
                 UIStateMachine.setDialogOpened(true);
                 action.setHaveNPCAction(false);
                 TimerManager.getIdleTimer().stop();
@@ -847,13 +849,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             case INVENTORY:
             {
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    logger.info("dialog already open");
-                    break;
-                }
-                else
-                {
                     action.setHaveNPCAction(false);
 
                     logger.info("inventory as separate event type, lets not add this to the action queue");
@@ -862,17 +857,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     break;
-                }
             }
 
             case ZSTATS:
             {
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    break;
-                }
-                else
-                {
                     action.setHaveNPCAction(false);
 
                     logger.info("zstats as separate event type, lets not add this to the action queue");
@@ -880,17 +868,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
                     logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
                     break;
-                }
             }
 
             case SPELLBOOK:
             {
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    break;
-                }
-                else
-                {
                     action.setHaveNPCAction(false);
 
                     logger.info("spellbook as separate event type, lets not add this to the action queue");
@@ -904,7 +885,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
                     break;
-                }
             }
 
 
@@ -915,12 +895,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     logger.info("select tile is active, dont do anything");
                     break;
                 }
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    break;
-                }
-                else
-                {
                     TimerManager.getIdleTimer().stop();
                     action.setHaveNPCAction(false);
                     UIStateMachine.setSelectTile(true);
@@ -931,7 +905,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     setCurrentAction(action);
                     AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
                     break;
-                }
             }
 
             case ENTER:
@@ -1033,13 +1006,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     break;
                 }
                 //logger.info("talk");
-                if (UIStateMachine.isDialogOpened() == true)
-                {
-                    break;
-                }
-                else
-                {
-                    if (UIStateMachine.isMouseOutsideOfGrid() == true)
+
+                if (UIStateMachine.isMouseOutsideOfGrid() == true)
                     {
                         CursorUtils.centerCursorOnPlayer();
                     }
@@ -1052,7 +1020,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     setCurrentAction(action);
                     break;
-                }
+
             }
 
             case MOVE:
