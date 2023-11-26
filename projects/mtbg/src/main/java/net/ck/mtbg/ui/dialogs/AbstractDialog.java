@@ -5,7 +5,6 @@ import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +16,7 @@ import java.awt.event.KeyEvent;
 
 public class AbstractDialog extends JDialog
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+	private static final Logger logger = LogManager.getLogger(AbstractDialog.class);
 	protected static final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 	public static final String dispatchWindowClosingActionMapKey = "WINDOW_CLOSING";
 	public CancelButton cancelButton;
@@ -32,10 +31,23 @@ public class AbstractDialog extends JDialog
 	
 	public static AbstractDialog createDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
 	{
+		//redundant but just to be sure
+		if (UIStateMachine.isDialogOpened() == true)
+		{
+			return null;
+		}
+
+		//redundant but just to be sure
+		if (UIStateMachine.isSelectTile() == true)
+		{
+			return null;
+		}
+
+
 		UIStateMachine.setDialogOpened(true);
 		switch (title)
 		{
-			case "Z-Stats" :
+			case "Z-Stats":
 			{
 				//dialog.addButtons();
 				return new StatsDialog(owner, title, modal);
@@ -79,6 +91,18 @@ public class AbstractDialog extends JDialog
 
 	public static AbstractDialog createDialog(Frame owner, String title, boolean modal, Message message1)
 	{
+		//redundant but just to be sure
+		if (UIStateMachine.isDialogOpened() == true)
+		{
+			return null;
+		}
+
+		//redundant but just to be sure
+		if (UIStateMachine.isSelectTile() == true)
+		{
+			return null;
+		}
+		UIStateMachine.setDialogOpened(true);
 		return new MessageDialog(owner, title, modal, message1);
 	}
 
@@ -92,8 +116,19 @@ public class AbstractDialog extends JDialog
 	}
 
     public static TalkDialog createDialog(JFrame frame, String string, boolean b, AbstractKeyboardAction currentAction, LifeForm n)
-    {
-        return new TalkDialog(frame, string, b, null, n);
+	{
+		//redundant but just to be sure
+		if (UIStateMachine.isDialogOpened() == true)
+		{
+			return null;
+		}
 
-    }
+		//redundant but just to be sure
+		if (UIStateMachine.isSelectTile() == true)
+		{
+			return null;
+		}
+		UIStateMachine.setDialogOpened(true);
+		return new TalkDialog(frame, string, b, null, n);
+	}
 }

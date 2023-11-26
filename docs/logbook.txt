@@ -996,3 +996,4 @@ History of the changes:
 2023-11-26: did refactoring on Controller->onMessageEvent() - this is awful code. need to do this systematically.
             found an interesting bug with the not action triggering from above. this kills keyboard movement with an
             active command. need to figure out how to properly handle that.
+2023-11-26: refactoring Controller->MouseReleased() to ControllerDelegator->handleMouseReleased<TYPE>.

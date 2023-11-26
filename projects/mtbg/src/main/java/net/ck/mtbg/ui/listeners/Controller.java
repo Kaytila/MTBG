@@ -3,7 +3,6 @@ package net.ck.mtbg.ui.listeners;
 
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.NoiseManager;
@@ -11,7 +10,6 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.JGridCanvas;
-import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.state.UIState;
@@ -581,107 +579,61 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 switch (this.getCurrentAction().getType())
                 {
                     case PUSH:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    {
+                        ControllerDelegator.handleMouseReleasedActionPUSH(this, tile);
                         break;
+                    }
 
                     case YANK:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    {
+                        ControllerDelegator.handleMouseReleasedActionYank(this, tile);
                         break;
-
+                    }
 
                     case GET:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    {
+                        ControllerDelegator.handleMouseReleasedActionGET(this, tile);
                         break;
+                    }
+
                     case LOOK:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    {
+                        ControllerDelegator.handleMouseReleasedActionLOOK(this, tile);
                         break;
-
+                    }
                     case DROP:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                        getCurrentAction().setAffectedItem(this.getCurrentItemInHand());
+                    {
+                        ControllerDelegator.handleMouseReleasedActionDROP(this, tile);
                         break;
+                    }
                     case TALK:
-                        boolean found = false;
-                        getCurrentAction().setHaveNPCAction(false);
-                        LifeForm npc = null;
-                        if (tile.getLifeForm() != null)
-                        {
-                            found = true;
-                            npc = tile.getLifeForm();
-                        }
-
-                        if (found)
-                        {
-                            logger.info("found the npc");
-                            UIStateMachine.setSelectTile(false);
-
-                            CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                            getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                            if (UIStateMachine.isDialogOpened() == true)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, getCurrentAction(), npc);
-                                logger.info("talk: {}", "");
-                                TimerManager.getIdleTimer().stop();
-                            }
-                        }
-                        else
-                        {
-                            logger.info("no NPC here!");
-                            setCurrentAction(new AbstractKeyboardAction());
-                        }
+                    {
+                        ControllerDelegator.handleMouseReleasedActionTALK(this, tile);
                         break;
-
+                    }
                     case MOVE:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(false);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+                    {
+                        ControllerDelegator.handleMouseReleasedActionMOVE(this, tile);
                         break;
+                    }
 
                     case ATTACK:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-                        getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+                    {
+                        ControllerDelegator.handleMouseReleasedActionATTACK(this, tile);
                         break;
+                    }
 
                     case SPELLBOOK:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                        getCurrentAction().setCurrentSpell(this.getCurrentSpellInHand());
-                        logger.debug("calling click event");
+                    {
+                        ControllerDelegator.handleMouseReleasedActionSPELLBOOK(this, tile);
                         break;
+                    }
 
                     case CAST:
-                        UIStateMachine.setSelectTile(false);
-                        getCurrentAction().setHaveNPCAction(true);
-                        getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-                        getCurrentAction().setCurrentSpell(this.getCurrentSpellInHand());
-                        logger.debug("calling click event");
+                    {
+                        ControllerDelegator.handleMouseReleasedActionCAST(this, tile);
                         break;
-
+                    }
 
                     default:
                         throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
@@ -920,7 +872,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         }
 
         logger.debug("selected action: {}", action.getType());
-        logger.debug("active action: {}", this.getCurrentAction().getType());
+        if (this.getCurrentAction() != null)
+        {
+            logger.debug("active action: {}", this.getCurrentAction().getType());
+        }
 
         if (action.getType().equals(KeyboardActionType.MOVE))
         {
