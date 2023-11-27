@@ -1,6 +1,8 @@
 package net.ck.mtbg.ui.models;
 
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
+import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.ui.components.SpellBookDataModelDataListener;
 import net.ck.mtbg.util.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +21,8 @@ public class SpellBookListDataModel implements ListModel<AbstractSpell>, Seriali
     public SpellBookListDataModel()
     {
         spells = new CopyOnWriteArrayList<>();
+        filterSpellsByLevel();
+        this.addListDataListener(new SpellBookDataModelDataListener());
     }
 
     @Override
@@ -55,4 +59,27 @@ public class SpellBookListDataModel implements ListModel<AbstractSpell>, Seriali
         spells.remove(spell);
     }
 
+    public void filterSpellsByLevel()
+    {
+        logger.debug("filtering spells begin");
+
+        for (AbstractSpell sp : Game.getCurrent().getCurrentPlayer().getSpells())
+        {
+            if ((sp.getLevel() > Game.getCurrent().getCurrentPlayer().getSelectedSpellLevel()) || (sp.getLevel() < Game.getCurrent().getCurrentPlayer().getSelectedSpellLevel()))
+            {
+                logger.debug("not true");
+                remove(sp);
+            }
+            else
+            {
+                add(sp);
+                logger.debug("true");
+            }
+        }
+
+        for (AbstractSpell s : spells)
+        {
+            logger.debug("spell:{}", s.getName());
+        }
+    }
 }

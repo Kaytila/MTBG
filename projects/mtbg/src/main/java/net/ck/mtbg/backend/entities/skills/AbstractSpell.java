@@ -21,6 +21,7 @@ public class AbstractSpell
 
     public int getLevel()
     {
+        //logger.info("spell level: {}", level);
         return level;
     }
 

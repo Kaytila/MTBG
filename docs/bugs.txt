@@ -53,3 +53,4 @@ BUGS:
 2023-09-30  FIXED Dialog can only be opened once, not again. Closing with ESC works, x-ing creates issue
 2023-11-25  when command is active, other commands can be run on top creating a huge mess. need to make sure that this
             is handled generally in the framework, not on command by command basis.
+2023-11-27  closing spellbook always assumes there is an active spell afterwards.

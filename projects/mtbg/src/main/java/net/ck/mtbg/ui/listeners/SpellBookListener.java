@@ -10,6 +10,8 @@ import net.ck.mtbg.util.ui.WindowBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,23 +23,27 @@ import java.awt.event.MouseMotionListener;
  *
  * <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#simple">https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#simple</a>
  */
-public class SpellBookListener implements MouseListener, MouseMotionListener {
+public class SpellBookListener implements MouseListener, MouseMotionListener, ListDataListener
+{
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-    public SpellbookPane getSpellbookPane() {
-        return spellbookPane;
+    public SpellBookListener(SpellbookPane pane, AbstractKeyboardAction action)
+    {
+        this.spellbookPane = pane;
+        this.action = action;
     }
 
-    public void setSpellbookPane(SpellbookPane spellbookPane) {
-        this.spellbookPane = spellbookPane;
+    public SpellbookPane getSpellbookPane()
+    {
+        return spellbookPane;
     }
 
     private SpellbookPane spellbookPane;
     private AbstractKeyboardAction action;
 
-    public SpellBookListener(SpellbookPane pane, AbstractKeyboardAction action) {
-        this.spellbookPane = pane;
-        this.action = action;
+    public void setSpellbookPane(SpellbookPane spellbookPane)
+    {
+        this.spellbookPane = spellbookPane;
     }
 
 
@@ -69,21 +75,24 @@ public class SpellBookListener implements MouseListener, MouseMotionListener {
      * @param e the event to be processed
      */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e)
+    {
         SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
         Point point = e.getPoint();
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e)
+    {
         logger.debug("simple mouse released");
         SpellbookPane table = (SpellbookPane) e.getSource();
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e)
+    {
         logger.debug("simple mouse entered");
         SpellbookPane table = (SpellbookPane) e.getSource();
         table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -91,7 +100,8 @@ public class SpellBookListener implements MouseListener, MouseMotionListener {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e)
+    {
         logger.debug("simple mouse exit");
         SpellbookPane table = (SpellbookPane) e.getSource();
         table.setCursor(Cursor.getDefaultCursor());
@@ -108,11 +118,31 @@ public class SpellBookListener implements MouseListener, MouseMotionListener {
 
     }
 
-    public AbstractKeyboardAction getAction() {
+    public AbstractKeyboardAction getAction()
+    {
         return action;
     }
 
-    public void setAction(AbstractKeyboardAction action) {
+    public void setAction(AbstractKeyboardAction action)
+    {
         this.action = action;
+    }
+
+    @Override
+    public void intervalAdded(ListDataEvent e)
+    {
+
+    }
+
+    @Override
+    public void intervalRemoved(ListDataEvent e)
+    {
+
+    }
+
+    @Override
+    public void contentsChanged(ListDataEvent e)
+    {
+
     }
 }

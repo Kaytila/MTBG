@@ -469,7 +469,7 @@ public class GameUtils
     {
         for (AbstractSpell s : SpellManager.getSpellList().values())
         {
-            logger.info("spellid: {}, spell name: {}", s.getId(), s.getName());
+            logger.info("spellid: {}, spell name: {}, spell level:{}", s.getId(), s.getName(), s.getLevel());
         }
     }
 

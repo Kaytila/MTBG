@@ -19,6 +19,9 @@ public class SpellXMLReader extends DefaultHandler
     private Hashtable<Integer, AbstractSpell> spellList;
     private AbstractSpell spell;
 
+    private boolean lvl;
+
+
     public Hashtable<Integer, AbstractSpell> getSpellList()
     {
         return spellList;
@@ -63,6 +66,10 @@ public class SpellXMLReader extends DefaultHandler
         {
             name = true;
         }
+        else if (qName.equalsIgnoreCase("name"))
+        {
+            lvl = true;
+        }
 
         data = new StringBuilder();
     }
@@ -91,6 +98,12 @@ public class SpellXMLReader extends DefaultHandler
             name = false;
             spell.setName(data.toString());
         }
+
+        else if (qName.equalsIgnoreCase("level"))
+        {
+            lvl = false;
+            spell.setLevel(Integer.parseInt(data.toString()));
+        }
     }
 
     @Override
@@ -98,6 +111,4 @@ public class SpellXMLReader extends DefaultHandler
     {
         data.append(new String(ch, start, length));
     }
-
-
 }

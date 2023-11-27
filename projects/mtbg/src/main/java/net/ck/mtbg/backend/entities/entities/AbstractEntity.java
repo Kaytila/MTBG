@@ -10,6 +10,7 @@ import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.attributes.Attributes;
+import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
@@ -18,7 +19,6 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.models.SpellBookListDataModel;
 import net.ck.mtbg.util.*;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * AbstractEntity is the abstract parent class known subclasses are: Player NPC World
@@ -104,11 +105,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private CommandQueue queuedActions;
 
-    private SpellBookListDataModel spellBookListModel;
+    private CopyOnWriteArrayList<AbstractSpell> spells;
 
     public AbstractEntity()
     {
-        spellBookListModel = new SpellBookListDataModel();
+        spells = new CopyOnWriteArrayList<AbstractSpell>();
         inventory = new Inventory();
         attributes = new Attributes();
 
@@ -117,19 +118,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setState(LifeFormState.ALIVE);
     }
 
-    public SpellBookListDataModel getSpells()
+    public CopyOnWriteArrayList<AbstractSpell> getSpells()
     {
-        return spellBookListModel;
+        return spells;
     }
 
     private NPCType type;
 
-    //TODO really necessary? Does NPC need to know its map or does
-    private Map currentMap;
-
-    public void setSpells(SpellBookListDataModel spellBookListModel)
+    public void setSpells(CopyOnWriteArrayList<AbstractSpell> spellBookListModel)
     {
-        this.spellBookListModel = spellBookListModel;
+        this.spells = spellBookListModel;
     }
 
     public NPCType getType()

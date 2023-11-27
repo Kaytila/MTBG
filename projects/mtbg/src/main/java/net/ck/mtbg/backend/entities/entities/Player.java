@@ -41,6 +41,11 @@ public class Player extends AbstractEntity implements LifeForm
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
+     * spell level selected in the spellbook - needs to be stored somewhere, makes most sense at player
+     */
+    private int selectedSpellLevel = 1;
+
+    /**
      * constructor for the player player has two images types defined now.
      * standard image is what is used if animation is turned off moving image is
      * for whatever images is used to catch all images for the animation cycles.
@@ -90,29 +95,18 @@ public class Player extends AbstractEntity implements LifeForm
         AbstractSpell spell1 = new AbstractSpell();
         spell1.setName("Fireball");
         spell1.setId(1);
+        spell1.setLevel(1);
 
         AbstractSpell spell2 = new AbstractSpell();
         spell2.setName("Heal");
         spell2.setId(2);
+        spell2.setLevel(2);
 
-        AbstractSpell spell3 = new AbstractSpell();
-        spell3.setName("Slow");
-
-        AbstractSpell spell4 = new AbstractSpell();
-        spell4.setName("Haste");
-
-        AbstractSpell spell5 = new AbstractSpell();
-        spell5.setName("Magic Missile");
-
-        AbstractSpell spell6 = new AbstractSpell();
-        spell6.setName("Tremor");
-
-        AbstractSpell spell7 = new AbstractSpell();
-        spell7.setName("Great Heal");
 
         AbstractSpell spell8 = new AbstractSpell();
         spell8.setName("Resurrection");
         spell8.setId(3);
+        spell8.setLevel(3);
 
         getSpells().add(spell1);
         getSpells().add(spell2);
@@ -122,6 +116,23 @@ public class Player extends AbstractEntity implements LifeForm
 //        getSpells().add(spell6);
 //        getSpells().add(spell7);
         getSpells().add(spell8);
+    }
+
+    public Point getUiPosition()
+    {
+        return uiPosition;
+    }
+
+    public int getSelectedSpellLevel()
+    {
+        //logger.debug("selected level: {}", selectedSpellLevel);
+        return selectedSpellLevel;
+    }
+
+    public void setSelectedSpellLevel(int selectedSpellLevel)
+    {
+        //logger.debug("new selected level: {}", selectedSpellLevel);
+        this.selectedSpellLevel = selectedSpellLevel;
     }
 
     public void setMapPosition(Point position)
@@ -713,4 +724,23 @@ public class Player extends AbstractEntity implements LifeForm
         return true;
     }
 
+    public boolean decreaseLevel()
+    {
+        if (getSelectedSpellLevel() > 1)
+        {
+            setSelectedSpellLevel(getSelectedSpellLevel() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean increaseLevel()
+    {
+        if (getSelectedSpellLevel() < 8)
+        {
+            setSelectedSpellLevel(getSelectedSpellLevel() + 1);
+            return true;
+        }
+        return false;
+    }
 }

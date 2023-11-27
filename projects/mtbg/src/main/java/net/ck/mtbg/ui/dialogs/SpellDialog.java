@@ -42,13 +42,13 @@ public class SpellDialog extends AbstractDialog
         JPanel leftPagePanel = new JPanel();
         leftPagePanel.setBounds(0, 0, 20, 300);
         leftPagePanel.setBackground(Color.BLUE);
-        leftPagePanel.addMouseListener(new LeftSpellBookPagePanelMouseListener());
+        leftPagePanel.addMouseListener(new LeftSpellBookPagePanelMouseListener(spellbookPane));
         panel.add(leftPagePanel);
 
         JPanel rightPagePanel = new JPanel();
         rightPagePanel.setBounds(280, 0, 20, 300);
         rightPagePanel.setBackground(Color.YELLOW);
-        rightPagePanel.addMouseListener(new RightSpellBookPageMouseListener());
+        rightPagePanel.addMouseListener(new RightSpellBookPageMouseListener(spellbookPane));
         panel.add(rightPagePanel);
 
         spellbookPane.setBorder(BorderFactory.createLineBorder(Color.PINK));

@@ -2,9 +2,9 @@ package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.listeners.SpellBookListener;
+import net.ck.mtbg.ui.models.SpellBookListDataModel;
 import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +37,7 @@ public class SpellbookPane extends JList<AbstractSpell>
 		SpellBookListener spellBookListener = new SpellBookListener(this, action);
 		this.addMouseListener(spellBookListener);
 		this.addMouseMotionListener(spellBookListener);
-		this.setModel(Game.getCurrent().getCurrentPlayer().getSpells());
+		this.setModel(new SpellBookListDataModel());
 	}
 
 	public Frame getOwner()

@@ -999,3 +999,5 @@ History of the changes:
 2023-11-26: refactoring Controller->MouseReleased() to ControllerDelegator->handleMouseReleased<TYPE>.
 2023-11-26: added panels for page turning in spellbook. Will need to think about whether separate UIModel and ListModel
             are needed or not. The soundeffect is at least already working.
+2023-11-27: so left and right panel are working kind of. Model changes in the background are working. Initial drawing of
+            SpellbookPane is working as well. Update is not working, altough filtering in the background works.
