@@ -12,7 +12,7 @@ import javax.swing.event.ListDataListener;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SpellBookListDataModel implements ListModel<AbstractSpell>, Serializable
+public class SpellBookListDataModel extends DefaultListModel<AbstractSpell> implements ListModel<AbstractSpell>, Serializable
 {
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
@@ -63,23 +63,23 @@ public class SpellBookListDataModel implements ListModel<AbstractSpell>, Seriali
     {
         logger.debug("filtering spells begin");
 
+        CopyOnWriteArrayList<AbstractSpell> list = new CopyOnWriteArrayList<>();
         for (AbstractSpell sp : Game.getCurrent().getCurrentPlayer().getSpells())
         {
             if ((sp.getLevel() > Game.getCurrent().getCurrentPlayer().getSelectedSpellLevel()) || (sp.getLevel() < Game.getCurrent().getCurrentPlayer().getSelectedSpellLevel()))
             {
                 logger.debug("not true");
-                remove(sp);
+                //this.remove(sp);
             }
             else
             {
-                add(sp);
+                //this.add(sp);
+                list.add(sp);
                 logger.debug("true");
             }
         }
-
-        for (AbstractSpell s : spells)
-        {
-            logger.debug("spell:{}", s.getName());
-        }
+        this.removeAllElements();
+        this.addAll(list);
+        logger.debug("filtering spells end");
     }
 }

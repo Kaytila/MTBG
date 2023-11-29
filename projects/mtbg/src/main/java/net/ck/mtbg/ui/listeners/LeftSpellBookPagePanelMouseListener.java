@@ -44,6 +44,8 @@ public class LeftSpellBookPagePanelMouseListener implements MouseListener, Mouse
 		if (Game.getCurrent().getCurrentPlayer().decreaseLevel())
 		{
 			((SpellBookListDataModel) spellbookPane.getModel()).filterSpellsByLevel();
+			//spellbookPane.repaint();
+			logger.debug("@Simon - why is this necessary");
 			if (GameConfiguration.playSound == true)
 			{
 				NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.PAGETURN);

@@ -316,6 +316,7 @@ public class ControllerDelegator
             TimerManager.getIdleTimer().stop();
             AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", false, action);
             logger.info("spellbook dialog done");
+
             if (WindowBuilder.getController().getCurrentSpellInHand() != null)
             {
                 UIStateMachine.setSelectTile(true);
@@ -324,6 +325,10 @@ public class ControllerDelegator
 
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                 controller.setCurrentAction(action);
+            }
+            else
+            {
+                logger.debug("@Simon - current spell in hand is null! that is not possible");
             }
         }
     }

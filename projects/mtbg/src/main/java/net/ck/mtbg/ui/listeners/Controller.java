@@ -70,13 +70,14 @@ public class Controller implements WindowListener, ActionListener, MouseListener
      */
     private AbstractSpell currentSpellInHand;
 
-    public AbstractSpell getCurrentSpellInHand()
+    public synchronized AbstractSpell getCurrentSpellInHand()
     {
         return currentSpellInHand;
     }
 
-    public void setCurrentSpellInHand(AbstractSpell currentSpellInHand)
+    public synchronized void setCurrentSpellInHand(AbstractSpell currentSpellInHand)
     {
+        logger.debug("current spell in hand: {}", currentSpellInHand);
         this.currentSpellInHand = currentSpellInHand;
     }
 
@@ -394,9 +395,16 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         if (UIStateMachine.isSelectTile())
         {
-            Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
-            Point p = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
-            CursorUtils.moveMouse(new Point(p.x * GameConfiguration.tileSize + relativePoint.x + GameConfiguration.tileSize / 2, p.y * GameConfiguration.tileSize + relativePoint.y + GameConfiguration.tileSize / 2));
+            /**
+             * this can actually happen! if you start the game and keep the mouse outside of the grid and then switch to spellbook dialog.
+             * it can be that there is no currently selected tile unterneath.
+             */
+            if (UIStateMachine.getCurrentSelectedTile() != null)
+            {
+                Point relativePoint = WindowBuilder.getGridCanvas().getLocationOnScreen();
+                Point p = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
+                CursorUtils.moveMouse(new Point(p.x * GameConfiguration.tileSize + relativePoint.x + GameConfiguration.tileSize / 2, p.y * GameConfiguration.tileSize + relativePoint.y + GameConfiguration.tileSize / 2));
+            }
         }
         else
         {

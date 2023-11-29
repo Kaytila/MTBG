@@ -1001,3 +1001,8 @@ History of the changes:
             are needed or not. The soundeffect is at least already working.
 2023-11-27: so left and right panel are working kind of. Model changes in the background are working. Initial drawing of
             SpellbookPane is working as well. Update is not working, altough filtering in the background works.
+2023-11-29: commit in broken spellbook state: filterByLevel is updating the extended DefaultListModel.
+            no manual repaint. therefore, not working.
+            also: selecting spell with dbl click and closing dialog will at least in debug - leads to
+            dbl-clicking on spell -> set spellinhand -> close dialog -> spellinhand still null.
+

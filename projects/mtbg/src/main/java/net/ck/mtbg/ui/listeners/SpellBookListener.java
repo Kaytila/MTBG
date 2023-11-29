@@ -55,11 +55,18 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
             //TODO how to get from select a spell to actually cast it
             if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
             {
+                logger.info("double click");
                 e.consume();
                 WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
+
                 WindowBuilder.getController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
+
                 close.actionPerformed(null);
 
+            }
+            else
+            {
+                logger.debug("action type is not spellbook?");
             }
         }
         else
