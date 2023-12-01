@@ -1,5 +1,7 @@
 open module net.ck.mtbg
 {
+	requires static lombok;
+
     requires java.desktop;
 	requires java.xml;
 	requires java.sql;

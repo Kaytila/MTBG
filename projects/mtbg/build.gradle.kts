@@ -59,6 +59,11 @@ dependencies {
     implementation(libs.picoli)
     implementation(libs.tika)
 
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
     // test
     testImplementation(libs.bundles.junit)
+    testCompileOnly(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
 }
