@@ -44,8 +44,7 @@ public class RightSpellBookPageMouseListener implements MouseListener, MouseMoti
 		if (Game.getCurrent().getCurrentPlayer().increaseLevel())
 		{
 			((SpellBookListDataModel) spellbookPane.getModel()).filterSpellsByLevel();
-			//pellbookPane.repaint();
-			logger.debug("@Simon - why is this necessary");
+
 			if (GameConfiguration.playSound == true)
 			{
 				NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.PAGETURN);
