@@ -1,85 +1,47 @@
 package net.ck.mtbg.ui.models;
 
+import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.components.SpellBookDataModelDataListener;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
-import javax.swing.event.ListDataListener;
-import java.io.Serializable;
-import java.util.concurrent.CopyOnWriteArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
-public class SpellBookListDataModel extends DefaultListModel<AbstractSpell> implements ListModel<AbstractSpell>, Serializable
+@Log4j2
+public class SpellBookListDataModel
+    extends DefaultListModel<AbstractSpell>
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-    private CopyOnWriteArrayList<AbstractSpell> spells;
-
-    public SpellBookListDataModel()
-    {
-        spells = new CopyOnWriteArrayList<>();
+    public SpellBookListDataModel () {
         filterSpellsByLevel();
-        this.addListDataListener(new SpellBookDataModelDataListener());
+        addListDataListener(new SpellBookDataModelDataListener());
     }
 
-    @Override
-    public int getSize()
-    {
-        return spells.size();
+    // fixme
+    //  move this logic to a "controller"
+    //  consider renaming -> updateSpellsBySelectedLevel
+    public void filterSpellsByLevel () {
+        log.debug(() -> "update spells");
+        _updateSpellsBySelectedLevel(this);
     }
 
-    @Override
-    public AbstractSpell getElementAt(int index)
-    {
-        return spells.get(index);
+    private static ListModel<AbstractSpell> _createCurrentSpellsModel () {
+        final DefaultListModel<AbstractSpell> model = new DefaultListModel<>();
+        _updateSpellsBySelectedLevel(model);
+        return model;
     }
 
-    @Override
-    public void addListDataListener(ListDataListener l)
-    {
+    private static void _updateSpellsBySelectedLevel ( DefaultListModel<AbstractSpell> model ) {
+        model.removeAllElements();
 
-    }
+        final Player player             = Game.getCurrent().getCurrentPlayer();
+        final int    selectedSpellLevel = player.getSelectedSpellLevel();
 
-    @Override
-    public void removeListDataListener(ListDataListener l)
-    {
-
-    }
-
-    public void add(AbstractSpell spell)
-    {
-        spells.add(spell);
-    }
-
-    public void remove(AbstractSpell spell)
-    {
-        spells.remove(spell);
-    }
-
-    public void filterSpellsByLevel()
-    {
-        logger.debug("filtering spells begin");
-
-        CopyOnWriteArrayList<AbstractSpell> list = new CopyOnWriteArrayList<>();
-        for (AbstractSpell sp : Game.getCurrent().getCurrentPlayer().getSpells())
-        {
-            if ((sp.getLevel() > Game.getCurrent().getCurrentPlayer().getSelectedSpellLevel()) || (sp.getLevel() < Game.getCurrent().getCurrentPlayer().getSelectedSpellLevel()))
-            {
-                logger.debug("not true");
-                //this.remove(sp);
-            }
-            else
-            {
-                //this.add(sp);
-                list.add(sp);
-                logger.debug("true");
-            }
-        }
-        this.removeAllElements();
-        this.addAll(list);
-        logger.debug("filtering spells end");
+        model.addAll(
+            player.getSpells().stream()
+                .filter(spell -> spell.getLevel() == selectedSpellLevel)
+                .toList()
+        );
     }
 }
