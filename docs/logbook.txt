@@ -1005,4 +1005,7 @@ History of the changes:
             no manual repaint. therefore, not working.
             also: selecting spell with dbl click and closing dialog will at least in debug - leads to
             dbl-clicking on spell -> set spellinhand -> close dialog -> spellinhand still null.
+2023-12-03: Simon did some help with the SpellDialog. Had several errors in there.
+            Fixed currentSpellInHand - the dialog needed to be rendered modal in order to stop.
+            Introduced Lombok and lombok config in order not to need to do logger boilerplate.
 

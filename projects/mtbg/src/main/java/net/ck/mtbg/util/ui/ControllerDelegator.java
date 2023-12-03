@@ -1,5 +1,6 @@
 package net.ck.mtbg.util.ui;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
@@ -13,16 +14,13 @@ import net.ck.mtbg.util.CursorUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.NPCUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
+@Log4j2
 public class ControllerDelegator
 {
-    private static final Logger logger = LogManager.getLogger(ControllerDelegator.class);
-
     public static void handleKeyboardActionPUSH(Controller controller, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
@@ -314,11 +312,12 @@ public class ControllerDelegator
             action.setHaveNPCAction(false);
             logger.info("spellbook as separate event type, lets not add this to the action queue");
             TimerManager.getIdleTimer().stop();
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", false, action);
+            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action);
             logger.info("spellbook dialog done");
 
-            if (WindowBuilder.getController().getCurrentSpellInHand() != null)
-            {
+            if (WindowBuilder.getController().getCurrentSpellInHand() != null) {
+                logger.debug(() -> "spell is in hand, do something with it");
+                logger.debug("test");
                 UIStateMachine.setSelectTile(true);
                 UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
                 WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);

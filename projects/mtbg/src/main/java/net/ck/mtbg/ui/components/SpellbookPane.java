@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class SpellbookPane extends JList<AbstractSpell>
@@ -26,8 +25,8 @@ public class SpellbookPane extends JList<AbstractSpell>
 		super();
 		this.setOwner(owner);
 		this.setParentDialog(dialog);
-		Border blackline = BorderFactory.createLineBorder(Color.black);
-		this.setVisible(true);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.setVisible(true);
 		this.setFont(GameConfiguration.font);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setLayoutOrientation(VERTICAL_WRAP);

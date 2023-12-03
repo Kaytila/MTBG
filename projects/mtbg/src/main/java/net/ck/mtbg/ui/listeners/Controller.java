@@ -1,6 +1,7 @@
 package net.ck.mtbg.ui.listeners;
 
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
@@ -14,7 +15,6 @@ import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.CursorUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -23,8 +23,6 @@ import net.ck.mtbg.util.communication.keyboard.ActionFactory;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.ControllerDelegator;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -41,9 +39,9 @@ import java.io.*;
  *
  * @author Claus
  */
+@Log4j2
 public class Controller implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * currentAction is used for the two-step actions.

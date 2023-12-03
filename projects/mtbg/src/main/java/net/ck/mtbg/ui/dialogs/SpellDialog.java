@@ -25,6 +25,7 @@ public class SpellDialog extends AbstractDialog
         this.setBounds(0, 0, 300, 300);
         this.setLayout(new GridLayout(1, 0));
         this.setLocationRelativeTo(owner);
+        this.setModal(modal);
         final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
 
         root = this.getRootPane();
