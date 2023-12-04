@@ -1008,4 +1008,5 @@ History of the changes:
 2023-12-03: Simon did some help with the SpellDialog. Had several errors in there.
             Fixed currentSpellInHand - the dialog needed to be rendered modal in order to stop.
             Introduced Lombok and lombok config in order not to need to do logger boilerplate.
+2023-12-04: did some refactoring to remove getter/setter/logger.
 

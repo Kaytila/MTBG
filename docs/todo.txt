@@ -193,3 +193,6 @@ extract methods for each command (keyboard) and for command (mouse)
 
 todo options dialog:
 implement options dialog
+
+
+todo add lombok for logging

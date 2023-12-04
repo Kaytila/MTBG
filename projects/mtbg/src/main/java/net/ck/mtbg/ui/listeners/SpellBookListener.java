@@ -1,15 +1,18 @@
 package net.ck.mtbg.ui.listeners;
 
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.state.NoiseManager;
+import net.ck.mtbg.soundeffects.SoundEffects;
 import net.ck.mtbg.ui.components.SpellbookPane;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.CursorUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import java.awt.*;
@@ -23,56 +26,50 @@ import java.awt.event.MouseMotionListener;
  *
  * <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#simple">https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#simple</a>
  */
+
+@Log4j2
+@Getter
 public class SpellBookListener implements MouseListener, MouseMotionListener, ListDataListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     public SpellBookListener(SpellbookPane pane, AbstractKeyboardAction action)
     {
         this.spellbookPane = pane;
         this.action = action;
     }
 
-    public SpellbookPane getSpellbookPane()
-    {
-        return spellbookPane;
-    }
-
     private SpellbookPane spellbookPane;
     private AbstractKeyboardAction action;
-
-    public void setSpellbookPane(SpellbookPane spellbookPane)
-    {
-        this.spellbookPane = spellbookPane;
-    }
 
 
     @Override
     public void mouseClicked(MouseEvent e)
     {
-        if (e.getClickCount() == 2 && !e.isConsumed() && e.getButton() == MouseEvent.BUTTON1)
+        if (SwingUtilities.isLeftMouseButton(e))
         {
-            //TODO how to get from select a spell to actually cast it
-            if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
+            if (e.getClickCount() == 2)
             {
+                logger.info(() -> "double click - close dialog and go into crosshairs");
+                if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
+                {
+                    WindowBuilder.getController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
+                    e.consume();
+                    WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
+                    close.actionPerformed(null);
+                }
+            }
+            else if (e.getClickCount() == 1)
+            {
+                logger.info(() -> "single click - dont close dialog, closing with ESC should start crosshairs");
                 WindowBuilder.getController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
-                logger.info("double click");
-                e.consume();
-                WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
-
-
-                close.actionPerformed(null);
-
             }
             else
             {
-                logger.debug("action type is not spellbook?");
+                return;
             }
         }
         else
         {
-            logger.debug("simple mouse click");
-            logger.info("selected spell: {}", ((SpellbookPane) e.getSource()).getSelectedValue().getName());
+            return;
         }
     }
 
@@ -84,34 +81,24 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
     @Override
     public void mousePressed(MouseEvent e)
     {
-        SpellbookPane spellbookPane = (SpellbookPane) e.getSource();
-        Point point = e.getPoint();
-
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        logger.debug("simple mouse released");
-        SpellbookPane table = (SpellbookPane) e.getSource();
-
     }
 
     @Override
     public void mouseEntered(MouseEvent e)
     {
-        logger.debug("simple mouse entered");
-        SpellbookPane table = (SpellbookPane) e.getSource();
-        table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        getSpellbookPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         CursorUtils.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
     @Override
     public void mouseExited(MouseEvent e)
     {
-        logger.debug("simple mouse exit");
-        SpellbookPane table = (SpellbookPane) e.getSource();
-        table.setCursor(Cursor.getDefaultCursor());
+        getSpellbookPane().setCursor(Cursor.getDefaultCursor());
         CursorUtils.setCursor(Cursor.getDefaultCursor());
     }
 
@@ -125,15 +112,6 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
 
     }
 
-    public AbstractKeyboardAction getAction()
-    {
-        return action;
-    }
-
-    public void setAction(AbstractKeyboardAction action)
-    {
-        this.action = action;
-    }
 
     @Override
     public void intervalAdded(ListDataEvent e)
@@ -150,6 +128,9 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
     @Override
     public void contentsChanged(ListDataEvent e)
     {
-
+        if (GameConfiguration.playSound == true)
+        {
+            NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.PAGETURN);
+        }
     }
 }

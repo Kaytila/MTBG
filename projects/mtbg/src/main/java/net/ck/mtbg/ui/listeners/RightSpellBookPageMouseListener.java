@@ -1,9 +1,6 @@
 package net.ck.mtbg.ui.listeners;
 
-import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.backend.state.NoiseManager;
-import net.ck.mtbg.soundeffects.SoundEffects;
 import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.ui.models.SpellBookListDataModel;
 import net.ck.mtbg.util.CodeUtils;
@@ -44,12 +41,6 @@ public class RightSpellBookPageMouseListener implements MouseListener, MouseMoti
 		if (Game.getCurrent().getCurrentPlayer().increaseLevel())
 		{
 			((SpellBookListDataModel) spellbookPane.getModel()).filterSpellsByLevel();
-
-			if (GameConfiguration.playSound == true)
-			{
-				NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.PAGETURN);
-
-			}
 		}
 	}
 
