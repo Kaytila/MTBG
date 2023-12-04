@@ -1,16 +1,12 @@
 package net.ck.mtbg.backend.actions;
 
-import net.ck.mtbg.util.CodeUtils;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+@Log4j2
 public class NPCAction extends AbstractAction
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-
 	public NPCAction(AbstractKeyboardAction ev)
 	{
 		setEvent(ev);

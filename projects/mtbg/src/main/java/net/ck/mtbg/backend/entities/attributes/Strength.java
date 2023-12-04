@@ -1,17 +1,14 @@
 package net.ck.mtbg.backend.entities.attributes;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
+@Getter
+@Setter
 public class Strength extends AbstractAttribute
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 
 	public Strength()
 	{
@@ -27,11 +24,5 @@ public class Strength extends AbstractAttribute
 	public String toString()
 	{
 		return String.valueOf(getValue());
-	}
-	
-	@Override
-	public int getValue()
-	{
-		return value;
 	}
 }

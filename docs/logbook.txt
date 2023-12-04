@@ -1009,4 +1009,5 @@ History of the changes:
             Fixed currentSpellInHand - the dialog needed to be rendered modal in order to stop.
             Introduced Lombok and lombok config in order not to need to do logger boilerplate.
 2023-12-04: did some refactoring to remove getter/setter/logger.
+2023-12-04: did some refactoring to remove getter/setter/logger. Probably fixed a bug there?
 

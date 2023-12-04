@@ -1,24 +1,26 @@
 package net.ck.mtbg.animation.missile;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.communication.graphics.MissilePositionChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+@Log4j2
 public class MissileTimer implements Runnable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     private boolean running;
+
+    @Getter
+    @Setter
     private int delay;
 
     /**
@@ -155,16 +157,6 @@ public class MissileTimer implements Runnable
             Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
         }
         EventBus.getDefault().post(new MissilePositionChanged());
-    }
-
-    public int getDelay()
-    {
-        return delay;
-    }
-
-    public void setDelay(int delay)
-    {
-        this.delay = delay;
     }
 
     public void stop()

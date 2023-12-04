@@ -1,33 +1,26 @@
 package net.ck.mtbg.animation.foreground;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.animation.lifeform.IndividualAnimationSystem;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.graphics.ForegroundRepresentationChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
 
+@Log4j2
+@Getter
+@Setter
 public class ForegroundAnimationSystem extends IndividualAnimationSystem
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 	private int currentForegroundImage;
-
-	public int getCurrentForegroundImage()
-	{
-		return currentForegroundImage;
-	}
-
-	public void setCurrentForegroundImage(int currentForegroundImage)
-	{
-		this.currentForegroundImage = currentForegroundImage;
-	}
 
 	public ForegroundAnimationSystem()
 	{

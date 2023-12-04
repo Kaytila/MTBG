@@ -1,32 +1,29 @@
 package net.ck.mtbg.backend.game;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+@Log4j2
+@Getter
+@Setter
 public class GameLogs
 {
-	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(GameLogs.class));
+	@Getter
+	@Setter
+	private static ArrayList<Long> paintTimes = new ArrayList<>();
 
-
-	private static ArrayList<Long> paintTimes = new ArrayList<Long>();
-
+	@Getter
+	@Setter
 	private static ArrayList<Long> retrieveBrightImages = new ArrayList();
 
+	@Getter
+	@Setter
 	private static ArrayList<Long> createBrightImages = new ArrayList();
 
-	public static ArrayList<Long> getPaintTimes()
-	{
-		return paintTimes;
-	}
-
-	public static void setPaintTimes(ArrayList<Long> pT)
-	{
-		paintTimes = pT;
-	}
 
 	public static Long calculateTimeAverage(ArrayList<Long> list)
 	{
@@ -45,26 +42,6 @@ public class GameLogs
 		{
 			return (long) 0;
 		}
-	}
-
-	public static ArrayList<Long> getRetrieveBrightImages()
-	{
-		return retrieveBrightImages;
-	}
-
-	public static void setRetrieveBrightImages(ArrayList<Long> retrieveBrightImages)
-	{
-		GameLogs.retrieveBrightImages = retrieveBrightImages;
-	}
-
-	public static ArrayList<Long> getCreateBrightImages()
-	{
-		return createBrightImages;
-	}
-
-	public static void setCreateBrightImages(ArrayList<Long> createBrightImages)
-	{
-		GameLogs.createBrightImages = createBrightImages;
 	}
 
 	public static void dumpStatistics()

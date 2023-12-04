@@ -1,18 +1,14 @@
 package net.ck.mtbg.animation.lifeform;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-
+@Log4j2
 public class IndividualAnimationSystem extends AnimationSystem implements Runnable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 
     public IndividualAnimationSystem()
     {

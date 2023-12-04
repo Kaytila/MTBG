@@ -1,16 +1,13 @@
 package net.ck.mtbg.animation.lifeform;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
+@Log4j2
 public class AnimationSystemTimer extends Timer
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     @Override
     public void start()
     {

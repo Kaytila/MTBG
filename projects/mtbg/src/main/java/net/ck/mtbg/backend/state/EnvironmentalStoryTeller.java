@@ -1,19 +1,19 @@
 package net.ck.mtbg.backend.state;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.MessageTypes;
 import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
+@Log4j2
 public class EnvironmentalStoryTeller
 {
-	private static final Logger logger = LogManager.getLogger(EnvironmentalStoryTeller.class);
-	private static ArrayList<MapTile> noRepeatMapTilesLeave = new ArrayList<>();
+
+    private static ArrayList<MapTile> noRepeatMapTilesLeave = new ArrayList<>();
 	private static ArrayList<MapTile> noRepeatMapTilesEnter = new ArrayList<>();
 
 	public static void tellStoryLeave(MapTile tile)

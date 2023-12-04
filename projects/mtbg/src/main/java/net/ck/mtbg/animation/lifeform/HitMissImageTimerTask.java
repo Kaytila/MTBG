@@ -1,20 +1,21 @@
 package net.ck.mtbg.animation.lifeform;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.TimerTask;
 
+@Log4j2
 public class HitMissImageTimerTask extends TimerTask
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	private boolean running;
+	@Getter
+	@Setter
 	private LifeForm lifeForm;
 
 	public HitMissImageTimerTask(LifeForm n)
@@ -46,15 +47,5 @@ public class HitMissImageTimerTask extends TimerTask
 	public synchronized void setRunning(boolean running)
 	{
 		this.running = running;
-	}
-
-	public LifeForm getLifeForm()
-	{
-		return lifeForm;
-	}
-
-	public void setLifeForm(LifeForm lifeForm)
-	{
-		this.lifeForm = lifeForm;
 	}
 }

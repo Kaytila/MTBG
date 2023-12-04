@@ -1,7 +1,6 @@
 package net.ck.mtbg.backend.configuration;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
 import java.io.File;
@@ -11,10 +10,9 @@ import java.io.File;
  * configuration application somewhen somehow. lets see.
  * Good enough for now, makes things easier to read.
  */
+@Log4j2
 public class GameConfiguration
 {
-    private static final Logger logger = LogManager.getLogger(GameConfiguration.class);
-
     /**
      * how long shall the game wait until sending a pass message in ms
      */

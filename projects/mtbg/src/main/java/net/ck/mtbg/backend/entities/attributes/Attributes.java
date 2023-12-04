@@ -1,36 +1,28 @@
 package net.ck.mtbg.backend.entities.attributes;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Attributes implements ListModel<AbstractAttribute>, Serializable {
-
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-	public ArrayList<AbstractAttribute> getAttributes() {
-		return attributes;
-	}
-
+@Log4j2
+@Getter
+@Setter
+public class Attributes implements ListModel<AbstractAttribute>, Serializable
+{
 	private final ArrayList<AbstractAttribute> attributes;
-
-
-	public Logger getLogger() {
-		return logger;
-	}
 
 	public Attributes()
 	{
 		attributes = new ArrayList<>();
-		attributes.add(new Strength());
-		attributes.add(new Dexterity());
-		attributes.add(new Intelligence());
-		attributes.add(new Constitution());
+		getAttributes().add(new Strength());
+		getAttributes().add(new Dexterity());
+		getAttributes().add(new Intelligence());
+		getAttributes().add(new Constitution());
 	}
 
 	@Override

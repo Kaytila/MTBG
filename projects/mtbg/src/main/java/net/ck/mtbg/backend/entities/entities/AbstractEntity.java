@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.entities.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.animation.lifeform.AnimationSystemTimerTask;
 import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
 import net.ck.mtbg.animation.lifeform.HitMissImageTimerTask;
@@ -19,14 +22,15 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.util.*;
+import net.ck.mtbg.util.Directions;
+import net.ck.mtbg.util.ImageManager;
+import net.ck.mtbg.util.MapUtils;
+import net.ck.mtbg.util.NPCUtils;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
@@ -41,10 +45,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author Claus
  */
+@Log4j2
+@Getter
+@Setter
 public abstract class AbstractEntity implements LifeForm, Serializable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     /**
      * the position on the map, filled for NPC and Player, not filled for World
      */
@@ -107,6 +112,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private CopyOnWriteArrayList<AbstractSpell> spells;
 
+    private NPCType type;
     public AbstractEntity()
     {
         spells = new CopyOnWriteArrayList<AbstractSpell>();
@@ -117,39 +123,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setCurrImage(0);
         setState(LifeFormState.ALIVE);
     }
-
-    public CopyOnWriteArrayList<AbstractSpell> getSpells()
-    {
-        return spells;
-    }
-
-    private NPCType type;
-
-    public void setSpells(CopyOnWriteArrayList<AbstractSpell> spellBookListModel)
-    {
-        this.spells = spellBookListModel;
-    }
-
-    public NPCType getType()
-    {
-        return type;
-    }
-
-    public void setType(NPCType type)
-    {
-        this.type = type;
-    }
-
-    public CommandQueue getQueuedActions()
-    {
-        return queuedActions;
-    }
-
-    public void setQueuedActions(CommandQueue queuedActions)
-    {
-        this.queuedActions = queuedActions;
-    }
-
 
     /**
      * so this is the method where the a* algorithm needs to go into.
@@ -254,62 +227,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         return this.dropItem(affectedItem);
     }
 
-    public Hashtable<Weapon, AbstractItem> getHoldEquipment()
-    {
-        return holdEquipment;
-    }
 
-    public void setHoldEquipment(Hashtable<Weapon, AbstractItem> holdEquipment)
-    {
-        this.holdEquipment = holdEquipment;
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
-    public Point getMapPosition()
-    {
-        return mapPosition;
-    }
-
-    public void setMapPosition(Point mapPosition)
-    {
-        this.mapPosition = mapPosition;
-    }
-
-    public int getId()
-    {
-        return id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-
-
-    public Point getUIPosition()
-    {
-        return UIPosition;
-    }
-
-    public void setUIPosition(Point uIPosition)
-    {
-        UIPosition = uIPosition;
-    }
-
-    public Hashtable<ArmorPositions, AbstractItem> getWearEquipment()
-    {
-        return wearEquipment;
-    }
-
-    public void setWearEquipment(Hashtable<ArmorPositions, AbstractItem> wearEquipment)
-    {
-        this.wearEquipment = wearEquipment;
-    }
 
     public String toString()
     {
@@ -401,10 +319,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         return inventory;
     }
 
-    public void setInventory(Inventory inventory)
-    {
-        this.inventory = inventory;
-    }
 
     public boolean getItem(AbstractItem item)
     {
@@ -496,17 +410,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         return getAction;
     }
 
-    public Attributes getAttributes()
-    {
-        return attributes;
-    }
-
-    public void setAttributes(Attributes attributes)
-    {
-        this.attributes = attributes;
-    }
-
-
     /**
      * @param x
      * @param y
@@ -523,48 +426,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
 
         //EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
-    }
-
-    public boolean isLightSource()
-    {
-        return lightSource;
-    }
-
-    public void setLightSource(boolean lightSource)
-    {
-        this.lightSource = lightSource;
-    }
-
-    public int getLightRange()
-    {
-        return lightRange;
-    }
-
-    public void setLightRange(int lightRange)
-    {
-        this.lightRange = lightRange;
-    }
-
-    public int getLevel()
-    {
-        return level;
-    }
-
-    public void setLevel(int level)
-    {
-        this.level = level;
-    }
-
-
-
-    public AbstractItem getShield()
-    {
-        return shield;
-    }
-
-    public void setShield(AbstractItem shield)
-    {
-        this.shield = shield;
     }
 
     /**
@@ -725,15 +586,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         }
     }
 
-    public int getCurrImage()
-    {
-        return currImage;
-    }
-
-    public void setCurrImage(int currImage)
-    {
-        this.currImage = currImage;
-    }
 
     @Override
     public void evade()

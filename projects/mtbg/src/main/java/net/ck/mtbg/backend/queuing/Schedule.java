@@ -1,30 +1,21 @@
 package net.ck.mtbg.backend.queuing;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.time.GameTime;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.MoveAction;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+@Log4j2
+@Getter
+@Setter
 public class Schedule
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     private ArrayList<ScheduleActivity> activities;
-
-    public ArrayList<ScheduleActivity> getActivities()
-    {
-        return activities;
-    }
-
-    public void setActivities(ArrayList<ScheduleActivity> activities)
-    {
-        this.activities = activities;
-    }
 
     public Schedule(LifeForm e)
     {

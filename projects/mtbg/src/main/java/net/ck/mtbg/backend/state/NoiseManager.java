@@ -20,7 +20,11 @@ public class NoiseManager
 	/**
 	 * soundSystem is the class dealing with the music. currently only taking files from a directory and trying to play one random song at a time
 	 */
+	@Getter
+	@Setter
 	private static MusicPlayerNoThread musicSystemNoThread;
+	@Getter
+	@Setter
 	private static SoundPlayerNoThread soundPlayerNoThread;
 
 

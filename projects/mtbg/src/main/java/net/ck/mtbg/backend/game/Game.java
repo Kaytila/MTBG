@@ -1,6 +1,9 @@
 package net.ck.mtbg.backend.game;
 
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ai.AIBehaviour;
@@ -13,7 +16,6 @@ import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -22,8 +24,6 @@ import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.WeatherManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -38,13 +38,16 @@ import java.util.Set;
  *
  * @author Claus
  */
+@Log4j2
+@Getter
+@Setter
 public class Game implements Runnable, Serializable
 {
     /**
      * Singleton
      */
     private static final Game game = new Game();
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
     /**
      * the arraylist holds all the maps
      * not sure if I do need to do that or can load from disk on demand,
@@ -115,17 +118,6 @@ public class Game implements Runnable, Serializable
 
     private boolean playerMovedTwice = true;
 
-
-    public PlayerAction getPlayerAction()
-    {
-        return playerAction;
-    }
-
-    public void setPlayerAction(PlayerAction playerAction)
-    {
-        this.playerAction = playerAction;
-    }
-
     private PlayerAction playerAction;
 
     /**
@@ -169,17 +161,6 @@ public class Game implements Runnable, Serializable
     public static Game getCurrent()
     {
         return game;
-    }
-
-
-    public boolean isRunning()
-    {
-        return this.running;
-    }
-
-    public void setRunning(boolean running)
-    {
-        this.running = running;
     }
 
 
@@ -423,48 +404,6 @@ public class Game implements Runnable, Serializable
         //logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
     }
 
-
-    public Turn getCurrentTurn()
-    {
-        return currentTurn;
-    }
-
-    public void setCurrentTurn(Turn currentTurn)
-    {
-        this.currentTurn = currentTurn;
-    }
-
-    public World getEn()
-    {
-        return en;
-    }
-
-    public void setEn(World en)
-    {
-        this.en = en;
-    }
-
-    public int getTurnNumber()
-    {
-        return turnNumber;
-    }
-
-    public void setTurnNumber(int turnNumber)
-    {
-        this.turnNumber = turnNumber;
-    }
-
-    public ArrayList<Turn> getTurns()
-    {
-        return turns;
-    }
-
-    public void setTurns(ArrayList<Turn> turns)
-    {
-        this.turns = turns;
-    }
-
-
     public synchronized void stopGame()
     {
         ThreadController.listThreads();
@@ -475,16 +414,6 @@ public class Game implements Runnable, Serializable
         //logger.info("stopping game");
         setRunning(false);
         System.exit(0);
-    }
-
-    public Player getCurrentPlayer()
-    {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Player abstractEntity)
-    {
-        this.currentPlayer = abstractEntity;
     }
 
 
@@ -585,49 +514,6 @@ public class Game implements Runnable, Serializable
         }
     }
 
-
-    public Map getCurrentMap()
-    {
-        return currentMap;
-    }
-
-    public void setCurrentMap(Map currentMap)
-    {
-        this.currentMap = currentMap;
-    }
-
-    public ArrayList<Map> getMaps()
-    {
-        return maps;
-    }
-
-    @SuppressWarnings("unused")
-    public void setMaps(ArrayList<Map> maps)
-    {
-        this.maps = maps;
-    }
-
-    public GameTime getGameTime()
-    {
-        return gameTime;
-    }
-
-    public void setGameTime(GameTime gameTime)
-    {
-        this.gameTime = gameTime;
-    }
-
-    public int getBaseHealth()
-    {
-        return baseHealth;
-    }
-
-    public void setBaseHealth(int baseHealth)
-    {
-        this.baseHealth = baseHealth;
-    }
-
-
     public void startThreads()
     {
         if (GameConfiguration.useGameThread == false)
@@ -642,17 +528,6 @@ public class Game implements Runnable, Serializable
             ThreadController.add(gameThread);
             ThreadController.startThreads();
         }
-    }
-
-    public GameState getPreviousGameState()
-    {
-        return previousGameState;
-    }
-
-    public void setPreviousGameState(GameState previousGameState)
-    {
-        //logger.info("setting previous game state: {}", previousGameState);
-        this.previousGameState = previousGameState;
     }
 
     public synchronized boolean isNextTurn()

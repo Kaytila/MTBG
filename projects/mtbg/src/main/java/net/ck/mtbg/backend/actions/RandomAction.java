@@ -1,19 +1,20 @@
 package net.ck.mtbg.backend.actions;
 
-import net.ck.mtbg.util.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * random action is something world is supposed to do.
  * @author Claus
  *
  */
+@Log4j2
+@Getter
+@Setter
 public class RandomAction extends AbstractAction
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	public RandomAction()
 	{
 		super();

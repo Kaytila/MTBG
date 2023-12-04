@@ -1,15 +1,12 @@
 package net.ck.mtbg.animation.background;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 
+@Log4j2
 public class BackgroundAnimationSystemTimer extends Timer
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     public BackgroundAnimationSystemTimer(int delay, BackgroundAnimationSystemActionListener listener)
     {
         super(delay, listener);

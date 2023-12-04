@@ -1,10 +1,10 @@
 package net.ck.mtbg.backend.actions;
 
-import net.ck.mtbg.util.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 
@@ -17,32 +17,22 @@ import java.io.Serializable;
  * necessary to implement some kind of input and some kind of output.
  * output comes via AbstractEvent
  */
+@Log4j2
+@Setter
+@Getter
 public class PlayerAction extends AbstractAction implements Serializable
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	private boolean haveNPCAction;
-
-	public PlayerAction(AbstractKeyboardAction ev)
-	{
-		setEvent(ev);
-		setHaveNPCAction(ev.isHaveNPCAction());
-	}
-
 
 	/**
 	 * who is the player or the NPC
 	 */
 	private int number;
 
-	public int getNumber()
+	public PlayerAction(AbstractKeyboardAction ev)
 	{
-		return number;
-	}
-
-	public void setNumber(int number)
-	{
-		this.number = number;
+		setEvent(ev);
+		setHaveNPCAction(ev.isHaveNPCAction());
 	}
 
 	/**
@@ -55,24 +45,8 @@ public class PlayerAction extends AbstractAction implements Serializable
 		return getEvent().getType();
 	}
 
-	/*public void setType(KeyboardActionType type)
-	{
-		this.type = type;
-	}*/
-
-
 	public String toString()
 	{
 		return "Player action: " + getEvent().getType() + " of player: ";
-	}
-
-	public boolean isHaveNPCAction()
-	{
-		return haveNPCAction;
-	}
-
-	public void setHaveNPCAction(boolean haveNPCAction)
-	{
-		this.haveNPCAction = haveNPCAction;
 	}
 }

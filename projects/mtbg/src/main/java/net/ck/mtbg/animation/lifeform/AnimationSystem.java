@@ -1,8 +1,6 @@
 package net.ck.mtbg.animation.lifeform;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * animation system on separate thread, lets see how bad this implementation
@@ -15,10 +13,9 @@ import org.apache.logging.log4j.Logger;
  *         <a href="https://stackoverflow.com/questions/20370888/generating-image-at-server-side-using-java-fx">https://stackoverflow.com/questions/20370888/generating-image-at-server-side-using-java-fx</a>
  *
  */
+@Log4j2
 public abstract class AnimationSystem implements Runnable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     public AnimationSystem()
     {
         logger.info("initializing Animation system");

@@ -1,5 +1,6 @@
 package net.ck.mtbg.animation.lifeform;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
@@ -8,11 +9,8 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageManager;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -20,11 +18,9 @@ import org.greenrobot.eventbus.EventBus;
  * but I just took the code and always kept it at standard image
  * not sure how to do this better or whether I do not just want to go libgdx instead
  */
+@Log4j2
 public class NoAnimationSystem extends AnimationSystem
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-
     public void run()
     {
         while (Game.getCurrent().isRunning() == true)

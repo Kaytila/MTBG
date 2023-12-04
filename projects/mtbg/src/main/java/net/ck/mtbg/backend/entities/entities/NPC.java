@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.entities.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
@@ -15,42 +18,65 @@ import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
 import java.util.*;
 
+@Log4j2
+@Getter
+@Setter
 public class NPC extends AbstractEntity implements LifeForm
 {
-
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     private Hashtable<String, String> mobasks;
+
     private boolean hostile;
+
+    /**
+     * describes whether a npc is moving or not (outside of schedules)
+     *
+     * @return true - meaning static, or false, meaning moving
+     */
     private boolean isStatic;
 
-
+    /**
+     * who is the victim of the hostile npc?
+     * Can also be used for non-hostile in case of healing and so on
+     */
     private LifeForm victim;
+
+    /**
+     * helper variable - does the npc have a ranged weapon?
+     */
     private boolean ranged;
     /**
      * original position on the map - remember the placement that the npc does not wander off too much
      */
     private Point originalMapPosition;
 
-
+    /**
+     * the original target map position
+     */
     private Point originalTargetMapPosition;
 
+    /**
+     * the current target map position
+     */
     private Point targetMapPosition;
+
+    /**
+     * is the npc patrolling between two fix points
+     */
     private boolean patrolling;
 
+    /**
+     * does the NPC have a full schedule?
+     */
     private Schedule schedule;
 
     private AbstractKeyboardAction runningAction;
@@ -87,82 +113,9 @@ public class NPC extends AbstractEntity implements LifeForm
     public NPC()
     {
         super();
-
         mobasks = new Hashtable<>();
     }
 
-    /**
-     * describes whether a npc is moving or not (outside of schedules)
-     *
-     * @return true - meaning static, or false, meaning moving
-     */
-    public boolean isStatic()
-    {
-        return isStatic;
-    }
-
-    public void setStatic(boolean aStatic)
-    {
-        isStatic = aStatic;
-    }
-
-    public boolean isHostile()
-    {
-        return hostile;
-    }
-
-    public void setHostile(boolean hostile)
-    {
-        this.hostile = hostile;
-    }
-
-
-
-    @Override
-    public Point getOriginalTargetMapPosition()
-    {
-        return originalTargetMapPosition;
-    }
-
-    @Override
-    public void setOriginalTargetMapPosition(Point targetMapPosition)
-    {
-        this.originalTargetMapPosition = targetMapPosition;
-    }
-
-    @Override
-    public Point getTargetMapPosition()
-    {
-        return targetMapPosition;
-    }
-
-    @Override
-    public void setTargetMapPosition(Point targetMapPosition)
-    {
-        this.targetMapPosition = targetMapPosition;
-    }
-
-    public Point getOriginalMapPosition()
-    {
-        return originalMapPosition;
-    }
-
-    public void setOriginalMapPosition(Point originalMapPosition)
-    {
-        this.originalMapPosition = originalMapPosition;
-    }
-
-    @Override
-    public LifeFormState getState()
-    {
-        return state;
-    }
-
-    @Override
-    public void setState(LifeFormState state)
-    {
-        this.state = state;
-    }
 
     @Override
     public String toString()
@@ -242,35 +195,6 @@ public class NPC extends AbstractEntity implements LifeForm
             setOriginalMapPosition(new Point(getMapPosition()));
         }
     }
-
-    public Point getMapPosition()
-    {
-        return mapPosition;
-    }
-
-    public void setMapPosition(Point position)
-    {
-        this.mapPosition = position;
-    }
-
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
-
-
-    public Hashtable<String, String> getMobasks()
-    {
-        return mobasks;
-    }
-
-    public void setMobasks(Hashtable<String, String> mobasks)
-    {
-        this.mobasks = mobasks;
-    }
-
-
 
     /**
      * @param event GameTime has changed, check if there is a defined schedule for the npc
@@ -487,64 +411,12 @@ public class NPC extends AbstractEntity implements LifeForm
     }
 
 
-
-    @Override
-    public int getHealth()
-    {
-        return 0;
-    }
-
-    @Override
-    public void setHealth(int i)
-    {
-
-    }
-
-
-
-
-
-    @Override
-    public int getArmorClass()
-    {
-        return this.armorClass;
-    }
-
-    @Override
-    public void setArmorClass(int armorClass)
-    {
-        this.armorClass = armorClass;
-    }
-
-    @Override
-    public Weapon getWeapon()
-    {
-        return this.weapon;
-    }
-
-    @Override
-    public void setWeapon(Weapon weapon)
-    {
-        logger.info("weapon {} for npc: {}", weapon, this.getId());
-        this.weapon = weapon;
-    }
-
     @Override
     public void search()
     {
 
     }
 
-    public LifeForm getVictim()
-    {
-        return victim;
-    }
-
-    @Override
-    public void setVictim(LifeForm victim)
-    {
-        this.victim = victim;
-    }
 
     public boolean isRanged()
     {
@@ -587,10 +459,6 @@ public class NPC extends AbstractEntity implements LifeForm
     }
 
 
-    public void setRanged(boolean ranged) {
-        this.ranged = ranged;
-    }
-
     /**
      * @param ranged - switch to this weapon type
      */
@@ -613,19 +481,6 @@ public class NPC extends AbstractEntity implements LifeForm
                 }
             }
         }
-    }
-
-
-
-
-    public boolean isPatrolling()
-    {
-        return patrolling;
-    }
-
-    public void setPatrolling(boolean patrolling)
-    {
-        this.patrolling = patrolling;
     }
 
     public boolean moveTo(MapTile tileByCoordinates)
@@ -675,30 +530,6 @@ public class NPC extends AbstractEntity implements LifeForm
             }
         }
         return false;
-    }
-
-
-    public Schedule getSchedule()
-    {
-        return schedule;
-    }
-
-    @Override
-    public void setSchedule(Schedule schedule)
-    {
-        this.schedule = schedule;
-    }
-
-    @Override
-    public AbstractKeyboardAction getRunningAction()
-    {
-        return runningAction;
-    }
-
-    @Override
-    public void setRunningAction(AbstractKeyboardAction action)
-    {
-        this.runningAction = action;
     }
 
     /**

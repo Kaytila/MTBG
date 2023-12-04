@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.state;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.animation.background.BackgroundAnimationSystemTimer;
 import net.ck.mtbg.animation.foreground.ForegroundAnimationSystemTimer;
 import net.ck.mtbg.animation.lifeform.AnimationSystemTimer;
@@ -11,173 +14,83 @@ import net.ck.mtbg.backend.time.IdleTimer;
 import net.ck.mtbg.backend.time.QuequeTimer;
 import net.ck.mtbg.music.MusicTimer;
 import net.ck.mtbg.ui.highlighting.HighlightTimer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * as ObjectOutputStream so eloquently tells me, the Timers need to go out of game and into a separate class where they
  * are statically referenced
  */
+@Log4j2
+
 public class TimerManager
 {
-
-
-	private static final Logger logger = LogManager.getLogger(TimerManager.class);
 	/**
 	 * how many milliseconds until the turn is passed?
 	 */
+	@Getter
+	@Setter
 	private static IdleTimer                      idleTimer;
 	/**
 	 * how many milliseconds until the turn is passed?
 	 */
+	@Getter
+	@Setter
 	private static AnimationSystemTimer           animationSystemTimer;
 	/**
 	 * how much time to switch from victory back to world music
 	 */
+	@Getter
+	@Setter
 	private static MusicTimer                     musicTimer;
 	/**
 	 * how long until the highlighting frame ticks
 	 */
+	@Getter
+	@Setter
 	private static HighlightTimer                 highlightTimer;
 	/**
 	 *
 	 */
+	@Getter
+	@Setter
 	private static ForegroundAnimationSystemTimer foregroundAnimationSystemTimer;
 	/**
 	 *
 	 */
+	@Getter
+	@Setter
 	private static BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
 	/**
 	 * make missile timer use an util timer that does not run on
 	 * Event Dispatch Thread for not blocking the UI
 	 */
+	@Getter
+	@Setter
 	private static MissileUtilTimer               missileUtilTimer;
 	/**
 	 * so how long is the time between movements being run from the command queue?
 	 */
+	@Getter
+	@Setter
 	private static QuequeTimer                    quequeTimer;
 	/**
 	 * how long is the time period between missiles being drawn on the map?
 	 */
+	@Getter
+	@Setter
 	private static MissileTimer                   missileTimer;
 	/**
 	 * make animation system timer use an util timer that does not run on
 	 * Event Dispatch Thread for not blocking the UI
 	 */
+	@Getter
+	@Setter
 	private static AnimationSystemUtilTimer       animationSystemUtilTimer;
 	/**
 	 * make an UTIL timer for hit or miss to make sure its visible a bit before overwritten by
 	 * the next animation image
 	 */
+	@Getter
+	@Setter
 	private static HitMissImageTimer              hitMissImageTimer;
 
-	public static IdleTimer getIdleTimer()
-	{
-		return idleTimer;
-	}
-
-	public static void setIdleTimer(IdleTimer idleTimer)
-	{
-		TimerManager.idleTimer = idleTimer;
-	}
-
-	public static AnimationSystemTimer getAnimationSystemTimer()
-	{
-		return animationSystemTimer;
-	}
-
-	public static void setAnimationSystemTimer(AnimationSystemTimer animationSystemTimer)
-	{
-		TimerManager.animationSystemTimer = animationSystemTimer;
-	}
-
-	public static MusicTimer getMusicTimer()
-	{
-		return musicTimer;
-	}
-
-	public static void setMusicTimer(MusicTimer musicTimer)
-	{
-		TimerManager.musicTimer = musicTimer;
-	}
-
-	public static HighlightTimer getHighlightTimer()
-	{
-		return highlightTimer;
-	}
-
-	public static void setHighlightTimer(HighlightTimer highlightTimer)
-	{
-		TimerManager.highlightTimer = highlightTimer;
-	}
-
-	public static ForegroundAnimationSystemTimer getForegroundAnimationSystemTimer()
-	{
-		return foregroundAnimationSystemTimer;
-	}
-
-	public static void setForegroundAnimationSystemTimer(ForegroundAnimationSystemTimer foregroundAnimationSystemTimer)
-	{
-		TimerManager.foregroundAnimationSystemTimer = foregroundAnimationSystemTimer;
-	}
-
-	public static BackgroundAnimationSystemTimer getBackgroundAnimationSystemTimer()
-	{
-		return backgroundAnimationSystemTimer;
-	}
-
-	public static void setBackgroundAnimationSystemTimer(BackgroundAnimationSystemTimer backgroundAnimationSystemTimer)
-	{
-		TimerManager.backgroundAnimationSystemTimer = backgroundAnimationSystemTimer;
-	}
-
-	public static MissileUtilTimer getMissileUtilTimer()
-	{
-		return missileUtilTimer;
-	}
-
-	public static void setMissileUtilTimer(MissileUtilTimer missileUtilTimer)
-	{
-		TimerManager.missileUtilTimer = missileUtilTimer;
-	}
-
-	public static QuequeTimer getQuequeTimer()
-	{
-		return quequeTimer;
-	}
-
-	public static void setQuequeTimer(QuequeTimer quequeTimer)
-	{
-		TimerManager.quequeTimer = quequeTimer;
-	}
-
-	public static MissileTimer getMissileTimer()
-	{
-		return missileTimer;
-	}
-
-	public static void setMissileTimer(MissileTimer missileTimer)
-	{
-		TimerManager.missileTimer = missileTimer;
-	}
-
-	public static AnimationSystemUtilTimer getAnimationSystemUtilTimer()
-	{
-		return animationSystemUtilTimer;
-	}
-
-	public static void setAnimationSystemUtilTimer(AnimationSystemUtilTimer animationSystemUtilTimer)
-	{
-		TimerManager.animationSystemUtilTimer = animationSystemUtilTimer;
-	}
-
-	public static HitMissImageTimer getHitMissImageTimer()
-	{
-		return hitMissImageTimer;
-	}
-
-	public static void setHitMissImageTimer(HitMissImageTimer hitMissImageTimer)
-	{
-		TimerManager.hitMissImageTimer = hitMissImageTimer;
-	}
 }

@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.entities.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.actions.RandomAction;
@@ -10,12 +13,9 @@ import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.Hashtable;
@@ -26,10 +26,11 @@ import java.util.Random;
  *
  * @author Claus
  */
+@Log4j2
+@Getter
+@Setter
 public class World extends AbstractEntity implements LifeForm
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	private boolean spawned = false;
 
 	public World()

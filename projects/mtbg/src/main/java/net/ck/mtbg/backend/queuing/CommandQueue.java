@@ -1,9 +1,9 @@
 package net.ck.mtbg.backend.queuing;
 
-import net.ck.mtbg.util.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 import java.util.*;
@@ -16,20 +16,16 @@ import java.util.stream.Stream;
  * so I guess we need to have a command queue for running more than one commands after the other,
  * currently we are single command, even with multi input
  */
+@Log4j2
+@Getter
+@Setter
 public class CommandQueue implements Queue, Serializable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     private ArrayList<AbstractKeyboardAction> actionList;
 
-    public ArrayList<AbstractKeyboardAction> getActionList()
+    public CommandQueue()
     {
-        return actionList;
-    }
-
-    public void setActionList(ArrayList<AbstractKeyboardAction> actionList)
-    {
-        this.actionList = actionList;
+        actionList = new ArrayList<>();
     }
 
     @Override
@@ -83,12 +79,6 @@ public class CommandQueue implements Queue, Serializable
     {
         getActionList().add(action);
     }
-
-    public CommandQueue()
-    {
-        actionList = new ArrayList<>();
-    }
-
 
     public boolean add(AbstractKeyboardAction o)
     {

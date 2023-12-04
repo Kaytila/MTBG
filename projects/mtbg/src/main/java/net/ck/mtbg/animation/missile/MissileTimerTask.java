@@ -1,26 +1,34 @@
 package net.ck.mtbg.animation.missile;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.communication.graphics.MissilePositionChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
+@Log4j2
 public class MissileTimerTask extends TimerTask
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 
 	private boolean running;
+
+
+	public synchronized boolean isRunning()
+	{
+		return running;
+	}
+
+	public synchronized void setRunning(boolean running)
+	{
+		this.running = running;
+	}
 
 	@Override
 	public void run()
@@ -51,15 +59,6 @@ public class MissileTimerTask extends TimerTask
 		}
 	}
 
-	public synchronized boolean isRunning()
-	{
-		return running;
-	}
-
-	public synchronized void setRunning(boolean running)
-	{
-		this.running = running;
-	}
 
 	//TODO properly handle this - nice that we paint 60 frames, but missile will need to appear at least a little bit :D
 	private void calculateMissile()

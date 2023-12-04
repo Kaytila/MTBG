@@ -1,14 +1,16 @@
 package net.ck.mtbg.backend.entities.skills;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.image.BufferedImage;
 
+@Log4j2
+@Getter
+@Setter
 public class AbstractSkill
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     protected String name;
     protected boolean adjecient;
     protected boolean immediately;

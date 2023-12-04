@@ -1,32 +1,25 @@
 package net.ck.mtbg.backend.state;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
  * static StateMachine for game state
  */
+@Log4j2
+@Getter
+@Setter
 public class GameStateMachine
 {
-    private static final Logger logger = LogManager.getLogger(GameStateMachine.class);
     private static final GameStateMachine gameStateMachine = new GameStateMachine();
     private  GameState currentState;
     private  GameState previousState;
 
     private  boolean registered;
-
-    public  GameState getPreviousState()
-    {
-        return previousState;
-    }
-
-    public  void setPreviousState(GameState previousState)
-    {
-        this.previousState = previousState;
-    }
 
     public GameStateMachine()
     {
@@ -37,37 +30,11 @@ public class GameStateMachine
         }
     }
 
-    public  GameState getCurrentState()
-    {
-        return currentState;
-    }
-
-    public void setCurrentState(GameState state)
-    {
-        this.currentState = state;
-    }
-
     @Subscribe
     public void onMessageEvent(GameStateChanged gameStateChanged)
     {
         logger.info("setting game state to: {}", gameStateChanged.getGameState());
         setCurrentState(gameStateChanged.getGameState());
-//        if (gameState.getGameState() == GameState.COMBAT)
-//        {
-//            logger.info("setting previous game state to: {}", Game.getCurrent().getGameState());
-//            setPreviousGameState(Game.getCurrent().getGameState());
-//        }
-//        else if (gameState.getGameState() == GameState.VICTORY)
-//        {
-//            logger.info("victory, previous game state stays at: {}", Game.getCurrent().getPreviousGameState());
-//        }
-//        else
-//        {
-//            if (gameState.getGameState() != Game.getCurrent().getGameState())
-//            {
-//                Game.getCurrent().setGameState(gameState.getGameState());
-//            }
-//        }
     }
 
     public static GameStateMachine getCurrent()

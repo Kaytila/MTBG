@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.entities.ai;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.NPCAction;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
@@ -11,18 +14,15 @@ import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.NPCUtils;
 import net.ck.mtbg.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.Random;
 
+@Log4j2
+@Setter
+@Getter
 public class AIBehaviour
 {
-
-    private static final Logger logger = LogManager.getLogger(AIBehaviour.class);
-
-
     public static void determineCombat(LifeForm e)
     {
         logger.info(" {} trying to attack", e);

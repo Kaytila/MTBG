@@ -1,18 +1,14 @@
 package net.ck.mtbg.music;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.state.NoiseManager;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
+@Log4j2
 public class SoundLineListener implements LineListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-    //TODO
     @Override
     public void update(LineEvent event)
     {

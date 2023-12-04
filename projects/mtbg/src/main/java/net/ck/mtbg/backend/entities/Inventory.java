@@ -1,28 +1,23 @@
 package net.ck.mtbg.backend.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Armor;
 import net.ck.mtbg.items.Weapon;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class Inventory extends AbstractListModel<AbstractItem> //implements ListModel<AbstractItem>
+@Log4j2
+@Setter
+@Getter
+public class Inventory extends AbstractListModel<AbstractItem>
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<AbstractItem> inventory;
 	private double maxWeight;
 	private double currentWeight;
-
-
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
 
 	public Inventory()
 	{
@@ -39,18 +34,6 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 	public AbstractItem getElementAt(int index)
 	{
 		return getInventory().get(index);
-	}
-
-
-
-	public ArrayList<AbstractItem> getInventory()
-	{
-		return inventory;
-	}
-
-	public void setInventory(ArrayList<AbstractItem> inventory)
-	{
-		this.inventory = inventory;
 	}
 
 	/**
@@ -102,26 +85,6 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 		return false;
 	}
 
-	public double getCurrentWeight()
-	{
-		return currentWeight;
-	}
-
-	public void setCurrentWeight(double w)
-	{
-		this.currentWeight = w;
-	}
-
-	public double getMaxWeight()
-	{
-		return maxWeight;
-	}
-
-	public void setMaxWeight(double maxWeight)
-	{
-		this.maxWeight = maxWeight;
-	}
-	
 	
 	public void calculateCurrentWeight()
 	{
@@ -156,6 +119,4 @@ public class Inventory extends AbstractListModel<AbstractItem> //implements List
 	{
 		return getInventory().get(i);
 	}
-
-
 }

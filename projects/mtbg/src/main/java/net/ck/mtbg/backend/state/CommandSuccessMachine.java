@@ -1,10 +1,9 @@
 package net.ck.mtbg.backend.state;
 
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.soundeffects.SoundEffects;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * CommandSuccessMachine just gathers success or failure of the actions and
@@ -12,11 +11,9 @@ import org.apache.logging.log4j.Logger;
  * need to do NPC action here as well - and player.
  * That is why this is separated.
  */
+@Log4j2
 public class CommandSuccessMachine
 {
-    private static final Logger logger = LogManager.getLogger(CommandSuccessMachine.class);
-
-
     public static void calculateSoundEffect(AbstractAction action)
     {
         if (GameConfiguration.playSound == true)

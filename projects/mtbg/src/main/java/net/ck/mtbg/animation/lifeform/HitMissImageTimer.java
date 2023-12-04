@@ -1,26 +1,22 @@
 package net.ck.mtbg.animation.lifeform;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Timer;
 
+@Log4j2
 public class HitMissImageTimer extends Timer
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-	public synchronized void setHitMissImageTimerTask(HitMissImageTimerTask hitMissImageTimerTask)
-	{
-		this.hitMissImageTimerTask = hitMissImageTimerTask;
-	}
-
 	private HitMissImageTimerTask hitMissImageTimerTask;
-
 
 	public HitMissImageTimer()
 	{
 		super(true);
+	}
+
+	public synchronized void setHitMissImageTimerTask(HitMissImageTimerTask hitMissImageTimerTask)
+	{
+		this.hitMissImageTimerTask = hitMissImageTimerTask;
 	}
 
 	public synchronized HitMissImageTimerTask getHitMissImageTimerTask()

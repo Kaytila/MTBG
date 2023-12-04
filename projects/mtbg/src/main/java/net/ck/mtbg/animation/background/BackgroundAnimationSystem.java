@@ -1,28 +1,32 @@
 package net.ck.mtbg.animation.background;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.graphics.BackgroundRepresentationChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ConcurrentModificationException;
 
+@Log4j2
+@Getter
+@Setter
 public class BackgroundAnimationSystem implements Runnable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
+	/**
+	 * number of the list of background image
+	 */
+	private int currentBackgroundImage;
     public BackgroundAnimationSystem()
     {
         setCurrentBackgroundImage(0);
     }
 
-    private int currentBackgroundImage;
 
 	/**
 	 * just trying to iterate over i to get a same looking animation for background images
@@ -49,15 +53,5 @@ public class BackgroundAnimationSystem implements Runnable
 				}
 			}
 		}
-	}
-
-	public int getCurrentBackgroundImage()
-	{
-		return currentBackgroundImage;
-	}
-
-	public void setCurrentBackgroundImage(int currentBackgroundImage)
-	{
-		this.currentBackgroundImage = currentBackgroundImage;
 	}
 }

@@ -1,16 +1,16 @@
 package net.ck.mtbg.animation.foreground;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 
+@Log4j2
+@Getter
+@Setter
 public class ForegroundAnimationSystemTimer extends Timer
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-
     public ForegroundAnimationSystemTimer(int delay, ForegroundAnimationSystemActionListener listener)
     {
         super(delay, listener);

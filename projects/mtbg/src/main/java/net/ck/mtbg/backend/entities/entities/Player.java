@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.entities.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
@@ -18,14 +21,11 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.mainframes.SceneFrame;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
@@ -33,13 +33,14 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
 
+@Log4j2
+@Getter
+@Setter
 public class Player extends AbstractEntity implements LifeForm
 {
 
 
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     /**
      * spell level selected in the spellbook - needs to be stored somewhere, makes most sense at player
      */
@@ -121,18 +122,6 @@ public class Player extends AbstractEntity implements LifeForm
     public Point getUiPosition()
     {
         return uiPosition;
-    }
-
-    public int getSelectedSpellLevel()
-    {
-        //logger.debug("selected level: {}", selectedSpellLevel);
-        return selectedSpellLevel;
-    }
-
-    public void setSelectedSpellLevel(int selectedSpellLevel)
-    {
-        //logger.debug("new selected level: {}", selectedSpellLevel);
-        this.selectedSpellLevel = selectedSpellLevel;
     }
 
     public void setMapPosition(Point position)

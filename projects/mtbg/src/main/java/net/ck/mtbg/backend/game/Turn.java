@@ -1,5 +1,8 @@
 package net.ck.mtbg.backend.game;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.state.GameState;
 
 import java.io.Serializable;
@@ -12,38 +15,17 @@ import java.io.Serializable;
  *
  * @author Claus
  */
+@Log4j2
+@Getter
+@Setter
 public class Turn implements Serializable
 {
 	private int turnNumber;
 
 	private GameState gameState;
 
-
 	public Turn(int turnNumber)
 	{
 		setTurnNumber(turnNumber);
-	}
-
-
-
-	public int getTurnNumber()
-	{
-		return turnNumber;
-	}
-
-
-	public void setTurnNumber(int turnNumber)
-	{
-		this.turnNumber = turnNumber;
-	}
-
-	public GameState getGameState()
-	{
-		return gameState;
-	}
-
-	public void setGameState(GameState gameState)
-	{
-		this.gameState = gameState;
 	}
 }
