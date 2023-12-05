@@ -1,9 +1,9 @@
 package net.ck.mtbg.ui.mainframes;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,10 +16,11 @@ import java.io.IOException;
  *
  * @author Claus
  */
+@Getter
+@Setter
+@Log4j2
 public class GameFrame extends JFrame
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	public GameFrame() throws HeadlessException
 	{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

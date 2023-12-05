@@ -1,12 +1,12 @@
 package net.ck.mtbg.ui.mainframes;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.components.EnhancedCutSceneWithDynamicText;
 import net.ck.mtbg.ui.components.EnhancedCutSceneWithText;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,19 +16,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Getter
+@Setter
+@Log4j2
 public class SceneFrame extends JFrame
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-	public SceneFrame() throws HeadlessException
-	{
+	public SceneFrame() throws HeadlessException {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		try
-		{
+		try {
 			this.setIconImage(ImageIO.read(new File(GameConfiguration.miscImages + "sun.jpg")));
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			logger.error("issue loading icon: {}", e.toString());
 		}
 

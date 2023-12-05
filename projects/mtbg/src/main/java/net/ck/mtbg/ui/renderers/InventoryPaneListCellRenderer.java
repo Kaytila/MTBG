@@ -1,9 +1,9 @@
 package net.ck.mtbg.ui.renderers;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +15,11 @@ import java.awt.*;
  * @author Claus
  *
  */
+@Getter
+@Setter
+@Log4j2
 public class InventoryPaneListCellRenderer extends JLabel implements javax.swing.ListCellRenderer<AbstractItem>
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
 	public InventoryPaneListCellRenderer()
 	{

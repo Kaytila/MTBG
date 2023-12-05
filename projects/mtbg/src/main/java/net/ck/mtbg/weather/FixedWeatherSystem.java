@@ -1,15 +1,15 @@
 package net.ck.mtbg.weather;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
+@Getter
+@Setter
 public class FixedWeatherSystem extends AbstractWeatherSystem
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-    public FixedWeatherSystem(int randomness, WeatherTypes weatherType)
-    {
+    public FixedWeatherSystem(int randomness, WeatherTypes weatherType) {
         logger.info("initializing Fixed Weather System");
         Weather weather = new Weather();
         getCurrentWeather().setType(WeatherTypes.SUN);
@@ -21,8 +21,7 @@ public class FixedWeatherSystem extends AbstractWeatherSystem
 
 
     @Override
-    public void checkWeather()
-    {
+    public void checkWeather() {
         getCurrentWeather().setType(getCurrentWeather().getType());
     }
 }

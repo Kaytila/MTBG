@@ -1,5 +1,7 @@
 package net.ck.mtbg.ui.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
@@ -8,25 +10,24 @@ import net.ck.mtbg.ui.components.SpellBookDataModelDataListener;
 
 import javax.swing.*;
 
+@Getter
+@Setter
 @Log4j2
 public class SpellBookListDataModel
         extends DefaultListModel<AbstractSpell>
 {
-    public SpellBookListDataModel()
-    {
+    public SpellBookListDataModel() {
         filterSpellsByLevel();
         addListDataListener(new SpellBookDataModelDataListener());
     }
 
-    private static ListModel<AbstractSpell> _createCurrentSpellsModel()
-    {
+    private static ListModel<AbstractSpell> _createCurrentSpellsModel() {
         final DefaultListModel<AbstractSpell> model = new DefaultListModel<>();
         _updateSpellsBySelectedLevel(model);
         return model;
     }
 
-    private static void _updateSpellsBySelectedLevel(DefaultListModel<AbstractSpell> model)
-    {
+    private static void _updateSpellsBySelectedLevel(DefaultListModel<AbstractSpell> model) {
         model.removeAllElements();
 
         final Player player = Game.getCurrent().getCurrentPlayer();
@@ -42,8 +43,7 @@ public class SpellBookListDataModel
     // fixme
     //  move this logic to a "controller"
     //  consider renaming -> updateSpellsBySelectedLevel
-    public void filterSpellsByLevel()
-    {
+    public void filterSpellsByLevel() {
         logger.debug(() -> "update spells");
         _updateSpellsBySelectedLevel(this);
     }

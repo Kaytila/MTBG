@@ -1,11 +1,11 @@
 package net.ck.mtbg.weather;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.WeatherUtils;
 import net.ck.mtbg.util.communication.graphics.WeatherChangedEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.image.BufferedImage;
@@ -14,9 +14,12 @@ import java.io.Serializable;
 /**
  * @author Claus weather will have an impact on things, perhaps? perhaps not, perhaps only graphics
  */
+@Log4j2
+@Getter
+@Setter
 public class Weather implements Serializable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 
     /**
      * what type is the current weather?
@@ -43,12 +46,6 @@ public class Weather implements Serializable
     public BufferedImage getWeatherImage()
     {
         return WeatherUtils.getWeatherImage(type);
-    }
-
-
-    public WeatherTypes getType()
-    {
-        return type;
     }
 
     public void setType(WeatherTypes typ)

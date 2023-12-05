@@ -1,33 +1,32 @@
 package net.ck.mtbg.ui.models;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.table.AbstractTableModel;
 
+@Getter
+@Setter
+@Log4j2
 public class SpellBookDataModel extends AbstractTableModel
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	AbstractSpell[] data = {new AbstractSpell(), new AbstractSpell(), new AbstractSpell(), new AbstractSpell(), new AbstractSpell(), new AbstractSpell(), new AbstractSpell(), new AbstractSpell()};
 	private String[] columnNames = {"left", "right"};
 
 	@Override
-	public int getRowCount()
-	{
+	public int getRowCount() {
 		return data.length;
 	}
 
 	@Override
-	public int getColumnCount()
-	{
+	public int getColumnCount() {
 		return columnNames.length;
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex)
-	{
+	public Object getValueAt(int rowIndex, int columnIndex) {
 		return data[rowIndex];
 	}
 
@@ -36,8 +35,7 @@ public class SpellBookDataModel extends AbstractTableModel
 	 * Don't need to implement this method unless your table's
 	 * editable.
 	 */
-	public boolean isCellEditable(int row, int col)
-	{
+	public boolean isCellEditable(int row, int col) {
 		return false;
 	}
 
@@ -45,8 +43,7 @@ public class SpellBookDataModel extends AbstractTableModel
 	 * Don't need to implement this method unless your table's
 	 * data can change.
 	 */
-	public void setValueAt(Object value, int row, int col)
-	{
+	public void setValueAt(Object value, int row, int col) {
 
 	}
 }

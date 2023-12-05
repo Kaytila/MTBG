@@ -1,20 +1,15 @@
 package net.ck.mtbg.weather;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
+@Getter
+@Setter
 public class NoWeatherSystem extends AbstractWeatherSystem
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	public NoWeatherSystem(int randomness)
-	{
+	public NoWeatherSystem(int randomness) {
 		super(0);
 		setRandomness(0);
 		setSynchronized(false);
@@ -22,8 +17,7 @@ public class NoWeatherSystem extends AbstractWeatherSystem
 	}
 
 	@Override
-	public void checkWeather()
-	{
+	public void checkWeather() {
 		getCurrentWeather().setType(WeatherTypes.NONE);
 	}
 }

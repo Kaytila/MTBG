@@ -1,9 +1,9 @@
 package net.ck.mtbg.weather;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.Map;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Factory Class to create the weather system for the Map. If the map has a weather system, return either synchronized or asynchronized weather If the map does not have a weather system, i.e. indoors
@@ -11,9 +11,11 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Claus
  */
+@Getter
+@Setter
+@Log4j2
 public class WeatherSystemFactory
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     public static AbstractWeatherSystem createWeatherSystem(Map gameMap)
     {
         if (gameMap.isWeatherSystem())

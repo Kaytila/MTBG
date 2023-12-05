@@ -1,21 +1,14 @@
 package net.ck.mtbg.weather;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
-public class WeatherManager
-{
+@Log4j2
+@Getter
+@Setter
+public class WeatherManager {
+    @Getter
+    @Setter
     private static AbstractWeatherSystem weatherSystem;
-    private final Logger logger = LogManager.getLogger(WeatherManager.class);
-
-    public static AbstractWeatherSystem getWeatherSystem()
-    {
-        return weatherSystem;
-    }
-
-    public static void setWeatherSystem(AbstractWeatherSystem ws)
-    {
-        weatherSystem = ws;
-    }
-
 }
