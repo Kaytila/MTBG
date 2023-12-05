@@ -1,5 +1,8 @@
 package net.ck.mtbg.ui.dialogs;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.SpellbookPane;
@@ -7,18 +10,16 @@ import net.ck.mtbg.ui.listeners.LeftSpellBookPagePanelMouseListener;
 import net.ck.mtbg.ui.listeners.RightSpellBookPageMouseListener;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
 import net.ck.mtbg.ui.renderers.SpellbookListCellRenderer;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SpellDialog extends AbstractDialog
-{
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+@Log4j2
+@Getter
+@Setter
+public class SpellDialog extends AbstractDialog {
 
     public SpellDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action) {
         setTitle(title);
@@ -66,18 +67,15 @@ public class SpellDialog extends AbstractDialog
         this.setVisible(true);
     }
 
-    private void printDebugData(JTable table)
-    {
+    private void printDebugData(JTable table) {
         int numRows = table.getRowCount();
         int numCols = table.getColumnCount();
         javax.swing.table.TableModel model = table.getModel();
 
         System.out.println("Value of data: ");
-        for (int i = 0; i < numRows; i++)
-        {
+        for (int i = 0; i < numRows; i++) {
             System.out.print("    row " + i + ":");
-            for (int j = 0; j < numCols; j++)
-            {
+            for (int j = 0; j < numCols; j++) {
                 System.out.print("  " + model.getValueAt(i, j));
             }
             System.out.println();
