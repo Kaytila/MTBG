@@ -39,7 +39,6 @@ import java.util.Objects;
 public class Player extends AbstractEntity implements LifeForm
 {
 
-
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
     /**
      * spell level selected in the spellbook - needs to be stored somewhere, makes most sense at player
@@ -119,17 +118,6 @@ public class Player extends AbstractEntity implements LifeForm
         getSpells().add(spell8);
     }
 
-    public Point getUiPosition()
-    {
-        return uiPosition;
-    }
-
-    public void setMapPosition(Point position)
-    {
-        this.mapPosition = position;
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
-        //logger.info("player number {}, map position {}", getNumber(), mapPosition.toString());
-    }
 
     @Override
     public Point getUIPosition()

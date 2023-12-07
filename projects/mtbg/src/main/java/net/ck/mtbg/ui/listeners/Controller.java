@@ -44,6 +44,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 {
 
     /**
+     * pressed mouse button timer
+     */
+    Timer pressedTimer;
+    /**
      * currentAction is used for the two-step actions.
      * standard action is handled in onMessageEvent (AbstractKeyboardAction), i.e. movement.
      * Anything that needs a cross-hair is a two action event, first action only triggers
@@ -53,12 +57,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
      * keyboard input (movement keys or even pressing "a" again)
      */
     private AbstractKeyboardAction currentAction;
-
     /**
      * inventoryDialog
      */
     private InventoryDialog inventoryDialog;
-
     /**
      * double click in inventory dialog leads to this being filled.
      */
@@ -67,45 +69,21 @@ public class Controller implements WindowListener, ActionListener, MouseListener
      * double click in spellbook dialog leads to this being filled.
      */
     private AbstractSpell currentSpellInHand;
-
-    public synchronized AbstractSpell getCurrentSpellInHand()
-    {
-        return currentSpellInHand;
-    }
-
-    public synchronized void setCurrentSpellInHand(AbstractSpell currentSpellInHand)
-    {
-        logger.debug("current spell in hand: {}", currentSpellInHand);
-        this.currentSpellInHand = currentSpellInHand;
-    }
-
-
     /**
      * mouse pressed is used for moving via mouse, there is a delay defined in the timer
      * that is started pressedTimer.
      */
     private boolean mousePressed;
-
-    /**
-     * pressed mouse button timer
-     */
-    Timer pressedTimer;
-
-
     /**
      * this variable is being set if the numpad movement keys
      * are used for moving the cross-hairs currently.
      * i.e. it switched keyboard movement to cross-hair movement.
      */
     private boolean movementForSelectTile = false;
-
     /**
      * stats Dialog - there will be one dialog only with exchanging JPanels
      */
     private StatsDialog statsDialog;
-
-
-
     /**
      * is drag Enabled
      */
@@ -121,6 +99,16 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         WindowBuilder.buildWindow(this);
     }
 
+    public synchronized AbstractSpell getCurrentSpellInHand()
+    {
+        return currentSpellInHand;
+    }
+
+    public synchronized void setCurrentSpellInHand(AbstractSpell currentSpellInHand)
+    {
+        logger.debug("current spell in hand: {}", currentSpellInHand);
+        this.currentSpellInHand = currentSpellInHand;
+    }
 
     /**
      * this is called when any button is clicked.
@@ -217,7 +205,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             try
             {
                 fileOutputStream = new FileOutputStream("test.txt");
-            } catch (FileNotFoundException ex)
+            }
+            catch (FileNotFoundException ex)
             {
                 throw new RuntimeException(ex);
             }
@@ -225,21 +214,24 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             try
             {
                 objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 throw new RuntimeException(ex);
             }
             try
             {
                 objectOutputStream.writeObject(Game.getCurrent());
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 throw new RuntimeException(ex);
             }
             try
             {
                 objectOutputStream.close();
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 throw new RuntimeException(ex);
             }
@@ -254,7 +246,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             try
             {
                 fileInputStream = new FileInputStream("test.txt");
-            } catch (FileNotFoundException ex)
+            }
+            catch (FileNotFoundException ex)
             {
                 throw new RuntimeException(ex);
             }
@@ -262,7 +255,8 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             try
             {
                 objectInputStream = new ObjectInputStream(fileInputStream);
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 throw new RuntimeException(ex);
             }
@@ -316,21 +310,40 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         return inventoryDialog;
     }
 
+    public void setInventoryDialog(InventoryDialog inventoryDialog)
+    {
+        this.inventoryDialog = inventoryDialog;
+    }
+
     public Timer getPressedTimer()
     {
         return pressedTimer;
     }
 
+    public void setPressedTimer(Timer pressedTimer)
+    {
+        this.pressedTimer = pressedTimer;
+    }
 
     public StatsDialog getStatsDialog()
     {
         return statsDialog;
     }
 
+    public void setStatsDialog(StatsDialog statsDialog)
+    {
+        this.statsDialog = statsDialog;
+    }
 
     public boolean isMousePressed()
     {
         return mousePressed;
+    }
+
+    public void setMousePressed(boolean mousePressed)
+    {
+        //GameUtils.showStackTrace("setMousePressed");
+        this.mousePressed = mousePressed;
     }
 
     @Override
@@ -413,8 +426,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         }
     }
 
-
-
     /**
      * make sure we catch the selected tile, but only if selectTile is filled
      *
@@ -490,9 +501,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             //logger.info("if there is something draggable, drag");
             if (e.getButton() == MouseEvent.BUTTON1)
             {
-                var     c       = (JGridCanvas) e.getSource();
-                var     handler = c.getTransferHandler();
-                MapTile tile    = MapUtils.calculateMapTileUnderCursor(e.getPoint());
+                var c = (JGridCanvas) e.getSource();
+                var handler = c.getTransferHandler();
+                MapTile tile = MapUtils.calculateMapTileUnderCursor(e.getPoint());
                 if (tile == null)
                 {
                     return;
@@ -528,7 +539,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             }
         }
     }
-
 
     /**
      * So mouseReleased creates a KeyboardAction depending on the cursor type. which is a string. which is not a safe way. but it works. ActionFactory included, this is mostly for show reasons,
@@ -861,7 +871,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     //logger.info("movement");
                     action.setHaveNPCAction(true);
                 }
-
+                break;
             }
 
             case CAST:
@@ -902,28 +912,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         //CursorUtils.centerCursorOnPlayer();
         CursorUtils.moveCursorByOneTile(action, isMovementForSelectTile());
-    }
-
-
-    public void setInventoryDialog(InventoryDialog inventoryDialog)
-    {
-        this.inventoryDialog = inventoryDialog;
-    }
-
-    public void setMousePressed(boolean mousePressed)
-    {
-        //GameUtils.showStackTrace("setMousePressed");
-        this.mousePressed = mousePressed;
-    }
-
-    public void setPressedTimer(Timer pressedTimer)
-    {
-        this.pressedTimer = pressedTimer;
-    }
-
-    public void setStatsDialog(StatsDialog statsDialog)
-    {
-        this.statsDialog = statsDialog;
     }
 
     @Override

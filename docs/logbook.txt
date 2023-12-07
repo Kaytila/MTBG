@@ -1012,4 +1012,6 @@ History of the changes:
 2023-12-04: did some refactoring to remove getter/setter/logger. Probably fixed a bug there?
 2023-12-05: did some lombok refactoring - definitely fixed a bug yesterday - npc returned 0 for health :)
 2023-12-05: did some lombok refactoring
+2023-12-07: bugfix due to refactoring: setMapPosition needs to check for blocking if the UI is open.
+            Also, controller missed a break
 

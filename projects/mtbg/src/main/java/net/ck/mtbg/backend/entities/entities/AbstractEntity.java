@@ -22,6 +22,7 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.Directions;
 import net.ck.mtbg.util.ImageManager;
 import net.ck.mtbg.util.MapUtils;
@@ -53,12 +54,12 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     /**
      * the position on the map, filled for NPC and Player, not filled for World
      */
-    protected Point  mapPosition;
+    protected Point mapPosition;
     protected Weapon weapon;
     /**
      * how much health does the entity have?
      */
-    protected int    health;
+    protected int health;
     /**
      * armor class - we just add ac on top of each other, no body parts and so on
      */
@@ -75,12 +76,12 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     /**
      * the position on the UI, not sure whether it makes more sense to take position
      */
-    private Point                                   UIPosition;
+    private Point UIPosition;
     /**
      * hashtable with weapon, not sure whether this is one or two slots. TBD
      */
-    private Hashtable<Weapon, AbstractItem>         holdEquipment = new Hashtable<>();
-    private AbstractItem                            shield;
+    private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
+    private AbstractItem shield;
     /**
      * armor types contains all the armor positions, so this is the way to go.
      */
@@ -113,6 +114,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     private CopyOnWriteArrayList<AbstractSpell> spells;
 
     private NPCType type;
+
     public AbstractEntity()
     {
         spells = new CopyOnWriteArrayList<AbstractSpell>();
@@ -219,14 +221,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     }
 
 
-
-
     public boolean dropItem(AbstractItem affectedItem, MapTile tile)
     {
         tile.getInventory().add(affectedItem);
         return this.dropItem(affectedItem);
     }
-
 
 
     public String toString()
@@ -429,7 +428,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     }
 
     /**
-     *
      * @param tileByCoordinates target tile
      */
     public boolean moveTo(MapTile tileByCoordinates)
@@ -452,16 +450,23 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             else
             {
                 //logger.info(node);
-                if (node.x > futureMapPosition.x) {
+                if (node.x > futureMapPosition.x)
+                {
                     getQueuedActions().addEntry(new EastAction());
                     futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
-                } else if (node.x < futureMapPosition.x) {
+                }
+                else if (node.x < futureMapPosition.x)
+                {
                     getQueuedActions().addEntry(new WestAction());
                     futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
-                } else if (node.y > futureMapPosition.y) {
+                }
+                else if (node.y > futureMapPosition.y)
+                {
                     getQueuedActions().addEntry(new SouthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
-                } else if (node.y < futureMapPosition.y) {
+                }
+                else if (node.y < futureMapPosition.y)
+                {
                     getQueuedActions().addEntry(new NorthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
                 }
@@ -532,7 +537,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
                         AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
                         TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         e.printStackTrace();
                     }
@@ -787,5 +793,15 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         }
 
         //logger.debug("to be implemented");
+    }
+
+    public void setMapPosition(Point position)
+    {
+        this.mapPosition = position;
+        if (UIStateMachine.isUiOpen())
+        {
+
+            Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
+        }
     }
 }

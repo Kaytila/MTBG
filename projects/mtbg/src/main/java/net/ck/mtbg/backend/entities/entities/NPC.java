@@ -81,7 +81,8 @@ public class NPC extends AbstractEntity implements LifeForm
 
     private AbstractKeyboardAction runningAction;
 
-    public NPC(Integer i, Point p) {
+    public NPC(Integer i, Point p)
+    {
         //logger.info("initialize properly");
         setStatic(false);
         setOriginalMapPosition(new Point(p.x, p.y));
@@ -90,16 +91,20 @@ public class NPC extends AbstractEntity implements LifeForm
         setQueuedActions(new CommandQueue());
         EventBus.getDefault().register(this);
 
-        if (getAttributes().get(AttributeTypes.STRENGTH).getValue() == 0) {
+        if (getAttributes().get(AttributeTypes.STRENGTH).getValue() == 0)
+        {
             getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
         }
-        if (getAttributes().get(AttributeTypes.DEXTERITY).getValue() == 0) {
+        if (getAttributes().get(AttributeTypes.DEXTERITY).getValue() == 0)
+        {
             getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
         }
-        if (getAttributes().get(AttributeTypes.CONSTITUTION).getValue() == 0) {
+        if (getAttributes().get(AttributeTypes.CONSTITUTION).getValue() == 0)
+        {
             getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
         }
-        if (getAttributes().get(AttributeTypes.INTELLIGENCE).getValue() == 0) {
+        if (getAttributes().get(AttributeTypes.INTELLIGENCE).getValue() == 0)
+        {
             getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         }
 
@@ -590,4 +595,6 @@ public class NPC extends AbstractEntity implements LifeForm
         }
         return action;
     }
+
+
 }
