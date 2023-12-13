@@ -115,6 +115,13 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     private NPCType type;
 
+    /**
+     * who is the victim of the hostile npc?
+     * Can also be used for non-hostile in case of healing and so on
+     */
+    private LifeForm victim;
+
+
     public AbstractEntity()
     {
         spells = new CopyOnWriteArrayList<AbstractSpell>();

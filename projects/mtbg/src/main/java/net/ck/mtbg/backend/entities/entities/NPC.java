@@ -45,12 +45,6 @@ public class NPC extends AbstractEntity implements LifeForm
     private boolean isStatic;
 
     /**
-     * who is the victim of the hostile npc?
-     * Can also be used for non-hostile in case of healing and so on
-     */
-    private LifeForm victim;
-
-    /**
      * helper variable - does the npc have a ranged weapon?
      */
     private boolean ranged;

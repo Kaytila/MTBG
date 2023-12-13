@@ -38,7 +38,7 @@ implement get <-- done
 implement basic talk <-- done
 implement drag'n'drop <-- done
 implement monster spawn <-- done
-implement move <-- done
+implement move
 implement checkpoints
 implement basic scheduling <-- done
 implement melee attack <-- almost done
@@ -173,26 +173,12 @@ spellbook
 books in general, probably just auto generated content within a book with
 clickable areas - perhaps a custom listview?
 
-Spellbook now is custom table with two columns, no headers, will need individual cell render, can be copied from
-zstats dialog control. need to remove multiselect
-
-
 todo npcs:
 make something useful out of the XML here.
 have stats in XML instead of hard coding them.
 done necessary for testing double movement further.
 
-
-todo spellbook:
-implement more spellBookListModel with graphics
-make a frame outside of the spellbook area that you can flip through the pages.
-implement sound effect for page flip
-
-todo controller:
-extract methods for each command (keyboard) and for command (mouse)
-
 todo options dialog:
 implement options dialog
 
 
-todo add lombok for logging

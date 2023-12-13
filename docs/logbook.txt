@@ -1014,4 +1014,5 @@ History of the changes:
 2023-12-05: did some lombok refactoring
 2023-12-07: bugfix due to refactoring: setMapPosition needs to check for blocking if the UI is open.
             Also, controller missed a break
+2023-12-13: did some refactoring: also fixed yet another bug with old get methods
 

@@ -39,9 +39,13 @@ import java.util.Objects;
 public class Player extends AbstractEntity implements LifeForm
 {
 
+    /**
+     * for player the UI Position is always centered
+     */
     private final Point uiPosition = new Point(MapUtils.getMiddle(), MapUtils.getMiddle());
     /**
      * spell level selected in the spellbook - needs to be stored somewhere, makes most sense at player
+     * is updated by flipping through the spell book
      */
     private int selectedSpellLevel = 1;
 
@@ -127,33 +131,9 @@ public class Player extends AbstractEntity implements LifeForm
     }
 
     @Override
-    public LifeForm getVictim()
-    {
-        return null;
-    }
-
-    @Override
-    public void setVictim(LifeForm npc)
-    {
-        //nothing to do, this is player
-    }
-
-    @Override
     public Point getOriginalMapPosition()
     {
         return null;
-    }
-
-    @Override
-    public LifeFormState getState()
-    {
-        return state;
-    }
-
-    @Override
-    public void setState(LifeFormState state)
-    {
-        this.state = state;
     }
 
     public NPCType getType()
@@ -507,7 +487,7 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setHostile(boolean b)
     {
-        //nothing to do, this is player
+        logger.error(() -> "dont, its player");
     }
 
     @Override
@@ -519,7 +499,7 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setOriginalTargetMapPosition(Point targetMapPosition)
     {
-
+        logger.error(() -> "dont, its player");
     }
 
     @Override
@@ -531,7 +511,7 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setTargetMapPosition(Point targetMapPosition)
     {
-
+        logger.error(() -> "dont, its player");
     }
 
     @Override
@@ -543,7 +523,7 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setPatrolling(boolean patrolling)
     {
-
+        logger.error(() -> "dont, its player");
     }
 
     @Override
@@ -561,7 +541,7 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setSchedule(Schedule schedule)
     {
-
+        logger.error(() -> "dont, its player");
     }
 
     @Override
@@ -573,42 +553,9 @@ public class Player extends AbstractEntity implements LifeForm
     @Override
     public void setRunningAction(AbstractKeyboardAction action)
     {
-
+        logger.error(() -> "dont, its player");
     }
 
-    @Override
-    public int getHealth()
-    {
-        return 0;
-    }
-
-    @Override
-    public void setHealth(int i)
-    {
-        health = i;
-    }
-
-
-    public int getArmorClass()
-    {
-        return armorClass;
-    }
-
-    public void setArmorClass(int armorClass)
-    {
-        this.armorClass = armorClass;
-    }
-
-    public Weapon getWeapon()
-    {
-        return weapon;
-    }
-
-    public void setWeapon(Weapon weapon)
-    {
-        //logger.info("setting weapon: {}", weapon);
-        this.weapon = weapon;
-    }
 
     public boolean wieldWeapon(Weapon weapon)
     {
