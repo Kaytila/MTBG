@@ -1015,4 +1015,5 @@ History of the changes:
 2023-12-07: bugfix due to refactoring: setMapPosition needs to check for blocking if the UI is open.
             Also, controller missed a break
 2023-12-13: did some refactoring: also fixed yet another bug with old get methods
+2023-12-13: some refactoring on dialogs, introduced skills dialog which is empty. created dialogfactory
 

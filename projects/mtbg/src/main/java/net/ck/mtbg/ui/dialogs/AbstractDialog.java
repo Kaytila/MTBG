@@ -21,56 +21,21 @@ import java.awt.event.KeyEvent;
 public class AbstractDialog extends JDialog
 {
 
-    protected static final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     public static final String dispatchWindowClosingActionMapKey = "WINDOW_CLOSING";
+    protected static final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     public CancelButton cancelButton;
     public OKButton okButton;
     protected JRootPane root;
 
 
-    public AbstractDialog() {
+    public AbstractDialog()
+    {
 
     }
 
-    public static AbstractDialog createDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action) {
-        //redundant but just to be sure
-        if (UIStateMachine.isDialogOpened() == true) {
-            return null;
-        }
 
-        //redundant but just to be sure
-        if (UIStateMachine.isSelectTile() == true) {
-            return null;
-        }
-
-
-        UIStateMachine.setDialogOpened(true);
-        switch (title) {
-            case "Z-Stats": {
-                //dialog.addButtons();
-                return new StatsDialog(owner, title, modal);
-            }
-
-            case "Inventory": {
-                //dialog.addButtons();
-                return new InventoryDialog(owner, title, modal, action);
-            }
-
-            case "Equipment": {
-                return new EQDialog(owner, title, modal);
-            }
-
-            case "Spellbook": {
-                return new SpellDialog(owner, title, modal, action);
-            }
-
-            default: {
-                throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);
-            }
-        }
-    }
-
-    public AbstractDialog(Frame owner, String title, boolean modal) {
+    public AbstractDialog(Frame owner, String title, boolean modal)
+    {
         super(owner, title, true);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
@@ -82,39 +47,45 @@ public class AbstractDialog extends JDialog
         root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
     }
 
-    public static AbstractDialog createDialog(Frame owner, String title, boolean modal, Message message1) {
+    public static AbstractDialog createDialog(Frame owner, String title, boolean modal, Message message1)
+    {
         //redundant but just to be sure
-        if (UIStateMachine.isDialogOpened() == true) {
+        if (UIStateMachine.isDialogOpened() == true)
+        {
             return null;
         }
 
         //redundant but just to be sure
-        if (UIStateMachine.isSelectTile() == true) {
+        if (UIStateMachine.isSelectTile() == true)
+        {
             return null;
         }
         UIStateMachine.setDialogOpened(true);
         return new MessageDialog(owner, title, modal, message1);
     }
 
-
-    public void addButtons() {
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-        okButton.setBounds(getWidth() - 160, getHeight() - 70, 70, 30);
-        cancelButton.setBounds(getWidth() - 90, getHeight() - 70, 70, 30);
-    }
-
-    public static TalkDialog createDialog(JFrame frame, String string, boolean b, AbstractKeyboardAction currentAction, LifeForm n) {
+    public static TalkDialog createDialog(JFrame frame, String string, boolean b, AbstractKeyboardAction currentAction, LifeForm n)
+    {
         //redundant but just to be sure
-        if (UIStateMachine.isDialogOpened() == true) {
+        if (UIStateMachine.isDialogOpened() == true)
+        {
             return null;
         }
 
         //redundant but just to be sure
-        if (UIStateMachine.isSelectTile() == true) {
+        if (UIStateMachine.isSelectTile() == true)
+        {
             return null;
         }
         UIStateMachine.setDialogOpened(true);
         return new TalkDialog(frame, string, b, null, n);
+    }
+
+    public void addButtons()
+    {
+        cancelButton = new CancelButton();
+        okButton = new OKButton();
+        okButton.setBounds(getWidth() - 160, getHeight() - 70, 70, 30);
+        cancelButton.setBounds(getWidth() - 90, getHeight() - 70, 70, 30);
     }
 }

@@ -8,6 +8,7 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dialogs.AbstractDialog;
+import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.CursorUtils;
@@ -297,7 +298,7 @@ public class ControllerDelegator
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
             controller.setCurrentAction(action);
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
         }
     }
 
@@ -312,10 +313,11 @@ public class ControllerDelegator
             action.setHaveNPCAction(false);
             logger.info("spellbook as separate event type, lets not add this to the action queue");
             TimerManager.getIdleTimer().stop();
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action);
             logger.info("spellbook dialog done");
 
-            if (WindowBuilder.getController().getCurrentSpellInHand() != null) {
+            if (WindowBuilder.getController().getCurrentSpellInHand() != null)
+            {
                 logger.debug(() -> "spell is in hand, do something with it");
                 logger.debug("test");
                 UIStateMachine.setSelectTile(true);
@@ -379,7 +381,7 @@ public class ControllerDelegator
 
             logger.info("zstats as separate event type, lets not add this to the action queue");
             TimerManager.getIdleTimer().stop();
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
             logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
         }
     }
@@ -396,7 +398,7 @@ public class ControllerDelegator
             action.setHaveNPCAction(false);
             logger.info("inventory as separate event type, lets not add this to the action queue");
 
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         }
     }
@@ -442,7 +444,7 @@ public class ControllerDelegator
         {
             TimerManager.getIdleTimer().stop();
             action.setHaveNPCAction(false);
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
         }
     }
 
