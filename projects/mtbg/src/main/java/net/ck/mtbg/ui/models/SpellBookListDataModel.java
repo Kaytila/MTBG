@@ -16,18 +16,21 @@ import javax.swing.*;
 public class SpellBookListDataModel
         extends DefaultListModel<AbstractSpell>
 {
-    public SpellBookListDataModel() {
+    public SpellBookListDataModel()
+    {
         filterSpellsByLevel();
         addListDataListener(new SpellBookDataModelDataListener());
     }
 
-    private static ListModel<AbstractSpell> _createCurrentSpellsModel() {
+    private static ListModel<AbstractSpell> _createCurrentSpellsModel()
+    {
         final DefaultListModel<AbstractSpell> model = new DefaultListModel<>();
         _updateSpellsBySelectedLevel(model);
         return model;
     }
 
-    private static void _updateSpellsBySelectedLevel(DefaultListModel<AbstractSpell> model) {
+    private static void _updateSpellsBySelectedLevel(DefaultListModel<AbstractSpell> model)
+    {
         model.removeAllElements();
 
         final Player player = Game.getCurrent().getCurrentPlayer();
@@ -43,7 +46,8 @@ public class SpellBookListDataModel
     // fixme
     //  move this logic to a "controller"
     //  consider renaming -> updateSpellsBySelectedLevel
-    public void filterSpellsByLevel() {
+    public void filterSpellsByLevel()
+    {
         logger.debug(() -> "update spells");
         _updateSpellsBySelectedLevel(this);
     }

@@ -3,7 +3,7 @@ package net.ck.mtbg.backend.state;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.MessageTypes;
-import net.ck.mtbg.ui.dialogs.AbstractDialog;
+import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.ui.WindowBuilder;
 
@@ -26,7 +26,7 @@ public class EnvironmentalStoryTeller
 				{
 					if (UIStateMachine.isUiOpen())
 					{
-						AbstractDialog.createDialog(WindowBuilder.getFrame(), "Message", false, tile.getMessage());
+						DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
 					}
 					logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
 				}
@@ -40,7 +40,7 @@ public class EnvironmentalStoryTeller
 					{
 						if (UIStateMachine.isUiOpen())
 						{
-							AbstractDialog.createDialog(WindowBuilder.getFrame(), "Message", false, tile.getMessage());
+							DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
 						}
 						logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
 						noRepeatMapTilesLeave.add(tile);
@@ -61,7 +61,7 @@ public class EnvironmentalStoryTeller
 				{
 					if (UIStateMachine.isUiOpen())
 					{
-						AbstractDialog.createDialog(WindowBuilder.getFrame(), "Message", false, tile.getMessage());
+						DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
 					}
 					logger.debug("maptile: {} : enter message: {}", tile, tile.getMessage().getDescription());
 				}
@@ -75,7 +75,7 @@ public class EnvironmentalStoryTeller
 					{
 						if (UIStateMachine.isUiOpen())
 						{
-							AbstractDialog.createDialog(WindowBuilder.getFrame(), "Message", false, tile.getMessage());
+							DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
 						}
 						logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
 						noRepeatMapTilesEnter.add(tile);

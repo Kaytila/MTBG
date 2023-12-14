@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.Inventory;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.InventoryPane;
 import net.ck.mtbg.ui.renderers.InventoryPaneListCellRenderer;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
@@ -20,19 +18,22 @@ public class ContainerDialog extends AbstractDialog
 {
 
 
-    public ContainerDialog() {
+    public ContainerDialog()
+    {
 
     }
 
     /**
      * Might be that I can reuse the full inventory dialog again
      * https://stackoverflow.com/questions/8976874/show-two-dialogs-on-top-of-each-other-using-java-swing
+     *
      * @param owner
      * @param title
      * @param modal
      * @param inventory
      */
-    public ContainerDialog(Frame owner, String title, boolean modal, Inventory inventory) {
+    public ContainerDialog(Frame owner, String title, boolean modal, Inventory inventory)
+    {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(null);
@@ -54,13 +55,7 @@ public class ContainerDialog extends AbstractDialog
         InventoryPaneListCellRenderer listCellRenderer = new InventoryPaneListCellRenderer();
         invP.setCellRenderer(listCellRenderer);
 
-
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-        okButton.setBounds(300 - 160, 300 - 70, 70, 30);
-        cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        addButtons();
         this.setVisible(true);
     }
 }

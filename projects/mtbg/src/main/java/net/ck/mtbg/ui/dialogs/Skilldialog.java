@@ -3,8 +3,6 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
@@ -43,12 +41,7 @@ public class Skilldialog extends AbstractDialog
         this.setUndecorated(true);
 
 
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-        okButton.setBounds(300 - 160, 300 - 70, 70, 30);
-        cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        addButtons();
         this.setVisible(true);
     }
 }

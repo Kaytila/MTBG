@@ -3,6 +3,8 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 
@@ -17,7 +19,7 @@ import java.awt.*;
 @Setter
 public class DialogFactory
 {
-    public static AbstractDialog createDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
+    public static AbstractDialog createDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action, Message message, LifeForm npc)
     {
         //redundant but just to be sure
         if (UIStateMachine.isDialogOpened() == true)
@@ -55,6 +57,16 @@ public class DialogFactory
             case "Spellbook":
             {
                 return new SpellDialog(owner, title, modal, action);
+            }
+
+            case "Message":
+            {
+                return new MessageDialog(owner, title, modal, message);
+            }
+
+            case "Talk":
+            {
+                return new TalkDialog(owner, title, modal, npc);
             }
 
             default:

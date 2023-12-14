@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.Message;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
@@ -18,7 +16,8 @@ public class MessageDialog extends AbstractDialog
 {
 
 
-    public MessageDialog(Frame owner, String title, boolean modal, Message message1) {
+    public MessageDialog(Frame owner, String title, boolean modal, Message message1)
+    {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(null);
@@ -35,12 +34,7 @@ public class MessageDialog extends AbstractDialog
         textField.setText(message1.getDescription());
         root.add(textField);
 
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-        okButton.setBounds(300 - 160, 300 - 70, 70, 30);
-        cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        addButtons();
         this.setVisible(true);
     }
 

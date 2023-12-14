@@ -7,7 +7,6 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIStateMachine;
@@ -119,7 +118,7 @@ public class ControllerDelegator
             controller.getCurrentAction().setHaveNPCAction(false);
             MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-            AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), tile.getLifeForm());
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), null, tile.getLifeForm());
             logger.info("talk: {}", "");
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
@@ -298,7 +297,7 @@ public class ControllerDelegator
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
             controller.setCurrentAction(action);
-            DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action, null, null);
         }
     }
 
@@ -313,7 +312,7 @@ public class ControllerDelegator
             action.setHaveNPCAction(false);
             logger.info("spellbook as separate event type, lets not add this to the action queue");
             TimerManager.getIdleTimer().stop();
-            DialogFactory.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action, null, null);
             logger.info("spellbook dialog done");
 
             if (WindowBuilder.getController().getCurrentSpellInHand() != null)
@@ -381,7 +380,7 @@ public class ControllerDelegator
 
             logger.info("zstats as separate event type, lets not add this to the action queue");
             TimerManager.getIdleTimer().stop();
-            DialogFactory.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Z-Stats", false, action, null, null);
             logger.info("stats: {}", Game.getCurrent().getCurrentPlayer().getAttributes());
         }
     }
@@ -398,7 +397,7 @@ public class ControllerDelegator
             action.setHaveNPCAction(false);
             logger.info("inventory as separate event type, lets not add this to the action queue");
 
-            DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action, null, null);
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         }
     }
@@ -444,7 +443,7 @@ public class ControllerDelegator
         {
             TimerManager.getIdleTimer().stop();
             action.setHaveNPCAction(false);
-            DialogFactory.createDialog(WindowBuilder.getFrame(), "Equipment", false, action);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Equipment", false, action, null, null);
         }
     }
 
@@ -533,7 +532,7 @@ public class ControllerDelegator
             }
             else
             {
-                AbstractDialog.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), npc);
+                DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), null, npc);
                 logger.info("talk: {}", "");
                 TimerManager.getIdleTimer().stop();
             }

@@ -1016,4 +1016,5 @@ History of the changes:
             Also, controller missed a break
 2023-12-13: did some refactoring: also fixed yet another bug with old get methods
 2023-12-13: some refactoring on dialogs, introduced skills dialog which is empty. created dialogfactory
+2023-12-14: small refactoring to move buttons to AbstractDialog. Finally updated DialogFactory for all dialogs.
 

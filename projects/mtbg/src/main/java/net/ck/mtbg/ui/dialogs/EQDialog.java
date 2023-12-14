@@ -6,8 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.WeaponTypes;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.EQPanel;
 import net.ck.mtbg.ui.components.InventoryImagePanel;
 import net.ck.mtbg.ui.components.WeaponPanel;
@@ -27,7 +25,8 @@ public class EQDialog extends AbstractDialog
 {
 
 
-    public EQDialog(Frame owner, String title, boolean modal) {
+    public EQDialog(Frame owner, String title, boolean modal)
+    {
         setTitle(title);
         this.setBounds(0, 0, GameConfiguration.dialogWidth, GameConfiguration.dialogHeight);
         this.setLayout(null);
@@ -39,13 +38,7 @@ public class EQDialog extends AbstractDialog
         root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
         root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
         this.setUndecorated(true);
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-
-        okButton.setBounds(GameConfiguration.dialogWidth - 160, GameConfiguration.dialogHeight - 70, 70, 30);
-        cancelButton.setBounds(GameConfiguration.dialogWidth - 90, GameConfiguration.dialogHeight - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        addButtons();
 
         int left = 0;
         int right = 0;
@@ -55,7 +48,7 @@ public class EQDialog extends AbstractDialog
          * Inventory Image Panel
          */
         InventoryImagePanel inventoryImagePanel = new InventoryImagePanel();
-        inventoryImagePanel.setBounds(((this.getWidth() / 2) -(ImageUtils.getInventoryImage().getWidth() / 2)) ,GameConfiguration.elipseSize, ImageUtils.getInventoryImage().getWidth(), ImageUtils.getInventoryImage().getHeight());
+        inventoryImagePanel.setBounds(((this.getWidth() / 2) - (ImageUtils.getInventoryImage().getWidth() / 2)), GameConfiguration.elipseSize, ImageUtils.getInventoryImage().getWidth(), ImageUtils.getInventoryImage().getHeight());
         inventoryImagePanel.setVisible(true);
         this.add(inventoryImagePanel);
 
@@ -64,7 +57,7 @@ public class EQDialog extends AbstractDialog
          */
         //top side
         EQPanel headPanel = new EQPanel();
-        headPanel.setBounds(((GameConfiguration.dialogWidth /2) - GameConfiguration.elipseSize), 0, GameConfiguration.elipseSize, GameConfiguration.elipseSize);
+        headPanel.setBounds(((GameConfiguration.dialogWidth / 2) - GameConfiguration.elipseSize), 0, GameConfiguration.elipseSize, GameConfiguration.elipseSize);
         headPanel.setArmorPosition(ArmorPositions.HEAD);
         headPanel.setToolTipText(headPanel.getArmorPosition().toString());
         //we do mousemotionlistener in the constructor because lazy.
@@ -102,7 +95,7 @@ public class EQDialog extends AbstractDialog
         left++;
 
         EQPanel fingerPanel = new EQPanel();
-        fingerPanel.setBounds(0, (0 +  GameConfiguration.elipseSize + (left * spacer)), GameConfiguration.elipseSize, GameConfiguration.elipseSize);
+        fingerPanel.setBounds(0, (0 + GameConfiguration.elipseSize + (left * spacer)), GameConfiguration.elipseSize, GameConfiguration.elipseSize);
         fingerPanel.setArmorPosition(ArmorPositions.FINGER);
         fingerPanel.setToolTipText(fingerPanel.getArmorPosition().toString());
         fingerPanel.addMouseListener(new EQPanelMouseListener(fingerPanel));
@@ -155,7 +148,7 @@ public class EQDialog extends AbstractDialog
 
         //bottom middle
         EQPanel feetPanel = new EQPanel();
-        feetPanel.setBounds(((GameConfiguration.dialogWidth /2) - 25), GameConfiguration.dialogHeight - (70 + GameConfiguration.elipseSize), GameConfiguration.elipseSize, GameConfiguration.elipseSize);
+        feetPanel.setBounds(((GameConfiguration.dialogWidth / 2) - 25), GameConfiguration.dialogHeight - (70 + GameConfiguration.elipseSize), GameConfiguration.elipseSize, GameConfiguration.elipseSize);
         feetPanel.setArmorPosition(ArmorPositions.FEET);
         feetPanel.setToolTipText(feetPanel.getArmorPosition().toString());
         feetPanel.addMouseListener(new EQPanelMouseListener(feetPanel));

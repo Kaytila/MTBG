@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.InventoryPane;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
 import net.ck.mtbg.ui.renderers.InventoryPaneListCellRenderer;
@@ -22,7 +20,8 @@ public class InventoryDialog extends AbstractDialog
 {
 
 
-    public InventoryDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action) {
+    public InventoryDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
+    {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(null);
@@ -47,20 +46,17 @@ public class InventoryDialog extends AbstractDialog
         invP.setCellRenderer(listCellRenderer);
 
 
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-        okButton.setBounds(300 - 160, 300 - 70, 70, 30);
-        cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        addButtons();
         this.setVisible(true);
     }
 
-    public InventoryDialog() {
+    public InventoryDialog()
+    {
     }
 
 
-    public void paintBorder(Graphics g) {
+    public void paintBorder(Graphics g)
+    {
 
     }
 

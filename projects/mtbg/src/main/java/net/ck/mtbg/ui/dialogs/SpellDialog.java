@@ -3,8 +3,6 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.SpellbookPane;
 import net.ck.mtbg.ui.listeners.LeftSpellBookPagePanelMouseListener;
 import net.ck.mtbg.ui.listeners.RightSpellBookPageMouseListener;
@@ -19,9 +17,11 @@ import java.awt.*;
 @Log4j2
 @Getter
 @Setter
-public class SpellDialog extends AbstractDialog {
+public class SpellDialog extends AbstractDialog
+{
 
-    public SpellDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action) {
+    public SpellDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
+    {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(new GridLayout(1, 0));
@@ -58,24 +58,22 @@ public class SpellDialog extends AbstractDialog {
         spellbookPane.setCellRenderer(listCellRenderer);
         panel.add(spellbookPane);
 
-        cancelButton = new CancelButton();
-        okButton = new OKButton();
-        okButton.setBounds(300 - 160, 300 - 70, 70, 30);
-        cancelButton.setBounds(300 - 90, 300 - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        addButtons();
         this.setVisible(true);
     }
 
-    private void printDebugData(JTable table) {
+    private void printDebugData(JTable table)
+    {
         int numRows = table.getRowCount();
         int numCols = table.getColumnCount();
         javax.swing.table.TableModel model = table.getModel();
 
         System.out.println("Value of data: ");
-        for (int i = 0; i < numRows; i++) {
+        for (int i = 0; i < numRows; i++)
+        {
             System.out.print("    row " + i + ":");
-            for (int j = 0; j < numCols; j++) {
+            for (int j = 0; j < numCols; j++)
+            {
                 System.out.print("  " + model.getValueAt(i, j));
             }
             System.out.println();
