@@ -13,6 +13,7 @@ import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.attributes.Attributes;
+import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
@@ -55,6 +56,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      * the position on the map, filled for NPC and Player, not filled for World
      */
     protected Point mapPosition;
+
+    /**
+     * which weapon does entity wield?
+     */
     protected Weapon weapon;
     /**
      * how much health does the entity have?
@@ -64,6 +69,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      * armor class - we just add ac on top of each other, no body parts and so on
      */
     protected int armorClass;
+
     /**
      * state of the PC/NPC - alive or dead or any other really.
      */
@@ -78,9 +84,13 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      */
     private Point UIPosition;
     /**
-     * hashtable with weapon, not sure whether this is one or two slots. TBD
+     * hashtable with weapon, not sure whether this is one or two slots.
      */
     private Hashtable<Weapon, AbstractItem> holdEquipment = new Hashtable<>();
+
+    /**
+     * which shield does entity hold?
+     */
     private AbstractItem shield;
     /**
      * armor types contains all the armor positions, so this is the way to go.
@@ -94,26 +104,47 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      * each Abstract Entity has attributes
      */
     private Attributes attributes;
+
     /**
      * is the entity a light source
      */
     private boolean lightSource;
+
     /**
      * how far does the light range go
      */
     private int lightRange;
+
     /**
      * what level does the entity have?
      */
     private int level;
 
+    /**
+     * what is the index of the  current image in the list
+     */
     private int currImage;
 
+    /**
+     * what actions does the entity have in the queque?
+     */
     private CommandQueue queuedActions;
 
+    /**
+     * what spells does the entity know?
+     */
     private CopyOnWriteArrayList<AbstractSpell> spells;
 
+    /**
+     * what npctype is the entity?
+     */
     private NPCType type;
+
+    /**
+     * what skills does the entity know?
+     */
+    private CopyOnWriteArrayList<AbstractSkill> skills;
+
 
     /**
      * who is the victim of the hostile npc?
@@ -124,7 +155,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public AbstractEntity()
     {
-        spells = new CopyOnWriteArrayList<AbstractSpell>();
+        spells = new CopyOnWriteArrayList<>();
+        skills = new CopyOnWriteArrayList<>();
         inventory = new Inventory();
         attributes = new Attributes();
 

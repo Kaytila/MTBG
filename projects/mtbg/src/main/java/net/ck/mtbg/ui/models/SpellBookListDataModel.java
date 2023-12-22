@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.ui.components.SpellBookDataModelDataListener;
+import net.ck.mtbg.ui.listeners.SpellBookDataModelDataListener;
 
 import javax.swing.*;
 

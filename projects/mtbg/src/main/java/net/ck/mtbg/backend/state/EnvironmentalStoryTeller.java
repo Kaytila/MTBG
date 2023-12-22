@@ -14,76 +14,76 @@ public class EnvironmentalStoryTeller
 {
 
     private static ArrayList<MapTile> noRepeatMapTilesLeave = new ArrayList<>();
-	private static ArrayList<MapTile> noRepeatMapTilesEnter = new ArrayList<>();
+    private static ArrayList<MapTile> noRepeatMapTilesEnter = new ArrayList<>();
 
-	public static void tellStoryLeave(MapTile tile)
-	{
-		if (tile.getMessage() != null)
-		{
-			if (tile.getMessage().getMessageType().equals(MessageTypes.LEAVE))
-			{
-				if (tile.getMessage().isRepeat())
-				{
-					if (UIStateMachine.isUiOpen())
-					{
-						DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-					}
-					logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
-				}
-				else
-				{
-					if (noRepeatMapTilesLeave.contains(tile))
-					{
-						logger.debug("maptile: {}: dont repeat message", tile);
-					}
-					else
-					{
-						if (UIStateMachine.isUiOpen())
-						{
-							DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-						}
-						logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
-						noRepeatMapTilesLeave.add(tile);
-					}
-				}
-			}
-		}
-	}
+    public static void tellStoryLeave(MapTile tile)
+    {
+        if (tile.getMessage() != null)
+        {
+            if (tile.getMessage().getMessageType().equals(MessageTypes.LEAVE))
+            {
+                if (tile.getMessage().isRepeat())
+                {
+                    if (UIStateMachine.isUiOpen())
+                    {
+                        DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
+                    }
+                    logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
+                }
+                else
+                {
+                    if (noRepeatMapTilesLeave.contains(tile))
+                    {
+                        logger.debug("maptile: {}: dont repeat message", tile);
+                    }
+                    else
+                    {
+                        if (UIStateMachine.isUiOpen())
+                        {
+                            DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
+                        }
+                        logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
+                        noRepeatMapTilesLeave.add(tile);
+                    }
+                }
+            }
+        }
+    }
 
 
-	public static void tellStoryEnter(MapTile tile)
-	{
-		if (tile.getMessage() != null)
-		{
-			if (tile.getMessage().getMessageType().equals(MessageTypes.ENTER))
-			{
-				if (tile.getMessage().isRepeat())
-				{
-					if (UIStateMachine.isUiOpen())
-					{
-						DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-					}
-					logger.debug("maptile: {} : enter message: {}", tile, tile.getMessage().getDescription());
-				}
-				else
-				{
-					if (noRepeatMapTilesEnter.contains(tile))
-					{
-						logger.debug("maptile: {}: dont repeat message", tile);
-					}
-					else
-					{
-						if (UIStateMachine.isUiOpen())
-						{
-							DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-						}
-						logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
-						noRepeatMapTilesEnter.add(tile);
-					}
-				}
-			}
-		}
-	}
+    public static void tellStoryEnter(MapTile tile)
+    {
+        if (tile.getMessage() != null)
+        {
+            if (tile.getMessage().getMessageType().equals(MessageTypes.ENTER))
+            {
+                if (tile.getMessage().isRepeat())
+                {
+                    if (UIStateMachine.isUiOpen())
+                    {
+                        DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
+                    }
+                    logger.debug("maptile: {} : enter message: {}", tile, tile.getMessage().getDescription());
+                }
+                else
+                {
+                    if (noRepeatMapTilesEnter.contains(tile))
+                    {
+                        logger.debug("maptile: {}: dont repeat message", tile);
+                    }
+                    else
+                    {
+                        if (UIStateMachine.isUiOpen())
+                        {
+                            DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
+                        }
+                        logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
+                        noRepeatMapTilesEnter.add(tile);
+                    }
+                }
+            }
+        }
+    }
 }
 
 

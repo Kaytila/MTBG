@@ -1017,4 +1017,8 @@ History of the changes:
 2023-12-13: did some refactoring: also fixed yet another bug with old get methods
 2023-12-13: some refactoring on dialogs, introduced skills dialog which is empty. created dialogfactory
 2023-12-14: small refactoring to move buttons to AbstractDialog. Finally updated DialogFactory for all dialogs.
+2023-12-14: started working on skilltree - will just be a standard tree for now - not sure whether the underlying UI
+            can be changed or should be changed.
+2023-12-22: SkillTree easy first version is working. Still broken and many features missing (selection for instance),
+            but at least showing data. Damned Interface implementation.
 

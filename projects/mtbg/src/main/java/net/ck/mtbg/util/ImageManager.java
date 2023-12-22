@@ -1,72 +1,55 @@
 package net.ck.mtbg.util;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
+import net.ck.mtbg.backend.state.SkillManager;
 import net.ck.mtbg.backend.state.SpellManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Hashtable;
 
+@Log4j2
+@Getter
+@Setter
 public class ImageManager
 {
-    private static final Logger logger = LogManager.getLogger(ImageManager.class);
     /**
      * this contains the animation frames per TYPE: WARRIOR, PLAYER, BEGGAR ...
      */
-    //
+    @Getter
+    @Setter
     private static Hashtable<NPCType, BufferedImage[]> lifeformImages = new Hashtable<>(NPCType.values().length);
     /**
      * this contains the images like hit miss, bloodstain, need to keep a list somewhere
      * or rather change the helpers in imageutils accordingly.
      */
+    @Getter
+    @Setter
     private static Hashtable<ActionStates, BufferedImage> additionalImages = new Hashtable<>(ActionStates.values().length);
 
-
+    @Getter
+    @Setter
     private static Hashtable<ActionStates, Integer> actionImages = new Hashtable<>(ActionStates.values().length);
 
+    @Getter
+    @Setter
     private static Hashtable<Integer, BufferedImage> spellMenuImages = new Hashtable<>(SpellManager.getSpellList().size());
 
-    public static Hashtable<Integer, BufferedImage> getSpellMenuImages()
-    {
-        return spellMenuImages;
-    }
+    @Getter
+    @Setter
+    private static Hashtable<Integer, BufferedImage> skillMenuImages = new Hashtable<>(SkillManager.getSkillList().size());
 
-    public static void setSpellMenuImages(Hashtable<Integer, BufferedImage> spellMenuImages)
-    {
-        ImageManager.spellMenuImages = spellMenuImages;
-    }
-
-
-    public static Hashtable<ActionStates, BufferedImage> getAdditionalImages()
-    {
-        return additionalImages;
-    }
-
-
+    @Getter
+    @Setter
     private static Hashtable<AttributeTypes, BufferedImage> attributeImages = new Hashtable<>(AttributeTypes.values().length);
-
-
-    public static void setAdditionalImages(Hashtable<ActionStates, BufferedImage> additionalImages)
-    {
-        ImageManager.additionalImages = additionalImages;
-    }
-
-    public static Hashtable<NPCType, BufferedImage[]> getLifeformImages()
-    {
-        return lifeformImages;
-    }
-
-    public static void setLifeformImages(Hashtable<NPCType, BufferedImage[]> lifeformImages)
-    {
-        ImageManager.lifeformImages = lifeformImages;
-    }
 
 
     public static void initializeAttributeImages()
@@ -178,29 +161,9 @@ public class ImageManager
         }
     }
 
-
-    public static Hashtable<ActionStates, Integer> getActionImages()
-    {
-        return actionImages;
-    }
-
-    public static void setActionImages(Hashtable<ActionStates, Integer> actionImages)
-    {
-        ImageManager.actionImages = actionImages;
-    }
-
     public static Integer getActionImage(ActionStates state)
     {
         return getActionImages().get(state);
     }
 
-    public static Hashtable<AttributeTypes, BufferedImage> getAttributeImages()
-    {
-        return attributeImages;
-    }
-
-    public static void setAttributeImages(Hashtable<AttributeTypes, BufferedImage> attributeImages)
-    {
-        ImageManager.attributeImages = attributeImages;
-    }
 }

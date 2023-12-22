@@ -1,10 +1,52 @@
 package net.ck.mtbg.ui.components;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.ui.dialogs.Skilldialog;
+import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 
-public class SkillTree
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.*;
+
+@Log4j2
+@Getter
+@Setter
+public class SkillTree extends JTree
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    DefaultMutableTreeNode top = new DefaultMutableTreeNode("Skills");
+
+    public SkillTree(Frame owner, Skilldialog skilldialog, AbstractKeyboardAction action)
+    {
+        super();
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.setVisible(true);
+        this.setFont(GameConfiguration.font);
+        this.requestFocus();
+        this.setVisibleRowCount(-1);
+        setBounds(20, 40, 260, 100);
+    }
+
+    private void createNodes(DefaultMutableTreeNode top)
+    {
+        DefaultMutableTreeNode category;
+        DefaultMutableTreeNode book;
+
+        category = new DefaultMutableTreeNode("Books for Java Programmers");
+        top.add(category);
+
+        //original Tutorial
+        book = new DefaultMutableTreeNode(Game.getCurrent().getCurrentPlayer().getSkills().get(0));
+        category.add(book);
+
+        book = new DefaultMutableTreeNode(Game.getCurrent().getCurrentPlayer().getSkills().get(1));
+        category.add(book);
+
+        book = new DefaultMutableTreeNode(Game.getCurrent().getCurrentPlayer().getSkills().get(2));
+        category.add(book);
+    }
+
 }

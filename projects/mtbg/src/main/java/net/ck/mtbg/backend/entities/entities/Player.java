@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
+import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
@@ -13,6 +14,7 @@ import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
 import net.ck.mtbg.backend.state.EnvironmentalStoryTeller;
 import net.ck.mtbg.backend.state.ItemManager;
+import net.ck.mtbg.backend.state.SkillManager;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;
@@ -120,6 +122,42 @@ public class Player extends AbstractEntity implements LifeForm
 //        getSpells().add(spell6);
 //        getSpells().add(spell7);
         getSpells().add(spell8);
+
+        AbstractSkill skill0 = new AbstractSkill();
+        skill0.setName("Root");
+        skill0.setLevel(0);
+        skill0.setId(0);
+
+
+        AbstractSkill skill1 = new AbstractSkill();
+        skill1.setName("Bash");
+        skill1.setLevel(1);
+        skill1.setId(1);
+
+        AbstractSkill skill2 = new AbstractSkill();
+        skill2.setName("Block");
+        skill2.setLevel(1);
+        skill2.setId(2);
+
+        AbstractSkill skill3 = new AbstractSkill();
+        skill2.setName("Kick");
+        skill2.setLevel(2);
+        skill2.setId(3);
+
+        getSkills().add(skill0);
+        getSkills().add(skill1);
+        getSkills().add(skill2);
+        getSkills().add(skill3);
+
+
+        Hashtable<Integer, AbstractSkill> skillList = new Hashtable<>();
+
+        skillList.put(0, skill0);
+        skillList.put(1, skill1);
+        skillList.put(2, skill2);
+        skillList.put(3, skill3);
+
+        SkillManager.setSkillList(skillList);
     }
 
 

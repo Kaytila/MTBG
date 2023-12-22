@@ -139,6 +139,8 @@ public class JGridCanvas extends JComponent
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, 0), "spellbook");
         this.getActionMap().put("spellbook", new SpellbookAction());
 
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), "skills");
+        this.getActionMap().put("skills", new SkillTreeAction());
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK), "options");
         this.getActionMap().put("options", new OptionsAction());
@@ -442,8 +444,8 @@ public class JGridCanvas extends JComponent
             if (tile.getFurniture() != null)
             {
                 //logger.info("furniture");
-                FurnitureItem item           = tile.getFurniture();
-                Point         screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+                FurnitureItem item = tile.getFurniture();
+                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                 BufferedImage img = item.getItemImage();
                 if (img == null)
                 {
@@ -479,8 +481,8 @@ public class JGridCanvas extends JComponent
                             {
                                 g.drawImage(ImageUtils.brightenUpImage(t.getInventory().get(0).getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
                             }
-                            LifeForm n      = null;
-                            boolean  filled = false;
+                            LifeForm n = null;
+                            boolean filled = false;
                             for (LifeForm npc : Game.getCurrent().getCurrentMap().getLifeForms())
                             {
                                 if (t.getMapPosition().equals(npc.getMapPosition()))

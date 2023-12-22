@@ -795,6 +795,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 break;
             }
 
+            case SKILLTREE:
+            {
+                ControllerDelegator.handleKeyBoardActionSKILLTREE(this, action);
+                break;
+            }
+
+
             case DROP:
             {
                 ControllerDelegator.handleKeyBoardActionDROP(this, action);

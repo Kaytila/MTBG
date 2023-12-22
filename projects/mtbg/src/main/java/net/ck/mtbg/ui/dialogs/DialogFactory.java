@@ -69,6 +69,11 @@ public class DialogFactory
                 return new TalkDialog(owner, title, modal, npc);
             }
 
+            case "Skilltree":
+            {
+                return new Skilldialog(owner, title, modal, action);
+            }
+
             default:
             {
                 throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);

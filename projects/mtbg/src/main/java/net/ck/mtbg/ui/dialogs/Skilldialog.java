@@ -3,11 +3,18 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.ui.components.SkillTree;
+import net.ck.mtbg.ui.listeners.SkillTreeExpansionListener;
+import net.ck.mtbg.ui.listeners.SkillTreeSelectionListener;
+import net.ck.mtbg.ui.listeners.SkillTreeWillExpandListener;
 import net.ck.mtbg.ui.listeners.WindowClosingListener;
+import net.ck.mtbg.ui.models.SkillTreeDataModel;
+import net.ck.mtbg.ui.renderers.SkillTreeTreeItemRenderer;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 
 @Log4j2
@@ -40,7 +47,21 @@ public class Skilldialog extends AbstractDialog
         this.setContentPane(panel);
         this.setUndecorated(true);
 
+        final SkillTree skillTree = new SkillTree(owner, this, action);
+        final SkillTreeDataModel skillTreeDataModel = new SkillTreeDataModel();
 
+
+        skillTree.setEditable(false);
+        skillTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        skillTree.setShowsRootHandles(true);
+
+        skillTree.setModel(skillTreeDataModel);
+        skillTree.setCellRenderer(new SkillTreeTreeItemRenderer());
+        skillTree.addTreeExpansionListener(new SkillTreeExpansionListener());
+        skillTree.addTreeSelectionListener(new SkillTreeSelectionListener());
+        skillTree.addTreeWillExpandListener(new SkillTreeWillExpandListener());
+        skillTree.setVisible(true);
+        panel.add(skillTree);
         addButtons();
         this.setVisible(true);
     }

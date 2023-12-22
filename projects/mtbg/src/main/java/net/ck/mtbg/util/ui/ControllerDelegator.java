@@ -579,4 +579,37 @@ public class ControllerDelegator
         controller.getCurrentAction().setCurrentSpell(controller.getCurrentSpellInHand());
         logger.debug("calling click event");
     }
+
+    public static void handleKeyBoardActionSKILLTREE(Controller controller, AbstractKeyboardAction action)
+    {
+        if (UIStateMachine.isSelectTile() == true)
+        {
+            logger.info("handleKeyBoardActionSKILLTREE - select tile is active, dont do anything");
+        }
+        else
+        {
+            action.setHaveNPCAction(false);
+            logger.info("skilltree as separate event type, lets not add this to the action queue");
+            TimerManager.getIdleTimer().stop();
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Skilltree", true, action, null, null);
+            logger.info("skilltree dialog done");
+
+            if (WindowBuilder.getController().getCurrentSpellInHand() != null)
+            {
+                logger.debug(() -> "spell is in hand, do something with it");
+                logger.debug("test");
+                UIStateMachine.setSelectTile(true);
+                UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+                WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+
+                CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+                controller.setCurrentAction(action);
+            }
+            else
+            {
+                logger.debug("no skill selected, but then again, should it?");
+            }
+        }
+
+    }
 }
