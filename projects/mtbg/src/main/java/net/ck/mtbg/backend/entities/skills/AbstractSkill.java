@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.entities.skills;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.util.ImageManager;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -67,7 +68,7 @@ public class AbstractSkill extends DefaultMutableTreeNode
                 "name='" + name + '\'' +
                 ", adjecient=" + adjecient +
                 ", immediately=" + immediately +
-                ", menuImage=" + menuImage +
+                ", menuImage=" + getMenuImage() +
                 ", costs=" + costs +
                 ", actionImage=" + actionImage +
                 ", id=" + id +
@@ -75,4 +76,10 @@ public class AbstractSkill extends DefaultMutableTreeNode
                 ", parent=" + parent +
                 '}';
     }
+
+    public BufferedImage getMenuImage()
+    {
+        return ImageManager.getSkillMenuImages().get(id);
+    }
 }
+

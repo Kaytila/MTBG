@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<skillTreeModel>
+<skills>
     <skill>
         <id>1</id>
-        <name>bash</name>
-        <menuImage>bash</menuImage>
+        <name>Bash</name>
+        <menuImage>Bash</menuImage>
         <level>1</level>
     </skill>
     <skill>
         <id>2</id>
         <name>Block</name>
-        <menuImage>heal</menuImage>
+        <menuImage>Blocl</menuImage>
         <level>1</level>
     </skill>
     <skill>
         <id>3</id>
         <name>Kick</name>
-        <menuImage>kick</menuImage>
+        <menuImage>Kick</menuImage>
         <level>2</level>
     </skill>
-</skillTreeModel>
+</skills>

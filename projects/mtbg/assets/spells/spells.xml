@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<spellBookListModel>
+<spells>
     <spell>
         <id>1</id>
         <name>fireball</name>
@@ -28,4 +28,4 @@
         <actionImage>false</actionImage>
         <level>3</level>
     </spell>
-</spellBookListModel>
+</spells>

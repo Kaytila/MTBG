@@ -1021,4 +1021,5 @@ History of the changes:
             can be changed or should be changed.
 2023-12-22: SkillTree easy first version is working. Still broken and many features missing (selection for instance),
             but at least showing data. Damned Interface implementation.
+2023-12-24: Skills now have images, SkillTree shows images, definitely too big images.
 

@@ -12,6 +12,7 @@ import net.ck.mtbg.animation.missile.MissileTimer;
 import net.ck.mtbg.animation.missile.MissileUtilTimer;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.Turn;
@@ -464,6 +465,30 @@ public class GameUtils
         listSpells();
     }
 
+    public static void initializeSkills()
+    {
+        logger.info("start: initialize skills");
+
+        File folder = new File(GameConfiguration.skillsFileRootPath);
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+        for (File file : listOfFiles)
+        {
+            if (file.isFile())
+            {
+                if (file.getName().equalsIgnoreCase("skills.xml"))
+                {
+                    logger.info("parsing skills: {}", GameConfiguration.skillsFileRootPath + File.separator + file.getName());
+                    SkillManager.setSkillList(RunXMLParser.parseSkills(GameConfiguration.skillsFileRootPath + File.separator + file.getName()));
+                }
+            }
+        }
+        logger.info("end: initialize skills");
+
+        listSkills();
+    }
+
 
     private static void listSpells()
     {
@@ -472,6 +497,15 @@ public class GameUtils
             logger.info("spellid: {}, spell name: {}, spell level:{}", s.getId(), s.getName(), s.getLevel());
         }
     }
+
+    private static void listSkills()
+    {
+        for (AbstractSkill s : SkillManager.getSkillList().values())
+        {
+            logger.info("skillid: {}, skill name: {}, skill level:{}", s.getId(), s.getName(), s.getLevel());
+        }
+    }
+
 
     private static void listFurniture()
     {

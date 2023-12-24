@@ -13,8 +13,7 @@ import javax.swing.*;
 @Getter
 @Setter
 @Log4j2
-public class SpellBookListDataModel
-        extends DefaultListModel<AbstractSpell>
+public class SpellBookListDataModel extends DefaultListModel<AbstractSpell>
 {
     public SpellBookListDataModel()
     {

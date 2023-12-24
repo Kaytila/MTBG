@@ -3,7 +3,7 @@ package net.ck.mtbg.util.xml;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.entities.skills.AbstractSpell;
+import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -12,14 +12,15 @@ import java.util.Hashtable;
 @Log4j2
 @Getter
 @Setter
-public class SpellXMLReader extends DefaultHandler
+public class SkillXMLReader extends DefaultHandler
 {
     private StringBuilder data = null;
+
     private boolean sp;
     private boolean name;
     private boolean id;
-    private Hashtable<Integer, AbstractSpell> spellList;
-    private AbstractSpell spell;
+    private Hashtable<Integer, AbstractSkill> skillList;
+    private AbstractSkill skill;
 
     private boolean lvl;
 
@@ -27,7 +28,7 @@ public class SpellXMLReader extends DefaultHandler
     @Override
     public void startDocument()
     {
-        spellList = new Hashtable<>();
+        skillList = new Hashtable<>();
     }
 
     @Override
@@ -39,14 +40,14 @@ public class SpellXMLReader extends DefaultHandler
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
     {
-        if (qName.equalsIgnoreCase("spells"))
+        if (qName.equalsIgnoreCase("skills"))
         {
 
         }
-        else if (qName.equalsIgnoreCase("spell"))
+        else if (qName.equalsIgnoreCase("skill"))
         {
             sp = true;
-            spell = new AbstractSpell();
+            skill = new AbstractSkill();
         }
 
         else if (qName.equalsIgnoreCase("id"))
@@ -69,32 +70,32 @@ public class SpellXMLReader extends DefaultHandler
     @Override
     public void endElement(String uri, String localName, String qName)
     {
-        if (qName.equalsIgnoreCase("spells"))
+        if (qName.equalsIgnoreCase("skills"))
         {
 
         }
-        else if (qName.equalsIgnoreCase("spell"))
+        else if (qName.equalsIgnoreCase("skill"))
         {
             sp = false;
-            spellList.put(spell.getId(), spell);
+            skillList.put(skill.getId(), skill);
         }
 
         else if (qName.equalsIgnoreCase("id"))
         {
             id = false;
-            spell.setId(Integer.parseInt(data.toString()));
+            skill.setId(Integer.parseInt(data.toString()));
         }
 
         else if (qName.equalsIgnoreCase("name"))
         {
             name = false;
-            spell.setName(data.toString());
+            skill.setName(data.toString());
         }
 
         else if (qName.equalsIgnoreCase("level"))
         {
             lvl = false;
-            spell.setLevel(Integer.parseInt(data.toString()));
+            skill.setLevel(Integer.parseInt(data.toString()));
         }
     }
 

@@ -7,6 +7,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.entities.NPCType;
+import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.state.SkillManager;
 import net.ck.mtbg.backend.state.SpellManager;
@@ -155,7 +156,7 @@ public class ImageManager
                 case POISON:
                     break;
                 default:
-                    logger.info("interesting");
+                    logger.error("interesting");
                     break;
             }
         }
@@ -166,4 +167,15 @@ public class ImageManager
         return getActionImages().get(state);
     }
 
+
+    public static void loadSkillMenuImages()
+    {
+
+        for (AbstractSkill skill : SkillManager.getSkillList().values())
+        {
+            logger.info("loading menu image for skill: {}", skill.getName());
+            BufferedImage image = ImageUtils.makeImageTransparent(GameConfiguration.skillMenuImages + skill.getName() + ".png");
+            getSkillMenuImages().put(skill.getId(), image);
+        }
+    }
 }

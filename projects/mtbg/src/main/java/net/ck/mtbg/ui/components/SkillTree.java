@@ -26,6 +26,8 @@ public class SkillTree extends JTree
         this.setVisible(true);
         this.setFont(GameConfiguration.font);
         this.requestFocus();
+        this.setRootVisible(false);
+        this.expandRow(0);
         this.setVisibleRowCount(-1);
         setBounds(20, 40, 260, 100);
     }

@@ -21,6 +21,17 @@ public class SkillTreeNode extends DefaultMutableTreeNode
     private String name;
     private BufferedImage menuImage;
 
+    @Override
+    public String toString()
+    {
+        return "SkillTreeNode{" +
+                "parent=" + parent +
+                ", children=" + children +
+                ", name='" + name + '\'' +
+                ", menuImage=" + menuImage +
+                '}';
+    }
+
    /* @Override
     public TreeNode getChildAt(int childIndex)
     {

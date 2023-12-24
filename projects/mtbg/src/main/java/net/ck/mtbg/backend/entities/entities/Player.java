@@ -14,7 +14,6 @@ import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
 import net.ck.mtbg.backend.state.EnvironmentalStoryTeller;
 import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.backend.state.SkillManager;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;
@@ -123,12 +122,6 @@ public class Player extends AbstractEntity implements LifeForm
 //        getSpells().add(spell7);
         getSpells().add(spell8);
 
-        AbstractSkill skill0 = new AbstractSkill();
-        skill0.setName("Root");
-        skill0.setLevel(0);
-        skill0.setId(0);
-
-
         AbstractSkill skill1 = new AbstractSkill();
         skill1.setName("Bash");
         skill1.setLevel(1);
@@ -144,20 +137,9 @@ public class Player extends AbstractEntity implements LifeForm
         skill2.setLevel(2);
         skill2.setId(3);
 
-        getSkills().add(skill0);
         getSkills().add(skill1);
         getSkills().add(skill2);
         getSkills().add(skill3);
-
-
-        Hashtable<Integer, AbstractSkill> skillList = new Hashtable<>();
-
-        skillList.put(0, skill0);
-        skillList.put(1, skill1);
-        skillList.put(2, skill2);
-        skillList.put(3, skill3);
-
-        SkillManager.setSkillList(skillList);
     }
 
 

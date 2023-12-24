@@ -19,25 +19,41 @@ public class SkillTreeTreeItemRenderer extends JLabel implements TreeCellRendere
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
     {
+        JLabel label = new JLabel();
+
 
         if (value instanceof AbstractSkill)
         {
             AbstractSkill skill = (AbstractSkill) value;
+
+
+            if (selected)
+            {
+                label.setBackground(Color.BLUE);
+                label.setForeground(Color.YELLOW);
+            }
+            else
+            {
+                label.setBackground(Color.LIGHT_GRAY);
+                label.setForeground(Color.BLACK);
+            }
+
+
             if (skill.getMenuImage() != null)
             {
                 ImageIcon icon = new ImageIcon(skill.getMenuImage());
                 if (icon != null)
                 {
-                    setIcon(icon);
+                    label.setIcon(icon);
                 }
             }
-            setText(((AbstractSkill) value).getName());
+            label.setText(((AbstractSkill) value).getName());
         }
         else
         {
-            setText(((SkillTreeNode) value).getName());
+            label.setText(((SkillTreeNode) value).getName());
         }
 
-        return this;
+        return label;
     }
 }
