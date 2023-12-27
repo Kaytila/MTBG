@@ -1022,4 +1022,6 @@ History of the changes:
 2023-12-22: SkillTree easy first version is working. Still broken and many features missing (selection for instance),
             but at least showing data. Damned Interface implementation.
 2023-12-24: Skills now have images, SkillTree shows images, definitely too big images.
+2023-12-27: fixed a bug that when player comes into the game, the tile player is on is not actually blocked.
+            need to think about a "UI opened event" just like in VSE.
 

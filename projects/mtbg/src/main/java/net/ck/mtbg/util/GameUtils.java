@@ -563,6 +563,7 @@ public class GameUtils
         }
         UILense.getCurrent().identifyVisibleTilesBest();
         MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
+        Game.getCurrent().getCurrentPlayer().setMapPosition(Game.getCurrent().getCurrentPlayer().getMapPosition());
     }
 
     public static void listMaps()

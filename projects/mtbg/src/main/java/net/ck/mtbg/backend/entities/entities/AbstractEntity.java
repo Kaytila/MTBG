@@ -839,7 +839,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         this.mapPosition = position;
         if (UIStateMachine.isUiOpen())
         {
-
             Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
         }
     }
