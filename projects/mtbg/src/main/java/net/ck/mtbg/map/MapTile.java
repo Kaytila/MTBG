@@ -1,12 +1,12 @@
 package net.ck.mtbg.map;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,10 +16,11 @@ import java.io.Serializable;
  * @author Claus each individual tile, has x and y coordinates, connectors in
  * each direction and a type
  */
+@Log4j2
+@Getter
+@Setter
 public class MapTile implements Comparable<MapTile>, Serializable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     /**
      * x coordinate, not sure I need that at all
      * basically position.getX()
@@ -106,27 +107,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     private Message message;
 
-    public Message getMessage()
-    {
-        return message;
-    }
-
-    public void setMessage(Message message)
-    {
-        this.message = message;
-    }
-
-    public Point getTargetCoordinates()
-    {
-        return targetCoordinates;
-    }
-
-    public void setTargetCoordinates(Point targetCoordinates)
-    {
-        this.targetCoordinates = targetCoordinates;
-    }
-
-
     public MapTile()
     {
         super();
@@ -143,96 +123,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         setBlocked(false);
     }
 
-    public int getFinalCost()
-    {
-        return finalCost;
-    }
 
-    public void setFinalCost(int finalCost)
-    {
-        this.finalCost = finalCost;
-    }
-
-    public int getG()
-    {
-        return g;
-    }
-
-    public void setG(int g)
-    {
-        this.g = g;
-    }
-
-    public int getH()
-    {
-        return h;
-    }
-
-    public void setH(int h)
-    {
-        this.h = h;
-    }
-
-    public Inventory getInventory()
-    {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory)
-    {
-        this.inventory = inventory;
-    }
-
-    public String getTargetMap()
-    {
-        return targetMap;
-    }
-
-    public void setTargetMap(String string)
-    {
-        this.targetMap = string;
-    }
-
-    public int getTargetID()
-    {
-        return targetID;
-    }
-
-    public void setTargetID(int targetID)
-    {
-        this.targetID = targetID;
-    }
-
-    public int getId()
-    {
-        return id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-
-    public Point getMapPosition()
-    {
-        return this.mapPosition;
-    }
-
-    public void setMapPosition(Point position)
-    {
-        this.mapPosition = position;
-    }
-
-    public TileTypes getType()
-    {
-        return type;
-    }
-
-    public void setType(TileTypes type)
-    {
-        this.type = type;
-    }
 
     public int getX()
     {
@@ -246,11 +137,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         }
     }
 
-    public void setX(int x)
-    {
-        this.x = x;
-    }
-
     public int getY()
     {
         if (getMapPosition() != null)
@@ -262,38 +148,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
             return y;
         }
     }
-
-    public void setY(int y)
-    {
-        this.y = y;
-    }
-	
-	
-	/*public String toString()
-	{
-		int northID = -1;
-		int eastID = -1;
-		int southID = -1;
-		int westID = -1;
-		if (getNorth() != null)
-		{
-			northID = getNorth().getId(); 
-		}
-		if (getEast() != null)
-		{
-			 eastID = getEast().getId(); 
-		}
-		if (getSouth() != null)
-		{
-			 southID = getSouth().getId(); 
-		}
-		if (getWest() != null)
-		{
-			 westID = getWest().getId(); 
-		}
-		return ("id: " + getId() + ", " + "type: " + getType().name() + ", " + "x: " + getX() + ", " + "y: " + getY() + ", " + "north tile id: " + northID + ", " + "east tile id: " + eastID + ", " + "south tile id: " + southID + ", " + "west tile id: " + westID);
-	}
-*/
 
     @Override
     public String toString()
@@ -331,11 +185,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
                             true;
                     default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
                 };
-    }
-
-    public void setBlocked(boolean blocked)
-    {
-        this.blocked = blocked;
     }
 
     public boolean isBlocksLOS()
@@ -403,16 +252,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         }
     }
 
-    public void setBlocksLOS(boolean blocksLOS)
-    {
-        this.blocksLOS = blocksLOS;
-    }
-
-    public FurnitureItem getFurniture()
-    {
-        return furniture;
-    }
-
     public void setFurniture(FurnitureItem furniture)
     {
         if (furniture != null)
@@ -452,16 +291,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         return false;
     }
 
-    public MapTile getParent()
-    {
-        return parent;
-    }
-
-    public void setParent(MapTile parent)
-    {
-        this.parent = parent;
-    }
-
     private void calculateFinalCost()
     {
         //logger.info("g: {}, h: {}", g, h);
@@ -482,20 +311,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         return Integer.compare(this.finalCost, n.finalCost);
     }
 
-    public boolean isHidden()
-    {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden)
-    {
-        this.hidden = hidden;
-    }
-
-    public LifeForm getLifeForm()
-    {
-        return lifeForm;
-    }
 
     public synchronized void setLifeForm(LifeForm lifeForm)
     {
@@ -504,25 +319,5 @@ public class MapTile implements Comparable<MapTile>, Serializable
             this.setBlocked(false);
         }
         this.lifeForm = lifeForm;
-    }
-
-    public int getBrightenFactor()
-    {
-        return brightenFactor;
-    }
-
-    public void setBrightenFactor(int brightenFactor)
-    {
-        this.brightenFactor = brightenFactor;
-    }
-
-    public BufferedImage getBrightenedImage()
-    {
-        return brightenedImage;
-    }
-
-    public void setBrightenedImage(BufferedImage brightenedImage)
-    {
-        this.brightenedImage = brightenedImage;
     }
 }

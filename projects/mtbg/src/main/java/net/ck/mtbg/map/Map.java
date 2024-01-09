@@ -1,13 +1,13 @@
 package net.ck.mtbg.map;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.GameState;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.weather.Weather;
 import net.ck.mtbg.weather.WeatherTypes;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,10 +20,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Claus
  *
  */
+@Log4j2
+@Getter
+@Setter
 public class Map extends AbstractMap
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
 	/**
 	 * is it a synchronized weather system or not?
 	 */
@@ -52,46 +53,6 @@ public class Map extends AbstractMap
 		setMissiles(new ArrayList<>());
 		lifeForms = new CopyOnWriteArrayList<>();
     }
-
-    public boolean isWrapping()
-    {
-        return wrapping;
-    }
-
-    public void setWrapping(boolean wrapping)
-    {
-        this.wrapping = wrapping;
-    }
-
-	public boolean isSyncedWeatherSystem()
-	{
-		return syncedWeatherSystem;
-	}
-
-	public void setSyncedWeatherSystem(boolean syncedWeatherSystem)
-	{
-		this.syncedWeatherSystem = syncedWeatherSystem;
-	}
-
-	public int getWeatherRandomness()
-	{
-		return weatherRandomness;
-	}
-
-	public void setWeatherRandomness(int weatherRandomness)
-	{
-		this.weatherRandomness = weatherRandomness;
-	}
-
-	public boolean isWeatherSystem()
-	{
-		return weatherSystem;
-	}
-
-	public void setWeatherSystem(boolean weatherSystem)
-	{
-		this.weatherSystem = weatherSystem;
-	}
 
 	/**
 	 * initializing the map before use - to make sure all moving parts are set properly.
@@ -147,15 +108,5 @@ public class Map extends AbstractMap
 			lifeForms.add(Game.getCurrent().getCurrentPlayer());
 		}
 		return lifeForms;
-	}
-
-	public GameState getGameState()
-	{
-		return gameState;
-	}
-
-	public void setGameState(GameState gameState)
-	{
-		this.gameState = gameState;
 	}
 }

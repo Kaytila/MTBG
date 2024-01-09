@@ -1024,4 +1024,6 @@ History of the changes:
 2023-12-24: Skills now have images, SkillTree shows images, definitely too big images.
 2023-12-27: fixed a bug that when player comes into the game, the tile player is on is not actually blocked.
             need to think about a "UI opened event" just like in VSE.
+2024-01-09: break over new year - did a bit of refactoring, removed lots of boilerplate code. removed items from map
+            there is no need for that as maptile has its own inventory.
 

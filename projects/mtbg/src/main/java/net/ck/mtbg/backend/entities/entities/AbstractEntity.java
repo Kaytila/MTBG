@@ -381,7 +381,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             else
             {
                 getInventory().add(tile.getInventory().get(tile.getInventory().getSize() - 1));
-                Game.getCurrent().getCurrentMap().getItems().remove(tile.getInventory().get(tile.getInventory().getSize() - 1));
                 tile.getInventory().remove(tile.getInventory().get(tile.getInventory().getSize() - 1));
                 return true;
             }
