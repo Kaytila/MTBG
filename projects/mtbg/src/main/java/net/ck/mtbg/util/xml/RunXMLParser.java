@@ -152,7 +152,6 @@ public class RunXMLParser
             SAXParser saxParser = saxParserFactory.newSAXParser();
             FurnitureReader handler = new FurnitureReader();
             saxParser.parse(new File(fileName), handler);
-            logger.info("fu: {}", handler.getFurnitureList());
             return handler.getFurnitureList();
         }
         catch (Exception e)

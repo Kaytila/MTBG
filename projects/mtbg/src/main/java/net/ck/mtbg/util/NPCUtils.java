@@ -1,5 +1,8 @@
 package net.ck.mtbg.util;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.NPCAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
@@ -12,23 +15,17 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.keyboard.*;
 import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
+@Getter
+@Setter
+@Log4j2
 public class NPCUtils
 {
-
-    private static final Logger logger = LogManager.getLogger(NPCUtils.class);
-
-
-
-
-
     public static boolean calculateHit(LifeForm attacker, LifeForm defender)
     {
         int baseHitChance = 50;
@@ -84,7 +81,7 @@ public class NPCUtils
 
         int defendAC = defender.getArmorClass();
 
-        return (attackStr + (rand.nextInt(high - low ) + low)) - defendAC;
+        return (attackStr + (rand.nextInt(high - low) + low)) - defendAC;
     }
 
     public static Armor calculateArmorToWear(ArmorPositions armorPosition)
@@ -129,7 +126,7 @@ public class NPCUtils
         if (sourcePoint.x < targetPoint.x)
         {
             logger.info("NPC is more to the west, move east");
-            if (!(MapUtils.lookAhead(sourcePoint.x + 1 , sourcePoint.y)))
+            if (!(MapUtils.lookAhead(sourcePoint.x + 1, sourcePoint.y)))
             {
                 logger.info("Tile to the east is free, move east");
                 return new NPCAction(new EastAction());

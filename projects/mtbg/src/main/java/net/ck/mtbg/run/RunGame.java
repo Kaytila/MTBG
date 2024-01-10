@@ -1,5 +1,8 @@
 package net.ck.mtbg.run;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.listeners.Controller;
@@ -9,11 +12,12 @@ import net.ck.mtbg.util.GameUtils;
 import net.ck.mtbg.util.ImageManager;
 import net.ck.mtbg.util.ImageUtils;
 import net.ck.mtbg.weather.WeatherTypes;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 
+@Getter
+@Setter
+@Log4j2
 public class RunGame
 {
     final static SplashScreen splash = SplashScreen.getSplashScreen();
@@ -21,11 +25,13 @@ public class RunGame
      * generate is used to create images or not. As these are already created, no need to do this
      */
     final static boolean generate = false;
-    private static final Logger logger = LogManager.getLogger(RunGame.class);
+
     /**
      * MainWindow is actually the listener and action class, the main application window is something else entirely.
      * Not sure how this is supposed to work in Swing, will need to ask someone about it
      */
+    @Getter
+    @Setter
     private static Controller window;
     private static int progress = 0;
     /**
@@ -306,16 +312,4 @@ public class RunGame
             logger.error("exception");
         }
     }
-
-
-    public static Controller getWindow()
-    {
-        return window;
-    }
-
-    public static void setWindow(Controller window)
-    {
-        RunGame.window = window;
-    }
-
 }

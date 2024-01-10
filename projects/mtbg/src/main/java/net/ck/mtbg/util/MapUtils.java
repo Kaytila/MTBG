@@ -2,6 +2,9 @@ package net.ck.mtbg.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.game.Game;
@@ -13,8 +16,6 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -36,17 +37,15 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
 
+@Log4j2
+@Getter
+@Setter
 public class MapUtils
 {
 
-    private static final Logger logger = LogManager.getLogger(MapUtils.class);
-
+    @Getter
+    @Setter
     private static final int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
-
-    public static int getMiddle()
-    {
-        return middle;
-    }
 
 
     /**
@@ -196,7 +195,8 @@ public class MapUtils
         try
         {
             Files.writeString(Paths.get(fileName), contents.toString(), StandardCharsets.UTF_8);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -497,20 +497,114 @@ public class MapUtils
                 }
                 row++;
             }
-        } catch (IOException | CsvException e)
+        }
+        catch (IOException | CsvException e)
         {
             e.printStackTrace();
         }
         try
         {
             MapUtils.writeMapToXML(ultima4Map);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
         ultima4Map.setMapTiles(mapTiles);
         return ultima4Map;
     }
+
+
+    public static Map importMapFromTXT()
+    {
+        Map map = new Map();
+        map.setName("Ultima4");
+        map.setWrapping(false);
+        map.setWeatherSystem(true);
+        map.setSyncedWeatherSystem(false);
+        map.setWeatherRandomness(10);
+        map.setSize(new Point(255, 255));
+        MapTile mapTiles[][] = new MapTile[255][255];
+        try (CSVReader reader = new CSVReader(new FileReader("maps" + File.separator + "ultima4._Clean terrain.csv")))
+        {
+            List<String[]> r = reader.readAll();
+            //r.forEach(x -> logger.info(Arrays.toString(x)));
+            int row = 0;
+            int id = 0;
+            for (String[] line : r)
+            {
+
+                for (int column = 0; column <= 255; column++)
+                {
+                    MapTile tile = new MapTile();
+                    tile.setMapPosition(new Point(column, row));
+                    tile.setX(column);
+                    tile.setY(row);
+                    tile.setId(id);
+                    tile.setTargetID(-1);
+                    tile.setTargetMap("");
+                    switch (line[column])
+                    {
+                        case "1":
+                            tile.setType(TileTypes.OCEAN);
+                            break;
+                        case "2":
+                            tile.setType(TileTypes.SHALLOWOCEAN);
+                            break;
+                        case "3":
+                            tile.setType(TileTypes.REEF);
+                            break;
+                        case "4":
+                            tile.setType(TileTypes.SWAMP);
+                            break;
+                        case "5":
+                            tile.setType(TileTypes.GRASS);
+                            break;
+                        case "6":
+                            tile.setType(TileTypes.BUSH);
+                            break;
+                        case "9":
+                            tile.setType(TileTypes.DENSEFOREST);
+                            break;
+                        case "11":
+                            tile.setType(TileTypes.HILL);
+                            break;
+                        case "12":
+                            tile.setType(TileTypes.MOUNTAIN);
+                            break;
+                        case "13":
+                            tile.setType(TileTypes.STEEPMOUNTAIN);
+                            break;
+                        case "143":
+                            tile.setType(TileTypes.LAVA);
+                            break;
+                        default:
+                            logger.info("value: {} still unknown", line[column]);
+                            break;
+                    }
+                    //logger.info("tile: {}", tile);
+                    mapTiles[column][row] = tile;
+                    id++;
+                }
+                row++;
+            }
+        }
+        catch (IOException | CsvException e)
+        {
+            e.printStackTrace();
+        }
+        try
+        {
+            MapUtils.writeMapToXML(map);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        map.setMapTiles(mapTiles);
+        return map;
+    }
+
 
     /**
      * <tile>
@@ -531,7 +625,8 @@ public class MapUtils
         try
         {
             writer = new BufferedWriter(new FileWriter(fileName));
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -574,7 +669,8 @@ public class MapUtils
         try
         {
             db = dbf.newDocumentBuilder();
-        } catch (ParserConfigurationException e)
+        }
+        catch (ParserConfigurationException e)
         {
             e.printStackTrace();
         }
@@ -583,14 +679,16 @@ public class MapUtils
         try
         {
             doc = Objects.requireNonNull(db).parse(new FileInputStream(fileName));
-        } catch (SAXException e)
+        }
+        catch (SAXException e)
         {
             e.printStackTrace();
         }
         try
         {
             prettyPrint(doc, fileName);
-        } catch (TransformerException e)
+        }
+        catch (TransformerException e)
         {
             e.printStackTrace();
         }

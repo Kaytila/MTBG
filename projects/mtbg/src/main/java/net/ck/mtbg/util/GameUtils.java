@@ -1,6 +1,9 @@
 package net.ck.mtbg.util;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.animation.background.BackgroundAnimationSystem;
 import net.ck.mtbg.animation.background.BackgroundAnimationSystemActionListener;
 import net.ck.mtbg.animation.background.BackgroundAnimationSystemTimer;
@@ -40,18 +43,16 @@ import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.xml.RunXMLParser;
 import net.ck.mtbg.weather.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.Objects;
 
+@Getter
+@Setter
+@Log4j2
 public class GameUtils
 {
-
-    private static final Logger logger = LogManager.getLogger(GameUtils.class);
-
     public static void showStackTrace(String methodName)
     {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();

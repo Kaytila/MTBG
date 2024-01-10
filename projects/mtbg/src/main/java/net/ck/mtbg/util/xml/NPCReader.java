@@ -1,19 +1,15 @@
 package net.ck.mtbg.util.xml;
 
-import net.ck.mtbg.backend.entities.attributes.Constitution;
-import net.ck.mtbg.backend.entities.attributes.Dexterity;
-import net.ck.mtbg.backend.entities.attributes.Intelligence;
-import net.ck.mtbg.backend.entities.attributes.Strength;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.entities.attributes.*;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
 import java.util.Hashtable;
-import java.util.Objects;
 
 /**
  * <npc>
@@ -41,8 +37,12 @@ import java.util.Objects;
  * </mobasks>
  * </npc>
  */
-public class NPCReader extends DefaultHandler {
-    private final Logger logger = LogManager.getLogger(getRealClass());
+@Getter
+@Setter
+@Log4j2
+public class NPCReader extends DefaultHandler
+{
+
     private Hashtable<Integer, NPC> npcs;
     private StringBuilder data;
     private Hashtable<String, String> mobasks;
@@ -50,22 +50,7 @@ public class NPCReader extends DefaultHandler {
     private String question;
     private String answer;
 
-    private net.ck.mtbg.backend.entities.attributes.Attributes attr;
-
-
-    public Hashtable<Integer, NPC> getNpcs() {
-        return npcs;
-    }
-
-    public void setNpcs(Hashtable<Integer, NPC> npcs) {
-        this.npcs = npcs;
-    }
-
-    private Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
+    private Attributes attr;
 
     @Override
     public void startDocument()
@@ -85,7 +70,7 @@ public class NPCReader extends DefaultHandler {
      * <tile> <id>4</id> <type>GRASS</type> <x>0</x> <y>1</y> <east>5</east> <west></west> <south></south> <north>1</north> </tile>
      */
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes)
+    public void startElement(String uri, String localName, String qName, org.xml.sax.Attributes attributes)
     {
         switch (qName)
         {

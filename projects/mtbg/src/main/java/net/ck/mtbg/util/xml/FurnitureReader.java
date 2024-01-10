@@ -1,13 +1,13 @@
 package net.ck.mtbg.util.xml;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.FurnitureItem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.Hashtable;
-import java.util.Objects;
 
 /**
  * <items>
@@ -24,31 +24,13 @@ import java.util.Objects;
  * </item>
  * </items>
  */
+@Getter
+@Setter
+@Log4j2
 public class FurnitureReader extends DefaultHandler
 {
 
-    private final Logger logger = LogManager.getLogger(getRealClass());
     private StringBuilder data = null;
-
-    public Hashtable<Integer, FurnitureItem> getFurnitureList()
-    {
-        return furnitureList;
-    }
-
-    public void setFurnitureList(Hashtable<Integer, FurnitureItem> furnitureList)
-    {
-        this.furnitureList = furnitureList;
-    }
-
-    public FurnitureItem getItem()
-    {
-        return item;
-    }
-
-    public void setItem(FurnitureItem item)
-    {
-        this.item = item;
-    }
 
     private Hashtable<Integer, FurnitureItem> furnitureList;
     private FurnitureItem item;
@@ -58,16 +40,18 @@ public class FurnitureReader extends DefaultHandler
     {
 
         if (furnitureList == null)
+        {
             furnitureList = new Hashtable<>();
+        }
     }
 
     @Override
     public void endDocument()
     {
-       for (FurnitureItem i : furnitureList.values())
-       {
-           logger.info("furniture id: {}, item: {}", i.getId(), i);
-       }
+        for (FurnitureItem i : furnitureList.values())
+        {
+            logger.info("furniture id: {}, item: {}", i.getId(), i);
+        }
     }
 
     @Override
@@ -96,7 +80,7 @@ public class FurnitureReader extends DefaultHandler
                 break;
             case "image":
                 break;
-             default:
+            default:
                 throw new IllegalStateException("Unexpected value: " + qName);
         }
         data = new StringBuilder();
@@ -111,7 +95,7 @@ public class FurnitureReader extends DefaultHandler
                 item.setName(data.toString());
                 break;
             case "item":
-              furnitureList.put(item.getId(), item);
+                furnitureList.put(item.getId(), item);
                 break;
             case "id":
                 item.setId(Integer.parseInt(data.toString()));
@@ -146,11 +130,4 @@ public class FurnitureReader extends DefaultHandler
     {
         data.append(new String(ch, start, length));
     }
-
-    public Class<?> getRealClass()
-    {
-        Class<?> enclosingClass = getClass().getEnclosingClass();
-        return Objects.requireNonNullElseGet(enclosingClass, this::getClass);
-    }
-
 }

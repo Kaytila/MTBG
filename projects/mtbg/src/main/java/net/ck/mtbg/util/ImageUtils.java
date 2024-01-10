@@ -1,5 +1,8 @@
 package net.ck.mtbg.util;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
@@ -9,8 +12,6 @@ import net.ck.mtbg.graphics.ImagePair;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.weather.WeatherTypes;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,31 +32,29 @@ import java.util.Random;
  *
  * @author Claus
  */
+@Getter
+@Setter
+@Log4j2
 public class ImageUtils
 {
-    private static final Logger logger = LogManager.getLogger(ImageUtils.class);
-
+    @Getter
+    @Setter
     private static Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImages = new Hashtable<>(TileTypes.values().length);
+
+    @Getter
+    @Setter
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>(WeatherTypes.values().length);
+
+    @Getter
+    @Setter
     private static BufferedImage inventoryImage;
 
     /**
      * contains the list of brightened up images
      */
+    @Getter
+    @Setter
     private static ArrayList<ImagePair> brightenedImages = new ArrayList<>();
-
-    public static ArrayList<ImagePair> getBrightenedImages()
-    {
-        return brightenedImages;
-    }
-
-    public static void setBrightenedImages(ArrayList<ImagePair> brightenedImages)
-    {
-        ImageUtils.brightenedImages = brightenedImages;
-    }
-
-
-
 
     /**
      * Compares two images pixel by pixel.
@@ -445,16 +444,6 @@ public class ImageUtils
         return null;
     }
 
-    public static Hashtable<TileTypes, ArrayList<BufferedImage>> getTileTypeImages()
-    {
-        return tileTypeImages;
-    }
-
-    public static void setTileTypeImages(Hashtable<TileTypes, ArrayList<BufferedImage>> tileTypeImagess)
-    {
-        tileTypeImages = tileTypeImagess;
-    }
-
     public static void initializeBackgroundImages()
     {
         logger.info("initializing background images");
@@ -564,16 +553,6 @@ public class ImageUtils
             weatherTypeImages.put(t, list);
         }
         logger.info("done initializing background images");
-    }
-
-    public static Hashtable<WeatherTypes, ArrayList<BufferedImage>> getWeatherTypeImages()
-    {
-        return weatherTypeImages;
-    }
-
-    public static void setWeatherTypeImages(Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages)
-    {
-        ImageUtils.weatherTypeImages = weatherTypeImages;
     }
 
     public static void createWeatherTypesImages(WeatherTypes type)

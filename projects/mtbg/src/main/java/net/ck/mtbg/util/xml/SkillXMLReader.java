@@ -59,7 +59,7 @@ public class SkillXMLReader extends DefaultHandler
         {
             name = true;
         }
-        else if (qName.equalsIgnoreCase("name"))
+        else if (qName.equalsIgnoreCase("level"))
         {
             lvl = true;
         }

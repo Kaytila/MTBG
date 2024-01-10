@@ -1,10 +1,11 @@
 package net.ck.mtbg.util;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.MapTile;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,38 +20,26 @@ import java.util.ArrayList;
  *
  * @author Claus
  */
+@Getter
+@Setter
+@Log4j2
 public class UILense
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private static final int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
     /**
      * Singleton
      */
     private static final UILense UILense = new UILense();
-
-    /**
-     * Singleton access - now I can use Lense in a lot of things :D
-     */
-    public static UILense getCurrent()
-    {
-        return UILense;
-    }
-
-
     private final ArrayList<Boolean> xCoordinateSystem;
     private final ArrayList<Boolean> yCoordinateSystem;
-
+    public MapTile[][] mapTiles;
     /**
      * contains the visible map tiles, as the UI Tiles are calculated
      */
     private ArrayList<MapTile> visibleMapTiles;
-
-    public MapTile[][] mapTiles;
     //TODO
     private ArrayList<Point> visibleUICoordinates;
-
-
     /**
      * initialize the lens and of course stumble over add and set as always
      */
@@ -69,6 +58,14 @@ public class UILense
             yCoordinateSystem.add(i, false);
         }
         initialize();
+    }
+
+    /**
+     * Singleton access - now I can use Lense in a lot of things :D
+     */
+    public static UILense getCurrent()
+    {
+        return UILense;
     }
 
     /**
