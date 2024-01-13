@@ -7,10 +7,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CursorUtils;
-import net.ck.mtbg.util.GameUtils;
-import net.ck.mtbg.util.ImageManager;
-import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.*;
 import net.ck.mtbg.weather.WeatherTypes;
 
 import java.awt.*;
@@ -84,6 +81,7 @@ public class RunGame
                 GameUtils.initializeSpells();
                 GameUtils.initializeSkills();
                 GameUtils.initializeMaps();
+                MapUtils.translateTextMaps();
                 game.addPlayers(GameConfiguration.startPosition);
                 //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
                 //game.addAnimatedEntities();
@@ -165,6 +163,7 @@ public class RunGame
                     GameUtils.initializeAllItems();
                     renderSplashFrame(g, size);
                     GameUtils.initializeMaps();
+                    MapUtils.translateTextMaps();
                     renderSplashFrame(g, size);
                     game.addPlayers(GameConfiguration.startPosition);
                     renderSplashFrame(g, size);

@@ -1028,3 +1028,4 @@ History of the changes:
             there is no need for that as maptile has its own inventory.
 2024-01-10: removed more getter/setters by using lombok
 2024-01-13: removed a few more methods for lombok
+2024-01-14: added text map translate, basically working, but maptiles arraylist might be empty.

@@ -182,3 +182,7 @@ todo options dialog:
 implement options dialog
 
 
+todo:
+check maptiles array for txt created maps
+why is setting the game map done in parsing the maps?
+needs to be a seperate step

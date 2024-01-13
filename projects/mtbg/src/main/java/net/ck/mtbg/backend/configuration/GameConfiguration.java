@@ -11,8 +11,7 @@ import java.io.File;
  * Good enough for now, makes things easier to read.
  */
 @Log4j2
-public class GameConfiguration
-{
+public class GameConfiguration {
     /**
      * are there animations?
      */
@@ -168,7 +167,8 @@ public class GameConfiguration
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
     public static final String weatherTypesImagesPath = out + File.separator + "graphics" + File.separator + "weathertypes" + File.separator;
     public static final int weatherWait = 10000;
-    public static String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
+    public static final String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
+    public static final String txtMapRootFilePath = out + File.separator + "maps_txt" + File.separator;
 }
 
 
