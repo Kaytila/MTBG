@@ -44,7 +44,6 @@ public class MapUtils
 {
 
     @Getter
-    @Setter
     private static final int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
 
 

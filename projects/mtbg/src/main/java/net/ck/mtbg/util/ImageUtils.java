@@ -45,7 +45,6 @@ public class ImageUtils
     @Setter
     private static Hashtable<WeatherTypes, ArrayList<BufferedImage>> weatherTypeImages = new Hashtable<>(WeatherTypes.values().length);
 
-    @Getter
     @Setter
     private static BufferedImage inventoryImage;
 

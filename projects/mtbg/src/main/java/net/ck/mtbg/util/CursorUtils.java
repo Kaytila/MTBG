@@ -28,8 +28,6 @@ import java.io.IOException;
 @Log4j2
 public class CursorUtils
 {
-    @Getter
-    @Setter
     private static final int border = GameConfiguration.tileSize / 2;
 
     @Getter
@@ -49,7 +47,6 @@ public class CursorUtils
     private static BufferedImage cursorImageWest;
 
     @Getter
-    @Setter
     private static Cursor cursor;
 
     @Getter
@@ -423,11 +420,6 @@ public class CursorUtils
             e.printStackTrace();
         }
         return cI;
-    }
-
-    public static Cursor getCursor()
-    {
-        return cursor;
     }
 
     public static void setCursor(Cursor cursor)
