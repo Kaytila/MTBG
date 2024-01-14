@@ -11,7 +11,8 @@ import java.io.File;
  * Good enough for now, makes things easier to read.
  */
 @Log4j2
-public class GameConfiguration {
+public class GameConfiguration
+{
     /**
      * are there animations?
      */
@@ -111,6 +112,7 @@ public class GameConfiguration {
      */
     public static final int quequeWait = 700;
     public static final boolean quickstart = true;
+    public static final String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
     public static final String skillsFileRootPath = out + File.separator + "skills";
     /**
      * when drawing the missile, skip how many pixels per redraw:
@@ -123,7 +125,8 @@ public class GameConfiguration {
      * where to find the spells xml
      */
     public static final String spellsFileRootPath = out + File.separator + "spells";
-    public static final Point startPosition = new Point(2, 0);
+    public static final String startMap = "outpost.txt";
+    public static final Point startPosition = new Point(2, 1);
     /**
      * how many nanoseconds are in a second?
      */
@@ -138,6 +141,7 @@ public class GameConfiguration {
      * how long shall the game wait until sending a pass message in ms
      */
     public static final long turnwait = 5000;
+    public static final String txtMapRootFilePath = out + File.separator + "maps_txt" + File.separator;
     /**
      * use Events only for redrawing or do 60 fps :D
      */
@@ -167,8 +171,6 @@ public class GameConfiguration {
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
     public static final String weatherTypesImagesPath = out + File.separator + "graphics" + File.separator + "weathertypes" + File.separator;
     public static final int weatherWait = 10000;
-    public static final String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
-    public static final String txtMapRootFilePath = out + File.separator + "maps_txt" + File.separator;
 }
 
 

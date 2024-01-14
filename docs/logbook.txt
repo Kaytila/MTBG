@@ -1028,4 +1028,6 @@ History of the changes:
             there is no need for that as maptile has its own inventory.
 2024-01-10: removed more getter/setters by using lombok
 2024-01-13: removed a few more methods for lombok
-2024-01-14: added text map translate, basically working, but maptiles arraylist might be empty.
+2024-01-13: added text map translate, basically working, but maptiles arraylist might be empty.
+2024-01-14: added text map and fixed map setup - what did I think of back then. Weather is a mess that needs to be
+            cleaned up.

@@ -366,27 +366,6 @@ public class GameUtils
                     logger.info("parsing map: {}", GameConfiguration.mapFileRootPath + File.separator + file.getName());
                     Map map = RunXMLParser.parseMap(GameConfiguration.mapFileRootPath + File.separator + file.getName());
 
-
-                    String gameMapName = "testname";
-                    if (Objects.requireNonNull(map).getName().equalsIgnoreCase(gameMapName))
-                    {
-                        map.initialize();
-                        map.setVisibilityRange(2);
-
-                        Game.getCurrent().setCurrentMap(map);
-                        Game.getCurrent().addItemsToFloor();
-                        //Game.getCurrent().addManyNPCs(map);
-                    }
-                    else
-                    {
-                        map.setVisibilityRange(1);
-                    }
-                    if (map.getWeather() == null)
-                    {
-                        Weather weather = new Weather();
-                        weather.setType(WeatherTypes.SUN);
-                        map.setWeather(weather);
-                    }
                     Game.getCurrent().getMaps().add(map);
                 }
 
@@ -588,6 +567,36 @@ public class GameUtils
         TimerManager.setHitMissImageTimer(hitMissImageTimer);
     }
 
+    /**
+     * start map now has logic in it that should not be there but thats good enough for now.
+     */
+    public static void setStartMap()
+    {
+        for (Map map : Game.getCurrent().getMaps())
+        {
+            map.setVisibilityRange(1);
+
+            map.setWeatherSystem(true);
+            map.setFixedWeather(WeatherTypes.SUN);
+            if (map.getWeather() == null)
+            {
+                Weather weather = new Weather();
+                weather.setType(WeatherTypes.SUN);
+                map.setWeather(weather);
+            }
+
+            if (Objects.requireNonNull(map).getName().equalsIgnoreCase(GameConfiguration.startMap))
+            {
+                map.initialize();
+                map.setVisibilityRange(2);
+
+                Game.getCurrent().setCurrentMap(map);
+                Game.getCurrent().addItemsToFloor();
+                //Game.getCurrent().addManyNPCs(map);
+                return;
+            }
+        }
+    }
 }
 
 

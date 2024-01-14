@@ -82,6 +82,7 @@ public class RunGame
                 GameUtils.initializeSkills();
                 GameUtils.initializeMaps();
                 MapUtils.translateTextMaps();
+                GameUtils.setStartMap();
                 game.addPlayers(GameConfiguration.startPosition);
                 //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
                 //game.addAnimatedEntities();
@@ -165,6 +166,7 @@ public class RunGame
                     GameUtils.initializeMaps();
                     MapUtils.translateTextMaps();
                     renderSplashFrame(g, size);
+                    GameUtils.setStartMap();
                     game.addPlayers(GameConfiguration.startPosition);
                     renderSplashFrame(g, size);
                     //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());

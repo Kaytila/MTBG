@@ -1076,35 +1076,45 @@ public class MapUtils
         return true;
     }
 
-    public static void translateTextMaps() {
+    public static void translateTextMaps()
+    {
         logger.debug("START: text map translate");
         File folder = new File(GameConfiguration.txtMapRootFilePath);
         File[] listOfFiles = folder.listFiles();
 
         assert listOfFiles != null;
-        for (File file : listOfFiles) {
+        for (File file : listOfFiles)
+        {
             logger.debug("File: {}", file.getName());
-            if (file.isFile()) {
+            if (file.isFile())
+            {
                 //hopefully it is a valid map!
-                if (file.getName().endsWith(".txt")) {
+                if (file.getName().endsWith(".txt"))
+                {
                     logger.debug("START: parse map");
                     ArrayList<MapTile> mapTiles = new ArrayList<>();
                     Map map = new Map();
                     map.setWeatherRandomness(0);
                     map.setName(file.getName());
-                    try {
+                    try
+                    {
                         BufferedReader reader = new BufferedReader(new FileReader(GameConfiguration.txtMapRootFilePath + File.separator + file.getName()));
                         String line = reader.readLine();
                         int lineIndex = 0;
-                        while (line != null) {
+                        while (line != null)
+                        {
                             parseMapLine(map, line, lineIndex, mapTiles);
                             lineIndex++;
                             line = reader.readLine();
                         }
+                        //TODO translate arraylist to array
                         map.setSize(calculateMapSize(mapTiles));
+                        map.setMapTiles(calculateMapTileArray(mapTiles, map.getSize()));
                         Game.getCurrent().getMaps().add(map);
                         reader.close();
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                     logger.debug("END: parse File");
@@ -1114,7 +1124,25 @@ public class MapUtils
         logger.debug("END: text map translate");
     }
 
-    public static void parseMapLine(Map map, String line, int lineIndex, ArrayList<MapTile> tiles) {
+    /**
+     * @param size     has max x and max y
+     * @param mapTiles has the arraylist, translate into array just like in xml parser
+     * @return 2d array
+     */
+    private static MapTile[][] calculateMapTileArray(ArrayList<MapTile> mapTiles, Point size)
+    {
+        MapTile[][] tileArray = new MapTile[size.x][size.y];
+
+        for (MapTile tile : mapTiles)
+        {
+            tileArray[tile.x][tile.y] = tile;
+        }
+
+        return tileArray;
+    }
+
+    public static void parseMapLine(Map map, String line, int lineIndex, ArrayList<MapTile> tiles)
+    {
         AtomicInteger rowIndex = new AtomicInteger();
         line.chars().forEach(c ->
         {
@@ -1127,8 +1155,10 @@ public class MapUtils
         });
     }
 
-    private static TileTypes mapTXTtoTerrainTypes(String s) {
-        switch (s) {
+    private static TileTypes mapTXTtoTerrainTypes(String s)
+    {
+        switch (s)
+        {
             case ("S"):
                 return TileTypes.STONEWALL;
             case ("w"):

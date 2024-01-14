@@ -118,7 +118,7 @@ public class MapXMLReader extends DefaultHandler
         {
             gameMap.mapTiles[t.x][t.y] = t;
         }
-
+        logger.debug("end: adding maptiles to 2d array");
         if (getNpcs() != null && getNpcs().size() > 0)
         {
             for (NPC n : getNpcs())
