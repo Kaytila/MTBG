@@ -1,5 +1,8 @@
 package net.ck.mtbg.ui.components;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
@@ -10,13 +13,14 @@ import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.*;
+import net.ck.mtbg.util.ImageManager;
+import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.MapUtils;
+import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.graphics.*;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.weather.WeatherTypes;
 import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -27,10 +31,11 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+@Getter
+@Setter
+@Log4j2
 public class JGridCanvas extends JComponent
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     private final Range<Integer> rangeX = Range.between(0, GameConfiguration.numberOfTiles - 1);
     private final Range<Integer> rangeY = Range.between(0, GameConfiguration.numberOfTiles - 1);
     private final BufferedImage blackImage = ImageUtils.createImage((Color.black));
@@ -141,6 +146,12 @@ public class JGridCanvas extends JComponent
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_K, 0), "skills");
         this.getActionMap().put("skills", new SkillTreeAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "open");
+        this.getActionMap().put("open", new OpenAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_U, 0), "use");
+        this.getActionMap().put("use", new UseAction());
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK), "options");
         this.getActionMap().put("options", new OptionsAction());
@@ -760,26 +771,6 @@ public class JGridCanvas extends JComponent
         });
     }
 
-    public int getCurrentBackgroundImage()
-    {
-        return currentBackgroundImage;
-    }
-
-    public void setCurrentBackgroundImage(int currentBackgroundImage)
-    {
-        this.currentBackgroundImage = currentBackgroundImage;
-    }
-
-    public int getCurrentForegroundImage()
-    {
-        return currentForegroundImage;
-    }
-
-    public void setCurrentForegroundImage(int currentForegroundImage)
-    {
-        this.currentForegroundImage = currentForegroundImage;
-    }
-
 
     private void paintDarkness(Graphics g)
     {
@@ -997,20 +988,6 @@ public class JGridCanvas extends JComponent
                 Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
                 g.drawImage(tile.getInventory().get(0).getItemImage(), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
             }
-        }
-    }
-
-    public boolean isDragEnabled()
-    {
-        return dragEnabled;
-    }
-
-    public void setDragEnabled(boolean dragEnabled)
-    {
-        if (this.dragEnabled != dragEnabled)
-        {
-            this.dragEnabled = dragEnabled;
-            firePropertyChange("dragEnabled", !dragEnabled, dragEnabled);
         }
     }
 

@@ -1,20 +1,23 @@
 package net.ck.mtbg.util.communication.keyboard;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.ck.mtbg.map.MapTile;
 import org.greenrobot.eventbus.EventBus;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+@Getter
+@Setter
+@Log4j2
 public class AbstractKeyboardAction extends AbstractAction
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * can the action be run immediately (NORTH, WEST ....) ,
@@ -54,54 +57,10 @@ public class AbstractKeyboardAction extends AbstractAction
 
     private AbstractSpell currentSpell;
 
-    public AbstractSpell getCurrentSpell()
-    {
-        return currentSpell;
-    }
-
-    public void setCurrentSpell(AbstractSpell currentSpell)
-    {
-        this.currentSpell = currentSpell;
-    }
-
-
-    public Point getOldMousePosition()
-    {
-        return oldMousePosition;
-    }
-
-    public void setOldMousePosition(Point oldMousePosition)
-    {
-        this.oldMousePosition = oldMousePosition;
-    }
-
     private Point oldMousePosition;
 
+    private MapTile mapTile;
 
-    public Point getSourceCoordinates()
-    {
-        return sourceCoordinates;
-    }
-
-    public void setSourceCoordinates(Point sourceCoordinates)
-    {
-        this.sourceCoordinates = sourceCoordinates;
-    }
-
-    public AbstractItem getAffectedItem()
-    {
-        return affectedItem;
-    }
-
-    public Point getGetWhere()
-    {
-        return getWhere;
-    }
-
-    public void setGetWhere(Point getWhere)
-    {
-        this.getWhere = getWhere;
-    }
 
     public AbstractKeyboardAction()
     {
@@ -123,66 +82,17 @@ public class AbstractKeyboardAction extends AbstractAction
                 EventBus.getDefault().post(this);
             }
         }
-		else
+        else
         {
             //logger.info(getType() + " pressed");
             EventBus.getDefault().post(this);
         }
     }
 
-    public Logger getLogger()
-    {
-        return logger;
-    }
 
     public KeyboardActionType getType()
     {
         return KeyboardActionType.NULL;
     }
 
-    public boolean isActionimmediately()
-    {
-        return actionimmediately;
-    }
-
-    public boolean isDone()
-    {
-        return done;
-    }
-
-    public void setActionimmediately(boolean actionimmediately)
-    {
-        this.actionimmediately = actionimmediately;
-    }
-
-    public void setDone(boolean done)
-    {
-        this.done = done;
-    }
-
-    public void setAffectedItem(AbstractItem currentItemInHand)
-    {
-        this.affectedItem = currentItemInHand;
-
-    }
-
-    public Point getTargetCoordinates()
-    {
-        return targetCoordinates;
-    }
-
-    public void setTargetCoordinates(Point targetCoordinates)
-    {
-        this.targetCoordinates = targetCoordinates;
-    }
-
-    public boolean isHaveNPCAction()
-    {
-        return haveNPCAction;
-    }
-
-    public void setHaveNPCAction(boolean haveNPCAction)
-    {
-        this.haveNPCAction = haveNPCAction;
-    }
 }

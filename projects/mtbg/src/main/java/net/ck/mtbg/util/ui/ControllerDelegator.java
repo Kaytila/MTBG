@@ -612,4 +612,43 @@ public class ControllerDelegator
         }
 
     }
+
+    public static void handleKeyBoardActionOpen(Controller controller, AbstractKeyboardAction action)
+    {
+        if (UIStateMachine.isSelectTile() == true)
+        {
+            //logger.info("select tile is active, dont do anything");
+            UIStateMachine.setSelectTile(false);
+            controller.getCurrentAction().setHaveNPCAction(true);
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            action.setMapTile(tile);
+            TimerManager.getIdleTimer().stop();
+            controller.runActions(controller.getCurrentAction());
+        }
+        else
+        {
+            if (UIStateMachine.isMouseOutsideOfGrid() == true)
+            {
+                CursorUtils.centerCursorOnPlayer();
+            }
+            action.setHaveNPCAction(false);
+            //logger.info("get");
+            TimerManager.getIdleTimer().stop();
+            UIStateMachine.setSelectTile(true);
+            UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
+            WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
+            CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+            controller.setCurrentAction(action);
+        }
+    }
+
+    public static void handleMouseReleasedActionOPEN(Controller controller, MapTile tile)
+    {
+        UIStateMachine.setSelectTile(false);
+        controller.getCurrentAction().setHaveNPCAction(true);
+        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        controller.getCurrentAction().setMapTile(tile);
+        logger.debug("calling click event");
+    }
 }

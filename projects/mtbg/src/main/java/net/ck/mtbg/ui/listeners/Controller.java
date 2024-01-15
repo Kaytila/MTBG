@@ -126,7 +126,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             logger.info("Debug");
             TimerManager.getIdleTimer().stop();
-            /*MusicPlayerJavaFX musicPlayerJavaFX = null;
+            /* MusicPlayerJavaFX musicPlayerJavaFX = null;
             try
             {
                 musicPlayerJavaFX = new MusicPlayerJavaFX();
@@ -655,6 +655,13 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         break;
                     }
 
+                    case OPEN:
+                    {
+                        ControllerDelegator.handleMouseReleasedActionOPEN(this, tile);
+                        break;
+                    }
+
+
                     default:
                         throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
                 }
@@ -890,6 +897,14 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 ControllerDelegator.handleKeyBoardActionCAST(this, action);
                 break;
             }
+
+            case USE:
+                logger.debug("Implement me properly");
+                break;
+
+            case OPEN:
+                ControllerDelegator.handleKeyBoardActionOpen(this, action);
+                break;
 
             default:
             {

@@ -358,6 +358,11 @@ public class Player extends AbstractEntity implements LifeForm
             case CAST:
                 this.castSpell(action);
                 break;
+            case OPEN:
+            {
+                this.openDoor(action);
+                break;
+            }
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
                 break;
@@ -395,6 +400,23 @@ public class Player extends AbstractEntity implements LifeForm
         */
         CommandSuccessMachine.calculateSoundEffect(action);
         //Game.getCurrent().getController().setCurrentAction(null);
+    }
+
+    private void openDoor(AbstractAction action)
+    {
+        MapTile tile = action.getEvent().getMapTile();
+        if (tile.getType().equals(TileTypes.GATECLOSED))
+        {
+            logger.info("opening gate");
+            tile.setType(TileTypes.GRASS);
+        }
+
+        if (tile.getType().equals(TileTypes.WOODDOORCLOSED))
+        {
+            logger.info("opening door");
+            tile.setType(TileTypes.GRASS);
+        }
+
     }
 
     private void talk(LifeForm lifeForm)
