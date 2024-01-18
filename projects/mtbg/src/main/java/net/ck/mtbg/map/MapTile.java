@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.graphics.TileTypes;
+import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.FurnitureItem;
 
 import java.awt.*;
@@ -39,6 +40,8 @@ public class MapTile implements Comparable<MapTile>, Serializable
     public int g;
     // Hardcoded heuristic
     public int h;
+
+
     /**
      * what things are piled on the tile?
      */
@@ -404,4 +407,12 @@ public class MapTile implements Comparable<MapTile>, Serializable
         }
     }
 
+
+    public void add(AbstractItem item)
+    {
+        if (hasInventory())
+        {
+            getInventory().add(item);
+        }
+    }
 }

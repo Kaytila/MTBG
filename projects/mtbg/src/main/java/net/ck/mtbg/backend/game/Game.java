@@ -30,7 +30,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -73,7 +72,7 @@ public class Game implements Runnable, Serializable
     /**
      * which turn is the current turn, filled up with each doAction(), rolled over in advanceTurn() or retractTurn()
      */
-    private Turn  currentTurn;
+    private Turn currentTurn;
     /**
      * world is doing the random events
      */
@@ -169,11 +168,15 @@ public class Game implements Runnable, Serializable
         Weapon club = ItemManager.getWeaponList().get(1);
         Weapon magicClub = ItemManager.getWeaponList().get(2);
         Weapon sling = ItemManager.getWeaponList().get(3);
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinates(3, 0)).getInventory().add(club);
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinates(9, 3)).getInventory().add(magicClub);
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinates(6, 6)).getInventory().add(sling);
+
+        MapUtils.getMapTileByCoordinates(2, 1).add(club);
+
+        MapUtils.getMapTileByCoordinates(7, 3).add(magicClub);
+
+        MapUtils.getMapTileByCoordinates(6, 5).add(sling);
         //logger.info("furniture: {}", getFurnitureList().get(0));
-        Objects.requireNonNull(MapUtils.getMapTileByCoordinates(9, 4)).setFurniture(ItemManager.getFurnitureList().get(1));
+        MapUtils.getMapTileByCoordinates(9, 4).setFurniture(ItemManager.getFurnitureList().get(1));
+
     }
 
 
@@ -324,11 +327,14 @@ public class Game implements Runnable, Serializable
                     // logger.info("environment action");
                     playerMovedTwice = true;
                 }
-            } else {
+            }
+            else
+            {
                 logger.debug("player moving twice now");
                 playerMovedTwice = false;
             }
-        } else
+        }
+        else
         {
             if (action.isHaveNPCAction())
             {

@@ -1033,3 +1033,4 @@ History of the changes:
             cleaned up.
 2024-01-15: success: open works. Simple version yet, but it does.
 2024-01-18: open works for opening and closing now.
+2024-01-18: maptile now has a direct add method instead of going through the inventory first.
