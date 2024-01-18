@@ -1032,3 +1032,4 @@ History of the changes:
 2024-01-14: added text map and fixed map setup - what did I think of back then. Weather is a mess that needs to be
             cleaned up.
 2024-01-15: success: open works. Simple version yet, but it does.
+2024-01-18: open works for opening and closing now.

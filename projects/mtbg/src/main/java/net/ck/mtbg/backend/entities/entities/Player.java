@@ -408,13 +408,42 @@ public class Player extends AbstractEntity implements LifeForm
         if (tile.getType().equals(TileTypes.GATECLOSED))
         {
             logger.info("opening gate");
-            tile.setType(TileTypes.GRASS);
+            tile.setType(TileTypes.GATEOPEN);
+
         }
 
-        if (tile.getType().equals(TileTypes.WOODDOORCLOSED))
+        else if (tile.getType().equals(TileTypes.WOODDOORCLOSED))
         {
-            logger.info("opening door");
-            tile.setType(TileTypes.GRASS);
+            logger.info("opening wooden door");
+            tile.setType(TileTypes.WOODDOOROPEN);
+        }
+
+        else if (tile.getType().equals(TileTypes.STONEDOORCLOSED))
+        {
+            logger.info("opening stone door");
+            tile.setType(TileTypes.STONEDOOROPEN);
+        }
+
+        else if (tile.getType().equals(TileTypes.GATEOPEN))
+        {
+            logger.info("closing gate");
+            tile.setType(TileTypes.GATECLOSED);
+        }
+
+        else if (tile.getType().equals(TileTypes.WOODDOOROPEN))
+        {
+            logger.info("closing wooden door");
+            tile.setType(TileTypes.WOODDOORCLOSED);
+        }
+
+        else if (tile.getType().equals(TileTypes.STONEDOOROPEN))
+        {
+            logger.info("closing stone door");
+            tile.setType(TileTypes.STONEDOORCLOSED);
+        }
+        else
+        {
+            logger.error("No door or gate here!");
         }
 
     }

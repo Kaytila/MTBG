@@ -38,7 +38,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
     public int finalCost;
     public int g;
     // Hardcoded heuristic
-    public  int       h;
+    public int h;
     /**
      * what things are piled on the tile?
      */
@@ -50,7 +50,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * or perhaps door or whatever,
      * needs to be mutable due to doors and other things.
      */
-    private boolean   blocked;
+    private boolean blocked;
     /**
      * does this block the LoS?
      */
@@ -89,7 +89,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
     /**
      * is the tile currently hidden from view? If so, dont allow it to be selected.
      */
-    private boolean       hidden;
+    private boolean hidden;
 
     /**
      * there can only be one lifeform on the tile, either player or an npc
@@ -103,9 +103,17 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     private BufferedImage brightenedImage;
 
+    /**
+     * the target coordinates of the exit
+     * might be better wrapped in a separate object
+     */
     private Point targetCoordinates;
 
+    /**
+     * this is the message being displayed for ENTER/LEAVE
+     */
     private Message message;
+
 
     public MapTile()
     {
@@ -122,7 +130,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         inventory = new Inventory();
         setBlocked(false);
     }
-
 
 
     public int getX()
@@ -178,13 +185,13 @@ public class MapTile implements Comparable<MapTile>, Serializable
     public boolean isBlocked()
     {
         return switch (getType())
-                {
-                    case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST ->
-                            blocked;
-                    case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST ->
-                            true;
-                    default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
-                };
+        {
+            case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST ->
+                    blocked;
+            case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST ->
+                    true;
+            default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
+        };
     }
 
     public boolean isBlocksLOS()
@@ -320,4 +327,81 @@ public class MapTile implements Comparable<MapTile>, Serializable
         }
         this.lifeForm = lifeForm;
     }
+
+    /**
+     * helper method used in making sure you can only drop items in places that are valid for it
+     * no inventory on walls and so on
+     *
+     * @return
+     */
+    public boolean hasInventory()
+    {
+        switch (getType())
+        {
+            case CASTLEEAST:
+            case CASTLEENTRANCE:
+            case CASTLEWEST:
+            case CAVEENTRANCE:
+            case FOUNTAIN:
+            case GATECLOSED:
+            case MOUNTAIN:
+            case STAIRSDOWN:
+            case STAIRSUP:
+            case STONEDOORCLOSED:
+            case STONEWALL:
+            case WOODDOORCLOSED:
+            case WOODWALL:
+            case GATEOPEN:
+            case HILL:
+            case LADDERDOWN:
+            case LADDERUP:
+            case OCEAN:
+            case RIVEREE:
+            case RIVEREN:
+            case RIVERES:
+            case RIVERNE:
+            case RIVERNS:
+            case RIVERNW:
+            case RIVERSE:
+            case RIVERSS:
+            case RIVERSW:
+            case RIVERWN:
+            case RIVERWS:
+            case RIVERWW:
+            case STONEWINDOW:
+            case TOWNENTRANCE:
+            case VILLAGEENTRANCE:
+            case SWAMP:
+            case WELL:
+            case WOODDOOROPEN:
+            case WOODWINDOW:
+            case SHALLOWOCEAN:
+            case REEF:
+            case STONEDOOROPEN:
+            case SIGNPOST:
+            case LAVA:
+            case STEEPMOUNTAIN:
+                //deep forest? you wont find it again.
+            case DENSEFOREST:
+                return false;
+
+            case DESERT:
+            case DIRTFLOOR:
+            case DIRTROAD:
+            case GRASS:
+            case MARBLEFLOOR:
+            case PAVEDROAD:
+            case STONEFLOOR:
+            case WOODFLOOR:
+            case BUSH:
+            case BUSHES:
+            case LIGHTFOREST:
+                return true;
+
+            default:
+                logger.error("forgotten a tile type in hasInventory - this one? {}", getType().toString());
+                return false;
+        }
+    }
+
 }

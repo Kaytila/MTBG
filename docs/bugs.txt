@@ -54,3 +54,4 @@ BUGS:
 2023-11-25  when command is active, other commands can be run on top creating a huge mess. need to make sure that this
             is handled generally in the framework, not on command by command basis.
 2023-11-27  FIXED closing spellbook always assumes there is an active spell afterwards.
+2024-01-15  drag'n'drop onto a wall works, kind of - wall does not accept it but item is gone anyawys
