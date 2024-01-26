@@ -188,6 +188,7 @@ done why is setting the game map done in parsing the maps?
 done needs to be a seperate step
 
 todo:
+done
 implement open command
 open command will need to replace the state of maptile to WOODFLOR
 or perhaps the tile remains the same and the door is inventory which is the switched?

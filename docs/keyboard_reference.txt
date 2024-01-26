@@ -1,0 +1,93 @@
+<h1>
+Keyboard Reference
+</h1>
+<p>
+The following keyboard commands are supported:
+</p>
+<h2>
+Movement
+</h2>
+<p>
+Numpad+2 - moves one step to the south
+</p>
+<p>
+Numpad+4 - moves one step to the west
+</p>
+<p>
+Numpad+8 - moves one step to the north
+</p>
+<p>
+Numpad+6 - moves one step to the east
+</p>
+<p>
+Enter - enters a place, climbs a ladder/stairs
+</p>
+<h2>
+Overview Commands
+</h2>
+<p>
+<b>I</b>nventory - opens up the inventory dialog
+</p>
+<p>
+<b>Z</b>stats - opens up the stats dialog - like in Ultima 2
+</p>
+<p>
+<b>W</b>ear/Wield - opens up the equipment dialog - supposed to look like Ultima 6
+</p>
+<p>
+<b>B</b>ook - opens up the Spellbook to pick a new spell
+</p>
+<p>
+S<b>K</b>illtree - Skilltree
+</p>
+<p>
+Alt+<b>O</b>ptions - Options Dialog
+</p>
+<h2>
+Action Commands
+</h2>
+<p>
+<b>G</b>et - Get something
+</p>
+<p>
+<b>D</b>rop - open the Drop Dialog
+</p>
+<p>
+<b>T</b>alk - Talk to someone
+</p>
+<p>
+<b>M</b>ove - Move to
+</p>
+<p>
+<b>S</b>earch - Search the surroundings
+</p>
+<p>
+<b>A</b>ttack - attack someone
+</p>
+<p>
+<b>L</b>ook - Look at something
+</p>
+<p>
+<b>P</b>ush - Push something
+</p>
+<p>
+<b>Y</b>ank - Yank(Pull) something towards you
+</p>
+<p>
+<b>C</b>ast - Cast the currently active spell
+</p>
+<p>
+<b>U</b>se - Use something - needs to be implemented properly
+</p>
+<p>
+<b>O</b>pen - Open/Close a door
+</p>
+<h2>
+Misc keys
+</h2>
+<p>
+ESC - Exit current command
+</p>
+<p>
+Space - wait one turn
+</p>

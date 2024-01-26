@@ -170,6 +170,9 @@ public class GameConfiguration
     public static final int waitTurns = 3;
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
     public static final String weatherTypesImagesPath = out + File.separator + "graphics" + File.separator + "weathertypes" + File.separator;
+    /**
+     * how many milliseconds to wait in case weather is async?
+     */
     public static final int weatherWait = 10000;
 }
 
