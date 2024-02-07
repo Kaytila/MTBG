@@ -41,30 +41,12 @@ public class RunGame
     public static void main(String[] args)
     {
         logger.info("starting game");
-	/*	boolean quickstart = false;
-		Point startPosition = null;
-		for (String ar : args)
-		{
-			logger.info("vm args: {}", ar);
-			if (ar.equalsIgnoreCase("quick"))
-			{
-				quickstart = true;
-			}
 
-			if (ar.startsWith("startPosition"))
-			{
-				logger.debug("starting position: {}", ar);
-				String[] parts = ar.split(":");
-				logger.debug("pos 0: {}", parts[0]);
-				logger.debug("pos 1: {}", parts[1]);
-				String[] pos = parts[1].split("@");
-				startPosition = new Point(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]));
+        Dimension size = SplashScreen.getSplashScreen().getSize();
+        logger.info("splash size: " + size);
 
-			}
-		}*/
+        Graphics2D g = splash.createGraphics();
 
-        if (GameConfiguration.quickstart)
-        {
             logger.info("quickstart enabled, no splashscreen");
             logger.info("initialize game");
             CursorUtils.initializeCursors();
@@ -78,40 +60,110 @@ public class RunGame
                     ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
                 }
                 GameUtils.initializeAllItems();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeSpells();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeSkills();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeMaps();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 MapUtils.translateTextMaps();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.setStartMap();
                 game.addPlayers(GameConfiguration.startPosition);
                 //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
                 //game.addAnimatedEntities();
                 GameUtils.initializeAnimationSystem();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeBackgroundAnimationSystem();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeForegroundAnimationSystem();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeWeatherSystem();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeIdleTimer();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeQuequeTimer();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeMissileThread();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeMusicTimer();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 ImageUtils.initializeBackgroundImages();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 ImageUtils.initializeForegroundImages();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 game.startThreads();
                 GameUtils.initializeHighlightingTimer();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 GameUtils.initializeHitOrMissTimer();
                 GameUtils.initializeMusicSystemNoThread();
                 GameUtils.initializeSoundSystemNoThread();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 ImageManager.loadLifeFormImages();
                 ImageManager.loadSpellMenuImages();
                 ImageManager.loadSkillMenuImages();
                 ImageManager.initializeAttributeImages();
+                if (!(GameConfiguration.quickstart)) {
+                    renderSplashFrame(g, size);
+                }
                 //ImageManager.loadAdditionalImages();
+
+                if (progress < 100) {
+                    renderSplashFrame(g, 100, size);
+                } else {
+                    renderSplashFrame(g, 100, size);
+                }
+
             }
             else
             {
                 logger.error("game is null, how did this happen?");
             }
+        logger.info("splash finished");
 
+        if (splash != null) {
+            splash.close();
+            try {
+                javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
             try
             {
                 javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
@@ -120,139 +172,12 @@ public class RunGame
             {
                 throw new RuntimeException(e);
             }
-            UIStateMachine.setUiOpen(true);
-            //make this synchronous to make sure the UI is finished.
-            //initialize remaining stuff _after_ UI is definitely open
-            GameUtils.initializeRest();
-
         }
-        else
-        {
+        UIStateMachine.setUiOpen(true);
+        //make this synchronous to make sure the UI is finished.
+        //initialize remaining stuff _after_ UI is definitely open
+        GameUtils.initializeRest();
 
-            if (splash == null)
-            {
-                logger.error("SplashScreen.getSplashScreen() returned null");
-                System.exit(-1);
-            }
-            else
-            {
-                Dimension size = SplashScreen.getSplashScreen().getSize();
-                logger.info("splash size: " + size);
-
-                Graphics2D g = splash.createGraphics();
-                if (g == null)
-                {
-                    logger.error("g is null");
-                    return;
-                }
-
-                renderSplashFrame(g, size);
-
-                logger.info("initialize game");
-                CursorUtils.initializeCursors();
-                renderSplashFrame(g, size);
-                game = Game.getCurrent();
-                renderSplashFrame(g, size);
-                if (game != null)
-                {
-                    if (generate)
-                    {
-                        ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
-                        ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
-                        ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
-                    }
-                    GameUtils.initializeAllItems();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeMaps();
-                    MapUtils.translateTextMaps();
-                    renderSplashFrame(g, size);
-                    GameUtils.setStartMap();
-                    game.addPlayers(GameConfiguration.startPosition);
-                    renderSplashFrame(g, size);
-                    //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
-                    //game.addAnimatedEntities();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeAnimationSystem();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeBackgroundAnimationSystem();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeForegroundAnimationSystem();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeWeatherSystem();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeIdleTimer();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeQuequeTimer();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeMissileThread();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeMusicTimer();
-                    renderSplashFrame(g, size);
-                    renderSplashFrame(g, size);
-                    ImageUtils.initializeBackgroundImages();
-                    renderSplashFrame(g, size);
-                    ImageUtils.initializeForegroundImages();
-                    renderSplashFrame(g, size);
-                    game.startThreads();
-                    renderSplashFrame(g, size);
-                    GameUtils.initializeHighlightingTimer();
-                    GameUtils.initializeHitOrMissTimer();
-                    GameUtils.initializeMusicSystemNoThread();
-                    GameUtils.initializeSoundSystemNoThread();
-                    ImageManager.loadLifeFormImages();
-                    ImageManager.loadSpellMenuImages();
-                    ImageManager.loadSkillMenuImages();
-                    ImageManager.initializeAttributeImages();
-                    //ImageManager.loadAdditionalImages();
-
-                    if (progress < 100)
-                    {
-                        renderSplashFrame(g, 100, size);
-                    }
-                    else
-                    {
-                        renderSplashFrame(g, 100, size);
-                    }
-                }
-                else
-                {
-                    logger.error("game is null, how did this happen?");
-                }
-                g.dispose();
-            }
-            //finish splash, open UI
-            logger.info("splash finished");
-
-            if (splash != null)
-            {
-                splash.close();
-                try
-                {
-                    javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-                }
-                catch (Exception e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-            else
-            {
-                try
-                {
-                    javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-                }
-                catch (Exception e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-            UIStateMachine.setUiOpen(true);
-            //make this synchronous to make sure the UI is finished.
-            //initialize remaining stuff _after_ UI is definitely open
-            GameUtils.initializeRest();
-
-            //System.gc();
-        }
     }
 
     public static void setGame(Game game)
