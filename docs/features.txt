@@ -1,0 +1,21 @@
+Implemented Features
+====================
+
+Line of Sight and Fog of War - light sources are not a hard "bright" or "dark", there are incremental steps in between
+different animation systems - Lifeforms can be animated, as can terrain tiles, as can weather (snow, rain)
+synchronous weather system - weather can change with each turn
+async weather system - weather can change independently of movement (think Ultima 4 winds)
+music system that captures changes on game state and switches music accordingly
+sound effect system
+cut scenes in different flavors
+inventory and inventory dialog
+spell book and magic system
+npc patrolling
+limited npc scheduling
+light and day cycle
+skill tree
+conversation system
+stats system
+drag'n'drop
+combat system
+attribute system and dialog
