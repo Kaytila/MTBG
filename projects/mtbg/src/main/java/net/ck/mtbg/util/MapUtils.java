@@ -34,6 +34,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
@@ -622,7 +623,14 @@ public class MapUtils
     public static void writeMapToXML(Map map) throws IOException
     {
         BufferedWriter writer = null;
-        String fileName = "maps" + File.separator + map.getName() + ".xml";
+        String fileName = GameConfiguration.mapFileRootPath + File.separator + CodeUtils.removeFileExtension(map.getName(), true) + ".xml";
+
+        Path filePath = Paths.get(fileName);
+        if (Files.exists(filePath))
+        {
+            logger.debug("Map: {} already exists", fileName);
+            return;
+        }
         try
         {
             writer = new BufferedWriter(new FileWriter(fileName));
@@ -638,8 +646,9 @@ public class MapUtils
         writer.write("<weather>" + map.isWeatherSystem() + "</weather>");
         writer.write("<weatherrandomness>10</weatherrandomness>");
         writer.write("<wrapping>false</wrapping>");
-        writer.write("<name>" + map.getName() + "</name>");
-        writer.write("<!-- <visibility>1</visibility>-->");
+        writer.write("<name>" + CodeUtils.removeFileExtension(map.getName(), true) + "</name>");
+        writer.write("<visibility>1</visibility>");
+        writer.write("<visibility>1</visibility>");
         writer.write("<parent>" + map.getParentMap() + "</parent>");
         writer.write("</meta>");
         writer.write("<tiles>");
@@ -655,8 +664,6 @@ public class MapUtils
                 writer.write("<type>" + tile.getType() + "</type>");
                 writer.write("<x>" + tile.getX() + "</x>");
                 writer.write("<y>" + tile.getY() + "</y>");
-                writer.write("<targetMap>" + tile.getTargetMap() + "</targetMap>");
-                writer.write("<targetID>" + tile.getTargetID() + "</targetID>");
                 writer.write("</tile>");
             }
         }
@@ -745,8 +752,10 @@ public class MapUtils
     /**
      *
      */
-    public static void setVisibility(DayNight dayNight) {
-        switch (dayNight) {
+    public static void setVisibility(DayNight dayNight)
+    {
+        switch (dayNight)
+        {
             case NIGHT -> Game.getCurrent().getCurrentMap().setVisibilityRange(1);
             case DAY -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
             case DAWN -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
@@ -1131,11 +1140,22 @@ public class MapUtils
                     {
                         e.printStackTrace();
                     }
-                    logger.debug("END: parse File");
+                    logger.info("END: parse File");
+                    logger.info("START: write xml file");
+                    try
+                    {
+                        writeMapToXML(map);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    logger.info("END: write xml file");
+
                 }
             }
         }
-        logger.debug("END: text map translate");
+        logger.info("END: text map translate");
     }
 
     /**

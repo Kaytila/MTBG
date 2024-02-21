@@ -1038,3 +1038,4 @@ History of the changes:
 2024-02-07: dont have much time currently - took runGame and re-made the big if/else into one.
 2024-02-09: added a feature list
 2024-02-21: small refactoring and additions for daynight cycle - there are a few errors also in map initialization.
+2024-02-21: Updates to MapUtils/CodeUtils to make sure we can translate maps to XML once then only load from XML anymore
