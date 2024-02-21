@@ -15,6 +15,7 @@ import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.weather.DayNight;
 import org.apache.commons.lang3.Range;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -713,7 +714,7 @@ public class MapUtils
      * so this will need to be a little bit more flexible to have more ranges for light dawn, heavy dawn
      * and light dusk and heavy dusk
      */
-    public static void calculateDayOrNight()
+    public static DayNight calculateDayOrNight()
     {
         int hours = Game.getCurrent().getGameTime().getCurrentHour();
 
@@ -722,22 +723,35 @@ public class MapUtils
         Range<Integer> rangeDusk = Range.between(19, 21);
         if (rangeDay.contains(hours))
         {
-            Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
-            return;
+            //Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
+            return DayNight.DAY;
         }
         if (rangeDawn.contains(hours))
         {
-            Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
-            return;
+            //Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
+            return DayNight.DAWN;
         }
 
         if (rangeDusk.contains(hours))
         {
-            Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
-            return;
+            //Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
+            return DayNight.DUSK;
         }
         //night
-        Game.getCurrent().getCurrentMap().setVisibilityRange(1);
+        //Game.getCurrent().getCurrentMap().setVisibilityRange(1);
+        return DayNight.NIGHT;
+    }
+
+    /**
+     *
+     */
+    public static void setVisibility(DayNight dayNight) {
+        switch (dayNight) {
+            case NIGHT -> Game.getCurrent().getCurrentMap().setVisibilityRange(1);
+            case DAY -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
+            case DAWN -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
+            case DUSK -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
+        }
     }
 
     /**

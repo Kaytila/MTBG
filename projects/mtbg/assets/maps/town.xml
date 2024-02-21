@@ -8,7 +8,7 @@
         <visibility>1</visibility>
         <synchronweather>false</synchronweather>
         <fixedWeather>NONE</fixedWeather>
-        <minutesperturn>1</minutesperturn>
+        <minutesperturn>10</minutesperturn>
         <parent>gameMap</parent>
         <gamestate>TOWN</gamestate>
     </meta>

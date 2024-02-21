@@ -1037,3 +1037,4 @@ History of the changes:
 2024-01-26: added keyboard reference guide
 2024-02-07: dont have much time currently - took runGame and re-made the big if/else into one.
 2024-02-09: added a feature list
+2024-02-21: small refactoring and additions for daynight cycle - there are a few errors also in map initialization.

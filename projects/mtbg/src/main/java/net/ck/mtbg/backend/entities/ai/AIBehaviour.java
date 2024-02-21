@@ -322,4 +322,13 @@ public class AIBehaviour
         return null;
     }
 
+    /**
+     * if this is set, the NPC will try to douse light sources during the day
+     * and turn them on during the night again
+     */
+    public static void determineLightSource() {
+
+    }
+
+
 }

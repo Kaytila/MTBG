@@ -381,8 +381,9 @@ public class Game implements Runnable, Serializable
         Turn turn = new Turn(getTurnNumber());
         getTurns().add(turn);
         Game.getCurrent().setCurrentTurn(turn);
+        logger.debug("minutes per turn: {}", getCurrentMap().getMinutesPerTurn());
         getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
-        MapUtils.calculateDayOrNight();
+        MapUtils.setVisibility(MapUtils.calculateDayOrNight());
         logger.info("TURN ENDS");
         logger.info("=======================================================================================");
         if (UIStateMachine.isDialogOpened())

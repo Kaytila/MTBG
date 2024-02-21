@@ -532,7 +532,7 @@ public class GameUtils
 
         TimerManager.getHighlightTimer().start();
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
-        MapUtils.calculateDayOrNight();
+        MapUtils.setVisibility(MapUtils.calculateDayOrNight());
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         //let us see whether this works:
 
@@ -589,7 +589,7 @@ public class GameUtils
             {
                 map.initialize();
                 map.setVisibilityRange(2);
-
+                map.setMinutesPerTurn(10);
                 Game.getCurrent().setCurrentMap(map);
                 Game.getCurrent().addItemsToFloor();
                 //Game.getCurrent().addManyNPCs(map);
@@ -597,6 +597,8 @@ public class GameUtils
             }
         }
     }
+
+
 }
 
 
