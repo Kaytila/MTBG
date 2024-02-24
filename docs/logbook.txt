@@ -1039,3 +1039,4 @@ History of the changes:
 2024-02-09: added a feature list
 2024-02-21: small refactoring and additions for daynight cycle - there are a few errors also in map initialization.
 2024-02-21: Updates to MapUtils/CodeUtils to make sure we can translate maps to XML once then only load from XML anymore
+2024-02-24: bugfix: at least with calculating brightness in paint, lightsource furniture is taken into account again

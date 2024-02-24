@@ -203,32 +203,57 @@ public class JGridCanvas extends JComponent
                     }
                     //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize));
                     //i++;
+                    MapTile tile = UILense.getCurrent().mapTiles[row][column];
 
                     //paint darkness
                     if (row < frameTop)
                     {
-                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
-                        continue;
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
                     }
                     if (row > frameBottom)
                     {
-                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
-                        continue;
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
                     }
 
                     if (column < frameLeft)
                     {
-                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
-                        continue;
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
                     }
                     if (column > frameRight)
                     {
-                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
-                        continue;
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
                     }
 
                     //paint background
-                    MapTile tile = UILense.getCurrent().mapTiles[row][column];
+
 
                     // logger.info("buffered image: {}", img.toString());
                     /*
