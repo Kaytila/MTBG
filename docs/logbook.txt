@@ -1042,3 +1042,7 @@ History of the changes:
 2024-02-24: bugfix: at least with calculating brightness in paint, lightsource furniture is taken into account again
 2024-03-07: Update: changed the RunGame structure to make more sense and included a title screen that branches off into
             character editor and credits and so on.
+2024-03-07: OK, have a minimal title screen. Will need additional work with setting the timers only with actual game
+            start. Will need to write a new minimal Music Player that does not have the timers and additional baggage
+            the current one does which is used for game, I actually just want to have a small sound and perhaps click
+            sound player for the intro stuff. No need for additional things.

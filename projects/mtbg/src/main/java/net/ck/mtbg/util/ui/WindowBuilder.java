@@ -29,7 +29,8 @@ import java.awt.dnd.DropTarget;
 @Getter
 @Setter
 @Log4j2
-public class WindowBuilder {
+public class WindowBuilder
+{
 
     @Getter
     @Setter
@@ -131,17 +132,24 @@ public class WindowBuilder {
      */
     private static Controller controller;
 
+    @Getter
+    @Setter
+    private static TitleFrame titleFrame;
+
+    @Getter
+    @Setter
+    private static CharacterEditorFrame characterEditorFrame;
 
     /**
      * in smalltalk fashion, using buildGameWindow: :D
      * for creating the actual ui
-     *
+     * <p>
      * as a rule, we have a build method for each UI.
      * Will need to check how often the whole UI is built in the constructor
      * of the frame/dialog.
-     *
      */
-    public static void buildGameWindow(Controller mW) {
+    public static void buildGameWindow(Controller mW)
+    {
         logger.info("start: build window");
         controller = mW;
         frame = new GameFrame();
@@ -220,7 +228,7 @@ public class WindowBuilder {
      */
     public static void buildCharacterEditor()
     {
-        CharacterEditorFrame frame = new CharacterEditorFrame();
+        characterEditorFrame = new CharacterEditorFrame();
     }
 
     /**
@@ -230,7 +238,7 @@ public class WindowBuilder {
      */
     public static void buildTitleScreen()
     {
-        TitleFrame frame = new TitleFrame();
+        titleFrame = new TitleFrame();
         JLabel title = new JLabel();
         title.setText("TITLE");
         title.setBounds(30, 30, 100, 50);
@@ -240,11 +248,11 @@ public class WindowBuilder {
         JButton creditsButton = new TitleScreenButton(100, 210, "Credits");
         JButton optionsButton = new TitleScreenButton(100, 270, "Options");
         //TODO
-        frame.add(title);
-        frame.add(characterEditorButton);
-        frame.add(newGameButton);
-        frame.add(loadGameButton);
-        frame.add(creditsButton);
-        frame.add(optionsButton);
+        titleFrame.add(title);
+        titleFrame.add(characterEditorButton);
+        titleFrame.add(newGameButton);
+        titleFrame.add(loadGameButton);
+        titleFrame.add(creditsButton);
+        titleFrame.add(optionsButton);
     }
 }

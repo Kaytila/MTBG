@@ -29,6 +29,4 @@ public class CodeUtils
         String extPattern = "(?<!^)[.]" + (removeAllExtensions ? ".*" : "[^.]*$");
         return filename.replaceAll(extPattern, "");
     }
-
-
 }

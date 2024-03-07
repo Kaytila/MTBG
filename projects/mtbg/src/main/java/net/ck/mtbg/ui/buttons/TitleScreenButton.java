@@ -4,10 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.run.RunGame;
 import net.ck.mtbg.util.ui.WindowBuilder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
@@ -15,11 +18,13 @@ import java.awt.geom.Rectangle2D;
 @Getter
 @Setter
 @Log4j2
-public class TitleScreenButton extends JButton implements MouseListener {
+public class TitleScreenButton extends JButton implements MouseListener
+{
     private boolean hovered;
     private String label;
 
-    public TitleScreenButton(int x, int y, String label) {
+    public TitleScreenButton(int x, int y, String label)
+    {
         this.setFont(GameConfiguration.font);
         this.label = label;
         setText(label);
@@ -29,13 +34,30 @@ public class TitleScreenButton extends JButton implements MouseListener {
         hovered = false;
         this.addMouseListener(this);
         this.setVisible(true);
+        this.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (e.getActionCommand().equalsIgnoreCase("New Game"))
+                {
+                    logger.info("start game");
+                    WindowBuilder.getTitleFrame().dispose();
+                    RunGame.openGameUI();
+                }
+            }
+        });
     }
 
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g)
+    {
         super.paintComponent(g);
-        if (hovered) {
+        if (hovered)
+        {
             g.setColor(Color.white);
-        } else {
+        }
+        else
+        {
             g.setColor(Color.black);
         }
 
@@ -49,27 +71,32 @@ public class TitleScreenButton extends JButton implements MouseListener {
 
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e)
+    {
 
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e)
+    {
 
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e)
+    {
 
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e)
+    {
         hovered = true;
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e)
+    {
         hovered = false;
     }
 }

@@ -65,6 +65,11 @@ public class GameConfiguration
      * how big are the images, check this somewhere.
      */
     public static final Point imageSize = new Point(16, 16);
+
+    /**
+     * describes the max distance a lightsource may have an effect on the surroundings
+     */
+    public static final int lightSourceDistance = 2;
     /**
      * delay for missile timer to tick in ms
      */
@@ -101,7 +106,7 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = false;
+    public static final boolean playMusic = true;
     /**
      * do we want to play sound effects?
      */

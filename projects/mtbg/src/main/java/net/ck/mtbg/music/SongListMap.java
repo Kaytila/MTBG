@@ -1,33 +1,24 @@
 package net.ck.mtbg.music;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.state.GameState;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Getter
+@Setter
+@Log4j2
 public class SongListMap
 {
-    private final Logger                        logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private HashMap<GameState, ArrayList<Path>> resultMap;
-
 
     public SongListMap()
     {
         logger.info("initialize Song Map");
-    }
-
-    public HashMap<GameState, ArrayList<Path>> getResultMap()
-    {
-        return resultMap;
-    }
-
-    public void setResultMap(HashMap<GameState, ArrayList<Path>> resultMap)
-    {
-        this.resultMap = resultMap;
     }
 
     public void addSong(GameState state, Path song)

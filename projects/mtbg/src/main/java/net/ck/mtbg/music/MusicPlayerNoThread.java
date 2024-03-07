@@ -1,13 +1,13 @@
 package net.ck.mtbg.music;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.GameStateMachine;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.SoundUtils;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -22,55 +22,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@Getter
+@Setter
+@Log4j2
 public class MusicPlayerNoThread
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    AudioInputStream audioInputStream = null;
     private boolean gameStateChanged;
-
-
     private Clip currentMusic;
-    private Clip currentSound;
 
     private int clipTime;
-
     private boolean paused;
-
-    AudioInputStream audioInputStream = null;
-
     private DirectoryStream<Path> songDirectory;
     private List<File> songDirectories;
 
     private boolean musicIsRunning;
-
-    public DirectoryStream<Path> getSongDirectory()
-    {
-        return songDirectory;
-    }
-
-    public void setSongDirectory(DirectoryStream<Path> songDirectory)
-    {
-        this.songDirectory = songDirectory;
-    }
-
-    public List<File> getSongDirectories()
-    {
-        return songDirectories;
-    }
-
-    public void setSongDirectories(List<File> songDirectories)
-    {
-        this.songDirectories = songDirectories;
-    }
-
-    public SongListMap getResultMap()
-    {
-        return resultMap;
-    }
-
-    public void setResultMap(SongListMap resultMap)
-    {
-        this.resultMap = resultMap;
-    }
 
     private SongListMap resultMap = new SongListMap();
 
@@ -274,26 +241,6 @@ public class MusicPlayerNoThread
         setGameStateChanged(false);
     }
 
-    public Clip getCurrentMusic()
-    {
-        return currentMusic;
-    }
-
-    public void setCurrentMusic(Clip currentMusic)
-    {
-        this.currentMusic = currentMusic;
-    }
-
-    public Clip getCurrentSound()
-    {
-        return currentSound;
-    }
-
-    public void setCurrentSound(Clip currentSound)
-    {
-        this.currentSound = currentSound;
-    }
-
     /**
      * <a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java">a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java</a>
      * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
@@ -331,25 +278,5 @@ public class MusicPlayerNoThread
 
         currentMusic.start();
         setPaused(false);
-    }
-
-    public boolean isPaused()
-    {
-        return paused;
-    }
-
-    public void setPaused(boolean paused)
-    {
-        this.paused = paused;
-    }
-
-    public boolean isGameStateChanged()
-    {
-        return gameStateChanged;
-    }
-
-    public void setGameStateChanged(boolean gameStateChanged)
-    {
-        this.gameStateChanged = gameStateChanged;
     }
 }

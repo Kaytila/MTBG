@@ -234,7 +234,7 @@ public class MapUtils
     }
 
 
-    public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range, Map map)
+    public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range)
     {
         ArrayList<MapTile> visibleTiles = new ArrayList<>();
         Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
@@ -802,6 +802,13 @@ public class MapUtils
                 }
                 t.setHidden(false);
                 t.setBrightenFactor(0);
+                //TODO check area around this tile for light source
+                //TODO broken somehow yet still
+
+                /*else
+                {
+                    t.setBrightenFactor(0);
+                }*/
             }
         }
         //paint LoS
@@ -838,7 +845,7 @@ public class MapUtils
                     if (item.isLightSource() == true)
                     {
                         int lightrange = item.getLightRange();
-                        ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange, Game.getCurrent().getCurrentMap());
+                        ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
                         for (MapTile tile : tiles)
                         {
                             // logger.debug("tile: {}", tile);
@@ -865,6 +872,12 @@ public class MapUtils
                 }
                 else
                 {
+                    /*if (checkForLightSourceAround(t))
+                    {
+                        t.setBrightenFactor(1);
+                    }*/
+
+
                     if (t.getBrightenFactor() > 0)
                     {
 
@@ -948,6 +961,46 @@ public class MapUtils
             }
         }
         //logger.info("raycasting calculation takes: {} nanoseconds", System.nanoTime() - start);
+    }
+
+    /**
+     * @param t maptile
+     * @return true if there is a lightsource in max distance
+     */
+    private static boolean checkForLightSourceAround(MapTile t)
+    {
+        ArrayList<MapTile> mapTiles = getMapTilesAroundPointByDistance(t, GameConfiguration.lightSourceDistance);
+        for (MapTile tile : mapTiles)
+        {
+            if (tile.getFurniture() != null)
+            {
+                if (tile.getFurniture().isLightSource())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static ArrayList<MapTile> getMapTilesAroundPointByDistance(MapTile t, int lightSourceDistance)
+    {
+        //TODO
+        Range<Integer> range = Range.between(Math.negateExact(lightSourceDistance), lightSourceDistance);
+        ArrayList<MapTile> allTilesAroundTile = new ArrayList<>();
+
+        for (int column = 0; column < Game.getCurrent().getCurrentMap().getSize().x; column++)
+        {
+            for (int row = 0; row < Game.getCurrent().getCurrentMap().getSize().y; row++)
+            {
+                MapTile otherTile = Game.getCurrent().getCurrentMap().mapTiles[column][row];
+                if (range.contains(t.x - otherTile.x) || (range.contains(t.y - otherTile.y)))
+                {
+                    allTilesAroundTile.add(otherTile);
+                }
+            }
+        }
+        return allTilesAroundTile;
     }
 
     public static Point calculateMapSize(ArrayList<MapTile> maptiles)

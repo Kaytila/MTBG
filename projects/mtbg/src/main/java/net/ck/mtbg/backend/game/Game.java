@@ -147,7 +147,7 @@ public class Game implements Runnable, Serializable
         GameStateMachine.getCurrent().setCurrentState(GameState.WORLD);
 
         setGameTime(new GameTime());
-        getGameTime().setCurrentHour(8);
+        getGameTime().setCurrentHour(18);
 
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");
@@ -175,7 +175,7 @@ public class Game implements Runnable, Serializable
 
         MapUtils.getMapTileByCoordinates(6, 5).add(sling);
         //logger.info("furniture: {}", getFurnitureList().get(0));
-        MapUtils.getMapTileByCoordinates(9, 4).setFurniture(ItemManager.getFurnitureList().get(1));
+        MapUtils.getMapTileByCoordinates(9, 3).setFurniture(ItemManager.getFurnitureList().get(1));
 
     }
 

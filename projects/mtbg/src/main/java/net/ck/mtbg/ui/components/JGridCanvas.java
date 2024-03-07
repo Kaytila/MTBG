@@ -9,7 +9,6 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.GameLogs;
-import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.mtbg.ui.state.UIStateMachine;
@@ -19,7 +18,6 @@ import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.graphics.*;
 import net.ck.mtbg.util.communication.keyboard.*;
-import net.ck.mtbg.weather.WeatherTypes;
 import org.apache.commons.lang3.Range;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -473,87 +471,90 @@ public class JGridCanvas extends JComponent
         }
     }
 
-    private synchronized void paintFurniture(Graphics g)
-    {
-        for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
-        {
-            if (tile.getFurniture() != null)
-            {
-                //logger.info("furniture");
-                FurnitureItem item = tile.getFurniture();
-                Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-                BufferedImage img = item.getItemImage();
-                if (img == null)
-                {
-                    logger.error("tile has no image: {}", tile);
-                }
-
-                if (item.isLightSource())
-                {
-                    //identify map tiles within range.
-                    int lightrange = item.getLightRange();
-                    ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(tile, lightrange, Game.getCurrent().getCurrentMap());
-                    for (MapTile t : tiles)
-                    {
-                        screenPosition = MapUtils.calculateUIPositionFromMapOffset(t.getMapPosition());
-                        if (t.equals(tile))
-                        {
-                            g.drawImage(ImageUtils.brightenUpImage(ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage()), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                            img = ImageUtils.brightenUpImage(img, 1, 1);
-                            g.drawImage(ImageUtils.brightenUpImage(img, 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                            //logger.info("drawing here: x: {}  y: {}", (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize));
-                        }
-                        else
-                        {
-                            //background
-                            g.drawImage(ImageUtils.brightenUpImage(ImageUtils.getTileTypeImages().get(t.getType()).get(getCurrentBackgroundImage()), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-
-                            /*if (t.getFurniture() != null)
-                            {
-                                logger.info("Drawing there2");
-                                g.drawImage(ImageUtils.brightenUpImage(t.getFurniture().getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                            }*/
-                            if (!(t.getInventory().isEmpty()))
-                            {
-                                g.drawImage(ImageUtils.brightenUpImage(t.getInventory().get(0).getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                            }
-                            LifeForm n = null;
-                            boolean filled = false;
-                            for (LifeForm npc : Game.getCurrent().getCurrentMap().getLifeForms())
-                            {
-                                if (t.getMapPosition().equals(npc.getMapPosition()))
-                                {
-                                    filled = true;
-                                    n = npc;
-                                    break;
-                                }
-                            }
-                            //there is a npc on the tile
-                            if (filled)
-                            {
-                                //g.drawImage(ImageUtils.brightenUpImage(n.getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
-                            }
-
-                            //PC !!!
-                            if (t.getMapPosition().equals(Game.getCurrent().getCurrentPlayer().getMapPosition()))
-                            {
-                                //g.drawImage(ImageUtils.brightenUpImage(Game.getCurrent().getCurrentPlayer().getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    //logger.info("no light source");
-                    g.drawImage(tile.getFurniture().getItemImage(), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                }
-                //TODO think about whether to add weather images to the lightened areas away from player
-                //img = ImageUtils.getWeatherTypeImages().get(Game.getCurrent().getCurrentMap().getCurrentWeather().getType()).get(getCurrentForegroundImage());
-                //logger.info("buffered image: {}", img.toString());
-                //g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-            }
-        }
-    }
+    /**
+     * private synchronized void paintFurniture(Graphics g)
+     * <p>
+     * {
+     * for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
+     * {
+     * if (tile.getFurniture() != null)
+     * {
+     * //logger.info("furniture");
+     * FurnitureItem item = tile.getFurniture();
+     * Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+     * BufferedImage img = item.getItemImage();
+     * if (img == null)
+     * {
+     * logger.error("tile has no image: {}", tile);
+     * }
+     * <p>
+     * if (item.isLightSource())
+     * {
+     * //identify map tiles within range.
+     * int lightrange = item.getLightRange();
+     * ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(tile, lightrange, Game.getCurrent().getCurrentMap());
+     * for (MapTile t : tiles)
+     * {
+     * screenPosition = MapUtils.calculateUIPositionFromMapOffset(t.getMapPosition());
+     * if (t.equals(tile))
+     * {
+     * g.drawImage(ImageUtils.brightenUpImage(ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage()), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * img = ImageUtils.brightenUpImage(img, 1, 1);
+     * g.drawImage(ImageUtils.brightenUpImage(img, 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * //logger.info("drawing here: x: {}  y: {}", (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize));
+     * }
+     * else
+     * {
+     * //background
+     * g.drawImage(ImageUtils.brightenUpImage(ImageUtils.getTileTypeImages().get(t.getType()).get(getCurrentBackgroundImage()), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * <p>
+     * /*if (t.getFurniture() != null)
+     * {
+     * logger.info("Drawing there2");
+     * g.drawImage(ImageUtils.brightenUpImage(t.getFurniture().getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * }
+     * if (!(t.getInventory().isEmpty()))
+     * {
+     * g.drawImage(ImageUtils.brightenUpImage(t.getInventory().get(0).getItemImage(), 1, 1), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * }
+     * LifeForm n = null;
+     * boolean filled = false;
+     * for (LifeForm npc : Game.getCurrent().getCurrentMap().getLifeForms())
+     * {
+     * if (t.getMapPosition().equals(npc.getMapPosition()))
+     * {
+     * filled = true;
+     * n = npc;
+     * break;
+     * }
+     * }
+     * //there is a npc on the tile
+     * if (filled)
+     * {
+     * //g.drawImage(ImageUtils.brightenUpImage(n.getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
+     * }
+     * <p>
+     * //PC !!!
+     * if (t.getMapPosition().equals(Game.getCurrent().getCurrentPlayer().getMapPosition()))
+     * {
+     * //g.drawImage(ImageUtils.brightenUpImage(Game.getCurrent().getCurrentPlayer().getCurrentImage(), 1, 1), ((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), ((screenPosition.y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4)), this);
+     * }
+     * }
+     * }
+     * }
+     * else
+     * {
+     * //logger.info("no light source");
+     * g.drawImage(tile.getFurniture().getItemImage(), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * }
+     * //TODO think about whether to add weather images to the lightened areas away from player
+     * //img = ImageUtils.getWeatherTypeImages().get(Game.getCurrent().getCurrentMap().getCurrentWeather().getType()).get(getCurrentForegroundImage());
+     * //logger.info("buffered image: {}", img.toString());
+     * //g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+     * }
+     * }
+     * }
+     **/
 
     private void paintGridLines(Graphics g)
     {
@@ -649,7 +650,7 @@ public class JGridCanvas extends JComponent
     }
 
 
-    private void paintWeather(Graphics g)
+    /*private void paintWeather(Graphics g)
     {
         if (Game.getCurrent().getCurrentMap().getWeather().getType() == WeatherTypes.SUN)
         {
@@ -670,7 +671,7 @@ public class JGridCanvas extends JComponent
                 }
             }
         }
-    }
+    }*/
 
     /**
      * @param event an animatedRepresentation has changed, repaint the canvas this triggers the whole repaint - do this more often, then there is more fluidity
@@ -797,35 +798,39 @@ public class JGridCanvas extends JComponent
     }
 
 
+    /**
+     *
+     * @param g
+
     private void paintDarkness(Graphics g)
     {
-        int frameTop = Game.getCurrent().getCurrentPlayer().getUIPosition().y - Game.getCurrent().getCurrentMap().getVisibilityRange();
-        int frameBottom = Game.getCurrent().getCurrentPlayer().getUIPosition().y + Game.getCurrent().getCurrentMap().getVisibilityRange();
-        int frameLeft = Game.getCurrent().getCurrentPlayer().getUIPosition().x - Game.getCurrent().getCurrentMap().getVisibilityRange();
-        int frameRight = Game.getCurrent().getCurrentPlayer().getUIPosition().x + Game.getCurrent().getCurrentMap().getVisibilityRange();
+    int frameTop = Game.getCurrent().getCurrentPlayer().getUIPosition().y - Game.getCurrent().getCurrentMap().getVisibilityRange();
+    int frameBottom = Game.getCurrent().getCurrentPlayer().getUIPosition().y + Game.getCurrent().getCurrentMap().getVisibilityRange();
+    int frameLeft = Game.getCurrent().getCurrentPlayer().getUIPosition().x - Game.getCurrent().getCurrentMap().getVisibilityRange();
+    int frameRight = Game.getCurrent().getCurrentPlayer().getUIPosition().x + Game.getCurrent().getCurrentMap().getVisibilityRange();
 
-        for (Point uiTile : UILense.getCurrent().getVisibleUICoordinates())
-        {
-            //logger.info("point p: {}", uiTile.toString());
-            if (uiTile.y < frameTop)
-            {
-                g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
-            }
-            if (uiTile.y > frameBottom)
-            {
-                g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
-            }
-
-            if (uiTile.x < frameLeft)
-            {
-                g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
-            }
-            if (uiTile.x > frameRight)
-            {
-                g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
-            }
-        }
+    for (Point uiTile : UILense.getCurrent().getVisibleUICoordinates())
+    {
+    //logger.info("point p: {}", uiTile.toString());
+    if (uiTile.y < frameTop)
+    {
+    g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
     }
+    if (uiTile.y > frameBottom)
+    {
+    g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
+    }
+
+    if (uiTile.x < frameLeft)
+    {
+    g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
+    }
+    if (uiTile.x > frameRight)
+    {
+    g.drawImage(blackImage, (uiTile.x * GameConfiguration.tileSize), (uiTile.y * GameConfiguration.tileSize), this);
+    }
+    }
+    }*/
 
 
     /**
@@ -1004,7 +1009,7 @@ public class JGridCanvas extends JComponent
     }
 
 
-    private void paintItems(Graphics g)
+    /*private void paintItems(Graphics g)
     {
         for (MapTile tile : UILense.getCurrent().getVisibleMapTiles())
         {
@@ -1014,7 +1019,7 @@ public class JGridCanvas extends JComponent
                 g.drawImage(tile.getInventory().get(0).getItemImage(), (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
             }
         }
-    }
+    }*/
 
     /**
      * TODO this is where I will paint the borders
@@ -1032,7 +1037,7 @@ public class JGridCanvas extends JComponent
      *
      * @param g standard graphics context
      */
-    private void paintLoS(Graphics g)
+    /*private void paintLoS(Graphics g)
     {
         for (Point p : UILense.getCurrent().getVisibleUICoordinates())
         {
@@ -1060,8 +1065,7 @@ public class JGridCanvas extends JComponent
                 }
             }
         }
-    }
-
+    }*/
     public synchronized Point getHighlightPosition()
     {
         return highlightPosition;
