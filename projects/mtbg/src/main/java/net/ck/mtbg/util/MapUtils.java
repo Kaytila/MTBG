@@ -873,7 +873,7 @@ public class MapUtils
                     {
                         int absX = Math.abs(pX - row);
                         int absY = Math.abs(pY - column);
-                        logger.debug("t: {} {}", t, Math.max(absX, absY));
+                        //logger.debug("t: {} {}", t, Math.max(absX, absY));
                         t.setBrightenFactor(Math.max(absX, absY));
                     }
                 }

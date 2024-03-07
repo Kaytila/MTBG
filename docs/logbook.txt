@@ -1040,3 +1040,5 @@ History of the changes:
 2024-02-21: small refactoring and additions for daynight cycle - there are a few errors also in map initialization.
 2024-02-21: Updates to MapUtils/CodeUtils to make sure we can translate maps to XML once then only load from XML anymore
 2024-02-24: bugfix: at least with calculating brightness in paint, lightsource furniture is taken into account again
+2024-03-07: Update: changed the RunGame structure to make more sense and included a title screen that branches off into
+            character editor and credits and so on.

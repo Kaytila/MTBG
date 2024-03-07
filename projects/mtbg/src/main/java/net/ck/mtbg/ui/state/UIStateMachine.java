@@ -73,4 +73,5 @@ public class UIStateMachine
     @Getter
     @Setter
     private static Point lastMousePosition;
+
 }

@@ -6,8 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.listeners.Controller;
+import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.*;
+import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.WeatherTypes;
 
 import java.awt.*;
@@ -158,27 +160,48 @@ public class RunGame
 
         if (splash != null) {
             splash.close();
-            try {
-                javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            try
-            {
-                javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException(e);
-            }
         }
+
+        openTitleScreen();
+
+        //openCharacterEditor();
+    }
+
+
+    public static void openGameUI() {
+        /*try
+        {
+            javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }*/
+        setWindow(new Controller());
         UIStateMachine.setUiOpen(true);
         //make this synchronous to make sure the UI is finished.
         //initialize remaining stuff _after_ UI is definitely open
         GameUtils.initializeRest();
-
     }
+
+    public static void openCharacterEditor() {
+        try {
+            logger.info("open character editor");
+            javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildCharacterEditor());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void openTitleScreen() {
+        try {
+            logger.info("open character editor");
+            javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildTitleScreen());
+            UIStateMachine.setUiState(UIState.TITLE);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static void setGame(Game game)
     {

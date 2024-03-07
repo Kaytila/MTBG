@@ -100,7 +100,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         EventBus.getDefault().register(this);
         UIStateMachine.setMouseOutsideOfGrid(true);
-        WindowBuilder.buildWindow(this);
+        WindowBuilder.buildGameWindow(this);
     }
 
     public synchronized AbstractSpell getCurrentSpellInHand()

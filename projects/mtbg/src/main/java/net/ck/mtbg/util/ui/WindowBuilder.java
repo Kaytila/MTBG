@@ -1,5 +1,8 @@
 package net.ck.mtbg.util.ui;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.buttons.*;
 import net.ck.mtbg.ui.components.InputField;
@@ -12,9 +15,9 @@ import net.ck.mtbg.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.mtbg.ui.dnd.JGridCanvasDropTargetHandler;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.listeners.MyFocusListener;
+import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.mainframes.GameFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.ck.mtbg.ui.mainframes.TitleFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,199 +26,122 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 
+@Getter
+@Setter
+@Log4j2
 public class WindowBuilder {
-    private static final Logger logger = LogManager.getLogger(WindowBuilder.class);
 
+    @Getter
+    @Setter
     /**
      * stats Dialog - there will be one dialog only with exchanging JPanels
      */
     private static StatsDialog statsDialog;
 
+    @Getter
+    @Setter
     /**
      * mainframe
      */
     private static JFrame frame;
 
+    @Getter
+    @Setter
     /**
      * left part, GRID Canvas
      */
     private static JGridCanvas gridCanvas;
 
+    @Getter
+    @Setter
     /**
      * inventoryDialog
      */
     private static InventoryDialog inventoryDialog;
 
+    @Getter
+    @Setter
     /**
      * text area is the textlist where all the actions are stored
      */
     private static TextList textArea;
 
+    @Getter
+    @Setter
     /**
      * shows the last command
      */
     private static InputField textField;
 
+    @Getter
+    @Setter
     /**
      * undo button for retracting turns
      */
     private static JButton undoButton;
 
+    @Getter
+    @Setter
     /**
      * weather canvas
      */
     private static JWeatherCanvas weatherCanvas;
 
+    @Getter
+    @Setter
     /**
      * button for stopping music - will need to move into options menu once music works properly
      */
     private static StopMusicButton stopMusicButton;
 
+    @Getter
+    @Setter
     /**
      * button for starting music - will need to move into options menu once music works properly
      */
     private static StartMusicButton startMusicButton;
 
+    @Getter
+    @Setter
     /**
      * button for increasing volume
      */
     private static IncreaseVolumeButton increaseVolumeButton;
 
+    @Getter
+    @Setter
     /**
      * button for decreasing volume
      */
     private static DecreaseVolumeButton decreaseVolumeButton;
 
-
+    @Getter
+    @Setter
     private static SaveButton saveButton;
 
+    @Getter
+    @Setter
     private static LoadButton loadButton;
 
-    public static Controller getController()
-    {
-        return controller;
-    }
 
-    public static void setController(Controller controller)
-    {
-        WindowBuilder.controller = controller;
-    }
-
+    @Getter
+    @Setter
     /**
      * mainWindow is not the mainWindow, this is actually the controller
      */
     private static Controller controller;
 
-    public static StatsDialog getStatsDialog()
-    {
-        return statsDialog;
-    }
-
-    public static void setStatsDialog(StatsDialog statsDialog) {
-        WindowBuilder.statsDialog = statsDialog;
-    }
-
-    public static JFrame getFrame() {
-        return frame;
-    }
-
-    public static void setFrame(JFrame frame) {
-        WindowBuilder.frame = frame;
-    }
-
-    public static JGridCanvas getGridCanvas() {
-        return gridCanvas;
-    }
-
-    public static void setGridCanvas(JGridCanvas gridCanvas) {
-        WindowBuilder.gridCanvas = gridCanvas;
-    }
-
-    public static InventoryDialog getInventoryDialog() {
-        return inventoryDialog;
-    }
-
-    public static void setInventoryDialog(InventoryDialog inventoryDialog) {
-        WindowBuilder.inventoryDialog = inventoryDialog;
-    }
-
-    public static TextList getTextArea() {
-        return textArea;
-    }
-
-    public static void setTextArea(TextList textArea) {
-        WindowBuilder.textArea = textArea;
-    }
-
-    public static InputField getTextField() {
-        return textField;
-    }
-
-    public static void setTextField(InputField textField) {
-        WindowBuilder.textField = textField;
-    }
-
-    public static JButton getUndoButton() {
-        return undoButton;
-    }
-
-    public static void setUndoButton(JButton undoButton) {
-        WindowBuilder.undoButton = undoButton;
-    }
-
-    public static JWeatherCanvas getWeatherCanvas() {
-        return weatherCanvas;
-    }
-
-    public static void setWeatherCanvas(JWeatherCanvas weatherCanvas) {
-        WindowBuilder.weatherCanvas = weatherCanvas;
-    }
-
-    public static StopMusicButton getStopMusicButton() {
-        return stopMusicButton;
-    }
-
-    public static void setStopMusicButton(StopMusicButton stopMusicButton) {
-        WindowBuilder.stopMusicButton = stopMusicButton;
-    }
-
-    public static StartMusicButton getStartMusicButton() {
-        return startMusicButton;
-    }
-
-    public static void setStartMusicButton(StartMusicButton startMusicButton) {
-        WindowBuilder.startMusicButton = startMusicButton;
-    }
-
-    public static IncreaseVolumeButton getIncreaseVolumeButton() {
-        return increaseVolumeButton;
-    }
-
-    public static void setIncreaseVolumeButton(IncreaseVolumeButton increaseVolumeButton) {
-        WindowBuilder.increaseVolumeButton = increaseVolumeButton;
-    }
-
-    public static DecreaseVolumeButton getDecreaseVolumeButton() {
-        return decreaseVolumeButton;
-    }
-
-    public static void setDecreaseVolumeButton(DecreaseVolumeButton decreaseVolumeButton) {
-        WindowBuilder.decreaseVolumeButton = decreaseVolumeButton;
-    }
-
-    public static Controller getMainWindow() {
-        return controller;
-    }
-
-    public static void setMainWindow(Controller controller) {
-        WindowBuilder.controller = controller;
-    }
 
     /**
-     * in smalltalk fashion, using buildWindow: :D
+     * in smalltalk fashion, using buildGameWindow: :D
      * for creating the actual ui
+     *
+     * as a rule, we have a build method for each UI.
+     * Will need to check how often the whole UI is built in the constructor
+     * of the frame/dialog.
+     *
      */
-    public static void buildWindow(Controller mW) {
+    public static void buildGameWindow(Controller mW) {
         logger.info("start: build window");
         controller = mW;
         frame = new GameFrame();
@@ -277,6 +203,7 @@ public class WindowBuilder {
         undoButton.addActionListener(controller);
 
         DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
+
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
 
@@ -286,23 +213,38 @@ public class WindowBuilder {
         logger.info("finish: build window: UI is open");
     }
 
-    public static LoadButton getLoadButton()
+    /**
+     * as a rule, we have a build method for each UI.
+     * Will need to check how often the whole UI is built in the constructor
+     * of the frame/dialog.
+     */
+    public static void buildCharacterEditor()
     {
-        return loadButton;
+        CharacterEditorFrame frame = new CharacterEditorFrame();
     }
 
-    public static void setLoadButton(LoadButton loadButton)
+    /**
+     * as a rule, we have a build method for each UI.
+     * Will need to check how often the whole UI is built in the constructor
+     * of the frame/dialog.
+     */
+    public static void buildTitleScreen()
     {
-        WindowBuilder.loadButton = loadButton;
-    }
-
-    public static SaveButton getSaveButton()
-    {
-        return saveButton;
-    }
-
-    public static void setSaveButton(SaveButton saveButton)
-    {
-        WindowBuilder.saveButton = saveButton;
+        TitleFrame frame = new TitleFrame();
+        JLabel title = new JLabel();
+        title.setText("TITLE");
+        title.setBounds(30, 30, 100, 50);
+        JButton characterEditorButton = new TitleScreenButton(100, 30, "Editor");
+        JButton newGameButton = new TitleScreenButton(100, 90, "New Game");
+        JButton loadGameButton = new TitleScreenButton(100, 150, "Load Game");
+        JButton creditsButton = new TitleScreenButton(100, 210, "Credits");
+        JButton optionsButton = new TitleScreenButton(100, 270, "Options");
+        //TODO
+        frame.add(title);
+        frame.add(characterEditorButton);
+        frame.add(newGameButton);
+        frame.add(loadGameButton);
+        frame.add(creditsButton);
+        frame.add(optionsButton);
     }
 }
