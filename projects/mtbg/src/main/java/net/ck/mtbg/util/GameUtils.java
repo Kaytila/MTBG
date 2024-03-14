@@ -365,7 +365,7 @@ public class GameUtils
                 {
                     logger.info("parsing map: {}", GameConfiguration.mapFileRootPath + File.separator + file.getName());
                     Map map = RunXMLParser.parseMap(GameConfiguration.mapFileRootPath + File.separator + file.getName());
-
+                    logger.info("parsed map: {}", map);
                     Game.getCurrent().getMaps().add(map);
                 }
 
@@ -574,6 +574,7 @@ public class GameUtils
     {
         for (Map map : Game.getCurrent().getMaps())
         {
+
             map.setVisibilityRange(1);
 
             map.setWeatherSystem(true);
@@ -587,6 +588,7 @@ public class GameUtils
 
             if (Objects.requireNonNull(map).getName().equalsIgnoreCase(GameConfiguration.startMap))
             {
+                logger.info("map: {}", map);
                 map.initialize();
                 map.setVisibilityRange(2);
                 map.setMinutesPerTurn(10);

@@ -130,7 +130,7 @@ public class GameConfiguration
      * where to find the spells xml
      */
     public static final String spellsFileRootPath = out + File.separator + "spells";
-    public static final String startMap = "outpost.txt";
+    public static final String startMap = "outpost";
     public static final Point startPosition = new Point(2, 1);
     /**
      * how many nanoseconds are in a second?

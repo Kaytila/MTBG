@@ -9,9 +9,12 @@ import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.*;
+import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.WeatherTypes;
+import org.greenrobot.eventbus.EventBus;
 
+import javax.swing.*;
 import java.awt.*;
 
 @Getter
@@ -131,8 +134,6 @@ public class RunGame
                     renderSplashFrame(g, size);
                 }
                 GameUtils.initializeHitOrMissTimer();
-                GameUtils.initializeMusicSystemNoThread();
-                GameUtils.initializeSoundSystemNoThread();
                 if (!(GameConfiguration.quickstart)) {
                     renderSplashFrame(g, size);
                 }
@@ -169,17 +170,22 @@ public class RunGame
 
 
     public static void openGameUI() {
-        /*try
-        {
-            javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
-        setWindow(new Controller());
-        UIStateMachine.setUiOpen(true);
+        if (SwingUtilities.isEventDispatchThread() == false) {
+            try {
+                javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            setWindow(new Controller());
+        }
+        UIStateMachine.setUiState(UIState.ACTIVATED);
         //make this synchronous to make sure the UI is finished.
         //initialize remaining stuff _after_ UI is definitely open
         GameUtils.initializeRest();
+        GameUtils.initializeMusicSystemNoThread();
+        GameUtils.initializeSoundSystemNoThread();
+        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 
     public static void openCharacterEditor() {

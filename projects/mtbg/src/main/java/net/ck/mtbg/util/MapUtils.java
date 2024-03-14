@@ -10,7 +10,6 @@ import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
-import net.ck.mtbg.map.AbstractMap;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
@@ -57,7 +56,7 @@ public class MapUtils
      * @param ID  the id
      * @return the MapTile the id matches
      */
-    public static MapTile getMapTileByID(AbstractMap map, int ID)
+    public static MapTile getMapTileByID(Map map, int ID)
     {
         for (int x = 0; x < map.getSize().x; x++)
         {
@@ -74,7 +73,7 @@ public class MapUtils
     }
 
 
-    public static MapTile getMapTileByCoordinates(AbstractMap map, int x, int y)
+    public static MapTile getMapTileByCoordinates(Map map, int x, int y)
     {
         return map.mapTiles[x][y];
     }
@@ -1187,7 +1186,7 @@ public class MapUtils
                         //TODO translate arraylist to array
                         map.setSize(calculateMapSize(mapTiles));
                         map.setMapTiles(calculateMapTileArray(mapTiles, map.getSize()));
-                        Game.getCurrent().getMaps().add(map);
+                        //Game.getCurrent().getMaps().add(map);
                         reader.close();
                     }
                     catch (Exception e)

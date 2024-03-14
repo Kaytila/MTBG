@@ -144,7 +144,7 @@ public class Game implements Runnable, Serializable
         setCurrentTurn(turn);
         getTurns().add(turn);
         setEn(new World());
-        GameStateMachine.getCurrent().setCurrentState(GameState.WORLD);
+        //GameStateMachine.getCurrent().setCurrentState(GameState.WORLD);
 
         setGameTime(new GameTime());
         getGameTime().setCurrentHour(18);

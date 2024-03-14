@@ -1046,3 +1046,8 @@ History of the changes:
             start. Will need to write a new minimal Music Player that does not have the timers and additional baggage
             the current one does which is used for game, I actually just want to have a small sound and perhaps click
             sound player for the intro stuff. No need for additional things.
+2024-03-14: title screen to game works. Music on title works.
+            Will need to get this initialized before though.
+            Will need to do a few changes with the timers that they only start once the UI
+            is actually opened. What was the bug? The text map translator added the translated map already before it was
+            parsed again and added again and the wrong version was added.

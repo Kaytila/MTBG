@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.ui.listeners.TitleController;
 
 import javax.swing.*;
@@ -20,7 +19,7 @@ public class TitleFrame extends JFrame
     public TitleFrame() throws HeadlessException
     {
         this.titleController = new TitleController(this);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(500, 500, GameConfiguration.UIwidth, GameConfiguration.UIheight);
         logger.info("bound: {}", this.getBounds());
         this.setLocationRelativeTo(null);
@@ -29,7 +28,5 @@ public class TitleFrame extends JFrame
         this.setLayout(null);
         this.setVisible(true);
         this.addWindowListener(titleController);
-
-        NoiseManager.getMusicSystemNoThread().playSong();
     }
 }

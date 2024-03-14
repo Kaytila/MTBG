@@ -371,6 +371,7 @@ public class MapXMLReader extends DefaultHandler
                 gameMap.setMinutesPerTurn(Integer.parseInt(data.toString()));
                 break;
             case "gamestate":
+                logger.info("parsing game state map: {} ", GameState.valueOf(data.toString()));
                 gameMap.setGameState(GameState.valueOf(data.toString()));
                 break;
             case "mapPosition":
