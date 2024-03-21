@@ -52,114 +52,136 @@ public class RunGame
 
         Graphics2D g = splash.createGraphics();
 
-            logger.info("quickstart enabled, no splashscreen");
-            logger.info("initialize game");
-            CursorUtils.initializeCursors();
-            game = Game.getCurrent();
-            if (game != null)
+        logger.info("quickstart enabled, no splashscreen");
+        logger.info("initialize game");
+        CursorUtils.initializeCursors();
+        game = Game.getCurrent();
+        if (game != null)
+        {
+            if (generate)
             {
-                if (generate)
-                {
-                    ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
-                    ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
-                    ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
-                }
-                GameUtils.initializeAllItems();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeSpells();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeSkills();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeMaps();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                MapUtils.translateTextMaps();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.setStartMap();
-                game.addPlayers(GameConfiguration.startPosition);
-                //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
-                //game.addAnimatedEntities();
-                GameUtils.initializeAnimationSystem();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeBackgroundAnimationSystem();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeForegroundAnimationSystem();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeWeatherSystem();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeIdleTimer();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeQuequeTimer();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeMissileThread();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeMusicTimer();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                ImageUtils.initializeBackgroundImages();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                ImageUtils.initializeForegroundImages();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                game.startThreads();
-                GameUtils.initializeHighlightingTimer();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                GameUtils.initializeHitOrMissTimer();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                ImageManager.loadLifeFormImages();
-                ImageManager.loadSpellMenuImages();
-                ImageManager.loadSkillMenuImages();
-                ImageManager.initializeAttributeImages();
-                if (!(GameConfiguration.quickstart)) {
-                    renderSplashFrame(g, size);
-                }
-                //ImageManager.loadAdditionalImages();
+                ImageUtils.createWeatherTypesImages(WeatherTypes.RAIN);
+                ImageUtils.createWeatherTypesImages(WeatherTypes.HAIL);
+                ImageUtils.createWeatherTypesImages(WeatherTypes.SNOW);
+            }
+            GameUtils.initializeAllItems();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeSpells();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeSkills();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeMaps();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            MapUtils.translateTextMaps();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.setStartMap();
+            game.addPlayers(GameConfiguration.startPosition);
+            //ImageUtils.checkImageSize(Game.getCurrent().getCurrentPlayer());
+            //game.addAnimatedEntities();
+            GameUtils.initializeAnimationSystem();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeBackgroundAnimationSystem();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeForegroundAnimationSystem();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeWeatherSystem();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeIdleTimer();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeQuequeTimer();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeMissileThread();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeMusicTimer();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            ImageUtils.initializeBackgroundImages();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            ImageUtils.initializeForegroundImages();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            game.startThreads();
+            GameUtils.initializeHighlightingTimer();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            GameUtils.initializeHitOrMissTimer();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            ImageManager.loadLifeFormImages();
+            ImageManager.loadSpellMenuImages();
+            ImageManager.loadSkillMenuImages();
+            ImageManager.initializeAttributeImages();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
+            //ImageManager.loadAdditionalImages();
 
-                if (progress < 100) {
-                    renderSplashFrame(g, 100, size);
-                } else {
-                    renderSplashFrame(g, 100, size);
-                }
-
+            if (progress < 100)
+            {
+                renderSplashFrame(g, 100, size);
             }
             else
             {
-                logger.error("game is null, how did this happen?");
+                renderSplashFrame(g, 100, size);
             }
+
+        }
+        else
+        {
+            logger.error("game is null, how did this happen?");
+        }
         logger.info("splash finished");
 
-        if (splash != null) {
+        if (splash != null)
+        {
             splash.close();
         }
 
@@ -169,17 +191,25 @@ public class RunGame
     }
 
 
-    public static void openGameUI() {
-        if (SwingUtilities.isEventDispatchThread() == false) {
-            try {
+    public static void openGameUI()
+    {
+        if (SwingUtilities.isEventDispatchThread() == false)
+        {
+            try
+            {
                 javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new RuntimeException(e);
             }
-        } else {
+        }
+        else
+        {
             setWindow(new Controller());
         }
-        UIStateMachine.setUiState(UIState.ACTIVATED);
+        UIStateMachine.setUiState(UIState.OPENED);
+        UIStateMachine.setUiOpen(true);
         //make this synchronous to make sure the UI is finished.
         //initialize remaining stuff _after_ UI is definitely open
         GameUtils.initializeRest();
@@ -188,22 +218,37 @@ public class RunGame
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 
-    public static void openCharacterEditor() {
-        try {
-            logger.info("open character editor");
-            javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildCharacterEditor());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public static void openCharacterEditor()
+    {
+        if (SwingUtilities.isEventDispatchThread() == false)
+        {
+            try
+            {
+                logger.info("open character editor");
+                javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildCharacterEditor());
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            WindowBuilder.buildCharacterEditor();
         }
     }
 
 
-    public static void openTitleScreen() {
-        try {
+    public static void openTitleScreen()
+    {
+        try
+        {
             logger.info("open character editor");
             javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildTitleScreen());
             UIStateMachine.setUiState(UIState.TITLE);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }

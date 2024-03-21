@@ -45,10 +45,23 @@ public class TitleScreenButton extends JButton implements MouseListener
                     WindowBuilder.getTitleFrame().dispose();
                     RunGame.openGameUI();
                 }
+
+                if (e.getActionCommand().equalsIgnoreCase("Editor"))
+                {
+                    logger.info("start editor");
+                    WindowBuilder.getTitleFrame().dispose();
+                    RunGame.openCharacterEditor();
+                }
+
             }
         });
     }
 
+    /**
+     * with a little help from stackoverflow again
+     * <p>
+     * https://stackoverflow.com/questions/14284754/java-center-text-in-rectangle/14287270#14287270
+     */
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);

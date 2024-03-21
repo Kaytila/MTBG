@@ -34,13 +34,6 @@ public class OKButton extends JButton implements MouseListener
         this.addMouseListener(this);
     }
 
-	/*
-	protected void paintBorder(Graphics g)
-	{
-		super.paintBorder(g);
-	}
-*/
-
     /**
      * with a little help from stackoverflow again
      * <p>

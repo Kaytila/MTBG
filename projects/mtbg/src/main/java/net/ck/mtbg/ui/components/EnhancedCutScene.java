@@ -1,9 +1,9 @@
 package net.ck.mtbg.ui.components;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +14,15 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Log4j2
+@Getter
+@Setter
 public class EnhancedCutScene extends SimpleCutScene
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
+    final private Timer counterTimer;
     private ArrayList<BufferedImage> images;
     private int counter;
-    private Timer counterTimer;
 
 
     /**
@@ -71,17 +74,6 @@ public class EnhancedCutScene extends SimpleCutScene
         };
         counterTimer.schedule(task, 5000, 5000);
     }
-
-    public ArrayList<BufferedImage> getImages()
-    {
-        return images;
-    }
-
-    public void setImages(ArrayList<BufferedImage> images)
-    {
-        this.images = images;
-    }
-
 
     public void paintComponent(Graphics g)
     {

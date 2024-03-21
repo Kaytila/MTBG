@@ -32,6 +32,8 @@ public class GameConfiguration
      * calculate the brightened up image during drawing or before
      */
     public static final boolean calculateBrightenUpImageInPaint = true;
+    public static final int characterEditorTileSize = 20;
+    public static final int characterEditorTinyTileSize = 10;
     public static final int cutSceneImageRollOverBuffer = 1000;
     public static final int cutSceneImageRolloverDelay = 5000;
     public static final int cutSceneImageRolloverPeriod = 5000;
@@ -65,7 +67,6 @@ public class GameConfiguration
      * how big are the images, check this somewhere.
      */
     public static final Point imageSize = new Point(16, 16);
-
     /**
      * describes the max distance a lightsource may have an effect on the surroundings
      */
@@ -179,6 +180,7 @@ public class GameConfiguration
      * how many milliseconds to wait in case weather is async?
      */
     public static final int weatherWait = 10000;
+
 }
 
 

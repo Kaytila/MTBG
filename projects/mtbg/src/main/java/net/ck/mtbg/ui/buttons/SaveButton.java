@@ -1,11 +1,11 @@
 package net.ck.mtbg.ui.buttons;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.ImageUtils;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +14,12 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 
+@Getter
+@Setter
+@Log4j2
 public class SaveButton extends JButton implements MouseListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private boolean hovered;
-
     private String label = "Save";
 
 
@@ -35,6 +36,11 @@ public class SaveButton extends JButton implements MouseListener
         this.setVisible(true);
     }
 
+    /**
+     * with a little help from stackoverflow again
+     * <p>
+     * https://stackoverflow.com/questions/14284754/java-center-text-in-rectangle/14287270#14287270
+     */
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);

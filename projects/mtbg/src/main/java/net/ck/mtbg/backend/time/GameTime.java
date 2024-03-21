@@ -1,10 +1,10 @@
 package net.ck.mtbg.backend.time;
 
-import net.ck.mtbg.util.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.time.GameTimeChangeType;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
@@ -17,10 +17,11 @@ import java.io.Serializable;
  * a year has 12 months.
  * No need for more, this is good enough anyhow.
  */
+@Log4j2
+@Getter
+@Setter
 public class GameTime implements Serializable
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     private int currentHour;
     private int currentMinute;
     private int currentDay;
@@ -31,51 +32,6 @@ public class GameTime implements Serializable
     private int oldMinute;
     private int oldDay;
     private int oldMonth;
-
-    public int getOldHour()
-    {
-        return oldHour;
-    }
-
-    public void setOldHour(int oldHour)
-    {
-        this.oldHour = oldHour;
-    }
-
-    public int getOldMinute()
-    {
-        return oldMinute;
-    }
-
-    public void setOldMinute(int oldMinute)
-    {
-        this.oldMinute = oldMinute;
-    }
-
-    public int getOldDay()
-    {
-        return oldDay;
-    }
-
-    public void setOldDay(int oldDay)
-    {
-        this.oldDay = oldDay;
-    }
-
-    public int getOldMonth()
-    {
-        return oldMonth;
-    }
-
-    public void setOldMonth(int oldMonth)
-    {
-        this.oldMonth = oldMonth;
-    }
-
-    public void setOldYear(int oldYear)
-    {
-        this.oldYear = oldYear;
-    }
 
     private int oldYear;
 
@@ -207,60 +163,5 @@ public class GameTime implements Serializable
         EventBus.getDefault().post(new GameTimeChanged(type));
 
         return this;
-    }
-
-    public int getCurrentMonth()
-    {
-        return currentMonth;
-    }
-
-    public void setCurrentMonth(int currentMonth)
-    {
-        this.currentMonth = currentMonth;
-    }
-
-    public int getCurrentDay()
-    {
-        return currentDay;
-    }
-
-    public void setCurrentDay(int currentDay)
-    {
-        this.currentDay = currentDay;
-    }
-
-    public int getCurrentYear()
-    {
-        return currentYear;
-    }
-
-    public void setCurrentYear(int currentYear)
-    {
-        this.currentYear = currentYear;
-    }
-
-    public int getCurrentMinute()
-    {
-        return currentMinute;
-    }
-
-    public void setCurrentMinute(int currentMinute)
-    {
-        this.currentMinute = currentMinute;
-    }
-
-    public int getCurrentHour()
-    {
-        return currentHour;
-    }
-
-    public void setCurrentHour(int currentHour)
-    {
-        this.currentHour = currentHour;
-    }
-
-    public int getOldYear()
-    {
-        return oldYear;
     }
 }

@@ -1,17 +1,18 @@
 package net.ck.mtbg.ui.components;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.WeaponTypes;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 
+@Log4j2
+@Getter
+@Setter
 public class WeaponPanel extends JComponent implements WeaponPanelWeaponType
 {
-
-    private final Logger      logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    private       WeaponTypes weaponType;
+    private WeaponTypes weaponType;
 
     @Override
     public WeaponTypes getWeaponType()

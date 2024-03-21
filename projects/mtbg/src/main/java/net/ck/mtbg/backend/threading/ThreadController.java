@@ -1,9 +1,9 @@
 package net.ck.mtbg.backend.threading;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,216 +17,203 @@ import java.util.List;
  *
  * @author Claus
  */
+@Log4j2
+@Getter
+@Setter
 public class ThreadController
 {
-	private static final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(ThreadController.class));
-	private static final List<Thread> threads = Collections.synchronizedList(new ArrayList<>(10));
-	private static boolean wakeupNeeded;
+    @Getter
+    @Setter
+    private static List<Thread> threads = Collections.synchronizedList(new ArrayList<>(10));
 
-	public static synchronized void add(Thread thread)
-	{
-		getThreads().add(thread);
-	}
+    @Getter
+    @Setter
+    private static boolean wakeupNeeded;
 
-	public static List<Thread> getThreads()
-	{
-		return threads;
-	}
+    public static synchronized void add(Thread thread)
+    {
+        getThreads().add(thread);
+    }
 
-	public static void reanimateAnimation()
-	{
+    public static void reanimateAnimation()
+    {
 
-		for (Thread t : List.copyOf(getThreads()))
-		{
-			// logger.info("thread: {}", t.getName());
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
-			{
-				//t.notify();
-				synchronized (Game.getCurrent())
-				{
-					logger.info("restart animation - animations");
-					makeWakeupNeeded();
-					Game.getCurrent().notifyAll();
-				}
+        for (Thread t : List.copyOf(getThreads()))
+        {
+            // logger.info("thread: {}", t.getName());
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
+            {
+                //t.notify();
+                synchronized (Game.getCurrent())
+                {
+                    logger.info("restart animation - animations");
+                    setWakeupNeeded(true);
+                    Game.getCurrent().notifyAll();
+                }
 
-			}
+            }
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
-			{
-				//t.notify();
-				synchronized (Game.getCurrent())
-				{
-					logger.info("restart animation - weather");
-					makeWakeupNeeded();
-					Game.getCurrent().notifyAll();
-				}
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
+            {
+                //t.notify();
+                synchronized (Game.getCurrent())
+                {
+                    logger.info("restart animation - weather");
+                    setWakeupNeeded(true);
+                    Game.getCurrent().notifyAll();
+                }
 
-			}
-
-
-		}
-	}
-	/*
-	 * if (t.getName().equalsIgnoreCase("Weather System Thread")) { try {
-	 * logger.info("restart weather"); t.notify(); } catch
-	 * (IllegalMonitorStateException e2) {
-	 * logger.error("caught IllegalMonitorStateException"); } }
-	 */
-
-	private static void makeWakeupNeeded()
-	{
-		wakeupNeeded = true;
-	}
-
-	public static void suspendAnimation()
-	{
-
-		// logger.error("iconified");
-
-		/*
-		 * try { game.getLock().wait(); } catch (InterruptedException e1) { //
-		 *
-		 */
-		for (Thread t : List.copyOf(getThreads()))
-		{
-			// logger.info("thread: {}", t.getName());
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
-			{
-				synchronized (Game.getCurrent())
-				{
-					while (!isWakeupNeeded())
-					{
-						try
-						{
-							Game.getCurrent().wait();
-							logger.info("suspend animation");
-						}
-						catch (InterruptedException e)
-						{
-							e.printStackTrace();
-						}
-
-					}
-
-					// t.wait();
-
-				}
-				/*
-				 * if (t.getName().equalsIgnoreCase("Weather System Thread")) {
-				 * try { logger.info("suspend weather thread"); t.wait(); }
-				 * catch (InterruptedException e1) { catch block
-				 * e1.printStackTrace(); } catch (IllegalMonitorStateException
-				 * e2) { // e2.printStackTrace();
-				 * logger.error("caught IllegalMonitorStateException"); } }
-				 */
-			}
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
-			{
-				synchronized (Game.getCurrent())
-				{
-					while (!isWakeupNeeded())
-					{
-						try
-						{
-							Game.getCurrent().wait();
-							logger.info("suspend weather");
-						}
-						catch (InterruptedException e)
-						{
-							e.printStackTrace();
-						}
-
-					}
-
-					// t.wait();
-				}
-			}
-
-		}
-	}
-
-	private static boolean isWakeupNeeded()
-	{
-		return wakeupNeeded;
-	}
+            }
 
 
-	public static void sleep(int ms, ThreadNames threadName)
-	{
-		for (Thread t : List.copyOf(getThreads()))
-		{
-			if (t.getName().equalsIgnoreCase(String.valueOf(threadName)))
-			{
-				try
-				{
-					t.sleep(ms);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+        }
+    }
 
-	public static void startThreads()
-	{
-		for (Thread t : List.copyOf(getThreads()))
-		{
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-				continue;
-			}
+    public static void suspendAnimation()
+    {
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.FOREGROUND_ANIMATION)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-				continue;
-			}
+        // logger.error("iconified");
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.BACKGROUND_ANIMATION)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-				continue;
-			}
+        /*
+         * try { game.getLock().wait(); } catch (InterruptedException e1) { //
+         *
+         */
+        for (Thread t : List.copyOf(getThreads()))
+        {
+            // logger.info("thread: {}", t.getName());
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
+            {
+                synchronized (Game.getCurrent())
+                {
+                    while (!isWakeupNeeded())
+                    {
+                        try
+                        {
+                            Game.getCurrent().wait();
+                            logger.info("suspend animation");
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.SOUND_SYSTEM)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-				continue;
-			}
+                    }
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-				continue;
-			}
+                    // t.wait();
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.GAME_THREAD)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-				continue;
-			}
+                }
+                /*
+                 * if (t.getName().equalsIgnoreCase("Weather System Thread")) {
+                 * try { logger.info("suspend weather thread"); t.wait(); }
+                 * catch (InterruptedException e1) { catch block
+                 * e1.printStackTrace(); } catch (IllegalMonitorStateException
+                 * e2) { // e2.printStackTrace();
+                 * logger.error("caught IllegalMonitorStateException"); } }
+                 */
+            }
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
+            {
+                synchronized (Game.getCurrent())
+                {
+                    while (!isWakeupNeeded())
+                    {
+                        try
+                        {
+                            Game.getCurrent().wait();
+                            logger.info("suspend weather");
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
 
-			if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.MISSILE)))
-			{
-				logger.info("starting thread: {}", t);
-				t.start();
-			}
-		}
-	}
+                    }
 
-	public static void listThreads()
-	{
-		for (Thread t : getThreads())
-		{
-			logger.info("Thread running: {}, priority: {}, state: {}", t.getName(), t.getPriority(), t.getState());
-		}
-	}
+                    // t.wait();
+                }
+            }
+
+        }
+    }
+
+
+    public static void sleep(int ms, ThreadNames threadName)
+    {
+        for (Thread t : List.copyOf(getThreads()))
+        {
+            if (t.getName().equalsIgnoreCase(String.valueOf(threadName)))
+            {
+                try
+                {
+                    t.sleep(ms);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void startThreads()
+    {
+        for (Thread t : List.copyOf(getThreads()))
+        {
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.LIFEFORM_ANIMATION)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+                continue;
+            }
+
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.FOREGROUND_ANIMATION)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+                continue;
+            }
+
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.BACKGROUND_ANIMATION)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+                continue;
+            }
+
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.SOUND_SYSTEM)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+                continue;
+            }
+
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.WEATHER_ANIMATION)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+                continue;
+            }
+
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.GAME_THREAD)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+                continue;
+            }
+
+            if (t.getName().equalsIgnoreCase(String.valueOf(ThreadNames.MISSILE)))
+            {
+                logger.info("starting thread: {}", t);
+                t.start();
+            }
+        }
+    }
+
+    public static void listThreads()
+    {
+        for (Thread t : getThreads())
+        {
+            logger.info("Thread running: {}, priority: {}, state: {}", t.getName(), t.getPriority(), t.getState());
+        }
+    }
 }

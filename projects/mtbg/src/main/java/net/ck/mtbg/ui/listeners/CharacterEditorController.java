@@ -14,49 +14,58 @@ import java.awt.event.WindowListener;
 @Log4j2
 @Getter
 @Setter
-public class CharacterEditorController implements WindowListener {
-
-    public CharacterEditorController(CharacterEditorFrame characterEditorFrame) {
-        this.characterEditorFrame = characterEditorFrame;
-    }
+public class CharacterEditorController implements WindowListener
+{
 
     CharacterEditorFrame characterEditorFrame;
 
+    public CharacterEditorController(CharacterEditorFrame characterEditorFrame)
+    {
+        this.characterEditorFrame = characterEditorFrame;
+    }
+
     @Override
-    public void windowOpened(WindowEvent e) {
+    public void windowOpened(WindowEvent e)
+    {
         logger.info("CharacterEditor opened");
         UIStateMachine.setUiState(UIState.CHARACTEREDITOR);
     }
 
     @Override
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowClosed(WindowEvent e) {
+    public void windowClosed(WindowEvent e)
+    {
         logger.info("closing character editor frame");
         getCharacterEditorFrame().dispose();
         RunGame.openGameUI();
     }
 
     @Override
-    public void windowIconified(WindowEvent e) {
+    public void windowIconified(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowDeiconified(WindowEvent e) {
+    public void windowDeiconified(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
+    public void windowActivated(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowDeactivated(WindowEvent e) {
+    public void windowDeactivated(WindowEvent e)
+    {
 
     }
 }

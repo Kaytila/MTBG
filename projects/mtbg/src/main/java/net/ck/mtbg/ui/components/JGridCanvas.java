@@ -1035,7 +1035,7 @@ public class JGridCanvas extends JComponent
      * use the Bresenhaim algorithm to calculate LoS
      * should investigate <a href="https://www.redblobgames.com/articles/visibility/">https://www.redblobgames.com/articles/visibility</a>
      *
-     * @param g standard graphics context
+     * @param
      */
     /*private void paintLoS(Graphics g)
     {

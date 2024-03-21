@@ -1,10 +1,10 @@
 package net.ck.mtbg.ui.components;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.keyboard.ESCAction;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
 
 import javax.swing.*;
@@ -13,9 +13,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
+@Log4j2
+@Getter
+@Setter
 public class SimpleCutScene extends JComponent
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private BufferedImage image;
 
     public SimpleCutScene(BufferedImage img)
@@ -33,16 +35,6 @@ public class SimpleCutScene extends JComponent
 
     public SimpleCutScene()
     {
-    }
-
-    public BufferedImage getImage()
-    {
-        return image;
-    }
-
-    public void setImage(BufferedImage image)
-    {
-        this.image = image;
     }
 
     public void paintComponent(Graphics g)

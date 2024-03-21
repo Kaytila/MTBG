@@ -19,3 +19,5 @@ stats system
 drag'n'drop
 combat system
 attribute system and dialog
+title screen
+character editor

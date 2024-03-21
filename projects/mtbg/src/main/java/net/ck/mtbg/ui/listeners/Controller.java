@@ -23,7 +23,6 @@ import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.ActionFactory;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.ControllerDelegator;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import org.greenrobot.eventbus.EventBus;
@@ -1038,11 +1037,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Override
     public void windowOpened(WindowEvent e)
     {
-        logger.info("Map game state: {}", Game.getCurrent().getCurrentMap().getGameState());
         UIStateMachine.setUiState(UIState.OPENED);
         WindowBuilder.getGridCanvas().requestFocus();
         TimerManager.getHighlightTimer().start();
-        EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+        TimerManager.getIdleTimer().start();
         //Game.getCurrent().setUiOpen(true);
     }
 

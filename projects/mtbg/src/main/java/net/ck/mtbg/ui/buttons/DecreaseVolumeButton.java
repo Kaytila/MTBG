@@ -1,16 +1,17 @@
 package net.ck.mtbg.ui.buttons;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Getter
+@Setter
+@Log4j2
 public class DecreaseVolumeButton extends JButton
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     public DecreaseVolumeButton(Point p)
     {
         //logger.info("creating button");

@@ -1,10 +1,10 @@
 package net.ck.mtbg.ui.components;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,16 +22,20 @@ import java.util.TimerTask;
  * https://docs.oracle.com/javase/6/docs/api/javax/swing/SwingUtilities.html#getAncestorOfClass%28java.lang.Class,%20java.awt.Component%29
  * </a>
  */
+@Log4j2
+@Getter
+@Setter
 public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-    private int counterCharacters = 0;
     private final ArrayList<String> textStrings;
+    private int counterCharacters = 0;
     private Timer counterTimerText;
     private Timer counterTimer;
 
-    public EnhancedCutSceneWithDynamicText(ArrayList<BufferedImage> img, ArrayList<String> texts) {
-        if (img.size() != texts.size()) {
+    public EnhancedCutSceneWithDynamicText(ArrayList<BufferedImage> img, ArrayList<String> texts)
+    {
+        if (img.size() != texts.size())
+        {
             logger.error("number of images and texts does not match");
             Game.getCurrent().stopGame();
         }
@@ -59,7 +63,9 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                     try
                     {
                         SwingUtilities.invokeAndWait(() -> EnhancedCutSceneWithDynamicText.this.repaint());
-                    } catch (InterruptedException | InvocationTargetException e) {
+                    }
+                    catch (InterruptedException | InvocationTargetException e)
+                    {
                         throw new RuntimeException(e);
                     }
                     //logger.info("counter 2: {}", counter);
@@ -82,17 +88,6 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
         };
         counterTimer.schedule(taskImages, GameConfiguration.cutSceneImageRolloverDelay, GameConfiguration.cutSceneImageRolloverPeriod);
     }
-
-    public ArrayList<BufferedImage> getImages()
-    {
-        return images;
-    }
-
-    public void setImages(ArrayList<BufferedImage> images)
-    {
-        this.images = images;
-    }
-
 
     public void paintComponent(Graphics g)
     {
@@ -131,7 +126,9 @@ public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
                     try
                     {
                         SwingUtilities.invokeAndWait(() -> EnhancedCutSceneWithDynamicText.this.repaint());
-                    } catch (InterruptedException | InvocationTargetException e) {
+                    }
+                    catch (InterruptedException | InvocationTargetException e)
+                    {
                         throw new RuntimeException(e);
                     }
                     //logger.info("counter 2: {}", counter);

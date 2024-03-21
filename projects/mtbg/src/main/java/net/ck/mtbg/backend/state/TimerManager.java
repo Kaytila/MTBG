@@ -20,77 +20,76 @@ import net.ck.mtbg.ui.highlighting.HighlightTimer;
  * are statically referenced
  */
 @Log4j2
-
 public class TimerManager
 {
-	/**
-	 * how many milliseconds until the turn is passed?
-	 */
-	@Getter
-	@Setter
-	private static IdleTimer                      idleTimer;
-	/**
-	 * how many milliseconds until the turn is passed?
-	 */
-	@Getter
-	@Setter
-	private static AnimationSystemTimer           animationSystemTimer;
-	/**
-	 * how much time to switch from victory back to world music
-	 */
-	@Getter
-	@Setter
-	private static MusicTimer                     musicTimer;
-	/**
-	 * how long until the highlighting frame ticks
-	 */
-	@Getter
-	@Setter
-	private static HighlightTimer                 highlightTimer;
-	/**
-	 *
-	 */
-	@Getter
-	@Setter
-	private static ForegroundAnimationSystemTimer foregroundAnimationSystemTimer;
-	/**
-	 *
-	 */
-	@Getter
-	@Setter
-	private static BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
-	/**
-	 * make missile timer use an util timer that does not run on
-	 * Event Dispatch Thread for not blocking the UI
-	 */
-	@Getter
-	@Setter
-	private static MissileUtilTimer               missileUtilTimer;
-	/**
-	 * so how long is the time between movements being run from the command queue?
-	 */
-	@Getter
-	@Setter
-	private static QuequeTimer                    quequeTimer;
-	/**
-	 * how long is the time period between missiles being drawn on the map?
-	 */
-	@Getter
-	@Setter
-	private static MissileTimer                   missileTimer;
-	/**
-	 * make animation system timer use an util timer that does not run on
-	 * Event Dispatch Thread for not blocking the UI
-	 */
-	@Getter
-	@Setter
-	private static AnimationSystemUtilTimer       animationSystemUtilTimer;
-	/**
-	 * make an UTIL timer for hit or miss to make sure its visible a bit before overwritten by
-	 * the next animation image
-	 */
-	@Getter
-	@Setter
-	private static HitMissImageTimer              hitMissImageTimer;
+    /**
+     * how many milliseconds until the turn is passed?
+     */
+    @Getter
+    @Setter
+    private static IdleTimer idleTimer;
+    /**
+     * how many milliseconds until the turn is passed?
+     */
+    @Getter
+    @Setter
+    private static AnimationSystemTimer animationSystemTimer;
+    /**
+     * how much time to switch from victory back to world music
+     */
+    @Getter
+    @Setter
+    private static MusicTimer musicTimer;
+    /**
+     * how long until the highlighting frame ticks
+     */
+    @Getter
+    @Setter
+    private static HighlightTimer highlightTimer;
+    /**
+     *
+     */
+    @Getter
+    @Setter
+    private static ForegroundAnimationSystemTimer foregroundAnimationSystemTimer;
+    /**
+     *
+     */
+    @Getter
+    @Setter
+    private static BackgroundAnimationSystemTimer backgroundAnimationSystemTimer;
+    /**
+     * make missile timer use an util timer that does not run on
+     * Event Dispatch Thread for not blocking the UI
+     */
+    @Getter
+    @Setter
+    private static MissileUtilTimer missileUtilTimer;
+    /**
+     * so how long is the time between movements being run from the command queue?
+     */
+    @Getter
+    @Setter
+    private static QuequeTimer quequeTimer;
+    /**
+     * how long is the time period between missiles being drawn on the map?
+     */
+    @Getter
+    @Setter
+    private static MissileTimer missileTimer;
+    /**
+     * make animation system timer use an util timer that does not run on
+     * Event Dispatch Thread for not blocking the UI
+     */
+    @Getter
+    @Setter
+    private static AnimationSystemUtilTimer animationSystemUtilTimer;
+    /**
+     * make an UTIL timer for hit or miss to make sure its visible a bit before overwritten by
+     * the next animation image
+     */
+    @Getter
+    @Setter
+    private static HitMissImageTimer hitMissImageTimer;
 
 }

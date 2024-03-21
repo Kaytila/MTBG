@@ -1,18 +1,20 @@
 package net.ck.mtbg.ui.components;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.text.AttributedString;
 
+@Log4j2
+@Getter
+@Setter
 public class SimpleCutSceneWithText extends SimpleCutScene
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private String textMessage;
 
     public SimpleCutSceneWithText(BufferedImage img, String text)
@@ -21,21 +23,11 @@ public class SimpleCutSceneWithText extends SimpleCutScene
         textMessage = text;
     }
 
-    public String getTextMessage()
-    {
-        return textMessage;
-    }
-
-    public void setTextMessage(String textMessage)
-    {
-        this.textMessage = textMessage;
-    }
-
     public void paintComponent(Graphics g)
     {
         logger.debug("draw image");
         g.drawImage(getImage(), 0, 0, GameConfiguration.UIwidth, GameConfiguration.UIheight, null);
-        logger.debug("draw text: ", this::getTextMessage);
+        logger.debug("draw text: {}", getTextMessage());
 
         Font font = new Font("Arial", Font.BOLD, 25);
 
@@ -54,10 +46,3 @@ public class SimpleCutSceneWithText extends SimpleCutScene
         g1.dispose();
     }
 }
-
-
-
-
-
-
-

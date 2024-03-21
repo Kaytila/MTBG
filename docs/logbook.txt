@@ -1051,3 +1051,4 @@ History of the changes:
             Will need to do a few changes with the timers that they only start once the UI
             is actually opened. What was the bug? The text map translator added the translated map already before it was
             parsed again and added again and the wrong version was added.
+2023-03-21: implemented a simple character editor, is not persisted yet.

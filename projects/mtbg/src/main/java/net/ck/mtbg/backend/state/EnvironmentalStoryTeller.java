@@ -1,5 +1,7 @@
 package net.ck.mtbg.backend.state;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.MessageTypes;
@@ -13,7 +15,12 @@ import java.util.ArrayList;
 public class EnvironmentalStoryTeller
 {
 
+    @Getter
+    @Setter
     private static ArrayList<MapTile> noRepeatMapTilesLeave = new ArrayList<>();
+
+    @Getter
+    @Setter
     private static ArrayList<MapTile> noRepeatMapTilesEnter = new ArrayList<>();
 
     public static void tellStoryLeave(MapTile tile)

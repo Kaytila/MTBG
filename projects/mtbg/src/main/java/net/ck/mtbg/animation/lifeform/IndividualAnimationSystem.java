@@ -30,7 +30,8 @@ public class IndividualAnimationSystem extends AnimationSystem implements Runnab
                 try
                 {
                     Game.getCurrent().getCurrentPlayer().setCurrImage(i);
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     logger.error("problem setting image");
                 }
@@ -41,7 +42,7 @@ public class IndividualAnimationSystem extends AnimationSystem implements Runnab
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    logger.error("exception during sleeping thread");
                 }
 
                 if (GameConfiguration.animationCycles - i == 1)

@@ -1,22 +1,25 @@
 package net.ck.mtbg.ui.listeners;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.items.Armor;
 import net.ck.mtbg.ui.components.EQPanel;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.NPCUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+@Log4j2
+@Getter
+@Setter
 public class EQPanelMouseListener implements MouseListener, MouseMotionListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     private EQPanel eqPanel;
+
     public EQPanelMouseListener(EQPanel eqPanel)
     {
         this.eqPanel = eqPanel;
@@ -74,20 +77,10 @@ public class EQPanelMouseListener implements MouseListener, MouseMotionListener
 
     }
 
-    public EQPanel getEqPanel()
-    {
-        return eqPanel;
-    }
-
-    public void setEqPanel(EQPanel eqPanel)
-    {
-        this.eqPanel = eqPanel;
-    }
-
     @Override
     public void mouseDragged(MouseEvent e)
     {
-        logger.info ("dragged");
+        logger.info("dragged");
     }
 
     @Override

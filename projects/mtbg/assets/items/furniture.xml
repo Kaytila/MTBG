@@ -10,4 +10,14 @@
 <lightrange>2</lightrange>
 <image>torch</image>
 </item>
+    <item>
+        <id>2</id>
+        <name>torch2</name>
+        <value>1</value>
+        <weight>1.0</weight>
+        <container>false</container>
+        <lightsource>true</lightsource>
+        <lightrange>4</lightrange>
+        <image>torch</image>
+    </item>
 </items>
