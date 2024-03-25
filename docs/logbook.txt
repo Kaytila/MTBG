@@ -1053,3 +1053,4 @@ History of the changes:
             parsed again and added again and the wrong version was added.
 2023-03-21: implemented a simple character editor, is not persisted yet.
 2023-03-25: character editor: also started creating the actual tile preview. will need to handle this better.
+2023-03-26: only minimal changes. few refactorings.

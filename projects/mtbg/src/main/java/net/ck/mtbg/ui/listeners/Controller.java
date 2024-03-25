@@ -66,11 +66,11 @@ public class Controller implements WindowListener, ActionListener, MouseListener
      */
     private InventoryDialog inventoryDialog;
     /**
-     * double click in inventory dialog leads to this being filled.
+     * double-click in inventory dialog leads to this being filled.
      */
     private AbstractItem currentItemInHand;
     /**
-     * double click in spellbook dialog leads to this being filled.
+     * double-click in spell book dialog leads to this being filled.
      */
     private AbstractSpell currentSpellInHand;
     /**
@@ -79,7 +79,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
      */
     private boolean mousePressed;
     /**
-     * this variable is being set if the numpad movement keys
+     * this variable is being set if the num pad movement keys
      * are used for moving the cross-hairs currently.
      * i.e. it switched keyboard movement to cross-hair movement.
      */
@@ -309,47 +309,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         }
     }
 
-    public InventoryDialog getInventoryDialog()
-    {
-        return inventoryDialog;
-    }
-
-    public void setInventoryDialog(InventoryDialog inventoryDialog)
-    {
-        this.inventoryDialog = inventoryDialog;
-    }
-
-    public Timer getPressedTimer()
-    {
-        return pressedTimer;
-    }
-
-    public void setPressedTimer(Timer pressedTimer)
-    {
-        this.pressedTimer = pressedTimer;
-    }
-
-    public StatsDialog getStatsDialog()
-    {
-        return statsDialog;
-    }
-
-    public void setStatsDialog(StatsDialog statsDialog)
-    {
-        this.statsDialog = statsDialog;
-    }
-
-    public boolean isMousePressed()
-    {
-        return mousePressed;
-    }
-
-    public void setMousePressed(boolean mousePressed)
-    {
-        //GameUtils.showStackTrace("setMousePressed");
-        this.mousePressed = mousePressed;
-    }
-
     @Override
     public void mouseClicked(MouseEvent e)
     {
@@ -410,9 +369,9 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         if (UIStateMachine.isSelectTile())
         {
-            /**
-             * this can actually happen! if you start the game and keep the mouse outside of the grid and then switch to spellbook dialog.
-             * it can be that there is no currently selected tile unterneath.
+            /*
+             * this can actually happen! if you start the game and keep the mouse outside the grid and then switch to spell book dialog.
+             * it can be that there is no currently selected tile underneath.
              */
             if (UIStateMachine.getCurrentSelectedTile() != null)
             {
@@ -719,7 +678,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     @Subscribe
     public void onMessageEvent(AbstractKeyboardAction action)
     {
-        /**
+        /*
          * make sure that only ESC is allowed to cancel crosshairs, but no other action is valid while getCurrentAction() is not empty.
          * TODO fix this properly
          */
@@ -871,7 +830,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             case SOUTH:
             case WEST:
             {
-                /**
+                /*
                  * for movement: if its selectTile(),
                  * then move cursor grid by grid :D
                  * this cannot be moved, as the currently active - but not set action is being overwritten
@@ -1056,10 +1015,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         logger.info("who lost the focus here: {}", e.getComponent().getName());
     }
 
-    public AbstractKeyboardAction getCurrentAction()
-    {
-        return currentAction;
-    }
 
     public void setCurrentAction(AbstractKeyboardAction currentAction)
     {
@@ -1070,23 +1025,5 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         this.currentAction = currentAction;
     }
 
-    public AbstractItem getCurrentItemInHand()
-    {
-        return currentItemInHand;
-    }
 
-    public void setCurrentItemInHand(AbstractItem currentItemInHand)
-    {
-        this.currentItemInHand = currentItemInHand;
-    }
-
-    public boolean isMovementForSelectTile()
-    {
-        return movementForSelectTile;
-    }
-
-    public void setMovementForSelectTile(boolean movementForSelectTile)
-    {
-        this.movementForSelectTile = movementForSelectTile;
-    }
 }

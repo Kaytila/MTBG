@@ -38,7 +38,8 @@ public class CharacterEditorFrame extends JFrame
     public CharacterEditorFrame() throws HeadlessException
     {
         this.characterEditorController = new CharacterEditorController(this);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(500, 500, GameConfiguration.UIwidth, GameConfiguration.UIheight);
         logger.info("bound: {}", this.getBounds());
         this.setLocationRelativeTo(null);

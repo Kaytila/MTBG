@@ -53,16 +53,16 @@ public class CharacterTinyCanvas extends JComponent
         //TODO
         //TODO add skincolor
         g.setColor(Color.ORANGE);
-
-
         for (int x = 6; x <= 9; x++)
         {
-            for (int y = 4; y <= 7; y++)
+            for (int y = 2; y <= 5; y++)
             {
                 g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
                 g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
                 g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
             }
         }
+        
+
     }
 }
