@@ -289,6 +289,22 @@ public class ImageUtils
         return img;
     }
 
+
+    public static BufferedImage createImage(Color color, int tileSize)
+    {
+        BufferedImage img = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_4BYTE_ABGR);
+
+        for (int px1 = 0; px1 < (img.getWidth()); px1++)
+        {
+            for (int px2 = 0; px2 < (img.getHeight()); px2++)
+            {
+                img.setRGB(px1, px2, color.getRGB());
+            }
+        }
+        return img;
+    }
+
+
     /**
      * @param color return new Image in tile size with the color in parameter color used to draw the empty tiles at the edge, used later for LoS
      */

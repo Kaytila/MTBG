@@ -1052,3 +1052,4 @@ History of the changes:
             is actually opened. What was the bug? The text map translator added the translated map already before it was
             parsed again and added again and the wrong version was added.
 2023-03-21: implemented a simple character editor, is not persisted yet.
+2023-03-25: character editor: also started creating the actual tile preview. will need to handle this better.

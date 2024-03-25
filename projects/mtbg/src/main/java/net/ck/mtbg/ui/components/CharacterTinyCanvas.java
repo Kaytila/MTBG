@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.ui.models.CharacterPortraitModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,12 @@ import java.awt.*;
 @Setter
 public class CharacterTinyCanvas extends JComponent
 {
+    CharacterPortraitModel characterPortraitModel;
 
+    public CharacterTinyCanvas(CharacterPortraitModel characterPortraitModel)
+    {
+        this.characterPortraitModel = characterPortraitModel;
+    }
 
     public void paint()
     {
@@ -41,6 +47,22 @@ public class CharacterTinyCanvas extends JComponent
         for (i = 0; i < cols; i++)
         {
             g.drawLine(i * GameConfiguration.characterEditorTinyTileSize, 0, i * GameConfiguration.characterEditorTinyTileSize, this.getHeight());
+        }
+
+
+        //TODO
+        //TODO add skincolor
+        g.setColor(Color.ORANGE);
+
+
+        for (int x = 6; x <= 9; x++)
+        {
+            for (int y = 4; y <= 7; y++)
+            {
+                g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
+                g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
+                g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
+            }
         }
     }
 }

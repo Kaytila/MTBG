@@ -67,14 +67,14 @@ public class CharacterCanvas extends JComponent
         g.fillRect(2 * GameConfiguration.characterEditorTileSize, 4 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
 
         //eye Color
-        g.setColor(characterPortraitModel.getEyeColor());
+        g.setColor(characterPortraitModel.getEyeColor().getColor());
         g.fillRect(1 * GameConfiguration.characterEditorTileSize, 2 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
         g.fillRect(3 * GameConfiguration.characterEditorTileSize, 2 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
 
         if (characterPortraitModel.getGender().equalsIgnoreCase("male"))
         {
             //hair color
-            g.setColor(characterPortraitModel.getHairColor());
+            g.setColor(characterPortraitModel.getHairColor().getColor());
             g.fillRect(1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
             g.fillRect(2 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
             g.fillRect(3 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
@@ -82,7 +82,7 @@ public class CharacterCanvas extends JComponent
         else
         {
             //hair color
-            g.setColor(characterPortraitModel.getHairColor());
+            g.setColor(characterPortraitModel.getHairColor().getColor());
             g.fillRect(1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
             g.fillRect(2 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);
             g.fillRect(3 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize, 1 * GameConfiguration.characterEditorTileSize);

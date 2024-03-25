@@ -26,7 +26,7 @@ public class GenderComboBoxListener implements ItemListener, ActionListener
     @Override
     public void itemStateChanged(ItemEvent e)
     {
-        logger.debug("item: {}", e.getItem());
+        //logger.debug("item: {}", e.getItem());
     }
 
     @Override
@@ -34,7 +34,6 @@ public class GenderComboBoxListener implements ItemListener, ActionListener
     {
         JComboBox cb = (JComboBox) e.getSource();
         String eyeColor = (String) cb.getSelectedItem();
-        logger.debug("selected item: {}", eyeColor);
         characterPortraitModel.setGender(eyeColor);
         characterPortraitModel.updateUI();
     }

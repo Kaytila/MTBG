@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.components.CharacterCanvas;
+import net.ck.mtbg.ui.components.CharacterTinyCanvas;
 
 import java.awt.*;
 
@@ -13,14 +14,16 @@ import java.awt.*;
 public class CharacterPortraitModel
 {
     private String gender = "male";
-    private Color eyeColor = Color.BLACK;
-    private Color hairColor = Color.BLACK;
-    private Color skinColor = Color.BLACK;
+    private CharacterPortraitColor eyeColor = CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK);
+    private CharacterPortraitColor hairColor = CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK);
+    private CharacterPortraitColor skinColor = CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK);
     private CharacterCanvas characterCanvas;
+    private CharacterTinyCanvas characterTinyCanvas;
 
     public void updateUI()
     {
         characterCanvas.paint();
+        characterTinyCanvas.paint();
     }
 
 }

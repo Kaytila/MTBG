@@ -10,7 +10,9 @@ import net.ck.mtbg.ui.listeners.CharacterEditorController;
 import net.ck.mtbg.ui.listeners.EyeColorComboBoxListener;
 import net.ck.mtbg.ui.listeners.GenderComboBoxListener;
 import net.ck.mtbg.ui.listeners.HairColorComboBoxListener;
+import net.ck.mtbg.ui.models.CharacterPortraitColor;
 import net.ck.mtbg.ui.models.CharacterPortraitModel;
+import net.ck.mtbg.ui.renderers.ComboBoxRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +50,9 @@ public class CharacterEditorFrame extends JFrame
 
         characterPortraitModel = new CharacterPortraitModel();
 
+        ComboBoxRenderer renderer = new ComboBoxRenderer();
+
+
         genderLabel = new JLabel("Gender");
         genderLabel.setBounds(400, 20, 100, 20);
         this.add(genderLabel);
@@ -67,12 +72,14 @@ public class CharacterEditorFrame extends JFrame
 
         hairColorComboBox = new JComboBox<>();
         hairColorComboBox.setBounds(400, 200, 100, 20);
-        hairColorComboBox.addItem(Color.BLACK);
-        hairColorComboBox.addItem(Color.YELLOW);
-        hairColorComboBox.addItem(Color.DARK_GRAY);
+        hairColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK));
+        hairColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.YELLOW));
+        hairColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.DARK_GRAY));
+        hairColorComboBox.setSelectedIndex(0);
         HairColorComboBoxListener hairColorComboBoxListener = new HairColorComboBoxListener(characterPortraitModel);
         hairColorComboBox.addActionListener(hairColorComboBoxListener);
         hairColorComboBox.addItemListener(hairColorComboBoxListener);
+        hairColorComboBox.setRenderer(renderer);
         this.add(hairColorComboBox);
 
         eyeColorLabel = new JLabel("Eye Color");
@@ -81,14 +88,16 @@ public class CharacterEditorFrame extends JFrame
 
         eyeColorComboBox = new JComboBox<>();
         eyeColorComboBox.setBounds(400, 350, 100, 20);
-        eyeColorComboBox.addItem(Color.GREEN);
-        eyeColorComboBox.addItem(Color.BLUE);
-        eyeColorComboBox.addItem(Color.RED);
-        eyeColorComboBox.addItem(Color.DARK_GRAY);
-        eyeColorComboBox.addItem(Color.BLACK);
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.GREEN));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLUE));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.RED));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.DARK_GRAY));
+        eyeColorComboBox.setSelectedIndex(0);
         EyeColorComboBoxListener eyeColorComboBoxListener = new EyeColorComboBoxListener(characterPortraitModel);
         eyeColorComboBox.addItemListener(eyeColorComboBoxListener);
         eyeColorComboBox.addActionListener(eyeColorComboBoxListener);
+        eyeColorComboBox.setRenderer(renderer);
         this.add(eyeColorComboBox);
 
 
@@ -103,10 +112,12 @@ public class CharacterEditorFrame extends JFrame
         characterTinyCanvasLabel = new JLabel("Character View");
         characterTinyCanvasLabel.setBounds(10, 230, 150, 20);
         this.add(characterTinyCanvasLabel);
-        characterTinyCanvas = new CharacterTinyCanvas();
-        characterTinyCanvas.setBounds(10, 280, 100, 100);
+
+        characterTinyCanvas = new CharacterTinyCanvas(characterPortraitModel);
+        characterTinyCanvas.setBounds(10, 280, GameConfiguration.tileSize * 5, GameConfiguration.tileSize * 5);
         this.add(characterTinyCanvas);
 
         characterPortraitModel.setCharacterCanvas(characterCanvas);
+        characterPortraitModel.setCharacterTinyCanvas(characterTinyCanvas);
     }
 }
