@@ -1183,7 +1183,6 @@ public class MapUtils
                             lineIndex++;
                             line = reader.readLine();
                         }
-                        //TODO translate arraylist to array
                         map.setSize(calculateMapSize(mapTiles));
                         map.setMapTiles(calculateMapTileArray(mapTiles, map.getSize()));
                         //Game.getCurrent().getMaps().add(map);
