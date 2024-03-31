@@ -1,4 +1,4 @@
-package net.ck.mtbg.util;
+package net.ck.mtbg.util.utils;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;

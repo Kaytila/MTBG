@@ -1,7 +1,7 @@
 package net.ck.mtbg.util.communication.keyboard;
 
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
-import net.ck.mtbg.util.CodeUtils;
+import net.ck.mtbg.util.utils.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

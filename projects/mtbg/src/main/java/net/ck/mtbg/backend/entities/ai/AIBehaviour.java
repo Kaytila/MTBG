@@ -10,9 +10,9 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
-import net.ck.mtbg.util.MapUtils;
-import net.ck.mtbg.util.NPCUtils;
 import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.utils.MapUtils;
+import net.ck.mtbg.util.utils.NPCUtils;
 import org.apache.commons.lang3.Range;
 
 import java.awt.*;

@@ -11,7 +11,7 @@ import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.Message;
 import net.ck.mtbg.map.MessageTypes;
-import net.ck.mtbg.util.MapUtils;
+import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.weather.WeatherTypes;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;

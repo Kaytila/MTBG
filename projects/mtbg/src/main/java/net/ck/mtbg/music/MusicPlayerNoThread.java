@@ -6,8 +6,8 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.GameStateMachine;
-import net.ck.mtbg.util.SoundUtils;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
+import net.ck.mtbg.util.utils.SoundUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 

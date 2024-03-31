@@ -3,7 +3,7 @@ package net.ck.mtbg.backend.entities.attributes;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.util.ImageManager;
+import net.ck.mtbg.util.utils.ImageManager;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;

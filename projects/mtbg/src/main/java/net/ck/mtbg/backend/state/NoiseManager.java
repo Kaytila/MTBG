@@ -7,8 +7,8 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.music.MusicPlayerNoThread;
 import net.ck.mtbg.soundeffects.SoundPlayerNoThread;
-import net.ck.mtbg.util.GameUtils;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
+import net.ck.mtbg.util.utils.GameUtils;
 import org.greenrobot.eventbus.EventBus;
 
 @Log4j2

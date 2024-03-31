@@ -12,12 +12,9 @@ import net.ck.mtbg.backend.game.GameLogs;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.ImageManager;
-import net.ck.mtbg.util.ImageUtils;
-import net.ck.mtbg.util.MapUtils;
-import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.graphics.*;
 import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.utils.*;
 import org.apache.commons.lang3.Range;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -409,7 +406,7 @@ public class JGridCanvas extends JComponent
              */
             if (GameConfiguration.paintGridLines == true)
             {
-                paintGridLines(g);
+                GridUtils.paintLines(this, g, GameConfiguration.tileSize);
             }
             //logger.debug("end paint grid: {}", System.nanoTime() - start2);
 
@@ -556,22 +553,6 @@ public class JGridCanvas extends JComponent
      * }
      **/
 
-    private void paintGridLines(Graphics g)
-    {
-        int rows = this.getHeight() / GameConfiguration.tileSize;
-        int cols = this.getWidth() / GameConfiguration.tileSize;
-        int i;
-        g.setColor(Color.GRAY);
-        for (i = 0; i < rows; i++)
-        {
-            g.drawLine(0, i * GameConfiguration.tileSize, this.getWidth(), i * GameConfiguration.tileSize);
-        }
-
-        for (i = 0; i < cols; i++)
-        {
-            g.drawLine(i * GameConfiguration.tileSize, 0, i * GameConfiguration.tileSize, this.getHeight());
-        }
-    }
 
     /**
      * tile based paints a missile based on the tiles it is crossing,
@@ -580,7 +561,7 @@ public class JGridCanvas extends JComponent
      *
      * @param g graphics context
      */
-    @SuppressWarnings("unused")
+
     private void paintMissilesTileBased(Graphics g)
     {
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())

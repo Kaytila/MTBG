@@ -4,9 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.util.ImageUtils;
-import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.communication.graphics.MissilePositionChanged;
+import net.ck.mtbg.util.utils.ImageUtils;
+import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;

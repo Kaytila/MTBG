@@ -9,8 +9,8 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.ImageManager;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.mtbg.util.utils.ImageManager;
 import org.greenrobot.eventbus.EventBus;
 
 /**

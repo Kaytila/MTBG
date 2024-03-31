@@ -1,6 +1,6 @@
 package net.ck.mtbg.playground;
 
-import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;

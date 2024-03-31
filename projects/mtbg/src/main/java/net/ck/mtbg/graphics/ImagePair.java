@@ -1,66 +1,28 @@
 package net.ck.mtbg.graphics;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.image.BufferedImage;
 
+@Log4j2
+@Getter
+@Setter
 public class ImagePair
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    private float percentage;
+    private BufferedImage sourceImage;
+    private BufferedImage resultImage;
+    private String hash;
 
-	public ImagePair(float percentage, BufferedImage sourceImage, BufferedImage resultImage)
-	{
-		this.percentage = percentage;
-		this.sourceImage = sourceImage;
-		this.resultImage = resultImage;
-		this.hash = percentage + sourceImage.toString();
-	}
+    public ImagePair(float percentage, BufferedImage sourceImage, BufferedImage resultImage)
+    {
+        this.percentage = percentage;
+        this.sourceImage = sourceImage;
+        this.resultImage = resultImage;
+        this.hash = percentage + sourceImage.toString();
+    }
 
-	private float percentage;
-	private BufferedImage sourceImage;
-	private BufferedImage resultImage;
 
-	private String hash;
-
-	public BufferedImage getResultImage()
-	{
-		return resultImage;
-	}
-
-	public void setResultImage(BufferedImage resultImage)
-	{
-		this.resultImage = resultImage;
-	}
-
-	public BufferedImage getSourceImage()
-	{
-		return sourceImage;
-	}
-
-	public void setSourceImage(BufferedImage sourceImage)
-	{
-		this.sourceImage = sourceImage;
-	}
-
-	public float getPercentage()
-	{
-		return percentage;
-	}
-
-	public void setPercentage(float percentage)
-	{
-		this.percentage = percentage;
-	}
-
-	public String getHash()
-	{
-		return hash;
-	}
-
-	public void setHash(String hash)
-	{
-		this.hash = hash;
-	}
 }

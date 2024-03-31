@@ -1,7 +1,7 @@
 package net.ck.mtbg.ui.dnd;
 
 import net.ck.mtbg.items.AbstractItem;
-import net.ck.mtbg.util.CodeUtils;
+import net.ck.mtbg.util.utils.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

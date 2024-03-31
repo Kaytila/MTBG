@@ -1,8 +1,8 @@
 package net.ck.mtbg.soundeffects;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.CodeUtils;
-import net.ck.mtbg.util.SoundUtils;
+import net.ck.mtbg.util.utils.CodeUtils;
+import net.ck.mtbg.util.utils.SoundUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

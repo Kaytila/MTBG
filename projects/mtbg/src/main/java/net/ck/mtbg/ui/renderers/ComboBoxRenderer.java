@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.models.CharacterPortraitColor;
-import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;

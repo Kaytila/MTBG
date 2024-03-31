@@ -1,8 +1,8 @@
 package net.ck.mtbg.util.communication.sound;
 
 import net.ck.mtbg.backend.state.GameState;
-import net.ck.mtbg.util.CodeUtils;
 import net.ck.mtbg.util.communication.graphics.ChangedEvent;
+import net.ck.mtbg.util.utils.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

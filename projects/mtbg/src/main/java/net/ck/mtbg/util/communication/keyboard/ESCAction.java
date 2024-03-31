@@ -9,9 +9,9 @@ import lombok.extern.log4j.Log4j2;
 @Setter
 public class ESCAction extends AbstractKeyboardAction
 {
-	@Override
-	public KeyboardActionType getType()
-	{
-		return KeyboardActionType.ESC;
-	}
+    @Override
+    public KeyboardActionType getType()
+    {
+        return KeyboardActionType.ESC;
+    }
 }

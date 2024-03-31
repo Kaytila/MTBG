@@ -6,11 +6,11 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.soundeffects.SoundEffects;
 import net.ck.mtbg.ui.components.SpellbookPane;
-import net.ck.mtbg.util.CursorUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.utils.CursorUtils;
 
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;

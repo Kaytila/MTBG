@@ -1,7 +1,7 @@
 package net.ck.mtbg.items;
 
-import net.ck.mtbg.util.CodeUtils;
-import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.utils.CodeUtils;
+import net.ck.mtbg.util.utils.ImageUtils;
 import org.apache.commons.lang3.Range;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

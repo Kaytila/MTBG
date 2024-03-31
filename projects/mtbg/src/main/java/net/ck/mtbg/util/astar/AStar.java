@@ -5,7 +5,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.util.MapUtils;
+import net.ck.mtbg.util.utils.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -7,10 +7,10 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.JGridCanvas;
-import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.communication.keyboard.DropAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.utils.MapUtils;
 
 import java.awt.*;
 import java.awt.datatransfer.Transferable;

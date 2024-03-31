@@ -21,6 +21,7 @@ public class TitleController implements WindowListener, ActionListener
 {
     TitleFrame titleFrame;
     TitleMusicPlayerNoThread titleMusicPlayerNoThread;
+
     public TitleController(TitleFrame titleFrame)
     {
         this.titleFrame = titleFrame;
@@ -29,7 +30,8 @@ public class TitleController implements WindowListener, ActionListener
     @Override
     public void windowOpened(WindowEvent e)
     {
-        if (GameConfiguration.playMusic == true) {
+        if (GameConfiguration.playMusic == true)
+        {
             titleMusicPlayerNoThread = new TitleMusicPlayerNoThread();
             Path titleTrack = Paths.get("assets\\music\\STONES\\stones5.wav");
 
@@ -38,37 +40,45 @@ public class TitleController implements WindowListener, ActionListener
     }
 
     @Override
-    public void windowClosing(WindowEvent e) {
-        if (GameConfiguration.playMusic == true) {
+    public void windowClosing(WindowEvent e)
+    {
+        if (GameConfiguration.playMusic == true)
+        {
             titleMusicPlayerNoThread.pauseMusic();
         }
     }
+
     @Override
     public void windowClosed(WindowEvent e)
     {
-        if (GameConfiguration.playMusic == true) {
+        if (GameConfiguration.playMusic == true)
+        {
             titleMusicPlayerNoThread.pauseMusic();
         }
 
     }
 
     @Override
-    public void windowIconified(WindowEvent e) {
+    public void windowIconified(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowDeiconified(WindowEvent e) {
+    public void windowDeiconified(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowActivated(WindowEvent e) {
+    public void windowActivated(WindowEvent e)
+    {
 
     }
 
     @Override
-    public void windowDeactivated(WindowEvent e) {
+    public void windowDeactivated(WindowEvent e)
+    {
 
     }
 

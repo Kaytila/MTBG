@@ -1,4 +1,4 @@
-package net.ck.mtbg.util;
+package net.ck.mtbg.util.utils;
 
 import lombok.Getter;
 import lombok.Setter;

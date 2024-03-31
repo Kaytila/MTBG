@@ -17,14 +17,14 @@ import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CursorUtils;
-import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.ActionFactory;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.ControllerDelegator;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.utils.CursorUtils;
+import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.WeatherUtils;
 import net.ck.mtbg.util.communication.graphics.WeatherChangedEvent;
+import net.ck.mtbg.util.utils.WeatherUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.image.BufferedImage;

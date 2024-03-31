@@ -2,8 +2,8 @@ package net.ck.mtbg.tools;
 
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.components.JMapEditorCanvas;
-import net.ck.mtbg.util.CodeUtils;
-import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.utils.CodeUtils;
+import net.ck.mtbg.util.utils.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

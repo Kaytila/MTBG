@@ -10,10 +10,10 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.CursorUtils;
-import net.ck.mtbg.util.MapUtils;
-import net.ck.mtbg.util.NPCUtils;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.utils.CursorUtils;
+import net.ck.mtbg.util.utils.MapUtils;
+import net.ck.mtbg.util.utils.NPCUtils;
 
 import java.awt.*;
 import java.awt.event.WindowEvent;

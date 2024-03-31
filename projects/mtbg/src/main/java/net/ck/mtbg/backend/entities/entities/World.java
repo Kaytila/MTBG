@@ -13,9 +13,9 @@ import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.util.MapUtils;
-import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.utils.MapUtils;
+import net.ck.mtbg.util.utils.UILense;
 
 import java.awt.*;
 import java.util.Hashtable;

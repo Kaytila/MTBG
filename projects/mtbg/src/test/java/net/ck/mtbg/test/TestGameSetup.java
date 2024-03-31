@@ -1,9 +1,9 @@
 package net.ck.mtbg.test;
 
 import net.ck.mtbg.backend.game.Game;
-import net.ck.mtbg.util.GameUtils;
-import net.ck.mtbg.util.ImageManager;
-import net.ck.mtbg.util.ImageUtils;
+import net.ck.mtbg.util.utils.GameUtils;
+import net.ck.mtbg.util.utils.ImageManager;
+import net.ck.mtbg.util.utils.ImageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

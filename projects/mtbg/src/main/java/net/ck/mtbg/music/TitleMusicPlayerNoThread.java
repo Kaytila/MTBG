@@ -23,40 +23,53 @@ public class TitleMusicPlayerNoThread
     private Clip currentMusic;
 
 
-    public void playSong(Path path) {
+    public void playSong(Path path)
+    {
         logger.info("playing song: {}", path);
 
-        try {
+        try
+        {
             audioInputStream = AudioSystem.getAudioInputStream(new File(path.toUri()));
 
-        } catch (UnsupportedAudioFileException e) {
+        }
+        catch (UnsupportedAudioFileException e)
+        {
             logger.error("cannot play file: {}", path);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             logger.error("IO Exception: {} for {}", e, path);
         }
 
-        try {
+        try
+        {
             setCurrentMusic(AudioSystem.getClip());
             // getCurrentMusic().addLineListener(new SoundLineListener());
-        } catch (LineUnavailableException e) {
+        }
+        catch (LineUnavailableException e)
+        {
             throw new RuntimeException(e);
         }
-        try {
+        try
+        {
             getCurrentMusic().open(audioInputStream);
-        } catch (LineUnavailableException | IOException e) {
+        }
+        catch (LineUnavailableException | IOException e)
+        {
             throw new RuntimeException(e);
         }
         getCurrentMusic().setFramePosition(0);
 
-        getCurrentMusic().start();
-        //getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
+        //getCurrentMusic().start();
+        getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
     }
 
 
     /**
      * <a href="https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java">audio-volume-control-increase-or-decrease-in-java</a>
      */
-    public void decreaseVolume() {
+    public void decreaseVolume()
+    {
         //TODO decrease volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         //logger.info("Current value: {}", gainControl.getValue());
@@ -66,17 +79,21 @@ public class TitleMusicPlayerNoThread
     /**
      * <a href="https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java">audio-volume-control-increase-or-decrease-in-java</a>
      */
-    public void increaseVolume() {
+    public void increaseVolume()
+    {
         //TODO increase volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         //logger.info("Current value: {}", gainControl.getValue());
-        if ((gainControl.getValue() + 1.0f) < 6.0f) {
+        if ((gainControl.getValue() + 1.0f) < 6.0f)
+        {
             gainControl.setValue(gainControl.getValue() + 1.0f); // increase volume by 10 decibels.
         }
     }
 
-    public void pauseMusic() {
-        if (currentMusic == null) {
+    public void pauseMusic()
+    {
+        if (currentMusic == null)
+        {
             return;
         }
         logger.info("pause music");

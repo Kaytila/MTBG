@@ -4,7 +4,7 @@ import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Utility;
 import net.ck.mtbg.ui.components.InventoryPane;
-import net.ck.mtbg.util.CodeUtils;
+import net.ck.mtbg.util.utils.CodeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

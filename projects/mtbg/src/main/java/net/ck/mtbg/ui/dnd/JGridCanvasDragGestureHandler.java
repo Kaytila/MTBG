@@ -2,9 +2,9 @@ package net.ck.mtbg.ui.dnd;
 
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.JGridCanvas;
-import net.ck.mtbg.util.CodeUtils;
-import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.utils.CodeUtils;
+import net.ck.mtbg.util.utils.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -22,11 +22,11 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.mainframes.SceneFrame;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.MapUtils;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;

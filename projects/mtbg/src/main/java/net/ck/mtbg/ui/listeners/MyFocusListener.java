@@ -1,14 +1,16 @@
 package net.ck.mtbg.ui.listeners;
 
-import net.ck.mtbg.util.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.event.FocusEvent;
 
+@Log4j2
+@Getter
+@Setter
 public class MyFocusListener implements java.awt.event.FocusListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     @Override
     public void focusGained(FocusEvent e)

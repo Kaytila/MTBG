@@ -8,9 +8,9 @@ import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.ImageManager;
-import net.ck.mtbg.util.UILense;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
+import net.ck.mtbg.util.utils.ImageManager;
+import net.ck.mtbg.util.utils.UILense;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Random;

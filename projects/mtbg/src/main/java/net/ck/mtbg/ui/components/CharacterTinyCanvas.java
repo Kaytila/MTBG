@@ -37,7 +37,7 @@ public class CharacterTinyCanvas extends JComponent
         g.setColor(Color.CYAN);
         g.drawRect(0, 0, this.getWidth(), this.getHeight());
 
-        GridUtils.paintLines(this);
+        GridUtils.paintLines(this, g, GameConfiguration.characterEditorTinyTileSize);
         //TODO
         //TODO add skincolor
         g.setColor(Color.ORANGE);
@@ -50,7 +50,7 @@ public class CharacterTinyCanvas extends JComponent
                 g.fillRect(x * GameConfiguration.characterEditorTinyTileSize, y * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize, 1 * GameConfiguration.characterEditorTinyTileSize);
             }
         }
-        
+
 
     }
 }
