@@ -1,17 +1,40 @@
 package net.ck.mtbg.items;
 
-import net.ck.mtbg.util.utils.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.utils.ImageUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 
+@Log4j2
+@Getter
+@Setter
 public class FurnitureItem extends AbstractItem
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private boolean lightSource;
     private int lightRange;
+    private boolean burning;
+
+    public FurnitureItem() {
+        setFurniture(true);
+        if (isLightSource()) {
+            setBurning(true);
+        }
+    }
+
+    public FurnitureItem(FurnitureItem that) {
+        this(that.isLightSource(), that.isBurning(), that.getLightRange(), that.getName(), that.getId());
+    }
+
+    public FurnitureItem(boolean lightSource, boolean burning, int lightRange, String name, int id) {
+        this.setLightSource(lightSource);
+        this.setBurning(burning);
+        this.setLightRange(lightRange);
+        this.setId(id);
+        this.setName(name);
+        this.setFurniture(true);
+    }
 
     @Override
     public BufferedImage getItemImage()
@@ -19,23 +42,4 @@ public class FurnitureItem extends AbstractItem
         return ImageUtils.loadImage("furniture", getName());
     }
 
-    public boolean isLightSource()
-    {
-        return lightSource;
-    }
-
-    public void setLightSource(boolean lightSource)
-    {
-        this.lightSource = lightSource;
-    }
-
-    public int getLightRange()
-    {
-        return lightRange;
-    }
-
-    public void setLightRange(int lightRange)
-    {
-        this.lightRange = lightRange;
-    }
 }

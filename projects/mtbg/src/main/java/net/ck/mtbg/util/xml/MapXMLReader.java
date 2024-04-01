@@ -6,7 +6,9 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.state.GameState;
+import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.graphics.TileTypes;
+import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.Message;
@@ -99,6 +101,8 @@ public class MapXMLReader extends DefaultHandler
     private Message message;
 
     private boolean msg;
+    private boolean furniture;
+    private FurnitureItem furnitureItem;
 
     @Override
     public void startDocument()
@@ -140,6 +144,8 @@ public class MapXMLReader extends DefaultHandler
     {
         switch (qName)
         {
+            case "furniture":
+                break;
             case "visibility":
                 break;
             case "map":
@@ -412,6 +418,10 @@ public class MapXMLReader extends DefaultHandler
             case "message":
                 maptile.setMessage(message);
                 msg = false;
+                break;
+            case "furniture":
+                furnitureItem = new FurnitureItem(ItemManager.getFurnitureList().get(Integer.parseInt(data.toString())));
+                maptile.setFurniture(furnitureItem);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);

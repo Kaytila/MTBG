@@ -843,18 +843,16 @@ public class MapUtils
                     FurnitureItem item = t.getFurniture();
                     if (item.isLightSource() == true)
                     {
-                        int lightrange = item.getLightRange();
-                        ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
-                        for (MapTile tile : tiles)
-                        {
-                            // logger.debug("tile: {}", tile);
-                            if (GameConfiguration.calculateBrightenUpImageInPaint == false)
-                            {
-                                tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
-                            }
-                            else
-                            {
-                                tile.setBrightenFactor(1);
+                        if (item.isBurning() == true) {
+                            int lightrange = item.getLightRange();
+                            ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
+                            for (MapTile tile : tiles) {
+                                // logger.debug("tile: {}", tile);
+                                if (GameConfiguration.calculateBrightenUpImageInPaint == false) {
+                                    tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
+                                } else {
+                                    tile.setBrightenFactor(1);
+                                }
                             }
                         }
                     }

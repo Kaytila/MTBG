@@ -1051,7 +1051,10 @@ History of the changes:
             Will need to do a few changes with the timers that they only start once the UI
             is actually opened. What was the bug? The text map translator added the translated map already before it was
             parsed again and added again and the wrong version was added.
-2023-03-21: implemented a simple character editor, is not persisted yet.
-2023-03-25: character editor: also started creating the actual tile preview. will need to handle this better.
-2023-03-26: only minimal changes. few refactorings.
-2023-03-31: reformat commit.
+2024-03-21: implemented a simple character editor, is not persisted yet.
+2024-03-25: character editor: also started creating the actual tile preview. will need to handle this better.
+2024-03-26: only minimal changes. few refactorings.
+2024-03-31: reformat commit.
+2024-04-01: had a few mistakes in how furniture was handled and not properly handled it at all. fixed now.
+            introduced using item manager for actual instance creation. open issue: why does the torch not burn right
+            away - perhaps need to introduce an additional field instead.

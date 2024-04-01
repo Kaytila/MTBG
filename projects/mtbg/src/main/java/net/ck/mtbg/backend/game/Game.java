@@ -175,7 +175,7 @@ public class Game implements Runnable, Serializable
 
         MapUtils.getMapTileByCoordinates(6, 5).add(sling);
         //logger.info("furniture: {}", getFurnitureList().get(0));
-        MapUtils.getMapTileByCoordinates(9, 3).setFurniture(ItemManager.getFurnitureList().get(1));
+        //MapUtils.getMapTileByCoordinates(9, 3).setFurniture(ItemManager.getFurnitureList().get(1));
 
     }
 

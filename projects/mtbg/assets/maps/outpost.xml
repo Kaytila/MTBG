@@ -412,6 +412,7 @@
             <type>GRASS</type>
             <x>9</x>
             <y>3</y>
+            <furniture>1</furniture>
         </tile>
         <tile>
             <id>0</id>

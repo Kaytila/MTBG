@@ -16,6 +16,7 @@ import net.ck.mtbg.backend.state.EnvironmentalStoryTeller;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
+import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
@@ -519,9 +520,24 @@ public class Player extends AbstractEntity implements LifeForm
         logger.info("maptile: {}", maptile);
         logger.info("maptile furniture: {}", maptile.getFurniture());
         logger.info("maptile inventory: {}", maptile.getInventory());
+
         for (AbstractItem item : maptile.getInventory().getInventory())
         {
             logger.info("item: {}", item);
+        }
+        if (maptile.getFurniture() != null) {
+            logger.debug("there is furniture");
+            FurnitureItem item = maptile.getFurniture();
+            if (item.isFurniture()) {
+                logger.debug("it really is furniture");
+                if (((FurnitureItem) item).isBurning()) {
+                    logger.debug("item is burning, turn it off");
+                    ((FurnitureItem) item).setBurning(false);
+                } else {
+                    logger.debug("item is not burning, turn it on");
+                    ((FurnitureItem) item).setBurning(true);
+                }
+            }
         }
 
         if (maptile.getType().equals(TileTypes.SIGNPOST))

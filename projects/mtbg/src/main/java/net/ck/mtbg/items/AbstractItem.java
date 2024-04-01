@@ -1,8 +1,8 @@
 package net.ck.mtbg.items;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -11,12 +11,16 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Log4j2
+@Getter
+@Setter
 public abstract class AbstractItem implements Transferable, Serializable
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 	private ArrayList<Effects> additionalEffects;
 	private int id;
 	private boolean isContainer;
+
+	private boolean furniture;
 
 	private String name;
 	private double value;
@@ -25,75 +29,11 @@ public abstract class AbstractItem implements Transferable, Serializable
 	
 	public AbstractItem()
 	{
-		
-	}
-	
-	public ArrayList<Effects> getAdditionalEffects()
-	{
-		return additionalEffects;
-	}
-	
-	public int getId()
-	{
-		return id;
+		setFurniture(false);
 	}
 
 	public abstract BufferedImage getItemImage();
 
-	public Logger getLogger()
-	{
-		return logger;
-	}
-
-	public String getName()
-	{		
-		return name;
-	}
-
-	public double getValue()
-	{
-		return value;
-	}
-
-	public double getWeight()
-	{
-		return weight;
-	}
-
-	public boolean isContainer()
-	{
-		return isContainer;
-	}
-
-	public void setAdditionalEffects(ArrayList<Effects> additionalEffects)
-	{
-		this.additionalEffects = additionalEffects;
-	}
-
-	public void setContainer(boolean isContainer)
-	{
-		this.isContainer = isContainer;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	public void setValue(double value)
-	{
-		this.value = value;
-	}
-
-	public void setWeight(double weight)
-	{
-		this.weight = weight;
-	}
 
 	@Override
 	public String toString()
@@ -101,16 +41,6 @@ public abstract class AbstractItem implements Transferable, Serializable
 		return "AbstractItem [value=" + value + ", weight=" + weight + ", isContainer=" + isContainer + ", id=" + id + ", name=" + name + "]";
 	}
 
-	public Point getMapPosition()
-	{
-		return mapPosition;
-	}
-
-	public void setMapPosition(Point mapPosition)
-	{
-		this.mapPosition = mapPosition;
-	}
-	
 	@Override
 	public DataFlavor[] getTransferDataFlavors()
 	{
