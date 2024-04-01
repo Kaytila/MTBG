@@ -59,7 +59,6 @@ public class JGridCanvasTransferHandler extends TransferHandler
     }
 
 
-
     @Override
     public Image getDragImage()
     {
@@ -112,12 +111,12 @@ public class JGridCanvasTransferHandler extends TransferHandler
         {
             return false;
         }
-		MapTile tile = MapUtils.calculateMapTileUnderCursor(support.getDropLocation().getDropPoint());
-		if (tile.isBlocked())
-		{
-			logger.info("tile is blocked, return false");
-			return false;
-		}
+        MapTile tile = MapUtils.calculateMapTileUnderCursor(support.getDropLocation().getDropPoint());
+        if (tile.isBlocked())
+        {
+            logger.info("tile is blocked, return false");
+            return false;
+        }
         return super.canImport(support);
     }
 

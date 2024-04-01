@@ -52,7 +52,8 @@ public class NoAnimationSystem extends AnimationSystem
             try
             {
                 ThreadController.sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }

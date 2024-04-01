@@ -19,7 +19,6 @@ public class GameStateChanged extends ChangedEvent
     }
 
 
-
     public GameState getGameState()
     {
         return gameState;

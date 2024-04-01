@@ -12,7 +12,8 @@ import java.awt.event.ActionListener;
  * This class is used for the highlighting timer. Highlight timer is used to draw the blinking shape
  * around player
  */
-public class HightlightTimerActionListener implements ActionListener {
+public class HightlightTimerActionListener implements ActionListener
+{
     private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**

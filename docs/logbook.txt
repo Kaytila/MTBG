@@ -1058,3 +1058,5 @@ History of the changes:
 2024-04-01: had a few mistakes in how furniture was handled and not properly handled it at all. fixed now.
             introduced using item manager for actual instance creation. open issue: why does the torch not burn right
             away - perhaps need to introduce an additional field instead.
+2024-04-01: fixed furniture initialization - during XML parsing. introduced burning as separate attribute. perhaps can
+            be used somewhere else.

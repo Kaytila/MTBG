@@ -17,50 +17,50 @@ import org.greenrobot.eventbus.EventBus;
 public class NoiseManager
 {
 
-	/**
-	 * soundSystem is the class dealing with the music. currently only taking files from a directory and trying to play one random song at a time
-	 */
-	@Getter
-	@Setter
-	private static MusicPlayerNoThread musicSystemNoThread;
-	@Getter
-	@Setter
-	private static SoundPlayerNoThread soundPlayerNoThread;
+    /**
+     * soundSystem is the class dealing with the music. currently only taking files from a directory and trying to play one random song at a time
+     */
+    @Getter
+    @Setter
+    private static MusicPlayerNoThread musicSystemNoThread;
+    @Getter
+    @Setter
+    private static SoundPlayerNoThread soundPlayerNoThread;
 
 
-	public static void calculateMusictoRun()
-	{
-		if (GameStateMachine.getCurrent().getCurrentState() == GameState.COMBAT)
-		{
-			boolean stillaggro = false;
-			for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
-			{
-				if (e.isHostile())
-				{
-					stillaggro = true;
-					break;
-				}
-			}
+    public static void calculateMusictoRun()
+    {
+        if (GameStateMachine.getCurrent().getCurrentState() == GameState.COMBAT)
+        {
+            boolean stillaggro = false;
+            for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
+            {
+                if (e.isHostile())
+                {
+                    stillaggro = true;
+                    break;
+                }
+            }
 
-			logger.info("still aggro: {}", stillaggro);
+            logger.info("still aggro: {}", stillaggro);
 
-			if (stillaggro == false)
-			{
-				EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
-				TimerManager.getMusicTimer().start();
-			}
-		}
+            if (stillaggro == false)
+            {
+                EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
+                TimerManager.getMusicTimer().start();
+            }
+        }
 
-		if (GameStateMachine.getCurrent().getCurrentState() == GameState.VICTORY)
-		{
-			if (GameUtils.checkVictoryGameStateDuration())
-			{
-				EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
-				if (TimerManager.getMusicTimer().isRunning() == false)
-				{
-					TimerManager.getMusicTimer().start();
-				}
-			}
-		}
-	}
+        if (GameStateMachine.getCurrent().getCurrentState() == GameState.VICTORY)
+        {
+            if (GameUtils.checkVictoryGameStateDuration())
+            {
+                EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+                if (TimerManager.getMusicTimer().isRunning() == false)
+                {
+                    TimerManager.getMusicTimer().start();
+                }
+            }
+        }
+    }
 }

@@ -7,6 +7,7 @@
         <weight>1.0</weight>
         <container>false</container>
         <lightsource>true</lightsource>
+        <burning>true</burning>
         <lightrange>2</lightrange>
         <image>torch</image>
     </item>
@@ -17,6 +18,7 @@
         <weight>1.0</weight>
         <container>false</container>
         <lightsource>true</lightsource>
+        <burning>true</burning>
         <lightrange>4</lightrange>
         <image>torch</image>
     </item>

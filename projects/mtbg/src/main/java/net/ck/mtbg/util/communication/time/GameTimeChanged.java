@@ -7,8 +7,8 @@ import org.apache.logging.log4j.Logger;
 
 public class GameTimeChanged extends ChangedEvent
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     final GameTimeChangeType type;
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     public GameTimeChanged(GameTimeChangeType typ)
     {

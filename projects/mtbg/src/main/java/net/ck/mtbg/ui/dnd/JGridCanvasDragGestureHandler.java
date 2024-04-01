@@ -13,26 +13,27 @@ import java.awt.dnd.DragGestureListener;
 
 public class JGridCanvasDragGestureHandler implements DragGestureListener
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-	private JGridCanvas grid;
-	public JGridCanvasDragGestureHandler(JGridCanvas gridCanvas)
-	{
-		setGrid(gridCanvas);
-	}
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    private JGridCanvas grid;
 
-	@Override
-	/**
-	 * so this is also called when the right mouse is dragged.
-	 * and it appears the mouse action listener calls an action
-	 * pressed and a mouse released action each time.
-	 * which actually would make sense as it
-	 * the problem is that right mouse drag is also a drag gesture.
-	 * not sure i can turn this off, this would make things way easier.
-	 * but for the time being, checking if the tile is null appears to fix the issue
-	 * i do not trust this fix, not at all.
-	 */
-	public void dragGestureRecognized(DragGestureEvent dge)
-	{
+    public JGridCanvasDragGestureHandler(JGridCanvas gridCanvas)
+    {
+        setGrid(gridCanvas);
+    }
+
+    @Override
+    /**
+     * so this is also called when the right mouse is dragged.
+     * and it appears the mouse action listener calls an action
+     * pressed and a mouse released action each time.
+     * which actually would make sense as it
+     * the problem is that right mouse drag is also a drag gesture.
+     * not sure i can turn this off, this would make things way easier.
+     * but for the time being, checking if the tile is null appears to fix the issue
+     * i do not trust this fix, not at all.
+     */
+    public void dragGestureRecognized(DragGestureEvent dge)
+    {
         if (WindowBuilder.getController().isMousePressed())
         {
             return;
@@ -45,24 +46,24 @@ public class JGridCanvasDragGestureHandler implements DragGestureListener
             if (tile == null)
             {
 
-			}
-			else
-			{
-				if (tile.isBlocked())
-				{
-					getGrid().getDropTarget().setActive(false);
-				}
-			}
-		}
-	}
+            }
+            else
+            {
+                if (tile.isBlocked())
+                {
+                    getGrid().getDropTarget().setActive(false);
+                }
+            }
+        }
+    }
 
-	public JGridCanvas getGrid()
-	{
-		return grid;
-	}
+    public JGridCanvas getGrid()
+    {
+        return grid;
+    }
 
-	public void setGrid(JGridCanvas grid)
-	{
-		this.grid = grid;
-	}
+    public void setGrid(JGridCanvas grid)
+    {
+        this.grid = grid;
+    }
 }

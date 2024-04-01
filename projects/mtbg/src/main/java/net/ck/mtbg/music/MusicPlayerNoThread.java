@@ -237,10 +237,13 @@ public class MusicPlayerNoThread
                 currentMusic.close();
             }
         }
-        if (gameStat.getGameState() != null) {
+        if (gameStat.getGameState() != null)
+        {
             playSong(getResultMap().get(gameStat.getGameState()).get(betterSelectRandomSong(getResultMap().get(gameStat.getGameState()))));
             setGameStateChanged(false);
-        } else {
+        }
+        else
+        {
             playSong(getResultMap().get(GameState.WORLD).get(betterSelectRandomSong(getResultMap().get(GameState.WORLD))));
             logger.error("why the hell is this null?");
         }

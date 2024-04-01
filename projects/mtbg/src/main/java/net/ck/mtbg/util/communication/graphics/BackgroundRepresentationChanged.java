@@ -6,22 +6,22 @@ import org.apache.logging.log4j.Logger;
 
 public class BackgroundRepresentationChanged extends ChangedEvent
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
-	private int currentNumber;
+    private int currentNumber;
 
-	public BackgroundRepresentationChanged(int i)
-	{
-		setCurrentNumber(i);
-	}
+    public BackgroundRepresentationChanged(int i)
+    {
+        setCurrentNumber(i);
+    }
 
-	public int getCurrentNumber()
-	{
-		return currentNumber;
-	}
+    public int getCurrentNumber()
+    {
+        return currentNumber;
+    }
 
-	public void setCurrentNumber(int currentNumber)
-	{
-		this.currentNumber = currentNumber;
-	}
+    public void setCurrentNumber(int currentNumber)
+    {
+        this.currentNumber = currentNumber;
+    }
 }

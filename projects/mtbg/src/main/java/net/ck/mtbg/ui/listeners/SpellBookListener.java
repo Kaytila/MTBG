@@ -31,15 +31,13 @@ import java.awt.event.MouseMotionListener;
 @Getter
 public class SpellBookListener implements MouseListener, MouseMotionListener, ListDataListener
 {
+    private SpellbookPane spellbookPane;
+    private AbstractKeyboardAction action;
     public SpellBookListener(SpellbookPane pane, AbstractKeyboardAction action)
     {
         this.spellbookPane = pane;
         this.action = action;
     }
-
-    private SpellbookPane spellbookPane;
-    private AbstractKeyboardAction action;
-
 
     @Override
     public void mouseClicked(MouseEvent e)
@@ -103,12 +101,14 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e)
+    {
 
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(MouseEvent e)
+    {
 
     }
 

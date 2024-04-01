@@ -80,6 +80,8 @@ public class FurnitureReader extends DefaultHandler
                 break;
             case "image":
                 break;
+            case "burning":
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);
         }
@@ -108,6 +110,12 @@ public class FurnitureReader extends DefaultHandler
                 break;
             case "lightsource":
                 item.setLightSource(Boolean.parseBoolean(data.toString()));
+                break;
+            case "burning":
+                if (item.isLightSource())
+                {
+                    item.setBurning(Boolean.parseBoolean(data.toString()));
+                }
                 break;
             case "lightrange":
                 item.setLightRange(Integer.parseInt(data.toString()));

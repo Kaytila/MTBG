@@ -30,7 +30,7 @@ public class MissileTimer implements Runnable
      * is started. If <code>listener</code> is not <code>null</code>,
      * it's registered as an action listener on the timer.
      *
-     * @param delay    milliseconds for the initial and between-event delay
+     * @param delay milliseconds for the initial and between-event delay
      */
     public MissileTimer(int delay)
     {

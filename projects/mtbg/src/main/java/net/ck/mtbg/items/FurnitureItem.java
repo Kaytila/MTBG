@@ -16,18 +16,18 @@ public class FurnitureItem extends AbstractItem
     private int lightRange;
     private boolean burning;
 
-    public FurnitureItem() {
+    public FurnitureItem()
+    {
         setFurniture(true);
-        if (isLightSource()) {
-            setBurning(true);
-        }
     }
 
-    public FurnitureItem(FurnitureItem that) {
+    public FurnitureItem(FurnitureItem that)
+    {
         this(that.isLightSource(), that.isBurning(), that.getLightRange(), that.getName(), that.getId());
     }
 
-    public FurnitureItem(boolean lightSource, boolean burning, int lightRange, String name, int id) {
+    public FurnitureItem(boolean lightSource, boolean burning, int lightRange, String name, int id)
+    {
         this.setLightSource(lightSource);
         this.setBurning(burning);
         this.setLightRange(lightRange);
