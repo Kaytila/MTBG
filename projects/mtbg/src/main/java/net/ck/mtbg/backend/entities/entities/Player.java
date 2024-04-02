@@ -19,6 +19,7 @@ import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
+import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.mainframes.SceneFrame;
 import net.ck.mtbg.ui.state.UIState;
@@ -525,17 +526,22 @@ public class Player extends AbstractEntity implements LifeForm
         {
             logger.info("item: {}", item);
         }
-        if (maptile.getFurniture() != null) {
+
+        if (maptile.getFurniture() != null)
+        {
             logger.debug("there is furniture");
             FurnitureItem item = maptile.getFurniture();
-            if (item.isFurniture()) {
+            if (item.isFurniture())
+            {
                 logger.debug("it really is furniture");
-                if (((FurnitureItem) item).isBurning()) {
+                if (item.isBurning())
+                {
                     logger.debug("item is burning, turn it off");
-                    ((FurnitureItem) item).setBurning(false);
-                } else {
+                    item.setBurning(false);
+                } else
+                {
                     logger.debug("item is not burning, turn it on");
-                    ((FurnitureItem) item).setBurning(true);
+                    item.setBurning(true);
                 }
             }
         }
@@ -544,7 +550,6 @@ public class Player extends AbstractEntity implements LifeForm
         {
             move(maptile.getTargetCoordinates().x, maptile.getTargetCoordinates().y);
         }
-
     }
 
     @Override
@@ -729,9 +734,10 @@ public class Player extends AbstractEntity implements LifeForm
 
     public boolean switchMap()
     {
+        Map oldMap = Game.getCurrent().getCurrentMap();
         super.switchMap();
         //TODO this one is kind of ugly - can this be handled otherwise?
-        Game.getCurrent().finishMapSwitch();
+        Game.getCurrent().finishMapSwitch(oldMap);
         return true;
     }
 

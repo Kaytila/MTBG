@@ -40,7 +40,7 @@ import java.util.Hashtable;
 @Getter
 @Setter
 @Log4j2
-public class NPCReader extends DefaultHandler
+public class NPCXMLReader extends DefaultHandler
 {
 
     private Hashtable<Integer, NPC> npcs;

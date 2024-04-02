@@ -150,7 +150,7 @@ public class RunXMLParser
         try
         {
             SAXParser saxParser = saxParserFactory.newSAXParser();
-            FurnitureReader handler = new FurnitureReader();
+            FurnitureXMLReader handler = new FurnitureXMLReader();
             saxParser.parse(new File(fileName), handler);
             return handler.getFurnitureList();
         }

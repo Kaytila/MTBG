@@ -209,56 +209,27 @@ public class NPC extends AbstractEntity implements LifeForm
         if (getSchedule() != null)
         {
             //easy for now
-            if (getSchedule().getActivities() != null)
+            if (getSchedule().isActive() == true)
             {
-                for (ScheduleActivity activity : getSchedule().getActivities())
+                if (getSchedule().getActivities() != null)
                 {
-                    GameTime startTime = activity.getStartTime();
-
-                    if (Game.getCurrent().getGameTime().getCurrentHour() == startTime.getCurrentHour())
+                    for (ScheduleActivity activity : getSchedule().getActivities())
                     {
-                        if (Game.getCurrent().getGameTime().getCurrentMinute() == startTime.getCurrentMinute())
+                        GameTime startTime = activity.getStartTime();
+
+                        if (Game.getCurrent().getGameTime().getCurrentHour() == startTime.getCurrentHour())
                         {
-                            logger.error("activity: {}", activity.getActionString());
-                            setRunningAction(activity.getAction());
-                            doAction(new PlayerAction(activity.getAction()));
+                            if (Game.getCurrent().getGameTime().getCurrentMinute() == startTime.getCurrentMinute())
+                            {
+                                logger.error("activity: {}", activity.getActionString());
+                                setRunningAction(activity.getAction());
+                                doAction(new PlayerAction(activity.getAction()));
+                            }
                         }
                     }
                 }
             }
         }
-    }
-
-    /**
-     * @param event Game Time has changed
-     */
-    private void checkSchedulesOld(GameTimeChanged event)
-    {
-        //logger.info("start: check schedules");
-        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 2)
-        {
-            // logger.info("check schedule");
-            if (getMobasks().size() > 0)
-            {
-                //logger.info("running");
-                // MoveAction action = new MoveAction();
-                // action.setGetWhere(new Point(1, 0));
-                //doAction(new PlayerAction(action));
-            }
-        }
-
-        if (Game.getCurrent().getGameTime().getCurrentHour() == 9 && Game.getCurrent().getGameTime().getCurrentMinute() == 20)
-        {
-            //logger.info("check schedule");
-            if (getMobasks().size() > 0)
-            {
-                //logger.info("running");
-                //MoveAction action = new MoveAction();
-                //action.setGetWhere(getOriginalMapPosition());
-                //doAction(new PlayerAction(action));
-            }
-        }
-        //logger.info("end: check schedules");
     }
 
     /**

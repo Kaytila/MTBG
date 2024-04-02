@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Schedule
 {
     private ArrayList<ScheduleActivity> activities;
+    private boolean active;
 
     public Schedule(LifeForm e)
     {

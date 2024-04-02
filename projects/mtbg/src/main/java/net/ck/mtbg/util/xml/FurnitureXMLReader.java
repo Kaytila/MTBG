@@ -27,7 +27,7 @@ import java.util.Hashtable;
 @Getter
 @Setter
 @Log4j2
-public class FurnitureReader extends DefaultHandler
+public class FurnitureXMLReader extends DefaultHandler
 {
 
     private StringBuilder data = null;

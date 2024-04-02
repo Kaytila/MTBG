@@ -1060,3 +1060,4 @@ History of the changes:
             away - perhaps need to introduce an additional field instead.
 2024-04-01: fixed furniture initialization - during XML parsing. introduced burning as separate attribute. perhaps can
             be used somewhere else.
+2024-04-02: some refactoring and some start on schedule pausing on map switch.

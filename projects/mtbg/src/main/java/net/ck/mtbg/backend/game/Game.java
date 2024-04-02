@@ -565,7 +565,7 @@ public class Game implements Runnable, Serializable
      * In fact, I think I will do so
      * //TODO do standard work in AbstractEntity for map switch, then do the concrete stuff relevant to player and npc there
      */
-    public void finishMapSwitch()
+    public void finishMapSwitch(Map oldMap)
     {
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
@@ -576,6 +576,13 @@ public class Game implements Runnable, Serializable
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         TimerManager.getIdleTimer().start();
         //TODO clear running schedules? how? currently they are on NPC.
+        for (LifeForm f : oldMap.getLifeForms())
+        {
+            if (f.getSchedule() != null)
+            {
+                f.getSchedule().setActive(false);
+            }
+        }
     }
 }
 
