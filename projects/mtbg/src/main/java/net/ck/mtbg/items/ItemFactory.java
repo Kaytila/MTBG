@@ -1,26 +1,26 @@
 package net.ck.mtbg.items;
 
 import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ItemFactory
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    public static Weapon createWeapon(int ID)
+    {
+        return new Weapon(ItemManager.getWeaponList().get(ID));
+    }
 
-	public ItemFactory()
-	{
+    public static Armor createArmor(int ID)
+    {
+        return new Armor(ItemManager.getArmorList().get(ID));
+    }
 
-	}
+    public static Utility createUtility(int ID)
+    {
+        return new Utility(ItemManager.getUtilityList().get(ID));
+    }
 
-	public static Weapon createWeapon(int ID)
-	{
-		return (ItemManager.getWeaponList().get(ID));
-	}
-
-	public static Armor createArmor(int ID)
-	{
-		return (ItemManager.getArmorList().get(ID));
-	}
+    public static FurnitureItem createFurniture(int ID)
+    {
+        return new FurnitureItem(ItemManager.getFurnitureList().get(ID));
+    }
 }

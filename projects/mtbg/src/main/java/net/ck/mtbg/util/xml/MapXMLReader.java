@@ -8,6 +8,7 @@ import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.graphics.TileTypes;
+import net.ck.mtbg.items.Armor;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.Map;
@@ -438,6 +439,9 @@ public class MapXMLReader extends DefaultHandler
                 Weapon weapon = new Weapon(ItemManager.getWeaponList().get(Integer.parseInt(data.toString())));
                 maptile.getInventory().add(weapon);
                 break;
+            case "armor":
+                Armor armor = new Armor(ItemManager.getArmorList().get(Integer.parseInt(data.toString())));
+                maptile.getInventory().add(armor);
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);
         }

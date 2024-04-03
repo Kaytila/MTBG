@@ -16,48 +16,48 @@ import java.util.ArrayList;
 @Setter
 public abstract class AbstractItem implements Transferable, Serializable
 {
-	private ArrayList<Effects> additionalEffects;
-	private int id;
-	private boolean isContainer;
+    private ArrayList<Effects> additionalEffects;
+    private int id;
+    private boolean isContainer;
 
-	private boolean furniture;
+    private boolean furniture;
 
-	private String name;
-	private double value;
-	private double weight;
-	private Point mapPosition;
+    private String name;
+    private double value;
+    private double weight;
+    private Point mapPosition;
 
-	public AbstractItem()
-	{
-		setFurniture(false);
-	}
+    public AbstractItem()
+    {
+        setFurniture(false);
+    }
 
-	public abstract BufferedImage getItemImage();
+    public abstract BufferedImage getItemImage();
 
 
-	@Override
-	public DataFlavor[] getTransferDataFlavors()
-	{
-		logger.info("getTransferDataFlavors used");
-		DataFlavor flavor1 = new DataFlavor(Object.class, "X-test/test; class=<java.lang.Object>; foo=bar");
-		DataFlavor flavor2 = new DataFlavor(Object.class, "X-test/test; class=<java.lang.Object>; x=y");
-		DataFlavor[] dataFlavor = new DataFlavor[2];
-		dataFlavor[0] = flavor1;
-		dataFlavor[1] = flavor2;
-		return dataFlavor;
-	}
+    @Override
+    public DataFlavor[] getTransferDataFlavors()
+    {
+        logger.info("getTransferDataFlavors used");
+        DataFlavor flavor1 = new DataFlavor(Object.class, "X-test/test; class=<java.lang.Object>; foo=bar");
+        DataFlavor flavor2 = new DataFlavor(Object.class, "X-test/test; class=<java.lang.Object>; x=y");
+        DataFlavor[] dataFlavor = new DataFlavor[2];
+        dataFlavor[0] = flavor1;
+        dataFlavor[1] = flavor2;
+        return dataFlavor;
+    }
 
-	@Override
-	public boolean isDataFlavorSupported(DataFlavor flavor)
-	{
-		logger.info("this is used");
-		return false;
-	}
+    @Override
+    public boolean isDataFlavorSupported(DataFlavor flavor)
+    {
+        logger.info("this is used");
+        return false;
+    }
 
-	@Override
-	public Object getTransferData(DataFlavor flavor)
-	{
-		logger.info("this is used");
-		return this;
-	}
+    @Override
+    public Object getTransferData(DataFlavor flavor)
+    {
+        logger.info("this is used");
+        return this;
+    }
 }

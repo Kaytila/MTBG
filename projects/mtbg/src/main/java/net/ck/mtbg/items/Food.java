@@ -1,16 +1,17 @@
 package net.ck.mtbg.items;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.image.BufferedImage;
 
+@Log4j2
+@Getter
+@Setter
 public class Food extends AbstractItem
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private int nutritionValue;
-
 
     public Food()
     {
@@ -23,13 +24,4 @@ public class Food extends AbstractItem
         return null;
     }
 
-    public int getNutritionValue()
-    {
-        return nutritionValue;
-    }
-
-    public void setNutritionValue(int nutritionValue)
-    {
-        this.nutritionValue = nutritionValue;
-    }
 }

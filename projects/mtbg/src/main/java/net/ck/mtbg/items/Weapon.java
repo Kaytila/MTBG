@@ -21,12 +21,29 @@ public class Weapon extends AbstractItem
     private double averageDamage;
     private int range;
 
+    /**
+     * @param that - weapon to copy
+     */
+    @SuppressWarnings("CopyConstructorMissesField")
     public Weapon(Weapon that)
     {
-        this(that.getId(), that.getName(), that.getItemImage(), that.getAverageDamage(), that.getDamageType(), that.getRange(), that.getWeaponDamage(), that.getAdditionalEffects(), that.getValue(), that.getWeight());
+        this(that.getId(), that.getName(), that.getAverageDamage(), that.getDamageType(), that.getRange(), that.getWeaponDamage(), that.getAdditionalEffects(), that.getValue(), that.getWeight());
     }
 
-    public Weapon(int id, String name, BufferedImage itemImage, double averageDamage, WeaponDamageTypes damageType, int range, Range<Integer> weaponDamage, ArrayList<Effects> additionalEffects, double value, double weight)
+    /**
+     * copy constructor
+     *
+     * @param id                - original value
+     * @param name              - original value
+     * @param averageDamage     - original value
+     * @param damageType        - original value
+     * @param range             - original value
+     * @param weaponDamage      - original value
+     * @param additionalEffects - original value
+     * @param value             - original value
+     * @param weight            - original value
+     */
+    public Weapon(int id, String name, double averageDamage, WeaponDamageTypes damageType, int range, Range<Integer> weaponDamage, ArrayList<Effects> additionalEffects, double value, double weight)
     {
         this.setId(id);
         this.setName(name);
@@ -44,12 +61,6 @@ public class Weapon extends AbstractItem
     {
         setContainer(false);
     }
-
-    public Weapon(int iD)
-    {
-        setContainer(false);
-    }
-
 
     public int getRange()
     {
