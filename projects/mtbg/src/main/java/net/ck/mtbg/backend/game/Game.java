@@ -169,11 +169,11 @@ public class Game implements Runnable, Serializable
         Weapon magicClub = ItemManager.getWeaponList().get(2);
         Weapon sling = ItemManager.getWeaponList().get(3);
 
-        MapUtils.getMapTileByCoordinates(2, 1).add(club);
+        //MapUtils.getMapTileByCoordinates(2, 1).add(club);
 
-        MapUtils.getMapTileByCoordinates(7, 3).add(magicClub);
+        //MapUtils.getMapTileByCoordinates(7, 3).add(magicClub);
 
-        MapUtils.getMapTileByCoordinates(6, 5).add(sling);
+        //MapUtils.getMapTileByCoordinates(6, 5).add(sling);
         //logger.info("furniture: {}", getFurnitureList().get(0));
         //MapUtils.getMapTileByCoordinates(9, 3).setFurniture(ItemManager.getFurnitureList().get(1));
 

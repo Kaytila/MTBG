@@ -9,6 +9,7 @@ import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
+import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.Message;
@@ -231,6 +232,14 @@ public class MapXMLReader extends DefaultHandler
                 break;
             case "repeat":
                 break;
+            case "inventory":
+                break;
+            case "weapon":
+                break;
+            case "armor":
+                break;
+            case "utility":
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);
         }
@@ -422,6 +431,12 @@ public class MapXMLReader extends DefaultHandler
             case "furniture":
                 furnitureItem = new FurnitureItem(ItemManager.getFurnitureList().get(Integer.parseInt(data.toString())));
                 maptile.setFurniture(furnitureItem);
+                break;
+            case "inventory":
+                break;
+            case "weapon":
+                Weapon weapon = new Weapon(ItemManager.getWeaponList().get(Integer.parseInt(data.toString())));
+                maptile.getInventory().add(weapon);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);

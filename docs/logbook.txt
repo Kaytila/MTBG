@@ -1061,3 +1061,6 @@ History of the changes:
 2024-04-01: fixed furniture initialization - during XML parsing. introduced burning as separate attribute. perhaps can
             be used somewhere else.
 2024-04-02: some refactoring and some start on schedule pausing on map switch.
+2024-04-03: wrote some thoughts on scheduling. added deepcopy for weapons. updated outpost map to actually include items
+            on the floor. unfortunately, this is now handled by using weapon, armor, utility as separate entities.
+            Not sure I want to keep it that way. We will see.

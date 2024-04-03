@@ -1,0 +1,10 @@
+On schedules
+==================================================
+So thinking about how to do enhanced schedules.
+Simple patrolling between point a and b I already have, npcs are a* past each other (not through closed doors -yet).
+but what about real schedules? How can I even properly define them without hard coding things?
+I am thinking about using a cron like syntax for the timing, i.e. at 0 12 * * * 56@43 (go to that spot every noon).
+But how to pause them? Do I need to pause them at all?
+What will happen if I have 100 schedules running in parallel?
+Or are they paused if player is not on the map anymore? What will happen if player enters map at 12:01? will the npc start moving then? or will it not move?
+I am really wondering how this is solved in U5-7.

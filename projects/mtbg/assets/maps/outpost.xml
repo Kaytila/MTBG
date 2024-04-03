@@ -106,6 +106,9 @@
             <type>WOODFLOOR</type>
             <x>2</x>
             <y>1</y>
+            <inventory>
+                <weapon>1</weapon>
+            </inventory>
         </tile>
         <tile>
             <id>0</id>
@@ -298,6 +301,9 @@
             <type>GRASS</type>
             <x>6</x>
             <y>5</y>
+            <inventory>
+                <weapon>3</weapon>
+            </inventory>
         </tile>
         <tile>
             <id>0</id>
@@ -328,6 +334,9 @@
             <type>GRASS</type>
             <x>7</x>
             <y>3</y>
+            <inventory>
+                <weapon>2</weapon>
+            </inventory>
         </tile>
         <tile>
             <id>0</id>
