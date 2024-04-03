@@ -1064,3 +1064,4 @@ History of the changes:
 2024-04-03: wrote some thoughts on scheduling. added deepcopy for weapons. updated outpost map to actually include items
             on the floor. unfortunately, this is now handled by using weapon, armor, utility as separate entities.
             Not sure I want to keep it that way. We will see.
+2024-04-03: did a deepcopy for Armor items.

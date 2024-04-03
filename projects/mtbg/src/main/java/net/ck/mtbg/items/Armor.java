@@ -1,22 +1,19 @@
 package net.ck.mtbg.items;
 
-import net.ck.mtbg.util.utils.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.utils.ImageUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
+@Log4j2
+@Getter
+@Setter
 public class Armor extends AbstractItem
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-	@Override
-	public String toString()
-	{
-		return "Armor [type=" + type + ", position=" + position + ", armorClass=" + armorClass + ", toString()=" + super.toString() + "]";
-	}
-
 
 	private ArmorTypes type;
 	private ArmorPositions position;
@@ -24,42 +21,30 @@ public class Armor extends AbstractItem
 
 	public Armor()
 	{
+		this.setContainer(false);
+	}
 
+	public Armor(Armor that)
+	{
+		this(that.getId(), that.getArmorClass(), that.getName(), that.getType(), that.getAdditionalEffects(), that.getValue(), that.getWeight(), that.getPosition());
+	}
+
+	public Armor(int id, int armorClass, String name, ArmorTypes type, ArrayList<Effects> additionalEffects, double value, double weight, ArmorPositions position)
+	{
+		this.setId(id);
+		this.setArmorClass(armorClass);
+		this.setName(name);
+		this.setType(type);
+		this.setAdditionalEffects(additionalEffects);
+		this.setValue(value);
+		this.setWeight(weight);
+		this.setPosition(position);
+		this.setContainer(false);
 	}
 
 	@Override
 	public BufferedImage getItemImage()
 	{
 		return (ImageUtils.loadImage("armor" + File.separator + getType().name(), getPosition().name()));
-	}
-
-	public ArmorTypes getType()
-	{
-		return type;
-	}
-
-	public void setType(ArmorTypes type)
-	{
-		this.type = type;
-	}
-
-	public ArmorPositions getPosition()
-	{
-		return position;
-	}
-
-	public void setPosition(ArmorPositions position)
-	{
-		this.position = position;
-	}
-
-	public int getArmorClass()
-	{
-		return armorClass;
-	}
-
-	public void setArmorClass(int armorClass)
-	{
-		this.armorClass = armorClass;
 	}
 }

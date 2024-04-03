@@ -26,7 +26,7 @@ public abstract class AbstractItem implements Transferable, Serializable
 	private double value;
 	private double weight;
 	private Point mapPosition;
-	
+
 	public AbstractItem()
 	{
 		setFurniture(false);
@@ -34,12 +34,6 @@ public abstract class AbstractItem implements Transferable, Serializable
 
 	public abstract BufferedImage getItemImage();
 
-
-	@Override
-	public String toString()
-	{
-		return "AbstractItem [value=" + value + ", weight=" + weight + ", isContainer=" + isContainer + ", id=" + id + ", name=" + name + "]";
-	}
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors()
@@ -55,7 +49,7 @@ public abstract class AbstractItem implements Transferable, Serializable
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor)
-	{		
+	{
 		logger.info("this is used");
 		return false;
 	}
@@ -65,5 +59,5 @@ public abstract class AbstractItem implements Transferable, Serializable
 	{
 		logger.info("this is used");
 		return this;
-	}	
+	}
 }

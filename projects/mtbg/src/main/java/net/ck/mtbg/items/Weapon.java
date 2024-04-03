@@ -1,18 +1,20 @@
 package net.ck.mtbg.items;
 
-import net.ck.mtbg.util.utils.CodeUtils;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.utils.ImageUtils;
 import org.apache.commons.lang3.Range;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
+@Log4j2
+@Getter
+@Setter
 public class Weapon extends AbstractItem
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private WeaponTypes type;
     private WeaponDamageTypes damageType;
     private Range<Integer> weaponDamage;
@@ -35,6 +37,7 @@ public class Weapon extends AbstractItem
         this.setAdditionalEffects(additionalEffects);
         this.setValue(value);
         this.setWeight(weight);
+        setContainer(false);
     }
 
     public Weapon()
@@ -47,12 +50,6 @@ public class Weapon extends AbstractItem
         setContainer(false);
     }
 
-    @Override
-    public String toString()
-    {
-        //return "Weapon [type=" + type + ", damageType=" + damageType + ", weaponDamage=" + weaponDamage + ", averageDamage=" + averageDamage + ", toString()=" + super.toString() + "]";
-        return "Weapon: " + super.toString();
-    }
 
     public int getRange()
     {
@@ -63,55 +60,10 @@ public class Weapon extends AbstractItem
         return range;
     }
 
-    public void setRange(int range)
-    {
-        this.range = range;
-    }
-
-    public WeaponTypes getType()
-    {
-        return type;
-    }
-
-    public void setType(WeaponTypes type)
-    {
-        this.type = type;
-    }
-
-    public double getAverageDamage()
-    {
-        return averageDamage;
-    }
-
-    public void setAverageDamage(double averageDamage)
-    {
-        this.averageDamage = averageDamage;
-    }
-
-
     @Override
     public BufferedImage getItemImage()
     {
         return (ImageUtils.loadImage("weapons" + File.separator, getName()));
     }
 
-    public Range<Integer> getWeaponDamage()
-    {
-        return weaponDamage;
-    }
-
-    public void setWeaponDamage(Range<Integer> weaponDamage)
-    {
-        this.weaponDamage = weaponDamage;
-    }
-
-    public WeaponDamageTypes getDamageType()
-    {
-        return damageType;
-    }
-
-    public void setDamageType(WeaponDamageTypes damageType)
-    {
-        this.damageType = damageType;
-    }
 }
