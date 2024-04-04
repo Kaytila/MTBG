@@ -64,6 +64,7 @@ public class Game implements Runnable, Serializable
      * is the game still running or shutting down?
      */
     private boolean running;
+
     /**
      * which is the currently active player, PC, NPCs are treated differently, but same :D
      */
@@ -73,6 +74,7 @@ public class Game implements Runnable, Serializable
      * which turn is the current turn, filled up with each doAction(), rolled over in advanceTurn() or retractTurn()
      */
     private Turn currentTurn;
+
     /**
      * world is doing the random events
      */
@@ -82,14 +84,11 @@ public class Game implements Runnable, Serializable
      * turn number
      */
     private int turnNumber;
+
     /**
      * the list of turn objects
      */
     private ArrayList<Turn> turns = new ArrayList<>();
-    /**
-     * this is the weather system
-     */
-
 
     /**
      * this holds the actual game time which is increasing with time
@@ -97,26 +96,29 @@ public class Game implements Runnable, Serializable
     private GameTime gameTime;
 
     /**
-     * so if we have a goto command, this needs to go into a command queue
+     * previous game state - where are we once we enter cutscene/combat and so on
      */
-
-
     private GameState previousGameState;
 
-    /* base health is the basic health points number, i.e. does a NPC start with 10, 100, 1000 - depending on how far you want to go
-     */
-    private int baseHealth;
+
     /**
      * ready for next turn?
      */
     private boolean nextTurn;
+
     /**
      * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
 
+    /**
+     * has the player enough dex to move twice per turn?
+     */
     private boolean playerMovedTwice = true;
 
+    /**
+     * what is the player action for this round
+     */
     private PlayerAction playerAction;
 
     /**
@@ -139,8 +141,7 @@ public class Game implements Runnable, Serializable
 
         setTurnNumber(0);
         Turn turn = new Turn(getTurnNumber());
-
-        setBaseHealth(10);
+        
         setCurrentTurn(turn);
         getTurns().add(turn);
         setEn(new World());
@@ -165,17 +166,6 @@ public class Game implements Runnable, Serializable
 
     public void addItemsToFloor()
     {
-        Weapon club = ItemManager.getWeaponList().get(1);
-        Weapon magicClub = ItemManager.getWeaponList().get(2);
-        Weapon sling = ItemManager.getWeaponList().get(3);
-
-        //MapUtils.getMapTileByCoordinates(2, 1).add(club);
-
-        //MapUtils.getMapTileByCoordinates(7, 3).add(magicClub);
-
-        //MapUtils.getMapTileByCoordinates(6, 5).add(sling);
-        //logger.info("furniture: {}", getFurnitureList().get(0));
-        //MapUtils.getMapTileByCoordinates(9, 3).setFurniture(ItemManager.getFurnitureList().get(1));
 
     }
 
@@ -199,10 +189,10 @@ public class Game implements Runnable, Serializable
 
     /**
      * so all can run on the EDT. I wonder where this will fuck things up, according to this:
-     * https://stackoverflow.com/questions/11825281/java-swing-running-on-edt
+     * <a href="https://stackoverflow.com/questions/11825281/java-swing-running-on-edt">https://stackoverflow.com/questions/11825281/java-swing-running-on-edt</a>
      * this could kind of even work. But should it?
      *
-     * @param event
+     * @param event the advancedTurn event - contains whether NPCs have a movement or not. contains the player action.
      */
     @Subscribe
     public synchronized void onMessageEvent(AdvanceTurnEvent event)

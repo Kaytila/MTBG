@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
@@ -102,7 +103,7 @@ public class NPC extends AbstractEntity implements LifeForm
             getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
         }
 
-        setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
+        setHealth(GameConfiguration.baseHealth + (getLevel() * 10));
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
         getInventory().add(ItemManager.getWeaponList().get(3));
@@ -171,7 +172,7 @@ public class NPC extends AbstractEntity implements LifeForm
         getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
         getAttributes().get(AttributeTypes.INTELLIGENCE).setValue(10);
-        setHealth(Game.getCurrent().getBaseHealth() + (getLevel() * 10));
+        setHealth(GameConfiguration.baseHealth + (getLevel() * 10));
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
         getInventory().add(ItemManager.getWeaponList().get(3));

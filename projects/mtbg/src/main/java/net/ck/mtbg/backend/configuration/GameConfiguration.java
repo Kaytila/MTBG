@@ -24,6 +24,7 @@ public class GameConfiguration
     public static final int animationCycles = 7;
     public static final int animationForeGroundDelay = 500;
     public static final int animationLifeformDelay = 2000;
+    public static final int baseHealth = 10;
     /**
      * brighten up images or not - used for drawing bright, less bright and almost dark tiles
      */

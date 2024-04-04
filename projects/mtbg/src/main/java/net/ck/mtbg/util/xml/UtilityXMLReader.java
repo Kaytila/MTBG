@@ -3,7 +3,6 @@ package net.ck.mtbg.util.xml;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.items.ArmorTypes;
 import net.ck.mtbg.items.Utility;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
@@ -140,12 +139,6 @@ public class UtilityXMLReader extends DefaultHandler
         {
             name = false;
             utilityItem.setName(data.toString());
-        }
-
-        else if (qName.equalsIgnoreCase("type"))
-        {
-            type = false;
-            utilityItem.setType(ArmorTypes.valueOf(data.toString()));
         }
 
         else if (qName.equalsIgnoreCase("value"))

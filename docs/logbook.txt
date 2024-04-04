@@ -1065,3 +1065,4 @@ History of the changes:
             on the floor. unfortunately, this is now handled by using weapon, armor, utility as separate entities.
             Not sure I want to keep it that way. We will see.
 2024-04-03: did a deepcopy for Armor items and Utility and Food. Updated ItemFactory to work actually like one.
+2024-04-04: refactoring to move baseHealth to GameConfiguration out of Game.
