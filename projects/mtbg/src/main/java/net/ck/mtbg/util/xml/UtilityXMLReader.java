@@ -20,25 +20,6 @@ public class UtilityXMLReader extends DefaultHandler
 
     private Utility utilityItem;
 
-    private boolean item;
-
-    private boolean items;
-
-    private boolean container;
-
-    private boolean capacity;
-
-    private boolean weight;
-
-    private boolean value;
-
-    private boolean type;
-
-    private boolean name;
-
-    private boolean id;
-
-    private boolean image;
 
     @Override
     public void startDocument()
@@ -55,122 +36,74 @@ public class UtilityXMLReader extends DefaultHandler
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
     {
-        if (qName.equalsIgnoreCase("items"))
+        switch (qName)
         {
-            items = true;
-
+            case "items":
+                break;
+            case "item":
+                utilityItem = new Utility();
+                break;
+            case "id":
+                break;
+            case "name":
+                break;
+            case "type":
+                break;
+            case "value":
+                break;
+            case "weight":
+                break;
+            case "capacity":
+                break;
+            case "container":
+                break;
         }
-
-        else if (qName.equalsIgnoreCase("item"))
-        {
-            item = true;
-            utilityItem = new Utility();
-        }
-
-        else if (qName.equalsIgnoreCase("id"))
-        {
-            id = true;
-        }
-
-        else if (qName.equalsIgnoreCase("name"))
-        {
-            name = true;
-        }
-
-        else if (qName.equalsIgnoreCase("type"))
-        {
-            type = true;
-
-        }
-
-        else if (qName.equalsIgnoreCase("value"))
-        {
-            value = true;
-
-        }
-
-        else if (qName.equalsIgnoreCase("weight"))
-        {
-            weight = true;
-
-        }
-
-        else if (qName.equalsIgnoreCase("capacity"))
-        {
-            capacity = true;
-
-        }
-
-        else if (qName.equalsIgnoreCase("container"))
-        {
-            container = true;
-        }
-
-        else if (qName.equalsIgnoreCase("image"))
-        {
-            image = true;
-        }
-        // create the data container
         data = new StringBuilder();
     }
 
     @Override
     public void endElement(String uri, String localName, String qName)
     {
-        if (qName.equalsIgnoreCase("items"))
+        switch (qName)
         {
-            items = false;
+            case "items":
+                break;
+
+            case "item":
+                utilityList.put(utilityItem.getId(), utilityItem);
+                break;
+
+            case "id":
+                utilityItem.setId(Integer.parseInt(data.toString()));
+                break;
+
+            case "name":
+                utilityItem.setName(data.toString());
+                break;
+
+            case "value":
+                utilityItem.setValue(Integer.parseInt(data.toString()));
+                break;
+
+            case "weight":
+                utilityItem.setWeight(Double.parseDouble(data.toString()));
+                break;
+
+            case "capacity":
+                utilityItem.setCapacity(Double.parseDouble(data.toString()));
+                break;
+
+            case "container":
+                utilityItem.setContainer(Boolean.valueOf(data.toString()));
+                break;
+
+            case "image":
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + qName);
 
         }
-
-        else if (qName.equalsIgnoreCase("item"))
-        {
-            item = false;
-            utilityList.put(utilityItem.getId(), utilityItem);
-        }
-
-        else if (qName.equalsIgnoreCase("id"))
-        {
-            id = true;
-            utilityItem.setId(Integer.parseInt(data.toString()));
-        }
-
-        else if (qName.equalsIgnoreCase("name"))
-        {
-            name = false;
-            utilityItem.setName(data.toString());
-        }
-
-        else if (qName.equalsIgnoreCase("value"))
-        {
-            value = false;
-            utilityItem.setValue(Integer.parseInt(data.toString()));
-        }
-
-        else if (qName.equalsIgnoreCase("weight"))
-        {
-            weight = false;
-            utilityItem.setWeight(Double.parseDouble(data.toString()));
-        }
-
-        else if (qName.equalsIgnoreCase("capacity"))
-        {
-            capacity = false;
-            utilityItem.setCapacity(Double.parseDouble(data.toString()));
-        }
-
-        else if (qName.equalsIgnoreCase("container"))
-        {
-            container = false;
-            utilityItem.setContainer(Boolean.valueOf(data.toString()));
-        }
-
-        else if (qName.equalsIgnoreCase("image"))
-        {
-            image = false;
-            //utilityItem.setItemImage(ImageUtils.loadImage("items", data.toString()));
-        }
-
     }
 
     @Override
