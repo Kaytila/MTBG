@@ -1067,3 +1067,4 @@ History of the changes:
 2024-04-03: did a deepcopy for Armor items and Utility and Food. Updated ItemFactory to work actually like one.
 2024-04-04: refactoring to move baseHealth to GameConfiguration out of Game.
 2024-04-04: updated UtilityXMLReader to case statements.
+2024-04-08: updated ItemFactory to also work with Food, although we dont have any items defined yet.

@@ -3,10 +3,7 @@ package net.ck.mtbg.backend.state;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.items.Armor;
-import net.ck.mtbg.items.FurnitureItem;
-import net.ck.mtbg.items.Utility;
-import net.ck.mtbg.items.Weapon;
+import net.ck.mtbg.items.*;
 
 import java.util.Hashtable;
 
@@ -45,4 +42,10 @@ public class ItemManager
     @Getter
     @Setter
     private static Hashtable<Integer, Armor> armorList;
+
+
+    @Getter
+    @Setter
+    private static Hashtable<Integer, Food> foodList;
+
 }

@@ -23,4 +23,10 @@ public class ItemFactory
     {
         return new FurnitureItem(ItemManager.getFurnitureList().get(ID));
     }
+
+    public static Food createFood(int ID)
+    {
+        return new Food(ItemManager.getFoodList().get(ID));
+    }
+
 }
