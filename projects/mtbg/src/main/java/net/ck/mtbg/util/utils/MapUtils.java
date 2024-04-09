@@ -84,7 +84,7 @@ public class MapUtils
      * will be used for drawing afterwards.
      * <p>
      * negative coordinates can be used to paint black right away
-     * with a tranformation to screen coordinates.
+     * with a transformation to screen coordinates.
      *
      * @return a list of points (map positions) as I do not have a better map
      * utility yet
@@ -94,7 +94,7 @@ public class MapUtils
     {
         List<Point> points = new ArrayList<>(middle + middle + middle + middle + 1);
         Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
-        //topleft corner tile
+        //top left corner tile
 
         int maxX = center.x + middle;
         int minX = center.x - middle;
@@ -111,11 +111,11 @@ public class MapUtils
         return points;
     }
 
-    public static Point[][] getVisibleMapPointsAroundPlayerasArray()
+    public static Point[][] getVisibleMapPointsAroundPlayerAsArray()
     {
         Point[][] points = new Point[GameConfiguration.numberOfTiles][GameConfiguration.numberOfTiles];
         Point center = Game.getCurrent().getCurrentPlayer().getMapPosition();
-        //topleft corner tile
+        //top left corner tile
 
         int maxX = center.x + middle;
         int minX = center.x - middle;
@@ -138,7 +138,7 @@ public class MapUtils
      * will be used for drawing afterwards.
      * <p>
      * negative coordinates can be used to paint black right away
-     * with a tranformation to screen coordinates.
+     * with a transformation to screen coordinates.
      *
      * @return a list of points (map positions) as I do not have a better map
      * utility yet
@@ -199,7 +199,7 @@ public class MapUtils
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("issue writing map file");
         }
         logger.info("finished writing map");
     }
@@ -501,7 +501,7 @@ public class MapUtils
         }
         catch (IOException | CsvException e)
         {
-            e.printStackTrace();
+            logger.error("Error reading ultima 4 map file");
         }
         try
         {
@@ -509,7 +509,7 @@ public class MapUtils
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            logger.error("Error writing ultima 4 xml file");
         }
         ultima4Map.setMapTiles(mapTiles);
         return ultima4Map;
@@ -785,7 +785,7 @@ public class MapUtils
      * calculate darkness
      * pre-calculate brightened up images
      *
-     * @param g
+     * @param g - Grahpics context
      */
     public static void calculateTiles(Graphics g)
     {
@@ -834,7 +834,7 @@ public class MapUtils
                     t.setBrightenedImage(null);
                     img = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
                 }
-                /**
+                /*
                  * identify the light range
                  * pre-brighten the images
                  */
@@ -887,7 +887,7 @@ public class MapUtils
                         t.setBrightenFactor(Math.max(absX, absY));
                     }
                 }
-                /**
+                /*
                  * raycasting starts here
                  */
                 ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), new Point(row, column));

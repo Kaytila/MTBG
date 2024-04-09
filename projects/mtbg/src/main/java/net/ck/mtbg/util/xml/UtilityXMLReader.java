@@ -57,6 +57,12 @@ public class UtilityXMLReader extends DefaultHandler
                 break;
             case "container":
                 break;
+            case "image":
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + qName);
+
         }
         data = new StringBuilder();
     }
@@ -98,6 +104,9 @@ public class UtilityXMLReader extends DefaultHandler
                 break;
 
             case "image":
+                break;
+
+            case "type":
                 break;
 
             default:
