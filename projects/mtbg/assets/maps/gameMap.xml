@@ -6,7 +6,7 @@
 		<fixedWeather>SUN</fixedWeather>
 		<weatherrandomness>10</weatherrandomness>
 		<wrapping>false</wrapping>
-		<name>testname</name>
+        <name>gameMap</name>
 		<visibility>1</visibility>
 		<minutesperturn>1</minutesperturn>
 		<parent></parent>
@@ -3446,6 +3446,7 @@
 			<type>GRASS</type>
 			<x>6</x>
 			<y>5</y>
+            <furniture>1</furniture>
 		</tile>
 		<tile>
 			<id>568</id>
@@ -6818,6 +6819,7 @@
 			<type>GRASS</type>
 			<x>8</x>
 			<y>10</y>
+            <furniture>2</furniture>
 		</tile>
 		<tile>
 			<id>1130</id>

@@ -71,7 +71,7 @@ public class GameConfiguration
     /**
      * describes the max distance a lightsource may have an effect on the surroundings
      */
-    public static final int lightSourceDistance = 2;
+    public static final int maxLightSourceDistance = 4;
     /**
      * delay for missile timer to tick in ms
      */
@@ -132,7 +132,7 @@ public class GameConfiguration
      * where to find the spells xml
      */
     public static final String spellsFileRootPath = out + File.separator + "spells";
-    public static final String startMap = "outpost";
+    public static final String startMap = "gameMap";
     public static final Point startPosition = new Point(2, 1);
     /**
      * how many nanoseconds are in a second?

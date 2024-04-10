@@ -126,7 +126,7 @@ public class FurnitureXMLReader extends DefaultHandler
             case "items":
                 break;
             case "image":
-                //item.setItemImage(ImageUtils.loadImage("furniture", data.toString()));
+                item.setImage(data.toString());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);

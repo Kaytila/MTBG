@@ -71,7 +71,7 @@ public class RunXMLParser
         }
         catch (Exception e)
         {
-            logger.error("hmmm");
+            logger.error("error during parsing maps");
             e.printStackTrace();
             Game.getCurrent().stopGame();
         }
@@ -93,7 +93,7 @@ public class RunXMLParser
         }
         catch (Exception e)
         {
-            logger.error("hmmm");
+            logger.error("error during parsing armor");
             e.printStackTrace();
             Game.getCurrent().stopGame();
         }
@@ -115,7 +115,7 @@ public class RunXMLParser
         }
         catch (Exception e)
         {
-            logger.error("hmmm");
+            logger.error("error during parsing weapons");
             e.printStackTrace();
             Game.getCurrent().stopGame();
         }
@@ -136,7 +136,7 @@ public class RunXMLParser
         }
         catch (Exception e)
         {
-            logger.error("hmmm");
+            logger.error("error during parsing utilities");
             e.printStackTrace();
             Game.getCurrent().stopGame();
         }
@@ -156,7 +156,7 @@ public class RunXMLParser
         }
         catch (Exception e)
         {
-            logger.error("hmmm");
+            logger.error("error during parsing furniture");
             e.printStackTrace();
             Game.getCurrent().stopGame();
         }

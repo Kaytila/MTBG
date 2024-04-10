@@ -803,6 +803,10 @@ public class MapUtils
                 t.setBrightenFactor(0);
                 //TODO check area around this tile for light source
                 //TODO broken somehow yet still
+                if (MapUtils.checkForLightSourceAround(t))
+                {
+                    t.setBrightenFactor(1);
+                }
 
                 /*else
                 {
@@ -843,14 +847,19 @@ public class MapUtils
                     FurnitureItem item = t.getFurniture();
                     if (item.isLightSource() == true)
                     {
-                        if (item.isBurning() == true) {
+                        if (item.isBurning() == true)
+                        {
                             int lightrange = item.getLightRange();
                             ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
-                            for (MapTile tile : tiles) {
+                            for (MapTile tile : tiles)
+                            {
                                 // logger.debug("tile: {}", tile);
-                                if (GameConfiguration.calculateBrightenUpImageInPaint == false) {
+                                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+                                {
                                     tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
-                                } else {
+                                }
+                                else
+                                {
                                     tile.setBrightenFactor(1);
                                 }
                             }
@@ -966,14 +975,21 @@ public class MapUtils
      */
     private static boolean checkForLightSourceAround(MapTile t)
     {
-        ArrayList<MapTile> mapTiles = getMapTilesAroundPointByDistance(t, GameConfiguration.lightSourceDistance);
+        ArrayList<MapTile> mapTiles = getMapTilesAroundPointByDistance(t, GameConfiguration.maxLightSourceDistance);
         for (MapTile tile : mapTiles)
         {
             if (tile.getFurniture() != null)
             {
                 if (tile.getFurniture().isLightSource())
                 {
-                    return true;
+                    if (tile.getFurniture().isBurning())
+                    {
+                        int lightRange = tile.getFurniture().getLightRange();
+                        if (calculateMaxDistance(t.getMapPosition(), tile.getMapPosition()) <= lightRange)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -991,7 +1007,7 @@ public class MapUtils
             for (int row = 0; row < Game.getCurrent().getCurrentMap().getSize().y; row++)
             {
                 MapTile otherTile = Game.getCurrent().getCurrentMap().mapTiles[column][row];
-                if (range.contains(t.x - otherTile.x) || (range.contains(t.y - otherTile.y)))
+                if (range.contains(t.x - otherTile.x) && (range.contains(t.y - otherTile.y)))
                 {
                     allTilesAroundTile.add(otherTile);
                 }

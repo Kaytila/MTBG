@@ -15,6 +15,7 @@ public class FurnitureItem extends AbstractItem
     private boolean lightSource;
     private int lightRange;
     private boolean burning;
+    private String image;
 
     public FurnitureItem()
     {
@@ -23,10 +24,10 @@ public class FurnitureItem extends AbstractItem
 
     public FurnitureItem(FurnitureItem that)
     {
-        this(that.isLightSource(), that.isBurning(), that.getLightRange(), that.getName(), that.getId());
+        this(that.isLightSource(), that.isBurning(), that.getLightRange(), that.getName(), that.getId(), that.getImage());
     }
 
-    public FurnitureItem(boolean lightSource, boolean burning, int lightRange, String name, int id)
+    public FurnitureItem(boolean lightSource, boolean burning, int lightRange, String name, int id, String image)
     {
         this.setLightSource(lightSource);
         this.setBurning(burning);
@@ -34,12 +35,13 @@ public class FurnitureItem extends AbstractItem
         this.setId(id);
         this.setName(name);
         this.setFurniture(true);
+        this.setImage(image);
     }
 
     @Override
     public BufferedImage getItemImage()
     {
-        return ImageUtils.loadImage("furniture", getName());
+        return ImageUtils.loadImage("furniture", getImage());
     }
 
 }

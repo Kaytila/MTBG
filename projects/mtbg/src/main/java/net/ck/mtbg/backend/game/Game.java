@@ -141,7 +141,7 @@ public class Game implements Runnable, Serializable
 
         setTurnNumber(0);
         Turn turn = new Turn(getTurnNumber());
-        
+
         setCurrentTurn(turn);
         getTurns().add(turn);
         setEn(new World());
@@ -389,6 +389,7 @@ public class Game implements Runnable, Serializable
             TimerManager.getHighlightTimer().start();
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
             UILense.getCurrent().identifyVisibleTilesBest();
+
             MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
             {
