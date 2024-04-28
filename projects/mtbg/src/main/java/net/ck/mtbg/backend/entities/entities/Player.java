@@ -521,6 +521,7 @@ public class Player extends AbstractEntity implements LifeForm
         logger.info("maptile: {}", maptile);
         logger.info("maptile furniture: {}", maptile.getFurniture());
         logger.info("maptile inventory: {}", maptile.getInventory());
+        logger.info("maptile blocked: {}", maptile.isBlocked());
 
         for (AbstractItem item : maptile.getInventory().getInventory())
         {
@@ -538,7 +539,8 @@ public class Player extends AbstractEntity implements LifeForm
                 {
                     logger.debug("item is burning, turn it off");
                     item.setBurning(false);
-                } else
+                }
+                else
                 {
                     logger.debug("item is not burning, turn it on");
                     item.setBurning(true);

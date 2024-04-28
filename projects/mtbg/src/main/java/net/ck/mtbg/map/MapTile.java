@@ -89,6 +89,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * furniture - items you can take, furniture you can only see
      */
     private FurnitureItem furniture;
+
     /**
      * is the tile currently hidden from view? If so, dont allow it to be selected.
      */
@@ -102,8 +103,14 @@ public class MapTile implements Comparable<MapTile>, Serializable
     private LifeForm lifeForm;
 
 
+    /**
+     * how bright is the tile?
+     */
     private int brightenFactor;
 
+    /**
+     * this is the brightened image that is calculated
+     */
     private BufferedImage brightenedImage;
 
     /**
@@ -117,12 +124,17 @@ public class MapTile implements Comparable<MapTile>, Serializable
      */
     private Message message;
 
+    /**
+     * image pre-calculated for the maptile
+     */
+    private BufferedImage calculatedImage;
+
 
     public MapTile()
     {
         super();
         inventory = new Inventory();
-        setBlocked(false);
+        //setBlocked(false);
         this.h = 1;
     }
 
@@ -131,7 +143,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         setX(i);
         setY(j);
         inventory = new Inventory();
-        setBlocked(false);
+        //setBlocked(false);
     }
 
 
@@ -157,12 +169,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         {
             return y;
         }
-    }
-
-    @Override
-    public String toString()
-    {
-        return "MapTile [mapPosition=" + mapPosition + ", type=" + type + ", blocked=" + blocked + ",brightFactor=" + brightenFactor + "]";
     }
 
     /**
@@ -264,16 +270,20 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public void setFurniture(FurnitureItem furniture)
     {
+        logger.debug("setting furniture");
         if (furniture != null)
         {
-            logger.info("setting furniture");
+
             this.furniture = furniture;
             setBlocked(true);
+            logger.debug("setting furniture - blocking tile: {}", this);
         }
         else
         {
+
             this.furniture = null;
             setBlocked(false);
+            logger.debug("unsetting furniture - unblocking tile");
         }
     }
 
@@ -414,5 +424,39 @@ public class MapTile implements Comparable<MapTile>, Serializable
         {
             getInventory().add(item);
         }
+    }
+
+    public void paint(Graphics g, int x, int y)
+    {
+        g.drawImage(getCalculatedImage(), x, y, null);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MapTile{" +
+                "x=" + x +
+                ", y=" + y +
+                ", parent=" + parent +
+                ", finalCost=" + finalCost +
+                ", g=" + g +
+                ", h=" + h +
+                ", inventory=" + inventory +
+                ", blocked=" + blocked +
+                ", blocksLOS=" + blocksLOS +
+                ", targetMap='" + targetMap + '\'' +
+                ", targetID=" + targetID +
+                ", id=" + id +
+                ", mapPosition=" + mapPosition +
+                ", type=" + type +
+                ", furniture=" + furniture +
+                ", hidden=" + hidden +
+                ", lifeForm=" + lifeForm +
+                ", brightenFactor=" + brightenFactor +
+                ", brightenedImage=" + brightenedImage +
+                ", targetCoordinates=" + targetCoordinates +
+                ", message=" + message +
+                ", calculatedImage=" + calculatedImage +
+                '}';
     }
 }

@@ -163,7 +163,7 @@ public class JGridCanvas extends JComponent
      *
      * @param g the <code>Graphics</code> object to protect
      */
-    public void paintComponent(Graphics g)
+    public void paintComponent3(Graphics g)
     {
         //logger.debug("start: painting");
         long start = System.nanoTime();
@@ -396,6 +396,198 @@ public class JGridCanvas extends JComponent
 
 
             //paintMissiles(g);
+
+            /*
+             * after all tiles have been painted, paint stuff on top of it:
+             *
+             * - gridlines
+             * - highlighting
+             * - highlight maptile
+             */
+            if (GameConfiguration.paintGridLines == true)
+            {
+                GridUtils.paintLines(this, g, GameConfiguration.tileSize);
+            }
+            //logger.debug("end paint grid: {}", System.nanoTime() - start2);
+
+            //start2 = System.nanoTime();
+            paintHighlighting(g);
+            //logger.debug("end paint highlighting: {}", System.nanoTime() - start2);
+
+            //start2 = System.nanoTime();
+            paintHighlightedMapTile(g);
+            //MapUtils.calculateHiddenTiles(g);
+            //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
+            //paintDarkness(g);
+        }
+
+        updating = false;
+        if (GameConfiguration.debugPaint == true)
+        {
+            long end = System.nanoTime() - start;
+            GameLogs.getPaintTimes().add(end);
+        }
+        //logger.debug("end painting: {}", System.nanoTime() - start);
+        //logger.debug("-----------");
+    }
+
+    public void paintComponent(Graphics g)
+    {
+        //logger.debug("start: painting");
+        long start = System.nanoTime();
+
+        if (updating == true)
+        {
+            logger.info("already drawing, dont do again");
+            Game.getCurrent().stopGame();
+            return;
+        }
+        updating = true;
+
+        if (GameConfiguration.drawTileOnce == true)
+        {
+            int frameTop = Game.getCurrent().getCurrentPlayer().getUIPosition().y - Game.getCurrent().getCurrentMap().getVisibilityRange();
+            int frameBottom = Game.getCurrent().getCurrentPlayer().getUIPosition().y + Game.getCurrent().getCurrentMap().getVisibilityRange();
+            int frameLeft = Game.getCurrent().getCurrentPlayer().getUIPosition().x - Game.getCurrent().getCurrentMap().getVisibilityRange();
+            int frameRight = Game.getCurrent().getCurrentPlayer().getUIPosition().x + Game.getCurrent().getCurrentMap().getVisibilityRange();
+
+
+            for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
+            {
+                for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
+                {
+                    if (UILense.getCurrent().mapTiles[row][column] == null)
+                    {
+                        g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                        continue;
+                    }
+                    //g.drawString(String.valueOf(i),(row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize));
+                    //i++;
+                    MapTile tile = UILense.getCurrent().mapTiles[row][column];
+
+                    //paint darkness
+                    if (row < frameTop)
+                    {
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
+                    }
+                    if (row > frameBottom)
+                    {
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
+                    }
+
+                    if (column < frameLeft)
+                    {
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
+                    }
+                    if (column > frameRight)
+                    {
+                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        {
+                            if (tile.getBrightenFactor() != 1)
+                            {
+                                g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                                continue;
+                            }
+                        }
+                    }
+
+                    g.drawImage(tile.getCalculatedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+
+                    if (tile.getLifeForm() != null)
+                    {
+                        if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
+                        {
+                            if (GameConfiguration.useImageManager == true)
+                            {
+                                BufferedImage bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+                                g.drawImage(bufferedImage, row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+
+                            }
+                            else
+                            {
+                                //g.drawImage(tile.getLifeForm().getCurrentImage(), row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+                            }
+                        }
+                        else
+                        {
+                            if (GameConfiguration.tileSize / GameConfiguration.imageSize.x == 2)
+                            {
+                                if (GameConfiguration.useImageManager == true)
+                                {
+                                    BufferedImage bufferedImage = null;
+                                    try
+                                    {
+                                        if (tile.getLifeForm().getType() == null)
+                                        {
+                                            logger.debug("why?");
+                                            tile.getLifeForm().setType(NPCType.WARRIOR);
+                                        }
+                                        bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        logger.debug("tile: {}", tile);
+                                        logger.debug(("tile.getLifeForm() {}"), tile.getLifeForm());
+                                        logger.debug("lifeform image: {}", tile.getLifeForm().getCurrImage());
+                                        logger.debug("tile.getLifeForm().getType() {}", tile.getLifeForm().getType());
+                                        logger.debug("ImageManager.getLifeformImages() {}", ImageManager.getLifeformImages());
+                                        throw new RuntimeException(e);
+                                    }
+                                    g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                }
+                                else
+                                {
+                                    //g.drawImage(tile.getLifeForm().getCurrentImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (GameConfiguration.debugBrightenImages)
+                    {
+                        g.setColor(Color.white);
+                        g.drawString(String.valueOf(tile.getBrightenFactor()), ((row * GameConfiguration.tileSize) + 10), ((column * GameConfiguration.tileSize) + 15));
+                    }
+
+                    if (GameConfiguration.debugLOS)
+                    {
+                        g.setColor(Color.YELLOW);
+                        g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), (row * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2));
+                    }
+
+                    if (GameConfiguration.debugMapPosition)
+                    {
+                        g.setColor(Color.YELLOW);
+                        g.drawString(tile.x + "|" + tile.y, ((row * GameConfiguration.tileSize) + 10), ((column * GameConfiguration.tileSize) + 15));
+                    }
+
+                }
+            }
+
+
 
             /*
              * after all tiles have been painted, paint stuff on top of it:

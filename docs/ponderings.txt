@@ -1,4 +1,4 @@
-On schedules
+2024-04-03: On schedules
 ==================================================
 So thinking about how to do enhanced schedules.
 Simple patrolling between point a and b I already have, npcs are a* past each other (not through closed doors -yet).
@@ -6,5 +6,29 @@ but what about real schedules? How can I even properly define them without hard 
 I am thinking about using a cron like syntax for the timing, i.e. at 0 12 * * * 56@43 (go to that spot every noon).
 But how to pause them? Do I need to pause them at all?
 What will happen if I have 100 schedules running in parallel?
-Or are they paused if player is not on the map anymore? What will happen if player enters map at 12:01? will the npc start moving then? or will it not move?
+Or are they paused if player is not on the map anymore? What will happen if player enters map at 12:01?
+will the npc start moving then? or will it not move?
 I am really wondering how this is solved in U5-7.
+
+
+
+2024-04-24: On Edge cases
+====================================================
+So I ran into another topic - pre-calculation of tiles. Originally, I did not plan for that because, modern hardware just shruggs this off.
+It kind of does, except that the paint code became a bit convoluted and hence the result was flashing a bit.
+But then I thought about how to do this in a proper way. So I wrote some code that calculates (and draws) the content of each tile of the visible area.
+UI just needs to paint the result for each visible tile, no more calculation.
+Horray.
+That of course comes with certain issues:
+First of all, animations are only happening step by step anymore. Not nice, could be ignored actually.
+But: of course, if you step outside of the already known area, the line of new tiles flashes for a milisecondfrom white to actually being there.
+So, actually worse in a sense than the original.
+Easy solution: just pre-calculate one additional line at top bottom, left and right.
+Problem was, I had a lense object that always contained the visible number of tiles around the player.
+This is used about everywhere.
+So what to do?
+For now I have just added a second lense, the wider lense, if you will, that calculates the additional tiles (i,e, one complete one tile wide rectangle around the original lense) on top of the actually visible ones and this goes into pre-calculation. While actual drawing is done on the really visible one.
+This of course works, apart from two tiles:
+x=0, y=max and x=max, y=0. A nice double edge case. Really two edges.
+I like it.
+Will solve this somewhen, not today.

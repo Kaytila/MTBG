@@ -18,6 +18,7 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.game.GameLogs;
 import net.ck.mtbg.backend.game.Turn;
 import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
@@ -47,6 +48,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @Setter
@@ -542,7 +544,10 @@ public class GameUtils
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
         }
         UILense.getCurrent().identifyVisibleTilesBest();
+        UILense.getCurrent().identifyBufferedTiles();
         MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
+        MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
+        //MapUtils.calculateAllTileImages(WindowBuilder.getGridCanvas().getGraphics());
         Game.getCurrent().getCurrentPlayer().setMapPosition(Game.getCurrent().getCurrentPlayer().getMapPosition());
     }
 
@@ -600,6 +605,13 @@ public class GameUtils
         }
     }
 
+    public static void listThreadTimes()
+    {
+        logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
+        logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
+        logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
+        logger.info("Paint times on average: {} seconds", TimeUnit.NANOSECONDS.toSeconds(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
+    }
 
 }
 

@@ -35,7 +35,7 @@ public class TitleController implements WindowListener, ActionListener
             titleMusicPlayerNoThread = new TitleMusicPlayerNoThread();
             Path titleTrack = Paths.get("assets\\music\\STONES\\stones5.wav");
 
-            titleMusicPlayerNoThread.playSong(titleTrack);
+            //titleMusicPlayerNoThread.playSong(titleTrack);
         }
     }
 

@@ -21,6 +21,7 @@ import net.ck.mtbg.util.communication.graphics.HighlightEvent;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.utils.GameUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.utils.UILense;
 import net.ck.mtbg.weather.WeatherManager;
@@ -148,7 +149,8 @@ public class Game implements Runnable, Serializable
         //GameStateMachine.getCurrent().setCurrentState(GameState.WORLD);
 
         setGameTime(new GameTime());
-        getGameTime().setCurrentHour(18);
+        getGameTime().setCurrentHour(GameConfiguration.startTime.x);
+        getGameTime().setCurrentMinute(GameConfiguration.startTime.y);
 
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");
@@ -389,8 +391,10 @@ public class Game implements Runnable, Serializable
             TimerManager.getHighlightTimer().start();
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
             UILense.getCurrent().identifyVisibleTilesBest();
-
+            UILense.getCurrent().identifyBufferedTiles();
             MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
+            MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
+            //MapUtils.calculateAllTileImages(WindowBuilder.getGridCanvas().getGraphics());
             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
             {
                 WindowBuilder.getGridCanvas().paint();
@@ -405,11 +409,7 @@ public class Game implements Runnable, Serializable
     public synchronized void stopGame()
     {
         ThreadController.listThreads();
-        //logger.info("Paint events {}, taking on average: {} miliseconds,", GameLogs.getPaintTimes().size(), TimeUnit.NANOSECONDS.toMillis(GameLogs.calculateTimeAverage(GameLogs.getPaintTimes())));
-        //logger.info("retrieve bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getRetrieveBrightImages())));
-        //logger.info("create bright images on average: {} nanoseconds", TimeUnit.NANOSECONDS.toNanos(GameLogs.calculateTimeAverage(GameLogs.getCreateBrightImages())));
-        //logger.info("Paint times on average: {} seconds",  TimeUnit.NANOSECONDS.toSeconds(GameLogs.calculatePaintTimeAverage()));
-        //logger.info("stopping game");
+        GameUtils.listThreadTimes();
         setRunning(false);
         System.exit(0);
     }

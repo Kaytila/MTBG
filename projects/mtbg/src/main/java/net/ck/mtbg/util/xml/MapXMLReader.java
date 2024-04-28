@@ -6,10 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.state.GameState;
-import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.Armor;
 import net.ck.mtbg.items.FurnitureItem;
+import net.ck.mtbg.items.ItemFactory;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
@@ -430,17 +430,18 @@ public class MapXMLReader extends DefaultHandler
                 msg = false;
                 break;
             case "furniture":
-                furnitureItem = new FurnitureItem(ItemManager.getFurnitureList().get(Integer.parseInt(data.toString())));
+                furnitureItem = ItemFactory.createFurniture(Integer.parseInt(data.toString()));
                 maptile.setFurniture(furnitureItem);
+                maptile.setBlocked(true);
                 break;
             case "inventory":
                 break;
             case "weapon":
-                Weapon weapon = new Weapon(ItemManager.getWeaponList().get(Integer.parseInt(data.toString())));
+                Weapon weapon = ItemFactory.createWeapon(Integer.parseInt(data.toString()));
                 maptile.getInventory().add(weapon);
                 break;
             case "armor":
-                Armor armor = new Armor(ItemManager.getArmorList().get(Integer.parseInt(data.toString())));
+                Armor armor = ItemFactory.createArmor(Integer.parseInt(data.toString()));
                 maptile.getInventory().add(armor);
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);

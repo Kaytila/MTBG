@@ -41,6 +41,10 @@ public class GameConfiguration
     public static final boolean debugASTAR = false;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
+    /**
+     * how high is the whole UI
+     */
+    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     public static final boolean debugPaint = false;
     /**
      * describes the dex value where player will move twice
@@ -113,12 +117,15 @@ public class GameConfiguration
      * do we want to play sound effects?
      */
     public static final boolean playSound = false;
-    public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
+    /**
+     * how wide is the whole UI
+     */
+    public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     /**
      * how long to wait until to pick the next command queued up
      */
     public static final int quequeWait = 700;
-    public static final boolean quickstart = true;
+    public static final boolean debugMapPosition = true;
     public static final String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
     public static final String skillsFileRootPath = out + File.separator + "skills";
     /**
@@ -132,22 +139,39 @@ public class GameConfiguration
      * where to find the spells xml
      */
     public static final String spellsFileRootPath = out + File.separator + "spells";
-    public static final String startMap = "gameMap";
-    public static final Point startPosition = new Point(2, 1);
     /**
-     * how many nanoseconds are in a second?
+     * where are the player images
      */
+    public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
+    /**
+     * ignore the startup screen
+     */
+    public static final boolean quickstart = true;
+    /**
+     * which map to start on
+     */
+    public static final String startMap = "gameMap";
     public static final int targetTime = 1000000000 / fps;
     /**
      * Tile Size
      */
     public static final int tileSize = 32;
-    public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
-    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    /**
+     * start position on the start map
+     */
+    public static final Point startPosition = new Point(2, 1);
+    /**
+     * how many nanoseconds are in a second?
+     */
+
+    public static final Point startTime = new Point(9, 0);
     /**
      * how long shall the game wait until sending a pass message in ms
      */
     public static final long turnwait = 5000;
+    /**
+     * where are the maps that are designed as TXT
+     */
     public static final String txtMapRootFilePath = out + File.separator + "maps_txt" + File.separator;
     /**
      * use Events only for redrawing or do 60 fps :D
@@ -157,6 +181,9 @@ public class GameConfiguration
      * use a thread for Game or not - if not, where does it run?
      */
     public static final boolean useGameThread = true;
+    /**
+     * use Image Manager tech instead of multiple images
+     */
     public static final boolean useImageManager = true;
     /**
      * use an util timer or a thread
@@ -166,6 +193,9 @@ public class GameConfiguration
      * use swing timers for background, foreground and lifeform animation
      */
     public static final boolean useTimersForAnimations = true;
+    /**
+     * util timer or swing timer or thread?
+     */
     public static final boolean useUtilTimerForAnimation = true;
     /**
      * how many miliseconds to wait until music switches back to before from victory fanfare music?
@@ -175,13 +205,18 @@ public class GameConfiguration
      * how many turns to wait until music switches back to before from victory fanfare music?
      */
     public static final int waitTurns = 3;
+    /**
+     * path to weather images
+     */
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
+    /**
+     * path to weather type images
+     */
     public static final String weatherTypesImagesPath = out + File.separator + "graphics" + File.separator + "weathertypes" + File.separator;
     /**
      * how many milliseconds to wait in case weather is async?
      */
     public static final int weatherWait = 10000;
-
 }
 
 

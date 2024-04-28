@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
-import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.image.BufferedImage;
@@ -25,11 +24,26 @@ public abstract class AbstractItem implements Transferable, Serializable
     private String name;
     private double value;
     private double weight;
-    private Point mapPosition;
+    private String image;
 
     public AbstractItem()
     {
         setFurniture(false);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "AbstractItem{" +
+                "additionalEffects=" + additionalEffects +
+                ", id=" + id +
+                ", isContainer=" + isContainer +
+                ", furniture=" + furniture +
+                ", name='" + name + '\'' +
+                ", value=" + value +
+                ", weight=" + weight +
+                ", image='" + image + '\'' +
+                '}';
     }
 
     public abstract BufferedImage getItemImage();

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
@@ -35,8 +34,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Log4j2
@@ -224,14 +225,6 @@ public class MapUtils
         return getMapTileByCoordinates(x - offSet.x, y - offSet.y);
     }
 
-    public static Rectangle calculateVisibleRectangle(Player p)
-    {
-        Point playerPosition = p.getMapPosition();
-
-        return new Rectangle(playerPosition.x - MapUtils.getMiddle(), playerPosition.y - MapUtils.getMiddle(), MapUtils.getMiddle() + MapUtils.getMiddle(),
-                MapUtils.getMiddle() + MapUtils.getMiddle());
-    }
-
 
     public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range)
     {
@@ -259,30 +252,6 @@ public class MapUtils
         return visibleTiles;
     }
 
-    public static ArrayList<MapTile> calculateVisibleTilesNew(MapTile tile, int range, Map map)
-    {
-        long start = System.nanoTime();
-        ArrayList<MapTile> visibleTiles = new ArrayList<>();
-        Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
-        Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
-        Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
-
-        for (MapTile[] tiles : map.mapTiles)
-        {
-            for (Iterator<MapTile> it = Arrays.stream(tiles).iterator(); it.hasNext(); )
-            {
-                MapTile t = it.next();
-                if ((rangeY.contains(t.getY()) && (rangeX.contains(t.getX()))))
-                {
-                    visibleTiles.add(t);
-                }
-            }
-        }
-        logger.info("calculate visible tiles new: {}", System.nanoTime() - start);
-        return visibleTiles;
-    }
-
-
     /**
      * @param position describes the point the mouse is at
      * @return Point with the offset as point from the player position. In case of player, this is 0,0 of course.
@@ -298,7 +267,9 @@ public class MapUtils
     }
 
     /**
-     * @return Point with the offset as point from the player position. In case of player, this is 0,0 of course.
+     * @return Point with the offset as point from the player position.
+     * return x offset - negative for left, positive for right
+     * return y offset - negative for up, positive for down
      */
     public static Point calculateUIOffsetFromMapPoint()
     {
@@ -790,19 +761,22 @@ public class MapUtils
     public static void calculateTiles(Graphics g)
     {
         //reset
-        for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
+        for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
         {
-            for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
+            for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
             {
-                MapTile t = UILense.getCurrent().mapTiles[row][column];
+                MapTile t = UILense.getCurrent().bufferedMapTiles[row][column];
+
                 if (t == null)
                 {
+                    //this is null for all the empty tiles that are drawn at the outer limits to fill out the blank space between the end of the map
+                    //and the end of the UI element
+                    //logger.debug("null tile");
                     continue;
                 }
                 t.setHidden(false);
                 t.setBrightenFactor(0);
-                //TODO check area around this tile for light source
-                //TODO broken somehow yet still
+
                 if (MapUtils.checkForLightSourceAround(t))
                 {
                     t.setBrightenFactor(1);
@@ -819,14 +793,14 @@ public class MapUtils
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
         int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
 
-        for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
+        for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
         {
-            for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
+            for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
             {
                 boolean blocked = false;
                 boolean first = true;
                 BufferedImage img;
-                MapTile t = UILense.getCurrent().mapTiles[row][column];
+                MapTile t = UILense.getCurrent().bufferedMapTiles[row][column];
                 if (t == null)
                 {
                     continue;
@@ -902,7 +876,7 @@ public class MapUtils
                 ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), new Point(row, column));
                 for (Point po : line)
                 {
-                    MapTile tl = UILense.getCurrent().mapTiles[po.x][po.y];
+                    MapTile tl = UILense.getCurrent().bufferedMapTiles[po.x][po.y];
 
                     if (tl == null)
                     {
@@ -998,7 +972,6 @@ public class MapUtils
 
     private static ArrayList<MapTile> getMapTilesAroundPointByDistance(MapTile t, int lightSourceDistance)
     {
-        //TODO
         Range<Integer> range = Range.between(Math.negateExact(lightSourceDistance), lightSourceDistance);
         ArrayList<MapTile> allTilesAroundTile = new ArrayList<>();
 
@@ -1273,5 +1246,112 @@ public class MapUtils
                 return null;
         }
     }
+
+    public static void calculateVisibleTileImages(Graphics graphics)
+    {
+        Long start = System.nanoTime();
+        for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
+        {
+            for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
+            {
+                MapTile t = UILense.getCurrent().bufferedMapTiles[row][column];
+                if (t == null)
+                {
+                    //not existing tiles, we need to handle somewhere else probably
+                    continue;
+                }
+
+                if (t.isHidden())
+                {
+                    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
+                }
+                else
+                {
+                    BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
+                    Graphics g = image.getGraphics();
+
+                    BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
+                    g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
+
+                    /*if (t.getLifeForm() != null)
+                    {
+                        if (GameConfiguration.useImageManager == true)
+                        {
+                            BufferedImage bufferedImage = ImageManager.getLifeformImages().get(t.getLifeForm().getType())[t.getLifeForm().getCurrImage()];
+                            g.drawImage(bufferedImage, (GameConfiguration.tileSize / 4), (GameConfiguration.tileSize / 4), null);
+
+                        }
+                    }
+                    else*/
+                    if (t.getFurniture() != null)
+                    {
+                        g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);
+                    }
+                    else if ((t.getInventory().isEmpty() == false) && (t.getInventory().get(0) != null))
+                    {
+                        g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
+                    }
+                    t.setCalculatedImage(image);
+                }
+            }
+        }
+        long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+        logger.info("calculation time: {}", convert);
+    }
+
+    public static void calculateAllTileImages(Graphics graphics)
+    {
+        Long start = System.nanoTime();
+
+        for (int row = 0; row < Game.getCurrent().getCurrentMap().getSize().y; row++)
+        {
+            for (int column = 0; column < Game.getCurrent().getCurrentMap().getSize().x; column++)
+            {
+                MapTile t = Game.getCurrent().getCurrentMap().mapTiles[row][column];
+                if (t == null)
+                {
+                    //not existing tiles, we need to handle somewhere else probably
+                    continue;
+                }
+
+                if (t.isHidden())
+                {
+                    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
+                }
+                else
+                {
+                    BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
+                    Graphics g = image.getGraphics();
+
+                    BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
+                    g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
+
+                    /*if (t.getLifeForm() != null)
+                    {
+                        if (GameConfiguration.useImageManager == true)
+                        {
+                            BufferedImage bufferedImage = ImageManager.getLifeformImages().get(t.getLifeForm().getType())[t.getLifeForm().getCurrImage()];
+                            g.drawImage(bufferedImage, (GameConfiguration.tileSize / 4), (GameConfiguration.tileSize / 4), null);
+
+                        }
+                    }
+                    else*/
+                    if (t.getFurniture() != null)
+                    {
+                        g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);
+                    }
+                    else if ((t.getInventory().isEmpty() == false) && (t.getInventory().get(0) != null))
+                    {
+                        g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
+                    }
+                    t.setCalculatedImage(image);
+                }
+            }
+        }
+        long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+        logger.info("calculation time: {}", convert);
+
+    }
+
 
 }

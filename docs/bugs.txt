@@ -41,7 +41,7 @@ BUGS:
 2023-02-23  missile combat appears to make the cpu speed up a lot
 2023-03-07  FIXED player lightsource is ignored
 2023-03-07  FIXED light source range calculation is off
-2023-03-08  light source range calculation only works if the light source is visible on the map, need to change
+2023-03-08  FIXED light source range calculation only works if the light source is visible on the map, need to change
             calculation of brightened factor to go either all over the map or to get an additional range outside of
             visibility
 2023-04-02  FIXED npcs are being initialized even if the map is not active. this caused a schedule to break as a
@@ -55,4 +55,6 @@ BUGS:
             is handled generally in the framework, not on command by command basis.
 2023-11-27  FIXED closing spellbook always assumes there is an active spell afterwards.
 2024-01-15  drag'n'drop onto a wall works, kind of - wall does not accept it but item is gone anyawys
-2024-02-21  daynight cycle works, but light sources are currently ignored. Check in paintComponent whether this handled
+2024-02-21  FIXED daynight cycle works, but light sources are currently ignored. Check in paintComponent whether this handled
+2024-04-24  for some reason furniture can be walked on. blocked should be false because of it during init.
+2024-04-24  initial implementation of bufferedLense has an edge case issue.

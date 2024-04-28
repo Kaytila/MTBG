@@ -1070,4 +1070,6 @@ History of the changes:
 2024-04-08: updated ItemFactory to also work with Food, although we dont have any items defined yet.
 2024-04-09: mini-update fixed a small bug in UtilityXMLReader. fixed two incorrect comments.
 2024-04-10: fixed light source update. introduced image String for FurnitureItem to have item name differ from ImageName.
-            introduced maxLightRange. Calculate area around burning furniture item based on actual lightrange of item.
+            introduced maxLightRange. Calculate area around burning furniture item based on actual light range of item.
+2024-04-28: did a lot of things - introduced additional Lense with one or two tiles more around.
+            Still an edge case with an issue, but that will need to wait to be identified.

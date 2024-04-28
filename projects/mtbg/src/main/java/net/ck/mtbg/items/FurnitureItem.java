@@ -15,7 +15,6 @@ public class FurnitureItem extends AbstractItem
     private boolean lightSource;
     private int lightRange;
     private boolean burning;
-    private String image;
 
     public FurnitureItem()
     {
@@ -36,6 +35,16 @@ public class FurnitureItem extends AbstractItem
         this.setName(name);
         this.setFurniture(true);
         this.setImage(image);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "FurnitureItem{" +
+                "lightSource=" + lightSource +
+                ", lightRange=" + lightRange +
+                ", burning=" + burning +
+                '}';
     }
 
     @Override

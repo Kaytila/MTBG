@@ -657,7 +657,6 @@ public class ImageUtils
     public static BufferedImage loadImage(String type, String imageName)
     {
         String path = GameConfiguration.imagesRootPath + type + File.separator + imageName;
-        //logger.debug("loading image from: {}", path);
         return makeImageTransparent(path + ".png");
     }
 
