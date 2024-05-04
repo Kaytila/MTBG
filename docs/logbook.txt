@@ -1073,3 +1073,4 @@ History of the changes:
             introduced maxLightRange. Calculate area around burning furniture item based on actual light range of item.
 2024-04-28: did a lot of things - introduced additional Lense with one or two tiles more around.
             Still an edge case with an issue, but that will need to wait to be identified.
+2024-05-04: small pondering on NPC AI

@@ -140,6 +140,10 @@ public class GameConfiguration
      */
     public static final String spellsFileRootPath = out + File.separator + "spells";
     /**
+     * which map to start on
+     */
+    public static final String startMap = "gameMap";
+    /**
      * where are the player images
      */
     public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
@@ -147,10 +151,6 @@ public class GameConfiguration
      * ignore the startup screen
      */
     public static final boolean quickstart = true;
-    /**
-     * which map to start on
-     */
-    public static final String startMap = "gameMap";
     public static final int targetTime = 1000000000 / fps;
     /**
      * Tile Size

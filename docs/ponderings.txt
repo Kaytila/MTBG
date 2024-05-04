@@ -32,3 +32,30 @@ This of course works, apart from two tiles:
 x=0, y=max and x=max, y=0. A nice double edge case. Really two edges.
 I like it.
 Will solve this somewhen, not today.
+
+
+2024-05-04: On NPC AI
+=====================
+
+So how to implement AI properly? Currently, I have this strewn across two classes with lots of static methods.
+Somewhere, I need to implement a central decision tree that looks like a flow chart:
+isHostile ->
+            enough hp ->
+                            in range ->
+                                       melee -> attack player
+                                        ranged -> attack player
+            -> flee (move away from player)
+-> no combat situation
+    -> on schedule?
+        -> move along on schedule
+    -> not on schedule?
+        -> pick up items
+        -> is it daylight and light source is burning in the vicinity? walk towards it
+        -> daylight and light source next? douse it
+    -> is wanderer? move in wanderer pattern
+    -> is static -> wait
+    -> is patrolling -> patrol
+
+And that is only what currently is halfway implemented from a npc attribute level. Not even everything is implemented
+already.
+Would perhaps be worth looking into flowchart to process flow translation software whether this already exists.
