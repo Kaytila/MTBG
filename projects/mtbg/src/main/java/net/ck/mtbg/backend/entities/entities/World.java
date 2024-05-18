@@ -298,6 +298,18 @@ public class World extends AbstractEntity implements LifeForm
     }
 
     @Override
+    public void look(MapTile tile)
+    {
+
+    }
+
+    @Override
+    public void say(String message)
+    {
+
+    }
+
+    @Override
     public LifeFormState getState()
     {
         return null;

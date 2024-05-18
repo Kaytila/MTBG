@@ -515,7 +515,7 @@ public class Player extends AbstractEntity implements LifeForm
      *
      * @param maptile the maptile which was selected as target
      */
-    private void look(MapTile maptile)
+    public void look(MapTile maptile)
     {
         logger.info("looking:");
         logger.info("maptile: {}", maptile);
@@ -552,6 +552,12 @@ public class Player extends AbstractEntity implements LifeForm
         {
             move(maptile.getTargetCoordinates().x, maptile.getTargetCoordinates().y);
         }
+    }
+
+    @Override
+    public void say(String message)
+    {
+
     }
 
     @Override

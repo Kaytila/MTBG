@@ -31,13 +31,13 @@ public interface LifeForm
     int getArmorClass();
 
 
-     void setArmorClass(int armorClass);
+    void setArmorClass(int armorClass);
 
     Weapon getWeapon();
 
-    boolean wieldWeapon(Weapon weapon);
+    void setWeapon(Weapon weapon);
 
-     void setWeapon(Weapon weapon);
+    boolean wieldWeapon(Weapon weapon);
 
     void search();
 
@@ -56,11 +56,9 @@ public interface LifeForm
 
     boolean moveTo(MapTile tileByCoordinates);
 
-    void setHostile(boolean b);
+    LifeForm getVictim();
 
     void setVictim(LifeForm npc);
-
-    LifeForm getVictim();
 
     Point getOriginalMapPosition();
 
@@ -80,6 +78,8 @@ public interface LifeForm
 
     boolean isHostile();
 
+    void setHostile(boolean b);
+
     void evade();
 
     Point getOriginalTargetMapPosition();
@@ -97,13 +97,13 @@ public interface LifeForm
 
     Hashtable<String, String> getMobasks();
 
-    void setSchedule(Schedule schedule);
-
     Schedule getSchedule();
 
-    void setRunningAction(AbstractKeyboardAction action);
+    void setSchedule(Schedule schedule);
 
     AbstractKeyboardAction getRunningAction();
+
+    void setRunningAction(AbstractKeyboardAction action);
 
     int getCurrImage();
 
@@ -116,4 +116,8 @@ public interface LifeForm
     boolean hasTwoActions();
 
     AbstractKeyboardAction lookForExit();
+
+    void look(MapTile tile);
+
+    void say(String message);
 }

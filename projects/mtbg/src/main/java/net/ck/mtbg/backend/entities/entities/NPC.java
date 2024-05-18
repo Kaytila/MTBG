@@ -14,7 +14,9 @@ import net.ck.mtbg.backend.queuing.ScheduleActivity;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.backend.time.GameTime;
+import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
+import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.Map;
@@ -232,6 +234,57 @@ public class NPC extends AbstractEntity implements LifeForm
             }
         }
     }
+
+
+    /**
+     * looks at the maptile - will show tile type, furniture, inventory in some way or another.
+     *
+     * @param maptile the maptile which was selected as target
+     */
+    public void look(MapTile maptile)
+    {
+        logger.info("looking:");
+        logger.info("maptile: {}", maptile);
+        logger.info("maptile furniture: {}", maptile.getFurniture());
+        logger.info("maptile inventory: {}", maptile.getInventory());
+        logger.info("maptile blocked: {}", maptile.isBlocked());
+
+        for (AbstractItem item : maptile.getInventory().getInventory())
+        {
+            logger.info("item: {}", item);
+        }
+
+        if (maptile.getFurniture() != null)
+        {
+            logger.debug("there is furniture");
+            FurnitureItem item = maptile.getFurniture();
+            if (item.isFurniture())
+            {
+                logger.debug("it really is furniture");
+                if (item.isBurning())
+                {
+                    logger.debug("item is burning, turn it off");
+                    item.setBurning(false);
+                }
+                else
+                {
+                    logger.debug("item is not burning, turn it on");
+                    item.setBurning(true);
+                }
+            }
+        }
+
+        if (maptile.getType().equals(TileTypes.SIGNPOST))
+        {
+            move(maptile.getTargetCoordinates().x, maptile.getTargetCoordinates().y);
+        }
+    }
+
+    public void say(String message)
+    {
+        logger.info("NPC {} says: {}", this.id, message);
+    }
+
 
     /**
      * @param action KeyboardAction.type

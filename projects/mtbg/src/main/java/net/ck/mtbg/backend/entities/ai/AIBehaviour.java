@@ -10,9 +10,11 @@ import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
+import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.utils.NPCUtils;
+import net.ck.mtbg.weather.DayNight;
 import org.apache.commons.lang3.Range;
 
 import java.awt.*;
@@ -223,6 +225,50 @@ public class AIBehaviour
      */
     public static NPCAction calculateAction(LifeForm e)
     {
+        if (MapUtils.calculateDayOrNight() == DayNight.NIGHT)
+        {
+            MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 4, false);
+            if (tile != null)
+            {
+                if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
+                {
+                    e.look(tile);
+                    e.say("ITS DARK HERE");
+                }
+                else
+                {
+                    MoveAction action = new MoveAction();
+                    action.setGetWhere(new Point(tile.x, tile.y));
+                    //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                    e.doAction(new NPCAction(action));
+                }
+            }
+        }
+        else if (MapUtils.calculateDayOrNight() == DayNight.DAY)
+        {
+            MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 4, true);
+            if (tile != null)
+            {
+                if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
+                {
+                    e.look(tile);
+                    e.say("TURN IT OFF; WASTE");
+                }
+                else
+                {
+                    MoveAction action = new MoveAction();
+                    action.setGetWhere(new Point(tile.x, tile.y));
+                    //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                    e.doAction(new NPCAction(action));
+                }
+            }
+        }
+
+        else
+        {
+            logger.debug("shrug what to do here");
+        }
+
         if (!(e.isStatic()))
         {
             return wanderAround(e, -1);

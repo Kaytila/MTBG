@@ -1074,3 +1074,5 @@ History of the changes:
 2024-04-28: did a lot of things - introduced additional Lense with one or two tiles more around.
             Still an edge case with an issue, but that will need to wait to be identified.
 2024-05-04: small pondering on NPC AI
+2024-05-18: extended NPC AI in a way that npc will walk towards a light source and douse it if its daylight and ignite
+            it if its night time.

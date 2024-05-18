@@ -41,10 +41,7 @@ public class GameConfiguration
     public static final boolean debugASTAR = false;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
-    /**
-     * how high is the whole UI
-     */
-    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    public static final boolean debugMapPosition = true;
     public static final boolean debugPaint = false;
     /**
      * describes the dex value where player will move twice
@@ -118,14 +115,17 @@ public class GameConfiguration
      */
     public static final boolean playSound = false;
     /**
-     * how wide is the whole UI
+     * where are the player images
      */
-    public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
     /**
      * how long to wait until to pick the next command queued up
      */
     public static final int quequeWait = 700;
-    public static final boolean debugMapPosition = true;
+    /**
+     * ignore the startup screen
+     */
+    public static final boolean quickstart = true;
     public static final String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
     public static final String skillsFileRootPath = out + File.separator + "skills";
     /**
@@ -144,19 +144,6 @@ public class GameConfiguration
      */
     public static final String startMap = "gameMap";
     /**
-     * where are the player images
-     */
-    public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
-    /**
-     * ignore the startup screen
-     */
-    public static final boolean quickstart = true;
-    public static final int targetTime = 1000000000 / fps;
-    /**
-     * Tile Size
-     */
-    public static final int tileSize = 32;
-    /**
      * start position on the start map
      */
     public static final Point startPosition = new Point(2, 1);
@@ -165,6 +152,19 @@ public class GameConfiguration
      */
 
     public static final Point startTime = new Point(9, 0);
+    public static final int targetTime = 1000000000 / fps;
+    /**
+     * Tile Size
+     */
+    public static final int tileSize = 32;
+    /**
+     * how high is the whole UI
+     */
+    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    /**
+     * how wide is the whole UI
+     */
+    public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     /**
      * how long shall the game wait until sending a pass message in ms
      */

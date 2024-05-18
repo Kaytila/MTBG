@@ -35,6 +35,7 @@ public class GameTime implements Serializable
 
     private int oldYear;
 
+
     public GameTime()
     {
         setCurrentMinute(0);

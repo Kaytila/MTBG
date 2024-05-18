@@ -341,6 +341,12 @@ public class MapUtils
     }
 
 
+    public static MapTile getMapTileByCoordinates(Point p)
+    {
+        return getMapTileByCoordinates(p.x, p.y);
+    }
+
+
     public static void listMaps()
     {
         for (Map ma : Game.getCurrent().getMaps())
@@ -1351,6 +1357,34 @@ public class MapUtils
         long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         logger.info("calculation time: {}", convert);
 
+    }
+
+    /**
+     * returns the first tile where a light source is and its burning during day, or not during the night
+     *
+     * @param tile
+     * @param range
+     * @return
+     */
+    public static MapTile getClosestLightSourceInVicinity(MapTile tile, int range, boolean burning)
+    {
+        ArrayList<MapTile> visibleTiles = getMapTilesAroundPointByDistance(tile, range);
+
+        for (MapTile t : visibleTiles)
+        {
+            if (t.getFurniture() != null)
+            {
+                if (t.getFurniture().isLightSource())
+                {
+                    if (t.getFurniture().isBurning() == burning)
+                    {
+                        return t;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
 
