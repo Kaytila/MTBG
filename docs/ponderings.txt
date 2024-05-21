@@ -59,3 +59,21 @@ isHostile ->
 And that is only what currently is halfway implemented from a npc attribute level. Not even everything is implemented
 already.
 Would perhaps be worth looking into flowchart to process flow translation software whether this already exists.
+
+
+On GameTime
+=============
+
+read an interesting report on game time or rather the way game time is flowing. Goldenflame is using a tic system for
+his game which quite resonates with me due to MUD experience.
+The way I understand this, you have a tic that is x time long and each command you are doing does take a certain part
+of a tic. For multimud, a tic meant 72 seconds, so you could asynchroniously fire a lot of commands within that 72
+seconds and most of them were very likely handled in however well the stack was being processed.
+Certain commands had waitstates as well. Not actually sure how these were handled.
+For the GF's game, there is a tic and each command takes x percent of a tic. So to calculate the passage of time, there
+are different levels to be taken hence different percentages.
+For me, so far, I have introduced a value in each map definition that tells how much time will pass for a command that
+leads to a turn rollover.
+There are no commands take that longer or less long.
+The only thing so far is that dexterity - and perhaps mounts as well - will simply say, "you have more commands in the
+same turn".
