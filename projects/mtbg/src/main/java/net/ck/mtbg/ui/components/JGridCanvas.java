@@ -549,9 +549,9 @@ public class JGridCanvas extends JComponent
                                     catch (Exception e)
                                     {
                                         logger.debug("tile: {}", tile);
-                                        logger.debug(("tile.getLifeForm() {}"), tile.getLifeForm());
-                                        logger.debug("lifeform image: {}", tile.getLifeForm().getCurrImage());
-                                        logger.debug("tile.getLifeForm().getType() {}", tile.getLifeForm().getType());
+                                        // logger.debug(("tile.getLifeForm() {}"), tile.getLifeForm());
+                                        //logger.debug("lifeform image: {}", tile.getLifeForm().getCurrImage());
+                                        //logger.debug("tile.getLifeForm().getType() {}", tile.getLifeForm().getType());
                                         logger.debug("ImageManager.getLifeformImages() {}", ImageManager.getLifeformImages());
                                         throw new RuntimeException(e);
                                     }

@@ -1,5 +1,7 @@
 package net.ck.mtbg.backend.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
@@ -198,10 +200,6 @@ public class GameConfiguration
      */
     public static final boolean useUtilTimerForAnimation = true;
     /**
-     * how many miliseconds to wait until music switches back to before from victory fanfare music?
-     */
-    public static final int victoryWait = 7000;
-    /**
      * how many turns to wait until music switches back to before from victory fanfare music?
      */
     public static final int waitTurns = 3;
@@ -217,6 +215,12 @@ public class GameConfiguration
      * how many milliseconds to wait in case weather is async?
      */
     public static final int weatherWait = 10000;
+    /**
+     * how many miliseconds to wait until music switches back to before from victory fanfare music?
+     */
+    @Getter
+    @Setter
+    public static int victoryWait = 7000;
 }
 
 

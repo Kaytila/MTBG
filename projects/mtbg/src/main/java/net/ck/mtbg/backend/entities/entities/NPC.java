@@ -422,6 +422,11 @@ public class NPC extends AbstractEntity implements LifeForm
                 search();
                 break;
 
+            case LOOK:
+                this.look(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
+                /* this break decides whether after a look an attack follows, or now :D                 */
+                break;
+
             case ATTACK:
                 success = attack(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;

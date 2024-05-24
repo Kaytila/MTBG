@@ -74,6 +74,11 @@ public class DialogFactory
                 return new Skilldialog(owner, title, modal, action);
             }
 
+            case "Options":
+            {
+                return new OptionsDialog(owner, title, modal);
+            }
+
             default:
             {
                 throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);

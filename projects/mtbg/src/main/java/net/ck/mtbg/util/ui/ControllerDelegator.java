@@ -462,7 +462,7 @@ public class ControllerDelegator
         {
             TimerManager.getIdleTimer().stop();
             action.setHaveNPCAction(false);
-            logger.debug("TODO, implement options dialog");
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Options", false, null, null, null);
         }
     }
 

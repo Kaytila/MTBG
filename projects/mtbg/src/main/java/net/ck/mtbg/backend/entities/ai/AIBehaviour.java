@@ -232,7 +232,10 @@ public class AIBehaviour
             {
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
-                    e.look(tile);
+                    //e.look(tile);
+                    LookAction action = new LookAction();
+                    action.setGetWhere(new Point(tile.x, tile.y));
+                    e.doAction(new NPCAction(action));
                     e.say("ITS DARK HERE");
                 }
                 else
@@ -251,7 +254,10 @@ public class AIBehaviour
             {
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
-                    e.look(tile);
+                    //e.look(tile);
+                    LookAction action = new LookAction();
+                    action.setGetWhere(new Point(tile.x, tile.y));
+                    e.doAction(new NPCAction(action));
                     e.say("TURN IT OFF; WASTE");
                 }
                 else

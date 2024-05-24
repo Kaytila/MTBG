@@ -1076,3 +1076,6 @@ History of the changes:
 2024-05-04: small pondering on NPC AI
 2024-05-18: extended NPC AI in a way that npc will walk towards a light source and douse it if its daylight and ignite
             it if its night time.
+2024-05-24: Initial Work on Options Dialog - just with one slider for victoryWait. it appears to work. Setting to 15
+            seconds works just needs to reinitialize the timer. Not sure what will happen if this is reset while it is
+            actually already running? Testing will find out.
