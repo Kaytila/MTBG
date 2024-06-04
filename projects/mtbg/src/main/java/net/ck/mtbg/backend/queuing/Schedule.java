@@ -17,6 +17,7 @@ public class Schedule
 {
     private ArrayList<ScheduleActivity> activities;
     private boolean active;
+    private GameTime startTime;
 
     public Schedule(LifeForm e)
     {

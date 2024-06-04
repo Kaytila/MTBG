@@ -574,6 +574,21 @@ public class Game implements Runnable, Serializable
                 f.getSchedule().setActive(false);
             }
         }
+        //enable current schedules
+        for (LifeForm f : Game.getCurrent().getCurrentMap().getLifeForms())
+        {
+            if (f.getSchedule() != null)
+            {
+                f.getSchedule().setActive(true);
+            }
+
+
+            //TODO teleport NPCs to positions based on schedule here
+            if (Game.getCurrent().getGameTime().greaterOrEqual(f.getSchedule().getStartTime()))
+            {
+                //TODO
+            }
+        }
     }
 }
 

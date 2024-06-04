@@ -165,4 +165,27 @@ public class GameTime implements Serializable
 
         return this;
     }
+
+    public boolean greaterOrEqual(GameTime time)
+    {
+        if (this.getCurrentHour() == time.getCurrentHour())
+        {
+            if (this.getCurrentMinute() == time.getCurrentMinute())
+            {
+                return true;
+            } else if (this.getCurrentMinute() < time.getCurrentMinute())
+            {
+                return false;
+            } else
+            {
+                return true;
+            }
+        } else if (this.getCurrentHour() < time.getCurrentHour())
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
+    }
 }

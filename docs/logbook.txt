@@ -1079,3 +1079,5 @@ History of the changes:
 2024-05-24: Initial Work on Options Dialog - just with one slider for victoryWait. it appears to work. Setting to 15
             seconds works just needs to reinitialize the timer. Not sure what will happen if this is reset while it is
             actually already running? Testing will find out.
+2024-06-04: untested! update for schedules to add a start time. Will need extension of XML format and XML parser and all
+            that in addition.
