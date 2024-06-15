@@ -33,7 +33,7 @@ public class InputField extends JTextField
         this.setFocusable(false);
         this.setBorder(blackline);
         //this.setToolTipText(getLogger().getName());
-        logger.info("created input field for talk dialog");
+        logger.info("created input field for command history");
     }
 
     /**

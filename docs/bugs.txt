@@ -1,6 +1,6 @@
 BUGS:
 2022-09-01 FIXED paint furniture has a bug, it renders furniture twice, light effects are correct though.
-2022-09-01 raytracing for LoS has a bug where too many tiles are hidden
+2022-09-01 FIXED raytracing for LoS has a bug where too many tiles are hidden
 2022-09-01 wanderer npc does not keep to wandering box
 2022-09-01 FIXED sound skips at startup
 2022-09-01 FIXED music does stop and is completely restarted instead of pausing
@@ -38,7 +38,7 @@ BUGS:
 2023-02-08  FIXED patrol is broken again  - not the faintest idea why.
 2023-02-10  FIXED LoS is broken when looking from east to west. Why?
 2023-02-23  FIXED missile combat for npcs works for all distances.
-2023-02-23  missile combat appears to make the cpu speed up a lot
+2023-02-23  FIXED missile combat appears to make the cpu speed up a lot
 2023-03-07  FIXED player lightsource is ignored
 2023-03-07  FIXED light source range calculation is off
 2023-03-08  FIXED light source range calculation only works if the light source is visible on the map, need to change

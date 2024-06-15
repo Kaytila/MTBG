@@ -1081,3 +1081,12 @@ History of the changes:
             actually already running? Testing will find out.
 2024-06-04: untested! update for schedules to add a start time. Will need extension of XML format and XML parser and all
             that in addition.
+2024-06-10: did some re-work on schedules. this also lead to a basically re-write of how maps and npcs work.
+            current paradigma is that npc is fully initialized and only added to the map without any further information
+            added there. not commited as NPCFactory needs to be created.
+2024-06-15: updated NPCFactory/NPCManager, updated NPC. Fixed a bug for UIState. Fixed a bug where state was missing
+            from NPC factory builder.
+2024-06-15: tested a* in standard map again. works even with added mountains. doesnt work in outpost map.
+            why would this be the case. Still is an issue there. Giving up for now.
+            A few bugs fixed. Stumbled over a really big big one with the a* not working on outpost. re-tested patrol,
+            works on gameMap. Need to commit this now in this state.

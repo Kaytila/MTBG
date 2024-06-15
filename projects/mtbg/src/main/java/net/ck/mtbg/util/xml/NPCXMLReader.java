@@ -6,6 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.attributes.*;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
+import net.ck.mtbg.backend.queuing.Schedule;
+import net.ck.mtbg.backend.queuing.ScheduleActivity;
+import net.ck.mtbg.backend.time.GameTime;
+import net.ck.mtbg.util.communication.keyboard.MoveAction;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
@@ -51,6 +55,17 @@ public class NPCXMLReader extends DefaultHandler
     private String answer;
 
     private Attributes attr;
+    private boolean sched;
+    private Schedule schedule;
+    private ScheduleActivity scheduleActivity;
+    private GameTime startTime;
+    private boolean npc;
+
+    private boolean targetPosition;
+    private Point targetPos;
+
+    private boolean mapPosition;
+    private Point mapPos;
 
     @Override
     public void startDocument()
@@ -78,6 +93,7 @@ public class NPCXMLReader extends DefaultHandler
                 npcs = new Hashtable<>();
                 break;
             case "npc":
+                npc = true;
                 n = new NPC();
                 break;
             case "id":
@@ -108,6 +124,28 @@ public class NPCXMLReader extends DefaultHandler
                 break;
             case "intelligence":
                 break;
+            case "mapPosition":
+                mapPosition = true;
+                mapPos = new Point();
+                break;
+            case "schedule":
+                sched = true;
+                schedule = new Schedule(n);
+                break;
+            case "scheduleActivity":
+                scheduleActivity = new ScheduleActivity();
+                break;
+            case "scheduleActivityString":
+                break;
+            case "startTime":
+                startTime = new GameTime();
+                break;
+            case "targetPosition":
+                targetPosition = true;
+                targetPos = new Point();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + qName);
         }
         data = new StringBuilder();
     }
@@ -123,25 +161,48 @@ public class NPCXMLReader extends DefaultHandler
             case "npcs":
                 break;
             case "npc":
-                n.initialize();
+                //n.initialize();
                 npcs.put(n.getId(), n);
                 break;
             case "id":
                 n.setId(Integer.parseInt(data.toString()));
                 break;
+            case "mapPosition":
+                logger.debug("map position: {}", mapPos);
+                n.setMapPosition(mapPos);
+                n.setOriginalMapPosition(new Point(mapPos.x, mapPos.y));
+                mapPosition = false;
+                break;
             case "type":
                 n.setType(NPCType.valueOf(data.toString()));
+                logger.info("npc type: {}", n.getType());
                 break;
             case "x":
-                if (n.getMapPosition() == null)
+                if (npc)
                 {
-                    Point pos = new Point();
-                    pos.x = Integer.parseInt(data.toString());
-                    n.setMapPosition(pos);
+                    if (mapPosition)
+                    {
+                        mapPos.x = Integer.parseInt(data.toString());
+                    }
+                    if (targetPosition)
+                    {
+                        targetPos.x = Integer.parseInt(data.toString());
+                    }
                 }
                 break;
             case "y":
-                if (n.getMapPosition() == null)
+                if (npc)
+                {
+                    if (mapPosition)
+                    {
+                        mapPos.y = Integer.parseInt(data.toString());
+                    }
+                    if (targetPosition)
+                    {
+                        targetPos.y = Integer.parseInt(data.toString());
+                    }
+                }
+                /*if (n.getMapPosition() == null)
                 {
                     Point pos = new Point();
                     pos.y = Integer.parseInt(data.toString());
@@ -150,7 +211,7 @@ public class NPCXMLReader extends DefaultHandler
                 else
                 {
                     n.setMapPosition(new Point(n.getMapPosition().x, Integer.parseInt(data.toString())));
-                }
+                }*/
                 break;
             case "question":
                 question = (data.toString());
@@ -182,7 +243,44 @@ public class NPCXMLReader extends DefaultHandler
             case "attributes":
                 n.setAttributes(attr);
                 break;
-
+            case "startTime":
+                String[] strings = data.toString().split(":");
+                logger.info("strings: {} - {}", strings[0], strings[1]);
+                startTime.setCurrentHour(Integer.parseInt(strings[0]));
+                startTime.setCurrentMinute(Integer.parseInt(strings[1]));
+                scheduleActivity.setStartTime(startTime);
+                break;
+            case "scheduleActivityString":
+                scheduleActivity.setScheduleActivityString(data.toString());
+                break;
+            case "scheduleActivity":
+                schedule.getActivities().add(scheduleActivity);
+                break;
+            case "schedule":
+                schedule.setActive(true);
+                n.setSchedule(schedule);
+                sched = false;
+                break;
+            case "targetPosition":
+                if (sched)
+                {
+                    logger.info("setting schedule");
+                    scheduleActivity.setTargetLocation(targetPos);
+                    MoveAction moveAction = new MoveAction();
+                    moveAction.setGetWhere(targetPos);
+                    scheduleActivity.setAction(moveAction);
+                }
+                else
+                {
+                    n.setOriginalTargetMapPosition(targetPos);
+                    n.setTargetMapPosition(targetPos);
+                    n.setPatrolling(true);
+                    logger.info("targetPosition and patrolling set for id: {}", n.getId());
+                }
+                targetPosition = false;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + qName);
         }
         data = new StringBuilder();
     }

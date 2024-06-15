@@ -21,15 +21,16 @@ import java.awt.event.ActionListener;
 @Log4j2
 public class IdleActionListener implements ActionListener
 {
-	public IdleActionListener()
-	{
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
+    public IdleActionListener()
     {
-        if (UIStateMachine.getUiState().equals(UIState.OPENED)) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (UIStateMachine.getUiState().equals(UIState.OPENED))
+        {
             logger.info("sending space");
             AbstractKeyboardAction spaceAction = ActionFactory.createAction(KeyboardActionType.SPACE);
             Game.getCurrent().setPlayerAction(new PlayerAction(spaceAction));
@@ -38,4 +39,5 @@ public class IdleActionListener implements ActionListener
             //Game.getCurrent().listThreads();
         }
     }
+
 }

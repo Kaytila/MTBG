@@ -43,7 +43,7 @@ public class GameConfiguration
     public static final boolean debugASTAR = false;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
-    public static final boolean debugMapPosition = true;
+    public static final boolean debugMapPosition = false;
     public static final boolean debugPaint = false;
     /**
      * describes the dex value where player will move twice
@@ -111,7 +111,7 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = true;
+    public static final boolean playMusic = false;
     /**
      * do we want to play sound effects?
      */
@@ -144,7 +144,7 @@ public class GameConfiguration
     /**
      * which map to start on
      */
-    public static final String startMap = "gameMap";
+    public static final String startMap = "outpost";
     /**
      * start position on the start map
      */

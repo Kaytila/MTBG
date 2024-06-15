@@ -135,33 +135,42 @@
         </tile>
     </tiles>
     <npcs>
-        <npc>
-            <id>1</id>
-            <mapPosition>
-                <x>1</x>
-                <y>0</y>
-            </mapPosition>
-        </npc>
-        <npc>
-            <id>2</id>
-            <mapPosition>
-                <x>2</x>
-                <y>0</y>
-            </mapPosition>
-        </npc>
-        <npc>
-            <id>3</id>
-            <mapPosition>
-                <x>3</x>
-                <y>0</y>
-            </mapPosition>
-        </npc>
-        <npc>
-            <id>4</id>
-            <mapPosition>
-                <x>4</x>
-                <y>0</y>
-            </mapPosition>
-        </npc>
+        <!--
+            <npc>
+                <id>1</id>
+                <mapPosition>
+                    <x>1</x>
+                    <y>0</y>
+                </mapPosition>
+
+            </npc>
+            <npc>
+                <id>2</id>
+
+                <mapPosition>
+                    <x>2</x>
+                    <y>0</y>
+                </mapPosition>
+
+            </npc>
+            <npc>
+                <id>3</id>
+
+                <mapPosition>
+                    <x>3</x>
+                    <y>0</y>
+                </mapPosition>
+
+            </npc>
+            <npc>
+                <id>4</id>
+
+                <mapPosition>
+                    <x>4</x>
+                    <y>0</y>
+                </mapPosition>
+
+            </npc>
+            -->
     </npcs>
 </map>

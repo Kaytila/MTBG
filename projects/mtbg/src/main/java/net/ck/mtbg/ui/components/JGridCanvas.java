@@ -439,7 +439,7 @@ public class JGridCanvas extends JComponent
         if (updating == true)
         {
             logger.info("already drawing, dont do again");
-            Game.getCurrent().stopGame();
+            //Game.getCurrent().stopGame();
             return;
         }
         updating = true;
@@ -535,7 +535,7 @@ public class JGridCanvas extends JComponent
                             {
                                 if (GameConfiguration.useImageManager == true)
                                 {
-                                    BufferedImage bufferedImage = null;
+                                    BufferedImage bufferedImage;
                                     try
                                     {
                                         if (tile.getLifeForm().getType() == null)

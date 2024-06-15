@@ -3,6 +3,7 @@ package net.ck.mtbg.util.xml;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
@@ -72,6 +73,26 @@ public class RunXMLParser
         catch (Exception e)
         {
             logger.error("error during parsing maps");
+            e.printStackTrace();
+            Game.getCurrent().stopGame();
+        }
+        return null;
+
+    }
+
+    public static Hashtable<Integer, NPC> parseNPCs(String fileName)
+    {
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        try
+        {
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+            NPCXMLReader handler = new NPCXMLReader();
+            saxParser.parse(new File(fileName), handler);
+            return handler.getNpcs();
+        }
+        catch (Exception e)
+        {
+            logger.error("error during parsing NPCs");
             e.printStackTrace();
             Game.getCurrent().stopGame();
         }

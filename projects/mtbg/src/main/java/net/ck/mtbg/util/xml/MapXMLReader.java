@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.NPC;
-import net.ck.mtbg.backend.entities.entities.NPCType;
+import net.ck.mtbg.backend.entities.entities.NPCFactory;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.Armor;
@@ -22,7 +22,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 
 /**
@@ -83,16 +82,8 @@ public class MapXMLReader extends DefaultHandler
     private int x;
     private int y;
 
-    private Hashtable<String, String> mobasks;
-
-    private String question;
-    private String answer;
-    private boolean targetPosition;
-
     private boolean mapPosition;
     private Point mapPos;
-
-    private Point targetPos;
 
     private GameState gameState;
 
@@ -105,6 +96,7 @@ public class MapXMLReader extends DefaultHandler
     private boolean msg;
     private boolean furniture;
     private FurnitureItem furnitureItem;
+
 
     @Override
     public void startDocument()
@@ -125,14 +117,17 @@ public class MapXMLReader extends DefaultHandler
             gameMap.mapTiles[t.x][t.y] = t;
         }
         logger.debug("end: adding maptiles to 2d array");
-        if (getNpcs() != null && getNpcs().size() > 0)
+        if (getNpcs() != null && !(getNpcs().isEmpty()))
         {
+            //this remains, the rest of the NPC code goes out to NPCreader
             for (NPC n : getNpcs())
             {
-                logger.info("initialize properly");
-                n.initialize();
-                gameMap.getLifeForms().add(n);
-                gameMap.mapTiles[n.getMapPosition().x][n.getMapPosition().y].setLifeForm(n);
+                logger.info("attach NPC instance to map");
+                //n.initialize();
+                NPC npc = NPCFactory.createNPC(n.getId());
+                gameMap.getLifeForms().add(npc);
+                //TODO broken yet
+                gameMap.mapTiles[npc.getMapPosition().x][npc.getMapPosition().y].setLifeForm(npc);
             }
         }
     }
@@ -200,13 +195,7 @@ public class MapXMLReader extends DefaultHandler
                 }
                 npc = true;
                 break;
-            case "mobasks":
-                mobasks = new Hashtable<>();
-                break;
-            case "targetPosition":
-                targetPosition = true;
-                targetPos = new Point();
-                break;
+
             case "mapPosition":
                 mapPosition = true;
                 mapPos = new Point();
@@ -281,24 +270,9 @@ public class MapXMLReader extends DefaultHandler
                         maptile.setType(TileTypes.valueOf(str));
                     }
                 }
-                if (npc)
-                {
-                    np.setType(NPCType.valueOf(str));
-                }
                 break;
             case "x":
-                if (npc)
-                {
-                    if (mapPosition)
-                    {
-                        mapPos.x = Integer.parseInt(data.toString());
-                    }
-                    if (targetPosition)
-                    {
-                        targetPos.x = Integer.parseInt(data.toString());
-                    }
-                }
-                else if (exit)
+                if (exit)
                 {
                     exitPos.x = Integer.parseInt(data.toString());
                 }
@@ -308,18 +282,7 @@ public class MapXMLReader extends DefaultHandler
                 }
                 break;
             case "y":
-                if (npc)
-                {
-                    if (mapPosition)
-                    {
-                        mapPos.y = Integer.parseInt(data.toString());
-                    }
-                    if (targetPosition)
-                    {
-                        targetPos.y = Integer.parseInt(data.toString());
-                    }
-                }
-                else if (exit)
+                if (exit)
                 {
                     exitPos.y = Integer.parseInt(data.toString());
                 }
@@ -390,29 +353,6 @@ public class MapXMLReader extends DefaultHandler
                 logger.info("parsing game state map: {} ", GameState.valueOf(data.toString()));
                 gameMap.setGameState(GameState.valueOf(data.toString()));
                 break;
-            case "mapPosition":
-                np.setMapPosition(mapPos);
-                np.setOriginalMapPosition(new Point(mapPos.x, mapPos.y));
-                mapPosition = false;
-                break;
-            case "targetPosition":
-                np.setOriginalTargetMapPosition(targetPos);
-                np.setTargetMapPosition(targetPos);
-                np.setPatrolling(true);
-                logger.info("targetPosition and patrolling set for id: {}", np.getId());
-                targetPosition = false;
-                break;
-            case "question":
-                question = (data.toString());
-                break;
-            case "answer":
-                answer = (data.toString());
-                break;
-            case "mobask":
-                mobasks.put(question, answer);
-            case "mobasks":
-                np.setMobasks(mobasks);
-                break;
             case "exit":
                 gameMap.setTargetCoordinates(exitPos);
                 maptile.setTargetCoordinates(exitPos);
@@ -420,7 +360,7 @@ public class MapXMLReader extends DefaultHandler
             case "targetCoordinates":
                 break;
             case "repeat":
-                message.setRepeat(Boolean.valueOf(data.toString()));
+                message.setRepeat(Boolean.parseBoolean(data.toString()));
                 break;
             case "description":
                 message.setDescription(data.toString());

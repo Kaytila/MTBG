@@ -193,3 +193,7 @@ implement open command
 open command will need to replace the state of maptile to WOODFLOR
 or perhaps the tile remains the same and the door is inventory which is the switched?
 that would change blocked state
+
+
+todo:
+npcs - on map or general, or both?

@@ -4,10 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.NPCAction;
+import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.queuing.ScheduleActivity;
 import net.ck.mtbg.backend.state.ItemManager;
+import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
@@ -194,7 +197,7 @@ public class AIBehaviour
         }
         else if (e.isPatrolling())
         {
-            //logger.info("npc {} is patrolling", e.getId());
+            logger.info("npc {} is patrolling", e.getId());
             AIBehaviour.determinePatrol(e);
         }
         else if (e.getRunningAction() != null)
@@ -207,12 +210,49 @@ public class AIBehaviour
         else if (e.getQueuedActions().size() > 0)
         {
             logger.info("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
-            e.doAction(new NPCAction((AbstractKeyboardAction) e.getQueuedActions().poll()));
+            e.doAction(new NPCAction(e.getQueuedActions().poll()));
+        }
+        else if (e.getSchedule() != null)
+        {
+            logger.info("npc {} has a schedule", e.getId());
+            AIBehaviour.runSchedule(e);
         }
         else
         {
             logger.info("NPC {} is random", e.getId());
             AIBehaviour.determineRandom(e);
+        }
+    }
+
+    private static void runSchedule(LifeForm e)
+    {
+        if (e.getSchedule() != null)
+        {
+            logger.info("npc id {} has schedule", e.getId());
+            //easy for now
+            if (e.getSchedule().isActive() == true)
+            {
+                logger.info("npc id {} schedule is active", e.getId());
+                if (e.getSchedule().getActivities() != null)
+                {
+                    logger.info("npc id {} schedule has activities", e.getId());
+                    for (ScheduleActivity activity : e.getSchedule().getActivities())
+                    {
+                        GameTime startTime = activity.getStartTime();
+                        logger.debug("game time: {}", Game.getCurrent().getGameTime());
+                        logger.debug("activity start time: {}", startTime);
+                        if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
+                        {
+                            if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
+                            {
+                                logger.error("activity: {}", activity);
+                                e.setRunningAction(activity.getAction());
+                                e.doAction(new PlayerAction(activity.getAction()));
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -227,9 +267,10 @@ public class AIBehaviour
     {
         if (MapUtils.calculateDayOrNight() == DayNight.NIGHT)
         {
-            MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 4, false);
+            MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 17, false);
             if (tile != null)
             {
+                logger.info("light source to ignite");
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
                     //e.look(tile);
@@ -249,9 +290,10 @@ public class AIBehaviour
         }
         else if (MapUtils.calculateDayOrNight() == DayNight.DAY)
         {
-            MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 4, true);
+            MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 17, true);
             if (tile != null)
             {
+                logger.info("light source to douse");
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
                     //e.look(tile);

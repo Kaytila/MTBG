@@ -15,6 +15,7 @@ import net.ck.mtbg.animation.missile.MissileTimer;
 import net.ck.mtbg.animation.missile.MissileUtilTimer;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.game.Game;
@@ -420,6 +421,7 @@ public class GameUtils
         listUtilities();
         listArmor();
         listFurniture();
+
     }
 
 
@@ -472,6 +474,31 @@ public class GameUtils
     }
 
 
+    public static void initializeNPCs()
+    {
+        logger.info("start: initialize NPCs");
+
+        File folder = new File(GameConfiguration.npcFileRootPath);
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+        for (File file : listOfFiles)
+        {
+            if (file.isFile())
+            {
+                if (file.getName().equalsIgnoreCase("npc.xml"))
+                {
+                    logger.info("parsing NPCs: {}", GameConfiguration.npcFileRootPath + File.separator + file.getName());
+                    NPCManager.setNpcList(RunXMLParser.parseNPCs(GameConfiguration.npcFileRootPath + File.separator + file.getName()));
+                }
+            }
+        }
+        logger.info("end: initialize NPCs");
+
+        listNPCs();
+    }
+
+
     private static void listSpells()
     {
         for (AbstractSpell s : SpellManager.getSpellList().values())
@@ -479,6 +506,16 @@ public class GameUtils
             logger.info("spellid: {}, spell name: {}, spell level:{}", s.getId(), s.getName(), s.getLevel());
         }
     }
+
+
+    private static void listNPCs()
+    {
+        for (NPC s : NPCManager.getNpcList().values())
+        {
+            logger.info("npc id: {}, details: {}", s.getId(), s.toString());
+        }
+    }
+
 
     private static void listSkills()
     {
@@ -542,6 +579,12 @@ public class GameUtils
         {
             logger.info("setting UI position: {}", e.getMapPosition());
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+            //enable current schedules
+            if (e.getSchedule() != null)
+            {
+                e.getSchedule().setActive(true);
+            }
+
         }
         UILense.getCurrent().identifyVisibleTilesBest();
         UILense.getCurrent().identifyBufferedTiles();

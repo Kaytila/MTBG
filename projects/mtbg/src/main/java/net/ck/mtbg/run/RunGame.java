@@ -79,6 +79,11 @@ public class RunGame
             {
                 renderSplashFrame(g, size);
             }
+            GameUtils.initializeNPCs();
+            if (!(GameConfiguration.quickstart))
+            {
+                renderSplashFrame(g, size);
+            }
             GameUtils.initializeMaps();
             if (!(GameConfiguration.quickstart))
             {

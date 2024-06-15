@@ -77,3 +77,23 @@ leads to a turn rollover.
 There are no commands take that longer or less long.
 The only thing so far is that dexterity - and perhaps mounts as well - will simply say, "you have more commands in the
 same turn".
+
+
+
+on NPCs
+========
+
+You need a place where to define NPCs:
+That can be generally and you simply place a version of an NPC on a map.
+Or it can be that you define the npc per map.
+Or you do a little bit of both:
+Currently, I am trying to go for the both approach. The idea is that general things are defined on a global level,
+i.e. what stats an NPC has and what mobasks NPC reacts to might be globally defined - think guards - but additions are
+handled locally.
+Now the more I think about it, the less sense this approach makes:
+The mobasks can be copy'n'pasted, as can be the stats, but it will take away a huge issue.
+So which way to go?
+I am leaning more and more to an approach or returning everything to the NPC itself and only add the NPC id to the map
+with the starting position.
+The rest is handled on NPC level.
+It would be definitely easier.

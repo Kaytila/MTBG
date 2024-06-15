@@ -14,10 +14,10 @@ import java.awt.*;
 @Setter
 public class ScheduleActivity
 {
-	private LifeForm npc;
-	private GameTime startTime;
-	private Point startLocation;
-	private String actionString;
-
-	private AbstractKeyboardAction action;
+    private LifeForm npc;
+    private GameTime startTime;
+    private Point targetLocation;
+    private String scheduleActivityString;
+    private AbstractKeyboardAction action;
+    private boolean active;
 }

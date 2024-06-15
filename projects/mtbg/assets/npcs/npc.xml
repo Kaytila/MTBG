@@ -1,33 +1,80 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <npcs>
-		<npc>
-            <id>1</id>
-            <attributes>
-                <strength>7</strength>
-                <dexterity>34</dexterity>
-                <constitution>22</constitution>
-                <intelligence>2</intelligence>
-            </attributes>
+    <npc>
+        <id>1</id>
             <type>WARRIOR</type>
             <mobasks>
                 <mobask>
-                    <question>Hello</question>
+                    <question>hello</question>
                     <answer>Hello, how do you do?</answer>
                 </mobask>
                 <mobask>
-                    <question>Name</question>
+                    <question>name</question>
                     <answer>My name is orc</answer>
                 </mobask>
-			<mobask>
-			<question>job</question>
-			<answer>I am an orc warrior!</answer>
-			</mobask>
-			<mobask>
-			<question>bye</question>
-			<answer>Ort!</answer>
-			</mobask>
-			</mobasks>
-		</npc>
+                <mobask>
+                    <question>job</question>
+                    <answer>I am an orc warrior!</answer>
+                </mobask>
+                <mobask>
+                    <question>bye</question>
+                    <answer>Ort!</answer>
+                </mobask>
+                <mobask>
+                    <question>hh</question>
+                    <answer>cutscene</answer>
+                </mobask>
+            </mobasks>
+        <mapPosition>
+            <x>8</x>
+            <y>18</y>
+        </mapPosition>
+
+        <targetPosition>
+            <x>12</x>
+            <y>18</y>
+        </targetPosition>
+        <!--
+        <schedule>
+        <scheduleActivity>
+        <scheduleActivityString>
+        Lets go to lunch</scheduleActivityString>
+        <startTime>09:07</startTime>
+        <targetPosition>
+            <x>1</x>
+            <y>3</y>
+        </targetPosition>
+        </scheduleActivity>
+        <scheduleActivity>
+        <scheduleActivityString>
+        Lets go to work</scheduleActivityString>
+        <startTime>13:01</startTime>
+        <targetPosition>
+            <x>1</x>
+            <y>1</y>
+        </targetPosition>
+        </scheduleActivity>
+        <scheduleActivity>
+        <scheduleActivityString>
+        Lets go to dinner</scheduleActivityString>
+        <startTime>18:01</startTime>
+        <targetPosition>
+            <x>17</x>
+            <y>2</y>
+        </targetPosition>
+        </scheduleActivity>
+        <scheduleActivity>
+        <scheduleActivityString>
+        Lets go to bed</scheduleActivityString>
+        <startTime>19:01</startTime>
+        <targetPosition>
+            <x>1</x>
+            <y>1</y>
+        </targetPosition>
+        </scheduleActivity>
+        </schedule>
+        -->
+    </npc>
     <npc>
         <id>2</id>
         <attributes>
@@ -37,13 +84,25 @@
             <intelligence>2</intelligence>
         </attributes>
         <type>WARRIOR2</type>
+        <mapPosition>
+            <x>1</x>
+            <y>10</y>
+        </mapPosition>
     </npc>
 		<npc>
 			<id>3</id>
 			<type>WARRIOR</type>
+            <mapPosition>
+                <x>10</x>
+                <y>1</y>
+            </mapPosition>
 		</npc>		
 		<npc>
 			<id>4</id>
 			<type>WARRIOR</type>
+            <mapPosition>
+                <x>15</x>
+                <y>15</y>
+            </mapPosition>
 		</npc>			
 	</npcs>

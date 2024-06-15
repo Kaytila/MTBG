@@ -1,13 +1,13 @@
-
 package net.ck.mtbg.util.astar;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.utils.MapUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -17,11 +17,12 @@ import java.util.*;
  *
  * @author Marcelo Surriabre
  * @version 2.1, 2017-02-23
+ * <p>
+ * adjusted claus 2023
  */
-
+@Log4j2
 public class AStar
 {
-    private static final Logger logger = LogManager.getLogger(AStar.class);
     private static final int DEFAULT_HV_COST = 1; // Horizontal - Vertical Cost
     private static final int DEFAULT_DIAGONAL_COST = 1000;
 
@@ -33,6 +34,8 @@ public class AStar
     private static MapTile initialNode;
     private static MapTile finalNode;
 
+    @Getter
+    @Setter
     private static Map previousMap;
 
     public static void initialize(int rows, int cols, MapTile initialNode, MapTile finalNode, Map map)
@@ -61,15 +64,20 @@ public class AStar
             @Override
             public int compare(MapTile node0, MapTile node1)
             {
+                if (GameConfiguration.debugASTAR == true)
+                {
+                    logger.info("node0 cost: {}, node1 cost: {}", node0.getFinalCost(), node1.getFinalCost());
+                }
                 return Integer.compare(node0.getFinalCost(), node1.getFinalCost());
             }
         });
 
         if (GameConfiguration.debugASTAR == true)
         {
-            if (previousMap != null)
+            if (getPreviousMap() != null)
             {
-                if (previousMap.equals(ma))
+                logger.info("map is not null");
+                if (getPreviousMap().equals(ma))
                 {
                     logger.info("same map, do not initialize");
                     //same map, do nothing
@@ -77,14 +85,14 @@ public class AStar
                 else
                 {
                     logger.info("new map, do initialize");
-                    //previousMap = ma;
                     setNodesOld(rows, cols);
+                    setPreviousMap(ma);
                 }
             }
             else
             {
                 logger.info("first map, do initialize");
-                //previousMap = ma;
+                //setPreviousMap(ma);
                 //TODO check implementation again to distinguish initialization and use
                 setNodesOld(rows, cols);
             }
@@ -99,16 +107,18 @@ public class AStar
     private static void setNodes(int rows, int cols)
     {
         long start = System.nanoTime();
-        searchArea = Game.getCurrent().getCurrentMap().mapTiles.clone();
+        searchArea = new MapTile[rows][cols];
         for (int i = 0; i < searchArea.length; i++)
         {
             for (int j = 0; j < searchArea[0].length; j++)
             {
-                searchArea[i][j].setParent(null);
-                searchArea[i][j].calculateHeuristic(getFinalNode());
+                MapTile node = Game.getCurrent().getCurrentMap().mapTiles[j][i];
+                node.setParent(null);
+                Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
+                searchArea[j][i] = node;
             }
         }
-       // logger.info("time taken for set nodes: {}", System.nanoTime() - start);
+        logger.info("time taken for set nodes: {}", System.nanoTime() - start);
     }
 
 
@@ -116,17 +126,17 @@ public class AStar
     {
         long start = System.nanoTime();
         searchArea = new MapTile[rows][cols];
-        for (int i = 0; i < searchArea.length; i++)
+        for (int row = 0; row < searchArea.length; row++)
         {
-            for (int j = 0; j < searchArea[0].length; j++)
+            for (int col = 0; col < searchArea[0].length; col++)
             {
-                MapTile node = MapUtils.getMapTileByCoordinates(j, i);
+                MapTile node = MapUtils.getMapTileByCoordinates(row, col);
                 node.setParent(null);
                 Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
-                searchArea[i][j] = node;
+                searchArea[row][col] = node;
             }
         }
-        //logger.info("time taken for set nodes: {}", System.nanoTime() - start);
+        logger.info("time taken for set nodesOLD: {}", System.nanoTime() - start);
     }
 
     public static void setBlocks(int[][] blocksArray)
@@ -203,7 +213,7 @@ public class AStar
         }
     }
 
-    private  static void addAdjacentMiddleRow(MapTile currentNode)
+    private static void addAdjacentMiddleRow(MapTile currentNode)
     {
         int row = currentNode.getY();
         int col = currentNode.getX();
@@ -236,7 +246,7 @@ public class AStar
         }
     }
 
-    private  static void checkNode(MapTile currentNode, int col, int row, int cost)
+    private static void checkNode(MapTile currentNode, int col, int row, int cost)
     {
         //logger.info("current node: {}, col: {}, row: {}", currentNode, col, row);
         MapTile adjacentNode = getSearchArea()[row][col];
@@ -261,12 +271,12 @@ public class AStar
         }
     }
 
-    private  static boolean isFinalNode(MapTile currentNode)
+    private static boolean isFinalNode(MapTile currentNode)
     {
         return currentNode.equals(finalNode);
     }
 
-    private  static boolean isEmpty(PriorityQueue<MapTile> openList)
+    private static boolean isEmpty(PriorityQueue<MapTile> openList)
     {
         return openList.size() == 0;
     }
@@ -281,7 +291,7 @@ public class AStar
         return initialNode;
     }
 
-    public  static void setInitialNode(MapTile iN)
+    public static void setInitialNode(MapTile iN)
     {
         initialNode = iN;
     }

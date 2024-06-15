@@ -6,7 +6,7 @@
         <wrapping>false</wrapping>
         <name>outpost</name>
         <visibility>1</visibility>
-        <minutesperturn>1</minutesperturn>
+        <minutesperturn>10</minutesperturn>
         <parent>gameMap</parent>
         <gamestate>TOWN</gamestate>
     </meta>
@@ -56,6 +56,84 @@
         <tile>
             <id>0</id>
             <type>STONEWALL</type>
+            <x>0</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>0</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
             <x>1</x>
             <y>0</y>
         </tile>
@@ -91,9 +169,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>1</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>1</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>1</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>1</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>1</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>1</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>1</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -106,9 +262,6 @@
             <type>WOODFLOOR</type>
             <x>2</x>
             <y>1</y>
-            <inventory>
-                <weapon>1</weapon>
-            </inventory>
         </tile>
         <tile>
             <id>0</id>
@@ -136,12 +289,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>2</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>2</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODDOORCLOSED</type>
+            <x>2</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>2</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>2</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>2</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>2</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>3</x>
             <y>0</y>
@@ -178,12 +409,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>3</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>3</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>3</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>3</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>3</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>3</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>3</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>4</x>
             <y>0</y>
@@ -202,7 +511,7 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>WOODFLOOR</type>
             <x>4</x>
             <y>3</y>
         </tile>
@@ -220,9 +529,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>4</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>4</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>4</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>4</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>4</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>4</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>4</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -262,12 +649,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>5</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>5</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>5</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>6</x>
             <y>0</y>
@@ -301,18 +766,93 @@
             <type>GRASS</type>
             <x>6</x>
             <y>5</y>
-            <inventory>
-                <weapon>3</weapon>
-            </inventory>
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>6</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>6</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>6</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>7</x>
             <y>0</y>
@@ -334,9 +874,6 @@
             <type>GRASS</type>
             <x>7</x>
             <y>3</y>
-            <inventory>
-                <weapon>2</weapon>
-            </inventory>
         </tile>
         <tile>
             <id>0</id>
@@ -352,9 +889,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>7</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>7</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>7</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -394,9 +1009,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>8</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>8</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>8</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -437,12 +1130,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>GATECLOSED</type>
+            <type>GRASS</type>
             <x>9</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>9</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GATECLOSED</type>
+            <x>9</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>10</x>
             <y>0</y>
@@ -476,12 +1247,90 @@
             <type>GRASS</type>
             <x>10</x>
             <y>5</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>10</x>
+            <y>18</y>
         </tile>
         <tile>
             <id>0</id>
             <type>GATECLOSED</type>
             <x>10</x>
-            <y>6</y>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -521,12 +1370,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>11</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>11</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>11</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>12</x>
             <y>0</y>
@@ -563,12 +1490,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>12</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>12</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>12</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>13</x>
             <y>0</y>
@@ -605,12 +1610,90 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>13</x>
             <y>6</y>
         </tile>
         <tile>
             <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>13</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>13</x>
+            <y>19</y>
+        </tile>
+        <tile>
+            <id>0</id>
             <type>STONEWALL</type>
             <x>14</x>
             <y>0</y>
@@ -647,9 +1730,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>14</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>14</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>14</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -689,9 +1850,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>15</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>15</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>15</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>15</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>15</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>15</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>15</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -731,9 +1970,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>16</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>16</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>16</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>16</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>16</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>16</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>16</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -773,9 +2090,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>17</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>17</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODDOORCLOSED</type>
+            <x>17</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>17</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>17</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>17</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>17</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -815,9 +2210,87 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GRASS</type>
             <x>18</x>
             <y>6</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>GRASS</type>
+            <x>18</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>18</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>18</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>18</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>WOODFLOOR</type>
+            <x>18</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>18</x>
+            <y>19</y>
         </tile>
         <tile>
             <id>0</id>
@@ -861,5 +2334,88 @@
             <x>19</x>
             <y>6</y>
         </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>7</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>8</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>9</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>10</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>11</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>12</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>13</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>14</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>15</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>16</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>17</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>18</y>
+        </tile>
+        <tile>
+            <id>0</id>
+            <type>STONEWALL</type>
+            <x>19</x>
+            <y>19</y>
+        </tile>
     </tiles>
+    <npcs>
+        <npc>
+            <id>1</id>
+        </npc>
+    </npcs>
 </map>

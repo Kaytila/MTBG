@@ -6,14 +6,14 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
+import net.ck.mtbg.backend.entities.attributes.Attributes;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
-import net.ck.mtbg.backend.queuing.ScheduleActivity;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
 import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.FurnitureItem;
@@ -116,6 +116,49 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         super();
         mobasks = new Hashtable<>();
+        setStatic(false);
+        setQueuedActions(new CommandQueue());
+        setHealth(GameConfiguration.baseHealth + (getLevel() * 10));
+        setState(LifeFormState.ALIVE);
+        setArmorClass(0);
+        getInventory().add(ItemManager.getWeaponList().get(3));
+        wieldWeapon(ItemManager.getWeaponList().get(1));
+        EventBus.getDefault().register(this);
+
+    }
+
+    public NPC(NPC that)
+    {
+
+        this(that.getId(), that.isStatic(), that.isRanged(), that.isHostile(), that.isPatrolling(), that.isLightSource(), that.getLevel(), that.getMapPosition(), that.getSchedule(), that.getAttributes(), that.getOriginalMapPosition(), that.getOriginalTargetMapPosition(), that.getTargetMapPosition(), that.getMobasks(), that.getRunningAction(), that.getArmorClass(), that.getQueuedActions(), that.getCurrImage(), that.getHealth(), that.getHoldEquipment(), that.getInventory(), that.getLightRange(), that.getState(), that.getType());
+    }
+
+    public NPC(int id, boolean aStatic, boolean ranged, boolean hostile, boolean patrolling, boolean lightSource, int level, Point mapPosition, Schedule schedule, Attributes attributes, Point originalMapPosition, Point originalTargetMapPosition, Point targetMapPosition, Hashtable<String, String> mobasks, AbstractKeyboardAction runningAction, int armorClass, CommandQueue queuedActions, int currImage, int health, Hashtable<Weapon, AbstractItem> holdEquipment, Inventory inventory, int lightrange, LifeFormState state, NPCType type)
+    {
+        this.setId(id);
+        this.setStatic(aStatic);
+        this.setRanged(ranged);
+        this.setHostile(hostile);
+        this.setPatrolling(patrolling);
+        this.setLightSource(lightSource);
+        this.setLevel(level);
+        this.setMapPosition(mapPosition);
+        this.setSchedule(schedule);
+        this.setAttributes(attributes);
+        this.setOriginalMapPosition(originalMapPosition);
+        this.setOriginalTargetMapPosition(originalTargetMapPosition);
+        this.setTargetMapPosition(targetMapPosition);
+        this.setMobasks(mobasks);
+        this.setRunningAction(runningAction);
+        this.setQueuedActions(queuedActions);
+        this.setArmorClass(armorClass);
+        this.setCurrImage(currImage);
+        this.setHealth(health);
+        this.setHoldEquipment(holdEquipment);
+        this.setInventory(inventory);
+        this.setLightRange(lightrange);
+        this.setState(state);
+        this.setType(type);
     }
 
 
@@ -194,7 +237,10 @@ public class NPC extends AbstractEntity implements LifeForm
 
         if (getOriginalMapPosition() == null)
         {
-            setOriginalMapPosition(new Point(getMapPosition()));
+            if (getMapPosition() != null)
+            {
+                setOriginalMapPosition(new Point(getMapPosition()));
+            }
         }
     }
 
@@ -204,35 +250,13 @@ public class NPC extends AbstractEntity implements LifeForm
     @Subscribe
     public void onMessageEvent(GameTimeChanged event)
     {
-        checkSchedules(event);
+        //checkSchedules(event);
     }
 
     private void checkSchedules(GameTimeChanged event)
     {
-        if (getSchedule() != null)
-        {
-            //easy for now
-            if (getSchedule().isActive() == true)
-            {
-                if (getSchedule().getActivities() != null)
-                {
-                    for (ScheduleActivity activity : getSchedule().getActivities())
-                    {
-                        GameTime startTime = activity.getStartTime();
+        logger.info("npc id {} checking schedule", this.getId());
 
-                        if (Game.getCurrent().getGameTime().getCurrentHour() == startTime.getCurrentHour())
-                        {
-                            if (Game.getCurrent().getGameTime().getCurrentMinute() == startTime.getCurrentMinute())
-                            {
-                                logger.error("activity: {}", activity.getActionString());
-                                setRunningAction(activity.getAction());
-                                doAction(new PlayerAction(activity.getAction()));
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
 

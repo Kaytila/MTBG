@@ -15,6 +15,7 @@ import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.Map;
+import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
@@ -151,6 +152,7 @@ public class Game implements Runnable, Serializable
         setGameTime(new GameTime());
         getGameTime().setCurrentHour(GameConfiguration.startTime.x);
         getGameTime().setCurrentMinute(GameConfiguration.startTime.y);
+        UIStateMachine.setUiState(UIState.CLOSED);
 
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");
@@ -584,10 +586,10 @@ public class Game implements Runnable, Serializable
 
 
             //TODO teleport NPCs to positions based on schedule here
-            if (Game.getCurrent().getGameTime().greaterOrEqual(f.getSchedule().getStartTime()))
-            {
-                //TODO
-            }
+            //if (Game.getCurrent().getGameTime().greaterOrEqual(f.getSchedule()))
+            //{
+            //TODO
+            //}
         }
     }
 }
