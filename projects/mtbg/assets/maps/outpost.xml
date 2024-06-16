@@ -982,6 +982,7 @@
             <type>GRASS</type>
             <x>8</x>
             <y>1</y>
+            <furniture>1</furniture>
         </tile>
         <tile>
             <id>0</id>
@@ -1084,6 +1085,7 @@
             <type>GRASS</type>
             <x>8</x>
             <y>18</y>
+            <furniture>1</furniture>
         </tile>
         <tile>
             <id>0</id>
@@ -1093,7 +1095,7 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GATECLOSED</type>
             <x>9</x>
             <y>0</y>
         </tile>
@@ -1214,7 +1216,7 @@
         </tile>
         <tile>
             <id>0</id>
-            <type>STONEWALL</type>
+            <type>GATECLOSED</type>
             <x>10</x>
             <y>0</y>
         </tile>
@@ -1343,6 +1345,7 @@
             <type>GRASS</type>
             <x>11</x>
             <y>1</y>
+            <furniture>1</furniture>
         </tile>
         <tile>
             <id>0</id>
@@ -1445,6 +1448,7 @@
             <type>GRASS</type>
             <x>11</x>
             <y>18</y>
+            <furniture>1</furniture>
         </tile>
         <tile>
             <id>0</id>
@@ -2416,6 +2420,14 @@
     <npcs>
         <npc>
             <id>1</id>
+            <mapPosition>
+                <x>8</x>
+                <y>17</y>
+            </mapPosition>
+            <targetPosition>
+                <x>12</x>
+                <y>17</y>
+            </targetPosition>
         </npc>
     </npcs>
 </map>

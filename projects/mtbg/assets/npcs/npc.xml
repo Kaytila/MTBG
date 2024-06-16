@@ -25,15 +25,7 @@
                 <answer>cutscene</answer>
             </mobask>
         </mobasks>
-        <mapPosition>
-            <x>8</x>
-            <y>18</y>
-        </mapPosition>
 
-        <targetPosition>
-            <x>12</x>
-            <y>18</y>
-        </targetPosition>
         <!--
         <schedule>
         <scheduleActivity>

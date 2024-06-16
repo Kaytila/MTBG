@@ -159,7 +159,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
 
         setStatic(false);
-        setOriginalMapPosition(new Point(getMapPosition().x, getMapPosition().y));
+        //setOriginalMapPosition(new Point(getMapPosition().x, getMapPosition().y));
         setQueuedActions(new CommandQueue());
         EventBus.getDefault().register(this);
 

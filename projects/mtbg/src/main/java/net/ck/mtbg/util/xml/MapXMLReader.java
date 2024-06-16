@@ -83,7 +83,10 @@ public class MapXMLReader extends DefaultHandler
     private int y;
 
     private boolean mapPosition;
+    private boolean targetPosition;
+
     private Point mapPos;
+    private Point targetPos;
 
     private GameState gameState;
 
@@ -123,10 +126,11 @@ public class MapXMLReader extends DefaultHandler
             for (NPC n : getNpcs())
             {
                 logger.info("attach NPC instance to map");
-                //n.initialize();
+
                 NPC npc = NPCFactory.createNPC(n.getId());
+                npc.setMapPosition(new Point(n.getMapPosition().x, n.getMapPosition().y));
+                npc.setOriginalMapPosition(new Point(npc.getMapPosition().x, npc.getMapPosition().y));
                 gameMap.getLifeForms().add(npc);
-                //TODO broken yet
                 gameMap.mapTiles[npc.getMapPosition().x][npc.getMapPosition().y].setLifeForm(npc);
             }
         }
@@ -195,10 +199,13 @@ public class MapXMLReader extends DefaultHandler
                 }
                 npc = true;
                 break;
-
             case "mapPosition":
                 mapPosition = true;
                 mapPos = new Point();
+                break;
+            case "targetPosition":
+                targetPosition = true;
+                targetPos = new Point();
                 break;
             case "mobask":
                 break;
@@ -276,6 +283,14 @@ public class MapXMLReader extends DefaultHandler
                 {
                     exitPos.x = Integer.parseInt(data.toString());
                 }
+                else if (npc)
+                {
+                    mapPos.x = Integer.parseInt(data.toString());
+                }
+                else if (targetPosition)
+                {
+                    targetPos.x = Integer.parseInt(data.toString());
+                }
                 else
                 {
                     x = Integer.parseInt(data.toString());
@@ -285,6 +300,14 @@ public class MapXMLReader extends DefaultHandler
                 if (exit)
                 {
                     exitPos.y = Integer.parseInt(data.toString());
+                }
+                else if (npc)
+                {
+                    mapPos.y = Integer.parseInt(data.toString());
+                }
+                else if (targetPosition)
+                {
+                    targetPos.y = Integer.parseInt(data.toString());
                 }
                 else
                 {
@@ -368,6 +391,13 @@ public class MapXMLReader extends DefaultHandler
             case "message":
                 maptile.setMessage(message);
                 msg = false;
+                break;
+            case "mapPosition":
+                np.setMapPosition(mapPos);
+                break;
+            case "targetPosition":
+                np.setTargetMapPosition(mapPos);
+                np.setOriginalMapPosition(new Point(mapPos.x, mapPos.y));
                 break;
             case "furniture":
                 furnitureItem = ItemFactory.createFurniture(Integer.parseInt(data.toString()));

@@ -1092,3 +1092,4 @@ History of the changes:
             works on gameMap. Need to commit this now in this state.
 2024-06-16: some minor cleanup, added some more debug options to declutter log. identified issue with NPC handling.
             spawning NPC in world is still using old NPC setup.
+2024-06-16: updated MapPosition and TargetPosition for patrolling. adding this to map again and away from npc.

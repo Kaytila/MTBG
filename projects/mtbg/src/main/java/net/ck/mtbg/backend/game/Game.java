@@ -7,7 +7,9 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ai.AIBehaviour;
-import net.ck.mtbg.backend.entities.entities.*;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.Player;
+import net.ck.mtbg.backend.entities.entities.World;
 import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
@@ -133,9 +135,6 @@ public class Game implements Runnable, Serializable
         // my nerves
         logger.info("setting up security manager");
         System.setProperty("java.security.policy", "policy.txt");
-        //SecurityManagerExtension secMan = new SecurityManagerExtension();
-        //java.lang.System.setSecurityManager(secMan);
-
         // thread handling
         logger.info("setting up thread system");
         setRunning(true);
@@ -172,24 +171,6 @@ public class Game implements Runnable, Serializable
     {
 
     }
-
-
-    public void addManyNPCs(Map map)
-    {
-        int max = 100;
-        for (int i = 1; i <= max; i++)
-        {
-            NPC np = new NPC();
-            np.setMapPosition(new Point(i, i));
-            map.mapTiles[i][i].setLifeForm(np);
-            np.setId(i + 5);
-            np.setType(NPCType.WARRIOR);
-            np.initialize();
-            map.getLifeForms().add(np);
-        }
-
-    }
-
 
     /**
      * so all can run on the EDT. I wonder where this will fuck things up, according to this:

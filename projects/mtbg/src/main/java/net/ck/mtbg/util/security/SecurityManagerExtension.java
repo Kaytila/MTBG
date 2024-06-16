@@ -1,11 +1,6 @@
 package net.ck.mtbg.util.security;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.FileDescriptor;
-
+/*
 public class SecurityManagerExtension extends SecurityManager
 {
 	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
@@ -56,3 +51,4 @@ public class SecurityManagerExtension extends SecurityManager
 
 	}
 }
+*/

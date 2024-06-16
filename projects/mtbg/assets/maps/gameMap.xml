@@ -75315,15 +75315,31 @@
     <npcs>
         <npc>
             <id>1</id>
+            <mapPosition>
+                <x>3</x>
+                <y>3</y>
+            </mapPosition>
         </npc>
         <npc>
             <id>2</id>
+            <mapPosition>
+                <x>15</x>
+                <y>10</y>
+            </mapPosition>
         </npc>
         <npc>
             <id>3</id>
+            <mapPosition>
+                <x>5</x>
+                <y>0</y>
+            </mapPosition>
         </npc>
         <npc>
             <id>4</id>
+            <mapPosition>
+                <x>9</x>
+                <y>1</y>
+            </mapPosition>
         </npc>
         <!--
 
