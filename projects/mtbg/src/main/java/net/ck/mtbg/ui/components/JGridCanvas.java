@@ -852,13 +852,11 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(PlayerPositionChanged event)
     {
-        logger.info("player position changed, lets see whether this is also called for NPCs");
+        //logger.info("player position changed, lets see whether this is also called for NPCs");
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             this.paint();
         });
-        //logger.info("player position changed, lets see whether this is also called for NPCs");
-        //this.paint();
     }
 
 

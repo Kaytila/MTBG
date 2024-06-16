@@ -201,7 +201,7 @@ public class Player extends AbstractEntity implements LifeForm
         }
         //TODO make this more elegant ... somehow
         //TODO think about specifying sound effects and music
-        logger.info("do action: {}", action.toString());
+        //logger.info("do action: {}", action.toString());
         Point p = getMapPosition();
         Point mapsize = Game.getCurrent().getCurrentMap().getSize();
 

@@ -44,7 +44,9 @@ public class GameConfiguration
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
     public static final boolean debugMapPosition = false;
+    public static final boolean debugNPC = false;
     public static final boolean debugPaint = false;
+    public static final boolean debugTime = false;
     /**
      * describes the dex value where player will move twice
      */

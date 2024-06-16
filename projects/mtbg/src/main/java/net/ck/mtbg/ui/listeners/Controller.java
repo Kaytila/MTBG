@@ -872,7 +872,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             }
         }
 
-        logger.debug("selected action: {}", action.getType());
+        //logger.debug("selected action: {}", action.getType());
         if (this.getCurrentAction() != null)
         {
             logger.debug("active action: {}", this.getCurrentAction().getType());

@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.time;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.util.communication.time.GameTimeChangeType;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
 import org.greenrobot.eventbus.EventBus;
@@ -128,8 +129,12 @@ public class GameTime implements Serializable
                 }
             }
         }
-        //logger.info("minutes: {}, hours: {}, days: {}, months: {}, years: {}, remainingMinutes: {}, remaining hours: {}, remaining days: {}, remaining months: {},", minutes, hours, days, months, years, remainingMinutes, remainingHours, remainingDays, remainingMonths);
-        logger.info("current time: {}", this);
+
+        if (GameConfiguration.debugTime == true)
+        {
+            logger.info("minutes: {}, hours: {}, days: {}, months: {}, years: {}, remainingMinutes: {}, remaining hours: {}, remaining days: {}, remaining months: {},", minutes, hours, days, months, years, remainingMinutes, remainingHours, remainingDays, remainingMonths);
+            logger.info("current time: {}", this);
+        }
 
         GameTimeChangeType type = null;
         if (currentMinute != oldMinute)
@@ -173,17 +178,21 @@ public class GameTime implements Serializable
             if (this.getCurrentMinute() == time.getCurrentMinute())
             {
                 return true;
-            } else if (this.getCurrentMinute() < time.getCurrentMinute())
+            }
+            else if (this.getCurrentMinute() < time.getCurrentMinute())
             {
                 return false;
-            } else
+            }
+            else
             {
                 return true;
             }
-        } else if (this.getCurrentHour() < time.getCurrentHour())
+        }
+        else if (this.getCurrentHour() < time.getCurrentHour())
         {
             return false;
-        } else
+        }
+        else
         {
             return true;
         }

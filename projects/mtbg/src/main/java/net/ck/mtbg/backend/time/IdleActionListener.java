@@ -31,7 +31,7 @@ public class IdleActionListener implements ActionListener
     {
         if (UIStateMachine.getUiState().equals(UIState.OPENED))
         {
-            logger.info("sending space");
+            //logger.info("sending space");
             AbstractKeyboardAction spaceAction = ActionFactory.createAction(KeyboardActionType.SPACE);
             Game.getCurrent().setPlayerAction(new PlayerAction(spaceAction));
             EventBus.getDefault().post(spaceAction);

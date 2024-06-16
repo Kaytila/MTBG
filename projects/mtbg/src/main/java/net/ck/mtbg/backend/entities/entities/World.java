@@ -342,6 +342,10 @@ public class World extends AbstractEntity implements LifeForm
         }
     }
 
+    /**
+     * spawn generator - needs to be done properly
+     * //TODO NPC rework needs to be adjusted.
+     */
     private void spawnNPC()
     {
 
