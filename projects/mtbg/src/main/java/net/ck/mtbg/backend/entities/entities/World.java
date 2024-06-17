@@ -42,7 +42,7 @@ public class World extends AbstractEntity implements LifeForm
     {
         RandomAction event = new RandomAction();
         Random rand = new Random();
-        int result = rand.nextInt(1111113);
+        int result = 1;//rand.nextInt(1);
 
         switch (result)
         {
@@ -333,11 +333,11 @@ public class World extends AbstractEntity implements LifeForm
         switch (action.getTitle())
         {
             case "Bla 1":
-                //logger.info("do something");
+                logger.info("do something");
                 spawnNPC();
                 break;
             default:
-                //logger.info("nothing");
+                logger.info("nothing");
                 break;
         }
     }
@@ -354,8 +354,7 @@ public class World extends AbstractEntity implements LifeForm
             return;
         }
 
-        NPC n1 = new NPC();
-        n1.setType(NPCType.WARRIOR);
+        NPC n1 = NPCFactory.createNPC(1);
         //identify which direction player is moving that we can spawn the npc:
         MapTile tile = null;
         switch (Game.getCurrent().getPlayerAction().getEvent().getType())
@@ -379,8 +378,6 @@ public class World extends AbstractEntity implements LifeForm
         if (tile != null)
         {
             n1.setMapPosition(new Point(tile.getMapPosition().x, tile.getMapPosition().y));
-            n1.initialize();
-            n1.setId(1000);
             n1.setHostile(true);
             n1.setVictim(Game.getCurrent().getCurrentPlayer());
             Game.getCurrent().getCurrentMap().getLifeForms().add(n1);

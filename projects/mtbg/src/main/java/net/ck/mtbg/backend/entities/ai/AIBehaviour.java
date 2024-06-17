@@ -9,9 +9,7 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.ScheduleActivity;
-import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.backend.time.GameTime;
-import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.communication.keyboard.*;
@@ -91,8 +89,7 @@ public class AIBehaviour
                 else
                 {
                     logger.info("npc {} weapon is null", e.getId());
-                    Weapon club = ItemManager.getWeaponList().get(1);
-                    e.wieldWeapon(club);
+                    e.switchWeapon(WeaponTypes.RANGED);
                 }
             }
             else

@@ -139,7 +139,7 @@ public class NPC extends AbstractEntity implements LifeForm
         this.setPatrolling(patrolling);
         this.setLightSource(lightSource);
         this.setLevel(level);
-        this.setMapPosition(mapPosition);
+        //this.setMapPosition(mapPosition);
         this.setSchedule(schedule);
         this.setAttributes(attributes);
         this.setOriginalMapPosition(originalMapPosition);
@@ -603,6 +603,12 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             if (getInventory().getElementAt(i) instanceof Weapon)
             {
+                Weapon weapon = (Weapon) getInventory().getElementAt(i);
+                if (weapon.getType() == null)
+                {
+                    //TODO hack not sure why this could be the case, but it is currently
+                    weapon.setType(WeaponTypes.MELEE);
+                }
                 if (((Weapon) getInventory().getElementAt(i)).getType().equals(ranged))
                 {
                     this.wieldWeapon((Weapon) getInventory().getElementAt(i));
