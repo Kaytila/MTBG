@@ -150,7 +150,7 @@ public class GameConfiguration
     /**
      * start position on the start map
      */
-    public static final Point startPosition = new Point(2, 1);
+    public static final Point startPosition = new Point(12, 11);
     /**
      * how many nanoseconds are in a second?
      */

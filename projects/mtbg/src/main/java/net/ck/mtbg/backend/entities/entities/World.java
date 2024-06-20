@@ -344,7 +344,7 @@ public class World extends AbstractEntity implements LifeForm
 
     /**
      * spawn generator - needs to be done properly
-     * //TODO NPC rework needs to be adjusted.
+     * So how do we want to spawn an npc?
      */
     private void spawnNPC()
     {
@@ -360,16 +360,16 @@ public class World extends AbstractEntity implements LifeForm
         switch (Game.getCurrent().getPlayerAction().getEvent().getType())
         {
             case NORTH:
-                tile = UILense.getCurrent().mapTiles[0][MapUtils.getMiddle()];
+                tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][0];
                 break;
             case EAST:
                 tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][GameConfiguration.numberOfTiles - 1];
                 break;
-            case SOUTH:
+            case WEST:
                 tile = UILense.getCurrent().mapTiles[GameConfiguration.numberOfTiles - 1][MapUtils.getMiddle()];
                 break;
-            case WEST:
-                tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][0];
+            case SOUTH:
+                tile = UILense.getCurrent().mapTiles[0][MapUtils.getMiddle()];
                 break;
             default:
                 logger.info("do nothing");

@@ -97,3 +97,16 @@ I am leaning more and more to an approach or returning everything to the NPC its
 with the starting position.
 The rest is handled on NPC level.
 It would be definitely easier.
+
+on spawning
+===========
+
+It is fun that I am dealing with issues and topics here that Richard Garriot occupied himself with when
+he was 16 or so. Fun, but that is what upbringing and surrounding does to you.
+So spawning hostiles absolutely has to depend on which map we are on, so this needs to go into map definition.
+Then spawning needs some modifiers: dark/light/weather like knights of legend? Level?
+game progress if that can be modeled?
+In addition to that, we need to be sure we do this the right way: where does a monster need to spawn?
+In the direction player has moved? or 90 degrees? Or 180 degrees? Or randomly?
+I guess this needs to go into game configuration.
+For now, it is kind of working, as well as it can given the circumstances. One Mob will be spawned, thats it.
