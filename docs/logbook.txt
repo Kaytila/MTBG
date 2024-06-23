@@ -1096,3 +1096,5 @@ History of the changes:
 2024-06-17: updated world npc spawning to work with the new NPC setup. found an issue in the combat code.
             fixed the issue in the combat code.
 2024-06-20: Small update on world and spawning, will need some rework which is all written down in ponderings.
+2024-06-23: updated spawning to make it a bit more robust, will need to go into map actually.
+            ran into a nice bug for missiles.

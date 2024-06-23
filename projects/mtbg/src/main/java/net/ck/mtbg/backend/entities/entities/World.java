@@ -334,7 +334,10 @@ public class World extends AbstractEntity implements LifeForm
         {
             case "Bla 1":
                 logger.info("do something");
-                spawnNPC();
+                if (Game.getCurrent().getCurrentMap().isSpawnMobs())
+                {
+                    spawnNPC();
+                }
                 break;
             default:
                 logger.info("nothing");
@@ -348,43 +351,54 @@ public class World extends AbstractEntity implements LifeForm
      */
     private void spawnNPC()
     {
-
-        if (spawned == true)
+        logger.info("spawning NPC begin");
+        if (Game.getCurrent().getCurrentMap().getSpawnCounter() >= Game.getCurrent().getCurrentMap().getSpawnCounterThreshold())
         {
+            logger.debug("reached max spawn limit");
             return;
         }
 
-        NPC n1 = NPCFactory.createNPC(1);
-        //identify which direction player is moving that we can spawn the npc:
-        MapTile tile = null;
-        switch (Game.getCurrent().getPlayerAction().getEvent().getType())
+        Random rand = new Random();
+        //TODO
+        if (rand.nextInt(100) >= Game.getCurrent().getCurrentMap().getSpawnProbabilityThreshold())
         {
-            case NORTH:
-                tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][0];
-                break;
-            case EAST:
-                tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][GameConfiguration.numberOfTiles - 1];
-                break;
-            case WEST:
-                tile = UILense.getCurrent().mapTiles[GameConfiguration.numberOfTiles - 1][MapUtils.getMiddle()];
-                break;
-            case SOUTH:
-                tile = UILense.getCurrent().mapTiles[0][MapUtils.getMiddle()];
-                break;
-            default:
-                logger.info("do nothing");
-                break;
+            NPC n1 = NPCFactory.createNPC(1);
+
+            //identify which direction player is moving that we can spawn the npc:
+            MapTile tile = null;
+            switch (Game.getCurrent().getPlayerAction().getEvent().getType())
+            {
+                case NORTH:
+                    tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][0];
+                    break;
+                case EAST:
+                    tile = UILense.getCurrent().mapTiles[MapUtils.getMiddle()][GameConfiguration.numberOfTiles - 1];
+                    break;
+                case WEST:
+                    tile = UILense.getCurrent().mapTiles[GameConfiguration.numberOfTiles - 1][MapUtils.getMiddle()];
+                    break;
+                case SOUTH:
+                    tile = UILense.getCurrent().mapTiles[0][MapUtils.getMiddle()];
+                    break;
+                default:
+                    logger.info("do nothing");
+                    break;
+            }
+            if (tile != null)
+            {
+                if (tile.isBlocked() == false)
+                {
+                    n1.setMapPosition(new Point(tile.getMapPosition().x, tile.getMapPosition().y));
+                    n1.setHostile(true);
+                    n1.setVictim(Game.getCurrent().getCurrentPlayer());
+                    Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
+                    tile.setLifeForm(n1);
+                    n1.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(n1.getMapPosition()));
+                    Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() + 1);
+                    logger.info("spawned NPC");
+                }
+            }
         }
-        if (tile != null)
-        {
-            n1.setMapPosition(new Point(tile.getMapPosition().x, tile.getMapPosition().y));
-            n1.setHostile(true);
-            n1.setVictim(Game.getCurrent().getCurrentPlayer());
-            Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
-            tile.setLifeForm(n1);
-            n1.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(n1.getMapPosition()));
-            spawned = true;
-            logger.info("spawned NPC");
-        }
+        logger.info("spawning NPC end");
     }
 }

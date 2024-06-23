@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.entities.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
@@ -31,6 +32,7 @@ import java.util.*;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class NPC extends AbstractEntity implements LifeForm
 {
     private Hashtable<String, String> mobasks;
@@ -185,13 +187,6 @@ public class NPC extends AbstractEntity implements LifeForm
         setArmorClass(0);
         getInventory().add(ItemFactory.createWeapon(ItemManager.getWeaponList().get(3).getId()));
         wieldWeapon(ItemFactory.createWeapon(ItemManager.getWeaponList().get(1).getId()));
-    }
-
-
-    @Override
-    public String toString()
-    {
-        return "NPC [id=" + id + ", mapposition=" + mapPosition + "]";
     }
 
     @Override
@@ -552,8 +547,17 @@ public class NPC extends AbstractEntity implements LifeForm
             {
                 if (item instanceof Weapon)
                 {
-                    if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+                    if (((Weapon) item).getType() != null)
                     {
+                        if (((Weapon) item).getType().equals(WeaponTypes.RANGED))
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        logger.error("how the heck?");
+                        ((Weapon) item).setType(WeaponTypes.RANGED);
                         return true;
                     }
                 }

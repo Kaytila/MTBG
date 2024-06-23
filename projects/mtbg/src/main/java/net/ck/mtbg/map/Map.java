@@ -2,6 +2,7 @@ package net.ck.mtbg.map;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
@@ -25,6 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class Map extends AbstractMap
 {
     /**
@@ -84,7 +86,19 @@ public class Map extends AbstractMap
      */
     private WeatherTypes fixedWeather;
 
+    /**
+     * List of the active missiles on the map
+     * I think this can always only be one, but lets see
+     */
     private ArrayList<Missile> missiles;
+
+    private boolean spawnMobs = true;
+
+    private int spawnProbabilityThreshold = 0;
+
+    private int spawnCounter = 0;
+
+    private int spawnCounterThreshold = 1;
 
     public Map()
     {
@@ -163,4 +177,5 @@ public class Map extends AbstractMap
                 ", missiles=" + missiles +
                 '}';
     }
+
 }

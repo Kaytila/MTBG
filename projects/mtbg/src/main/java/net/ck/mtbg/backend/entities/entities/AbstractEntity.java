@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.entities.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.animation.lifeform.AnimationSystemTimerTask;
 import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
@@ -50,6 +51,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public abstract class AbstractEntity implements LifeForm, Serializable
 {
     /**
@@ -266,11 +268,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         return this.dropItem(affectedItem);
     }
 
-
-    public String toString()
-    {
-        return (getClass().getName() + " Number: " + getId() + " Map Position: " + getMapPosition() + " UIPosition: " + getUIPosition());
-    }
 
     public boolean wearItemAtPosition(Armor armor, ArmorPositions pos)
     {
@@ -567,6 +564,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
                     try
                     {
+                        UIStateMachine.setHitAnimationRunning(true);
                         HitMissImageTimerTask task = new HitMissImageTimerTask(n);
                         TimerManager.getHitMissImageTimer().setHitMissImageTimerTask(task);
                         TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
@@ -575,6 +573,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
                         AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
                         TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
+                        UIStateMachine.setHitAnimationRunning(false);
                     }
                     catch (Exception e)
                     {

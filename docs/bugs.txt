@@ -57,4 +57,8 @@ BUGS:
 2024-01-15  drag'n'drop onto a wall works, kind of - wall does not accept it but item is gone anyawys
 2024-02-21  FIXED daynight cycle works, but light sources are currently ignored. Check in paintComponent whether this handled
 2024-04-24  for some reason furniture can be walked on. blocked should be false because of it during init.
-2024-04-24  initial implementation of bufferedLense has an edge case issue.
+2024-04-24:  initial implementation of bufferedLense has an edge case issue.
+2024-06-23: PC missiles are handled correctly, but NPC missiles are not.
+            it is actually normal that NPC missiles are drawn after PC has moved already. HitOrMiss is drawn correctly,
+            but the whole paint part (where missile starts and where it ends is currently incorrect. highlight drawing
+            is correct however.

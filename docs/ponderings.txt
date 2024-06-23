@@ -98,6 +98,8 @@ with the starting position.
 The rest is handled on NPC level.
 It would be definitely easier.
 
+
+
 on spawning
 ===========
 
@@ -110,3 +112,12 @@ In addition to that, we need to be sure we do this the right way: where does a m
 In the direction player has moved? or 90 degrees? Or 180 degrees? Or randomly?
 I guess this needs to go into game configuration.
 For now, it is kind of working, as well as it can given the circumstances. One Mob will be spawned, thats it.
+
+
+on quick travel
+===============
+
+so what I need to test now is not only in map quick travel, but also across map quick travel.
+this is going to need some more additional code.
+Also, this is going to take more time as the XML structure probably does not allow for that yet. Or does it? Will need
+to see.

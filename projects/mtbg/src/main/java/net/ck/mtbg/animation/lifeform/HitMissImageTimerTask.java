@@ -13,39 +13,40 @@ import java.util.TimerTask;
 @Log4j2
 public class HitMissImageTimerTask extends TimerTask
 {
-	private boolean running;
-	@Getter
-	@Setter
-	private LifeForm lifeForm;
+    private boolean running;
+    @Getter
+    @Setter
+    private LifeForm lifeForm;
 
-	public HitMissImageTimerTask(LifeForm n)
-	{
-		setLifeForm(n);
-		setRunning(true);
-	}
+    public HitMissImageTimerTask(LifeForm n)
+    {
+        setLifeForm(n);
+        setRunning(true);
+    }
 
-	@Override
-	public void run()
-	{
-		logger.info("HitMissImageTimerTask is running");
-		setRunning(false);
-		if (getLifeForm().getState().equals(LifeFormState.DEAD))
-		{
-			getLifeForm().setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
-		}
-		else
-		{
-			getLifeForm().setCurrImage(0);
-		}
-	}
+    @Override
+    public void run()
+    {
+        logger.info("HitMissImageTimerTask is running");
+        setRunning(false);
+        if (getLifeForm().getState().equals(LifeFormState.DEAD))
+        {
+            getLifeForm().setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
+        }
+        else
+        {
+            getLifeForm().setCurrImage(0);
+        }
+        logger.info("HitMissImageTimerTask is finished");
+    }
 
-	public synchronized boolean isRunning()
-	{
-		return running;
-	}
+    public synchronized boolean isRunning()
+    {
+        return running;
+    }
 
-	public synchronized void setRunning(boolean running)
-	{
-		this.running = running;
-	}
+    public synchronized void setRunning(boolean running)
+    {
+        this.running = running;
+    }
 }

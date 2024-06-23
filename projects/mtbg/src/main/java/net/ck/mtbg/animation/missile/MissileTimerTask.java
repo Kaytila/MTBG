@@ -1,5 +1,9 @@
 package net.ck.mtbg.animation.missile;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Synchronized;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
@@ -14,21 +18,15 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 @Log4j2
+@Getter
+@Setter
+@ToString
 public class MissileTimerTask extends TimerTask
 {
-
+    @Getter(onMethod_ = {@Synchronized})
+    @Setter(onMethod_ = {@Synchronized})
     private boolean running;
 
-
-    public synchronized boolean isRunning()
-    {
-        return running;
-    }
-
-    public synchronized void setRunning(boolean running)
-    {
-        this.running = running;
-    }
 
     @Override
     public void run()
@@ -64,7 +62,7 @@ public class MissileTimerTask extends TimerTask
     private void calculateMissile()
     {
         ArrayList<Missile> finishedMissiles = new ArrayList<>();
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
+        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().isEmpty()))
         {
             return;
         }

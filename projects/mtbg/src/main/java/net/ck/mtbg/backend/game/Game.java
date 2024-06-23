@@ -232,9 +232,11 @@ public class Game implements Runnable, Serializable
         {
             if (TimerManager.getMissileUtilTimer() != null)
             {
+                //noinspection StatementWithEmptyBody
                 while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
                 {
-
+                    //logger.debug("missile is on its way");
+                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
                 }
             }
         }
@@ -245,7 +247,8 @@ public class Game implements Runnable, Serializable
                 //noinspection StatementWithEmptyBody
                 while (TimerManager.getMissileTimer().isRunning())
                 {
-
+                    //logger.debug("missile is on its way");
+                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
                 }
             }
         }
@@ -254,13 +257,13 @@ public class Game implements Runnable, Serializable
         {
             while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
             {
-                logger.info("waiting for animation to finish");
+                //logger.debug("waiting for animation to finish");
                 ThreadController.sleep(50, ThreadNames.GAME_THREAD);
             }
         }
         //logger.info("hit animation has finished");
         TimerManager.getHitMissImageTimer().purge();
-
+        WindowBuilder.getGridCanvas().paint();
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
 
@@ -279,9 +282,6 @@ public class Game implements Runnable, Serializable
                             //logger.info("found player, continue");
                             continue;
                         }
-                        // logger.info("npc: {}", e);
-                        //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
-                        //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                         if (e.hasTwoActions())
                         {
                             logger.debug("two actions");
@@ -338,6 +338,43 @@ public class Game implements Runnable, Serializable
                     else
                     {
                         AIBehaviour.determineAction(e);
+                        //NPCs can shoot missiles as well!
+                        if (GameConfiguration.useTimerForMissiles == true)
+                        {
+                            if (TimerManager.getMissileUtilTimer() != null)
+                            {
+                                //noinspection StatementWithEmptyBody
+                                while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
+                                {
+                                    logger.debug("missile is on its way");
+                                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (TimerManager.getMissileTimer() != null)
+                            {
+                                //noinspection StatementWithEmptyBody
+                                while (TimerManager.getMissileTimer().isRunning())
+                                {
+                                    logger.debug("missile is on its way");
+                                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                                }
+                            }
+                        }
+                        // logger.info("waiting for hit animation to run");
+                        if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
+                        {
+                            while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+                            {
+                                //logger.debug("waiting for animation to finish");
+                                ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                            }
+                        }
+                        //logger.info("hit animation has finished");
+                        TimerManager.getHitMissImageTimer().purge();
+                        WindowBuilder.getGridCanvas().paint();
                         //logger.info("setting UI position: {}", e.getMapPosition());
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                     }
@@ -383,10 +420,6 @@ public class Game implements Runnable, Serializable
                 WindowBuilder.getGridCanvas().paint();
             }
         }
-
-        // logger.info("current turn number 2: {}", Game.getCurrent().getCurrentTurn().getTurnNumber());
-        // Game.getCurrent().initializeTurnTimer();
-        //logger.info("amount of brightened images: {}", ImageUtils.getBrightenedImages().size());
     }
 
     public synchronized void stopGame()
@@ -497,6 +530,7 @@ public class Game implements Runnable, Serializable
 
     public void startThreads()
     {
+        //noinspection StatementWithEmptyBody
         if (GameConfiguration.useGameThread == false)
         {
 
