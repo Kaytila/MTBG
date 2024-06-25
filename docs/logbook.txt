@@ -1098,3 +1098,7 @@ History of the changes:
 2024-06-20: Small update on world and spawning, will need some rework which is all written down in ponderings.
 2024-06-23: updated spawning to make it a bit more robust, will need to go into map actually.
             ran into a nice bug for missiles.
+2024-06-25: updated Player to have own implementation of decreaseHealth. Removed Dead check from attack as this is a
+            topic for AIbehaviour.
+            Found a bug when selecting a different target - still shooting at old target.
+            Fixed a small thing for updating delegation for evade.

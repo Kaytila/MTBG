@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
@@ -27,8 +28,10 @@ import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
+import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.utils.ImageManager;
 import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
 
@@ -573,6 +576,15 @@ public class Player extends AbstractEntity implements LifeForm
     {
 
     }
+
+    @Override
+    public void decreaseHealth(int i)
+    {
+        this.setCurrImage(ImageManager.getActionImage(ActionStates.HIT));
+        EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+    }
+
+
 
     @Override
     public boolean isStatic()

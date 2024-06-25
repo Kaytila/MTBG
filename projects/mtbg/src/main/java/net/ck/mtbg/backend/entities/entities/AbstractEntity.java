@@ -519,12 +519,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public boolean attack(MapTile tileByCoordinates)
     {
-        if (getState() == LifeFormState.DEAD)
-        {
-            logger.info("Dead");
-            return false;
-        }
-
         logger.info("Attacking");
         MapTile tile;
 
@@ -581,17 +575,24 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     }
 
                     logger.info("hitting victim: {}", n);
-
-                    if (NPCUtils.calculateHit(this, n))
+                    if (!(n.getState().equals(LifeFormState.DEAD)))
                     {
-                        logger.info("hit");
-                        n.decreaseHealth(5);
-                        EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
-                        return true;
-                    }
-                    else
+                        if (NPCUtils.calculateHit(this, n))
+                        {
+                            logger.info("hit");
+                            n.decreaseHealth(5);
+                            EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                            return true;
+                        } else
+                        {
+                            logger.info("miss");
+                            n.evade();
+                            EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
+                            return false;
+                        }
+                    } else
                     {
-                        logger.info("miss");
+                        logger.info("victim {} is dead", n);
                         n.evade();
                         EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                         return false;

@@ -2,7 +2,6 @@ package net.ck.mtbg.map;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.Missile;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
@@ -26,7 +25,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Log4j2
 @Getter
 @Setter
-@ToString
 public class Map extends AbstractMap
 {
     /**

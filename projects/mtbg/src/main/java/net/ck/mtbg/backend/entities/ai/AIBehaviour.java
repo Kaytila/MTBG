@@ -183,7 +183,7 @@ public class AIBehaviour
     {
         if ((e.getState().equals(LifeFormState.DEAD)) || (e.getState().equals(LifeFormState.UNCONSCIOUS)) || (e.getState().equals(LifeFormState.ASLEEP)))
         {
-            logger.info("NPC {}", e.getState());
+            logger.info("NPC {} is {}", e.getId(), e.getState());
             return;
         }
 
