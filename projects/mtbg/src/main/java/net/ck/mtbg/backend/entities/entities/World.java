@@ -348,6 +348,7 @@ public class World extends AbstractEntity implements LifeForm
     /**
      * spawn generator - needs to be done properly
      * So how do we want to spawn an npc?
+     * TODO add additional factors - time, place, level luck?
      */
     private void spawnNPC()
     {
@@ -359,11 +360,11 @@ public class World extends AbstractEntity implements LifeForm
         }
 
         Random rand = new Random();
-        //TODO
+
         if (rand.nextInt(100) >= Game.getCurrent().getCurrentMap().getSpawnProbabilityThreshold())
         {
             NPC n1 = NPCFactory.createNPC(1);
-
+            n1.setSpawned(true);
             //identify which direction player is moving that we can spawn the npc:
             MapTile tile = null;
             switch (Game.getCurrent().getPlayerAction().getEvent().getType())

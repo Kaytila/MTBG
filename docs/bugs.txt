@@ -61,4 +61,5 @@ BUGS:
 2024-06-23: PC missiles are handled correctly, but NPC missiles are not.
             it is actually normal that NPC missiles are drawn after PC has moved already. HitOrMiss is drawn correctly,
             but the whole paint part (where missile starts and where it ends is currently incorrect. highlight drawing
-            is correct however.
+            is correct however. Yes, it is that case.
+2024-06-26: when killing an enemy, PC will still shoot at the same target even if switching targets.

@@ -17,7 +17,7 @@ public class CodeUtils
      *
      * @param filename
      * @param removeAllExtensions
-     * @return
+     * @return string without file extensions
      */
     public static String removeFileExtension(String filename, boolean removeAllExtensions)
     {

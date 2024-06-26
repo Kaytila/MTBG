@@ -875,7 +875,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         //logger.debug("selected action: {}", action.getType());
         if (this.getCurrentAction() != null)
         {
-            logger.debug("active action: {}", this.getCurrentAction().getType());
+            //logger.debug("active action: {}", this.getCurrentAction().getType());
         }
 
         if (action.getType().equals(KeyboardActionType.MOVE))
@@ -1020,7 +1020,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     {
         if (currentAction != null)
         {
-            logger.info("setting current action: {}", currentAction.getType());
+            //logger.info("setting current action: {}", currentAction.getType());
         }
         this.currentAction = currentAction;
     }

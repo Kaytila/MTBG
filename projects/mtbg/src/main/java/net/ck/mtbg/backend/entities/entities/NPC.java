@@ -77,6 +77,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
     private AbstractKeyboardAction runningAction;
 
+
     public NPC(Integer i, Point p)
     {
         //logger.info("initialize properly");

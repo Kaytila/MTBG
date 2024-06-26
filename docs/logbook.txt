@@ -1102,3 +1102,4 @@ History of the changes:
             topic for AIbehaviour.
             Found a bug when selecting a different target - still shooting at old target.
             Fixed a small thing for updating delegation for evade.
+2024-06-26: updated NPC and map and world - there is a spawn limit now per map which is taken into consideration now.

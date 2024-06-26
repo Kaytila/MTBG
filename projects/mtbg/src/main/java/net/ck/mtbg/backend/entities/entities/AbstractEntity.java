@@ -155,6 +155,13 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     private LifeForm victim;
 
 
+    /**
+     * has the NPC been spawned?
+     */
+
+    private boolean spawned;
+
+
     public AbstractEntity()
     {
         spells = new CopyOnWriteArrayList<>();
@@ -583,14 +590,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                             n.decreaseHealth(5);
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             return true;
-                        } else
+                        }
+                        else
                         {
                             logger.info("miss");
                             n.evade();
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             return false;
                         }
-                    } else
+                    }
+                    else
                     {
                         logger.info("victim {} is dead", n);
                         n.evade();
@@ -684,7 +693,13 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setHealth(-1);
         setState(LifeFormState.DEAD);
         setHostile(false);
+
+        if (getState().equals(LifeFormState.DEAD))
+        {
+            Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() - 1);
+        }
     }
+
 
     protected boolean push(Point source)
     {
