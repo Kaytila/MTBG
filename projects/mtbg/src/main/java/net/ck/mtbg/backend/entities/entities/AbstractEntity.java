@@ -146,15 +146,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      * what skills does the entity know?
      */
     private CopyOnWriteArrayList<AbstractSkill> skills;
-
-
     /**
      * who is the victim of the hostile npc?
      * Can also be used for non-hostile in case of healing and so on
      */
     private LifeForm victim;
-
-
     /**
      * has the NPC been spawned?
      */
@@ -172,6 +168,14 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         setLevel(1);
         setCurrImage(0);
         setState(LifeFormState.ALIVE);
+    }
+
+    public void setVictim(LifeForm victim)
+    {
+        if (!(victim.getState().equals(LifeFormState.DEAD)))
+        {
+            this.victim = victim;
+        }
     }
 
     /**
@@ -526,12 +530,19 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public boolean attack(MapTile tileByCoordinates)
     {
-        logger.info("Attacking");
+        logger.info("{} attacking {}", this.getId(), tileByCoordinates.getLifeForm());
         MapTile tile;
 
         if (getVictim() != null)
         {
-            tile = MapUtils.getMapTileByCoordinatesAsPoint(getVictim().getMapPosition());
+            if (!(getVictim().getState().equals(LifeFormState.DEAD)))
+            {
+                tile = MapUtils.getMapTileByCoordinatesAsPoint(getVictim().getMapPosition());
+            }
+            else
+            {
+                tile = tileByCoordinates;
+            }
         }
         else
         {
@@ -697,6 +708,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         if (getState().equals(LifeFormState.DEAD))
         {
             Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() - 1);
+            MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setBlocked(false);
         }
     }
 

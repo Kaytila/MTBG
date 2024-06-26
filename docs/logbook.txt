@@ -1103,3 +1103,5 @@ History of the changes:
             Found a bug when selecting a different target - still shooting at old target.
             Fixed a small thing for updating delegation for evade.
 2024-06-26: updated NPC and map and world - there is a spawn limit now per map which is taken into consideration now.
+2024-06-26: updated AbstractEntity - getVictim is only used if the victim is actually still alive. Also tile has
+            precedence. Also updated decreaseHealth to unblock a tile with a dead npc.

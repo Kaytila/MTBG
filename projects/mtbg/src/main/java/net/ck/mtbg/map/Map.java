@@ -96,7 +96,7 @@ public class Map extends AbstractMap
 
     private int spawnCounter = 0;
 
-    private int spawnCounterThreshold = 0;
+    private int spawnCounterThreshold = 5;
 
     public Map()
     {
