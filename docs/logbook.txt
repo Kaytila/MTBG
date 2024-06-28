@@ -1105,3 +1105,4 @@ History of the changes:
 2024-06-26: updated NPC and map and world - there is a spawn limit now per map which is taken into consideration now.
 2024-06-26: updated AbstractEntity - getVictim is only used if the victim is actually still alive. Also tile has
             precedence. Also updated decreaseHealth to unblock a tile with a dead npc.
+2024-06-28: updated some classes to include additional log flags

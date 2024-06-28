@@ -139,7 +139,10 @@ public class UILense
                 //logger.info("new maptile calculation {}, {}, {}", row, column, mapTiles[row][column]);
             }
         }
-        long convert = TimeUnit.MICROSECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        logger.info("calculation time extended lense in microseconds: {}", convert);
+        if (GameConfiguration.debugPaint == true)
+        {
+            long convert = TimeUnit.MICROSECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+            logger.info("calculation time extended lense in microseconds: {}", convert);
+        }
     }
 }

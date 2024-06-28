@@ -1301,8 +1301,11 @@ public class MapUtils
                 }
             }
         }
-        long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        logger.info("calculation time: {}", convert);
+        if (GameConfiguration.debugPaint == true)
+        {
+            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+            logger.info("calculation time: {}", convert);
+        }
     }
 
     public static void calculateAllTileImages(Graphics graphics)
@@ -1354,9 +1357,11 @@ public class MapUtils
                 }
             }
         }
-        long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        logger.info("calculation time: {}", convert);
-
+        if (GameConfiguration.debugPaint == true)
+        {
+            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+            logger.info("calculation time: {}", convert);
+        }
     }
 
     /**

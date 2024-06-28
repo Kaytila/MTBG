@@ -31,10 +31,11 @@ public class NPCUtils
         int baseHitChance = 50;
         int attackDex = attacker.getAttributes().get(AttributeTypes.DEXTERITY).getValue();
         int defendDex = defender.getAttributes().get(AttributeTypes.DEXTERITY).getValue();
-
-        logger.info("attack dex: {}", attackDex);
-        logger.info("defendDex dex: {}", defendDex);
-
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.info("attack dex: {}", attackDex);
+            logger.info("defendDex dex: {}", defendDex);
+        }
         int diff = attackDex - defendDex;
 
         if (diff > 0)
@@ -54,8 +55,11 @@ public class NPCUtils
 
         Random rand = new Random();
         int random = rand.nextInt(100);
-        logger.info("random: {}", random);
-        logger.info("hit chance: {}", baseHitChance);
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.info("random: {}", random);
+            logger.info("hit chance: {}", baseHitChance);
+        }
         if (baseHitChance > random)
         {
             return true;
@@ -109,15 +113,24 @@ public class NPCUtils
     {
         Point sourcePoint = n.getMapPosition();
         Point targetPoint = n.getVictim().getMapPosition();
-        logger.info("source Point: {}", sourcePoint);
-        logger.info("target Point: {}", targetPoint);
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.info("source Point: {}", sourcePoint);
+            logger.info("target Point: {}", targetPoint);
+        }
         // NPC is more to the east
         if (sourcePoint.x > targetPoint.x)
         {
-            logger.info("NPC is more to the east, move west.");
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("NPC is more to the east, move west.");
+            }
             if (!(MapUtils.lookAhead(sourcePoint.x - 1, sourcePoint.y)))
             {
-                logger.info("tile to the west is free, move");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("tile to the west is free, move");
+                }
                 return new NPCAction(new WestAction());
             }
         }
@@ -125,10 +138,16 @@ public class NPCUtils
         // NPC is more to the west, move east
         if (sourcePoint.x < targetPoint.x)
         {
-            logger.info("NPC is more to the west, move east");
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("NPC is more to the west, move east");
+            }
             if (!(MapUtils.lookAhead(sourcePoint.x + 1, sourcePoint.y)))
             {
-                logger.info("Tile to the east is free, move east");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("Tile to the east is free, move east");
+                }
                 return new NPCAction(new EastAction());
             }
         }
@@ -136,10 +155,16 @@ public class NPCUtils
         // NPC is more to the south, move north
         if (sourcePoint.y > targetPoint.y)
         {
-            logger.info("npc is more to the south, move north");
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("npc is more to the south, move north");
+            }
             if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y - 1)))
             {
-                logger.info("tile to the north is free, move north");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("tile to the north is free, move north");
+                }
                 return new NPCAction(new NorthAction());
             }
         }
@@ -147,10 +172,16 @@ public class NPCUtils
         // NPC is more to the north, move south
         if (sourcePoint.y < targetPoint.y)
         {
-            logger.info("npc is more to the north, move south");
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("npc is more to the north, move south");
+            }
             if (!(MapUtils.lookAhead(sourcePoint.x, sourcePoint.y + 1)))
             {
-                logger.info("tile to the south is free, move south");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("tile to the south is free, move south");
+                }
                 return new NPCAction(new SouthAction());
             }
         }
@@ -162,10 +193,11 @@ public class NPCUtils
         //TODO
         Point sourcePoint = n.getMapPosition();
         Point targetPoint = n.getVictim().getMapPosition();
-
-        logger.info("source: {}", sourcePoint);
-        logger.info("target: {}", targetPoint);
-
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.info("source: {}", sourcePoint);
+            logger.info("target: {}", targetPoint);
+        }
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(sourcePoint), MapUtils.getMapTileByCoordinatesAsPoint(targetPoint), Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
 

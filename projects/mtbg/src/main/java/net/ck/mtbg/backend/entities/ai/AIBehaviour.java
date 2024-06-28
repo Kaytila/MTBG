@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.NPCAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
@@ -28,77 +29,88 @@ public class AIBehaviour
 {
     public static void determineCombat(LifeForm e)
     {
-        logger.info(" {} trying to attack", e);
-        //attack with melee
-        if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
+        if (MapUtils.getMapTileByCoordinatesAsPoint(e.getMapPosition()).isHidden())
         {
-            if (e.isRanged())
-            {
-                e.switchWeapon(WeaponTypes.MELEE);
-            }
-            else
-            {
-                logger.info("attacking");
-                AttackAction action = new AttackAction();
-                action.setGetWhere(e.getVictim().getMapPosition());
-                e.doAction(new NPCAction(action));
-            }
+            logger.info("e at position: {} moving towards player", e.getMapPosition());
+            e.doAction((NPCUtils.calculateVictimDirection(e)));
         }
-        //victim is not adjacent
         else
         {
-            logger.info("npc {} is out of melee range, what to do", e.getId());
-            //Weapon sling = getWeaponList().get(3);
-            //e.getItem(sling);
-            //npc has ranged weapon wielded or has one in inventory
-            if (e.isRanged())
+            if (GameConfiguration.debugNPC == true)
             {
-                logger.info("NPC {} has ranged capabilities", e.getId());
-                //wielded attack
-                if (e.getWeapon() != null)
+                logger.info(" {} trying to attack", e);
+            }
+            //attack with melee
+            if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
+            {
+                if (e.isRanged())
                 {
-                    if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
+                    e.switchWeapon(WeaponTypes.MELEE);
+                }
+                else
+                {
+                    logger.info("attacking");
+                    AttackAction action = new AttackAction();
+                    action.setGetWhere(e.getVictim().getMapPosition());
+                    e.doAction(new NPCAction(action));
+                }
+            }
+            //victim is not adjacent
+            else
+            {
+                logger.info("npc {} is out of melee range, what to do", e.getId());
+                //Weapon sling = getWeaponList().get(3);
+                //e.getItem(sling);
+                //npc has ranged weapon wielded or has one in inventory
+                if (e.isRanged())
+                {
+                    logger.info("NPC {} has ranged capabilities", e.getId());
+                    //wielded attack
+                    if (e.getWeapon() != null)
                     {
-                        if (e.getWeapon().getRange() < MapUtils.calculateMaxDistance(e.getMapPosition(), e.getVictim().getMapPosition()))
+                        if (e.getWeapon().getType().equals(WeaponTypes.RANGED))
                         {
-                            logger.info("out of range move towards victim");
-                            //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
-                            e.doAction((NPCUtils.calculateVictimDirection(e)));
+                            if (e.getWeapon().getRange() < MapUtils.calculateMaxDistance(e.getMapPosition(), e.getVictim().getMapPosition()))
+                            {
+                                logger.info("out of range move towards victim");
+                                //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
+                                e.doAction((NPCUtils.calculateVictimDirection(e)));
+                            }
+                            else
+                            {
+                                //todo check weapon range here
+                                //todo implement range check
+                                //todo implement rage on weapon
+                                logger.info("npc already wields ranged weapon, attack!");
+                                AttackAction ac = new AttackAction();
+                                ac.setGetWhere(e.getVictim().getMapPosition());
+                                NPCAction action = new NPCAction(ac);
+                                e.doAction(action);
+                            }
+                            //return;
                         }
+                        //in inventory, wield
                         else
                         {
-                            //todo check weapon range here
-                            //todo implement range check
-                            //todo implement rage on weapon
-                            logger.info("npc already wields ranged weapon, attack!");
-                            AttackAction ac = new AttackAction();
-                            ac.setGetWhere(e.getVictim().getMapPosition());
-                            NPCAction action = new NPCAction(ac);
-                            e.doAction(action);
+                            logger.info("ranged weapon in inventory");
+                            e.switchWeapon(WeaponTypes.RANGED);
+                            //return;
                         }
-                        //return;
                     }
-                    //in inventory, wield
                     else
                     {
-                        logger.info("ranged weapon in inventory");
+                        logger.info("npc {} weapon is null", e.getId());
                         e.switchWeapon(WeaponTypes.RANGED);
-                        //return;
                     }
                 }
                 else
                 {
-                    logger.info("npc {} weapon is null", e.getId());
-                    e.switchWeapon(WeaponTypes.RANGED);
+                    logger.info("out of range move towards victim");
+                    //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
+                    e.doAction((NPCUtils.calculateVictimDirection(e)));
+                    //e.moveTo(MapUtils.getTileByCoordinates(e.getVictim().getMapPosition()));
+                    //return;
                 }
-            }
-            else
-            {
-                logger.info("out of range move towards victim");
-                //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
-                e.doAction((NPCUtils.calculateVictimDirection(e)));
-                //e.moveTo(MapUtils.getTileByCoordinates(e.getVictim().getMapPosition()));
-                //return;
             }
         }
     }
@@ -183,7 +195,10 @@ public class AIBehaviour
     {
         if ((e.getState().equals(LifeFormState.DEAD)) || (e.getState().equals(LifeFormState.UNCONSCIOUS)) || (e.getState().equals(LifeFormState.ASLEEP)))
         {
-            logger.info("NPC {} is {}", e.getId(), e.getState());
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("NPC {} is {}", e.getId(), e.getState());
+            }
             return;
         }
 
@@ -194,7 +209,10 @@ public class AIBehaviour
         }
         else if (e.isPatrolling())
         {
-            logger.info("npc {} is patrolling", e.getId());
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("npc {} is patrolling", e.getId());
+            }
             AIBehaviour.determinePatrol(e);
         }
         else if (e.getRunningAction() != null)
@@ -211,12 +229,18 @@ public class AIBehaviour
         }
         else if (e.getSchedule() != null)
         {
-            logger.info("npc {} has a schedule", e.getId());
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("npc {} has a schedule", e.getId());
+            }
             AIBehaviour.runSchedule(e);
         }
         else
         {
-            logger.info("NPC {} is random", e.getId());
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("NPC {} is random", e.getId());
+            }
             AIBehaviour.determineRandom(e);
         }
     }
@@ -290,7 +314,10 @@ public class AIBehaviour
             MapTile tile = MapUtils.getClosestLightSourceInVicinity(MapUtils.getMapTileByCoordinates(e.getMapPosition()), 17, true);
             if (tile != null)
             {
-                logger.info("light source to douse");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("light source to douse");
+                }
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
                     //e.look(tile);
@@ -329,8 +356,10 @@ public class AIBehaviour
      */
     public static NPCAction wanderAround(LifeForm e, int i)
     {
-        logger.info("npc: {} is wanderer, move {}", e, i);
-
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.info("npc: {} is wanderer, move {}", e, i);
+        }
         final Range<Integer> range = Range.between(-1, 3);
 
         if (range.contains(i))
@@ -362,20 +391,29 @@ public class AIBehaviour
                     }
                     else
                     {
-                        logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "north", e.getMapPosition());
+                        }
                         return new NPCAction(new SouthAction());
                     }
                     // east
                 case 1:
                     if (rangeX.contains(e.getMapPosition().x + 1))
                     {
-                        logger.info("wander east");
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("wander east");
+                        }
                         return new NPCAction(new EastAction());
                     }
                     else
                     {
-                        logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
-                        logger.info("wander west");
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "east", e.getMapPosition());
+                            logger.info("wander west");
+                        }
                         return new NPCAction(new WestAction());
                     }
                     // south
@@ -386,7 +424,10 @@ public class AIBehaviour
                     }
                     else
                     {
-                        logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "south", e.getMapPosition());
+                        }
                         return new NPCAction(new NorthAction());
                     }
                     // west
@@ -397,11 +438,17 @@ public class AIBehaviour
                     }
                     else
                     {
-                        logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("npc {} at border of box {}, mapposition: {}", e, "west", e.getMapPosition());
+                        }
                         return new NPCAction(new EastAction());
                     }
                 default:
-                    logger.info("npc {} spaces out", e);
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("npc {} spaces out", e);
+                    }
                     return new NPCAction(new SpaceAction());
             }
         }

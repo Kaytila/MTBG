@@ -27,7 +27,7 @@ public class HitMissImageTimerTask extends TimerTask
     @Override
     public void run()
     {
-        logger.info("HitMissImageTimerTask is running");
+        //logger.info("HitMissImageTimerTask is running");
         setRunning(false);
         if (getLifeForm().getState().equals(LifeFormState.DEAD))
         {
@@ -37,7 +37,7 @@ public class HitMissImageTimerTask extends TimerTask
         {
             getLifeForm().setCurrImage(0);
         }
-        logger.info("HitMissImageTimerTask is finished");
+        //logger.info("HitMissImageTimerTask is finished");
     }
 
     public synchronized boolean isRunning()

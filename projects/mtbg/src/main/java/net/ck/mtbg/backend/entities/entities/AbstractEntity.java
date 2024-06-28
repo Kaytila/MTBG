@@ -530,7 +530,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public boolean attack(MapTile tileByCoordinates)
     {
-        logger.info("{} attacking {}", this.getId(), tileByCoordinates.getLifeForm());
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.info("{} attacking {}", this.getId(), tileByCoordinates.getLifeForm());
+        }
         MapTile tile;
 
         if (getVictim() != null)
@@ -556,8 +559,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             if (tile.getLifeForm() != null)
             {
                 LifeForm n = tile.getLifeForm();
-                logger.info("we found the tile {}, its the victims: {}", tile, n);
-
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("we found the tile {}, its the victims: {}", tile, n);
+                }
                 if (getWeapon() == null)
                 {
                     setWeapon(ItemManager.getWeaponList().get(1));
@@ -568,7 +573,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
                 if (getWeapon().getType().equals(WeaponTypes.RANGED))
                 {
-                    logger.info("here at ranged attack");
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("here at ranged attack");
+                    }
                     Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
                     Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
                     Missile m = new Missile(sourcePosition, targetPosition);
@@ -592,19 +600,28 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         e.printStackTrace();
                     }
 
-                    logger.info("hitting victim: {}", n);
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("hitting victim: {}", n);
+                    }
                     if (!(n.getState().equals(LifeFormState.DEAD)))
                     {
                         if (NPCUtils.calculateHit(this, n))
                         {
-                            logger.info("hit");
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.info("hit");
+                            }
                             n.decreaseHealth(5);
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             return true;
                         }
                         else
                         {
-                            logger.info("miss");
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.info("miss");
+                            }
                             n.evade();
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             return false;
@@ -612,7 +629,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     }
                     else
                     {
-                        logger.info("victim {} is dead", n);
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("victim {} is dead", n);
+                        }
                         n.evade();
                         EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                         return false;
@@ -620,18 +640,26 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 }
                 else
                 {
-                    logger.info("meleee");
-
-                    logger.info("hitting victim: {}", n);
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("melee");
+                        logger.info("hitting victim: {}", n);
+                    }
                     if (NPCUtils.calculateHit(this, n))
                     {
-                        logger.info("hit");
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("hit");
+                        }
                         n.decreaseHealth(5);
                         return true;
                     }
                     else
                     {
-                        logger.info("miss");
+                        if (GameConfiguration.debugNPC == true)
+                        {
+                            logger.info("miss");
+                        }
                         n.evade();
                         return false;
                     }
@@ -639,13 +667,19 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             }
             else
             {
-                logger.debug("no lifeform on tile");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.debug("no lifeform on tile");
+                }
                 return false;
             }
         }
         else
         {
-            logger.debug("no tile");
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.debug("no tile");
+            }
             return false;
         }
     }
