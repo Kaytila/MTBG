@@ -1107,3 +1107,4 @@ History of the changes:
             precedence. Also updated decreaseHealth to unblock a tile with a dead npc.
 2024-06-28: updated some classes to include additional log flags
 2024-06-29: bugfix: mobs are not drawn if the tile is hidden
+2024-06-29: some minor code cleanup - UILense issue almost handled. Some more debug log flag and flag statements added.

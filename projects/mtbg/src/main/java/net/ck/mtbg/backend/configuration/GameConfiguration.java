@@ -47,6 +47,7 @@ public class GameConfiguration
     public static final boolean debugNPC = false;
     public static final boolean debugPaint = false;
     public static final boolean debugTime = false;
+    public static final boolean debugWorld = false;
     /**
      * describes the dex value where player will move twice
      */

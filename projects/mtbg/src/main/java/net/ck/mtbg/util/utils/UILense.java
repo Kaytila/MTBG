@@ -93,6 +93,11 @@ public class UILense
     public synchronized void identifyBufferedTiles()
     {
         long start = System.nanoTime();
+        boolean firstRow = true;
+        boolean firstColumn = true;
+        boolean lastRow = true;
+        boolean lastColumn = true;
+
         Point offSet = MapUtils.calculateUIOffsetFromMapPoint();
         for (int row = 0; row < GameConfiguration.numberOfTiles + 1; row++)
         {
@@ -102,26 +107,58 @@ public class UILense
                 int y;
                 //TODO somewhere here, there is a small issue with the edges
                 //TODO the optimazation for the edges does not work properly
-                if (column == 0)
+                if (row == 0)
                 {
-                    x = row - offSet.x - 1;
+                    if (firstRow)
+                    {
+                        x = row - offSet.x - 1;
+                        firstRow = false;
+                    }
+                    else
+                    {
+                        x = row - offSet.x;
+                    }
                 }
                 else if (column == GameConfiguration.numberOfTiles)
                 {
-                    x = row - offSet.x + 1;
+                    if (lastRow == true)
+                    {
+                        x = row - offSet.x + 1;
+                        lastRow = false;
+                    }
+                    else
+                    {
+                        x = row - offSet.x;
+                    }
                 }
                 else
                 {
                     x = row - offSet.x;
                 }
 
-                if (row == 0)
+                if (column == 0)
                 {
-                    y = column - offSet.y - 1;
+                    if (firstColumn)
+                    {
+                        y = column - offSet.y - 1;
+                        firstColumn = false;
+                    }
+                    else
+                    {
+                        y = column - offSet.y;
+                    }
                 }
                 else if (row == GameConfiguration.numberOfTiles)
                 {
-                    y = column - offSet.y + 1;
+                    if (lastColumn == true)
+                    {
+                        y = column - offSet.y + 1;
+                        lastColumn = false;
+                    }
+                    else
+                    {
+                        y = column - offSet.y;
+                    }
                 }
                 else
                 {

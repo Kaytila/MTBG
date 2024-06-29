@@ -3,6 +3,7 @@ package net.ck.mtbg.util.utils;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
@@ -47,7 +48,7 @@ public class MapUtils
 {
 
     @Getter
-    private static final int middle = (int) Math.floor(GameConfiguration.numberOfTiles / 2);
+    private static final int middle = (int) (double) (GameConfiguration.numberOfTiles / 2);
 
 
     /**
@@ -169,8 +170,18 @@ public class MapUtils
         int id;
 
         String fileName = ("maps" + File.separator + "Testmap2.xml");
-        StringBuilder contents = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<map>\r\n" + "\t<meta>\r\n" + "\t\t<weather>true</weather>\r\n" + "\t\t<weatherrandomness>10</weatherrandomness>\r\n"
-                + "\t\t<wrapping>true</wrapping>\r\n" + "\t\t<name>testname</name>\r\n" + "\t\t<parent></parent>\r\n" + "\t</meta>\r\n" + "\t<tiles>\n");
+        StringBuilder contents = new StringBuilder("""
+                <?xml version="1.0" encoding="UTF-8"?>\r
+                <map>\r
+                \t<meta>\r
+                \t\t<weather>true</weather>\r
+                \t\t<weatherrandomness>10</weatherrandomness>\r
+                \t\t<wrapping>true</wrapping>\r
+                \t\t<name>testname</name>\r
+                \t\t<parent></parent>\r
+                \t</meta>\r
+                \t<tiles>
+                """);
 
         for (int j = 0; j <= y; j++)
         {
@@ -271,6 +282,7 @@ public class MapUtils
      * return x offset - negative for left, positive for right
      * return y offset - negative for up, positive for down
      */
+    @NonNull
     public static Point calculateUIOffsetFromMapPoint()
     {
         Point mapPos = Game.getCurrent().getCurrentPlayer().getMapPosition();
@@ -289,18 +301,16 @@ public class MapUtils
      */
     public static boolean lookAhead(int x, int y)
     {
-        /*
-        long start = System.nanoTime();
-        MapTile t = getMapTileByCoordinates(x,y);
-        logger.info("time its taking: {}", System.nanoTime() - start);
-        return t.isBlocked();
-         */
-        //shorthand:
-        if (getMapTileByCoordinates(x, y) == null)
+        MapTile tile = getMapTileByCoordinates(x, y);
+        if (tile != null)
+        {
+            return tile.isBlocked();
+        }
+        else
         {
             return true;
         }
-        return getMapTileByCoordinates(x, y).isBlocked();
+
     }
 
     /**
@@ -411,7 +421,7 @@ public class MapUtils
         ultima4Map.setSyncedWeatherSystem(false);
         ultima4Map.setWeatherRandomness(10);
         ultima4Map.setSize(new Point(255, 255));
-        MapTile mapTiles[][] = new MapTile[255][255];
+        MapTile[][] mapTiles = new MapTile[255][255];
         try (CSVReader reader = new CSVReader(new FileReader("maps" + File.separator + "ultima4._Clean terrain.csv")))
         {
             List<String[]> r = reader.readAll();
@@ -502,7 +512,7 @@ public class MapUtils
         map.setSyncedWeatherSystem(false);
         map.setWeatherRandomness(10);
         map.setSize(new Point(255, 255));
-        MapTile mapTiles[][] = new MapTile[255][255];
+        MapTile[][] mapTiles = new MapTile[255][255];
         try (CSVReader reader = new CSVReader(new FileReader("maps" + File.separator + "ultima4._Clean terrain.csv")))
         {
             List<String[]> r = reader.readAll();
@@ -688,7 +698,6 @@ public class MapUtils
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         DOMSource source = new DOMSource(document);
-        StringWriter strWriter = new StringWriter(1000000);
         StreamResult result = new StreamResult(new File(fileName));
         transformer.transform(source, result);
     }
@@ -1062,52 +1071,32 @@ public class MapUtils
 
     public static Directions invertDirection(Directions sourceDir)
     {
-        switch (sourceDir)
+        return switch (sourceDir)
         {
-            case N:
-                return Directions.S;
-            case NE:
-                return Directions.SW;
-            case E:
-                return Directions.W;
-            case SE:
-                return Directions.NW;
-            case S:
-                return Directions.N;
-            case SW:
-                return Directions.NE;
-            case W:
-                return Directions.E;
-            case NW:
-                return Directions.SE;
-            default:
-                return null;
-        }
+            case N -> Directions.S;
+            case NE -> Directions.SW;
+            case E -> Directions.W;
+            case SE -> Directions.NW;
+            case S -> Directions.N;
+            case SW -> Directions.NE;
+            case W -> Directions.E;
+            case NW -> Directions.SE;
+        };
     }
 
     public static MapTile calculateTileByDirection(Point pos, Directions targetDir)
     {
-        switch (targetDir)
+        return switch (targetDir)
         {
-            case N:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x][pos.y - 1];
-            case NE:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y - 1];
-            case E:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y];
-            case SE:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y + 1];
-            case S:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x][pos.y + 1];
-            case SW:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y + 1];
-            case W:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y];
-            case NW:
-                return Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y - 1];
-            default:
-                return null;
-        }
+            case N -> Game.getCurrent().getCurrentMap().mapTiles[pos.x][pos.y - 1];
+            case NE -> Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y - 1];
+            case E -> Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y];
+            case SE -> Game.getCurrent().getCurrentMap().mapTiles[pos.x + 1][pos.y + 1];
+            case S -> Game.getCurrent().getCurrentMap().mapTiles[pos.x][pos.y + 1];
+            case SW -> Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y + 1];
+            case W -> Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y];
+            case NW -> Game.getCurrent().getCurrentMap().mapTiles[pos.x - 1][pos.y - 1];
+        };
     }
 
     public static int calculateMaxDistance(Point mapPosition, Point mapPosition1)
@@ -1138,11 +1127,7 @@ public class MapUtils
                 break;
         }
         //logger.debug("looking at x: {}, y: {}", x , y);
-        if (getMapTileByCoordinates(x, y) == null)
-        {
-            return false;
-        }
-        return true;
+        return getMapTileByCoordinates(x, y) != null;
     }
 
     public static void translateTextMaps()
@@ -1236,26 +1221,20 @@ public class MapUtils
 
     private static TileTypes mapTXTtoTerrainTypes(String s)
     {
-        switch (s)
+        return switch (s)
         {
-            case ("S"):
-                return TileTypes.STONEWALL;
-            case ("w"):
-                return TileTypes.WOODFLOOR;
-            case ("G"):
-                return TileTypes.GATECLOSED;
-            case ("D"):
-                return TileTypes.WOODDOORCLOSED;
-            case ("."):
-                return TileTypes.GRASS;
-            default:
-                return null;
-        }
+            case ("S") -> TileTypes.STONEWALL;
+            case ("w") -> TileTypes.WOODFLOOR;
+            case ("G") -> TileTypes.GATECLOSED;
+            case ("D") -> TileTypes.WOODDOORCLOSED;
+            case (".") -> TileTypes.GRASS;
+            default -> null;
+        };
     }
 
     public static void calculateVisibleTileImages(Graphics graphics)
     {
-        Long start = System.nanoTime();
+        long start = System.nanoTime();
         for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
         {
             for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
@@ -1310,7 +1289,7 @@ public class MapUtils
 
     public static void calculateAllTileImages(Graphics graphics)
     {
-        Long start = System.nanoTime();
+        long start = System.nanoTime();
 
         for (int row = 0; row < Game.getCurrent().getCurrentMap().getSize().y; row++)
         {
@@ -1367,9 +1346,9 @@ public class MapUtils
     /**
      * returns the first tile where a light source is and its burning during day, or not during the night
      *
-     * @param tile
-     * @param range
-     * @return
+     * @param tile  - the source map tile
+     * @param range - determines how big the range to check is
+     * @return the maptile closest which contains a light source
      */
     public static MapTile getClosestLightSourceInVicinity(MapTile tile, int range, boolean burning)
     {

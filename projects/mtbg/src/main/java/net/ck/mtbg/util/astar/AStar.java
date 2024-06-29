@@ -136,7 +136,10 @@ public class AStar
                 searchArea[row][col] = node;
             }
         }
-        logger.info("time taken for set nodesOLD: {}", System.nanoTime() - start);
+        if (GameConfiguration.debugASTAR == true)
+        {
+            logger.info("time taken for set nodesOLD: {}", System.nanoTime() - start);
+        }
     }
 
     public static void setBlocks(int[][] blocksArray)

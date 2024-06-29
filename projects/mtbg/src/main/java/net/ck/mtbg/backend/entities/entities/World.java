@@ -333,14 +333,14 @@ public class World extends AbstractEntity implements LifeForm
         switch (action.getTitle())
         {
             case "Bla 1":
-                logger.info("do something");
+                //logger.info("do something");
                 if (Game.getCurrent().getCurrentMap().isSpawnMobs())
                 {
                     spawnNPC();
                 }
                 break;
             default:
-                logger.info("nothing");
+                //logger.info("nothing");
                 break;
         }
     }
@@ -352,10 +352,16 @@ public class World extends AbstractEntity implements LifeForm
      */
     private void spawnNPC()
     {
-        logger.info("spawning NPC begin");
+        if (GameConfiguration.debugWorld == true)
+        {
+            logger.info("spawning NPC begin");
+        }
         if (Game.getCurrent().getCurrentMap().getSpawnCounter() >= Game.getCurrent().getCurrentMap().getSpawnCounterThreshold())
         {
-            logger.debug("reached max spawn limit");
+            if (GameConfiguration.debugWorld == true)
+            {
+                logger.debug("reached max spawn limit");
+            }
             return;
         }
 
@@ -396,10 +402,16 @@ public class World extends AbstractEntity implements LifeForm
                     tile.setLifeForm(n1);
                     n1.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(n1.getMapPosition()));
                     Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() + 1);
-                    logger.info("spawned NPC");
+                    if (GameConfiguration.debugWorld == true)
+                    {
+                        logger.info("spawned NPC");
+                    }
                 }
             }
         }
-        logger.info("spawning NPC end");
+        if (GameConfiguration.debugWorld == true)
+        {
+            logger.info("spawning NPC end");
+        }
     }
 }
