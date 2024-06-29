@@ -1106,3 +1106,4 @@ History of the changes:
 2024-06-26: updated AbstractEntity - getVictim is only used if the victim is actually still alive. Also tile has
             precedence. Also updated decreaseHealth to unblock a tile with a dead npc.
 2024-06-28: updated some classes to include additional log flags
+2024-06-29: bugfix: mobs are not drawn if the tile is hidden

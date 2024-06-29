@@ -514,7 +514,9 @@ public class JGridCanvas extends JComponent
 
                     g.drawImage(tile.getCalculatedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
 
-                    if (tile.getLifeForm() != null)
+
+                    //if tile is hidden, dont paint NPC
+                    if ((tile.getLifeForm() != null) && (!(tile.isHidden())))
                     {
                         if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
                         {
