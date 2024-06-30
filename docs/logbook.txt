@@ -1108,3 +1108,6 @@ History of the changes:
 2024-06-28: updated some classes to include additional log flags
 2024-06-29: bugfix: mobs are not drawn if the tile is hidden
 2024-06-29: some minor code cleanup - UILense issue almost handled. Some more debug log flag and flag statements added.
+2024-06-30: mini bugfix for look - will not create an error now if look is pressed and mouse is outside of the map.
+            when mouse is not moved but player moves it can be that mouse is now outside of the grid. will need to think
+            how to handle that.

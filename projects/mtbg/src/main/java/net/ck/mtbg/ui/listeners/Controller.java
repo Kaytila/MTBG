@@ -679,7 +679,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     public void onMessageEvent(AbstractKeyboardAction action)
     {
         /*
-         * make sure that only ESC is allowed to cancel crosshairs, but no other action is valid while getCurrentAction() is not empty.
+         * TODO make sure that only ESC is allowed to cancel crosshairs, but no other action is valid while getCurrentAction() is not empty.
          * TODO fix this properly
          */
 

@@ -80,6 +80,12 @@ public class ControllerDelegator
         }
     }
 
+    /**
+     * takes care of look action, both initial pressing of L and pressing L a second time
+     *
+     * @param controller the controller class
+     * @param action     keyboard action
+     */
     public static void handleKeyBoardActionLOOK(Controller controller, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
@@ -87,7 +93,16 @@ public class ControllerDelegator
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
+            if (UIStateMachine.isMouseOutsideOfGrid() == true)
+            {
+                CursorUtils.centerCursorOnPlayer();
+            }
             MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile == null)
+            {
+                CursorUtils.centerCursorOnPlayer();
+                tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            }
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
