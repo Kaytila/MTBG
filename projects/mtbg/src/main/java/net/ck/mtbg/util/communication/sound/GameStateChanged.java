@@ -16,7 +16,7 @@ public class GameStateChanged extends ChangedEvent
 
     public GameStateChanged(GameState gameState)
     {
-        logger.info("Gamestate changes: {}", gameState);
+        //logger.info("Gamestate changes: {}", gameState);
         setGameState(gameState);
     }
 }

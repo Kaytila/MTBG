@@ -1111,3 +1111,4 @@ History of the changes:
 2024-06-30: mini bugfix for look - will not create an error now if look is pressed and mouse is outside of the map.
             when mouse is not moved but player moves it can be that mouse is now outside of the grid. will need to think
             how to handle that.
+2024-07-01: mini update to AbstractEntity to set hostile to false once npc is dead.

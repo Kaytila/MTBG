@@ -743,6 +743,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         {
             Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() - 1);
             MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setBlocked(false);
+            setHostile(false);
         }
     }
 
