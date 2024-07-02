@@ -169,14 +169,7 @@ public class RunGame
             }
             //ImageManager.loadAdditionalImages();
 
-            if (progress < 100)
-            {
-                renderSplashFrame(g, 100, size);
-            }
-            else
-            {
-                renderSplashFrame(g, 100, size);
-            }
+            renderSplashFrame(g, 100, size);
 
         }
         else

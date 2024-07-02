@@ -399,8 +399,8 @@ public class CursorUtils
 
         // Rotation information
         double rotationRequired = Math.toRadians(degree);
-        double locationX = img.getWidth() / 2;
-        double locationY = img.getHeight() / 2;
+        double locationX = (double) img.getWidth() / 2;
+        double locationY = (double) img.getHeight() / 2;
         AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         Graphics2D g2d = img.createGraphics();

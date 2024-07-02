@@ -149,6 +149,7 @@ public class AIBehaviour
         if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
         {
             MoveAction action = new MoveAction();
+            //TODO potential bug here
             action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
             //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
             e.doAction(new NPCAction(action));

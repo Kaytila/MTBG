@@ -1112,3 +1112,5 @@ History of the changes:
             when mouse is not moved but player moves it can be that mouse is now outside of the grid. will need to think
             how to handle that.
 2024-07-01: mini update to AbstractEntity to set hostile to false once npc is dead.
+2024-07-01: found the bug for a* halleluja. Its the ids of the maptiles need to be different. Just need to fix this
+            properly now.

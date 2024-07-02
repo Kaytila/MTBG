@@ -11,9 +11,8 @@ import java.awt.*;
 /**
  * https://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html#renderer
  * https://docs.oracle.com/javase/tutorial/uiswing/components/list.html#mutable
- * 
- * @author Claus
  *
+ * @author Claus
  */
 @Getter
 @Setter
@@ -21,36 +20,33 @@ import java.awt.*;
 public class InventoryPaneListCellRenderer extends JLabel implements javax.swing.ListCellRenderer<AbstractItem>
 {
 
-	public InventoryPaneListCellRenderer()
-	{
-		setOpaque(true);
-		setHorizontalAlignment(SwingConstants.LEFT);
-		setVerticalAlignment(SwingConstants.CENTER);
-	}
+    public InventoryPaneListCellRenderer()
+    {
+        setOpaque(true);
+        setHorizontalAlignment(SwingConstants.LEFT);
+        setVerticalAlignment(SwingConstants.CENTER);
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList<? extends AbstractItem> list, AbstractItem value, int index, boolean isSelected, boolean cellHasFocus)
-	{
-		if (isSelected)
-		{
-			setBackground(list.getSelectionBackground());
-			setForeground(list.getSelectionForeground());
-		}
-		else
-		{
-			setBackground(list.getBackground());
-			setForeground(list.getForeground());
-		}
+    @Override
+    public Component getListCellRendererComponent(JList<? extends AbstractItem> list, AbstractItem value, int index, boolean isSelected, boolean cellHasFocus)
+    {
+        if (isSelected)
+        {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        }
+        else
+        {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
 
-		// Set the icon and text. If icon was null, say so.
-		ImageIcon icon = new ImageIcon(value.getItemImage());
-		String text = value.getName();
-		setIcon(icon);
-		if (icon != null)
-		{
-			setText(text);
-			setFont(list.getFont());
-		}
-		return this;
-	}
+        // Set the icon and text. If icon was null, say so.
+        ImageIcon icon = new ImageIcon(value.getItemImage());
+        String text = value.getName();
+        setIcon(icon);
+        setText(text);
+        setFont(list.getFont());
+        return this;
+    }
 }

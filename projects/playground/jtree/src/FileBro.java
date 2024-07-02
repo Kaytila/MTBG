@@ -130,6 +130,7 @@ class FileBrowser
                 }
                 catch (Exception weTried)
                 {
+                    weTried.printStackTrace();
                 }
                 JFrame f = new JFrame(APP_TITLE);
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -148,6 +149,7 @@ class FileBrowser
                 }
                 catch (Exception weTried)
                 {
+                    weTried.printStackTrace();
                 }
 
                 f.pack();

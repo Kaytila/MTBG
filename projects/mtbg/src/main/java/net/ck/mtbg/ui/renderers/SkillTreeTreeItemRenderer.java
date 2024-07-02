@@ -42,10 +42,7 @@ public class SkillTreeTreeItemRenderer extends JLabel implements TreeCellRendere
             if (skill.getMenuImage() != null)
             {
                 ImageIcon icon = new ImageIcon(skill.getMenuImage());
-                if (icon != null)
-                {
-                    label.setIcon(icon);
-                }
+                label.setIcon(icon);
             }
             label.setText(((AbstractSkill) value).getName());
         }

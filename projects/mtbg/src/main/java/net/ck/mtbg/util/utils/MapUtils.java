@@ -1152,12 +1152,13 @@ public class MapUtils
                     map.setName(file.getName());
                     try
                     {
+                        int id = 0;
                         BufferedReader reader = new BufferedReader(new FileReader(GameConfiguration.txtMapRootFilePath + File.separator + file.getName()));
                         String line = reader.readLine();
                         int lineIndex = 0;
                         while (line != null)
                         {
-                            parseMapLine(map, line, lineIndex, mapTiles);
+                            id = parseMapLine(map, line, lineIndex, mapTiles, id);
                             lineIndex++;
                             line = reader.readLine();
                         }
@@ -1205,18 +1206,22 @@ public class MapUtils
         return tileArray;
     }
 
-    public static void parseMapLine(Map map, String line, int lineIndex, ArrayList<MapTile> tiles)
+    public static int parseMapLine(Map map, String line, int lineIndex, ArrayList<MapTile> tiles, int id)
     {
         AtomicInteger rowIndex = new AtomicInteger();
+        AtomicInteger ide = new AtomicInteger(id);
         line.chars().forEach(c ->
         {
+
             MapTile tile = new MapTile();
             tile.setY(lineIndex);
             tile.setX(rowIndex.getAndIncrement());
+            tile.setId(ide.getAndIncrement());
             tile.setMapPosition(new Point(tile.getX(), tile.getY()));
             tile.setType(mapTXTtoTerrainTypes((String.valueOf((char) c))));
             tiles.add(tile);
         });
+        return ide.intValue();
     }
 
     private static TileTypes mapTXTtoTerrainTypes(String s)

@@ -44,7 +44,7 @@ public class GameConfiguration
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
     public static final boolean debugMapPosition = false;
-    public static final boolean debugNPC = false;
+    public static final boolean debugNPC = true;
     public static final boolean debugPaint = false;
     public static final boolean debugTime = false;
     public static final boolean debugWorld = false;

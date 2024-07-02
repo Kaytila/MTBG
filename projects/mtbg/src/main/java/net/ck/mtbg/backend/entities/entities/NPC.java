@@ -188,6 +188,10 @@ public class NPC extends AbstractEntity implements LifeForm
         setArmorClass(0);
         getInventory().add(ItemFactory.createWeapon(ItemManager.getWeaponList().get(3).getId()));
         wieldWeapon(ItemFactory.createWeapon(ItemManager.getWeaponList().get(1).getId()));
+        if (getTargetMapPosition() != null)
+        {
+            setPatrolling(true);
+        }
     }
 
     @Override

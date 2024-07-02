@@ -129,7 +129,12 @@ public class MapXMLReader extends DefaultHandler
 
                 NPC npc = NPCFactory.createNPC(n.getId());
                 npc.setMapPosition(new Point(n.getMapPosition().x, n.getMapPosition().y));
-                npc.setOriginalMapPosition(new Point(npc.getMapPosition().x, npc.getMapPosition().y));
+                npc.setOriginalMapPosition(new Point(n.getMapPosition().x, n.getMapPosition().y));
+                if (n.getTargetMapPosition() != null)
+                {
+                    npc.setTargetMapPosition(new Point(n.getTargetMapPosition().x, n.getTargetMapPosition().y));
+                    npc.setPatrolling(true);
+                }
                 gameMap.getLifeForms().add(npc);
                 gameMap.mapTiles[npc.getMapPosition().x][npc.getMapPosition().y].setLifeForm(npc);
             }
@@ -278,6 +283,7 @@ public class MapXMLReader extends DefaultHandler
                     }
                 }
                 break;
+            //TODO bug here
             case "x":
                 if (exit)
                 {
@@ -398,6 +404,7 @@ public class MapXMLReader extends DefaultHandler
             case "targetPosition":
                 np.setTargetMapPosition(mapPos);
                 np.setOriginalMapPosition(new Point(mapPos.x, mapPos.y));
+                np.setPatrolling(true);
                 break;
             case "furniture":
                 furnitureItem = ItemFactory.createFurniture(Integer.parseInt(data.toString()));
