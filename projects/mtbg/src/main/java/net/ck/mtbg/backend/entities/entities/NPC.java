@@ -55,6 +55,17 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     private Point originalMapPosition;
 
+    public Point getOriginalTargetMapPosition()
+    {
+        return originalTargetMapPosition;
+    }
+
+    public void setOriginalTargetMapPosition(Point originalTargetMapPosition)
+    {
+        logger.debug("changing setOriginalTargetMapPosition to: {} ", originalTargetMapPosition);
+        this.originalTargetMapPosition = originalTargetMapPosition;
+    }
+
     /**
      * the original target map position
      */
@@ -142,7 +153,7 @@ public class NPC extends AbstractEntity implements LifeForm
         this.setPatrolling(patrolling);
         this.setLightSource(lightSource);
         this.setLevel(level);
-        //this.setMapPosition(mapPosition);
+        this.setMapPosition(mapPosition);
         this.setSchedule(schedule);
         this.setAttributes(attributes);
         this.setOriginalMapPosition(originalMapPosition);
@@ -159,10 +170,7 @@ public class NPC extends AbstractEntity implements LifeForm
         this.setLightRange(lightrange);
         this.setState(state);
         this.setType(type);
-
-
         setStatic(false);
-        //setOriginalMapPosition(new Point(getMapPosition().x, getMapPosition().y));
         setQueuedActions(new CommandQueue());
         EventBus.getDefault().register(this);
 
@@ -188,10 +196,6 @@ public class NPC extends AbstractEntity implements LifeForm
         setArmorClass(0);
         getInventory().add(ItemFactory.createWeapon(ItemManager.getWeaponList().get(3).getId()));
         wieldWeapon(ItemFactory.createWeapon(ItemManager.getWeaponList().get(1).getId()));
-        if (getTargetMapPosition() != null)
-        {
-            setPatrolling(true);
-        }
     }
 
     @Override
@@ -672,7 +676,7 @@ public class NPC extends AbstractEntity implements LifeForm
             {
                 //logger.info("target can be reached");
                 //return true;
-                doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
+                doAction(new PlayerAction(getQueuedActions().poll()));
             }
         }
         return false;

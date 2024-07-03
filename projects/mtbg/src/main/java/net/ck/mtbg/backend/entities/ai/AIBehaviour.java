@@ -138,6 +138,13 @@ public class AIBehaviour
 
     public static void determinePatrol(LifeForm e)
     {
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug("NPC map position: {}", e.getMapPosition());
+            logger.debug("NPC original map position: {}", e.getOriginalMapPosition());
+            logger.debug("NPC target position: {}", e.getTargetMapPosition());
+            logger.debug("NPC original target position: {}", e.getOriginalTargetMapPosition());
+        }
         /*if (e.getQueuedActions().size() > 0)
         {
             //logger.info("action in queue: {}", npc.getQueuedActions().peek());
@@ -145,27 +152,42 @@ public class AIBehaviour
         }
         else
         {*/
-        //we have not reached the target
         if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
         {
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.debug("we have not reached the target");
+            }
             MoveAction action = new MoveAction();
             //TODO potential bug here
             action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
-            //logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+            }
             e.doAction(new NPCAction(action));
             //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
         }
         //we have reached the target
         else
         {
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("we have reached the original position, switch to original map position: {}", e.getOriginalMapPosition());
+            }
             //we have reached the original position, switch to original target
             if (e.getMapPosition().equals(e.getOriginalMapPosition()))
             {
                 e.setTargetMapPosition(e.getOriginalTargetMapPosition());
             }
+
             //we have reached the original target, switch to original position
             else
             {
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("we have reached the original target, switch to original position");
+                }
                 e.setTargetMapPosition(e.getOriginalMapPosition());
             }
         }

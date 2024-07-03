@@ -134,19 +134,19 @@ DONE finally take away the representationlayer, it adds nothing of value. <-- do
 DONE start again tests, lets see how much ui dependency we have <-- done
 
 done take all image references out of the classes and exchange them by ints which point to the image in an image list.
-todo for today: check whether we have one club on the map, or several. do we need to have only one item of
+for today: check whether we have one club on the map, or several. do we need to have only one item of
             todo: a kind? if the item is stateless, then yes. If not, then hmmmm.
 
-TODO - get a city map and convert it, or re-create one - with a few npcs and furniture and so on for testing.
-TODO - create a test case for talking
-TODO - create a fix framework for passing a turn during a test. best write this down as method only.
-TODO - test foreground animation, let it snow
-TODO - do some more battle tests
-TODO - implement fleeing for NPCS
-TODO - remove last image references from equipment and attributes
+ - get a city map and convert it, or re-create one - with a few npcs and furniture and so on for testing.
+- create a test case for talking
+ - create a fix framework for passing a turn during a test. best write this down as method only.
+ - test foreground animation, let it snow
+ - do some more battle tests
+ - implement fleeing for NPCS
+ - remove last image references from equipment and attributes
 
-TODO separate sound effects and music manager from player
-todo properly annotate sound effects
+separate sound effects and music manager from player
+properly annotate sound effects
 
 
 s of the Java 2 platform v1.2, this class was retrofitted to implement the Map interface,

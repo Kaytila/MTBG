@@ -2422,12 +2422,10 @@
         <npc>
             <id>1</id>
             <mapPosition>
-                <x>8</x>
-                <y>17</y>
+                8,17
             </mapPosition>
             <targetPosition>
-                <x>12</x>
-                <y>17</y>
+                11,17
             </targetPosition>
         </npc>
     </npcs>

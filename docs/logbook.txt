@@ -1114,3 +1114,6 @@ History of the changes:
 2024-07-01: mini update to AbstractEntity to set hostile to false once npc is dead.
 2024-07-01: found the bug for a* halleluja. Its the ids of the maptiles need to be different. Just need to fix this
             properly now.
+2024-07-02: mini update for MapXMLReader - there is a bug there for the map position
+2024-07-03: updated mapxmlreader - x and y are removed for npcs and string is loaded. Patrolling is working one way
+            at least, but not the way back. Not sure why yet.

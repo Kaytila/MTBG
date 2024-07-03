@@ -75316,29 +75316,25 @@
         <npc>
             <id>1</id>
             <mapPosition>
-                <x>3</x>
-                <y>3</y>
+                3,3
             </mapPosition>
         </npc>
         <npc>
             <id>2</id>
             <mapPosition>
-                <x>15</x>
-                <y>10</y>
+                15,10
             </mapPosition>
         </npc>
         <npc>
             <id>3</id>
             <mapPosition>
-                <x>5</x>
-                <y>0</y>
+                5,0
             </mapPosition>
         </npc>
         <npc>
             <id>4</id>
             <mapPosition>
-                <x>9</x>
-                <y>1</y>
+                9,1
             </mapPosition>
         </npc>
         <!--

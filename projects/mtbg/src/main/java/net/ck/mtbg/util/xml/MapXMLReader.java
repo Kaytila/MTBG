@@ -133,6 +133,7 @@ public class MapXMLReader extends DefaultHandler
                 if (n.getTargetMapPosition() != null)
                 {
                     npc.setTargetMapPosition(new Point(n.getTargetMapPosition().x, n.getTargetMapPosition().y));
+                    npc.setOriginalTargetMapPosition(new Point(n.getOriginalTargetMapPosition().x, n.getOriginalTargetMapPosition().y));
                     npc.setPatrolling(true);
                 }
                 gameMap.getLifeForms().add(npc);
@@ -282,20 +283,12 @@ public class MapXMLReader extends DefaultHandler
                         maptile.setType(TileTypes.valueOf(str));
                     }
                 }
+
                 break;
-            //TODO bug here
             case "x":
                 if (exit)
                 {
                     exitPos.x = Integer.parseInt(data.toString());
-                }
-                else if (npc)
-                {
-                    mapPos.x = Integer.parseInt(data.toString());
-                }
-                else if (targetPosition)
-                {
-                    targetPos.x = Integer.parseInt(data.toString());
                 }
                 else
                 {
@@ -306,14 +299,6 @@ public class MapXMLReader extends DefaultHandler
                 if (exit)
                 {
                     exitPos.y = Integer.parseInt(data.toString());
-                }
-                else if (npc)
-                {
-                    mapPos.y = Integer.parseInt(data.toString());
-                }
-                else if (targetPosition)
-                {
-                    targetPos.y = Integer.parseInt(data.toString());
                 }
                 else
                 {
@@ -399,12 +384,19 @@ public class MapXMLReader extends DefaultHandler
                 msg = false;
                 break;
             case "mapPosition":
-                np.setMapPosition(mapPos);
+                String ma = data.toString();
+                String[] mas = ma.split(",");
+                np.setMapPosition(new Point(Integer.parseInt(mas[0].replaceAll("\\s+", "")), Integer.parseInt(mas[1].replaceAll("\\s+", ""))));
+                np.setOriginalMapPosition(new Point(np.getMapPosition().x, np.getMapPosition().y));
+                mapPosition = false;
                 break;
             case "targetPosition":
-                np.setTargetMapPosition(mapPos);
-                np.setOriginalMapPosition(new Point(mapPos.x, mapPos.y));
+                ma = data.toString();
+                mas = ma.split(",");
+                np.setTargetMapPosition(new Point(Integer.parseInt(mas[0].replaceAll("\\s+", "")), Integer.parseInt(mas[1].replaceAll("\\s+", ""))));
+                np.setOriginalTargetMapPosition(new Point(Integer.parseInt(mas[0].replaceAll("\\s+", "")), Integer.parseInt(mas[1].replaceAll("\\s+", ""))));
                 np.setPatrolling(true);
+                targetPosition = false;
                 break;
             case "furniture":
                 furnitureItem = ItemFactory.createFurniture(Integer.parseInt(data.toString()));
