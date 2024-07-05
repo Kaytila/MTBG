@@ -54,40 +54,23 @@ public class NPC extends AbstractEntity implements LifeForm
      * original position on the map - remember the placement that the npc does not wander off too much
      */
     private Point originalMapPosition;
-
-    public Point getOriginalTargetMapPosition()
-    {
-        return originalTargetMapPosition;
-    }
-
-    public void setOriginalTargetMapPosition(Point originalTargetMapPosition)
-    {
-        logger.debug("changing setOriginalTargetMapPosition to: {} ", originalTargetMapPosition);
-        this.originalTargetMapPosition = originalTargetMapPosition;
-    }
-
     /**
      * the original target map position
      */
     private Point originalTargetMapPosition;
-
     /**
      * the current target map position
      */
     private Point targetMapPosition;
-
     /**
      * is the npc patrolling between two fix points
      */
     private boolean patrolling;
-
     /**
      * does the NPC have a full schedule?
      */
     private Schedule schedule;
-
     private AbstractKeyboardAction runningAction;
-
 
     public NPC(Integer i, Point p)
     {
@@ -137,6 +120,7 @@ public class NPC extends AbstractEntity implements LifeForm
         EventBus.getDefault().register(this);
 
     }
+
 
     public NPC(NPC that)
     {
@@ -196,6 +180,17 @@ public class NPC extends AbstractEntity implements LifeForm
         setArmorClass(0);
         getInventory().add(ItemFactory.createWeapon(ItemManager.getWeaponList().get(3).getId()));
         wieldWeapon(ItemFactory.createWeapon(ItemManager.getWeaponList().get(1).getId()));
+    }
+
+    public Point getOriginalTargetMapPosition()
+    {
+        return originalTargetMapPosition;
+    }
+
+    public void setOriginalTargetMapPosition(Point originalTargetMapPosition)
+    {
+        logger.debug("changing setOriginalTargetMapPosition to: {} ", originalTargetMapPosition);
+        this.originalTargetMapPosition = originalTargetMapPosition;
     }
 
     @Override
@@ -642,6 +637,7 @@ public class NPC extends AbstractEntity implements LifeForm
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
+        //TODO here is a bug - the path is correct, this implementation however is not.
         for (MapTile node : path)
         {
             if (node.getMapPosition().equals(getMapPosition()))
@@ -653,28 +649,47 @@ public class NPC extends AbstractEntity implements LifeForm
                 //logger.info(node);
                 if (node.x > futureMapPosition.x)
                 {
+                    if (GameConfiguration.debugASTAR == true)
+                    {
+                        logger.debug("adding east action");
+                    }
                     getQueuedActions().addEntry(new EastAction());
                     futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
                 }
                 else if (node.x < futureMapPosition.x)
                 {
+                    if (GameConfiguration.debugASTAR == true)
+                    {
+                        logger.debug("adding west action");
+                    }
                     getQueuedActions().addEntry(new WestAction());
                     futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
                 }
                 else if (node.y > futureMapPosition.y)
                 {
+                    if (GameConfiguration.debugASTAR == true)
+                    {
+                        logger.debug("adding south action");
+                    }
                     getQueuedActions().addEntry(new SouthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
                 }
                 else if (node.y < futureMapPosition.y)
                 {
+                    if (GameConfiguration.debugASTAR == true)
+                    {
+                        logger.debug("adding north action");
+                    }
                     getQueuedActions().addEntry(new NorthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
                 }
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
-                //logger.info("target can be reached");
+                if (GameConfiguration.debugASTAR == true)
+                {
+                    logger.debug("target can be reached");
+                }
                 //return true;
                 doAction(new PlayerAction(getQueuedActions().poll()));
             }

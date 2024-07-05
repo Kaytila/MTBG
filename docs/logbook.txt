@@ -1117,3 +1117,5 @@ History of the changes:
 2024-07-02: mini update for MapXMLReader - there is a bug there for the map position
 2024-07-03: updated mapxmlreader - x and y are removed for npcs and string is loaded. Patrolling is working one way
             at least, but not the way back. Not sure why yet.
+2024-07-05: bugfix a* for some reason, row and column or x and y were switched. For some reason this somewhere did work.
+            Probably fixed it in MapUtils without noticing the side effects.

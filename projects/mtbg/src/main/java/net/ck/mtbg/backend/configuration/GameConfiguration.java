@@ -43,8 +43,8 @@ public class GameConfiguration
     public static final boolean debugASTAR = false;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
-    public static final boolean debugMapPosition = false;
-    public static final boolean debugNPC = true;
+    public static final boolean debugMapPosition = true;
+    public static final boolean debugNPC = false;
     public static final boolean debugPaint = false;
     public static final boolean debugTime = false;
     public static final boolean debugWorld = false;
@@ -151,7 +151,7 @@ public class GameConfiguration
     /**
      * start position on the start map
      */
-    public static final Point startPosition = new Point(12, 11);
+    public static final Point startPosition = new Point(3, 1);
     /**
      * how many nanoseconds are in a second?
      */

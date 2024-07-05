@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -19,6 +18,7 @@ import java.util.*;
  * @version 2.1, 2017-02-23
  * <p>
  * adjusted claus 2023
+ * <a href="https://github.com/marcelo-s/A-Star-Java-Implementation">https://github.com/marcelo-s/A-Star-Java-Implementation</a>
  */
 @Log4j2
 public class AStar
@@ -64,10 +64,6 @@ public class AStar
             @Override
             public int compare(MapTile node0, MapTile node1)
             {
-                if (GameConfiguration.debugASTAR == true)
-                {
-                    logger.info("node0 cost: {}, node1 cost: {}", node0.getFinalCost(), node1.getFinalCost());
-                }
                 return Integer.compare(node0.getFinalCost(), node1.getFinalCost());
             }
         });
@@ -104,33 +100,23 @@ public class AStar
         closedSet = new HashSet<>();
     }
 
-    private static void setNodes(int rows, int cols)
-    {
-        long start = System.nanoTime();
-        searchArea = new MapTile[rows][cols];
-        for (int i = 0; i < searchArea.length; i++)
-        {
-            for (int j = 0; j < searchArea[0].length; j++)
-            {
-                MapTile node = Game.getCurrent().getCurrentMap().mapTiles[j][i];
-                node.setParent(null);
-                Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
-                searchArea[j][i] = node;
-            }
-        }
-        logger.info("time taken for set nodes: {}", System.nanoTime() - start);
-    }
-
-
     private static void setNodesOld(int rows, int cols)
     {
-        long start = System.nanoTime();
+        long start;
+        if (GameConfiguration.debugASTAR == true)
+        {
+            start = System.nanoTime();
+        }
         searchArea = new MapTile[rows][cols];
         for (int row = 0; row < searchArea.length; row++)
         {
             for (int col = 0; col < searchArea[0].length; col++)
             {
-                MapTile node = MapUtils.getMapTileByCoordinates(row, col);
+                /**
+                 * why was this the other way round? when did I break this?
+                 * how did I not recognize this?
+                 */
+                MapTile node = MapUtils.getMapTileByCoordinates(col, row);
                 node.setParent(null);
                 Objects.requireNonNull(node).calculateHeuristic(getFinalNode());
                 searchArea[row][col] = node;
@@ -154,6 +140,7 @@ public class AStar
 
     public static List<MapTile> findPath()
     {
+
         long start = System.nanoTime();
         openList.add(initialNode);
         while (!isEmpty(openList))

@@ -145,53 +145,53 @@ public class AIBehaviour
             logger.debug("NPC target position: {}", e.getTargetMapPosition());
             logger.debug("NPC original target position: {}", e.getOriginalTargetMapPosition());
         }
-        /*if (e.getQueuedActions().size() > 0)
+        if (e.getQueuedActions().size() > 0)
         {
-            //logger.info("action in queue: {}", npc.getQueuedActions().peek());
+            logger.info("action in queue: {}", e.getQueuedActions().peek());
             e.doAction(new PlayerAction((AbstractKeyboardAction) e.getQueuedActions().poll()));
         }
         else
-        {*/
-        if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
         {
-            if (GameConfiguration.debugNPC == true)
+            if (!(e.getMapPosition().equals(e.getTargetMapPosition())))
             {
-                logger.debug("we have not reached the target");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.debug("we have not reached the target");
+                }
+                MoveAction action = new MoveAction();
+                //TODO potential bug here
+                action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                }
+                e.doAction(new NPCAction(action));
+                //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
             }
-            MoveAction action = new MoveAction();
-            //TODO potential bug here
-            action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
-            if (GameConfiguration.debugNPC == true)
-            {
-                logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
-            }
-            e.doAction(new NPCAction(action));
-            //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
-        }
-        //we have reached the target
-        else
-        {
-            if (GameConfiguration.debugNPC == true)
-            {
-                logger.info("we have reached the original position, switch to original map position: {}", e.getOriginalMapPosition());
-            }
-            //we have reached the original position, switch to original target
-            if (e.getMapPosition().equals(e.getOriginalMapPosition()))
-            {
-                e.setTargetMapPosition(e.getOriginalTargetMapPosition());
-            }
-
-            //we have reached the original target, switch to original position
+            //we have reached the target
             else
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("we have reached the original target, switch to original position");
+                    logger.info("we have reached the original position, switch to original map position: {}", e.getOriginalMapPosition());
                 }
-                e.setTargetMapPosition(e.getOriginalMapPosition());
+                //we have reached the original position, switch to original target
+                if (e.getMapPosition().equals(e.getOriginalMapPosition()))
+                {
+                    e.setTargetMapPosition(e.getOriginalTargetMapPosition());
+                }
+
+                //we have reached the original target, switch to original position
+                else
+                {
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("we have reached the original target, switch to original position");
+                    }
+                    e.setTargetMapPosition(e.getOriginalMapPosition());
+                }
             }
         }
-        //}
     }
 
     public static void determineMove(LifeForm e)

@@ -2411,17 +2411,4 @@
             <y>19</y>
         </tile>
     </tiles>
-
-    <npcs>
-        <npc>
-            <id>1</id>
-            <mapPosition>
-                8,17
-            </mapPosition>
-            <targetPosition>
-                11,17
-            </targetPosition>
-        </npc>
-    </npcs>
-
 </map>

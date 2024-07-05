@@ -40,8 +40,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
     public int g;
     // Hardcoded heuristic
     public int h;
-
-
     /**
      * what things are piled on the tile?
      */
@@ -67,68 +65,55 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * this is the tile the exit leads to
      */
     private int targetID;
-
     /**
      * id is just the ID of the maptile, so we have three ways to find a tile:
      * by ID, by listPosition, by coordinates
      */
     private int id;
-
     /**
      * describes the position on the map in x and y coordinates
      * currently also have x and y as separate attributes, not sure yet which to use
      */
     private Point mapPosition;
-
     /**
      * what type is the tile?
      */
     private TileTypes type;
-
     /**
      * furniture - items you can take, furniture you can only see
      */
     private FurnitureItem furniture;
-
     /**
      * is the tile currently hidden from view? If so, dont allow it to be selected.
      */
     private boolean hidden;
-
     /**
      * there can only be one lifeform on the tile, either player or an npc
      * move the npc to here instead of iterating over all npcs on the map
      * for drawing. for calculating what they are doing keep using getCurrentMap().getLifeForms()
      */
     private LifeForm lifeForm;
-
-
     /**
      * how bright is the tile?
      */
     private int brightenFactor;
-
     /**
      * this is the brightened image that is calculated
      */
     private BufferedImage brightenedImage;
-
     /**
      * the target coordinates of the exit
      * might be better wrapped in a separate object
      */
     private Point targetCoordinates;
-
     /**
      * this is the message being displayed for ENTER/LEAVE
      */
     private Message message;
-
     /**
      * image pre-calculated for the maptile
      */
     private BufferedImage calculatedImage;
-
 
     public MapTile()
     {
@@ -138,6 +123,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         this.h = 1;
     }
 
+
     public MapTile(int i, int j)
     {
         setX(i);
@@ -145,7 +131,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         inventory = new Inventory();
         //setBlocked(false);
     }
-
 
     public int getX()
     {
@@ -195,10 +180,10 @@ public class MapTile implements Comparable<MapTile>, Serializable
     {
         return switch (getType())
         {
-            case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST ->
-                    blocked;
-            case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL, WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST ->
-                    true;
+            case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD,
+                 WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST -> blocked;
+            case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL,
+                 WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST -> true;
             default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
         };
     }
@@ -310,6 +295,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         }
         return false;
     }
+
 
     private void calculateFinalCost()
     {
