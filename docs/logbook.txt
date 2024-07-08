@@ -1119,3 +1119,9 @@ History of the changes:
             at least, but not the way back. Not sure why yet.
 2024-07-05: bugfix a* for some reason, row and column or x and y were switched. For some reason this somewhere did work.
             Probably fixed it in MapUtils without noticing the side effects.
+2024-07-08: parameterized game startup and extracted actual game startup method in order to have a better starting
+            point for launching a headless game for tests.
+            Removed two now incorrect bug todos from NPC and AIBehaviour.
+            Updated BattleTest and TestGameSetup to reference Game.getCurrent() instead of initializing Game in a
+            separate setup.
+            Now I need to find out how to run the tests from within Grade.

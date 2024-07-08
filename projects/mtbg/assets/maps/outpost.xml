@@ -1209,6 +1209,12 @@
             <type>GATECLOSED</type>
             <x>9</x>
             <y>19</y>
+            <exit>
+                <targetCoordinates>
+                    <x>1</x>
+                    <y>1</y>
+                </targetCoordinates>
+            </exit>
         </tile>
         <tile>
             <id>10</id>

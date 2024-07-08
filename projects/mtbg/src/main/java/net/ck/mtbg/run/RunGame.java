@@ -45,6 +45,11 @@ public class RunGame
     //https://stackoverflow.com/questions/29290178/gui-has-to-wait-until-splashscreen-finishes-executing
     public static void main(String[] args)
     {
+        RunGame.startGame(true);
+    }
+
+    public static void startGame(boolean startTitle)
+    {
         logger.info("starting game");
 
         Dimension size = SplashScreen.getSplashScreen().getSize();
@@ -183,9 +188,14 @@ public class RunGame
             splash.close();
         }
 
-        openTitleScreen();
-
-        //openCharacterEditor();
+        if (startTitle == true)
+        {
+            openTitleScreen();
+        }
+        else
+        {
+            GameUtils.initializeRest();
+        }
     }
 
 

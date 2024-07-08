@@ -159,7 +159,7 @@ public class AIBehaviour
                     logger.debug("we have not reached the target");
                 }
                 MoveAction action = new MoveAction();
-                //TODO potential bug here
+
                 action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
                 if (GameConfiguration.debugNPC == true)
                 {

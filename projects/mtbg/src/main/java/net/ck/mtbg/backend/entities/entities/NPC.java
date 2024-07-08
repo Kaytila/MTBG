@@ -637,7 +637,6 @@ public class NPC extends AbstractEntity implements LifeForm
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
-        //TODO here is a bug - the path is correct, this implementation however is not.
         for (MapTile node : path)
         {
             if (node.getMapPosition().equals(getMapPosition()))
