@@ -126,28 +126,6 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         {
             logger.info("Debug");
             TimerManager.getIdleTimer().stop();
-            /* MusicPlayerJavaFX musicPlayerJavaFX = null;
-            try
-            {
-                musicPlayerJavaFX = new MusicPlayerJavaFX();
-            } catch (InterruptedException ex)
-            {
-                throw new RuntimeException(ex);
-            } catch (InvocationTargetException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-            musicPlayerJavaFX.play();
-            */
-
-            /*if (Game.getCurrent().retractTurn() == 0)
-            {
-                WindowBuilder.getUndoButton().setEnabled(false);
-            }
-            else
-            {
-                WindowBuilder.getUndoButton().setEnabled(true);
-            }*/
         }
 
         if (e.getActionCommand().equalsIgnoreCase("Cancel"))

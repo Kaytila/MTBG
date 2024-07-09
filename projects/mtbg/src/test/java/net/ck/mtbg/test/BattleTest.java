@@ -105,6 +105,4 @@ public class BattleTest
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
         Game.getCurrent().getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
     }
-
-
 }

@@ -1130,3 +1130,4 @@ History of the changes:
             Now I need to find out how to run the tests from within Grade.
 2024-07-09: updates AIBehaviour to use debug statements properly.
             extracted helper method to check for state of life form.
+2024-07-09: mini update to make all the tests to use the proper initialisation.
