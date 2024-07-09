@@ -23,11 +23,14 @@ import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
 import net.ck.mtbg.util.utils.MapUtils;
+import net.ck.mtbg.util.utils.NPCUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Objects;
 
 @Log4j2
 @Getter
@@ -182,14 +185,13 @@ public class NPC extends AbstractEntity implements LifeForm
         wieldWeapon(ItemFactory.createWeapon(ItemManager.getWeaponList().get(1).getId()));
     }
 
-    public Point getOriginalTargetMapPosition()
-    {
-        return originalTargetMapPosition;
-    }
-
     public void setOriginalTargetMapPosition(Point originalTargetMapPosition)
     {
-        logger.debug("changing setOriginalTargetMapPosition to: {} ", originalTargetMapPosition);
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug("changing setOriginalTargetMapPosition to: {} ", originalTargetMapPosition);
+        }
+
         this.originalTargetMapPosition = originalTargetMapPosition;
     }
 
@@ -222,23 +224,11 @@ public class NPC extends AbstractEntity implements LifeForm
         return false;
     }
 
-    private String toString(Collection<?> collection)
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        int i = 0;
-        for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < 2; i++)
-        {
-            if (i > 0)
-            {
-                builder.append(", ");
-            }
-            builder.append(iterator.next());
-        }
-        builder.append("]");
-        return builder.toString();
-    }
-
+    /**
+     * we can only use initialize for programmatically adding NPCs to a map.
+     * This might be due to spawning, but also due for tests.
+     * Will need to check how this works best
+     */
     public void initialize()
     {
         setStatic(false);
@@ -351,14 +341,14 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     public void doAction(AbstractAction action)
     {
+        if (NPCUtils.isActive(this) == false)
+        {
+            return;
+        }
+
         if (GameConfiguration.debugNPC == true)
         {
             logger.info("do action: {}", action.toString());
-        }
-        if (getState() == LifeFormState.DEAD)
-        {
-            logger.info("npc dead");
-            return;
         }
 
         Point p = getMapPosition();

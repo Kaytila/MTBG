@@ -7,6 +7,7 @@ import net.ck.mtbg.backend.actions.NPCAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Armor;
@@ -18,7 +19,6 @@ import org.apache.commons.lang3.Range;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 @Getter
@@ -33,8 +33,8 @@ public class NPCUtils
         int defendDex = defender.getAttributes().get(AttributeTypes.DEXTERITY).getValue();
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("attack dex: {}", attackDex);
-            logger.info("defendDex dex: {}", defendDex);
+            logger.debug("attack dex: {}", attackDex);
+            logger.debug("defendDex dex: {}", defendDex);
         }
         int diff = attackDex - defendDex;
 
@@ -45,7 +45,8 @@ public class NPCUtils
         }
         else if (diff == 0)
         {
-            //equal
+            //equal - favor attack slightly
+            baseHitChance = baseHitChance + 5;
         }
         else
         {
@@ -57,25 +58,20 @@ public class NPCUtils
         int random = rand.nextInt(100);
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("random: {}", random);
-            logger.info("hit chance: {}", baseHitChance);
+            logger.debug("random: {}", random);
+            logger.debug("hit chance: {}", baseHitChance);
         }
-        if (baseHitChance > random)
-        {
-            return true;
-        }
-
-        return false;
+        return baseHitChance > random;
     }
 
     /**
      * damage calculation:
-     * take strength (direct value) + random weapon damage (high - low) + low)
+     * take strength (direct value) + random weapon damage ((high - low) + low)
      * in club 1d4 => rand(4 - 1) + 1. This should be correct. I hope.
      * - AC
      * equals damage. this makes strength too important, but it is good enough for now.
      */
-    public static int calculcateDamage(LifeForm attacker, LifeForm defender)
+    public static int calculateDamage(LifeForm attacker, LifeForm defender)
     {
         int attackStr = attacker.getAttributes().get(AttributeTypes.STRENGTH).getValue();
         Range<Integer> attackWeapon = attacker.getWeapon().getWeaponDamage();
@@ -195,8 +191,8 @@ public class NPCUtils
         Point targetPoint = n.getVictim().getMapPosition();
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("source: {}", sourcePoint);
-            logger.info("target: {}", targetPoint);
+            logger.debug("source: {}", sourcePoint);
+            logger.debug("target: {}", targetPoint);
         }
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(sourcePoint), MapUtils.getMapTileByCoordinatesAsPoint(targetPoint), Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
@@ -206,7 +202,7 @@ public class NPCUtils
             logger.info(node);
             if (node.getMapPosition().equals(n.getMapPosition()))
             {
-                logger.info("start node");
+                logger.debug("start node");
             }
             else
             {
@@ -235,22 +231,8 @@ public class NPCUtils
         return new NPCAction(new SpaceAction());
     }
 
-
-    public static AbstractKeyboardAction calculateCoordinatesFromActionAndTile(AbstractKeyboardAction action, MapTile tile, LifeForm form)
-    {
-        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-        action.setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
-        logger.info("taget coordinates: {}", action.getTargetCoordinates());
-
-        //source
-        screenPosition = MapUtils.calculateUIPositionFromMapOffset(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(form.getMapPosition())).getMapPosition());
-        action.setSourceCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
-        logger.info("source coordinates: {}", action.getSourceCoordinates());
-        return action;
-    }
-
     /**
-     * calculate the on screen pixel position of the provided Map Point.
+     * calculate the on-screen pixel position of the provided Map Point.
      *
      * @param mapPoint - the map point
      * @return a point with screen position (NOT UI Position)
@@ -266,5 +248,24 @@ public class NPCUtils
         int Px = (Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
         int Py = (Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2);
         return new Point(Px, Py);
+    }
+
+    /**
+     * checks if the life form is not dead or unconscious or asleep
+     *
+     * @param e life form
+     * @return true if is active, false if not
+     */
+    public static boolean isActive(LifeForm e)
+    {
+        if ((e.getState().equals(LifeFormState.DEAD)) || (e.getState().equals(LifeFormState.UNCONSCIOUS)) || (e.getState().equals(LifeFormState.ASLEEP)))
+        {
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.info("NPC {} is {}", e.getId(), e.getState());
+            }
+            return false;
+        }
+        return true;
     }
 }

@@ -5,8 +5,8 @@ switched to maven
 implemented eventbus to at least show the weather images
 animation system for weather async might be working properly.
 how to do this for sync? does the code work as well?
-animating players - how could this even work? Does the thread know all animateable objects and just iterate over them and do the switch case?
-Getting Tiles defined properly on the screen, not as simple graph lines, but as objects whith tool tips
+animating players - how could this even work? Does the thread know all animate able objects and just iterate over them and do the switch case?
+Getting Tiles defined properly on the screen, not as simple graph lines, but as objects with tool tips
 moving the player around the screen as turn action
 moving the focus along with the player, so player stays in center
 adding sound
@@ -15,11 +15,11 @@ adding animated tiles
 
 History of the changes:
 2020-05-24: finally made log4j2 work at least in the basic version. what was wrong? I just did not read the tutorial very carefully.
-2020-05-25: just added eventbus to randomanimationsystem. will need to use this one, everything else is not feasible at all.
-2020-05-26: i was being lazy today, only added positon to player as I will need to get a position on the map somehow.
+2020-05-25: just added eventbus to random animation system. will need to use this one, everything else is not feasible at all.
+2020-05-26: i was being lazy today, only added position to player as I will need to get a position on the map somehow.
 2020-05-27: thought about game map, position and player position a bit. 
 			Added players to the Map as well. 
-			No, wait, dont need to. 
+			No, wait, do not need to.
 			stumbled over 
 			https://stackoverflow.com/questions/17916057/tile-drawing-on-canvas-based-on-file-with-ints 
 			this pretty much answers my questions and will make things easier. a lot easier.
@@ -34,12 +34,12 @@ History of the changes:
 			There are no mouse events caught, no keyboard events caught, this is interesting.
 			Threading is a huge topic of course, but it does not matter much really.
 			performance and things like that are a million years from being important.
-2021-09-16:	So the days are getting shorter and I have a little bit of more time - switched gridcanvas to swing, probably a better way to do things.
+2021-09-16:	So the days are getting shorter and I have a little bit of more time - switched grid canvas to swing, probably a better way to do things.
 			It appears I do not comprehend my setup anymore. I have a Game, the game has players, I can iterate over them, but the toString method returns zilch?
 			so lo and behold, i have made progress, basically i just take the player number, put the current image into a list on the canvas, so there is only
 			one active image per player on the canvas, if that changes in the animation code, message is sent, canvas is redrawn completely.
 			It appears the JPanel is better suited and less flashy.
-			So, now its really off to keyboard control isnt it?
+			So, now its really off to keyboard control is it not?
 			https://docs.oracle.com/javase/tutorial/uiswing/misc/keybinding.html
 			OK, so the gridcanvas has focus
 2021-12-30:	Adding a border to check the focus of the grid canvas, will need to calculcate grid and grid sizes somehow soon
@@ -114,10 +114,10 @@ History of the changes:
 			But that is to do. Still need to ask someone as to how the build order for a swing UI should actually be,
 			or perhaps what to use for stuff like this anyhow. AWT is out, SWT is also out. JavaFX is ... weird.
 			So on a positive note, I have learned a few things how not to do it for now.
-			Added Minimal cursor change for the mouse and added mouselisteners and mousemove listeners.
+			Added Minimal cursor change for the mouse and added mouse listeners and mouse move listeners.
 			To do Cursor: calculate where the cursor is compared to the center of the tile the player is on.
 			Either mathematical or with if, else and then update the cursor to the correct arrow.
-			So, inital cursorDraw was a little bit too small, but in theory, everything works.
+			So, initial cursorDraw was a little bit too small, but in theory, everything works.
 			So, I can either find icons, or draw all 8 on my own, or draw one and rotate it in 45 degree steps, either 
 			from scratch in memory or write to disk, or both.
 2022-01-21:	So I have a kind of working cursor.
@@ -221,17 +221,18 @@ History of the changes:
 			but currently they are not necessary at all, as this is part of the map. Not sure actually if this is not necessary at all.
 			Need to go through the code and check where I do lazy inits and where I dont. I think I am mixing.
 2022-02-13:	tried to get android studio to run morgaelin - but ugh, this is awful. Asking Slashie for help
-			fiddled around a little bit, map calculation still had a bug where the map position was not set during parsing the xml, but afterwards when re-calculating the nesw connections.
+			fiddled around a little bit, map calculation still had a bug where the map position was not set during parsing the xml,
+			but afterwards when re-calculating the new connections.
 			how not to do it - one method for one thing.
 			implemented armor, weapons utility items in separate files and XML parsers. might be overkill but the types are different enough.
 2022-02-14:	so I have figured out that with the "background images", I have broken my own design. This is actually why I have created the TileType Class.
-			So how about refactoring? Maptile extends animatedrepresentation and loads the images on startup?
-			removed tiletype class. Added things for equipment and the like, broke map transition, somewhere? somehow?
+			So how about refactoring? Map tile extends animated representation and loads the images on startup?
+			removed tile type class. Added things for equipment and the like, broke map transition, somewhere? somehow?
 			This tells me one thing: I need test cases. automated test cases.
-			This tells me, dont do as much copy and paste.
+			This tells me, do not do as much copy and paste.
 2022-02-15:	So I implemented wearItem/WieldWeapon, removeWeapon/RemoveArmor/removeArmorPosition and Inventory. and GetItem and DropItem :D
 			All of this definitely needs more work, but currently this is good enough. Need to think about the UI anyhow - will be U6 style currently.
-			Do not think I can manage with a real paperdoll.
+			Do not think I can manage with a real paper doll.
 			So I have barged my way through some dialog code: in essence, calling super in a dialog is stupid.
 			you need to define everything on its own level.
 			But I solved the issue, opaque is the issue, this of course needs to be true, not false.
@@ -247,17 +248,18 @@ History of the changes:
 			Awesome :D
 			The fine print needs some more work (i.e. cursors, engine states and so on).
 			But this is basically the basis for Talk, attack, drop and get.
-			Next stop, equipment dialog? Or perhaps rather do a better listcellrenderer?
+			Next stop, equipment dialog? Or perhaps rather do a better list cell renderer?
 2022-02-18:	fiddling around with state - not much progress there right now.
-			refactored cursor handling and moved it all to cursorutils which basically holds the cursor state now.
+			refactored cursor handling and moved it all to cursor utils which basically holds the cursor state now.
 			Not sure how well this will work with the dialogs, but lets see how long there are dialogs.
 			So after changing cursor to 48x48 and updating the calculation a little bit, this already looks much better.
-2022-02-19:	worked a little bit on idletimer. This is off somewhere. Now its not off anymore. If I calculate the cursor in one method, this one needs to be correct :D
+2022-02-19:	worked a little bit on idle timer. This is off somewhere. Now its not off anymore. If I calculate the cursor in one method, this one needs to be correct :D
 			so how about turn? is turn something global or rather local for the map?
 			Do maps contain turns? i.e. does retract turn work on map level or on game level?
 			perhaps make both possible and test both.
-			Another thing - cursor state - best guess ist hat all cursor state is done in a separate class, not in Mainwindow.
-			This is done now, but perhaps a game state class is needed? or really a statemachine class which keeps track of all state?
+			Another thing - cursor state - best guess ist hat all cursor state is done in a separate class, not in main
+			window.
+			This is done now, but perhaps a game state class is needed? or really a state machine class which keeps track of all state?
 			UI State machine rather- but what is that? A Controller :D
 			Now when getting and mouse is outside of grid, cursor is centered on player.
 			ESC is still going somewhere somewhen, not sure about this.
@@ -316,8 +318,9 @@ History of the changes:
 			Nice little progress! :)
 2022-02-28:	so I have drag images now working, looking to properly understand how drag drop really works, more like the execution of methods.
 			based on that, i can implement getting things out of a bag again :D
-2022-03-02:	After a few fruitless days: So I do not understand how drag and drop really works. I can drag'drop stuff into the bag, but I cannot get it out again.
-			Also, I need to be able to drag'drop stuff back onto the grid out of the containers.
+2022-03-02:	After a few fruitless days: So I do not understand how drag and drop really works.
+            I can drag and drop stuff into the bag, but I cannot get it out again.
+			Also, I need to be able to drag and drop stuff back onto the grid out of the containers.
 			No idea how to do this.
 			Anyways, I solved the problem of having commands consist of keyboard and mouse events.
 			Next thing to do is drop command from inventory.
@@ -325,8 +328,8 @@ History of the changes:
 			And dropping works.
 			No drag drop dropping yet, but that is shelved for now.
 2022-03-03:	fixed the bug with drag drop where a drop removed all instances of an item from inventory but only added one to bag.
-			removeall really does that as the docs say :D
-2022-03-06:	So I implemented Talk and Talkdialog over the last few days and I am running into an XML issue with Sax2 parser.
+			remove all really does that as the docs say :D
+2022-03-06:	So I implemented Talk and talk dialog over the last few days and I am running into an XML issue with Sax2 parser.
 			I have no idea why this works for all other fields but does not work for newly added ones in both map and npc.
 			It is beyond me at the moment.
 			But that is something for another time to figure out.
@@ -1125,3 +1128,5 @@ History of the changes:
             Updated BattleTest and TestGameSetup to reference Game.getCurrent() instead of initializing Game in a
             separate setup.
             Now I need to find out how to run the tests from within Grade.
+2024-07-09: updates AIBehaviour to use debug statements properly.
+            extracted helper method to check for state of life form.
