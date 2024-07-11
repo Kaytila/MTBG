@@ -1,6 +1,9 @@
 package net.ck.mtbg.backend.time;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -10,24 +13,58 @@ import java.awt.event.ActionListener;
  * for N milliseconds, until a space, i.e. pass is being sent.
  */
 @Log4j2
+@Getter
+@Setter
 public class IdleTimer extends Timer
 {
     public IdleTimer(int delay, ActionListener listener)
     {
         super(delay, listener);
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("delay:{}, listener: {}, running: {}", delay, listener, isRunning());
+        }
     }
 
     @Override
     public void start()
     {
-        //logger.info("starting idle timer");
-        super.start();
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("starting idle timer");
+        }
+        if (isRunning() == true)
+        {
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("timer already running, dont start again");
+            }
+        }
+        else
+        {
+            super.start();
+        }
+
     }
 
     @Override
     public void stop()
     {
-        //logger.info("stopping idle timer");
-        super.stop();
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("stopping idle timer");
+        }
+        if (isRunning() == true)
+        {
+            super.stop();
+        }
+        else
+        {
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("timer already stopped, dont stop again");
+            }
+        }
+
     }
 }

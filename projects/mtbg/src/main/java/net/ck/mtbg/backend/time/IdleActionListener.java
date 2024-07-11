@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
@@ -29,14 +30,17 @@ public class IdleActionListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (UIStateMachine.getUiState().equals(UIState.OPENED))
+        //TODO do I need to keep activated as a separate state?
+        if ((UIStateMachine.getUiState().equals(UIState.OPENED)) || (UIStateMachine.getUiState().equals(UIState.ACTIVATED)))
         {
-            //logger.info("sending space");
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("sending space");
+            }
             AbstractKeyboardAction spaceAction = ActionFactory.createAction(KeyboardActionType.SPACE);
             Game.getCurrent().setPlayerAction(new PlayerAction(spaceAction));
             EventBus.getDefault().post(spaceAction);
             EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
-            //Game.getCurrent().listThreads();
         }
     }
 

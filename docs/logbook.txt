@@ -1131,3 +1131,7 @@ History of the changes:
 2024-07-09: updates AIBehaviour to use debug statements properly.
             extracted helper method to check for state of life form.
 2024-07-09: mini update to make all the tests to use the proper initialisation.
+2024-07-11: mini fix for idletimer, was not started again after de-activation. issue was in the actionlistener that had
+            a depencency on UISTATE.OPENED only. Of course this needs to work for activated again.
+            Wondering whether I need to update this to just use OPENED instead of ACTIVATED. So, game UI is not here, or
+            Game UI is here.

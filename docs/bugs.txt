@@ -63,3 +63,4 @@ BUGS:
             but the whole paint part (where missile starts and where it ends is currently incorrect. highlight drawing
             is correct however. Yes, it is that case.
 2024-06-26: when killing an enemy, PC will still shoot at the same target even if switching targets.
+2024-07-11: FIXED IdleTimer no longer works after deactivating or iconifying game.
