@@ -1,19 +1,20 @@
 package net.ck.mtbg.music;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 /**
  * music timer takes care of timing when a song will be finished if in VICTORY state.
- *
  */
+@Log4j2
+@Getter
+@Setter
 public class MusicTimer extends Timer
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * Creates a {@code Timer} and initializes both the initial delay and

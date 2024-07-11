@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.BackgroundRepresentationChanged;
 import org.greenrobot.eventbus.EventBus;
@@ -18,9 +19,8 @@ import java.util.Random;
 @Setter
 public class BackgroundAnimationSystemActionListener implements ActionListener
 {
-    private int currentBackgroundImage;
-
     private final Random rand = new Random();
+    private int currentBackgroundImage;
 
     public BackgroundAnimationSystemActionListener()
     {
@@ -32,17 +32,31 @@ public class BackgroundAnimationSystemActionListener implements ActionListener
     {
         if (Game.getCurrent().isRunning() == true)
         {
-            if (GameConfiguration.animated == true)
+            if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
             {
-                setCurrentBackgroundImage((rand.nextInt(GameConfiguration.animationCycles)));
+                if (GameConfiguration.animated == true)
+                {
+                    if (GameConfiguration.debugTimers == true)
+                    {
+                        logger.debug("switch background image");
+                    }
+                    setCurrentBackgroundImage((rand.nextInt(GameConfiguration.animationCycles)));
+                }
+                else
+                {
+                    if (GameConfiguration.debugTimers == true)
+                    {
+                        logger.debug("keep background image at 0");
+                    }
+                    setCurrentBackgroundImage(0);
+                }
             }
-            else
+            if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
             {
-                setCurrentBackgroundImage(0);
-            }
-
-            if (UIStateMachine.isUiOpen())
-            {
+                if (GameConfiguration.debugTimers == true)
+                {
+                    logger.debug("post event that background image changed");
+                }
                 EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
             }
         }

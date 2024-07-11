@@ -7,6 +7,7 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.utils.ImageManager;
@@ -26,38 +27,41 @@ public class AnimationSystemTimerTask extends TimerTask
     {
         if (Game.getCurrent().isRunning() == true)
         {
-            // random variant
-            //logger.info("running");
-            for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
+            if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
             {
-                for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
+                // random variant
+                //logger.info("running");
+                for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
                 {
-                    MapTile tile = UILense.getCurrent().mapTiles[row][column];
-                    if (tile != null)
+                    for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
                     {
-                        LifeForm p = tile.getLifeForm();
-                        if (p != null)
+                        MapTile tile = UILense.getCurrent().mapTiles[row][column];
+                        if (tile != null)
                         {
-                            //logger.info("p: {}", p);
-                            // if dead, stay corpse, or blood stain
-                            if (p.getState().equals(LifeFormState.DEAD))
+                            LifeForm p = tile.getLifeForm();
+                            if (p != null)
                             {
-                                p.setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
-                            }
-                            //if unconcious, stay unmoving
-                            else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
-                            {
-                                p.setCurrImage(0);
-                            }
-                            else// (p.getState().equals(LifeFormState.ALIVE))
-                            {
-                                p.setCurrImage(rand.nextInt(GameConfiguration.animationCycles));
+                                //logger.info("p: {}", p);
+                                // if dead, stay corpse, or blood stain
+                                if (p.getState().equals(LifeFormState.DEAD))
+                                {
+                                    p.setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
+                                }
+                                //if unconcious, stay unmoving
+                                else if (p.getState().equals(LifeFormState.UNCONSCIOUS))
+                                {
+                                    p.setCurrImage(0);
+                                }
+                                else// (p.getState().equals(LifeFormState.ALIVE))
+                                {
+                                    p.setCurrImage(rand.nextInt(GameConfiguration.animationCycles));
+                                }
                             }
                         }
                     }
                 }
             }
-            if (UIStateMachine.isUiOpen())
+            if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
             {
                 EventBus.getDefault().post(new AnimatedRepresentationChanged(null));
             }

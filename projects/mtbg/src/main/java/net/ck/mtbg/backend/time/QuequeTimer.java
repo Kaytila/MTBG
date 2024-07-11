@@ -1,15 +1,19 @@
 package net.ck.mtbg.backend.time;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
+@Log4j2
+@Getter
+@Setter
 public class QuequeTimer extends Timer
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 
     /**
      * Creates a {@code Timer} and initializes both the initial delay and
@@ -32,14 +36,20 @@ public class QuequeTimer extends Timer
     @Override
     public void start()
     {
-        logger.info("starting queue timer");
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("starting queue timer");
+        }
         super.start();
     }
 
     @Override
     public void stop()
     {
-        logger.info("stopping queue timer");
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("stopping queue timer");
+        }
         super.stop();
     }
 

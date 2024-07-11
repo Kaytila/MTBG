@@ -1135,3 +1135,5 @@ History of the changes:
             a depencency on UISTATE.OPENED only. Of course this needs to work for activated again.
             Wondering whether I need to update this to just use OPENED instead of ACTIVATED. So, game UI is not here, or
             Game UI is here.
+2024-07-11: updated most timers to respect whether UI is actually open or not and also to only debug when debug flag
+            is set properly.

@@ -584,16 +584,21 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
                     try
                     {
+                        //TODO heavily broken design - during attack of the npc I set the timers for the animation
                         UIStateMachine.setHitAnimationRunning(true);
                         HitMissImageTimerTask task = new HitMissImageTimerTask(n);
                         TimerManager.getHitMissImageTimer().setHitMissImageTimerTask(task);
                         TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
-                        TimerManager.getAnimationSystemUtilTimer().cancel();
-                        TimerManager.getAnimationSystemUtilTimer().purge();
-                        TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
-                        AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
-                        TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
-                        UIStateMachine.setHitAnimationRunning(false);
+                        if (GameConfiguration.useUtilTimerForAnimation)
+                        {
+                            TimerManager.getAnimationSystemUtilTimer().cancel();
+                            TimerManager.getAnimationSystemUtilTimer().purge();
+                            TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
+                            AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
+                            TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
+                            UIStateMachine.setHitAnimationRunning(false);
+                        }
+                        //TODO else? Do I really need the else?
                     }
                     catch (Exception e)
                     {
