@@ -26,12 +26,32 @@ public class AStar
     private static final int DEFAULT_HV_COST = 1; // Horizontal - Vertical Cost
     private static final int DEFAULT_DIAGONAL_COST = 1000;
 
+    @Getter
+    @Setter
     private static int hvCost;
+
+    @Getter
+    @Setter
     private static int diagonalCost;
+
+    @Getter
+    @Setter
     private static MapTile[][] searchArea;
+
+    @Getter
+    @Setter
     private static PriorityQueue<MapTile> openList;
+
+    @Getter
+    @Setter
     private static Set<MapTile> closedSet;
+
+    @Getter
+    @Setter
     private static MapTile initialNode;
+
+    @Getter
+    @Setter
     private static MapTile finalNode;
 
     @Getter
@@ -140,7 +160,6 @@ public class AStar
 
     public static List<MapTile> findPath()
     {
-
         long start = System.nanoTime();
         openList.add(initialNode);
         while (!isEmpty(openList))
@@ -151,7 +170,7 @@ public class AStar
             {
                 if (GameConfiguration.debugASTAR == true)
                 {
-                    logger.info("ASTAR find path: {}", System.nanoTime() - start);
+                    logger.debug("ASTAR find path: {}", System.nanoTime() - start);
                 }
                 return getPath(currentNode);
             }
@@ -159,6 +178,10 @@ public class AStar
             {
                 addAdjacentNodes(currentNode);
             }
+        }
+        if (GameConfiguration.debugASTAR == true)
+        {
+            logger.debug("ASTAR find no path: {}", System.nanoTime() - start);
         }
         return new ArrayList<>();
     }
@@ -238,24 +261,39 @@ public class AStar
 
     private static void checkNode(MapTile currentNode, int col, int row, int cost)
     {
-        //logger.info("current node: {}, col: {}, row: {}", currentNode, col, row);
-        MapTile adjacentNode = getSearchArea()[row][col];
-        if (!adjacentNode.isBlocked() && !getClosedSet().contains(adjacentNode))
+        if (GameConfiguration.debugASTAR == true)
         {
-            if (!getOpenList().contains(adjacentNode))
+            //logger.debug("current node: {}, col: {}, row: {}", currentNode, col, row);
+        }
+        MapTile adjacentNode = getSearchArea()[row][col];
+
+        if (!getClosedSet().contains(adjacentNode))
+        {
+            if (GameConfiguration.debugASTAR == true)
             {
-                adjacentNode.setNodeData(currentNode, cost);
-                getOpenList().add(adjacentNode);
+                //logger.debug("adjecent node: {}", adjacentNode.getMapPosition());
             }
-            else
+            if (!adjacentNode.isBlocked() || adjacentNode.isOpenable())
             {
-                boolean changed = adjacentNode.checkBetterPath(currentNode, cost);
-                if (changed)
+                if (GameConfiguration.debugASTAR == true)
                 {
-                    // Remove and Add the changed node, so that the PriorityQueue can sort again its
-                    // contents with the modified "finalCost" value of the modified node
-                    getOpenList().remove(adjacentNode);
+                    //logger.debug("adjecent node: {} is either not blocked or openable", adjacentNode.getMapPosition());
+                }
+                if (!getOpenList().contains(adjacentNode))
+                {
+                    adjacentNode.setNodeData(currentNode, cost);
                     getOpenList().add(adjacentNode);
+                }
+                else
+                {
+                    boolean changed = adjacentNode.checkBetterPath(currentNode, cost);
+                    if (changed)
+                    {
+                        // Remove and Add the changed node, so that the PriorityQueue can sort again its
+                        // contents with the modified "finalCost" value of the modified node
+                        getOpenList().remove(adjacentNode);
+                        getOpenList().add(adjacentNode);
+                    }
                 }
             }
         }
@@ -268,7 +306,7 @@ public class AStar
 
     private static boolean isEmpty(PriorityQueue<MapTile> openList)
     {
-        return openList.size() == 0;
+        return openList.isEmpty();
     }
 
     private static void setBlock(int row, int col)
@@ -276,74 +314,5 @@ public class AStar
         searchArea[row][col].setBlocked(true);
     }
 
-    public static MapTile getInitialNode()
-    {
-        return initialNode;
-    }
-
-    public static void setInitialNode(MapTile iN)
-    {
-        initialNode = iN;
-    }
-
-    private static MapTile getFinalNode()
-    {
-        return finalNode;
-    }
-
-    private static void setFinalNode(MapTile fN)
-    {
-        finalNode = fN;
-    }
-
-    private static MapTile[][] getSearchArea()
-    {
-        return searchArea;
-    }
-
-    private static void setSearchArea(MapTile[][] sA)
-    {
-        searchArea = sA;
-    }
-
-    private static PriorityQueue<MapTile> getOpenList()
-    {
-        return openList;
-    }
-
-    private static void setOpenList(PriorityQueue<MapTile> oL)
-    {
-        openList = oL;
-    }
-
-    private static Set<MapTile> getClosedSet()
-    {
-        return closedSet;
-    }
-
-    public static void setClosedSet(Set<MapTile> cS)
-    {
-        closedSet = cS;
-    }
-
-    public static int getHvCost()
-    {
-        return hvCost;
-    }
-
-    public static void setHvCost(int hC)
-    {
-        hvCost = hC;
-    }
-
-    private static int getDiagonalCost()
-    {
-        return diagonalCost;
-    }
-
-    private static void setDiagonalCost(int dC)
-    {
-        diagonalCost = dC;
-    }
 }
 

@@ -2417,7 +2417,6 @@
             <y>19</y>
         </tile>
     </tiles>
-    <!--
     <npcs>
         <npc>
             <id>1</id>
@@ -2425,9 +2424,52 @@
                 8,17
             </mapPosition>
             <targetPosition>
-                12,17
+                11,17
             </targetPosition>
         </npc>
+        <npc>
+            <id>2</id>
+            <mapPosition>
+                5,5
+            </mapPosition>
+            <schedule>
+                <scheduleActivity>
+                    <scheduleActivityString>
+                        Lets go to lunch
+                    </scheduleActivityString>
+                    <startTime>09:07</startTime>
+                    <targetPosition>
+                        1,3
+                    </targetPosition>
+                </scheduleActivity>
+                <scheduleActivity>
+                    <scheduleActivityString>
+                        Lets go to work
+                    </scheduleActivityString>
+                    <startTime>13:01</startTime>
+                    <targetPosition>
+                        1,1
+                    </targetPosition>
+                </scheduleActivity>
+                <scheduleActivity>
+                    <scheduleActivityString>
+                        Lets go to dinner
+                    </scheduleActivityString>
+                    <startTime>18:01</startTime>
+                    <targetPosition>
+                        17,2
+                    </targetPosition>
+                </scheduleActivity>
+                <scheduleActivity>
+                    <scheduleActivityString>
+                        Lets go to bed
+                    </scheduleActivityString>
+                    <startTime>19:01</startTime>
+                    <targetPosition>
+                        1,1
+                    </targetPosition>
+                </scheduleActivity>
+            </schedule>
+        </npc>
     </npcs>
-    -->
 </map>

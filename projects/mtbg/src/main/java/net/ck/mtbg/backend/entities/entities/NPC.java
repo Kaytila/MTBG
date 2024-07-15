@@ -348,7 +348,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("do action: {}", action.toString());
+            logger.debug("do action: {}", action.toString());
         }
 
         Point p = getMapPosition();
@@ -370,16 +370,29 @@ public class NPC extends AbstractEntity implements LifeForm
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("move east");
+                            logger.debug("move east");
                         }
                         this.move((p.x + 1), p.y);
                         success = true;
                     }
                     else
                     {
-                        if (GameConfiguration.debugNPC == true)
+                        if (MapUtils.getMapTileByCoordinates((p.x + 1), (p.y)).isOpenable())
                         {
-                            logger.info("EAST blocked");
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("open east and walk east");
+                            }
+                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x + 1), (p.y)));
+                            this.move((p.x + 1), (p.y));
+                            success = true;
+                        }
+                        else
+                        {
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("EAST blocked");
+                            }
                         }
                     }
                 }
@@ -387,7 +400,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("eastern border, ignore wrapping for now");
+                        logger.debug("eastern border, ignore wrapping for now");
                     }
                 }
                 break;
@@ -405,16 +418,29 @@ public class NPC extends AbstractEntity implements LifeForm
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("move north");
+                            logger.debug("move north");
                         }
                         this.move((p.x), (p.y - 1));
                         success = true;
                     }
                     else
                     {
-                        if (GameConfiguration.debugNPC == true)
+                        if (MapUtils.getMapTileByCoordinates((p.x), (p.y - 1)).isOpenable())
                         {
-                            logger.info("NORTH blocked");
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("open north and walk north");
+                            }
+                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x), (p.y - 1)));
+                            this.move((p.x), (p.y - 1));
+                            success = true;
+                        }
+                        else
+                        {
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("NORTH blocked");
+                            }
                         }
                     }
                 }
@@ -422,7 +448,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("already at zero y");
+                        logger.debug("already at zero y");
                     }
                 }
                 break;
@@ -444,7 +470,23 @@ public class NPC extends AbstractEntity implements LifeForm
                     }
                     else
                     {
-                        //logger.info("SOUTH blocked");
+                        if (MapUtils.getMapTileByCoordinates((p.x), (p.y + 1)).isOpenable())
+                        {
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("open south and walk south");
+                            }
+                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x), (p.y + 1)));
+                            this.move((p.x), (p.y + 1));
+                            success = true;
+                        }
+                        else
+                        {
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("SOUTH blocked");
+                            }
+                        }
                     }
 
                 }
@@ -471,14 +513,30 @@ public class NPC extends AbstractEntity implements LifeForm
                     }
                     else
                     {
-                        //logger.info("WEST blocked");
+                        if (MapUtils.getMapTileByCoordinates((p.x - 1), (p.y)).isOpenable())
+                        {
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("open west and walk west");
+                            }
+                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x - 1), (p.y)));
+                            this.move((p.x - 1), (p.y));
+                            success = true;
+                        }
+                        else
+                        {
+                            if (GameConfiguration.debugNPC == true)
+                            {
+                                logger.debug("WEST BLOCKED");
+                            }
+                        }
                     }
                 }
                 else
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("already at zero x");
+                        logger.debug("already at zero x");
                     }
                 }
                 break;
@@ -620,8 +678,8 @@ public class NPC extends AbstractEntity implements LifeForm
         setQueuedActions(new CommandQueue());
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-            logger.info("finish: {}", tileByCoordinates);
+            logger.debug("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
+            logger.debug("finish: {}", tileByCoordinates);
         }
 
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
@@ -680,7 +738,14 @@ public class NPC extends AbstractEntity implements LifeForm
                     logger.debug("target can be reached");
                 }
                 //return true;
-                doAction(new PlayerAction(getQueuedActions().poll()));
+                if (getQueuedActions() != null)
+                {
+                    if (getQueuedActions().peek() != null)
+                    {
+                        //TODO
+                        doAction(new PlayerAction(getQueuedActions().poll()));
+                    }
+                }
             }
         }
         return false;

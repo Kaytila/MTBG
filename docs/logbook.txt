@@ -1127,7 +1127,7 @@ History of the changes:
             Removed two now incorrect bug todos from NPC and AIBehaviour.
             Updated BattleTest and TestGameSetup to reference Game.getCurrent() instead of initializing Game in a
             separate setup.
-            Now I need to find out how to run the tests from within Grade.
+            Now I need to find out how to run the tests from within Gradle.
 2024-07-09: updates AIBehaviour to use debug statements properly.
             extracted helper method to check for state of life form.
 2024-07-09: mini update to make all the tests to use the proper initialisation.
@@ -1137,3 +1137,12 @@ History of the changes:
             Game UI is here.
 2024-07-11: updated most timers to respect whether UI is actually open or not and also to only debug when debug flag
             is set properly.
+2024-07-13: moved schedule to map and npc. starting schedule works already, but then there is a bug I do not yet
+            understand.
+            updated pondering about schedules with a plan.
+            updated schedule to contain the active activity
+            did lots of debugging statements additions. will need to check whether there is a better way to do that.
+2024-07-15: updated a* implementation to take tiles into consideration which can be opened. Works already well for npc.
+            currently, open is done while walking, that might need to change but it works and that is fine for now.
+            So now, npcs should be able to find also complex ways around a map.
+            But that means I will need to create one.

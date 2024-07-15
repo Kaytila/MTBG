@@ -51,30 +51,6 @@ public class MapUtils
     private static final int middle = (int) (double) (GameConfiguration.numberOfTiles / 2);
 
 
-    /**
-     * Helper Method because I am lazy not actually sure how useful this in a real context is, but for testing purposes
-     *
-     * @param map the map to search
-     * @param ID  the id
-     * @return the MapTile the id matches
-     */
-    public static MapTile getMapTileByID(Map map, int ID)
-    {
-        for (int x = 0; x < map.getSize().x; x++)
-        {
-            for (int y = 0; y < map.getSize().y; y++)
-            {
-                MapTile tile = map.mapTiles[x][y];
-                if (tile.getId() == ID)
-                {
-                    return tile;
-                }
-            }
-        }
-        return null;
-    }
-
-
     public static MapTile getMapTileByCoordinates(Map map, int x, int y)
     {
         return map.mapTiles[x][y];
@@ -241,8 +217,8 @@ public class MapUtils
     {
         ArrayList<MapTile> visibleTiles = new ArrayList<>();
         Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
-        Range<Integer> rangeX = Range.between(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
-        Range<Integer> rangeY = Range.between(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
+        Range<Integer> rangeX = Range.of(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
+        Range<Integer> rangeY = Range.of(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
 
         for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
         {
@@ -304,7 +280,7 @@ public class MapUtils
         MapTile tile = getMapTileByCoordinates(x, y);
         if (tile != null)
         {
-            return tile.isBlocked();
+            return tile.isBlocked();//|| tile.isOpenable();
         }
         else
         {
@@ -319,6 +295,7 @@ public class MapUtils
      * @param p Point
      * @return the maptile which is found with P coordinates
      */
+    @NonNull
     public static MapTile getMapTileByCoordinatesAsPoint(Point p)
     {
         if ((p.x >= 0) && (p.y >= 0) && (p.x < Game.getCurrent().getCurrentMap().getSize().x) && (p.y < Game.getCurrent().getCurrentMap().getSize().y))
@@ -366,7 +343,7 @@ public class MapUtils
     }
 
     /**
-     * Bresenhams Algorithm
+     * Bresenham's Algorithm
      *
      * @param start  a point, probably player position
      * @param target an end point
@@ -567,7 +544,7 @@ public class MapUtils
                             tile.setType(TileTypes.LAVA);
                             break;
                         default:
-                            logger.info("value: {} still unknown", line[column]);
+                            logger.debug("value: {} still unknown", line[column]);
                             break;
                     }
                     //logger.info("tile: {}", tile);
@@ -579,7 +556,8 @@ public class MapUtils
         }
         catch (IOException | CsvException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.debug("issue here: {}", e.toString());
         }
         try
         {
@@ -587,7 +565,8 @@ public class MapUtils
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            logger.debug("issue here: {}", e.toString());
+            //e.printStackTrace();
         }
         map.setMapTiles(mapTiles);
         return map;
@@ -602,7 +581,7 @@ public class MapUtils
      * <y>0</y>
      * <east>2</east>
      * <south>4</south>
-     * <targetMap>testname</targetMap>
+     * <targetMap>test name</targetMap>
      * <targetID>2</targetID>
      * </tile>
      */
@@ -710,9 +689,9 @@ public class MapUtils
     {
         int hours = Game.getCurrent().getGameTime().getCurrentHour();
 
-        Range<Integer> rangeDay = Range.between(8, 18);
-        Range<Integer> rangeDawn = Range.between(5, 7);
-        Range<Integer> rangeDusk = Range.between(19, 21);
+        Range<Integer> rangeDay = Range.of(8, 18);
+        Range<Integer> rangeDawn = Range.of(5, 7);
+        Range<Integer> rangeDusk = Range.of(19, 21);
         if (rangeDay.contains(hours))
         {
             //Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
@@ -757,7 +736,7 @@ public class MapUtils
      */
     public static boolean isAdjacent(Point source, Point target)
     {
-        Range<Integer> range = Range.between(-1, 1);
+        Range<Integer> range = Range.of(-1, 1);
 
         return (range.contains(source.x - target.x)) && (range.contains(source.y - target.y));
     }
@@ -987,7 +966,7 @@ public class MapUtils
 
     private static ArrayList<MapTile> getMapTilesAroundPointByDistance(MapTile t, int lightSourceDistance)
     {
-        Range<Integer> range = Range.between(Math.negateExact(lightSourceDistance), lightSourceDistance);
+        Range<Integer> range = Range.of(Math.negateExact(lightSourceDistance), lightSourceDistance);
         ArrayList<MapTile> allTilesAroundTile = new ArrayList<>();
 
         for (int column = 0; column < Game.getCurrent().getCurrentMap().getSize().x; column++)
@@ -1288,7 +1267,7 @@ public class MapUtils
         if (GameConfiguration.debugPaint == true)
         {
             long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-            logger.info("calculation time: {}", convert);
+            logger.debug("calculation time: {}", convert);
         }
     }
 
@@ -1344,7 +1323,7 @@ public class MapUtils
         if (GameConfiguration.debugPaint == true)
         {
             long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-            logger.info("calculation time: {}", convert);
+            logger.debug("calculation time: {}", convert);
         }
     }
 

@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.animation.lifeform.AnimationSystemTimerTask;
-import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
-import net.ck.mtbg.animation.lifeform.HitMissImageTimerTask;
+import net.ck.mtbg.animation.lifeform.*;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
@@ -21,6 +19,7 @@ import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.backend.state.TimerManager;
+import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
@@ -456,22 +455,19 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     }
 
     /**
-     * @param x
-     * @param y
+     * @param x - x coordinate
+     * @param y - y coordinate
      */
     public void move(int x, int y)
     {
-
-
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
         MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
         this.getMapPosition().move(x, y);
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(true);
         MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(this);
-
-
         //EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
+
 
     /**
      * @param tileByCoordinates target tile
@@ -480,8 +476,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     {
         if (GameConfiguration.debugASTAR == true)
         {
-            logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-            logger.info("finish: {}", tileByCoordinates);
+            logger.debug("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
+            logger.debug("finish: {}", tileByCoordinates);
         }
 
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
@@ -491,7 +487,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         {
             if (node.getMapPosition().equals(getMapPosition()))
             {
-                //logger.info("start node");
+                if (GameConfiguration.debugASTAR == true)
+                {
+                    logger.debug("start node");
+                }
             }
             else
             {
@@ -519,12 +518,61 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
-                // logger.info("target can be reached");
+                if (GameConfiguration.debugASTAR == true)
+                {
+                    logger.debug("target can be reached");
+                }
                 //return true;
                 //((NPC) this).doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
             }
         }
         return false;
+    }
+
+
+    public void openDoor(MapTile tile)
+    {
+        if (tile.getType().equals(TileTypes.GATECLOSED))
+        {
+            logger.info("opening gate");
+            tile.setType(TileTypes.GATEOPEN);
+
+        }
+
+        else if (tile.getType().equals(TileTypes.WOODDOORCLOSED))
+        {
+            logger.info("opening wooden door");
+            tile.setType(TileTypes.WOODDOOROPEN);
+        }
+
+        else if (tile.getType().equals(TileTypes.STONEDOORCLOSED))
+        {
+            logger.info("opening stone door");
+            tile.setType(TileTypes.STONEDOOROPEN);
+        }
+
+        else if (tile.getType().equals(TileTypes.GATEOPEN))
+        {
+            logger.info("closing gate");
+            tile.setType(TileTypes.GATECLOSED);
+        }
+
+        else if (tile.getType().equals(TileTypes.WOODDOOROPEN))
+        {
+            logger.info("closing wooden door");
+            tile.setType(TileTypes.WOODDOORCLOSED);
+        }
+
+        else if (tile.getType().equals(TileTypes.STONEDOOROPEN))
+        {
+            logger.info("closing stone door");
+            tile.setType(TileTypes.STONEDOORCLOSED);
+        }
+        else
+        {
+            logger.error("No door or gate here!");
+        }
+
     }
 
 
@@ -561,7 +609,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 LifeForm n = tile.getLifeForm();
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("we found the tile {}, its the victims: {}", tile, n);
+                    logger.debug("we found the tile {}, its the victims: {}", tile, n);
                 }
                 if (getWeapon() == null)
                 {
@@ -575,7 +623,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("here at ranged attack");
+                        logger.debug("here at ranged attack");
                     }
                     Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
                     Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
@@ -591,6 +639,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
                         if (GameConfiguration.useUtilTimerForAnimation)
                         {
+                            if (GameConfiguration.debugTimers == true)
+                            {
+                                logger.debug("re-creating util timer for animation during attack");
+                            }
                             TimerManager.getAnimationSystemUtilTimer().cancel();
                             TimerManager.getAnimationSystemUtilTimer().purge();
                             TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
@@ -598,16 +650,30 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                             TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
                             UIStateMachine.setHitAnimationRunning(false);
                         }
-                        //TODO else? Do I really need the else?
+                        else
+                        {
+                            if (GameConfiguration.debugTimers == true)
+                            {
+                                logger.debug("re-creating swing timer for animation during attack");
+                            }
+                            AnimationSystemActionListener animationSystemActionListener = new AnimationSystemActionListener();
+                            TimerManager.setAnimationSystemTimer(new AnimationSystemTimer(GameConfiguration.animationLifeformDelay, animationSystemActionListener));
+                            TimerManager.getAnimationSystemTimer().setRepeats(true);
+                            TimerManager.getAnimationSystemTimer().start();
+                            UIStateMachine.setHitAnimationRunning(false);
+                        }
                     }
                     catch (Exception e)
                     {
-                        e.printStackTrace();
+                        if (GameConfiguration.debugTimers == true)
+                        {
+                            logger.debug("there is an issue with setting the timer for the hit animation: {}", e.toString());
+                        }
                     }
 
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("hitting victim: {}", n);
+                        logger.debug("hitting victim: {}", n);
                     }
                     if (!(n.getState().equals(LifeFormState.DEAD)))
                     {
@@ -615,7 +681,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.info("hit");
+                                logger.debug("hit");
                             }
                             n.decreaseHealth(5);
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
@@ -625,7 +691,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.info("miss");
+                                logger.debug("miss");
                             }
                             n.evade();
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
@@ -636,7 +702,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("victim {} is dead", n);
+                            logger.debug("victim {} is dead", n);
                         }
                         n.evade();
                         EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
@@ -647,14 +713,14 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("melee");
-                        logger.info("hitting victim: {}", n);
+                        logger.debug("melee");
+                        logger.debug("hitting victim: {}", n);
                     }
                     if (NPCUtils.calculateHit(this, n))
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("hit");
+                            logger.debug("hit");
                         }
                         n.decreaseHealth(5);
                         return true;
@@ -663,7 +729,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("miss");
+                            logger.debug("miss");
                         }
                         n.evade();
                         return false;

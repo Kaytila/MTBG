@@ -3,6 +3,7 @@ package net.ck.mtbg.map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.graphics.TileTypes;
@@ -52,6 +53,12 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * needs to be mutable due to doors and other things.
      */
     private boolean blocked;
+
+    /**
+     * can the tile be opened and closed again?
+     */
+    private boolean openable;
+
     /**
      * does this block the LoS?
      */
@@ -188,6 +195,23 @@ public class MapTile implements Comparable<MapTile>, Serializable
         };
     }
 
+    /**
+     * @return
+     */
+    public boolean isOpenable()
+    {
+        return switch (getType())
+        {
+            case GATEOPEN, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, WOODDOOROPEN, STONEDOOROPEN -> true;
+            case DIRTROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST, DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN,
+                 CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST,
+                 CASTLEEAST, PAVEDROAD, STONEWALL, STONEWINDOW, WOODWALL,
+                 WOODWINDOW, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST -> false;
+            default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
+        };
+    }
+
+
     public boolean isBlocksLOS()
     {
         switch (getType())
@@ -255,20 +279,29 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public void setFurniture(FurnitureItem furniture)
     {
-        logger.debug("setting furniture");
+        if (GameConfiguration.debugMap == true)
+        {
+            logger.debug("maptile: {} setting furniture", this.getMapPosition());
+        }
         if (furniture != null)
         {
 
             this.furniture = furniture;
             setBlocked(true);
-            logger.debug("setting furniture - blocking tile: {}", this);
+            if (GameConfiguration.debugMap == true)
+            {
+                logger.debug("maptile: {} setting furniture - blocking tile", this.getMapPosition());
+            }
         }
         else
         {
 
             this.furniture = null;
             setBlocked(false);
-            logger.debug("unsetting furniture - unblocking tile");
+            if (GameConfiguration.debugMap == true)
+            {
+                logger.debug("maptile: {} unsetting furniture - unblocking tile", this.getMapPosition());
+            }
         }
     }
 

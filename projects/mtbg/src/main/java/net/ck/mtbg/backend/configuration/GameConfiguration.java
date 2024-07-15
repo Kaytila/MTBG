@@ -40,14 +40,16 @@ public class GameConfiguration
     public static final int cutSceneImageRollOverBuffer = 1000;
     public static final int cutSceneImageRolloverDelay = 5000;
     public static final int cutSceneImageRolloverPeriod = 5000;
-    public static final boolean debugASTAR = false;
+    public static final boolean debugASTAR = true;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
+    public static final boolean debugMap = false;
+    public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = true;
-    public static final boolean debugNPC = false;
+    public static final boolean debugNPC = true;
     public static final boolean debugPaint = false;
     public static final boolean debugTime = false;
-    public static final boolean debugTimers = true;
+    public static final boolean debugTimers = false;
     public static final boolean debugWorld = false;
     /**
      * describes the dex value where player will move twice

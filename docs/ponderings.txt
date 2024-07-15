@@ -9,7 +9,26 @@ What will happen if I have 100 schedules running in parallel?
 Or are they paused if player is not on the map anymore? What will happen if player enters map at 12:01?
 will the npc start moving then? or will it not move?
 I am really wondering how this is solved in U5-7.
-
+Additionally: how to make sure that an activity is repeated once the rest of the cycle has finished?
+Currently, NPC will walk towards the first activity, then stop, then try to go to the next one but fail utterly.
+So it should be
+trigger for 1st
+1st activity
+end 1st
+wait until 2nd
+trigger 2nd
+run 2nd
+end 2nd
+...
+end of last activity
+reset all
+wait for 1st
+trigger 1st
+How to do that in code?
+I do not know yet. Perhaps in a non-deleting queue?
+Also, the starting point is too naive - if the check is only for npc schedule to exist, npc wont ever do anything else
+apart from combat, as there is a schedule coming after. need to determine first whether there is a schedule activity
+that needs to be running.
 
 
 2024-04-24: On Edge cases
@@ -126,4 +145,15 @@ to see.
 on testing
 ==========
 
-So i need to setup testing properly again 
+So i need to setup testing properly again
+
+
+on ranged combat vs. melee
+==========================
+
+So I am currently re-vamping combat and wondering how to deal with mobs switching between ranged and melee attack.
+Do we have any idea how this was implemented in Ultima IV-VI?
+For example, bridge trolls or ettins do have ranged attacks, but they do not solely rely on them, but move towards the
+party members as well.
+Was this just done with a random number or was there a preference implemented that was factored in calculating a
+percentage?

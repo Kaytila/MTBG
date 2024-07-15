@@ -33,7 +33,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.debug("e at position: {} moving towards player", e.getMapPosition());
+                logger.debug("npc {} at position: {} moving towards player", e.getId(), e.getMapPosition());
             }
             e.doAction((NPCUtils.calculateVictimDirection(e)));
         }
@@ -41,7 +41,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.debug(" {} trying to attack", e);
+                logger.debug("npc {} trying to attack", e.getId());
             }
             //attack with melee
             if (MapUtils.isAdjacent(e.getMapPosition(), e.getVictim().getMapPosition()))
@@ -54,7 +54,7 @@ public class AIBehaviour
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("attacking");
+                        logger.debug("npc {} attacking", e.getId());
                     }
                     AttackAction action = new AttackAction();
                     action.setGetWhere(e.getVictim().getMapPosition());
@@ -86,7 +86,7 @@ public class AIBehaviour
                             {
                                 if (GameConfiguration.debugNPC == true)
                                 {
-                                    logger.debug("out of range move towards victim");
+                                    logger.debug("npc {} is out of range move towards victim", e.getId());
                                 }
                                 //logger.info("what do do: {}", (NPCUtils.calculateVictimDirectionAStar(e)));
                                 e.doAction((NPCUtils.calculateVictimDirection(e)));
@@ -98,7 +98,7 @@ public class AIBehaviour
                                 //todo implement rage on weapon
                                 if (GameConfiguration.debugNPC == true)
                                 {
-                                    logger.debug("npc already wields ranged weapon, attack!");
+                                    logger.debug("npc {} already wields ranged weapon, attack!", e.getId());
                                 }
                                 AttackAction ac = new AttackAction();
                                 ac.setGetWhere(e.getVictim().getMapPosition());
@@ -112,7 +112,7 @@ public class AIBehaviour
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("ranged weapon in inventory");
+                                logger.debug("npc {} has ranged weapon in inventory, switch", e.getId());
                             }
                             e.switchWeapon(WeaponTypes.RANGED);
                             //return;
@@ -131,7 +131,7 @@ public class AIBehaviour
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("out of range move towards victim");
+                        logger.debug("npc {} - victim is out of range move towards victim", e.getId());
                     }
                     e.doAction((NPCUtils.calculateVictimDirection(e)));
                 }
@@ -152,7 +152,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.debug("trying to get");
+                logger.debug("npc {} is trying to get", e.getId());
             }
             NPCAction ac = new NPCAction(action);
             e.doAction(ac);
@@ -167,16 +167,16 @@ public class AIBehaviour
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("NPC map position: {}", e.getMapPosition());
-            logger.debug("NPC original map position: {}", e.getOriginalMapPosition());
-            logger.debug("NPC target position: {}", e.getTargetMapPosition());
-            logger.debug("NPC original target position: {}", e.getOriginalTargetMapPosition());
+            logger.debug("NPC {} map position: {}", e.getId(), e.getMapPosition());
+            logger.debug("NPC {} original map position: {}", e.getId(), e.getOriginalMapPosition());
+            logger.debug("NPC {} target position: {}", e.getId(), e.getTargetMapPosition());
+            logger.debug("NPC {} original target position: {}", e.getId(), e.getOriginalTargetMapPosition());
         }
         if (e.getQueuedActions().size() > 0)
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("action in queue: {}", e.getQueuedActions().peek());
+                logger.debug("npc {} action in queue: {}", e.getId(), e.getQueuedActions().peek());
             }
             e.doAction(new PlayerAction(e.getQueuedActions().poll()));
         }
@@ -186,14 +186,14 @@ public class AIBehaviour
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.debug("we have not reached the target");
+                    logger.debug("npc {} we have not reached the target", e.getId());
                 }
                 MoveAction action = new MoveAction();
 
                 action.setGetWhere(new Point(e.getTargetMapPosition().x, e.getTargetMapPosition().y));
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                    logger.debug("npc {} move towards target map position: {},{}", e.getId(), e.getTargetMapPosition().x, e.getTargetMapPosition().y);
                 }
                 e.doAction(new NPCAction(action));
                 //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
@@ -203,7 +203,7 @@ public class AIBehaviour
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("we have reached the original position, switch to original map position: {}", e.getOriginalMapPosition());
+                    logger.debug("npc {} we have reached the original position, switch to original map position: {}", e.getId(), e.getOriginalMapPosition());
                 }
                 //we have reached the original position, switch to original target
                 if (e.getMapPosition().equals(e.getOriginalMapPosition()))
@@ -216,7 +216,7 @@ public class AIBehaviour
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("we have reached the original target, switch to original position");
+                        logger.debug("npc {} we have reached the original target, switch to original position", e.getId());
                     }
                     e.setTargetMapPosition(e.getOriginalMapPosition());
                 }
@@ -230,7 +230,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("npc {} move towards target map position: {}", e.getId(), e.getRunningAction().getGetWhere());
+                logger.debug("npc {} move towards target map position: {}", e.getId(), e.getRunningAction().getGetWhere());
             }
             e.doAction(new NPCAction(e.getRunningAction()));
             //e.moveTo(Game.getCurrent().getCurrentMap().mapTiles[e.getTargetMapPosition().x][e.getTargetMapPosition().y]);
@@ -239,8 +239,9 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("ncp {} has reached target", e.getId());
+                logger.debug("ncp {} has reached target", e.getId());
             }
+            e.getSchedule().moveToNextScheduleActivity();
             e.setRunningAction(null);
         }
     }
@@ -262,7 +263,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("npc {} is hostile", e.getId());
+                logger.debug("npc {} is hostile", e.getId());
             }
             AIBehaviour.determineCombat(e);
         }
@@ -270,7 +271,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("npc {} is patrolling", e.getId());
+                logger.debug("npc {} is patrolling", e.getId());
             }
             AIBehaviour.determinePatrol(e);
         }
@@ -278,6 +279,10 @@ public class AIBehaviour
         {
             if (e.getRunningAction().getType().equals(KeyboardActionType.MOVE))
             {
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.debug("npc {} has a running action and it is move", e.getId());
+                }
                 AIBehaviour.determineMove(e);
             }
         }
@@ -285,15 +290,19 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
+                logger.debug("npc {}, action in queue: {}", e.getId(), e.getQueuedActions().peek());
             }
             e.doAction(new NPCAction(e.getQueuedActions().poll()));
         }
+        //TODO this is already too naive
+        //if i only check for schedule existing, npc will never to anything else
+        //i need to determine here whether there is a schedule activity that needs to be run
+        //now instead of doing that within the call
         else if (e.getSchedule() != null)
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("npc {} has a schedule", e.getId());
+                logger.debug("npc {} has a schedule", e.getId());
             }
             AIBehaviour.runSchedule(e);
         }
@@ -301,7 +310,7 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("NPC {} is random", e.getId());
+                logger.debug("NPC {} is random", e.getId());
             }
             AIBehaviour.determineRandom(e);
         }
@@ -313,28 +322,28 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.info("npc id {} has schedule", e.getId());
+                logger.debug("npc  {} has schedule", e.getId());
             }
             //easy for now
             if (e.getSchedule().isActive() == true)
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("npc id {} schedule is active", e.getId());
+                    logger.debug("npc {} schedule is active", e.getId());
                 }
                 if (e.getSchedule().getActivities() != null)
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("npc id {} schedule has activities", e.getId());
+                        logger.debug("npc {} schedule has activities", e.getId());
                     }
                     for (ScheduleActivity activity : e.getSchedule().getActivities())
                     {
                         GameTime startTime = activity.getStartTime();
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("game time: {}", Game.getCurrent().getGameTime());
-                            logger.debug("activity start time: {}", startTime);
+                            logger.debug("npc {} game time: {}", e.getId(), Game.getCurrent().getGameTime());
+                            logger.debug("npc {} activity start time: {}", e.getId(), startTime);
                         }
                         if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
                         {
@@ -342,7 +351,7 @@ public class AIBehaviour
                             {
                                 if (GameConfiguration.debugNPC == true)
                                 {
-                                    logger.error("activity: {}", activity);
+                                    logger.debug("npc {} activity: {}", e.getId(), activity);
                                 }
                                 e.setRunningAction(activity.getAction());
                                 e.doAction(new PlayerAction(activity.getAction()));
@@ -372,7 +381,7 @@ public class AIBehaviour
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("light source to ignite");
+                    logger.debug("npc {} light source to ignite", e.getId());
                 }
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
@@ -388,7 +397,7 @@ public class AIBehaviour
                     action.setGetWhere(new Point(tile.x, tile.y));
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                        logger.debug("npc {} move towards target map position: {},{}", e.getId(), e.getTargetMapPosition().x, e.getTargetMapPosition().y);
                     }
                     e.doAction(new NPCAction(action));
                 }
@@ -401,7 +410,7 @@ public class AIBehaviour
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("light source to douse");
+                    logger.debug("light source to douse");
                 }
                 if (MapUtils.isAdjacent(e.getMapPosition(), tile.getMapPosition()))
                 {
@@ -417,7 +426,7 @@ public class AIBehaviour
                     action.setGetWhere(new Point(tile.x, tile.y));
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("move towards target map position: {},{}", e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                        logger.debug("npc {} move towards target map position: {},{}", e.getId(), e.getTargetMapPosition().x, e.getTargetMapPosition().y);
                     }
                     e.doAction(new NPCAction(action));
                 }
@@ -453,8 +462,8 @@ public class AIBehaviour
         {
             if (GameConfiguration.debugNPC == true)
             {
-                logger.debug("life form {} current map position: {}", e.getId(), e.getMapPosition());
-                logger.debug("life form {} original map position {}", e.getId(), e.getOriginalMapPosition());
+                logger.debug("npc {} current map position: {}", e.getId(), e.getMapPosition());
+                logger.debug("npc {} original map position {}", e.getId(), e.getOriginalMapPosition());
             }
             if (e.getOriginalMapPosition() == null)
             {
@@ -478,7 +487,7 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("wander north");
+                            logger.debug("npc {} wander north", e.getId());
                         }
                         return new NPCAction(new NorthAction());
                     }
@@ -486,8 +495,8 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("npc {} at border of box {}, map position: {}", e, "north", e.getMapPosition());
-                            logger.debug("wander south");
+                            logger.debug("npc {} at border of box {}, map position: {}", e.getId(), "north", e.getMapPosition());
+                            logger.debug("npc {} wander south", e.getId());
                         }
                         return new NPCAction(new SouthAction());
                     }
@@ -497,7 +506,7 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("wander east");
+                            logger.debug("npc {} wander east", e.getId());
                         }
                         return new NPCAction(new EastAction());
                     }
@@ -505,8 +514,8 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("npc {} at border of box {}, map position: {}", e, "east", e.getMapPosition());
-                            logger.debug("wander west");
+                            logger.debug("npc {} at border of box {}, map position: {}", e.getId(), "east", e.getMapPosition());
+                            logger.debug("npc {} wander west", e.getId());
                         }
                         return new NPCAction(new WestAction());
                     }
@@ -516,7 +525,7 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("wander south");
+                            logger.debug("npc {} wander south", e.getId());
                         }
                         return new NPCAction(new SouthAction());
                     }
@@ -524,8 +533,8 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("npc {} at border of box {}, map position: {}", e, "south", e.getMapPosition());
-                            logger.debug("wander north");
+                            logger.debug("npc {} at border of box {}, map position: {}", e.getId(), "south", e.getMapPosition());
+                            logger.debug("npc {} wander north", e.getId());
                         }
                         return new NPCAction(new NorthAction());
                     }
@@ -535,7 +544,7 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("wander west");
+                            logger.debug("npc {} wander west", e.getId());
                         }
                         return new NPCAction(new WestAction());
                     }
@@ -543,15 +552,15 @@ public class AIBehaviour
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("npc {} at border of box {}, map position: {}", e, "west", e.getMapPosition());
-                            logger.debug("wander east");
+                            logger.debug("npc {} at border of box {}, map position: {}", e.getId(), "west", e.getMapPosition());
+                            logger.debug("npc {} wander east", e.getId());
                         }
                         return new NPCAction(new EastAction());
                     }
                 default:
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("npc {} spaces out", e);
+                        logger.debug("npc {} spaces out", e.getId());
                     }
                     return new NPCAction(new SpaceAction());
             }
