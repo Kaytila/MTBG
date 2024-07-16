@@ -577,7 +577,7 @@ public class GameUtils
 
         for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
         {
-            logger.info("setting UI position: {}", e.getMapPosition());
+            logger.debug("lifeform {} setting UI position: {}", e.getId(), e.getMapPosition());
             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
             //enable current schedules
             if (e.getSchedule() != null)

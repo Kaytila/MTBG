@@ -35,7 +35,12 @@ public class RunGame
     @Getter
     @Setter
     private static Controller window;
+
+    /**
+     * progress value, used in the progress bar
+     */
     private static int progress = 0;
+
     /**
      * singleton by design, i am so good :P
      */
@@ -43,23 +48,47 @@ public class RunGame
 
     //TODO
     //https://stackoverflow.com/questions/29290178/gui-has-to-wait-until-splashscreen-finishes-executing
+
+    /**
+     * @param args
+     */
     public static void main(String[] args)
     {
         RunGame.startGame(true);
     }
 
+    /**
+     * actual starting up of the game
+     *
+     * @param startTitle - indicates whether title screen shall be launched or not
+     *                   keep it false for test setup
+     */
     public static void startGame(boolean startTitle)
     {
-        logger.info("starting game");
-
+        if (GameConfiguration.debugStartUp == true)
+        {
+            logger.debug("starting game");
+        }
         Dimension size = SplashScreen.getSplashScreen().getSize();
-        logger.info("splash size: " + size);
+        //logger.info("splash size: " + size);
 
         Graphics2D g = splash.createGraphics();
 
-        logger.info("quickstart enabled, no splashscreen");
-        logger.info("initialize game");
+        if (GameConfiguration.quickstart == true)
+        {
+            logger.info("quickstart enabled, no splashscreen");
+
+        }
+
+        if (GameConfiguration.debugStartUp == true)
+        {
+            logger.debug("initialize cursors");
+        }
         CursorUtils.initializeCursors();
+        if (GameConfiguration.debugStartUp == true)
+        {
+            logger.debug("initialize game");
+        }
         game = Game.getCurrent();
         if (game != null)
         {
@@ -181,7 +210,13 @@ public class RunGame
         {
             logger.error("game is null, how did this happen?");
         }
-        logger.info("splash finished");
+        if (!(GameConfiguration.quickstart))
+        {
+            if (GameConfiguration.debugSplash == true)
+            {
+                logger.debug("splash finished");
+            }
+        }
 
         if (splash != null)
         {
@@ -205,6 +240,10 @@ public class RunGame
         {
             try
             {
+                if (GameConfiguration.debugStartUp == true)
+                {
+                    logger.debug("open game");
+                }
                 javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
             }
             catch (Exception e)
@@ -232,7 +271,10 @@ public class RunGame
         {
             try
             {
-                logger.info("open character editor");
+                if (GameConfiguration.debugStartUp == true)
+                {
+                    logger.debug("open character editor");
+                }
                 javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildCharacterEditor());
             }
             catch (Exception e)
@@ -251,7 +293,10 @@ public class RunGame
     {
         try
         {
-            logger.info("open character editor");
+            if (GameConfiguration.debugStartUp == true)
+            {
+                logger.debug("open title screen");
+            }
             javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildTitleScreen());
             UIStateMachine.setUiState(UIState.TITLE);
         }
@@ -274,18 +319,22 @@ public class RunGame
      */
     public static void renderSplashFrame(Graphics2D g, int frame, Dimension size)
     {
-        // logger.info("dimension: " + size);
+        if (GameConfiguration.debugSplash == true)
+        {
+            logger.info("dimension: " + size);
+        }
         int width = size.width;
         int height = size.height;
         g.clearRect((width - 100), (height - 50), 200, 100);
         g.setComposite(AlphaComposite.SrcOver);
-        // g.fillRect(848, 960, 50, 30);
         g.setPaintMode();
         g.setColor(Color.WHITE);
-
         g.drawString("Loading " + frame + "%", (width - 100), (height - 20));
         g.fillRect(0, height - 50, ((width / 100) * frame), 20);
-        logger.info("progress: {}", frame);
+        if (GameConfiguration.debugSplash == true)
+        {
+            logger.info("progress: {}", frame);
+        }
         splash.update();
     }
 
@@ -297,18 +346,22 @@ public class RunGame
      */
     public static void renderSplashFrame(Graphics2D g, Dimension size)
     {
-        // logger.info("dimension: " + size);
+        if (GameConfiguration.debugSplash == true)
+        {
+            logger.info("dimension: " + size);
+        }
         int width = size.width;
         int height = size.height;
         g.clearRect((width - 100), (height - 50), 200, 100);
         g.setComposite(AlphaComposite.SrcOver);
-        // g.fillRect(848, 960, 50, 30);
         g.setPaintMode();
         g.setColor(Color.WHITE);
-
         g.drawString("Loading " + (progress) + "%", (width - 100), (height - 20));
         g.fillRect(0, height - 50, ((width / 100) * progress), 20);
-        logger.info("progress: {}", progress);
+        if (GameConfiguration.debugSplash == true)
+        {
+            logger.info("progress: {}", progress);
+        }
         splash.update();
         progress = progress + 5;
         try

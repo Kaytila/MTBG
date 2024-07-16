@@ -71,20 +71,25 @@ public class GameConfiguration
      */
     public static final int autoMapTileSize = GameConfiguration.tileSize / 2;
     public static final boolean debugPaint = false;
+    public static final boolean debugGameState = false;
+    public static final boolean debugPC = false;
     public static final boolean debugTime = false;
     public static final boolean debugTimers = false;
     public static final boolean debugTurn = false;
-    public static final boolean debugGameState = false;
-    /*
-    ========================================================================================
+    /**
+     * debug the splash startup
      */
+    public static final boolean debugSplash = false;
     /**
      * describes the dex value where player will move twice
      */
     public static final int dexterityThreshold = 30;
-    public static final int dialogHeight = 300;
+    /**
+     * debug the startup procedure
+     */
+    public static final boolean debugStartUp = false;
     public static final int dialogWidth = 300;
-    public static final boolean debugPC = false;
+    public static final boolean debugWorld = false;
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
@@ -179,25 +184,30 @@ public class GameConfiguration
      * which map to start on
      */
     public static final String startMap = "outpost";
-    /**
-     * start position on the start map
+    /*
+    ========================================================================================
      */
-    public static final Point startPosition = new Point(3, 1);
-    /**
-     * how many nanoseconds are in a second?
-     */
-
-    public static final Point startTime = new Point(9, 0);
-    public static final int targetTime = 1000000000 / fps;
-    /**
-     * Tile Size
-     */
-    public static final int tileSize = 32;
-    public static final boolean debugWorld = false;
+    public static final int dialogHeight = 300;
     /**
      * draw the furniture/inventory on the automap or not?
      */
     public static final boolean drawFurnitureOnAutoMap = true;
+    /**
+     * what is the start position on the start map for a new game?
+     */
+    public static final Point startPosition = new Point(3, 1);
+    /**
+     * Tile Size
+     */
+    public static final int tileSize = 32;
+    /**
+     * whats the start time for a new game?
+     */
+    public static final Point startTime = new Point(9, 0);
+    /**
+     * how many nanoseconds are in a second?
+     */
+    public static final int targetTime = 1000000000 / fps;
     /**
      * how wide is the whole UI
      */
@@ -256,6 +266,7 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
+
 }
 
 

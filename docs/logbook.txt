@@ -1152,3 +1152,5 @@ History of the changes:
 2024-07-16: automap works actually just fine - with one exception. Now map is for one tick revealed as the map is
             fully calculated.
             This needs to change to a map copy.
+2024-07-16: updated window closing event for now - needs a proper fix, not sure how to. next topic: add labels to map.
+            lets see whether this works.

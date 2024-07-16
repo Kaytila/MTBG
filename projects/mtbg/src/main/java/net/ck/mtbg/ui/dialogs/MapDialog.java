@@ -9,6 +9,8 @@ import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @Log4j2
 @Getter
@@ -36,5 +38,19 @@ public class MapDialog extends AbstractDialog
         this.add(autoMapCanvas);
         addButtons();
         this.setVisible(true);
+
+        this.addWindowListener(new WindowAdapter()
+        {
+            public void windowClosed(WindowEvent e)
+            {
+
+            }
+
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("jdialog window closing event received");
+
+            }
+        });
     }
 }
