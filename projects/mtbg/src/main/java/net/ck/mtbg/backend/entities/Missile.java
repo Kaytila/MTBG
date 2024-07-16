@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.utils.ImageUtils;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class Missile
 {
     /**
@@ -48,21 +50,5 @@ public class Missile
         setSourceTile(source);
         setTargetTile(target);
         setStandardImage(ImageUtils.loadImage("combat", "missile"));
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Missile{" +
-                "sourceTile=" + sourceTile +
-                ", targetTile=" + targetTile +
-                ", currentPosition=" + currentPosition +
-                ", standardImage=" + standardImage +
-                ", sourceCoordinates=" + sourceCoordinates +
-                ", targetCoordinates=" + targetCoordinates +
-                ", finished=" + finished +
-                ", line=" + line +
-                ", success=" + success +
-                '}';
     }
 }

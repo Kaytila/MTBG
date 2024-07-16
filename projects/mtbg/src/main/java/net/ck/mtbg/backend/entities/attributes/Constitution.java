@@ -2,11 +2,13 @@ package net.ck.mtbg.backend.entities.attributes;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Setter
 @Getter
+@ToString
 public class Constitution extends AbstractAttribute
 {
 	public Constitution()

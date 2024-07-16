@@ -44,8 +44,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
     /**
      * describes whether a npc is moving or not (outside of schedules)
-     *
-     * @return true - meaning static, or false, meaning moving
+     * return true - meaning static, or false, meaning moving
      */
     private boolean isStatic;
 
@@ -73,6 +72,10 @@ public class NPC extends AbstractEntity implements LifeForm
      * does the NPC have a full schedule?
      */
     private Schedule schedule;
+
+    /**
+     * what action is currently running on NPC
+     */
     private AbstractKeyboardAction runningAction;
 
     public NPC(Integer i, Point p)
@@ -278,7 +281,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("npc {} checking schedule", this.getId());
+            logger.debug("npc {} checking schedule at {}", this.getId(), event.getType());
         }
     }
 
@@ -660,9 +663,8 @@ public class NPC extends AbstractEntity implements LifeForm
         this.setWeapon(null);
         for (int i = 0; i < getInventory().getSize(); i++)
         {
-            if (getInventory().getElementAt(i) instanceof Weapon)
+            if (getInventory().getElementAt(i) instanceof Weapon weapon)
             {
-                Weapon weapon = (Weapon) getInventory().getElementAt(i);
                 if (weapon.getType() == null)
                 {
                     //TODO hack not sure why this could be the case, but it is currently
@@ -692,11 +694,13 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             if (node.getMapPosition().equals(getMapPosition()))
             {
-                //logger.info("start node");
+                if (GameConfiguration.debugASTAR == true)
+                {
+                    logger.debug("NPC {} start node", this.getId());
+                }
             }
             else
             {
-                //logger.info(node);
                 if (node.x > futureMapPosition.x)
                 {
                     if (GameConfiguration.debugASTAR == true)
@@ -759,7 +763,7 @@ public class NPC extends AbstractEntity implements LifeForm
      * Kudos to:
      * <a href="https://stackoverflow.com/questions/37793591/how-do-i-copy-arraylistt-in-java-multi-threaded-environment">https://stackoverflow.com/questions/37793591/how-do-i-copy-arraylistt-in-java-multi-threaded-environment</a>
      *
-     * @return
+     * @return successfully switched map or not
      */
     public boolean switchMap()
     {

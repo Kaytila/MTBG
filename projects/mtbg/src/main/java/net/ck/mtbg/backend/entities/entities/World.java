@@ -404,14 +404,14 @@ public class World extends AbstractEntity implements LifeForm
                     Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() + 1);
                     if (GameConfiguration.debugWorld == true)
                     {
-                        logger.info("spawned NPC");
+                        logger.debug("spawned NPC");
                     }
                 }
             }
         }
         if (GameConfiguration.debugWorld == true)
         {
-            logger.info("spawning NPC end");
+            logger.debug("spawning NPC end");
         }
     }
 }

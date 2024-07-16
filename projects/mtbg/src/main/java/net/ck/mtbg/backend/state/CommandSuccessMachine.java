@@ -66,6 +66,14 @@ public class CommandSuccessMachine
                         NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
                     }
                     break;
+                case CAST:
+                    if (action.isSuccess())
+                    {
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
+                    } else
+                    {
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.CAST);
+                    }
                 default:
                     //logger.info("do nothing");
             }

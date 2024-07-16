@@ -187,16 +187,26 @@ public class Game implements Runnable, Serializable
 
         if (GameConfiguration.useGameThread == false)
         {
-            logger.info("running advance turn 1");
+            if (GameConfiguration.debugTurn == true)
+            {
+                logger.debug("running advance turn 1");
+            }
 
             setNextTurn(true);
 
             if (Game.getCurrent().isRunning() == true)
             {
-                logger.info("running advance turn 2");
+                if (GameConfiguration.debugTurn == true)
+                {
+                    logger.debug("running advance turn 2");
+                }
                 if (isNextTurn() == true)
                 {
-                    logger.info("running advance turn 3");
+
+                    if (GameConfiguration.debugTurn == true)
+                    {
+                        logger.debug("running advance turn 3");
+                    }
                     advanceTurn(event.getAction());
                     setNextTurn(false);
                     setNpcAction(false);
@@ -272,7 +282,10 @@ public class Game implements Runnable, Serializable
         {
             if (playerMovedTwice == false)
             {
-                logger.debug("player has moved twice, now world is allowed to");
+                if (GameConfiguration.debugTurn == true)
+                {
+                    logger.debug("player has moved twice, now world is allowed to");
+                }
                 if (action.isHaveNPCAction())
                 {
                     for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
@@ -284,12 +297,21 @@ public class Game implements Runnable, Serializable
                         }
                         if (e.hasTwoActions())
                         {
-                            logger.debug("two actions");
+                            if (GameConfiguration.debugTurn == true)
+                            {
+                                logger.debug("two actions");
+                            }
                             AIBehaviour.determineAction(e);
-                            logger.debug("first done");
+                            if (GameConfiguration.debugTurn == true)
+                            {
+                                logger.debug("first done");
+                            }
                             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                             AIBehaviour.determineAction(e);
-                            logger.debug("second done");
+                            if (GameConfiguration.debugTurn == true)
+                            {
+                                logger.debug("second done");
+                            }
                             e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                         }
                         else
@@ -305,7 +327,10 @@ public class Game implements Runnable, Serializable
             }
             else
             {
-                logger.debug("player moving twice now");
+                if (GameConfiguration.debugTurn == true)
+                {
+                    logger.debug("player moving twice now");
+                }
                 playerMovedTwice = false;
             }
         }
@@ -325,14 +350,23 @@ public class Game implements Runnable, Serializable
                     //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
                     if (e.hasTwoActions())
                     {
-                        logger.debug("two actions");
+                        if (GameConfiguration.debugTurn == true)
+                        {
+                            logger.debug("two actions");
+                        }
                         AIBehaviour.determineAction(e);
-                        logger.debug("first done");
+                        if (GameConfiguration.debugTurn == true)
+                        {
+                            logger.debug("first done");
+                        }
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                         WindowBuilder.getGridCanvas().paint();
                         ThreadController.sleep(300, ThreadNames.GAME_THREAD);
                         AIBehaviour.determineAction(e);
-                        logger.debug("second done");
+                        if (GameConfiguration.debugTurn == true)
+                        {
+                            logger.debug("second done");
+                        }
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                     }
                     else
@@ -346,7 +380,10 @@ public class Game implements Runnable, Serializable
                                 //noinspection StatementWithEmptyBody
                                 while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
                                 {
-                                    logger.debug("missile is on its way");
+                                    if (GameConfiguration.debugTurn == true)
+                                    {
+                                        logger.debug("missile is on its way");
+                                    }
                                     ThreadController.sleep(50, ThreadNames.GAME_THREAD);
                                 }
                             }

@@ -1271,15 +1271,15 @@ public class MapUtils
         }
     }
 
-    public static void calculateAllTileImages(Graphics graphics)
+    public static void calculateAllTileImages(Map map, Graphics graphics)
     {
         long start = System.nanoTime();
 
-        for (int row = 0; row < Game.getCurrent().getCurrentMap().getSize().y; row++)
+        for (int row = 0; row < map.getSize().y; row++)
         {
-            for (int column = 0; column < Game.getCurrent().getCurrentMap().getSize().x; column++)
+            for (int column = 0; column < map.getSize().x; column++)
             {
-                MapTile t = Game.getCurrent().getCurrentMap().mapTiles[row][column];
+                MapTile t = map.mapTiles[row][column];
                 if (t == null)
                 {
                     //not existing tiles, we need to handle somewhere else probably

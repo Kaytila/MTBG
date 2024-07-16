@@ -2,7 +2,9 @@ package net.ck.mtbg.backend.state;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -13,6 +15,7 @@ import org.greenrobot.eventbus.Subscribe;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class GameStateMachine
 {
     private static final GameStateMachine gameStateMachine = new GameStateMachine();
@@ -33,7 +36,10 @@ public class GameStateMachine
     @Subscribe
     public void onMessageEvent(GameStateChanged gameStateChanged)
     {
-        logger.info("setting game state to: {}", gameStateChanged.getGameState());
+        if (GameConfiguration.debugGameState == true)
+        {
+            logger.debug("setting game state to: {}", gameStateChanged.getGameState());
+        }
         setCurrentState(gameStateChanged.getGameState());
     }
 

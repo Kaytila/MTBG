@@ -24,11 +24,9 @@ import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
-import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.communication.keyboard.GetAction;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.Directions;
 import net.ck.mtbg.util.utils.ImageManager;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -177,101 +175,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         }
     }
 
-    /**
-     * so this is the method where the a* algorithm needs to go into.
-     * TBD.
-     *
-     * @param tileByCoordinates the target map tile
-     * @return success or not
-     */
-    private boolean moveToRecursive(MapTile tileByCoordinates)
-    {
-        logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-        logger.info("finish: {}", tileByCoordinates);
-
-        while (!(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition())).equals(tileByCoordinates)))
-        {
-            AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
-            ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
-            for (MapTile node : path)
-            {
-                logger.info(node);
-            }
-            MapTile nextTile = path.get(1);
-            if (nextTile.getMapPosition().equals(getMapPosition()))
-            {
-                logger.info("start node");
-                path.remove(0);
-            }
-            else
-            {
-                logger.info("next tile: {} ", nextTile);
-                if (nextTile.x > getMapPosition().x)
-                {
-                    logger.info("add east");
-                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new EastAction());
-                }
-
-                else if (nextTile.x < getMapPosition().x)
-                {
-                    logger.info("add west");
-                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new WestAction());
-                }
-
-                else if (nextTile.y > getMapPosition().y)
-                {
-                    logger.info("add south");
-                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new SouthAction());
-                }
-
-                else if (nextTile.y < getMapPosition().y)
-                {
-                    logger.info("add north");
-                    Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new NorthAction());
-                }
-                WindowBuilder.getController().runQueue();
-            }
-        }
-        return true;
-    }
-
-    private boolean moveToBasic(MapTile tileByCoordinates)
-    {
-        logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-        logger.info("finish: {}", tileByCoordinates);
-
-        Point p = new Point(getMapPosition().x, getMapPosition().y);
-        while (p.x < tileByCoordinates.getMapPosition().x)
-        {
-            p.move((p.x + 1), p.y);
-            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new EastAction());
-            logger.info("move east");
-        }
-
-        while (p.x > tileByCoordinates.getMapPosition().x)
-        {
-            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new WestAction());
-            p.move((p.x - 1), p.y);
-            logger.info("move west");
-        }
-
-        while (p.y < tileByCoordinates.getMapPosition().y)
-        {
-            p.move((p.x), p.y + 1);
-            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new SouthAction());
-            logger.info("move south");
-        }
-
-        while (p.y > tileByCoordinates.getMapPosition().y)
-        {
-            p.move((p.x), p.y - 1);
-            Game.getCurrent().getCurrentPlayer().getQueuedActions().addEntry(new NorthAction());
-            logger.info("move north");
-        }
-        return true;
-    }
-
-
     public boolean dropItem(AbstractItem affectedItem, MapTile tile)
     {
         tile.getInventory().add(affectedItem);
@@ -334,7 +237,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         if (getWearEquipment().get(pos) != null)
         {
             getInventory().add(getWearEquipment().get(pos));
-            logger.info("Wear  equipment: {}", getWearEquipment());
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.debug("entity {} Wear  equipment: {}", this.getId(), getWearEquipment());
+            }
             getWearEquipment().remove(pos);
             return true;
         }
@@ -472,63 +378,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     /**
      * @param tileByCoordinates target tile
      */
-    public boolean moveTo(MapTile tileByCoordinates)
-    {
-        if (GameConfiguration.debugASTAR == true)
-        {
-            logger.debug("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-            logger.debug("finish: {}", tileByCoordinates);
-        }
-
-        AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
-        ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
-        Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
-        for (MapTile node : path)
-        {
-            if (node.getMapPosition().equals(getMapPosition()))
-            {
-                if (GameConfiguration.debugASTAR == true)
-                {
-                    logger.debug("start node");
-                }
-            }
-            else
-            {
-                //logger.info(node);
-                if (node.x > futureMapPosition.x)
-                {
-                    getQueuedActions().addEntry(new EastAction());
-                    futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
-                }
-                else if (node.x < futureMapPosition.x)
-                {
-                    getQueuedActions().addEntry(new WestAction());
-                    futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
-                }
-                else if (node.y > futureMapPosition.y)
-                {
-                    getQueuedActions().addEntry(new SouthAction());
-                    futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
-                }
-                else if (node.y < futureMapPosition.y)
-                {
-                    getQueuedActions().addEntry(new NorthAction());
-                    futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
-                }
-            }
-            if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
-            {
-                if (GameConfiguration.debugASTAR == true)
-                {
-                    logger.debug("target can be reached");
-                }
-                //return true;
-                //((NPC) this).doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
-            }
-        }
-        return false;
-    }
-
+    public abstract boolean moveTo(MapTile tileByCoordinates);
 
     public void openDoor(MapTile tile)
     {
@@ -582,7 +432,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         {
             logger.info("{} attacking {}", this.getId(), tileByCoordinates.getLifeForm());
         }
-        MapTile tile;
+        MapTile tile = null;
 
         if (getVictim() != null)
         {
@@ -745,14 +595,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 return false;
             }
         }
-        else
-        {
-            if (GameConfiguration.debugNPC == true)
-            {
-                logger.debug("no tile");
-            }
-            return false;
-        }
+        return false;
     }
 
 
@@ -890,10 +733,6 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         if (exit != null)
         {
             mapName = exit.getTargetMap();
-        }
-        else
-        {
-            return false;
         }
         Point target = new Point();
 

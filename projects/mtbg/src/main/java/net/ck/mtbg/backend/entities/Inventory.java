@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Armor;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 @Log4j2
 @Setter
 @Getter
+@ToString
 public class Inventory extends AbstractListModel<AbstractItem>
 {
     private ArrayList<AbstractItem> inventory;
@@ -122,13 +124,4 @@ public class Inventory extends AbstractListModel<AbstractItem>
         return getInventory().get(i);
     }
 
-    @Override
-    public String toString()
-    {
-        return "Inventory{" +
-                "inventory=" + inventory +
-                ", maxWeight=" + maxWeight +
-                ", currentWeight=" + currentWeight +
-                '}';
-    }
 }

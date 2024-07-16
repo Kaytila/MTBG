@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.actions;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
@@ -20,8 +21,12 @@ import java.io.Serializable;
 @Log4j2
 @Setter
 @Getter
+@ToString
 public class PlayerAction extends AbstractAction implements Serializable
 {
+	/**
+	 * does the action trigger an npc action
+	 */
 	private boolean haveNPCAction;
 
 	/**
@@ -45,8 +50,5 @@ public class PlayerAction extends AbstractAction implements Serializable
 		return getEvent().getType();
 	}
 
-	public String toString()
-	{
-		return "Player action: " + getEvent().getType() + " of player: ";
-	}
+
 }

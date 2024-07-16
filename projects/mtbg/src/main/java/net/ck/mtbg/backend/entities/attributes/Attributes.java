@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.entities.attributes;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class Attributes implements ListModel<AbstractAttribute>, Serializable
 {
 	private final ArrayList<AbstractAttribute> attributes;

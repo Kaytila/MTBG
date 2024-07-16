@@ -1147,3 +1147,5 @@ History of the changes:
             So now, npcs should be able to find also complex ways around a map.
             But that means I will need to create one.
 2024-07-16: updated NPC to have proper debug statements.
+2024-07-16: updated a few classes with debug statements, added some more debug flags
+2024-07-16: updated some more classes with debug statements, introduced automap and automapcanvas.

@@ -48,7 +48,7 @@ public class GameLogs
     {
         for (Field field : GameLogs.class.getDeclaredFields())
         {
-            logger.info("field: {}", field.toString());
+            logger.debug("field: {}", field.toString());
         }
     }
 

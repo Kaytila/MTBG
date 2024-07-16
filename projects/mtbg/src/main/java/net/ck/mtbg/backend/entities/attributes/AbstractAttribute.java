@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.entities.attributes;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.utils.ImageManager;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public abstract class AbstractAttribute implements Serializable
 {
 	/**
@@ -37,12 +39,5 @@ public abstract class AbstractAttribute implements Serializable
 	{
 		return ImageManager.getAttributeImages().get(getType());
 	}
-
-	@Override
-	public String toString()
-	{
-		return String.valueOf(getValue());
-	}
-
 
 }

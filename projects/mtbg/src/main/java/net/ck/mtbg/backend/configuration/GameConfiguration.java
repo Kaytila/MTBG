@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.configuration;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.io.File;
  * Good enough for now, makes things easier to read.
  */
 @Log4j2
+@ToString
 public class GameConfiguration
 {
     /**
@@ -40,6 +42,11 @@ public class GameConfiguration
     public static final int cutSceneImageRollOverBuffer = 1000;
     public static final int cutSceneImageRolloverDelay = 5000;
     public static final int cutSceneImageRolloverPeriod = 5000;
+
+    /*
+    ========================================================================================
+    all debug flags
+     */
     public static final boolean debugASTAR = true;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugLOS = false;
@@ -51,6 +58,15 @@ public class GameConfiguration
     public static final boolean debugTime = false;
     public static final boolean debugTimers = false;
     public static final boolean debugWorld = false;
+    public static final boolean debugGameState = false;
+    public static final boolean debugEnvironmentalStoryTeller = false;
+    public static final boolean debugPC = false;
+    public static final boolean debugTurn = false;
+    /*
+    ========================================================================================
+     */
+
+
     /**
      * describes the dex value where player will move twice
      */
@@ -227,6 +243,11 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
+
+
+    public static final int autoMapTileSize = GameConfiguration.tileSize / 4;
+
+
 }
 
 

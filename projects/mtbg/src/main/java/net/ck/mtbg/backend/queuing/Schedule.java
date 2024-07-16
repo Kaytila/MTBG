@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.queuing;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class Schedule
 {
     private ArrayList<ScheduleActivity> activities;

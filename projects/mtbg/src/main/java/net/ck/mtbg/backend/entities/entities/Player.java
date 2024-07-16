@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
 import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.attributes.AttributeTypes;
 import net.ck.mtbg.backend.entities.skills.AbstractSkill;
@@ -677,15 +678,15 @@ public class Player extends AbstractEntity implements LifeForm
         {
             if (getWeapon() == null)
             {
-                logger.info("wield weapon");
+                logger.debug("wield weapon");
                 setWeapon(weapon);
                 getInventory().remove(weapon);
                 return true;
             }
             else
             {
-                logger.info("weapon: {}", getWeapon());
-                logger.info("cannot wield weapon");
+                logger.debug("weapon: {}", getWeapon());
+                logger.debug("cannot wield weapon");
                 return false;
             }
         }
@@ -699,6 +700,10 @@ public class Player extends AbstractEntity implements LifeForm
      */
     public void move(int x, int y)
     {
+        if (GameConfiguration.debugPC == true)
+        {
+            logger.debug("move to x: {} y: {}", x, y);
+        }
         EnvironmentalStoryTeller.tellStoryLeave(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()));
         super.move(x, y);
         EnvironmentalStoryTeller.tellStoryEnter(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()));
@@ -708,9 +713,11 @@ public class Player extends AbstractEntity implements LifeForm
     public boolean moveTo(MapTile tileByCoordinates)
     {
         setQueuedActions(new CommandQueue());
-        logger.info("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-        logger.info("finish: {}", tileByCoordinates);
-
+        if (GameConfiguration.debugPC == true)
+        {
+            logger.debug("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
+            logger.debug("finish: {}", tileByCoordinates);
+        }
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
@@ -718,11 +725,13 @@ public class Player extends AbstractEntity implements LifeForm
         {
             if (node.getMapPosition().equals(getMapPosition()))
             {
-                //logger.info("start node");
+                if (GameConfiguration.debugPC == true)
+                {
+                    logger.debug("start node");
+                }
             }
             else
             {
-                //logger.info(node);
                 if (node.x > futureMapPosition.x)
                 {
                     getQueuedActions().addEntry(new EastAction());
@@ -746,9 +755,10 @@ public class Player extends AbstractEntity implements LifeForm
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
             {
-                //logger.info("target can be reached");
-                //return true;
-                //doAction(new PlayerAction((AbstractKeyboardAction) getQueuedActions().poll()));
+                if (GameConfiguration.debugPC == true)
+                {
+                    logger.debug("target can be reached");
+                }
             }
         }
         return false;
@@ -756,6 +766,10 @@ public class Player extends AbstractEntity implements LifeForm
 
     public boolean switchMap()
     {
+        if (GameConfiguration.debugPC == true)
+        {
+            logger.debug("switching map");
+        }
         Map oldMap = Game.getCurrent().getCurrentMap();
         super.switchMap();
         //TODO this one is kind of ugly - can this be handled otherwise?
