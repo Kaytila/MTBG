@@ -56,22 +56,25 @@ public class GameConfiguration
      */
     public static final boolean debugASTAR = true;
     public static final boolean debugBrightenImages = false;
-    /**
-     * how big shall the tiles be on the automap?
-     */
-    public static final int autoMapTileSize = GameConfiguration.tileSize / 2;
     public static final boolean debugEnvironmentalStoryTeller = false;
+    /**
+     * how high is the whole UI
+     */
+    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = true;
     public static final boolean debugNPC = true;
-    public static final boolean debugGameState = false;
+    /**
+     * how big shall the tiles be on the automap?
+     */
+    public static final int autoMapTileSize = GameConfiguration.tileSize / 2;
     public static final boolean debugPaint = false;
     public static final boolean debugTime = false;
     public static final boolean debugTimers = false;
     public static final boolean debugTurn = false;
-    public static final boolean debugPC = false;
+    public static final boolean debugGameState = false;
     /*
     ========================================================================================
      */
@@ -81,7 +84,7 @@ public class GameConfiguration
     public static final int dexterityThreshold = 30;
     public static final int dialogHeight = 300;
     public static final int dialogWidth = 300;
-    public static final boolean debugWorld = false;
+    public static final boolean debugPC = false;
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
@@ -190,18 +193,15 @@ public class GameConfiguration
      * Tile Size
      */
     public static final int tileSize = 32;
-    /**
-     * how high is the whole UI
-     */
-    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
-    /**
-     * how wide is the whole UI
-     */
-    public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    public static final boolean debugWorld = false;
     /**
      * draw the furniture/inventory on the automap or not?
      */
     public static final boolean drawFurnitureOnAutoMap = true;
+    /**
+     * how wide is the whole UI
+     */
+    public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     /**
      * how long shall the game wait until sending a pass message in ms
      */
