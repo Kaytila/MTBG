@@ -39,6 +39,13 @@ public class GameConfiguration
     public static final boolean calculateBrightenUpImageInPaint = true;
     public static final int characterEditorTileSize = 20;
     public static final int characterEditorTinyTileSize = 10;
+
+
+    /*
+    ============================================================
+    CUTSCENE
+     */
+
     public static final int cutSceneImageRollOverBuffer = 1000;
     public static final int cutSceneImageRolloverDelay = 5000;
     public static final int cutSceneImageRolloverPeriod = 5000;
@@ -49,30 +56,32 @@ public class GameConfiguration
      */
     public static final boolean debugASTAR = true;
     public static final boolean debugBrightenImages = false;
+    /**
+     * how big shall the tiles be on the automap?
+     */
+    public static final int autoMapTileSize = GameConfiguration.tileSize / 2;
+    public static final boolean debugEnvironmentalStoryTeller = false;
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = true;
     public static final boolean debugNPC = true;
+    public static final boolean debugGameState = false;
     public static final boolean debugPaint = false;
     public static final boolean debugTime = false;
     public static final boolean debugTimers = false;
-    public static final boolean debugWorld = false;
-    public static final boolean debugGameState = false;
-    public static final boolean debugEnvironmentalStoryTeller = false;
-    public static final boolean debugPC = false;
     public static final boolean debugTurn = false;
+    public static final boolean debugPC = false;
     /*
     ========================================================================================
      */
-
-
     /**
      * describes the dex value where player will move twice
      */
     public static final int dexterityThreshold = 30;
     public static final int dialogHeight = 300;
     public static final int dialogWidth = 300;
+    public static final boolean debugWorld = false;
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
@@ -190,6 +199,10 @@ public class GameConfiguration
      */
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     /**
+     * draw the furniture/inventory on the automap or not?
+     */
+    public static final boolean drawFurnitureOnAutoMap = true;
+    /**
      * how long shall the game wait until sending a pass message in ms
      */
     public static final long turnwait = 5000;
@@ -243,11 +256,6 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
-
-
-    public static final int autoMapTileSize = GameConfiguration.tileSize / 4;
-
-
 }
 
 

@@ -79,6 +79,12 @@ public class DialogFactory
                 return new OptionsDialog(owner, title, modal);
             }
 
+            case "Map":
+            {
+                return new MapDialog(owner, title, modal);
+            }
+
+
             default:
             {
                 throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);

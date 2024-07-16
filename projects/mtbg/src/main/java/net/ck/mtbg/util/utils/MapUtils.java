@@ -1286,28 +1286,21 @@ public class MapUtils
                     continue;
                 }
 
-                if (t.isHidden())
+                //if (t.isHidden())
+                //{
+                //    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
+                //}
+                //else
+                //{
+                BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
+                Graphics g = image.getGraphics();
+
+                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
+                //g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
+                g.drawImage(bgImage, 0, 0, null);
+
+                if (GameConfiguration.drawFurnitureOnAutoMap == true)
                 {
-                    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
-                }
-                else
-                {
-                    BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
-                    Graphics g = image.getGraphics();
-
-                    BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
-                    g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
-
-                    /*if (t.getLifeForm() != null)
-                    {
-                        if (GameConfiguration.useImageManager == true)
-                        {
-                            BufferedImage bufferedImage = ImageManager.getLifeformImages().get(t.getLifeForm().getType())[t.getLifeForm().getCurrImage()];
-                            g.drawImage(bufferedImage, (GameConfiguration.tileSize / 4), (GameConfiguration.tileSize / 4), null);
-
-                        }
-                    }
-                    else*/
                     if (t.getFurniture() != null)
                     {
                         g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);

@@ -5,21 +5,20 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Getter
 @Setter
-@Log4j2
 @ToString
-public class OptionsAction extends AbstractKeyboardAction
+public class MapAction extends AbstractKeyboardAction
 {
     @Override
     public KeyboardActionType getType()
     {
-        return KeyboardActionType.OPTIONS;
+        return KeyboardActionType.MAP;
     }
 
     public boolean isActionimmediately()
     {
         return false;
     }
-
 }

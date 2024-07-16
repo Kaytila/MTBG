@@ -1149,3 +1149,6 @@ History of the changes:
 2024-07-16: updated NPC to have proper debug statements.
 2024-07-16: updated a few classes with debug statements, added some more debug flags
 2024-07-16: updated some more classes with debug statements, introduced automap and automapcanvas.
+2024-07-16: automap works actually just fine - with one exception. Now map is for one tick revealed as the map is
+            fully calculated.
+            This needs to change to a map copy.

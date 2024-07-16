@@ -24,13 +24,14 @@ import java.awt.*;
  */
 public class AutoMapCanvas extends JComponent
 {
+    private final int spacer = 20;
     private Map map;
 
     public AutoMapCanvas(Map map)
     {
         this.map = map;
         MapUtils.calculateAllTileImages(map, this.getGraphics());
-        setSize(20 + map.getSize().x * GameConfiguration.autoMapTileSize, 20 + map.getSize().y * GameConfiguration.autoMapTileSize);
+        setSize(spacer + (map.getSize().x * GameConfiguration.autoMapTileSize), spacer + (map.getSize().y * GameConfiguration.autoMapTileSize));
     }
 
     public void paintComponent(Graphics g)
@@ -41,7 +42,7 @@ public class AutoMapCanvas extends JComponent
             {
                 MapTile tile = map.mapTiles[column][row];
                 ImageUtils.scaledImage(tile.getCalculatedImage(), GameConfiguration.autoMapTileSize, GameConfiguration.autoMapTileSize);
-                g.drawImage(tile.getCalculatedImage(), column * GameConfiguration.autoMapTileSize, row * GameConfiguration.autoMapTileSize, null);
+                g.drawImage(tile.getCalculatedImage(), spacer + (column * GameConfiguration.autoMapTileSize), spacer + (row * GameConfiguration.autoMapTileSize), null);
             }
         }
     }

@@ -725,6 +725,12 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 break;
             }
 
+            case MAP:
+            {
+                ControllerDelegator.handleKeyBoardActionMAP(this, action);
+                break;
+            }
+
             case INVENTORY:
             {
                 ControllerDelegator.handleKeyBoardActionINVENTORY(this, action);

@@ -666,4 +666,18 @@ public class ControllerDelegator
         controller.getCurrentAction().setMapTile(tile);
         logger.debug("calling click event");
     }
+
+    public static void handleKeyBoardActionMAP(Controller controller, AbstractKeyboardAction action)
+    {
+        if (UIStateMachine.isSelectTile() == true)
+        {
+            logger.info("handleKeyBoardActionMAP - select tile is active, dont do anything");
+        }
+        else
+        {
+            TimerManager.getIdleTimer().stop();
+            action.setHaveNPCAction(false);
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Map", false, null, null, null);
+        }
+    }
 }

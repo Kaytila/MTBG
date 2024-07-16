@@ -150,6 +150,10 @@ public class JGridCanvas extends JComponent
 
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK), "options");
         this.getActionMap().put("options", new OptionsAction());
+
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK), "map");
+        this.getActionMap().put("map", new MapAction());
+
     }
 
     /**
