@@ -189,7 +189,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("changing setOriginalTargetMapPosition to: {} ", originalTargetMapPosition);
+            logger.debug("NPC {} changing setOriginalTargetMapPosition to: {} ", this.getId(), originalTargetMapPosition);
         }
 
         this.originalTargetMapPosition = originalTargetMapPosition;
@@ -204,7 +204,7 @@ public class NPC extends AbstractEntity implements LifeForm
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("wield weapon: {}", weapon);
+                    logger.debug("NPC {} wield weapon: {}", this.getId(), weapon);
                 }
                 setWeapon(weapon);
                 getInventory().remove(weapon);
@@ -214,8 +214,8 @@ public class NPC extends AbstractEntity implements LifeForm
             {
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("weapon: {}", getWeapon());
-                    logger.info("cannot wield weapon");
+                    logger.debug("NPC {} weapon: {}", this.getId(), getWeapon());
+                    logger.debug("NPC {} cannot wield weapon", this.getId());
                 }
                 return false;
             }
@@ -278,7 +278,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("npc id {} checking schedule", this.getId());
+            logger.debug("npc {} checking schedule", this.getId());
         }
     }
 
@@ -292,11 +292,11 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("looking:");
-            logger.info("maptile: {}", maptile);
-            logger.info("maptile furniture: {}", maptile.getFurniture());
-            logger.info("maptile inventory: {}", maptile.getInventory());
-            logger.info("maptile blocked: {}", maptile.isBlocked());
+            logger.debug("NPC {} looking:", this.getId());
+            logger.debug("maptile: {}", maptile);
+            logger.debug("maptile furniture: {}", maptile.getFurniture());
+            logger.debug("maptile inventory: {}", maptile.getInventory());
+            logger.debug("maptile blocked: {}", maptile.isBlocked());
         }
 
         for (AbstractItem item : maptile.getInventory().getInventory())
@@ -348,7 +348,7 @@ public class NPC extends AbstractEntity implements LifeForm
 
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("do action: {}", action.toString());
+            logger.debug("npc {} do action: {}", this.getId(), action.toString());
         }
 
         Point p = getMapPosition();
@@ -370,7 +370,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("move east");
+                            logger.debug("npc {}, move east", this.getId());
                         }
                         this.move((p.x + 1), p.y);
                         success = true;
@@ -381,7 +381,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("open east and walk east");
+                                logger.debug("NPC {} open east and walk east", this.getId());
                             }
                             this.openDoor(MapUtils.getMapTileByCoordinates((p.x + 1), (p.y)));
                             this.move((p.x + 1), (p.y));
@@ -391,7 +391,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("EAST blocked");
+                                logger.debug("NPC {} EAST blocked", this.getId());
                             }
                         }
                     }
@@ -400,12 +400,15 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("eastern border, ignore wrapping for now");
+                        logger.debug("NPC {} eastern border, ignore wrapping for now", this.getId());
                     }
                 }
                 break;
             case ENTER:
-                logger.info("loading new map");
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.debug("NPC {} loading new map", this.getId());
+                }
                 switchMap();
                 break;
             case ESC:
@@ -418,7 +421,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("move north");
+                            logger.debug("NPC {} move north", this.getId());
                         }
                         this.move((p.x), (p.y - 1));
                         success = true;
@@ -429,7 +432,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("open north and walk north");
+                                logger.debug("NPC {} open north and walk north", this.getId());
                             }
                             this.openDoor(MapUtils.getMapTileByCoordinates((p.x), (p.y - 1)));
                             this.move((p.x), (p.y - 1));
@@ -439,7 +442,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("NORTH blocked");
+                                logger.debug("NPC {} NORTH blocked", this.getId());
                             }
                         }
                     }
@@ -448,7 +451,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("already at zero y");
+                        logger.debug("NPC {} already at zero y", this.getId());
                     }
                 }
                 break;
@@ -463,7 +466,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("move south");
+                            logger.debug("NPC {} move south", this.getId());
                         }
                         this.move((p.x), (p.y + 1));
                         success = true;
@@ -474,7 +477,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("open south and walk south");
+                                logger.debug("NPC {} open south and walk south", this.getId());
                             }
                             this.openDoor(MapUtils.getMapTileByCoordinates((p.x), (p.y + 1)));
                             this.move((p.x), (p.y + 1));
@@ -484,7 +487,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("SOUTH blocked");
+                                logger.debug("NPC {} SOUTH blocked", this.getId());
                             }
                         }
                     }
@@ -494,7 +497,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.info("southern border, ignore wrapping for now");
+                        logger.debug("NPC {} southern border, ignore wrapping for now", this.getId());
                     }
                 }
                 break;
@@ -506,7 +509,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.info("move west");
+                            logger.debug("NPC {} move west", this.getId());
                         }
                         this.move((p.x - 1), (p.y));
                         success = true;
@@ -517,7 +520,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("open west and walk west");
+                                logger.debug("NPC {} open west and walk west", this.getId());
                             }
                             this.openDoor(MapUtils.getMapTileByCoordinates((p.x - 1), (p.y)));
                             this.move((p.x - 1), (p.y));
@@ -527,7 +530,7 @@ public class NPC extends AbstractEntity implements LifeForm
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("WEST BLOCKED");
+                                logger.debug("NPC {} WEST BLOCKED", this.getId());
                             }
                         }
                     }
@@ -536,7 +539,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("already at zero x");
+                        logger.debug("NPC {} already at zero x", this.getId());
                     }
                 }
                 break;
@@ -554,7 +557,7 @@ public class NPC extends AbstractEntity implements LifeForm
             case TALK:
                 if (GameConfiguration.debugNPC == true)
                 {
-                    logger.info("doing talk action");
+                    logger.debug("NPC {} doing talk action", this.getId());
                 }
                 break;
 
@@ -575,7 +578,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 success = attack(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
                 break;
             default:
-                logger.error("doing default action, inventory does not need to be reverted for instance");
+                logger.error("NPC {} doing default action, inventory does not need to be reverted for instance", this.getId());
                 break;
 
         }
@@ -648,7 +651,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.info("switching weapon");
+            logger.debug("NPC {} switching weapon", this.getId());
         }
         if (getWeapon() != null)
         {
@@ -678,8 +681,8 @@ public class NPC extends AbstractEntity implements LifeForm
         setQueuedActions(new CommandQueue());
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
-            logger.debug("finish: {}", tileByCoordinates);
+            logger.debug("NPC {} start: {}", this.getId(), MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
+            logger.debug("NPC {} finish: {}", this.getId(), tileByCoordinates);
         }
 
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
@@ -698,7 +701,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugASTAR == true)
                     {
-                        logger.debug("adding east action");
+                        logger.debug("NPC {} adding east action", this.getId());
                     }
                     getQueuedActions().addEntry(new EastAction());
                     futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
@@ -707,7 +710,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugASTAR == true)
                     {
-                        logger.debug("adding west action");
+                        logger.debug("NPC {} adding west action", this.getId());
                     }
                     getQueuedActions().addEntry(new WestAction());
                     futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
@@ -716,7 +719,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugASTAR == true)
                     {
-                        logger.debug("adding south action");
+                        logger.debug("NPC {} adding south action", this.getId());
                     }
                     getQueuedActions().addEntry(new SouthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
@@ -725,7 +728,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 {
                     if (GameConfiguration.debugASTAR == true)
                     {
-                        logger.debug("adding north action");
+                        logger.debug("NPC {} adding north action", this.getId());
                     }
                     getQueuedActions().addEntry(new NorthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
@@ -735,7 +738,7 @@ public class NPC extends AbstractEntity implements LifeForm
             {
                 if (GameConfiguration.debugASTAR == true)
                 {
-                    logger.debug("target can be reached");
+                    logger.debug("NPC {} target can be reached", this.getId());
                 }
                 //return true;
                 if (getQueuedActions() != null)
@@ -761,8 +764,10 @@ public class NPC extends AbstractEntity implements LifeForm
     public boolean switchMap()
     {
         //TODO something is buggy there somewhere
-        logger.info("start: switching map");
-
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug("NPC {} start: switching map", this.getId());
+        }
         MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
         String mapName = null;
         if (exit != null)
@@ -775,7 +780,10 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             target = exit.getTargetCoordinates();
         }
-        logger.info("mapname: {}, target Tile: {}", mapName, target);
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug("NPC {} mapname: {}, target Tile: {}", this.getId(), mapName, target);
+        }
         for (Map m : Game.getCurrent().getMaps())
         {
             if (m.getName().equalsIgnoreCase(mapName))
@@ -788,12 +796,18 @@ public class NPC extends AbstractEntity implements LifeForm
                 assert targetTile != null;
                 this.setMapPosition(new Point(targetTile.x, targetTile.y));
                 targetTile.setLifeForm(this);
-                logger.debug("new position: {}", this.getMapPosition());
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.debug("NPC {} new position: {}", this.getId(), this.getMapPosition());
+                }
                 //setAnimatedEntities(animatedEntities = new ArrayList<>());
                 //addAnimatedEntities();
             }
         }
-        logger.info("end: switching map");
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug("NPC {} end: switching map", this.getId());
+        }
         return true;
     }
 

@@ -1146,3 +1146,4 @@ History of the changes:
             currently, open is done while walking, that might need to change but it works and that is fine for now.
             So now, npcs should be able to find also complex ways around a map.
             But that means I will need to create one.
+2024-07-16: updated NPC to have proper debug statements.
