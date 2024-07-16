@@ -57,39 +57,39 @@ public class GameConfiguration
     public static final boolean debugASTAR = true;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugEnvironmentalStoryTeller = false;
-    /**
-     * how high is the whole UI
-     */
-    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    public static final boolean debugGameState = false;
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = true;
     public static final boolean debugNPC = true;
-    /**
-     * how big shall the tiles be on the automap?
-     */
-    public static final int autoMapTileSize = GameConfiguration.tileSize / 2;
-    public static final boolean debugPaint = false;
-    public static final boolean debugGameState = false;
     public static final boolean debugPC = false;
-    public static final boolean debugTime = false;
-    public static final boolean debugTimers = false;
-    public static final boolean debugTurn = false;
+    public static final boolean debugPaint = false;
     /**
      * debug the splash startup
      */
     public static final boolean debugSplash = false;
     /**
-     * describes the dex value where player will move twice
-     */
-    public static final int dexterityThreshold = 30;
-    /**
      * debug the startup procedure
      */
     public static final boolean debugStartUp = false;
-    public static final int dialogWidth = 300;
+    public static final boolean debugTime = false;
+    public static final boolean debugTimers = false;
+    public static final boolean debugTurn = false;
     public static final boolean debugWorld = false;
+    /**
+     * describes the dex value where player will move twice
+     */
+    public static final int dexterityThreshold = 30;
+    /*
+    ========================================================================================
+     */
+    public static final int dialogHeight = 300;
+    public static final int dialogWidth = 300;
+    /**
+     * draw the furniture/inventory on the automap or not?
+     */
+    public static final boolean drawFurnitureOnAutoMap = true;
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
@@ -184,22 +184,10 @@ public class GameConfiguration
      * which map to start on
      */
     public static final String startMap = "outpost";
-    /*
-    ========================================================================================
-     */
-    public static final int dialogHeight = 300;
-    /**
-     * draw the furniture/inventory on the automap or not?
-     */
-    public static final boolean drawFurnitureOnAutoMap = true;
     /**
      * what is the start position on the start map for a new game?
      */
     public static final Point startPosition = new Point(3, 1);
-    /**
-     * Tile Size
-     */
-    public static final int tileSize = 32;
     /**
      * whats the start time for a new game?
      */
@@ -208,6 +196,18 @@ public class GameConfiguration
      * how many nanoseconds are in a second?
      */
     public static final int targetTime = 1000000000 / fps;
+    /**
+     * Tile Size
+     */
+    public static final int tileSize = 32;
+    /**
+     * how high is the whole UI
+     */
+    public static final int UIheight = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    /**
+     * how big shall the tiles be on the automap?
+     */
+    public static final int autoMapTileSize = GameConfiguration.tileSize / 2;
     /**
      * how wide is the whole UI
      */
