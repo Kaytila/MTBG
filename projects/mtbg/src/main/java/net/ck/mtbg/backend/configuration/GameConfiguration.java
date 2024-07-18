@@ -54,7 +54,8 @@ public class GameConfiguration
     ========================================================================================
     all debug flags
      */
-    public static final boolean debugASTAR = true;
+    public static final boolean debugASTAR = false;
+    public static final boolean debugAutoMap = false;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugEnvironmentalStoryTeller = false;
     public static final boolean debugGameState = false;
@@ -62,7 +63,7 @@ public class GameConfiguration
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = true;
-    public static final boolean debugNPC = true;
+    public static final boolean debugNPC = false;
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
     /**
@@ -77,13 +78,14 @@ public class GameConfiguration
     public static final boolean debugTimers = false;
     public static final boolean debugTurn = false;
     public static final boolean debugWorld = false;
+    /*
+    ========================================================================================
+     */
     /**
      * describes the dex value where player will move twice
      */
     public static final int dexterityThreshold = 30;
-    /*
-    ========================================================================================
-     */
+
     public static final int dialogHeight = 300;
     public static final int dialogWidth = 300;
     /**

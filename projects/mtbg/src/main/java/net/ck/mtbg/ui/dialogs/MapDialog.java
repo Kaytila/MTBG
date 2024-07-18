@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.map.AutoMap;
+import net.ck.mtbg.map.Map;
 import net.ck.mtbg.ui.components.AutoMapCanvas;
+import net.ck.mtbg.ui.listeners.AutoMapCanvasMouseListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
@@ -17,7 +20,7 @@ import java.awt.event.WindowEvent;
 @Setter
 public class MapDialog extends AbstractDialog
 {
-    public MapDialog(Frame owner, String title, boolean modal)
+    public MapDialog(Frame owner, String title, boolean modal, Map map)
     {
         setTitle(title);
         this.setBounds(0, 0, 500, 500);
@@ -33,7 +36,26 @@ public class MapDialog extends AbstractDialog
         panel.setLayout(null);
         this.setContentPane(panel);
 
-        AutoMapCanvas autoMapCanvas = new AutoMapCanvas(Game.getCurrent().getCurrentMap());
+        AutoMap autoMap = null;
+        boolean found = false;
+        for (AutoMap m : Game.getCurrent().getAutomaps())
+        {
+            if (m.getName().equals(map.getName()))
+            {
+                logger.debug("automap already exists");
+                found = true;
+                autoMap = m;
+                break;
+            }
+        }
+
+        if (!(found))
+        {
+            autoMap = new AutoMap(map);
+        }
+
+        AutoMapCanvas autoMapCanvas = new AutoMapCanvas(autoMap);
+        autoMapCanvas.addMouseListener(new AutoMapCanvasMouseListener(autoMapCanvas));
         autoMapCanvas.setVisible(true);
         this.add(autoMapCanvas);
         addButtons();

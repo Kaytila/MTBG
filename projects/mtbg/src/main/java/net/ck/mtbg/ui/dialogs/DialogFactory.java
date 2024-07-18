@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
@@ -81,7 +82,7 @@ public class DialogFactory
 
             case "Map":
             {
-                return new MapDialog(owner, title, modal);
+                return new MapDialog(owner, title, modal, Game.getCurrent().getCurrentMap());
             }
 
 

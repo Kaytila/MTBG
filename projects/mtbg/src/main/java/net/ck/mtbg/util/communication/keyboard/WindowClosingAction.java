@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.util.utils.MapUtils;
-import net.ck.mtbg.util.utils.UILense;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,16 +36,10 @@ public class WindowClosingAction extends AbstractAction
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        //TODO
         logger.info("Window closing action sent");
         getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));
         UIStateMachine.setDialogOpened(false);
         WindowBuilder.getGridCanvas().requestFocusInWindow();
-        UILense.getCurrent().identifyVisibleTilesBest();
-        UILense.getCurrent().identifyBufferedTiles();
-        MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
-        MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
-        WindowBuilder.getGridCanvas().paint();
         WindowBuilder.getFrame().repaint();
     }
 }

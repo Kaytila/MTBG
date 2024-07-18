@@ -122,6 +122,11 @@ public class MapTile implements Comparable<MapTile>, Serializable
      */
     private BufferedImage calculatedImage;
 
+    /**
+     * has player already discovered the tile
+     */
+    private boolean discovered = false;
+
     public MapTile()
     {
         super();
@@ -137,6 +142,22 @@ public class MapTile implements Comparable<MapTile>, Serializable
         setY(j);
         inventory = new Inventory();
         //setBlocked(false);
+    }
+
+    /**
+     * used for creating the automap
+     *
+     * @param mapTile - the original map tile which is being copied
+     */
+    public MapTile(MapTile mapTile)
+    {
+        this.setId(mapTile.id);
+        this.setMapPosition(mapTile.mapPosition);
+        this.setFurniture(mapTile.furniture);
+        this.setType(mapTile.type);
+        this.setCalculatedImage(mapTile.calculatedImage);
+        this.setInventory(mapTile.inventory);
+        this.setDiscovered(mapTile.discovered);
     }
 
     public int getX()

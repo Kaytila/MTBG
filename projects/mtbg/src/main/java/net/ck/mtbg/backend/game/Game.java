@@ -16,6 +16,7 @@ import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.Weapon;
+import net.ck.mtbg.map.AutoMap;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
@@ -124,6 +125,12 @@ public class Game implements Runnable, Serializable
      * what is the player action for this round
      */
     private PlayerAction playerAction;
+
+
+    /**
+     * List of automaps - currently the whole map is generated. tomorrow, only the explored part will be visible.
+     */
+    private ArrayList<AutoMap> automaps = new ArrayList<>();
 
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
