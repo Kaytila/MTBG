@@ -127,6 +127,12 @@ public class MapTile implements Comparable<MapTile>, Serializable
      */
     private boolean discovered = false;
 
+    /**
+     * store the scaled image for the map
+     */
+    private BufferedImage scaledImage;
+
+
     public MapTile()
     {
         super();

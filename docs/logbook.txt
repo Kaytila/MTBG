@@ -1158,3 +1158,4 @@ History of the changes:
             But at least it works, this is a question for an optimization.
 2024-07-18: automap allows labels, labels can be edited again and drag dropped. Are persisted, can be re-used, changed
             again. And so on.
+2024-07-19: automap now calculates the scaled images only once per tile.

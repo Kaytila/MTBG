@@ -41,13 +41,23 @@ public class AutoMapCanvas extends JComponent
 
     public void paintComponent(Graphics g)
     {
+        long start = System.nanoTime();
         for (int row = 0; row < map.getSize().y; row++)
         {
             for (int column = 0; column < map.getSize().x; column++)
             {
                 MapTile tile = map.mapTiles[column][row];
-                ImageUtils.scaledImage(tile.getCalculatedImage(), GameConfiguration.autoMapTileSize, GameConfiguration.autoMapTileSize);
-                g.drawImage(tile.getCalculatedImage(), spacer + (column * GameConfiguration.autoMapTileSize), spacer + (row * GameConfiguration.autoMapTileSize), null);
+                //first if the tile has already been discovered, i.e. seen
+                if (!(tile.isDiscovered()))
+                {
+                    //if there is no scaled image yet
+                    if (tile.getScaledImage() == null)
+                    {
+                        tile.setScaledImage(ImageUtils.scaledImage(tile.getCalculatedImage(), GameConfiguration.autoMapTileSize, GameConfiguration.autoMapTileSize));
+                    }
+                }
+                //draw the scaled image
+                g.drawImage(tile.getScaledImage(), spacer + (column * GameConfiguration.autoMapTileSize), spacer + (row * GameConfiguration.autoMapTileSize), null);
             }
         }
         //paint JLabels manually just to check whether this works, it does
@@ -73,6 +83,7 @@ public class AutoMapCanvas extends JComponent
                 }
             }
         }
+        logger.debug("end painting: {}", System.nanoTime() - start);
     }
 
     public void switchTextFieldToLabel(MapLabelTextField textfield)
