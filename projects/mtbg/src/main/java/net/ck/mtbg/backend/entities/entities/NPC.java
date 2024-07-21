@@ -274,7 +274,7 @@ public class NPC extends AbstractEntity implements LifeForm
     @Subscribe
     public void onMessageEvent(GameTimeChanged event)
     {
-        //checkSchedules(event);
+        checkSchedules(event);
     }
 
     private void checkSchedules(GameTimeChanged event)
@@ -786,7 +786,7 @@ public class NPC extends AbstractEntity implements LifeForm
         }
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("NPC {} mapname: {}, target Tile: {}", this.getId(), mapName, target);
+            logger.debug("NPC {} map name: {}, target Tile: {}", this.getId(), mapName, target);
         }
         for (Map m : Game.getCurrent().getMaps())
         {

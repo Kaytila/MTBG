@@ -199,25 +199,18 @@ public class ImageUtils
      * @return ImageIcon which is then used to take away the white.
      * <p>
      * <a href="https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images">https://stackoverflow.com/questions/29135718/substitute-imageicon-with-imageio-to-load-images</a>
-     * https://www.tutorialspoint.com/How-to-convert-Byte-Array-to-Image-in-java
+     * <a href="https://www.tutorialspoint.com/How-to-convert-Byte-Array-to-Image-in-java">https://www.tutorialspoint.com/How-to-convert-Byte-Array-to-Image-in-java</a>
      */
     public static ImageIcon createImageIcon(String path, String description)
     {
         BufferedImage img = null;
         try
         {
-            //TODO how to get class loader files
-            //logger.debug("path {}", path);
-            //InputStream in = ImageUtils.class.getClassLoader().getResourceAsStream("/" + path);
-            //img = ImageIO.read(in);
-            //byte[] bytes = in.readAllBytes();
-            //ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-
             img = ImageIO.read(new File(path));
         }
         catch (IOException e)
         {
-            //return null;
+            logger.debug("issue creating image icon");
         }
         ImageIcon icon;
 
@@ -321,15 +314,19 @@ public class ImageUtils
         }
 
         File newFile = new File(target);
-        newFile.getParentFile().mkdirs();
-        try
+        boolean success = newFile.getParentFile().mkdirs();
+        if (success)
         {
-            // logger.info("writing image: {}, filePath: {}", img.toString(), filePath);
-            ImageIO.write(img, "png", newFile);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                // logger.info("writing image: {}, filePath: {}", img.toString(), filePath);
+                ImageIO.write(img, "png", newFile);
+            }
+            catch (IOException e)
+            {
+                logger.debug("error writing image");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -341,18 +338,15 @@ public class ImageUtils
      **/
     public static Color convertTileTypeToColor(MapTile tile)
     {
-        switch (tile.getType())
+        return switch (tile.getType())
         {
-            case GRASS:
-                return Color.green;
+            case GRASS -> Color.green;
             // break;
-            case OCEAN:
-                return Color.blue;
+            case OCEAN -> Color.blue;
             // break;
-            default:
-                return Color.gray;
+            default -> Color.gray;
             // break;
-        }
+        };
     }
 
 

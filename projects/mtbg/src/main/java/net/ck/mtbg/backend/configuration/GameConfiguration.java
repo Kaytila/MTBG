@@ -92,6 +92,7 @@ public class GameConfiguration
      * draw the furniture/inventory on the automap or not?
      */
     public static final boolean drawFurnitureOnAutoMap = true;
+    public static final boolean drawLabelsOnAutomap = false;
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
@@ -268,7 +269,6 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
-
 }
 
 

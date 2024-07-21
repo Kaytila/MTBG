@@ -515,7 +515,6 @@ public class JGridCanvas extends JComponent
                             }
                         }
                     }
-
                     g.drawImage(tile.getCalculatedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
 
 

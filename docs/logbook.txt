@@ -1158,4 +1158,8 @@ History of the changes:
             But at least it works, this is a question for an optimization.
 2024-07-18: automap allows labels, labels can be edited again and drag dropped. Are persisted, can be re-used, changed
             again. And so on.
-2024-07-19: automap now calculates the scaled images only once per tile.
+2024-07-19: automap now calculates the scaled images only once per tile, optimization.
+2024-07-20: only draw map of explored tiles.
+2024-07-21: draw only explored tiles is not working properly yet, the code in MapUtils is broken here.
+            Updated AutoMapCanvas to have all initialization done in the constructor. paintComponent now really only
+            does that.

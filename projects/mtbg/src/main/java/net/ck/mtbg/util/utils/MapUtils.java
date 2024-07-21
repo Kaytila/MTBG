@@ -199,8 +199,6 @@ public class MapUtils
     public static Point calculateUIPositionFromMapOffset(Point p)
     {
         Point offSet = MapUtils.calculateMapOffsetFromPlayerMapPosition(p);
-        //TODO
-        //return ((Game.getCurrent().getCurrentPlayer().getUIPosition().move(offSet.x, offSet.y)));
         return new Point(Game.getCurrent().getCurrentPlayer().getUIPosition().x + offSet.x, Game.getCurrent().getCurrentPlayer().getUIPosition().y + offSet.y);
     }
 
@@ -930,6 +928,11 @@ public class MapUtils
                             }
                             //logger.info("Maptile {} is hidden", t);
                         }
+                    }
+                    else
+                    {
+                        //TODO
+                        //t.setDiscovered(true);
                     }
                 }
             }
