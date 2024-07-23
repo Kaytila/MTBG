@@ -1164,3 +1164,5 @@ History of the changes:
             Updated AutoMapCanvas to have all initialization done in the constructor. paintComponent now really only
             does that.
 2024-07-23: Translate Text Maps is now a config entry.
+2024-07-23: cleaned up paintComponent in Grid a bit. Removed the ImageManager as we definitely arent going to to back to
+            that.

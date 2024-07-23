@@ -215,6 +215,7 @@ public class GameConfiguration
      * how wide is the whole UI
      */
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    public static final boolean translateTextMaps = false;
     /**
      * how long shall the game wait until sending a pass message in ms
      */
@@ -231,10 +232,6 @@ public class GameConfiguration
      * use a thread for Game or not - if not, where does it run?
      */
     public static final boolean useGameThread = true;
-    /**
-     * use Image Manager tech instead of multiple images
-     */
-    public static final boolean useImageManager = true;
     /**
      * use an util timer or a thread
      */
@@ -269,8 +266,6 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
-
-    public static final boolean translateTextMaps = false;
 }
 
 
