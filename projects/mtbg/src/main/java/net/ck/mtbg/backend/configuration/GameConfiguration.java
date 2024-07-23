@@ -269,6 +269,8 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
+
+    public static final boolean translateTextMaps = false;
 }
 
 

@@ -1163,3 +1163,4 @@ History of the changes:
 2024-07-21: draw only explored tiles is not working properly yet, the code in MapUtils is broken here.
             Updated AutoMapCanvas to have all initialization done in the constructor. paintComponent now really only
             does that.
+2024-07-23: Translate Text Maps is now a config entry.

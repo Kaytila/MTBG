@@ -43,6 +43,8 @@ S<b>K</b>illtree - Skilltree
 <p>
 Alt+<b>O</b>ptions - Options Dialog
 </p>
+<p>
+Alt+<b>M</b>ap - Automap Dialog
 <h2>
 Action Commands
 </h2>

@@ -123,7 +123,10 @@ public class RunGame
             {
                 renderSplashFrame(g, size);
             }
-            MapUtils.translateTextMaps();
+            if (GameConfiguration.translateTextMaps == true)
+            {
+                MapUtils.translateTextMaps();
+            }
             if (!(GameConfiguration.quickstart))
             {
                 renderSplashFrame(g, size);

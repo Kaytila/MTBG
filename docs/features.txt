@@ -21,3 +21,5 @@ combat system
 attribute system and dialog
 title screen
 character editor
+automap with labels
+
