@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.map.AutoMap;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.utils.ImageUtils;
@@ -12,6 +13,7 @@ import net.ck.mtbg.util.utils.MapUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ public class AutoMapCanvas extends JComponent
     private AutoMap map;
     private boolean drag;
     private boolean inital;
+    private BufferedImage playerPositionImage = ImageUtils.createImage(Color.RED, GameConfiguration.autoMapTileSize - 2);
 
     /**
      * Constructor for AutoMapCanvas
@@ -67,6 +70,7 @@ public class AutoMapCanvas extends JComponent
                         tile.setScaledImage(ImageUtils.scaledImage(tile.getCalculatedImage(), GameConfiguration.autoMapTileSize, GameConfiguration.autoMapTileSize));
                     }
                 }
+
             }
         }
 
@@ -90,6 +94,8 @@ public class AutoMapCanvas extends JComponent
                 }
             }
         }
+
+
         logger.debug("AutoCanvas constructor: {}", System.nanoTime() - start);
     }
 
@@ -108,6 +114,10 @@ public class AutoMapCanvas extends JComponent
                 MapTile tile = map.mapTiles[column][row];
                 //draw the scaled image
                 g.drawImage(tile.getScaledImage(), spacer + (column * GameConfiguration.autoMapTileSize), spacer + (row * GameConfiguration.autoMapTileSize), null);
+                if ((column == (Game.getCurrent().getCurrentPlayer().getMapPosition().x)) && (row == (Game.getCurrent().getCurrentPlayer().getMapPosition().y)))
+                {
+                    g.drawImage(playerPositionImage, spacer + (column * GameConfiguration.autoMapTileSize), spacer + (row * GameConfiguration.autoMapTileSize), null);
+                }
             }
         }
 

@@ -9,6 +9,7 @@ import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.game.GameLogs;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.GridBorder;
 import net.ck.mtbg.ui.dnd.JGridCanvasTransferHandler;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.*;
@@ -32,7 +33,7 @@ public class JGridCanvas extends JComponent
 {
     private final Range<Integer> rangeX = Range.of(0, GameConfiguration.numberOfTiles - 1);
     private final Range<Integer> rangeY = Range.of(0, GameConfiguration.numberOfTiles - 1);
-    private final BufferedImage blackImage = ImageUtils.createImage((Color.black));
+    private final BufferedImage blackImage = ImageUtils.createImage(Color.black, GameConfiguration.tileSize);
     private int currentBackgroundImage;
     private int currentForegroundImage;
     private boolean dragEnabled;
@@ -61,6 +62,8 @@ public class JGridCanvas extends JComponent
         this.requestFocusInWindow();
         this.setKeyboardInput();
         setHighlightCount(0);
+        GridBorder border = new GridBorder();
+        this.setBorder(border);
         //this.setToolTipText(getLogger().getName());
 
         this.setTransferHandler(new JGridCanvasTransferHandler(this));
@@ -781,6 +784,8 @@ public class JGridCanvas extends JComponent
     public void paintBorder(Graphics g)
     {
         super.paintBorder(g);
+        //g.drawOval(0, 0, this.getWidth(), this.getHeight());
+
     }
 
     /**

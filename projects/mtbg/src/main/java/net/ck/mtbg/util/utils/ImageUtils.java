@@ -265,24 +265,10 @@ public class ImageUtils
     }
 
     /**
-     * @param color - creates an image in the desired size (see game) with the desired color
+     * @param color    - creates an image in the desired size (see game) with the desired color
+     * @param tileSize - int value that will define the quadrant
      * @return new Image in tile size with the color in parameter color used to draw the empty tiles at the edge, used later for LoS
      */
-    public static BufferedImage createImage(Color color)
-    {
-        BufferedImage img = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_4BYTE_ABGR);
-
-        for (int px1 = 0; px1 < (img.getWidth()); px1++)
-        {
-            for (int px2 = 0; px2 < (img.getHeight()); px2++)
-            {
-                img.setRGB(px1, px2, color.getRGB());
-            }
-        }
-        return img;
-    }
-
-
     public static BufferedImage createImage(Color color, int tileSize)
     {
         BufferedImage img = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_4BYTE_ABGR);

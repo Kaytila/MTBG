@@ -1165,4 +1165,6 @@ History of the changes:
             does that.
 2024-07-23: Translate Text Maps is now a config entry.
 2024-07-23: cleaned up paintComponent in Grid a bit. Removed the ImageManager as we definitely arent going to to back to
-            that.
+            not using that.
+2024-07-23: Updated AutoMap to paint a red block where the player is on the map. This can be improved by proper graphics.
+            Added a custom border, will need to play around with it way more.
