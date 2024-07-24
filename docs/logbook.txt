@@ -1168,3 +1168,4 @@ History of the changes:
             not using that.
 2024-07-23: Updated AutoMap to paint a red block where the player is on the map. This can be improved by proper graphics.
             Added a custom border, will need to play around with it way more.
+2024-07-24: adapted gradle to remove javaFX. all commented out only. Startup time is improving.

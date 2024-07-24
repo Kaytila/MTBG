@@ -1,5 +1,16 @@
 package net.ck.mtbg.music;
 
+/*
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.MediaPlayer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.CountDownLatch;
+
+
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -14,7 +25,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * https://www.baeldung.com/java-play-sound
  * https://docs.oracle.com/javafx/2/api/javafx/scene/media/MediaPlayer.html
- */
+
 public class MusicPlayerJavaFX
 {
     static private final Logger logger = LogManager.getLogger(MusicPlayerJavaFX.class);
@@ -31,7 +42,7 @@ try {
 } catch (Exception ex) {
     System.out.println("Error occured during playback process:" + ex.getMessage());
 }
-     */
+
     final CountDownLatch latch = new CountDownLatch(1);
     //static String mediaURI = GameConfiguration.musicPath + File.separator + "WORLD" + File.separator + "Ultima_remix_Traveling.aac";
     Media media;
@@ -68,3 +79,4 @@ try {
         mediaPlayer.setAutoPlay(true);
     }
 }
+*/

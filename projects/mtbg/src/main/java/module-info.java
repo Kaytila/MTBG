@@ -6,8 +6,8 @@ open module net.ck.mtbg
     requires java.xml;
     requires java.sql;
 
-    requires javafx.media;
-    requires javafx.swing;
+    //requires javafx.media;
+    //requires javafx.swing;
 
     requires org.slf4j;
     requires org.apache.logging.log4j.core;

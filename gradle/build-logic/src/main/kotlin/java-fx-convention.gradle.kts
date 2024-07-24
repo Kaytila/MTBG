@@ -1,8 +1,8 @@
 plugins {
     id("java")
-    id("org.openjfx.javafxplugin")
+    //id("org.openjfx.javafxplugin")
 }
 
-javafx {
-    version = java.toolchain.languageVersion.get().toString()
-}
+//javafx {
+//    version = java.toolchain.languageVersion.get().toString()
+//}

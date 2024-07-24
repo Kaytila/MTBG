@@ -34,12 +34,12 @@ tasks.getByName<CreateStartScripts>("startScripts") {
 }
 
 // https://openjfx.io/openjfx-docs/#gradle
-javafx {
-    modules = listOf(
-        "javafx.media",
-        "javafx.swing"
-    )
-}
+//javafx {
+//    modules = listOf(
+//        "javafx.media",
+//        "javafx.swing"
+//    )
+//}
 
 // for application run only
 tasks.getByName<JavaExec>("run") {
