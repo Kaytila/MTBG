@@ -386,7 +386,7 @@ public class NPC extends AbstractEntity implements LifeForm
                             {
                                 logger.debug("NPC {} open east and walk east", this.getId());
                             }
-                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x + 1), (p.y)));
+                            this.handleOpening(MapUtils.getMapTileByCoordinates((p.x + 1), (p.y)));
                             this.move((p.x + 1), (p.y));
                             success = true;
                         }
@@ -437,7 +437,7 @@ public class NPC extends AbstractEntity implements LifeForm
                             {
                                 logger.debug("NPC {} open north and walk north", this.getId());
                             }
-                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x), (p.y - 1)));
+                            this.handleOpening(MapUtils.getMapTileByCoordinates((p.x), (p.y - 1)));
                             this.move((p.x), (p.y - 1));
                             success = true;
                         }
@@ -482,7 +482,7 @@ public class NPC extends AbstractEntity implements LifeForm
                             {
                                 logger.debug("NPC {} open south and walk south", this.getId());
                             }
-                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x), (p.y + 1)));
+                            this.handleOpening(MapUtils.getMapTileByCoordinates((p.x), (p.y + 1)));
                             this.move((p.x), (p.y + 1));
                             success = true;
                         }
@@ -525,7 +525,7 @@ public class NPC extends AbstractEntity implements LifeForm
                             {
                                 logger.debug("NPC {} open west and walk west", this.getId());
                             }
-                            this.openDoor(MapUtils.getMapTileByCoordinates((p.x - 1), (p.y)));
+                            this.handleOpening(MapUtils.getMapTileByCoordinates((p.x - 1), (p.y)));
                             this.move((p.x - 1), (p.y));
                             success = true;
                         }

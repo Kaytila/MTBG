@@ -19,7 +19,6 @@ import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.state.GameState;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.backend.state.TimerManager;
-import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
@@ -380,49 +379,37 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      */
     public abstract boolean moveTo(MapTile tileByCoordinates);
 
-    public void openDoor(MapTile tile)
+    public void handleOpening(MapTile tile)
     {
-        if (tile.getType().equals(TileTypes.GATECLOSED))
+        switch (tile.getType())
         {
-            logger.info("opening gate");
-            tile.setType(TileTypes.GATEOPEN);
+            case GATEOPEN, WOODDOOROPEN, STONEDOOROPEN:
+                if (!(tile.isBlocked()))
+                {
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("closing {}", tile.getType());
+                    }
+                    tile.switchTileType();
+                }
+                else
+                {
+                    if (GameConfiguration.debugNPC == true)
+                    {
+                        logger.info("do not close opening: {} because it is blocked", tile.getType());
+                    }
+                }
 
-        }
+            case GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED:
+                if (GameConfiguration.debugNPC == true)
+                {
+                    logger.info("opening {}", tile.getType());
+                }
+                tile.switchTileType();
 
-        else if (tile.getType().equals(TileTypes.WOODDOORCLOSED))
-        {
-            logger.info("opening wooden door");
-            tile.setType(TileTypes.WOODDOOROPEN);
+            default:
+                logger.error("No door or gate here!");
         }
-
-        else if (tile.getType().equals(TileTypes.STONEDOORCLOSED))
-        {
-            logger.info("opening stone door");
-            tile.setType(TileTypes.STONEDOOROPEN);
-        }
-
-        else if (tile.getType().equals(TileTypes.GATEOPEN))
-        {
-            logger.info("closing gate");
-            tile.setType(TileTypes.GATECLOSED);
-        }
-
-        else if (tile.getType().equals(TileTypes.WOODDOOROPEN))
-        {
-            logger.info("closing wooden door");
-            tile.setType(TileTypes.WOODDOORCLOSED);
-        }
-
-        else if (tile.getType().equals(TileTypes.STONEDOOROPEN))
-        {
-            logger.info("closing stone door");
-            tile.setType(TileTypes.STONEDOORCLOSED);
-        }
-        else
-        {
-            logger.error("No door or gate here!");
-        }
-
     }
 
 

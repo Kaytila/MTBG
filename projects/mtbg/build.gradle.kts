@@ -1,6 +1,6 @@
 plugins {
     id("java-se-convention")
-    id("java-fx-convention")
+    //id("java-fx-convention")
     id("application")
     id("java-se-extra-module-info")
 }

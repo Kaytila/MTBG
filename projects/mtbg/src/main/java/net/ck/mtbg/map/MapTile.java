@@ -36,10 +36,20 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * parent tile for a* calculation
      */
     public MapTile parent;
-    // Evaluation functions
+
+    /**
+     * Evaluation functions
+     */
     public int finalCost;
+
+    /**
+     * evaluation function 2
+     */
     public int g;
-    // Hardcoded heuristic
+
+    /**
+     * Hardcoded heuristic
+     */
     public int h;
     /**
      * what things are piled on the tile?
@@ -476,6 +486,25 @@ public class MapTile implements Comparable<MapTile>, Serializable
     {
         g.drawImage(getCalculatedImage(), x, y, null);
     }
+
+    /**
+     * delegation method, if npc open/closes door, the tile actually will need to switch its type.
+     * this should be handled on the tile, not by the npc
+     */
+    public void switchTileType()
+    {
+        switch (getType())
+        {
+            case GATEOPEN -> setType(TileTypes.GATECLOSED);
+            case WOODDOOROPEN -> setType(TileTypes.WOODDOORCLOSED);
+            case STONEDOOROPEN -> setType(TileTypes.STONEDOORCLOSED);
+            case GATECLOSED -> setType(TileTypes.GATEOPEN);
+            case WOODDOORCLOSED -> setType(TileTypes.WOODDOOROPEN);
+            case STONEDOORCLOSED -> setType(TileTypes.STONEDOOROPEN);
+            default -> logger.info("cannot switch the tile type, do nothing");
+        }
+    }
+
 
     @Override
     public String toString()
