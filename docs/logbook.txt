@@ -1172,3 +1172,4 @@ History of the changes:
 2024-07-24: commented out javafx plugin completely. updated openDoor to make sure that it is not closing if it is
             blocked.
 2024-07-24: updated AbstractEntity->handleOpening and added delegation method to maptile to handle open/close better.
+2024-07-25: updated AIBehaviour and Schedule - at least one char will endlessly loop through his activities.

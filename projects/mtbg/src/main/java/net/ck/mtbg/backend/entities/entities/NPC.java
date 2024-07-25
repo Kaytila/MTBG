@@ -281,7 +281,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         if (GameConfiguration.debugNPC == true)
         {
-            logger.debug("npc {} checking schedule at {}", this.getId(), event.getType());
+            //logger.debug("npc {} checking schedule at {}", this.getId(), event.getType());
         }
     }
 

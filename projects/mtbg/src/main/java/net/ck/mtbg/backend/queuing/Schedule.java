@@ -30,7 +30,8 @@ public class Schedule
      */
     public void moveToNextScheduleActivity()
     {
-        if (currentScheduleActivityIndex < activities.size())
+        logger.debug("activities index: {}", currentScheduleActivityIndex);
+        if (currentScheduleActivityIndex < activities.size() - 1)
         {
             currentScheduleActivityIndex++;
         }

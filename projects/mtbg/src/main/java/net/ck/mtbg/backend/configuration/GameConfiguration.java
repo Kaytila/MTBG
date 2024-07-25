@@ -63,7 +63,7 @@ public class GameConfiguration
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = true;
-    public static final boolean debugNPC = false;
+    public static final boolean debugNPC = true;
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
     /**

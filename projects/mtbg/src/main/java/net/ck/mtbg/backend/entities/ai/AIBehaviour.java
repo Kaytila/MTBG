@@ -337,27 +337,28 @@ public class AIBehaviour
                     {
                         logger.debug("npc {} schedule has activities", e.getId());
                     }
-                    for (ScheduleActivity activity : e.getSchedule().getActivities())
+
+                    ScheduleActivity activity = e.getSchedule().getActivities().get(e.getSchedule().getCurrentScheduleActivityIndex());
+
+                    GameTime startTime = activity.getStartTime();
+                    if (GameConfiguration.debugNPC == true)
                     {
-                        GameTime startTime = activity.getStartTime();
-                        if (GameConfiguration.debugNPC == true)
+                        logger.debug("npc {} game time: {}", e.getId(), Game.getCurrent().getGameTime());
+                        logger.debug("npc {} activity start time: {}", e.getId(), startTime);
+                    }
+                    if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
+                    {
+                        if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
                         {
-                            logger.debug("npc {} game time: {}", e.getId(), Game.getCurrent().getGameTime());
-                            logger.debug("npc {} activity start time: {}", e.getId(), startTime);
-                        }
-                        if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
-                        {
-                            if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
+                            if (GameConfiguration.debugNPC == true)
                             {
-                                if (GameConfiguration.debugNPC == true)
-                                {
-                                    logger.debug("npc {} activity: {}", e.getId(), activity);
-                                }
-                                e.setRunningAction(activity.getAction());
-                                e.doAction(new PlayerAction(activity.getAction()));
+                                logger.debug("npc {} activity: {}", e.getId(), activity);
                             }
+                            e.setRunningAction(activity.getAction());
+                            e.doAction(new PlayerAction(activity.getAction()));
                         }
                     }
+
                 }
             }
         }
