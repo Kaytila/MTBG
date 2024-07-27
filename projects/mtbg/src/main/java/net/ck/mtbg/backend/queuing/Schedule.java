@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 
 import java.util.ArrayList;
@@ -30,7 +31,10 @@ public class Schedule
      */
     public void moveToNextScheduleActivity()
     {
-        logger.debug("activities index: {}", currentScheduleActivityIndex);
+        if (GameConfiguration.debugSchedule == true)
+        {
+            logger.debug("activities index: {}", currentScheduleActivityIndex);
+        }
         if (currentScheduleActivityIndex < activities.size() - 1)
         {
             currentScheduleActivityIndex++;
@@ -39,5 +43,15 @@ public class Schedule
         {
             currentScheduleActivityIndex = 0;
         }
+    }
+
+    public void add(ScheduleActivity scheduleActivity)
+    {
+        getActivities().add(scheduleActivity);
+    }
+
+    public ScheduleActivity getCurrentlyActiveActivity()
+    {
+        return getActivities().get(currentScheduleActivityIndex);
     }
 }

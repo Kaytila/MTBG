@@ -5,8 +5,7 @@
         <weatherrandomness>10</weatherrandomness>
         <wrapping>false</wrapping>
         <name>outpost</name>
-        <visibility>1</visibility>
-        <visibility>1</visibility>
+        <visibility>10</visibility>
         <parent>null</parent>
     </meta>
     <tiles>

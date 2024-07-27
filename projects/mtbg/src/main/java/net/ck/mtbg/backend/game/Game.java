@@ -441,6 +441,7 @@ public class Game implements Runnable, Serializable
         getGameTime().advanceTime(getCurrentMap().getMinutesPerTurn());
         MapUtils.setVisibility(MapUtils.calculateDayOrNight());
         logger.info("TURN ENDS");
+        logger.info("Current Game Time: {}", getGameTime().toString());
         logger.info("=======================================================================================");
         if (UIStateMachine.isDialogOpened())
         {

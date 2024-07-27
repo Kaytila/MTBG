@@ -455,7 +455,7 @@ public class MapXMLReader extends DefaultHandler
                 scheduleActivity.setScheduleActivityString(data.toString());
                 break;
             case "scheduleActivity":
-                schedule.getActivities().add(scheduleActivity);
+                schedule.add(scheduleActivity);
                 break;
             case "schedule":
                 schedule.setActive(true);

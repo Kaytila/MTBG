@@ -21,13 +21,29 @@ public class GameConfiguration
      * are there animations?
      */
     public static final boolean animated = true;
+
+    /**
+     * delay for the background animation
+     */
     public static final int animationBackGroundDelay = 1000;
     /**
      * how many animation cycles are there?
      */
     public static final int animationCycles = 7;
+
+    /**
+     * delay for the fore ground animation
+     */
     public static final int animationForeGroundDelay = 500;
+
+    /**
+     * delay for the life form animation
+     */
     public static final int animationLifeformDelay = 2000;
+
+    /**
+     * base health for NPCs, multiplied with levels
+     */
     public static final int baseHealth = 10;
     /**
      * brighten up images or not - used for drawing bright, less bright and almost dark tiles
@@ -37,7 +53,14 @@ public class GameConfiguration
      * calculate the brightened up image during drawing or before
      */
     public static final boolean calculateBrightenUpImageInPaint = true;
+    /**
+     * tile size for the character editor
+     */
     public static final int characterEditorTileSize = 20;
+
+    /**
+     * tile size for the tiny character editor
+     */
     public static final int characterEditorTinyTileSize = 10;
 
 
@@ -62,10 +85,14 @@ public class GameConfiguration
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
-    public static final boolean debugMapPosition = true;
+    /**
+     * max visibility around player during dawn
+     */
+    public static final int dawnVisibility = GameConfiguration.numberOfTiles / 4;
     public static final boolean debugNPC = true;
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
+    public static final boolean debugMapPosition = false;
     /**
      * debug the splash startup
      */
@@ -85,52 +112,106 @@ public class GameConfiguration
      * describes the dex value where player will move twice
      */
     public static final int dexterityThreshold = 30;
-
+    public static final boolean debugSchedule = true;
+    /**
+     * standard dialog height
+     */
     public static final int dialogHeight = 300;
-    public static final int dialogWidth = 300;
+
     /**
      * draw the furniture/inventory on the automap or not?
      */
     public static final boolean drawFurnitureOnAutoMap = true;
-    public static final boolean drawLabelsOnAutomap = false;
+    /**
+     * standard dialog width
+     */
+    public static final int dialogWidth = 300;
+
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
      */
     public static final boolean drawTileOnce = true;
+
     /**
      * this is used for drawing the circles in the equipment dialog
      */
     public static final int elipseSize = 25;
-    public static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
+    /**
+     * draw the labels as string on the automap
+     */
+    public static final boolean drawLabelsOnAutomap = false;
+
     /**
      * frames per second, if i really want to switch to this in the future
      */
     public static final int fps = 60;
-    public static final int highlightDelay = 200;
-    public static final int hitormissTimerDuration = 1000;
+    /**
+     * max visibility around player during dusk
+     */
+    public static final int duskVisibility = GameConfiguration.numberOfTiles / 4;
+    /**
+     * what font are we using?
+     */
+    public static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
+
     /**
      * how big are the images, check this somewhere.
      */
     public static final Point imageSize = new Point(16, 16);
+
     /**
      * describes the max distance a lightsource may have an effect on the surroundings
      */
     public static final int maxLightSourceDistance = 4;
+
     /**
      * delay for missile timer to tick in ms
      */
     public static final int missileWait = 5;
-    public static final int numberOfAdditionalImages = 4;
+    /**
+     * delay for the highlighting
+     */
+    public static final int highlightDelay = 200;
+    /**
+     * hit or miss timeer duration
+     */
+    public static final int hitormissTimerDuration = 1000;
     /**
      * show how many rows and columns of tiles in the UI
      */
     public static final int numberOfTiles = 15;
+    /**
+     * max visibility range around player during night
+     */
+    public static final int nightVisibility = 2;
+    /**
+     * how many additional images are there per lifeform
+     */
+    public static final int numberOfAdditionalImages = 4;
+    /**
+     * general path to the assets
+     */
     public static final String out = "assets";
+    /**
+     * path to the misc images
+     */
     public static final String miscImages = out + File.separator + "graphics" + File.separator + "misc" + File.separator;
+    /**
+     * path to the cursors
+     */
     public static final String cursorPath = miscImages + "CURSORS" + File.separator;
+    /**
+     * general root path to the graphics
+     */
     public static final String imagesRootPath = out + File.separator + "graphics" + File.separator;
+    /**
+     * where are the lifeforms
+     */
     public static final String npcImages = out + File.separator + "graphics" + File.separator + "lifeforms" + File.separator;
+    /**
+     * where is the music
+     */
     public static final String musicPath = out + File.separator + "music";
     /**
      * where to find the maps
@@ -144,7 +225,13 @@ public class GameConfiguration
      * where to find items xml
      */
     public static final String itemFileRootPath = out + File.separator + "items";
+    /**
+     * what is the padding
+     */
     public static final int padding = 5;
+    /**
+     * what is the line height?
+     */
     public static final int lineHight = font.getSize() + padding;
     /**
      * paint grid lines or not
@@ -170,14 +257,26 @@ public class GameConfiguration
      * ignore the startup screen
      */
     public static final boolean quickstart = true;
+    /**
+     * where are the images for the skills
+     */
     public static final String skillMenuImages = out + File.separator + "graphics" + File.separator + "skills" + File.separator;
+    /**
+     * where are the skills xml file
+     */
     public static final String skillsFileRootPath = out + File.separator + "skills";
     /**
      * when drawing the missile, skip how many pixels per redraw:
      * less means slower draw, faster means skipping.
      */
     public static final int skippedPixelsForDrawingMissiles = 5;
+    /**
+     * where are the sound effects
+     */
     public static final String soundeffectsPath = out + File.separator + "soundeffects";
+    /**
+     * where are the images for the spells menu
+     */
     public static final String spellMenuImages = out + File.separator + "graphics" + File.separator + "spells" + File.separator;
     /**
      * where to find the spells xml
@@ -215,6 +314,9 @@ public class GameConfiguration
      * how wide is the whole UI
      */
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
+    /**
+     * in case there are text maps available, shall these be translated?
+     */
     public static final boolean translateTextMaps = false;
     /**
      * how long shall the game wait until sending a pass message in ms

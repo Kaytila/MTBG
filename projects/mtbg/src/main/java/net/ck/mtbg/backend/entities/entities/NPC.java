@@ -13,8 +13,10 @@ import net.ck.mtbg.backend.entities.attributes.Attributes;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.queuing.CommandQueue;
 import net.ck.mtbg.backend.queuing.Schedule;
+import net.ck.mtbg.backend.queuing.ScheduleActivity;
 import net.ck.mtbg.backend.state.CommandSuccessMachine;
 import net.ck.mtbg.backend.state.ItemManager;
+import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
@@ -279,9 +281,39 @@ public class NPC extends AbstractEntity implements LifeForm
 
     private void checkSchedules(GameTimeChanged event)
     {
-        if (GameConfiguration.debugNPC == true)
+        if (this.getSchedule() != null)
         {
-            //logger.debug("npc {} checking schedule at {}", this.getId(), event.getType());
+            if (this.getSchedule().isActive())
+            {
+                if (this.getSchedule().getActivities().size() > 0)
+                {
+                    for (ScheduleActivity scheduleActivity : this.getSchedule().getActivities())
+                    {
+                        GameTime startTime = scheduleActivity.getStartTime();
+
+                        if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
+                        {
+                            if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
+                            {
+                                if (scheduleActivity.isActive())
+                                {
+                                    //already running, do nothing
+                                }
+                                else
+                                {
+                                    scheduleActivity.setActive(true);
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (GameConfiguration.debugSchedule == true)
+            {
+                logger.debug("npc {} checking schedule at {}", this.getId(), event.getType());
+            }
         }
     }
 

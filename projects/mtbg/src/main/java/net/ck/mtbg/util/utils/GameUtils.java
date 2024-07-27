@@ -623,7 +623,6 @@ public class GameUtils
         for (Map map : Game.getCurrent().getMaps())
         {
 
-            map.setVisibilityRange(1);
 
             map.setWeatherSystem(true);
             map.setFixedWeather(WeatherTypes.SUN);
@@ -638,7 +637,6 @@ public class GameUtils
             {
                 logger.info("map: {}", map);
                 map.initialize();
-                map.setVisibilityRange(2);
                 map.setMinutesPerTurn(10);
                 Game.getCurrent().setCurrentMap(map);
                 Game.getCurrent().addItemsToFloor();

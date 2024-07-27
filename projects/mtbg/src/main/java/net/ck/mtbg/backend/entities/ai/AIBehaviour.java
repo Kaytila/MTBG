@@ -241,7 +241,22 @@ public class AIBehaviour
             {
                 logger.debug("ncp {} has reached target", e.getId());
             }
-            e.getSchedule().moveToNextScheduleActivity();
+
+            if (e.getSchedule() != null)
+            {
+                if (e.getSchedule().getActivities().size() > 0)
+                {
+                    if (e.getSchedule().getCurrentlyActiveActivity().isActive())
+                    {
+                        if (GameConfiguration.debugSchedule)
+                        {
+                            logger.debug("npc: {} current activity reached, set inactive, move to next one", e.getId());
+                        }
+                        e.getSchedule().getCurrentlyActiveActivity().setActive(false);
+                        e.getSchedule().moveToNextScheduleActivity();
+                    }
+                }
+            }
             e.setRunningAction(null);
         }
     }
@@ -298,9 +313,9 @@ public class AIBehaviour
         //if i only check for schedule existing, npc will never to anything else
         //i need to determine here whether there is a schedule activity that needs to be run
         //now instead of doing that within the call
-        else if (e.getSchedule() != null)
+        else if ((e.getSchedule() != null) && (e.getSchedule().getCurrentlyActiveActivity().isActive()))
         {
-            if (GameConfiguration.debugNPC == true)
+            if (GameConfiguration.debugSchedule == true)
             {
                 logger.debug("npc {} has a schedule", e.getId());
             }
@@ -320,20 +335,20 @@ public class AIBehaviour
     {
         if (e.getSchedule() != null)
         {
-            if (GameConfiguration.debugNPC == true)
+            if (GameConfiguration.debugSchedule == true)
             {
                 logger.debug("npc  {} has schedule", e.getId());
             }
             //easy for now
             if (e.getSchedule().isActive() == true)
             {
-                if (GameConfiguration.debugNPC == true)
+                if (GameConfiguration.debugSchedule == true)
                 {
                     logger.debug("npc {} schedule is active", e.getId());
                 }
                 if (e.getSchedule().getActivities() != null)
                 {
-                    if (GameConfiguration.debugNPC == true)
+                    if (GameConfiguration.debugSchedule == true)
                     {
                         logger.debug("npc {} schedule has activities", e.getId());
                     }
@@ -341,7 +356,7 @@ public class AIBehaviour
                     ScheduleActivity activity = e.getSchedule().getActivities().get(e.getSchedule().getCurrentScheduleActivityIndex());
 
                     GameTime startTime = activity.getStartTime();
-                    if (GameConfiguration.debugNPC == true)
+                    if (GameConfiguration.debugSchedule == true)
                     {
                         logger.debug("npc {} game time: {}", e.getId(), Game.getCurrent().getGameTime());
                         logger.debug("npc {} activity start time: {}", e.getId(), startTime);
@@ -350,10 +365,19 @@ public class AIBehaviour
                     {
                         if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
                         {
-                            if (GameConfiguration.debugNPC == true)
+                            if (e.getSchedule().getCurrentScheduleActivityIndex() == 0)
                             {
-                                logger.debug("npc {} activity: {}", e.getId(), activity);
+                                //first one is already set active
                             }
+                            else
+                            {
+                                activity.setActive(true);
+                            }
+                            if (GameConfiguration.debugSchedule == true)
+                            {
+                                logger.debug("npc {} activating activity: {}", e.getId(), activity);
+                            }
+
                             e.setRunningAction(activity.getAction());
                             e.doAction(new PlayerAction(activity.getAction()));
                         }

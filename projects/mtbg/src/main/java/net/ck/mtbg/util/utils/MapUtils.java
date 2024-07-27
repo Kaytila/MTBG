@@ -718,10 +718,10 @@ public class MapUtils
     {
         switch (dayNight)
         {
-            case NIGHT -> Game.getCurrent().getCurrentMap().setVisibilityRange(1);
+            case NIGHT -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.nightVisibility);
             case DAY -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles);
-            case DAWN -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
-            case DUSK -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.numberOfTiles / 4);
+            case DAWN -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.dawnVisibility);
+            case DUSK -> Game.getCurrent().getCurrentMap().setVisibilityRange(GameConfiguration.duskVisibility);
         }
     }
 

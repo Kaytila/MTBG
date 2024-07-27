@@ -29,6 +29,12 @@ I do not know yet. Perhaps in a non-deleting queue?
 Also, the starting point is too naive - if the check is only for npc schedule to exist, npc wont ever do anything else
 apart from combat, as there is a schedule coming after. need to determine first whether there is a schedule activity
 that needs to be running.
+Introduced an additional variable to make sure we always have a currentActivity. That all runs nicely already, but:
+I do not make the bridge between "schedule activity1 is finished" and "go back to random until number 2 starts" yet.
+Unsure how to deal with that. Perhaps two variables?
+1. is active?
+2. is finished.
+3. on day rollover - clean finished? not sure yet.
 
 
 2024-04-24: On Edge cases

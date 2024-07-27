@@ -1173,3 +1173,4 @@ History of the changes:
             blocked.
 2024-07-24: updated AbstractEntity->handleOpening and added delegation method to maptile to handle open/close better.
 2024-07-25: updated AIBehaviour and Schedule - at least one char will endlessly loop through his activities.
+2024-07-27: updated NPC, now its checked for each npc and each time where there is a change in the schedule.
