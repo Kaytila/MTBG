@@ -181,3 +181,26 @@ happening in paintComponent on the Grid, but perhaps this should stay that way, 
 highlighted automap which I do not need.
 So careless design produced an advantage after all. Lets call it intuitive design.
 
+
+On Grid and grid handling
+=========================
+
+In order to properly handle mouse position and mouse input, it is important to make sure that I capture the mouse
+position. Currently, this only tracks whether the mouse is outside of the grid, or inside.
+Just realized an issue:
+The mouse might actually be within the grid, but still on a null tile for the frame outside. I need to handle that.
+Also need to handle that the mouse is on an "currently hidden" tile.
+So actually two general framework topics I need to handle now. This should take care of many separate issues concerning
+UI handling.
+
+1.  if mouse pointer is outside of real existing tiles: make sure all commands move it back on centered player once
+    the commmand key is pressed or once the mouse is moved. command key should be sufficient actually. This can be
+    handled generally for all commands.
+
+2.  if mouse pointer is outside of grid at all: also move it back on player once a command key is pressed.
+
+3. if mouse pointer is on a hidden tile, same thing, move it back on player.
+
+4. make sure to re-check all mouse commands whether handling is done in the same way for all commands.
+
+5. same for keyboard input, whether single-command or dual-command.

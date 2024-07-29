@@ -410,7 +410,15 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         }
         else
         {
-            //logger.debug("select tile is not active");
+            if (MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())) == null)
+            {
+                UIStateMachine.setMouseOnEmptyGridField(true);
+                //logger.debug("select tile is not active");
+            }
+            else
+            {
+                UIStateMachine.setMouseOnEmptyGridField(false);
+            }
         }
 
 
@@ -692,6 +700,20 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             }
         }
 
+        if (!(action.getType().equals(KeyboardActionType.SPACE)))
+        {
+            if (UIStateMachine.isMouseOutsideOfGrid() == true)
+            {
+                logger.debug("mouse is outside of anything, center on player");
+                CursorUtils.centerCursorOnPlayer();
+            }
+
+            if (UIStateMachine.isMouseOnEmptyGridField() == true)
+            {
+                logger.debug("there is no real tile below, center on player");
+                CursorUtils.centerCursorOnPlayer();
+            }
+        }
 
         switch (action.getType())
         {

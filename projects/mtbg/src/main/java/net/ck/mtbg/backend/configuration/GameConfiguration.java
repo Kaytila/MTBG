@@ -112,12 +112,11 @@ public class GameConfiguration
      * describes the dex value where player will move twice
      */
     public static final int dexterityThreshold = 30;
-    public static final boolean debugSchedule = true;
     /**
      * standard dialog height
      */
     public static final int dialogHeight = 300;
-
+    public static final boolean debugSchedule = true;
     /**
      * draw the furniture/inventory on the automap or not?
      */
@@ -126,7 +125,6 @@ public class GameConfiguration
      * standard dialog width
      */
     public static final int dialogWidth = 300;
-
     /**
      * only draw each tile of the visible area once,
      * do not draw over again for background, foreground, npc, furniture, blocked, light
@@ -141,7 +139,6 @@ public class GameConfiguration
      * draw the labels as string on the automap
      */
     public static final boolean drawLabelsOnAutomap = false;
-
     /**
      * frames per second, if i really want to switch to this in the future
      */
@@ -154,7 +151,6 @@ public class GameConfiguration
      * what font are we using?
      */
     public static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
-
     /**
      * how big are the images, check this somewhere.
      */

@@ -7,7 +7,7 @@ synchronous weather system - weather can change with each turn
 async weather system - weather can change independently of movement (think Ultima 4 winds)
 music system that captures changes on game state and switches music accordingly
 sound effect system
-cut scenes in different flavors
+cut scenes in different flavors - single screen, multi-screen with music
 inventory and inventory dialog
 spell book and magic system
 npc patrolling
@@ -18,7 +18,8 @@ conversation system
 stats system
 drag'n'drop
 combat system
-attribute system and dialog
+attribute system
+conversation and dialog
 title screen
 character editor
 automap with labels

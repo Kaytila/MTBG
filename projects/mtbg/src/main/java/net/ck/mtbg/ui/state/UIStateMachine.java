@@ -53,10 +53,18 @@ public class UIStateMachine
     @Getter
     @Setter
     private static MapTile currentSelectedTile;
+
+    /**
+     * what state is the ui in?
+     * opened, deactivated ...
+     */
     @Getter
     @Setter
     private static UIState uiState;
 
+    /**
+     * is the animation running whether an attackc has hit or not?
+     */
     @Getter
     @Setter
     private static boolean hitAnimationRunning;
@@ -70,8 +78,20 @@ public class UIStateMachine
     @Setter
     private static boolean mouseOutsideOfGrid;
 
+    /**
+     * what is the last mouse position to be able to jump back
+     */
     @Getter
     @Setter
     private static Point lastMousePosition;
+
+
+    /**
+     * is the mouse on an empty grid field meaning that it is a black field because it is the edge of the map
+     */
+    @Getter
+    @Setter
+    private static boolean mouseOnEmptyGridField;
+
 
 }
