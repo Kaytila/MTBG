@@ -1175,3 +1175,6 @@ History of the changes:
 2024-07-25: updated AIBehaviour and Schedule - at least one char will endlessly loop through his activities.
 2024-07-27: updated NPC, now its checked for each npc and each time where there is a change in the schedule.
 2024-07-29: updated general Controller to center cursor on player on case a command - apart from space - is triggered.
+2024-07-30: did a small update and switched to event-based
+2024-07-30: quick fix, if map position is empty for NPC creation during spawning, just return and set it later.
+2024-07-30: added debugEvents flag to all postEvent() lines to make sure we catch all and can follow up.

@@ -69,6 +69,10 @@ public class AnimationSystemActionListener implements ActionListener
 
             if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
             {
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new lifeform animation");
+                }
                 EventBus.getDefault().post(new AnimatedRepresentationChanged(null));
             }
         }

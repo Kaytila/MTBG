@@ -201,6 +201,10 @@ public class Player extends AbstractEntity implements LifeForm
                 AbstractKeyboardAction realAction = getQueuedActions().poll();
                 PlayerAction playerAction = new PlayerAction(realAction);
                 doAction(playerAction);
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire advance turn event");
+                }
                 EventBus.getDefault().post(new AdvanceTurnEvent(playerAction));
                 return;
             }
@@ -582,6 +586,10 @@ public class Player extends AbstractEntity implements LifeForm
     public void decreaseHealth(int i)
     {
         this.setCurrImage(ImageManager.getActionImage(ActionStates.HIT));
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new life form animation");
+        }
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
 
@@ -707,6 +715,10 @@ public class Player extends AbstractEntity implements LifeForm
         EnvironmentalStoryTeller.tellStoryLeave(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()));
         super.move(x, y);
         EnvironmentalStoryTeller.tellStoryEnter(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()));
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire player position change");
+        }
         EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
     }
 

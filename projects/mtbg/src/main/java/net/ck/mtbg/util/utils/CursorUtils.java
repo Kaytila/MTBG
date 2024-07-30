@@ -426,6 +426,10 @@ public class CursorUtils
     {
         // logger.info("setting cursor to {}", cursor);
         CursorUtils.cursor = cursor;
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new cursor event");
+        }
         EventBus.getDefault().post(new CursorChangeEvent(cursor));
     }
 

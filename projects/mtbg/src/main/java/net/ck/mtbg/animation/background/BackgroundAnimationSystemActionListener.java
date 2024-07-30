@@ -57,6 +57,11 @@ public class BackgroundAnimationSystemActionListener implements ActionListener
                 {
                     logger.debug("post event that background image changed");
                 }
+
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new background");
+                }
                 EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
             }
         }

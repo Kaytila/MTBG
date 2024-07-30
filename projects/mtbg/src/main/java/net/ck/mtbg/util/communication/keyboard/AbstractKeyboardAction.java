@@ -3,6 +3,7 @@ package net.ck.mtbg.util.communication.keyboard;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
@@ -79,12 +80,20 @@ public class AbstractKeyboardAction extends AbstractAction
             else
             {
                 //logger.info(getType() + " pressed");
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new event?");
+                }
                 EventBus.getDefault().post(this);
             }
         }
         else
         {
             //logger.info(getType() + " pressed");
+            if (GameConfiguration.debugEvents == true)
+            {
+                logger.debug("fire new event?");
+            }
             EventBus.getDefault().post(this);
         }
     }

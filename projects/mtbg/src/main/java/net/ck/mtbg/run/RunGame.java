@@ -265,6 +265,10 @@ public class RunGame
         GameUtils.initializeRest();
         GameUtils.initializeMusicSystemNoThread();
         GameUtils.initializeSoundSystemNoThread();
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new game state");
+        }
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 

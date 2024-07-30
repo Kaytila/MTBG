@@ -239,6 +239,10 @@ public class Game implements Runnable, Serializable
     public synchronized void advanceTurn(PlayerAction action)
     {
         Game.getCurrent().getCurrentPlayer().doAction(action);
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire highlighting event in advanceTurn");
+        }
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
         TimerManager.getIdleTimer().stop();
@@ -454,6 +458,10 @@ public class Game implements Runnable, Serializable
         if (UIStateMachine.isUiOpen())
         {
             TimerManager.getHighlightTimer().start();
+            if (GameConfiguration.debugEvents == true)
+            {
+                logger.debug("fire highlighting event in advanceTurn");
+            }
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
             UILense.getCurrent().identifyVisibleTilesBest();
             UILense.getCurrent().identifyBufferedTiles();
@@ -623,9 +631,18 @@ public class Game implements Runnable, Serializable
         //these two are ugly and need to be done better somehow,
         //but they make the switch faster, way faster
         WeatherManager.getWeatherSystem().checkWeather();
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire player position change in finishMapSwitch");
+        }
         EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
         //WindowBuilder.getGridCanvas().paint();
         //update the Game to switch to the current state of the new map - might be different after all
+
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire game state changed in finishMapSwitch");
+        }
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         TimerManager.getIdleTimer().start();
         //TODO clear running schedules? how? currently they are on NPC.

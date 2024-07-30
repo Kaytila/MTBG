@@ -156,6 +156,10 @@ public class MissileTimer implements Runnable
             //logger.info("finished missiles: {}", finishedMissiles);
             Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
         }
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new missile position");
+        }
         EventBus.getDefault().post(new MissilePositionChanged());
     }
 

@@ -63,6 +63,10 @@ public class AnimationSystemTimerTask extends TimerTask
             }
             if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
             {
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new life form animation");
+                }
                 EventBus.getDefault().post(new AnimatedRepresentationChanged(null));
             }
         }

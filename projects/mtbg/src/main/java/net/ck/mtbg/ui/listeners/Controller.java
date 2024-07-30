@@ -260,18 +260,34 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             switch (CursorUtils.getCursor().getName())
             {
                 case "westCursor":
+                    if (GameConfiguration.debugEvents == true)
+                    {
+                        logger.debug("fire new west action");
+                    }
                     EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.WEST));
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     break;
                 case "eastCursor":
+                    if (GameConfiguration.debugEvents == true)
+                    {
+                        logger.debug("fire new east action");
+                    }
                     EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.EAST));
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     break;
                 case "northCursor":
+                    if (GameConfiguration.debugEvents == true)
+                    {
+                        logger.debug("fire new north action");
+                    }
                     EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.NORTH));
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     break;
                 case "southCursor":
+                    if (GameConfiguration.debugEvents == true)
+                    {
+                        logger.debug("fire new south action");
+                    }
                     EventBus.getDefault().post(ActionFactory.createAction(KeyboardActionType.SOUTH));
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
                     break;
@@ -648,6 +664,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
         // NPCs are handled in game because the npcs on the current map
         // are loaded into game
         PlayerAction ac = new PlayerAction(action);
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire advance turn event");
+        }
         EventBus.getDefault().post(new AdvanceTurnEvent(ac));
 
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());

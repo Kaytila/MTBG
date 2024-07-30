@@ -39,7 +39,15 @@ public class IdleActionListener implements ActionListener
             }
             AbstractKeyboardAction spaceAction = ActionFactory.createAction(KeyboardActionType.SPACE);
             Game.getCurrent().setPlayerAction(new PlayerAction(spaceAction));
+            if (GameConfiguration.debugEvents == true)
+            {
+                logger.debug("fire new space action");
+            }
             EventBus.getDefault().post(spaceAction);
+            if (GameConfiguration.debugEvents == true)
+            {
+                logger.debug("fire new palyer position change");
+            }
             EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
         }
     }

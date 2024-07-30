@@ -48,7 +48,7 @@ public class GameConfiguration
     /**
      * brighten up images or not - used for drawing bright, less bright and almost dark tiles
      */
-    public static final boolean brightenUpImages = true;
+    public static final boolean brightenUpImages = false;
     /**
      * calculate the brightened up image during drawing or before
      */
@@ -105,18 +105,21 @@ public class GameConfiguration
     public static final boolean debugTimers = false;
     public static final boolean debugTurn = false;
     public static final boolean debugWorld = false;
+    public static final boolean debugSchedule = true;
+
+    public static final boolean debugEvents = false;
     /*
     ========================================================================================
      */
     /**
-     * describes the dex value where player will move twice
+     * describes the dex value where player or npc will move twice
      */
     public static final int dexterityThreshold = 30;
     /**
      * standard dialog height
      */
     public static final int dialogHeight = 300;
-    public static final boolean debugSchedule = true;
+
     /**
      * draw the furniture/inventory on the automap or not?
      */
@@ -325,7 +328,7 @@ public class GameConfiguration
     /**
      * use Events only for redrawing or do 60 fps :D
      */
-    public static final boolean useEvents = false;
+    public static final boolean useEvents = true;
     /**
      * use a thread for Game or not - if not, where does it run?
      */
@@ -364,6 +367,7 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
+
 }
 
 

@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.state;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.music.MusicPlayerNoThread;
@@ -46,6 +47,10 @@ public class NoiseManager
 
             if (stillaggro == false)
             {
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire game state change - victory");
+                }
                 EventBus.getDefault().post(new GameStateChanged(GameState.VICTORY));
                 TimerManager.getMusicTimer().start();
             }
@@ -55,6 +60,10 @@ public class NoiseManager
         {
             if (GameUtils.checkVictoryGameStateDuration())
             {
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new game state change");
+                }
                 EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
                 if (TimerManager.getMusicTimer().isRunning() == false)
                 {

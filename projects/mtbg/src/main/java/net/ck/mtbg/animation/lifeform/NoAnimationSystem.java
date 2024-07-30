@@ -45,6 +45,10 @@ public class NoAnimationSystem extends AnimationSystem
 
                 if (UIStateMachine.isUiOpen())
                 {
+                    if (GameConfiguration.debugEvents == true)
+                    {
+                        logger.debug("fire new lifeform animation");
+                    }
                     EventBus.getDefault().post(new AnimatedRepresentationChanged(p));
                 }
             }

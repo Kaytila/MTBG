@@ -3,6 +3,7 @@ package net.ck.mtbg.weather;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.WeatherChangedEvent;
 import net.ck.mtbg.util.utils.WeatherUtils;
@@ -53,6 +54,10 @@ public class Weather implements Serializable
         this.type = typ;
         if (UIStateMachine.isUiOpen())
         {
+            if (GameConfiguration.debugEvents == true)
+            {
+                logger.debug("fire new weather changed event");
+            }
             EventBus.getDefault().post(new WeatherChangedEvent("imageChanged"));
         }
     }

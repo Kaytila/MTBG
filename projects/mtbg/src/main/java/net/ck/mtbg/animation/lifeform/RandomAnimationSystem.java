@@ -68,6 +68,10 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
 
             if (UIStateMachine.isUiOpen())
             {
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new lifeform animation");
+                }
                 EventBus.getDefault().post(new AnimatedRepresentationChanged(null));
             }
 

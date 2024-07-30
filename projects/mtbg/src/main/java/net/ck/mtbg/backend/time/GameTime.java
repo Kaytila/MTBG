@@ -166,6 +166,10 @@ public class GameTime implements Serializable
             type = GameTimeChangeType.YEAR;
             //logger.info("year changed");
         }
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new game time change");
+        }
         EventBus.getDefault().post(new GameTimeChanged(type));
 
         return this;

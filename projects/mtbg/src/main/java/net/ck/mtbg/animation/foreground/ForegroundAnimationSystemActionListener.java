@@ -57,6 +57,10 @@ public class ForegroundAnimationSystemActionListener implements ActionListener
                 {
                     logger.debug("post event that foreground image changed");
                 }
+                if (GameConfiguration.debugEvents == true)
+                {
+                    logger.debug("fire new foreground");
+                }
                 EventBus.getDefault().post(new ForegroundRepresentationChanged(getCurrentForegroundImage()));
             }
         }

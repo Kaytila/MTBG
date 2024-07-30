@@ -23,6 +23,10 @@ public class MusicTimerActionListener implements ActionListener
         {
             logger.debug("firing game state change for music");
         }
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new game state");
+        }
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
     }
 }

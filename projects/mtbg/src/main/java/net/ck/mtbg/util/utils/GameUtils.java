@@ -570,8 +570,16 @@ public class GameUtils
     {
 
         TimerManager.getHighlightTimer().start();
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new highlighting event");
+        }
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         MapUtils.setVisibility(MapUtils.calculateDayOrNight());
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new game state change event");
+        }
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         //let us see whether this works:
 

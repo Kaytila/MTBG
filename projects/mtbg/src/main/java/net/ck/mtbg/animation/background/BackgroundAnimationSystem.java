@@ -44,6 +44,15 @@ public class BackgroundAnimationSystem implements Runnable
                 setCurrentBackgroundImage(i);
                 if (UIStateMachine.getUiState().equals(UIState.OPENED))
                 {
+                    if (GameConfiguration.debugTimers == true)
+                    {
+                        logger.debug("fire new background");
+                    }
+
+                    if (GameConfiguration.debugEvents == true)
+                    {
+                        logger.debug("fire new background");
+                    }
                     EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
                 }
                 try

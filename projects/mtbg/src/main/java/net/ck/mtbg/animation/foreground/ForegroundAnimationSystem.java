@@ -38,7 +38,8 @@ public class ForegroundAnimationSystem extends IndividualAnimationSystem
 			int i;
 			for (i = 0; i <= GameConfiguration.animationCycles; i++) {
                 setCurrentForegroundImage(i);
-                if (UIStateMachine.isUiOpen()) {
+				if (UIStateMachine.isUiOpen())
+				{
                     EventBus.getDefault().post(new ForegroundRepresentationChanged(getCurrentForegroundImage()));
                 }
                 try {

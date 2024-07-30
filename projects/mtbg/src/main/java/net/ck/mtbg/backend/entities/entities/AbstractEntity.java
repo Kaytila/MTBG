@@ -437,6 +437,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             tile = tileByCoordinates;
         }
 
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new game state: combat");
+        }
         EventBus.getDefault().post(new GameStateChanged(GameState.COMBAT));
 
         if (tile != null)
@@ -521,6 +525,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                                 logger.debug("hit");
                             }
                             n.decreaseHealth(5);
+                            if (GameConfiguration.debugEvents == true)
+                            {
+                                logger.debug("fire new lifeform animation");
+                            }
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             return true;
                         }
@@ -531,6 +539,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                                 logger.debug("miss");
                             }
                             n.evade();
+                            if (GameConfiguration.debugEvents == true)
+                            {
+                                logger.debug("fire new life form animation");
+                            }
                             EventBus.getDefault().post(new AnimatedRepresentationChanged(n));
                             return false;
                         }
@@ -590,6 +602,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     public void evade()
     {
         this.setCurrImage(ImageManager.getActionImage(ActionStates.MISS));
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new life form animation");
+        }
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
 
@@ -598,6 +614,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     public void increaseHealth(int i)
     {
         this.setCurrImage(ImageManager.getActionImage(ActionStates.HEAL));
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new life form animation");
+        }
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
         if (getHealth() >= 0)
@@ -618,6 +638,10 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     public void decreaseHealth(int i)
     {
         this.setCurrImage(ImageManager.getActionImage(ActionStates.HIT));
+        if (GameConfiguration.debugEvents == true)
+        {
+            logger.debug("fire new life form animation");
+        }
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
 
         if (getHealth() - i > 0)
@@ -794,6 +818,13 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public void setMapPosition(Point position)
     {
+        //if map position is still null during creation - dynamic spawning is the case
+        //just return, as position will be set afterwards anyways.
+        if (position == null)
+        {
+            return;
+        }
+
         this.mapPosition = position;
         if (UIStateMachine.isUiOpen())
         {
