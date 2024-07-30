@@ -85,10 +85,7 @@ public class GameConfiguration
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
-    /**
-     * max visibility around player during dawn
-     */
-    public static final int dawnVisibility = GameConfiguration.numberOfTiles / 4;
+
     public static final boolean debugNPC = true;
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
@@ -146,10 +143,7 @@ public class GameConfiguration
      * frames per second, if i really want to switch to this in the future
      */
     public static final int fps = 60;
-    /**
-     * max visibility around player during dusk
-     */
-    public static final int duskVisibility = GameConfiguration.numberOfTiles / 4;
+
     /**
      * what font are we using?
      */
@@ -159,10 +153,6 @@ public class GameConfiguration
      */
     public static final Point imageSize = new Point(16, 16);
 
-    /**
-     * describes the max distance a lightsource may have an effect on the surroundings
-     */
-    public static final int maxLightSourceDistance = 4;
 
     /**
      * delay for missile timer to tick in ms
@@ -180,10 +170,28 @@ public class GameConfiguration
      * show how many rows and columns of tiles in the UI
      */
     public static final int numberOfTiles = 15;
+
+
     /**
      * max visibility range around player during night
      */
     public static final int nightVisibility = 2;
+
+    /**
+     * max visibility around player during dawn
+     */
+    public static final int dawnVisibility = GameConfiguration.numberOfTiles / 4;
+
+    /**
+     * describes the max distance a lightsource may have an effect on the surroundings
+     */
+    public static final int maxLightSourceDistance = 4;
+
+    /**
+     * max visibility around player during dusk
+     */
+    public static final int duskVisibility = GameConfiguration.numberOfTiles / 4;
+
     /**
      * how many additional images are there per lifeform
      */
