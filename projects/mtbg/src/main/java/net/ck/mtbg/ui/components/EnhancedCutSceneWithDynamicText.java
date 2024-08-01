@@ -2,6 +2,7 @@ package net.ck.mtbg.ui.components;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
@@ -22,9 +23,10 @@ import java.util.TimerTask;
  * https://docs.oracle.com/javase/6/docs/api/javax/swing/SwingUtilities.html#getAncestorOfClass%28java.lang.Class,%20java.awt.Component%29
  * </a>
  */
-@Log4j2
 @Getter
 @Setter
+@Log4j2
+@ToString
 public class EnhancedCutSceneWithDynamicText extends EnhancedCutSceneWithText
 {
     private final ArrayList<String> textStrings;

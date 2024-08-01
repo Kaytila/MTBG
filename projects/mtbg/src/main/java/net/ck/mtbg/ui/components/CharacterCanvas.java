@@ -2,6 +2,7 @@ package net.ck.mtbg.ui.components;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.models.CharacterPortraitModel;
@@ -9,9 +10,10 @@ import net.ck.mtbg.ui.models.CharacterPortraitModel;
 import javax.swing.*;
 import java.awt.*;
 
-@Log4j2
 @Getter
 @Setter
+@Log4j2
+@ToString
 public class CharacterCanvas extends JComponent
 {
     CharacterPortraitModel characterPortraitModel;

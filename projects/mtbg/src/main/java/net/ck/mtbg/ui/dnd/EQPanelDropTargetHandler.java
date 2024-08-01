@@ -1,18 +1,22 @@
 package net.ck.mtbg.ui.dnd;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.components.EQPanel;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class EQPanelDropTargetHandler implements DropTargetListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     public EQPanelDropTargetHandler(EQPanel eqPanel)
     {

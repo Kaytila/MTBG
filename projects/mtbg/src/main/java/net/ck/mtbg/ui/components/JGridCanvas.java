@@ -576,6 +576,7 @@ public class JGridCanvas extends JComponent
 
     public void paint()
     {
+        logger.debug("paint is being called");
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             this.repaint();

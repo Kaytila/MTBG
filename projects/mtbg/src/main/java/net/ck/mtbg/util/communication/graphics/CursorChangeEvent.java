@@ -1,29 +1,24 @@
 package net.ck.mtbg.util.communication.graphics;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class CursorChangeEvent extends ChangedEvent
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-	private Cursor cursor; 
-	
-	public CursorChangeEvent(Cursor cursor)
-	{
-		super();
-		setCursor(cursor);
-	}
 
-	public Cursor getCursor()
-	{
-		return cursor;
-	}
+    private Cursor cursor;
 
-	public void setCursor(Cursor cursor)
-	{
-		this.cursor = cursor;
-	}
+    public CursorChangeEvent(Cursor cursor)
+    {
+        super();
+        setCursor(cursor);
+    }
 }

@@ -197,3 +197,13 @@ that would change blocked state
 
 todo:
 npcs - on map or general, or both?
+
+
+todo:
+either all commands have the tile they affect right away, or all commands have the UI coordinates and the maptile
+right away. Not a mixture of both, depending on age of the implementation.
+
+
+todo:
+for event based paint - make sure there is only one paint at the end of the advance turn, not several at the same time.
+this could be the cause for the flickering despite the double buffering.

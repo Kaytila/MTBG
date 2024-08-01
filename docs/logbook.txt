@@ -1177,4 +1177,8 @@ History of the changes:
 2024-07-29: updated general Controller to center cursor on player on case a command - apart from space - is triggered.
 2024-07-30: did a small update and switched to event-based
 2024-07-30: quick fix, if map position is empty for NPC creation during spawning, just return and set it later.
-2024-07-30: added debugEvents flag to all postEvent() lines to make sure we catch all and can follow up.
+2024-07-30: added debugEvents flag to all postEvent() lines to make sure we catch all and can follow up.#
+2024-07-31: updated some controllerdelegator methods just to work the same way. found some interesting differences.
+            will need to decide how to strucure or re-structure this. saw that player movement has some weird UI
+            artefacts.
+2024-08-01: updated things to get rid of CodeUtils->logger

@@ -1,14 +1,15 @@
 package net.ck.mtbg.ui.dnd;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.JGridCanvas;
 import net.ck.mtbg.util.communication.keyboard.DropAction;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.util.utils.CodeUtils;
 import net.ck.mtbg.util.utils.MapUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +17,13 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.InputEvent;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class JGridCanvasTransferHandler extends TransferHandler
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
     private MapTile sourceMapTile = null;
     private MapTile targetMapTile = null;
     private JGridCanvas gridCanvas;
@@ -26,36 +31,6 @@ public class JGridCanvasTransferHandler extends TransferHandler
     public JGridCanvasTransferHandler(JGridCanvas gridCanvas)
     {
         setGridCanvas(gridCanvas);
-    }
-
-    public MapTile getSourceMapTile()
-    {
-        return sourceMapTile;
-    }
-
-    public void setSourceMapTile(MapTile sourceMapTile)
-    {
-        this.sourceMapTile = sourceMapTile;
-    }
-
-    public MapTile getTargetMapTile()
-    {
-        return targetMapTile;
-    }
-
-    public void setTargetMapTile(MapTile targetMapTile)
-    {
-        this.targetMapTile = targetMapTile;
-    }
-
-    public JGridCanvas getGridCanvas()
-    {
-        return gridCanvas;
-    }
-
-    public void setGridCanvas(JGridCanvas gridCanvas)
-    {
-        this.gridCanvas = gridCanvas;
     }
 
 

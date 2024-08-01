@@ -1,9 +1,10 @@
 package net.ck.mtbg.ui.dnd;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.components.EQPanel;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +12,17 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.InputEvent;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class EQPanelTransferHandler extends TransferHandler
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
+
+    public EQPanelTransferHandler(EQPanel headPanel)
+    {
+    }
 
     @Override
     public void setDragImage(Image img)
@@ -67,10 +76,6 @@ public class EQPanelTransferHandler extends TransferHandler
     protected void exportDone(JComponent source, Transferable data, int action)
     {
         super.exportDone(source, data, action);
-    }
-
-    public EQPanelTransferHandler(EQPanel headPanel)
-    {
     }
 
 

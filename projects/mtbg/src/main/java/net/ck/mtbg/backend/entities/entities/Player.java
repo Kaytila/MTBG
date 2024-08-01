@@ -176,6 +176,10 @@ public class Player extends AbstractEntity implements LifeForm
     }
 
 
+    /**
+     * search is handled today by just searching around the player.
+     * But is this a  good way?
+     */
     @Override
     public void search()
     {
@@ -416,6 +420,7 @@ public class Player extends AbstractEntity implements LifeForm
 
     private void openDoor(AbstractAction action)
     {
+        logger.info("open door");
         MapTile tile = action.getEvent().getMapTile();
         if (tile.getType().equals(TileTypes.GATECLOSED))
         {
@@ -592,7 +597,6 @@ public class Player extends AbstractEntity implements LifeForm
         }
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
     }
-
 
 
     @Override

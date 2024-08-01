@@ -1,28 +1,30 @@
 package net.ck.mtbg.ui.dnd;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.components.EQPanel;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class EQPanelDragGestureHandler implements DragGestureListener
 {
-    @Override
-    public void dragGestureRecognized(DragGestureEvent dge)
-    {
-
-    }
-
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
     public EQPanelDragGestureHandler(EQPanel eqPanel)
     {
 
     }
 
+    @Override
+    public void dragGestureRecognized(DragGestureEvent dge)
+    {
+
+    }
 
 
 }

@@ -2,6 +2,7 @@ package net.ck.mtbg.ui.components;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.game.Game;
@@ -17,9 +18,10 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 
-@Log4j2
 @Getter
 @Setter
+@Log4j2
+@ToString
 public class EQPanel extends JComponent implements EQPanelArmorType
 {
 

@@ -1,31 +1,21 @@
 package net.ck.mtbg.util.communication.graphics;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
+
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class ForegroundRepresentationChanged extends ChangedEvent
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+    private int currentNumber;
 
-	private int currentNumber;
-	
-
-	
-	public int getCurrentNumber()
-	{
-		return currentNumber;
-	}
-
-	public void setCurrentNumber(int currentNumber)
-	{
-		this.currentNumber = currentNumber;
-	}
-	
-
-	
-	public ForegroundRepresentationChanged(int i)
-	{
-		setCurrentNumber(i);
-	}
+    public ForegroundRepresentationChanged(int i)
+    {
+        setCurrentNumber(i);
+    }
 }

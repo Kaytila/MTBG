@@ -550,7 +550,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
 
             if (tile.isHidden())
             {
-                logger.info("tile {} is not visible right now", tile);
+                logger.info("tile is not visible right now");
                 return;
             }
 

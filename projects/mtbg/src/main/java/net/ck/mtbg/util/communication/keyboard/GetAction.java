@@ -1,45 +1,49 @@
 package net.ck.mtbg.util.communication.keyboard;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class GetAction extends AbstractKeyboardAction
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-		
-	public GetAction(Point getWhere)
-	{
-		super();
-		this.setGetWhere(getWhere);
-	}
 
-	
-	public GetAction()
-	{
-		super();
-		this.setGetWhere(new Point (-1, -1));
-	}
+    public GetAction(Point getWhere)
+    {
+        super();
+        this.setGetWhere(getWhere);
+    }
 
 
-	public  KeyboardActionType getType()
-	{
-		return KeyboardActionType.GET;
-	}
-	
-	
-	
-	public Logger getLogger()
-	{
-		return logger;
-	}
+    public GetAction()
+    {
+        super();
+        this.setGetWhere(new Point(-1, -1));
+    }
 
-	public boolean isActionimmediately()
-	{
-		return false;
-	}
 
-	
+    public KeyboardActionType getType()
+    {
+        return KeyboardActionType.GET;
+    }
+
+
+    public Logger getLogger()
+    {
+        return logger;
+    }
+
+    public boolean isActionimmediately()
+    {
+        return false;
+    }
+
+
 }

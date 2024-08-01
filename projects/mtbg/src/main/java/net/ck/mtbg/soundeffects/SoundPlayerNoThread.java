@@ -1,10 +1,11 @@
 package net.ck.mtbg.soundeffects;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.util.utils.CodeUtils;
 import net.ck.mtbg.util.utils.SoundUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -16,23 +17,23 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class SoundPlayerNoThread
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-
-    private ArrayList<Path> soundEffects;
-
-    private Hashtable<SoundEffects, Path> effectsList;
-
-    private Clip currentSound;
     AudioInputStream audioInputStream = null;
+    private ArrayList<Path> soundEffects;
+    private Hashtable<SoundEffects, Path> effectsList;
+    private Clip currentSound;
 
 
     public SoundPlayerNoThread()
     {
         super();
         //getLogger().info("initialize sound player no threaded");
-       // EventBus.getDefault().register(this);
+        // EventBus.getDefault().register(this);
         soundEffects = new ArrayList<>();
         effectsList = new Hashtable<>(SoundEffects.values().length);
         readSoundEffectDirectory(GameConfiguration.soundeffectsPath);
@@ -60,7 +61,8 @@ public class SoundPlayerNoThread
 
                 }
             }
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -77,7 +79,7 @@ public class SoundPlayerNoThread
         logger.info("nothing");
     }*/
 
-    public synchronized  void playSoundEffect(SoundEffects type)
+    public synchronized void playSoundEffect(SoundEffects type)
     {
         Path path = effectsList.get(type);
 

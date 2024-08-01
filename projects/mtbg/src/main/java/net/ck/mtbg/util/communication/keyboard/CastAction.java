@@ -1,28 +1,29 @@
 package net.ck.mtbg.util.communication.keyboard;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class CastAction extends AbstractKeyboardAction
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
     private AbstractSpell spell;
 
-    public KeyboardActionType getType() {
+    public KeyboardActionType getType()
+    {
         return KeyboardActionType.CAST;
     }
 
-    public boolean isActionimmediately() {
+    public boolean isActionimmediately()
+    {
         return false;
     }
 
-    public void setSpell(AbstractSpell selectedValue) {
-        this.spell = selectedValue;
-    }
 
-    public AbstractSpell getSpell() {
-        return spell;
-    }
 }

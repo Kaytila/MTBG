@@ -1,17 +1,21 @@
 package net.ck.mtbg.ui.highlighting;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class HighlightTimer extends Timer
 {
 
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
 
     /**
      * Creates a {@code Timer} and initializes both the initial delay and

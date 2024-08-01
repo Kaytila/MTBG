@@ -1,19 +1,23 @@
 package net.ck.mtbg.util.communication.keyboard;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class EscapeAction extends AbstractAction
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
     private static final String KEY_STROKE_AND_KEY = "ESCAPE";
-    private static final KeyStroke ESCAPE_KEY_STROKE = KeyStroke.getKeyStroke( KEY_STROKE_AND_KEY );
+    private static final KeyStroke ESCAPE_KEY_STROKE = KeyStroke.getKeyStroke(KEY_STROKE_AND_KEY);
 
 
     public EscapeAction()
@@ -22,8 +26,8 @@ public class EscapeAction extends AbstractAction
     }
 
     /**
-     *  Implement the Escape Action. First attempt to hide a popup menu.
-     *  If no popups are found then dispose the window.
+     * Implement the Escape Action. First attempt to hide a popup menu.
+     * If no popups are found then dispose the window.
      */
     @Override
     public void actionPerformed(ActionEvent e)
@@ -32,20 +36,20 @@ public class EscapeAction extends AbstractAction
         //  (generally) have focus
 
         Component component = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-        JComponent rootPane = (JComponent)component;
+        JComponent rootPane = (JComponent) component;
 
         //  In some cases a component added to a popup menu may have focus, but
         //  we need the root pane to check for popup menu key bindings
 
-        if ( ! (rootPane instanceof JRootPane) )
+        if (!(rootPane instanceof JRootPane))
         {
-            rootPane = (JComponent)SwingUtilities.getAncestorOfClass(JRootPane.class, component);
+            rootPane = (JComponent) SwingUtilities.getAncestorOfClass(JRootPane.class, component);
         }
 
         //  Hide the popup menu when an ESCAPE key binding is found,
         //  otherwise dispose the Window
 
-        ActionListener escapeAction = getEscapeAction( rootPane );
+        ActionListener escapeAction = getEscapeAction(rootPane);
 
         if (escapeAction != null)
         {
@@ -66,22 +70,31 @@ public class EscapeAction extends AbstractAction
 
         InputMap im = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-        if (im == null) return null;
+        if (im == null)
+        {
+            return null;
+        }
 
         im = im.getParent();
 
-        if (im == null) return null;
+        if (im == null)
+        {
+            return null;
+        }
 
         Object[] keys = im.keys();
 
-        if (keys == null) return null;
+        if (keys == null)
+        {
+            return null;
+        }
 
-        for (Object keyStroke: keys)
+        for (Object keyStroke : keys)
         {
             if (keyStroke.equals(ESCAPE_KEY_STROKE))
             {
                 Object key = im.get(ESCAPE_KEY_STROKE);
-                return rootPane.getActionMap().get( key );
+                return rootPane.getActionMap().get(key);
             }
         }
 
@@ -89,19 +102,19 @@ public class EscapeAction extends AbstractAction
     }
 
     /**
-     *  Convenience method for JDialogs to register the EscapeAction
-     *
-     *  &param dialog the JDialog the EscapeAction is registered with
+     * Convenience method for JDialogs to register the EscapeAction
+     * <p>
+     * &param dialog the JDialog the EscapeAction is registered with
      */
     public void register(JDialog dialog)
     {
-        register( dialog.getRootPane() );
+        register(dialog.getRootPane());
     }
 
     /**
-     *  Register the EscapeAction on the specified JRootPane
-     *
-     *  &param rootPane the JRootPane the EscapeAction is registered with
+     * Register the EscapeAction on the specified JRootPane
+     * <p>
+     * &param rootPane the JRootPane the EscapeAction is registered with
      */
     public void register(JRootPane rootPane)
     {

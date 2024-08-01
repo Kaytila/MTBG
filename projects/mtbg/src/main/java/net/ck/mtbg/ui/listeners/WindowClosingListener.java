@@ -1,17 +1,22 @@
 package net.ck.mtbg.ui.listeners;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class WindowClosingListener extends WindowAdapter
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
 
     @Override
     public void windowClosing(WindowEvent e)

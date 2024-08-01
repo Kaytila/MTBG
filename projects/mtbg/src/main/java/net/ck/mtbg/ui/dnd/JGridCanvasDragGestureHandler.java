@@ -1,19 +1,24 @@
 package net.ck.mtbg.ui.dnd;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.JGridCanvas;
 import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.util.utils.CodeUtils;
 import net.ck.mtbg.util.utils.MapUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class JGridCanvasDragGestureHandler implements DragGestureListener
 {
-    private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
+
     private JGridCanvas grid;
 
     public JGridCanvasDragGestureHandler(JGridCanvas gridCanvas)
@@ -55,15 +60,5 @@ public class JGridCanvasDragGestureHandler implements DragGestureListener
                 }
             }
         }
-    }
-
-    public JGridCanvas getGrid()
-    {
-        return grid;
-    }
-
-    public void setGrid(JGridCanvas grid)
-    {
-        this.grid = grid;
     }
 }

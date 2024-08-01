@@ -1,30 +1,25 @@
 package net.ck.mtbg.util.communication.graphics;
 
-import net.ck.mtbg.util.utils.CodeUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 
+@Getter
+@Setter
+@Log4j2
+@ToString
 public class TalkInputEvent extends ChangedEvent
 {
-	private final Logger logger = LogManager.getLogger(CodeUtils.getRealClass(this));
-	private String contents;
+
+    private String contents;
 
 
-	public TalkInputEvent(String contents)
-	{
-		super();
-		this.setContents(contents);
-	}
+    public TalkInputEvent(String contents)
+    {
+        super();
+        this.setContents(contents);
+    }
 
-	public String getContents()
-	{
-		return contents;
-	}
-
-
-	public void setContents(String contents)
-	{
-		this.contents = contents;
-	}
 
 }

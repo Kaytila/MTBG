@@ -81,15 +81,16 @@ public class GameConfiguration
     public static final boolean debugAutoMap = false;
     public static final boolean debugBrightenImages = false;
     public static final boolean debugEnvironmentalStoryTeller = false;
+    public static final boolean debugEvents = false;
     public static final boolean debugGameState = false;
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
-
+    public static final boolean debugMapPosition = false;
     public static final boolean debugNPC = true;
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
-    public static final boolean debugMapPosition = false;
+    public static final boolean debugSchedule = true;
     /**
      * debug the splash startup
      */
@@ -102,9 +103,6 @@ public class GameConfiguration
     public static final boolean debugTimers = false;
     public static final boolean debugTurn = false;
     public static final boolean debugWorld = false;
-    public static final boolean debugSchedule = true;
-
-    public static final boolean debugEvents = false;
     /*
     ========================================================================================
      */
@@ -116,48 +114,35 @@ public class GameConfiguration
      * standard dialog height
      */
     public static final int dialogHeight = 300;
-
-    /**
-     * draw the furniture/inventory on the automap or not?
-     */
-    public static final boolean drawFurnitureOnAutoMap = true;
     /**
      * standard dialog width
      */
     public static final int dialogWidth = 300;
     /**
-     * only draw each tile of the visible area once,
-     * do not draw over again for background, foreground, npc, furniture, blocked, light
+     * draw the furniture/inventory on the automap or not?
      */
-    public static final boolean drawTileOnce = true;
-
-    /**
-     * this is used for drawing the circles in the equipment dialog
-     */
-    public static final int elipseSize = 25;
+    public static final boolean drawFurnitureOnAutoMap = true;
     /**
      * draw the labels as string on the automap
      */
     public static final boolean drawLabelsOnAutomap = false;
     /**
-     * frames per second, if i really want to switch to this in the future
+     * only draw each tile of the visible area once,
+     * do not draw over again for background, foreground, npc, furniture, blocked, light
      */
-    public static final int fps = 60;
-
+    public static final boolean drawTileOnce = true;
+    /**
+     * this is used for drawing the circles in the equipment dialog
+     */
+    public static final int elipseSize = 25;
     /**
      * what font are we using?
      */
     public static final Font font = new Font("Helvetica Neue", Font.PLAIN, 20);
     /**
-     * how big are the images, check this somewhere.
+     * frames per second, if i really want to switch to this in the future
      */
-    public static final Point imageSize = new Point(16, 16);
-
-
-    /**
-     * delay for missile timer to tick in ms
-     */
-    public static final int missileWait = 5;
+    public static final int fps = 60;
     /**
      * delay for the highlighting
      */
@@ -167,35 +152,37 @@ public class GameConfiguration
      */
     public static final int hitormissTimerDuration = 1000;
     /**
-     * show how many rows and columns of tiles in the UI
+     * how big are the images, check this somewhere.
      */
-    public static final int numberOfTiles = 15;
-
-
-    /**
-     * max visibility range around player during night
-     */
-    public static final int nightVisibility = 2;
-
-    /**
-     * max visibility around player during dawn
-     */
-    public static final int dawnVisibility = GameConfiguration.numberOfTiles / 4;
-
+    public static final Point imageSize = new Point(16, 16);
     /**
      * describes the max distance a lightsource may have an effect on the surroundings
      */
     public static final int maxLightSourceDistance = 4;
-
     /**
-     * max visibility around player during dusk
+     * delay for missile timer to tick in ms
      */
-    public static final int duskVisibility = GameConfiguration.numberOfTiles / 4;
-
+    public static final int missileWait = 5;
+    /**
+     * max visibility range around player during night
+     */
+    public static final int nightVisibility = 2;
     /**
      * how many additional images are there per lifeform
      */
     public static final int numberOfAdditionalImages = 4;
+    /**
+     * show how many rows and columns of tiles in the UI
+     */
+    public static final int numberOfTiles = 15;
+    /**
+     * max visibility around player during dawn
+     */
+    public static final int dawnVisibility = GameConfiguration.numberOfTiles / 4;
+    /**
+     * max visibility around player during dusk
+     */
+    public static final int duskVisibility = GameConfiguration.numberOfTiles / 4;
     /**
      * general path to the assets
      */

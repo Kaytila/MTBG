@@ -25,10 +25,17 @@ public class ControllerDelegator
     {
         if (UIStateMachine.isSelectTile() == true)
         {
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
+
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
@@ -55,10 +62,18 @@ public class ControllerDelegator
         if (UIStateMachine.isSelectTile() == true)
         {
             //logger.info("select tile is active, dont do anything");
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            //TODO this needs to be done in every keyboard command if selectTile is active
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
         }
@@ -90,22 +105,21 @@ public class ControllerDelegator
     {
         if (UIStateMachine.isSelectTile() == true)
         {
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
-            if (UIStateMachine.isMouseOutsideOfGrid() == true)
-            {
-                CursorUtils.centerCursorOnPlayer();
-            }
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
-            if (tile == null)
-            {
-                CursorUtils.centerCursorOnPlayer();
-                tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
-            }
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
+
         }
         else
         {
@@ -129,9 +143,15 @@ public class ControllerDelegator
     {
         if (UIStateMachine.isSelectTile() == true)
         {
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
+
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(false);
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), null, tile.getLifeForm());
             logger.info("talk: {}", "");
@@ -190,10 +210,15 @@ public class ControllerDelegator
         //action is already set
         if (UIStateMachine.isSelectTile() == true)
         {
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
             logger.info("select tile is active, allow attack");
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
             controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
@@ -424,11 +449,16 @@ public class ControllerDelegator
         if (UIStateMachine.isSelectTile() == true)
         {
             logger.debug("do the yank");
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
+
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-
             controller.runActions(controller.getCurrentAction());
         }
         else
@@ -632,11 +662,18 @@ public class ControllerDelegator
     {
         if (UIStateMachine.isSelectTile() == true)
         {
+            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile.isHidden())
+            {
+                logger.debug("hidden tile");
+                return;
+            }
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
             controller.getCurrentAction().setHaveNPCAction(true);
-            MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             action.setMapTile(tile);
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
