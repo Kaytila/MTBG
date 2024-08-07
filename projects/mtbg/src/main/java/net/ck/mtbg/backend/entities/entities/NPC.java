@@ -370,6 +370,12 @@ public class NPC extends AbstractEntity implements LifeForm
         logger.info("NPC {} says: {}", this.id, message);
     }
 
+    @Override
+    public boolean isPlayer()
+    {
+        return false;
+    }
+
 
     /**
      * @param action KeyboardAction.type

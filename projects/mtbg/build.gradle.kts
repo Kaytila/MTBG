@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.opencsv)
     implementation(libs.picoli)
     implementation(libs.tika)
+    //implementation(libs.bundles.openimaj)
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)

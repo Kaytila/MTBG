@@ -22,6 +22,7 @@ open module net.ck.mtbg
 
     requires eventbus.java;
     requires imgscalr.lib;
+    //requires org.openimaj;
 
     exports net.ck.mtbg.backend.game;
     exports net.ck.mtbg.backend.state;

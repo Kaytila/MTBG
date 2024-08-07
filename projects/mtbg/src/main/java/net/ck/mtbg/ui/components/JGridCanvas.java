@@ -65,6 +65,16 @@ public class JGridCanvas extends JComponent
         GridBorder border = new GridBorder();
         this.setBorder(border);
         //this.setToolTipText(getLogger().getName());
+        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(Game.getCurrent().getCurrentPlayer().getMapPosition());
+
+        JLabel highlighting = new JLabel();
+        ImageIcon icon = new ImageIcon(ImageUtils.getHighlightingImage());
+        //this would also work
+        //ImageIcon icon = new ImageIcon(GameConfiguration.imagesRootPath + "players" + File.separator + "highlighting" + ".gif");
+
+        highlighting.setIcon(icon);
+        highlighting.setBounds((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+        this.add(highlighting);
 
         this.setTransferHandler(new JGridCanvasTransferHandler(this));
     }
@@ -215,7 +225,6 @@ public class JGridCanvas extends JComponent
                         {
                             BufferedImage bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
                             g.drawImage(bufferedImage, row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
-
                         }
                         else
                         {
@@ -284,7 +293,7 @@ public class JGridCanvas extends JComponent
             //logger.debug("end paint grid: {}", System.nanoTime() - start2);
 
             //start2 = System.nanoTime();
-            paintHighlighting(g);
+            //paintHighlighting(g);
             //logger.debug("end paint highlighting: {}", System.nanoTime() - start2);
 
             //start2 = System.nanoTime();
@@ -545,6 +554,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
+        logger.debug("npc changed");
         if (GameConfiguration.useEvents)
         {
             javax.swing.SwingUtilities.invokeLater(() ->
@@ -557,7 +567,8 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(HighlightEvent event)
     {
-
+        /*
+        logger.debug("highlighting changed");
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             setHighlightPosition(event.getMapPosition());
@@ -570,13 +581,13 @@ public class JGridCanvas extends JComponent
                 this.paint();
             });
         }
-
+        */
     }
 
 
     public void paint()
     {
-        logger.debug("paint is being called");
+        logger.debug("paint: {}", CodeUtils.getCallingMethodName());
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             this.repaint();
@@ -616,9 +627,11 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(BackgroundRepresentationChanged event)
     {
+        logger.debug("background changed");
         javax.swing.SwingUtilities.invokeLater(() ->
         {
-            setCurrentBackgroundImage(event.getCurrentNumber());/*logger.info(SwingUtilities.isEventDispatchThread());*/
+            setCurrentBackgroundImage(event.getCurrentNumber());
+            /*logger.info(SwingUtilities.isEventDispatchThread());*/
         });
     }
 

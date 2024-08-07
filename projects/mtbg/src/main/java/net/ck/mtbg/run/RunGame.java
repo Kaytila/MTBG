@@ -207,7 +207,6 @@ public class RunGame
             //ImageManager.loadAdditionalImages();
 
             renderSplashFrame(g, 100, size);
-
         }
         else
         {

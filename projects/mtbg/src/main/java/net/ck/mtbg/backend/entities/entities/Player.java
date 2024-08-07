@@ -576,6 +576,12 @@ public class Player extends AbstractEntity implements LifeForm
     }
 
     @Override
+    public boolean isPlayer()
+    {
+        return true;
+    }
+
+    @Override
     public boolean isRanged()
     {
         return false;

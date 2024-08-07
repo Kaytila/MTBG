@@ -310,6 +310,12 @@ public class World extends AbstractEntity implements LifeForm
     }
 
     @Override
+    public boolean isPlayer()
+    {
+        return false;
+    }
+
+    @Override
     public LifeFormState getState()
     {
         return null;

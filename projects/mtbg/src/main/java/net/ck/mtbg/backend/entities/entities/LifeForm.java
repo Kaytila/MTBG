@@ -120,4 +120,6 @@ public interface LifeForm
     void look(MapTile tile);
 
     void say(String message);
+
+    boolean isPlayer();
 }

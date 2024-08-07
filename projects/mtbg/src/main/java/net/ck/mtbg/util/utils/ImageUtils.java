@@ -14,6 +14,7 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.weather.WeatherTypes;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.QuadCurve2D;
@@ -47,6 +48,8 @@ public class ImageUtils
 
     @Setter
     private static BufferedImage inventoryImage;
+
+    private static Image highlightingImage;
 
     /**
      * contains the list of brightened up images
@@ -89,6 +92,73 @@ public class ImageUtils
         }
 
         return true;
+    }
+
+    /**
+     * thanks to <a href="https://stackoverflow.com/questions/68565718/java-gif-read-and-write">https://stackoverflow.com/questions/68565718/java-gif-read-and-write</a>
+     *
+     * @param images
+     */
+    public static void createGifFromFiles(ArrayList<BufferedImage> images)
+    {
+        ImageOutputStream stream = null;
+        BufferedImage img;
+        try
+        {
+            BufferedImage bufferedImage = ImageIO.read(new File("Uzga.gif"));
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        ;
+       /* try
+        {
+            File outFile = null;
+            stream = new FileImageOutputStream(outFile);
+            GifSequenceWriter writer = new GifSequenceWriter(stream, BufferedImage.TYPE_INT_RGB, BLOCK_SIZE, true);
+            for (BufferedImage img : imgs)
+            {
+                writer.writeToSequence(img);
+            }
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        */
+    }
+
+    public static void createFilesForGiF()
+    {
+
+        ArrayList<Integer> integers = new ArrayList<>();
+        integers.add(0);
+        integers.add(2);
+        integers.add(4);
+
+
+        for (int i : integers)
+        {
+            String filePath = GameConfiguration.imagesRootPath + File.separator + "highlighting" + File.separator + i + ".png";
+            BufferedImage bufferedImage = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_4BYTE_ABGR);
+            Graphics2D gr = bufferedImage.createGraphics();
+            gr.setColor(Color.YELLOW);
+            gr.drawRect(i * 2, i * 2, GameConfiguration.tileSize - (i * 2), GameConfiguration.tileSize - (i * 2));
+            File newFile = new File(filePath);
+            newFile.getParentFile().mkdirs();
+            try
+            {
+                // logger.info("writing image: {}, filePath: {}", img.toString(), filePath);
+                ImageIO.write(bufferedImage, "png", newFile);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -641,6 +711,31 @@ public class ImageUtils
     }
 
     /**
+     * <a href="https://stackoverflow.com/questions/49826647/java-problems-with-gif-in-label">https://stackoverflow.com/questions/49826647/java-problems-with-gif-in-label/a>
+     * <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html">https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html</a>
+     *
+     * @param type      - players in this case, as the highlighting is referring to that
+     * @param imageName - the name of the GIF in this case
+     * @return returns the image by Toolkit.createImage()
+     */
+    public static Image loadGIFImage(String type, String imageName)
+    {
+        String path = GameConfiguration.imagesRootPath + type + File.separator + imageName + ".gif";
+        try
+        {
+            //returns a GIF but without the animation - this is listed and stated in several threads but
+            //nowhere in the offical javadocs. what the hell.
+            //return ImageIO.read(new File(path));
+            return Toolkit.getDefaultToolkit().createImage(path);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
      * <a href="https://stackoverflow.com/questions/12980780/how-to-change-the-brightness-of-an-image">https://stackoverflow.com/questions/12980780/how-to-change-the-brightness-of-an-image</a>
      * brighten up image
      */
@@ -760,4 +855,15 @@ public class ImageUtils
 
         return inventoryImage;
     }
+
+    public static Image getHighlightingImage()
+    {
+        if (highlightingImage == null)
+        {
+            highlightingImage = ImageUtils.loadGIFImage("players", "highlighting");
+        }
+
+        return highlightingImage;
+    }
+
 }
