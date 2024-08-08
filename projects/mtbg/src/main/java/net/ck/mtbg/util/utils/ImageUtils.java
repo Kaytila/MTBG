@@ -713,6 +713,9 @@ public class ImageUtils
     /**
      * <a href="https://stackoverflow.com/questions/49826647/java-problems-with-gif-in-label">https://stackoverflow.com/questions/49826647/java-problems-with-gif-in-label/a>
      * <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html">https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html</a>
+     * <a href="https://coderanch.com/t/506909/java/insert-gif-image-panel#:~:text=Java%20doesn't%20support%20animated,to%20do%20it%20for%20you.&text=Rob%20Prime%20wrote%3A%20Java%20doesn,to%20do%20it%20for%20you.">
+     * https://coderanch.com/t/506909/java/insert-gif-image-panel#:~:text=Java%20doesn't%20support%20animated,to%20do%20it%20for%20you.&text=Rob%20Prime%20wrote%3A%20Java%20doesn,to%20do%20it%20for%20you.
+     * </a>
      *
      * @param type      - players in this case, as the highlighting is referring to that
      * @param imageName - the name of the GIF in this case

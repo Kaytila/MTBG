@@ -1184,3 +1184,4 @@ History of the changes:
 2024-08-01: updated things to get rid of CodeUtils->logger
 2024-08-07: finally found the solution for loading a gif. Now thinking about perhaps using more gifs instead of
             animating myself?
+2024-08-08: on map switch the whole map is pre-calculated.

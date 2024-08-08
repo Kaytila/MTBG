@@ -261,6 +261,7 @@ public class RunGame
         UIStateMachine.setUiOpen(true);
         //make this synchronous to make sure the UI is finished.
         //initialize remaining stuff _after_ UI is definitely open
+
         GameUtils.initializeRest();
         GameUtils.initializeMusicSystemNoThread();
         GameUtils.initializeSoundSystemNoThread();
@@ -269,6 +270,7 @@ public class RunGame
             logger.debug("fire new game state");
         }
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
+
     }
 
     public static void openCharacterEditor()

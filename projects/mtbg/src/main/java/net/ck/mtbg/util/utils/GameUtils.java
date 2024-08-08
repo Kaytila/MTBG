@@ -599,7 +599,12 @@ public class GameUtils
         MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
         MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
         //MapUtils.calculateAllTileImages(WindowBuilder.getGridCanvas().getGraphics());
+        //for testing to workaround the errors during tile image pre-generation - simply build all tiles now.
+        //TODO
+        MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap(), WindowBuilder.getGridCanvas().getGraphics());
         Game.getCurrent().getCurrentPlayer().setMapPosition(Game.getCurrent().getCurrentPlayer().getMapPosition());
+
+
     }
 
     public static void listMaps()
