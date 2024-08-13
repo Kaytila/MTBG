@@ -207,3 +207,9 @@ right away. Not a mixture of both, depending on age of the implementation.
 todo:
 for event based paint - make sure there is only one paint at the end of the advance turn, not several at the same time.
 this could be the cause for the flickering despite the double buffering.
+
+
+todo:
+automap shall only paint the tiles that have been visible to the player.
+
+todo: replace player animation by GIF

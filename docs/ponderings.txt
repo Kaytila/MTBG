@@ -204,3 +204,19 @@ UI handling.
 4. make sure to re-check all mouse commands whether handling is done in the same way for all commands.
 
 5. same for keyboard input, whether single-command or dual-command.
+
+
+On tile image pre-calculation
+=============================
+
+While this might only be a small issue remaining, it is getting on my nerves.
+I have tried several ways of identifying the visible tiles and more so and just re-calculating them.
+here is what I need to do:
+
+1. make sure that the visible area + 2 tiles around it are identified - buggy still
+2. calculate the images for them. That includes whether they are black or not
+3. get the graphics context for each tile and build the tile graphics altogether
+4. that also includes the non-existing black tiles
+5. remove all image logic from UI - there it will only paint tile and paint npc.
+6. then only each step or message will trigger a paint, nothing else anymore
+7. this clashes a bit with npc animation, but that is the only separate thing that is allowed to happen
