@@ -622,6 +622,10 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                         break;
                     }
 
+                    case JIMMY:
+                    {
+                        ControllerDelegator.handleMouseReleasedActionJIMMY(this, tile);
+                    }
 
                     default:
                         throw new IllegalStateException("Unexpected value: " + this.getCurrentAction().getType());
@@ -888,8 +892,11 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                 break;
 
             case OPEN:
-                ControllerDelegator.handleKeyBoardActionOpen(this, action);
+                ControllerDelegator.handleKeyBoardActionOPEN(this, action);
                 break;
+
+            case JIMMY:
+                ControllerDelegator.handleKeyBoardActionJIMMY(this, action);
 
             default:
             {
