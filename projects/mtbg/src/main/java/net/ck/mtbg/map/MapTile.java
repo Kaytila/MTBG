@@ -143,6 +143,20 @@ public class MapTile implements Comparable<MapTile>, Serializable
     private BufferedImage scaledImage;
 
 
+    /**
+     * this handles the door lock.
+     * the following values are ok:
+     * null not locked
+     * 0 locked generally but can be opened with a lockpick
+     * 1 locked generally but can be picked or bashed in
+     * > 1 refers to the item ID of the key which needs to be used to open the door
+     * <p>
+     * needs to be handled in map xml
+     * the way this is handled also means that an unlocked door cannot be locked again
+     * for this would need a second variable to keep the lock state
+     */
+    private Integer lock;
+
     public MapTile()
     {
         super();
@@ -504,6 +518,21 @@ public class MapTile implements Comparable<MapTile>, Serializable
             default -> logger.info("cannot switch the tile type, do nothing");
         }
     }
+
+    /**
+     * helper method for checking lock state
+     *
+     * @return whether the tile is locked
+     */
+    public boolean isLocked()
+    {
+        if (lock == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
 
 
     @Override
