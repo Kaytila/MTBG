@@ -379,6 +379,13 @@ public class Player extends AbstractEntity implements LifeForm
                 this.openDoor(action);
                 break;
             }
+
+            case JIMMY:
+            {
+                this.unlockDoor(action);
+                break;
+            }
+
             default:
                 logger.info("doing default action, inventory does not need to be reverted for instance");
                 break;
@@ -416,6 +423,30 @@ public class Player extends AbstractEntity implements LifeForm
         */
         CommandSuccessMachine.calculateSoundEffect(action);
         //Game.getCurrent().getController().setCurrentAction(null);
+    }
+
+    private void unlockDoor(AbstractAction action)
+    {
+        logger.debug("UNLOCK DOOR");
+        //TODO properly this is just simple
+        MapTile tile = action.getEvent().getMapTile();
+
+        if (tile.isOpenable())
+        {
+            if (tile.isLocked())
+            {
+                tile.setLock(null);
+            }
+            else
+            {
+                logger.debug("already unlocked");
+            }
+        }
+        else
+        {
+            logger.debug("nothing openable!");
+        }
+
     }
 
     private void openDoor(AbstractAction action)

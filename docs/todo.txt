@@ -212,4 +212,15 @@ this could be the cause for the flickering despite the double buffering.
 todo:
 automap shall only paint the tiles that have been visible to the player.
 
-todo: replace player animation by GIF
+todo: replace player animation by GIF <-- done
+
+
+todo:
+think about replacing the NPC animation by GIFs - this should remove the flickering.
+This goes hand in hand with full re-calculation of the tile contents for the tile graphics would already include the
+gif? Perhaps? not sure whether this works and it is a huge test case to even test this.
+
+
+TODO:
+identifyBufferedTiles -> switch to arraylist again
+calculateTiles -> switch to arraylist  this should solve it hopefully.

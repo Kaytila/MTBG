@@ -1186,5 +1186,6 @@ History of the changes:
             animating myself?
 2024-08-08: on map switch the whole map is pre-calculated.
 2024-08-13: added player gif and some ponderings, planning
+2024-09-02: added better calculation for bufferedTiles. Still not working correctly, but at least better than before
 2024-09-03: added lock state to maptile
 2024-09-03: added (J)immy command for unlocking, will need to be implemented properly now

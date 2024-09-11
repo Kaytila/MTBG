@@ -58,6 +58,9 @@ public class ImageUtils
     @Setter
     private static ArrayList<ImagePair> brightenedImages = new ArrayList<>();
 
+
+    private static Image playerImage;
+
     /**
      * Compares two images pixel by pixel.
      * <a href="https://stackoverflow.com/questions/11006394/is-there-a-simple-way-to-compare-bufferedimage-instances">
@@ -868,5 +871,16 @@ public class ImageUtils
 
         return highlightingImage;
     }
+
+    public static Image getPlayerImage()
+    {
+        if (playerImage == null)
+        {
+            playerImage = ImageUtils.loadGIFImage("players", "player");
+        }
+
+        return playerImage;
+    }
+
 
 }

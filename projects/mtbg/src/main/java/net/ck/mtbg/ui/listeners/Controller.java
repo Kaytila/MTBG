@@ -625,6 +625,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
                     case JIMMY:
                     {
                         ControllerDelegator.handleMouseReleasedActionJIMMY(this, tile);
+                        break;
                     }
 
                     default:

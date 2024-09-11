@@ -220,3 +220,12 @@ here is what I need to do:
 5. remove all image logic from UI - there it will only paint tile and paint npc.
 6. then only each step or message will trigger a paint, nothing else anymore
 7. this clashes a bit with npc animation, but that is the only separate thing that is allowed to happen
+
+
+On project summer breaks
+========================
+
+So it has been an intensive summer so far - I have not had a lot of time and will to work on this here. From time to
+time yes, but there are certain base topics that I would need to handle properly and I am unwilling to do so right now
+as I simply do not understand at least parts of my own framework anymore really.
+It works 99%, but not completely. I will need to tackle this properly when the weather is bad.

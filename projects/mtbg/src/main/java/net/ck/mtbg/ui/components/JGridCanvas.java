@@ -76,6 +76,15 @@ public class JGridCanvas extends JComponent
         highlighting.setBounds((screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
         this.add(highlighting);
 
+        JLabel player = new JLabel();
+        ImageIcon playerIcon = new ImageIcon(ImageUtils.getPlayerImage());
+        //this would also work
+        //ImageIcon icon = new ImageIcon(GameConfiguration.imagesRootPath + "players" + File.separator + "highlighting" + ".gif");
+
+        player.setIcon(playerIcon);
+        player.setBounds((screenPosition.x * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 4), (screenPosition.y * GameConfiguration.tileSize), GameConfiguration.tileSize, GameConfiguration.tileSize);
+        this.add(player);
+
         this.setTransferHandler(new JGridCanvasTransferHandler(this));
     }
 
@@ -222,7 +231,7 @@ public class JGridCanvas extends JComponent
 
 
                     //if tile is hidden, do not paint NPC
-                    if ((tile.getLifeForm() != null) && (!(tile.isHidden())))
+                    if ((tile.getLifeForm() != null) && (!(tile.isHidden())) && (!(tile.getLifeForm().isPlayer())))
                     {
                         if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
                         {
