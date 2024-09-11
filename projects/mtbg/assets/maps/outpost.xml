@@ -1202,6 +1202,7 @@
             <type>GRASS</type>
             <x>9</x>
             <y>18</y>
+            <furniture>2</furniture>
         </tile>
         <tile>
             <id>389</id>
@@ -1226,6 +1227,7 @@
             <type>GRASS</type>
             <x>10</x>
             <y>1</y>
+            <furniture>2</furniture>
         </tile>
         <tile>
             <id>50</id>
