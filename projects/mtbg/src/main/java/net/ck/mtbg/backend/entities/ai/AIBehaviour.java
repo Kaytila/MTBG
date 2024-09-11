@@ -422,7 +422,7 @@ public class AIBehaviour
                     action.setGetWhere(new Point(tile.x, tile.y));
                     if (GameConfiguration.debugNPC == true)
                     {
-                        logger.debug("npc {} move towards target map position: {},{}", e.getId(), e.getTargetMapPosition().x, e.getTargetMapPosition().y);
+                        logger.debug("npc {} move towards target map position: {},{}", e.getId(), tile.x, tile.y);
                     }
                     e.doAction(new NPCAction(action));
                 }
