@@ -736,7 +736,8 @@ public class ControllerDelegator
             controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             TimerManager.getIdleTimer().stop();
             controller.runActions(controller.getCurrentAction());
-        } else
+        }
+        else
         {
             if (UIStateMachine.isMouseOutsideOfGrid() == true)
             {
@@ -760,5 +761,6 @@ public class ControllerDelegator
         controller.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
         controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        controller.getCurrentAction().setMapTile(tile);
     }
 }

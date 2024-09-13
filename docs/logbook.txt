@@ -1189,3 +1189,6 @@ History of the changes:
 2024-09-02: added better calculation for bufferedTiles. Still not working correctly, but at least better than before
 2024-09-03: added lock state to maptile
 2024-09-03: added (J)immy command for unlocking, will need to be implemented properly now
+2024-09-13: after a lot of nonsense to trying to fix the tiles calculation, finally a stable version again on which to
+            implement jimmy properly. looking now locks a door, jimmy unlocks, open will only open doors that are not
+            locked.

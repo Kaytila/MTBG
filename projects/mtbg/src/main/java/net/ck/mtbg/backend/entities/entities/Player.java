@@ -435,6 +435,7 @@ public class Player extends AbstractEntity implements LifeForm
         {
             if (tile.isLocked())
             {
+                logger.debug("unlocked");
                 tile.setLock(null);
             }
             else
@@ -453,8 +454,16 @@ public class Player extends AbstractEntity implements LifeForm
     {
         logger.info("open door");
         MapTile tile = action.getEvent().getMapTile();
+
+        if (tile.isLocked())
+        {
+            logger.debug("locked!");
+            return;
+        }
+
         if (tile.getType().equals(TileTypes.GATECLOSED))
         {
+
             logger.info("opening gate");
             tile.setType(TileTypes.GATEOPEN);
 
@@ -597,6 +606,11 @@ public class Player extends AbstractEntity implements LifeForm
         if (maptile.getType().equals(TileTypes.SIGNPOST))
         {
             move(maptile.getTargetCoordinates().x, maptile.getTargetCoordinates().y);
+        }
+
+        if (!(maptile.isLocked()))
+        {
+            maptile.setLock(0);
         }
     }
 
