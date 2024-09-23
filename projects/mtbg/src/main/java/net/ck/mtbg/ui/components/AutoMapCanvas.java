@@ -61,7 +61,7 @@ public class AutoMapCanvas extends JComponent
                 //first if the tile has already been discovered, i.e. seen
                 //for showing off purposes inverted
                 //TODO switch this
-                if (!(tile.isDiscovered()))
+                if (tile.isDiscovered())
                 {
                     //if there is no scaled image yet
                     if (tile.getScaledImage() == null)

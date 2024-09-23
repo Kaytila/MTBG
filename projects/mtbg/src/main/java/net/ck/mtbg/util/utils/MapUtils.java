@@ -932,7 +932,8 @@ public class MapUtils
                     else
                     {
                         //TODO
-                        //t.setDiscovered(true);
+                        t.setDiscovered(true);
+                        g.drawString("D", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
                     }
                 }
             }
@@ -1264,6 +1265,7 @@ public class MapUtils
                         g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
                     }
                     t.setCalculatedImage(image);
+                    t.setDiscovered(true);
                 }
             }
         }

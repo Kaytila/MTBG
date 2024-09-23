@@ -131,18 +131,14 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * image pre-calculated for the maptile
      */
     private BufferedImage calculatedImage;
-
     /**
      * has player already discovered the tile
      */
     private boolean discovered = false;
-
     /**
      * store the scaled image for the map
      */
     private BufferedImage scaledImage;
-
-
     /**
      * this handles the door lock.
      * the following values are ok:
@@ -157,6 +153,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
      */
     private Integer lock;
 
+
     public MapTile()
     {
         super();
@@ -165,7 +162,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         this.h = 1;
     }
 
-
     public MapTile(int i, int j)
     {
         setX(i);
@@ -173,6 +169,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         inventory = new Inventory();
         //setBlocked(false);
     }
+
 
     /**
      * used for creating the automap
@@ -188,6 +185,12 @@ public class MapTile implements Comparable<MapTile>, Serializable
         this.setCalculatedImage(mapTile.calculatedImage);
         this.setInventory(mapTile.inventory);
         this.setDiscovered(mapTile.discovered);
+    }
+
+    public void setDiscovered(boolean discovered)
+    {
+        logger.debug("Maptile {} {}, {}", x, y, discovered);
+        this.discovered = discovered;
     }
 
     public int getX()
@@ -532,7 +535,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
         }
         return true;
     }
-
 
 
     @Override

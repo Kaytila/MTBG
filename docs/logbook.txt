@@ -1192,3 +1192,4 @@ History of the changes:
 2024-09-13: after a lot of nonsense to trying to fix the tiles calculation, finally a stable version again on which to
             implement jimmy properly. looking now locks a door, jimmy unlocks, open will only open doors that are not
             locked.
+2024-09-23: mini update for discovered.
