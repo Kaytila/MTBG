@@ -933,7 +933,10 @@ public class MapUtils
                     {
                         //TODO
                         t.setDiscovered(true);
-                        g.drawString("D", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                        if (GameConfiguration.debugDiscovered)
+                        {
+                            g.drawString("D", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
+                        }
                     }
                 }
             }

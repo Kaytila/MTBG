@@ -1193,3 +1193,4 @@ History of the changes:
             implement jimmy properly. looking now locks a door, jimmy unlocks, open will only open doors that are not
             locked.
 2024-09-23: mini update for discovered.
+2024-09-30: introduced debug flag for discovered, commented some other debug statements.

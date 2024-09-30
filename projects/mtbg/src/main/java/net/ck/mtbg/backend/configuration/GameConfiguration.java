@@ -86,11 +86,12 @@ public class GameConfiguration
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
-    public static final boolean debugMapPosition = true;
+    public static final boolean debugMapPosition = false;
     public static final boolean debugNPC = false;
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
     public static final boolean debugSchedule = false;
+    public static final boolean debugDiscovered = false;
     /**
      * debug the splash startup
      */
@@ -323,7 +324,7 @@ public class GameConfiguration
     /**
      * use Events only for redrawing or do 60 fps :D
      */
-    public static final boolean useEvents = true;
+    public static final boolean useEvents = false;
     /**
      * use a thread for Game or not - if not, where does it run?
      */

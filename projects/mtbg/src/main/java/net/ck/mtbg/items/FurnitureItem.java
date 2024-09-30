@@ -12,9 +12,27 @@ import java.awt.image.BufferedImage;
 @Setter
 public class FurnitureItem extends AbstractItem
 {
+    /**
+     * is the furniture a light source?
+     */
     private boolean lightSource;
+
+    /**
+     * what range does the light source have?
+     */
     private int lightRange;
+
+    /**
+     * is it currently burning?
+     */
     private boolean burning;
+
+    /**
+     * is the furniture openable?
+     * cupboards perhaps, or chests
+     * not sure whether I dont want to model chests as separate items yet
+     */
+    private boolean openable;
 
     public FurnitureItem()
     {

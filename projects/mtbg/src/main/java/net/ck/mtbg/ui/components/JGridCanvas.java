@@ -566,7 +566,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(AnimatedRepresentationChanged event)
     {
-        logger.debug("npc changed");
+        //logger.debug("npc changed");
         if (GameConfiguration.useEvents)
         {
             javax.swing.SwingUtilities.invokeLater(() ->
@@ -599,7 +599,7 @@ public class JGridCanvas extends JComponent
 
     public void paint()
     {
-        logger.debug("paint: {}", CodeUtils.getCallingMethodName());
+        //logger.debug("paint: {}", CodeUtils.getCallingMethodName());
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             this.repaint();
@@ -639,7 +639,7 @@ public class JGridCanvas extends JComponent
     @Subscribe
     public synchronized void onMessageEvent(BackgroundRepresentationChanged event)
     {
-        logger.debug("background changed");
+        //logger.debug("background changed");
         javax.swing.SwingUtilities.invokeLater(() ->
         {
             setCurrentBackgroundImage(event.getCurrentNumber());

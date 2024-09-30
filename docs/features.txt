@@ -23,4 +23,5 @@ conversation and dialog
 title screen
 character editor
 automap with labels
+lockable doors/gates
 
