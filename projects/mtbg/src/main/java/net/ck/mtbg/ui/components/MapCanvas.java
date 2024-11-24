@@ -29,7 +29,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @Log4j2
-public class JGridCanvas extends JComponent
+public class MapCanvas extends JComponent
 {
     private final Range<Integer> rangeX = Range.of(0, GameConfiguration.numberOfTiles - 1);
     private final Range<Integer> rangeY = Range.of(0, GameConfiguration.numberOfTiles - 1);
@@ -47,7 +47,7 @@ public class JGridCanvas extends JComponent
 
     private int highlightCount;
 
-    public JGridCanvas()
+    public MapCanvas()
     {
         EventBus.getDefault().register(this);
 

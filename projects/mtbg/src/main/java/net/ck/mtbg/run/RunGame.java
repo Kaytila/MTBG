@@ -381,4 +381,25 @@ public class RunGame
             logger.error("exception");
         }
     }
+
+    public static void openMapEditor()
+    {
+        if (SwingUtilities.isEventDispatchThread() == false)
+        {
+            try
+            {
+                if (GameConfiguration.debugStartUp == true)
+                {
+                    logger.debug("open character editor");
+                }
+                javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildMapEditor());
+            } catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        } else
+        {
+            WindowBuilder.buildMapEditor();
+        }
+    }
 }

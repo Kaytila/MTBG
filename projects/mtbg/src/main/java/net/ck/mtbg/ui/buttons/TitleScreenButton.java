@@ -46,11 +46,18 @@ public class TitleScreenButton extends JButton implements MouseListener
                     RunGame.openGameUI();
                 }
 
-                if (e.getActionCommand().equalsIgnoreCase("Editor"))
+                if (e.getActionCommand().equalsIgnoreCase("Character Editor"))
                 {
-                    logger.info("start editor");
+                    logger.info("start character editor");
                     WindowBuilder.getTitleFrame().dispose();
                     RunGame.openCharacterEditor();
+                }
+
+                if (e.getActionCommand().equalsIgnoreCase("Map Editor"))
+                {
+                    logger.info("start map editor");
+                    WindowBuilder.getTitleFrame().dispose();
+                    RunGame.openMapEditor();
                 }
 
             }

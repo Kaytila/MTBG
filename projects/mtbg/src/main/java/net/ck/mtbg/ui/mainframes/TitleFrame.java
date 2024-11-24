@@ -21,7 +21,7 @@ public class TitleFrame extends JFrame
         this.titleController = new TitleController(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(500, 500, GameConfiguration.UIwidth, GameConfiguration.UIheight);
-        logger.info("bound: {}", this.getBounds());
+        //logger.info("bound: {}", this.getBounds());
         this.setLocationRelativeTo(null);
         this.setFocusable(false);
         this.setUndecorated(false);

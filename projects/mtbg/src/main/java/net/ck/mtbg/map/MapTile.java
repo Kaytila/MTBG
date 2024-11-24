@@ -189,7 +189,10 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public void setDiscovered(boolean discovered)
     {
-        //logger.debug("Maptile {} {}, {}", x, y, discovered);
+        if (this.discovered != discovered)
+        {
+            logger.debug("Maptile {} {}, {}", x, y, discovered);
+        }
         this.discovered = discovered;
     }
 

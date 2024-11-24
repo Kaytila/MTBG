@@ -12,7 +12,7 @@ import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.JGridCanvas;
+import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.state.UIState;
@@ -466,7 +466,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
             //logger.info("if there is something draggable, drag");
             if (e.getButton() == MouseEvent.BUTTON1)
             {
-                var c = (JGridCanvas) e.getSource();
+                var c = (MapCanvas) e.getSource();
                 var handler = c.getTransferHandler();
                 MapTile tile = MapUtils.calculateMapTileUnderCursor(e.getPoint());
                 if (tile == null)

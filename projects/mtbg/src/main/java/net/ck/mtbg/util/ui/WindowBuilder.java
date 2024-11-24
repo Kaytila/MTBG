@@ -6,8 +6,8 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.buttons.*;
 import net.ck.mtbg.ui.components.InputField;
-import net.ck.mtbg.ui.components.JGridCanvas;
 import net.ck.mtbg.ui.components.JWeatherCanvas;
+import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.ui.components.TextList;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
@@ -17,6 +17,7 @@ import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.listeners.MyFocusListener;
 import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.mainframes.GameFrame;
+import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.ui.mainframes.TitleFrame;
 
 import javax.swing.*;
@@ -51,7 +52,7 @@ public class WindowBuilder
     /**
      * left part, GRID Canvas
      */
-    private static JGridCanvas gridCanvas;
+    private static MapCanvas gridCanvas;
 
     @Getter
     @Setter
@@ -140,6 +141,10 @@ public class WindowBuilder
     @Setter
     private static CharacterEditorFrame characterEditorFrame;
 
+    @Getter
+    @Setter
+    private static MapEditorFrame mapEditorFrame;
+
     /**
      * in smalltalk fashion, using buildGameWindow: :D
      * for creating the actual ui
@@ -187,7 +192,7 @@ public class WindowBuilder
         frame.add(saveButton);
 
 
-        gridCanvas = new JGridCanvas();
+        gridCanvas = new MapCanvas();
         gridCanvas.addFocusListener(myFocusListener);
         frame.add(gridCanvas);
 
@@ -242,11 +247,12 @@ public class WindowBuilder
         JLabel title = new JLabel();
         title.setText("TITLE");
         title.setBounds(30, 30, 100, 50);
-        JButton characterEditorButton = new TitleScreenButton(100, 30, "Editor");
+        JButton characterEditorButton = new TitleScreenButton(100, 30, "Character Editor");
         JButton newGameButton = new TitleScreenButton(100, 90, "New Game");
         JButton loadGameButton = new TitleScreenButton(100, 150, "Load Game");
         JButton creditsButton = new TitleScreenButton(100, 210, "Credits");
         JButton optionsButton = new TitleScreenButton(100, 270, "Options");
+        JButton mapEditorButton = new TitleScreenButton(100, 330, "Map Editor");
         //TODO
         titleFrame.add(title);
         titleFrame.add(characterEditorButton);
@@ -254,5 +260,18 @@ public class WindowBuilder
         titleFrame.add(loadGameButton);
         titleFrame.add(creditsButton);
         titleFrame.add(optionsButton);
+        titleFrame.add(mapEditorButton);
     }
+
+    /**
+     * as a rule, we have a build method for each UI.
+     * Will need to check how often the whole UI is built in the constructor
+     * of the frame/dialog.
+     */
+    public static void buildMapEditor()
+    {
+        mapEditorFrame = new MapEditorFrame();
+    }
+
+
 }

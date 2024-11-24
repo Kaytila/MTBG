@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.JGridCanvas;
+import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.MapUtils;
 
@@ -19,9 +19,9 @@ import java.awt.dnd.DragGestureListener;
 public class JGridCanvasDragGestureHandler implements DragGestureListener
 {
 
-    private JGridCanvas grid;
+    private MapCanvas grid;
 
-    public JGridCanvasDragGestureHandler(JGridCanvas gridCanvas)
+    public JGridCanvasDragGestureHandler(MapCanvas gridCanvas)
     {
         setGrid(gridCanvas);
     }

@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.JGridCanvas;
+import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.util.communication.keyboard.DropAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
@@ -24,9 +24,9 @@ import java.io.IOException;
 public class JGridCanvasDropTargetHandler implements DropTargetListener
 {
 
-    private JGridCanvas gridcanvas;
+    private MapCanvas gridcanvas;
 
-    public JGridCanvasDropTargetHandler(JGridCanvas gridCanvas)
+    public JGridCanvasDropTargetHandler(MapCanvas gridCanvas)
     {
         gridcanvas = gridCanvas;
     }

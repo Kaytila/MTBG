@@ -1194,3 +1194,7 @@ History of the changes:
             locked.
 2024-09-23: mini update for discovered.
 2024-09-30: introduced debug flag for discovered, commented some other debug statements.
+2024-11-23: long break, started working on MapEditor. Without tools, no progress.
+            and in the course of progress, rewrite mapupdate.
+            Implemented maptilepane, protomaptile, patilepanelistrenderer and a few more.
+            Not complete yet. Initial model lacks image yet.

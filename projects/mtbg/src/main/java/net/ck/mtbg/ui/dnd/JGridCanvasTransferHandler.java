@@ -6,7 +6,7 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.JGridCanvas;
+import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.util.communication.keyboard.DropAction;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -26,9 +26,9 @@ public class JGridCanvasTransferHandler extends TransferHandler
 
     private MapTile sourceMapTile = null;
     private MapTile targetMapTile = null;
-    private JGridCanvas gridCanvas;
+    private MapCanvas gridCanvas;
 
-    public JGridCanvasTransferHandler(JGridCanvas gridCanvas)
+    public JGridCanvasTransferHandler(MapCanvas gridCanvas)
     {
         setGridCanvas(gridCanvas);
     }
