@@ -568,4 +568,23 @@ public class MapTile implements Comparable<MapTile>, Serializable
                 ", calculatedImage=" + calculatedImage +
                 '}';
     }
+
+    /**
+     * @param id
+     * @return <tile>
+     * <id>49</id>
+     * <type>GRASS</type>
+     * <x>9</x>
+     * <y>2</y>
+     * </tile>
+     */
+    public String toXML()
+    {
+        return "<tile>\n"
+                + "<id>" + this.getId() + "</id>" + "\n"
+                + "<type>" + this.getType().toString() + "</type>" + "\n"
+                + "<x>" + this.x + "</x>" + "\n"
+                + "<y>" + this.y + "</y>" + "\n"
+                + "</tile>\n";
+    }
 }

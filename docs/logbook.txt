@@ -1196,5 +1196,16 @@ History of the changes:
 2024-09-30: introduced debug flag for discovered, commented some other debug statements.
 2024-11-23: long break, started working on MapEditor. Without tools, no progress.
             and in the course of progress, rewrite mapupdate.
-            Implemented maptilepane, protomaptile, patilepanelistrenderer and a few more.
+            Implemented maptilepane, protomaptile, matilepanelistrenderer and a few more.
             Not complete yet. Initial model lacks image yet.
+2024-12-03: initial version of map editor - you can select a tile type and draw one - and one only - tile on a 12x12
+            map. The rest will be rendered black. first success.
+            next steps: add a dynamically sized map below that will rendered into a proper map with fixed array sizes.
+            make this the data model of the whole thing.
+2024-12-06: HOHOHO, only small fix: you need to have something selected in mapeditor before the click does anything.
+2025-01-16: moved map into editorframe and lo and behold, we can at least edit a map.
+2025-01-20: added toXML to Maptile. Will add this to Map itself and cut down the Utils method.
+            added some thought to mapeditor. Will need to do some more thinking, then there could be a commit/push
+            once again.
+            OK, can already load a map and the map is actually displayed properly.
+            Saving also works, just the updated map is not really working properly. yet.

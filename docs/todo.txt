@@ -224,3 +224,11 @@ gif? Perhaps? not sure whether this works and it is a huge test case to even tes
 TODO:
 identifyBufferedTiles -> switch to arraylist again
 calculateTiles -> switch to arraylist  this should solve it hopefully.
+
+TODO:
+how to deal with ids for map tiles.
+I think I will just generate them for map creation.
+looking forward when mapeditor can actually load an existing one.
+mapeditor needs to scroll. Will need to implement scrolling. one click per tile.
+also, when editor is opened: its "new" or "load".
+New will need to prompt for other input.

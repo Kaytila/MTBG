@@ -669,7 +669,7 @@ public class Game implements Runnable, Serializable
             //}
         }
         //TODO currently stupid, but as the calculation does not work properly do it this way instead
-        MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap(), WindowBuilder.getGridCanvas().getGraphics());
+        MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap(), WindowBuilder.getGridCanvas().getGraphics(), WindowBuilder.getGridCanvas());
     }
 }
 

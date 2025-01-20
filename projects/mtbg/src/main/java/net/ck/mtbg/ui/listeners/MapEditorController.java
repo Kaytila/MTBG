@@ -16,6 +16,7 @@ import java.awt.event.WindowListener;
 public class MapEditorController implements WindowListener, ActionListener
 {
     private final MapEditorFrame mapEditorFrame;
+    private boolean initiallyOpened = true;
 
     public MapEditorController(MapEditorFrame mapEditorFrame)
     {
@@ -31,7 +32,7 @@ public class MapEditorController implements WindowListener, ActionListener
     @Override
     public void windowOpened(WindowEvent e)
     {
-
+        mapEditorFrame.getContentPane().repaint();
     }
 
     @Override
@@ -49,13 +50,13 @@ public class MapEditorController implements WindowListener, ActionListener
     @Override
     public void windowIconified(WindowEvent e)
     {
-
+        mapEditorFrame.getContentPane().repaint();
     }
 
     @Override
     public void windowDeiconified(WindowEvent e)
     {
-
+        mapEditorFrame.getContentPane().repaint();
     }
 
     @Override

@@ -12,6 +12,7 @@ import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.components.AbstractMapCanvas;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.DayNight;
@@ -622,12 +623,7 @@ public class MapUtils
             for (int y = 0; y < map.getSize().y; y++)
             {
                 MapTile tile = map.mapTiles[x][y];
-                writer.write("<tile>");
-                writer.write("<id>" + tile.getId() + "</id>");
-                writer.write("<type>" + tile.getType() + "</type>");
-                writer.write("<x>" + tile.getX() + "</x>");
-                writer.write("<y>" + tile.getY() + "</y>");
-                writer.write("</tile>");
+                writer.write(tile.toXML());
             }
         }
         writer.write("</tiles>");
@@ -1279,7 +1275,7 @@ public class MapUtils
         }
     }
 
-    public static void calculateAllTileImages(Map map, Graphics graphics)
+    public static void calculateAllTileImages(Map map, Graphics graphics, AbstractMapCanvas canvas)
     {
         long start = System.nanoTime();
 
@@ -1303,7 +1299,7 @@ public class MapUtils
                 BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
                 Graphics g = image.getGraphics();
 
-                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
+                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(canvas.getCurrentBackgroundImage());
                 //g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
                 g.drawImage(bgImage, 0, 0, null);
 
@@ -1327,6 +1323,56 @@ public class MapUtils
             logger.debug("calculation time: {}", convert);
         }
     }
+
+    public static void calculateAllTileImages(Map map, Graphics graphics, AbstractMapCanvas canvas, int x, int y)
+    {
+        long start = System.nanoTime();
+
+        for (int row = 0; row < y; row++)
+        {
+            for (int column = 0; column < x; column++)
+            {
+                MapTile t = map.mapTiles[row][column];
+                if (t == null)
+                {
+                    //not existing tiles, we need to handle somewhere else probably
+                    continue;
+                }
+
+                //if (t.isHidden())
+                //{
+                //    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
+                //}
+                //else
+                //{
+                BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
+                Graphics g = image.getGraphics();
+
+                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(canvas.getCurrentBackgroundImage());
+                //g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
+                g.drawImage(bgImage, 0, 0, null);
+
+                if (GameConfiguration.drawFurnitureOnAutoMap == true)
+                {
+                    if (t.getFurniture() != null)
+                    {
+                        g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);
+                    }
+                    else if ((t.getInventory().isEmpty() == false) && (t.getInventory().get(0) != null))
+                    {
+                        g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
+                    }
+                    t.setCalculatedImage(image);
+                }
+            }
+        }
+        if (GameConfiguration.debugPaint == true)
+        {
+            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+            logger.debug("calculation time: {}", convert);
+        }
+    }
+
 
     /**
      * returns the first tile where a light source is and its burning during day, or not during the night
@@ -1357,4 +1403,10 @@ public class MapUtils
     }
 
 
+    public static Point getUICoordinateUnderCursor(Point point)
+    {
+        Point uiCoordinate = new Point(point.x / GameConfiguration.tileSize, point.y / GameConfiguration.tileSize);
+        logger.debug("UI Coordinate: {}", uiCoordinate);
+        return uiCoordinate;
+    }
 }
