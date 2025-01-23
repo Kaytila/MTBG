@@ -1209,3 +1209,4 @@ History of the changes:
             once again.
             OK, can already load a map and the map is actually displayed properly.
             Saving also works, just the updated map is not really working properly. yet.
+2025-01-23: trying to switch from scrollbars to scrollpane which should work more easily.

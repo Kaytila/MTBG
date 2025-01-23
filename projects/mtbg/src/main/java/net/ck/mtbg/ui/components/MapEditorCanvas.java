@@ -36,7 +36,6 @@ public class MapEditorCanvas extends AbstractMapCanvas
         map.setSize(new Point(13, 13));
         MapTile[][] mapTiles = new MapTile[12][12];
         map.setMapTiles(mapTiles);
-
     }
 
     public void paintComponent(Graphics g)

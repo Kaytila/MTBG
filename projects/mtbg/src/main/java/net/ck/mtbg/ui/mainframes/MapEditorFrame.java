@@ -49,6 +49,12 @@ public class MapEditorFrame extends JFrame
     private final MapEditorController mapEditorController;
     private DefaultListModel<ProtoMapTile> protoMapTileList;
 
+    private MapTilePane mapTilePane;
+    private MapEditorCanvas canvas;
+    private JScrollBar horizontalScrollbar;
+    private JScrollBar verticalScrollbar;
+    private JScrollPane scrollPane;
+
     private LoadButton loadButton;
     private SaveButton saveButton;
     private File file;
@@ -74,7 +80,7 @@ public class MapEditorFrame extends JFrame
         this.addWindowListener(mapEditorController);
 
 
-        MapTilePane mapTilePane = new MapTilePane(protoMapTileList);
+        mapTilePane = new MapTilePane(protoMapTileList);
         mapTilePane.setBounds(505, 0, 200, 200);
         mapTilePane.setForeground(Color.YELLOW);
         mapTilePane.setBackground(Color.BLUE);
@@ -92,8 +98,10 @@ public class MapEditorFrame extends JFrame
         //ok standard canvas is too specialized
         //break up into prototypeMapCanvas
         //or sublcass with basic behaviour
-        MapEditorCanvas canvas = new MapEditorCanvas(mapTilePane);
+        canvas = new MapEditorCanvas(mapTilePane);
         canvas.setBounds(0, 0, 500, 500);
+
+
         //list of map entries
         //fill from the list
 
@@ -128,7 +136,12 @@ public class MapEditorFrame extends JFrame
                 file = fileChooser.getSelectedFile();
                 logger.debug("file: {}", file);
                 Map map = RunXMLParser.parseMap(file.getPath());
+
                 canvas.setMap(map);
+                /*verticalScrollbar.setMaximum(map.getSize().x);
+                horizontalScrollbar.setMaximum(map.getSize().y);
+                verticalScrollbar.repaint();
+                horizontalScrollbar.repaint();*/
                 canvas.repaint();
 
             }
@@ -179,15 +192,30 @@ public class MapEditorFrame extends JFrame
         //TODO get file back from load, set file for save.
         saveButton.addActionListener(saveActionListener);
         loadButton.addActionListener(loadActionListener);
+
+        //TODO
+        scrollPane = new JScrollPane(canvas, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setViewportView(canvas);
+        scrollPane.setVisible(true);
+
+
+
+        /*verticalScrollbar = new JScrollBar(JScrollBar.VERTICAL, 0, 0, 0, canvas.getMap().getSize().x);
+        verticalScrollbar.setBounds(485, 0, 15, 480);
+        verticalScrollbar.setVisible(true);
+        horizontalScrollbar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 0, 0, canvas.getMap().getSize().y);
+        horizontalScrollbar.setBounds(0, 485, 480, 15);
+        horizontalScrollbar.setVisible(true);
+        canvas.add(verticalScrollbar);
+        canvas.add(horizontalScrollbar);
+        */
         this.add(saveButton);
         this.add(loadButton);
-
-
         this.add(npcPane);
         this.add(mapTilePane);
         this.add(furnitureItemPane);
         this.add(canvas);
-
+        this.add(scrollPane);
 
     }
 

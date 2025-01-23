@@ -593,7 +593,7 @@ public class MapUtils
         if (Files.exists(filePath))
         {
             logger.debug("Map: {} already exists", fileName);
-            return;
+            //return;
         }
         try
         {

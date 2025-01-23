@@ -570,7 +570,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
     }
 
     /**
-     * @param id
      * @return <tile>
      * <id>49</id>
      * <type>GRASS</type>
@@ -580,11 +579,30 @@ public class MapTile implements Comparable<MapTile>, Serializable
      */
     public String toXML()
     {
+        String furniture = "";
+        if (getFurniture() != null)
+        {
+            furniture = "<furniture>" + this.getFurniture().getId() + "</furniture>" + "\n";
+        }
+
+        String exit = "";
+        if (getTargetCoordinates() != null)
+        {
+            exit = "<exit>" + "\n"
+                    + "<targetCoordinates>" + "\n"
+                    + "<x>" + getTargetCoordinates().x + "</x>" + "\n"
+                    + "<y>" + getTargetCoordinates().y + "</y>" + "\n"
+                    + "</targetCoordinates>" + "\n"
+                    + "</exit>" + "\n";
+        }
+
         return "<tile>\n"
                 + "<id>" + this.getId() + "</id>" + "\n"
                 + "<type>" + this.getType().toString() + "</type>" + "\n"
                 + "<x>" + this.x + "</x>" + "\n"
                 + "<y>" + this.y + "</y>" + "\n"
+                + furniture
+                + exit
                 + "</tile>\n";
     }
 }
