@@ -7,6 +7,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.listeners.MapEditorCanvasListener;
+import net.ck.mtbg.ui.listeners.MapEditorController;
 import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 
@@ -20,14 +21,13 @@ public class MapEditorCanvas extends AbstractMapCanvas
 {
 
     private final BufferedImage blackImage = ImageUtils.createImage(Color.black, GameConfiguration.tileSize);
-    private MapTilePane mapTilePane;
+
     private boolean dragEnabled;
     private Map map;
 
-    public MapEditorCanvas(MapTilePane mapTilePane)
+    public MapEditorCanvas(MapEditorController mapEditorController)
     {
-        MapEditorCanvasListener listener = new MapEditorCanvasListener(this);
-        this.mapTilePane = mapTilePane;
+        MapEditorCanvasListener listener = new MapEditorCanvasListener(this, mapEditorController);
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
         this.addFocusListener(listener);
@@ -64,6 +64,15 @@ public class MapEditorCanvas extends AbstractMapCanvas
 
                 MapTile tile = map.mapTiles[row][column];
                 g.drawImage(tile.getCalculatedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+              /*  if (tile.getFurniture() != null)
+                {
+                    g.drawImage(tile.getFurniture().getItemImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                }*/
+                if (tile.getLifeForm() != null)
+                {
+                    //g.drawImage( (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
+                    g.drawImage(tile.getLifeForm().getDefaultImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                }
             }
         }
         long end = System.nanoTime();

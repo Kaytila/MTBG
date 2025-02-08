@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
@@ -586,6 +587,7 @@ public class MapUtils
      */
     public static void writeMapToXML(Map map) throws IOException
     {
+        ArrayList<LifeForm> npcs = new ArrayList<>();
         BufferedWriter writer = null;
         String fileName = GameConfiguration.mapFileRootPath + File.separator + CodeUtils.removeFileExtension(map.getName(), true) + ".xml";
 
@@ -623,10 +625,20 @@ public class MapUtils
             for (int y = 0; y < map.getSize().y; y++)
             {
                 MapTile tile = map.mapTiles[x][y];
+                if (tile.getLifeForm() != null)
+                {
+                    npcs.add(tile.getLifeForm());
+                }
                 writer.write(tile.toXML());
             }
         }
         writer.write("</tiles>");
+        writer.write("<npcs>");
+        for (LifeForm n : npcs)
+        {
+            writer.write(n.toXML());
+        }
+        writer.write("</npcs>");
         writer.write("</map>");
         writer.close();
 

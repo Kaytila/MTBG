@@ -11,6 +11,7 @@ import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.GetAction;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 
@@ -122,4 +123,10 @@ public interface LifeForm
     void say(String message);
 
     boolean isPlayer();
+
+    BufferedImage getDefaultImage();
+
+    void setDefaultImage(BufferedImage image);
+
+    String toXML();
 }

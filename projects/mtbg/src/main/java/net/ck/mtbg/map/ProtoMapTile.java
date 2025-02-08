@@ -3,11 +3,14 @@ package net.ck.mtbg.map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
+import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
+import java.io.File;
 
 @Getter
 @Setter
@@ -42,6 +45,6 @@ public class ProtoMapTile
         this.type = type;
         setName(type.name());
         //TODO create icon here for the protomaptile
-        setIcon(null);
+        setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + type.name() + File.separator + "0.png", type.name()));
     }
 }

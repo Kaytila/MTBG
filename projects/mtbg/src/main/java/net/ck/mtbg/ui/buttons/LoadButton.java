@@ -9,6 +9,7 @@ import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
@@ -33,6 +34,20 @@ public class LoadButton extends JButton implements MouseListener
         this.addActionListener(WindowBuilder.getController());
         hovered = false;
         this.addMouseListener(this);
+        this.setVisible(true);
+    }
+
+
+    public LoadButton(ActionListener actionListener, Dimension preferredSize)
+    {
+        setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
+        this.setFont(GameConfiguration.font);
+        setText(label);
+        this.setActionCommand(label);
+        this.addActionListener(actionListener);
+        hovered = false;
+        this.addMouseListener(this);
+        this.setPreferredSize(preferredSize);
         this.setVisible(true);
     }
 

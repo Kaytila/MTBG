@@ -13,13 +13,13 @@ import javax.swing.*;
 @Setter
 public class MapTilePane extends JList<ProtoMapTile>
 {
-    ListModel<ProtoMapTile> dataModel;
 
     public MapTilePane(ListModel<ProtoMapTile> dataModel)
     {
         super(dataModel);
-        this.dataModel = dataModel;
+
         MapTilePaneListener mapTilePaneListener = new MapTilePaneListener(this);
+
         this.addListSelectionListener(mapTilePaneListener);
     }
 }

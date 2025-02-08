@@ -218,13 +218,13 @@ public class MapXMLReader extends DefaultHandler
             case "gamestate":
                 break;
             case "npcs":
-                break;
-            case "npc":
-                np = new NPC();
                 if (npcs == null)
                 {
                     npcs = new ArrayList<>();
                 }
+                break;
+            case "npc":
+                np = new NPC();
                 npc = true;
                 break;
             case "mapPosition":

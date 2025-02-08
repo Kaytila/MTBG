@@ -1210,3 +1210,12 @@ History of the changes:
             OK, can already load a map and the map is actually displayed properly.
             Saving also works, just the updated map is not really working properly. yet.
 2025-01-23: trying to switch from scrollbars to scrollpane which should work more easily.
+2025-02-03: I forgot a few messages over the days:
+            added toXML() to Lifeform and maptile.
+            updated the UI to work with a gridbaglayout. will need some more improvement and a split pane probably.
+            can load map, can save map. can update map to include npc and furniture item and switch terrain.
+            will need options dialogs for map and for maptile and for npc somehow.
+            how to implement this? right click on the tile?
+            anyways, big improvement already. need to think about adding the options.
+            will need to think how to add inventory to the tiles.
+2025-02-08: npc is properly aligned now. Thinking about abolishing all drawing frame works and switching to gifs only.

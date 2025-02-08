@@ -863,4 +863,15 @@ public class Player extends AbstractEntity implements LifeForm
         }
         return false;
     }
+
+
+    @Override
+    /**
+     * player is not represented in a map, but in game instead.
+     * hmmmm, perhaps this should go into map?
+     */
+    public String toXML()
+    {
+        return "";
+    }
 }

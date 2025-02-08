@@ -24,12 +24,14 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.keyboard.*;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
+import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.utils.NPCUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -188,6 +190,7 @@ public class NPC extends AbstractEntity implements LifeForm
         setArmorClass(0);
         getInventory().add(ItemFactory.createWeapon(ItemManager.getWeaponList().get(3).getId()));
         wieldWeapon(ItemFactory.createWeapon(ItemManager.getWeaponList().get(1).getId()));
+        setDefaultImage(ImageUtils.loadImage("lifeforms" + File.separator + String.valueOf(this.getType()), "image0"));
     }
 
     public void setOriginalTargetMapPosition(Point originalTargetMapPosition)
@@ -374,6 +377,34 @@ public class NPC extends AbstractEntity implements LifeForm
     public boolean isPlayer()
     {
         return false;
+    }
+
+    /**
+     * <npc>
+     * <id>1</id>
+     * <mapPosition>
+     * 8,17
+     * </mapPosition>
+     * <targetPosition>
+     * 11,17
+     * </targetPosition>
+     * </npc>
+     *
+     * @return returns the XML representation of the NPC
+     */
+    @Override
+    public String toXML()
+    {
+        String targetPosition = "";
+        if (getTargetMapPosition() != null)
+        {
+            targetPosition = "<targetPosition>" + this.getTargetMapPosition().x + "," + this.getTargetMapPosition().y + "</targetPosition>";
+        }
+        return "<npc>" + "\n"
+                + "<id>" + this.getId() + "</id>" + "\n"
+                + "<mapPosition>" + this.getMapPosition().x + "," + this.getMapPosition().y + "</mapPosition>" + "\n"
+                + targetPosition + "\n"
+                + "</npc>";
     }
 
 

@@ -283,7 +283,8 @@ public class ImageUtils
         }
         catch (IOException e)
         {
-            logger.debug("issue creating image icon");
+            logger.debug("issue loading image from path: {}", path);
+            img = ImageUtils.createImage(Color.black, GameConfiguration.tileSize);
         }
         ImageIcon icon;
 

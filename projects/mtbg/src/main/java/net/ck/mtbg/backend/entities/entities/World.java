@@ -316,6 +316,12 @@ public class World extends AbstractEntity implements LifeForm
     }
 
     @Override
+    public String toXML()
+    {
+        return "";
+    }
+
+    @Override
     public LifeFormState getState()
     {
         return null;

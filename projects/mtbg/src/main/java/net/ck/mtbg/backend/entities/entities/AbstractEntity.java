@@ -33,6 +33,7 @@ import net.ck.mtbg.util.utils.NPCUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -150,6 +151,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     /**
      * has the NPC been spawned?
      */
+
+    private BufferedImage defaultImage;
 
     private boolean spawned;
 
@@ -829,6 +832,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         if (UIStateMachine.isUiOpen())
         {
             Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
+        }
+    }
+
+    public void setMapPosition(int x, int y)
+    {
+        Point pos = new Point(x, y);
+        this.mapPosition = pos;
+        if (UIStateMachine.isUiOpen())
+        {
+            Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(pos)).setBlocked(true);
         }
     }
 }
