@@ -24,4 +24,4 @@ title screen
 character editor
 automap with labels
 lockable doors/gates
-
+map editor

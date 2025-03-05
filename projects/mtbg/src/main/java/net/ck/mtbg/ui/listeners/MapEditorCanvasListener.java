@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCFactory;
+import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.ProtoMapTile;
@@ -23,6 +24,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
 {
     MapEditorCanvas canvas;
     MapEditorController mapEditorController;
+    MapTile selectedTile;
 
     public MapEditorCanvasListener(MapEditorCanvas canvas, MapEditorController controller)
     {
@@ -58,13 +60,12 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
     {
         if (e.getButton() == MouseEvent.BUTTON1)
         {
+            Point uiCoordinate = MapUtils.getUICoordinateUnderCursor(e.getPoint());
             if (e.getClickCount() == 1)
             {
                 if (mapEditorController.getMapTilePane().getSelectedIndex() != -1)
                 {
                     logger.info("relative: {}", e.getPoint());
-                    Point uiCoordinate = MapUtils.getUICoordinateUnderCursor(e.getPoint());
-
                     //TODO here: switch based on selection in controller.
 
                     if (Selection.getSelectedItem() == "ProtoMapTile")
@@ -113,9 +114,79 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
             }
             if (e.getClickCount() == 2)
             {
-                logger.info("double click in canvas do nothing");
+                MapTile mapTile = MapUtils.getMapTileByCoordinates(getCanvas().getMap(), uiCoordinate.x, uiCoordinate.y);
+                logger.debug("double click in canvas on tile: {}", mapTile);
+                getCanvas().setSelectedTile(mapTile);
+                getCanvas().repaint();
             }
         }
+
+        else if (e.getButton() == MouseEvent.BUTTON3)
+        {
+            if (getCanvas().getSelectedTile() != null)
+            {
+                //TODO add context menu here
+                logger.debug("open context menu");
+                JPopupMenu popupMenu = new JPopupMenu();
+                ActionListener actionListener = new ActionListener()
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        logger.debug("source: {}", e.getSource());
+                        JMenuItem source = (JMenuItem) (e.getSource());
+                        if (source.getText().equals("remove npc"))
+                        {
+                            logger.debug("removing npc");
+                            getCanvas().getSelectedTile().setLifeForm(null);
+
+                        }
+                        else if (source.getText().equals("remove furniture"))
+                        {
+                            logger.debug("removing furniture");
+                            getCanvas().getSelectedTile().setFurniture(null);
+                        }
+                        // now it must be a tile type
+                        else
+                        {
+                            logger.debug("source: {}", source.getText());
+                            getCanvas().getSelectedTile().setType(TileTypes.valueOf(source.getText()));
+                        }
+                        getCanvas().repaint();
+                    }
+                };
+                JMenu menuItem1 = new JMenu("change type");
+
+                for (TileTypes type : TileTypes.values())
+                {
+                    JMenuItem menuItem = new JMenuItem(type.name());
+                    menuItem.addActionListener(actionListener);
+                    menuItem1.add(menuItem);
+
+                }
+
+                menuItem1.addActionListener(actionListener);
+                JMenuItem menuItem2 = new JMenuItem("remove npc");
+                menuItem2.addActionListener(actionListener);
+                JMenuItem menuItem3 = new JMenuItem("remove furniture");
+                menuItem3.addActionListener(actionListener);
+                popupMenu.add(menuItem1);
+                popupMenu.add(menuItem2);
+                popupMenu.add(menuItem3);
+
+                if (e.isPopupTrigger())
+                {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+            else
+            {
+                logger.debug("sorry, no context menu without selected tile");
+            }
+
+        }
+
+
     }
 
     @Override

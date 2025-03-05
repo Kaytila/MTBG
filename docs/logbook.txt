@@ -1219,3 +1219,5 @@ History of the changes:
             anyways, big improvement already. need to think about adding the options.
             will need to think how to add inventory to the tiles.
 2025-02-08: npc is properly aligned now. Thinking about abolishing all drawing frame works and switching to gifs only.
+2025-03-04: introduced changing of existing tiles: remove npc, remove furniture
+2025-03-05: fixed change type to change a tile to a new tile type on the fly.

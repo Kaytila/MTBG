@@ -61,8 +61,8 @@ public class MapEditorFrame extends JFrame
     private MapTilePane mapTilePane;
     private MapEditorCanvas canvas;
     private FurnitureItemPane furnitureItemPane;
-    private JScrollBar horizontalScrollbar;
-    private JScrollBar verticalScrollbar;
+    //private JScrollBar horizontalScrollbar;
+    //private JScrollBar verticalScrollbar;
     private JScrollPane scrollPane;
     private NPCPane npcPane;
 

@@ -153,6 +153,13 @@ public class MapTile implements Comparable<MapTile>, Serializable
      */
     private Integer lock;
 
+    /**
+     * has the tile been selected in MapEditor?
+     * Can perhaps be used to draw the frames in normal canvas as well
+     * TODO look into refactoring the selected frame just to the normal paintComponent
+     */
+    private boolean selected;
+
 
     public MapTile()
     {

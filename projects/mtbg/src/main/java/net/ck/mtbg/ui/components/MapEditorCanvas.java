@@ -24,6 +24,7 @@ public class MapEditorCanvas extends AbstractMapCanvas
 
     private boolean dragEnabled;
     private Map map;
+    private MapTile selectedTile;
 
     public MapEditorCanvas(MapEditorController mapEditorController)
     {
@@ -72,6 +73,11 @@ public class MapEditorCanvas extends AbstractMapCanvas
                 {
                     //g.drawImage( (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                     g.drawImage(tile.getLifeForm().getDefaultImage(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                }
+                if (tile == selectedTile)
+                {
+                    g.setColor(Color.WHITE);
+                    g.drawRect((GameConfiguration.tileSize * row), (GameConfiguration.tileSize * column), GameConfiguration.tileSize, GameConfiguration.tileSize);
                 }
             }
         }

@@ -229,3 +229,14 @@ So it has been an intensive summer so far - I have not had a lot of time and wil
 time yes, but there are certain base topics that I would need to handle properly and I am unwilling to do so right now
 as I simply do not understand at least parts of my own framework anymore really.
 It works 99%, but not completely. I will need to tackle this properly when the weather is bad.
+
+
+On Map Editor
+=============
+
+Initially, I had thought that there is no need for a map editor.
+Guess what? There is. I should have taken the hint from Goldenflame right away and started with that.
+Why? Easier to implement, easier to do and the normal Game Frame is basically just an extension on top basically
+with animations and a Canvas without Scrollbar, but centering around player.
+Now that I have - apart from scrolling - implemented the map editor, I can see that this might actually serve as a basis
+for a more elaborate re-write of the game canvas.
