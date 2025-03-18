@@ -20,7 +20,7 @@ import java.awt.*;
 public class SpellDialog extends AbstractDialog
 {
 
-    public SpellDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
+    public SpellDialog(JFrame owner, String title, boolean modal, AbstractKeyboardAction action)
     {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);

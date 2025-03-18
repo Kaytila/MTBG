@@ -16,7 +16,6 @@ import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
-import java.awt.*;
 
 @Log4j2
 @Getter
@@ -25,7 +24,7 @@ public class EQDialog extends AbstractDialog
 {
 
 
-    public EQDialog(Frame owner, String title, boolean modal)
+    public EQDialog(JFrame owner, String title, boolean modal)
     {
         setTitle(title);
         this.setBounds(0, 0, GameConfiguration.dialogWidth, GameConfiguration.dialogHeight);

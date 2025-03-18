@@ -8,14 +8,13 @@ import net.ck.mtbg.ui.listeners.OptionsDialogChangeListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
-import java.awt.*;
 
 @Log4j2
 @Getter
 @Setter
 public class OptionsDialog extends AbstractDialog
 {
-    public OptionsDialog(Frame owner, String title, boolean modal)
+    public OptionsDialog(JFrame owner, String title, boolean modal)
     {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);

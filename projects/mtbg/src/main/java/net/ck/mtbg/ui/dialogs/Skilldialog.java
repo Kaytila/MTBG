@@ -23,7 +23,7 @@ import java.awt.*;
  */
 public class Skilldialog extends AbstractDialog
 {
-    public Skilldialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action)
+    public Skilldialog(JFrame owner, String title, boolean modal, AbstractKeyboardAction action)
     {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);

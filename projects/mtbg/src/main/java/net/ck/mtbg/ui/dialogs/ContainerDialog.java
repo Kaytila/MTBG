@@ -9,7 +9,6 @@ import net.ck.mtbg.ui.renderers.InventoryPaneListCellRenderer;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
-import java.awt.*;
 
 @Log4j2
 @Getter
@@ -25,14 +24,15 @@ public class ContainerDialog extends AbstractDialog
 
     /**
      * Might be that I can reuse the full inventory dialog again
-     * https://stackoverflow.com/questions/8976874/show-two-dialogs-on-top-of-each-other-using-java-swing
+     * <a href="https://stackoverflow.com/questions/8976874/show-two-dialogs-on-top-of-each-other-using-java-swing">
+     * https://stackoverflow.com/questions/8976874/show-two-dialogs-on-top-of-each-other-using-java-swing</a>
      *
-     * @param owner
-     * @param title
-     * @param modal
-     * @param inventory
+     * @param owner     - the owning JFrame
+     * @param title     - the title string for the dialog
+     * @param modal     - modal or not
+     * @param inventory - whats the inventory in question
      */
-    public ContainerDialog(Frame owner, String title, boolean modal, Inventory inventory)
+    public ContainerDialog(JFrame owner, String title, boolean modal, Inventory inventory)
     {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);

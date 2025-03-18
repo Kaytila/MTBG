@@ -27,7 +27,9 @@ public class WindowClosingAction extends AbstractAction
     public WindowClosingAction(Window iD)
     {
         setComponent(iD);
+
     }
+
 
     /**
      * close the dialog window tell the Controller the dialog is closed. Tell the frame to request focus again for safety matters, tell the frame to repaint
@@ -39,7 +41,10 @@ public class WindowClosingAction extends AbstractAction
         logger.info("Window closing action sent");
         getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));
         UIStateMachine.setDialogOpened(false);
-        WindowBuilder.getGridCanvas().requestFocusInWindow();
-        WindowBuilder.getFrame().repaint();
+        if (UIStateMachine.isUiOpen())
+        {
+            WindowBuilder.getGridCanvas().requestFocusInWindow();
+            WindowBuilder.getFrame().repaint();
+        }
     }
 }

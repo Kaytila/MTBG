@@ -8,7 +8,6 @@ import net.ck.mtbg.ui.renderers.StatsPaneListCellRenderer;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
-import java.awt.*;
 
 @Log4j2
 @Getter
@@ -17,7 +16,7 @@ public class StatsDialog extends AbstractDialog
 {
     private StatsPane statsPane;
 
-    public StatsDialog(Frame owner, String title, boolean modal)
+    public StatsDialog(JFrame owner, String title, boolean modal)
     {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);

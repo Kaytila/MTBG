@@ -23,7 +23,7 @@ public class TalkDialog extends AbstractDialog
     private LifeForm npc;
 
 
-    public TalkDialog(Frame owner, String title, boolean modal, LifeForm n)
+    public TalkDialog(JFrame owner, String title, boolean modal, LifeForm n)
     {
         setTitle(title);
         setNpc(n);

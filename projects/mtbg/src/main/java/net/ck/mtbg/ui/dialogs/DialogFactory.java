@@ -9,7 +9,7 @@ import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 
-import java.awt.*;
+import javax.swing.*;
 
 /**
  * Factory class to create dialogs - has the added logic that it checks whether there already is a dialog open or
@@ -20,7 +20,7 @@ import java.awt.*;
 @Setter
 public class DialogFactory
 {
-    public static AbstractDialog createDialog(Frame owner, String title, boolean modal, AbstractKeyboardAction action, Message message, LifeForm npc)
+    public static AbstractDialog createDialog(JFrame owner, String title, boolean modal, AbstractKeyboardAction action, Message message, LifeForm npc)
     {
         //redundant but just to be sure
         if (UIStateMachine.isDialogOpened() == true)
@@ -85,7 +85,10 @@ public class DialogFactory
                 return new MapDialog(owner, title, modal, Game.getCurrent().getCurrentMap());
             }
 
-
+            case "Edit Map":
+            {
+                return new MapEditDialog(owner, title, modal);
+            }
             default:
             {
                 throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);

@@ -11,7 +11,6 @@ import net.ck.mtbg.ui.listeners.AutoMapCanvasMouseListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,7 +19,7 @@ import java.awt.event.WindowEvent;
 @Setter
 public class MapDialog extends AbstractDialog
 {
-    public MapDialog(Frame owner, String title, boolean modal, Map map)
+    public MapDialog(JFrame owner, String title, boolean modal, Map map)
     {
         setTitle(title);
         this.setBounds(0, 0, 500, 500);
