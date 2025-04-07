@@ -13,6 +13,8 @@ import net.ck.mtbg.weather.WeatherTypes;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -25,7 +27,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Log4j2
 @Getter
 @Setter
-public class Map extends AbstractMap
+public class Map extends AbstractMap implements MapPropertySupport
 {
     /**
      *
@@ -38,6 +40,8 @@ public class Map extends AbstractMap
     /**
      * how random is the weather? are we talking rand 10 or rand 100? the lower the number, the more random the weather is going to be
      */
+
+    //@MapPropertyField
     private int weatherRandomness;
     /**
      * is there a weather system? is the weather system changing on a separate thread or not? let us try for synced and asynchronous
@@ -174,6 +178,18 @@ public class Map extends AbstractMap
                 ", fixedWeather=" + fixedWeather +
                 ", missiles=" + missiles +
                 '}';
+    }
+
+    @Override
+    public Collection<MapProperty> getProperties()
+    {
+        return List.of(
+                new MapPropertyImpl("weatherRandomness", weatherRandomness, int.class),
+                new MapPropertyImpl("visibilityRange", visibilityRange, int.class),
+                new MapPropertyImpl("timePerTurn", minutesPerTurn, int.class),
+                new MapPropertyImpl("weather", weather, Weather.class),
+                new MapPropertyImpl("size", size, Point.class)
+        );
     }
 
 }

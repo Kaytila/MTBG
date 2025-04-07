@@ -18,8 +18,10 @@ import java.io.Serializable;
 @Setter
 public class AbstractMap implements Serializable
 {
-	public AbstractMap()
-	{
-		
-	}
+    public AbstractMap()
+    {
+
+    }
+
+
 }

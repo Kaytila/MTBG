@@ -33,6 +33,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
 {
     private SpellbookPane spellbookPane;
     private AbstractKeyboardAction action;
+
     public SpellBookListener(SpellbookPane pane, AbstractKeyboardAction action)
     {
         this.spellbookPane = pane;

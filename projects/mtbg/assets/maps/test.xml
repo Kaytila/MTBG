@@ -6,7 +6,6 @@
         <wrapping>false</wrapping>
         <name>test</name>
         <visibility>1</visibility>
-        <visibility>1</visibility>
         <parent>null</parent>
     </meta>
     <tiles>

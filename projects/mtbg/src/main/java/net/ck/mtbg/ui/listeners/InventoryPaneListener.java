@@ -144,7 +144,7 @@ public class InventoryPaneListener implements ActionListener, ItemListener, List
                 // logger.info("double click");
                 if (getInventoryPane().getSelectedValue().isContainer())
                 {
-                    containerDialog = new ContainerDialog(getInventoryPane().getOwner(), getInventoryPane().getSelectedValue().getName() + " " + "contents", false, (((Utility) getInventoryPane().getSelectedValue()).getInventory()));
+                    containerDialog = new ContainerDialog((JFrame) getInventoryPane().getOwner(), getInventoryPane().getSelectedValue().getName() + " " + "contents", false, (((Utility) getInventoryPane().getSelectedValue()).getInventory()));
                     //logger.info("inventory: {}", ((Utility) getInventoryPane().getSelectedValue()).getInventory());
                 }
             }

@@ -240,3 +240,5 @@ Why? Easier to implement, easier to do and the normal Game Frame is basically ju
 with animations and a Canvas without Scrollbar, but centering around player.
 Now that I have - apart from scrolling - implemented the map editor, I can see that this might actually serve as a basis
 for a more elaborate re-write of the game canvas.
+And by doing that I actually have rewritten a big of the dialog system as well and learned some more about layouts and
+how much they suck.

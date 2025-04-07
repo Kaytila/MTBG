@@ -8,6 +8,7 @@ import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
@@ -16,29 +17,26 @@ import java.io.File;
 @Log4j2
 @Getter
 @Setter
-public class OKButton extends JButton implements MouseListener
+public class EditMapButton extends JButton implements MouseListener
 {
     private boolean hovered;
-    private String label = "OK";
+    private String label = "Edit Map";
 
-    public OKButton()
+
+    public EditMapButton(ActionListener actionListener, Dimension preferredSize)
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
-        this.setFont(getFont());
-        setText(getLabel());
-        //this.setToolTipText(getLogger().getName());
-        this.setActionCommand("OK");
-        //this.addActionListener(WindowBuilder.getController());
-        this.setVisible(true);
+        this.setFont(GameConfiguration.font);
+        setText(label);
+        this.setActionCommand(label);
+        this.addActionListener(actionListener);
         hovered = false;
         this.addMouseListener(this);
+        this.setPreferredSize(preferredSize);
+        this.setVisible(true);
     }
 
-    /**
-     * with a little help from stackoverflow again
-     * <p>
-     * https://stackoverflow.com/questions/14284754/java-center-text-in-rectangle/14287270#14287270
-     */
+
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
@@ -69,13 +67,11 @@ public class OKButton extends JButton implements MouseListener
     public void mousePressed(MouseEvent e)
     {
 
-
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
-
 
     }
 
@@ -90,5 +86,4 @@ public class OKButton extends JButton implements MouseListener
     {
         hovered = false;
     }
-
 }
