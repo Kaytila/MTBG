@@ -110,20 +110,6 @@ public class MapEditorFrame extends JFrame
         createUI();
     }
 
-    public static void main(String[] args)
-    {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                MapEditorFrame mapEditorFrame = new MapEditorFrame();
-                mapEditorFrame.pack();
-                mapEditorFrame.setVisible(true);
-            }
-        });
-    }
 
     public void createUI()
     {

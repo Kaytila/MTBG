@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;

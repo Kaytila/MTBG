@@ -1,4 +1,4 @@
-package net.ck.mtbg.backend.game;
+package net.ck.mtbg.backend.applications;
 
 
 import lombok.Getter;
@@ -10,6 +10,7 @@ import net.ck.mtbg.backend.entities.ai.AIBehaviour;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.backend.entities.entities.World;
+import net.ck.mtbg.backend.game.Turn;
 import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;

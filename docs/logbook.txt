@@ -1224,3 +1224,7 @@ History of the changes:
 2025-03-18: updated dialog framework to use JFrames.
 2025-04-07: mapedit dialog now works with a contract interface to generate the text fields. Just needs one method in
             Map to be extended to additional properties. Good so far.
+2025-04-13: Adding some backend classes to take care of actual application work instead of having this strewn across
+            controllers and listeners and actions and frames. This will help with running the complete game without UI.
+            Got some help on generic Button Actions, will need to see how that can be implemented properly.
+            Thinking about having an action that has a datastructure in there that can be re-used.

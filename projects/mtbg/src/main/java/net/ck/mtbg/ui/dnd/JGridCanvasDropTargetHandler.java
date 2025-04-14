@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.dnd;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;

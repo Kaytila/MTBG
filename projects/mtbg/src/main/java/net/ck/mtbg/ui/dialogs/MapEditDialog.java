@@ -79,6 +79,7 @@ public class MapEditDialog extends AbstractDialog
                 if (e.getActionCommand().equalsIgnoreCase("OK"))
                 {
                     logger.info("OK - figure this out later");
+                    //TODO add actual logic here what to do with the Editor contents
                     //((MapEditorFrame) owner).getCanvas().getMap().setSize(new Point());
                     MapEditDialog.this.dispose();
                     UIStateMachine.setDialogOpened(false);

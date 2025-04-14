@@ -3,18 +3,20 @@ package net.ck.mtbg.weather;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.applications.Game;
 
 import java.util.Random;
 
 @Log4j2
 @Getter
 @Setter
-public abstract class AbstractWeatherSystem {
+public abstract class AbstractWeatherSystem
+{
     boolean isSynchronized;
     int randomness;
 
-    public AbstractWeatherSystem(int randomness) {
+    public AbstractWeatherSystem(int randomness)
+    {
         logger.info("initializing Abstract Weather System");
         setRandomness(randomness);
         Weather weather = new Weather();
@@ -22,7 +24,8 @@ public abstract class AbstractWeatherSystem {
         setCurrentWeather(weather);
     }
 
-    protected AbstractWeatherSystem() {
+    protected AbstractWeatherSystem()
+    {
     }
 
     /**
@@ -31,10 +34,12 @@ public abstract class AbstractWeatherSystem {
      * <p>
      * switch the weather here
      */
-    public void switchWeather() {
+    public void switchWeather()
+    {
         // logger.info("check weather");
         // logger.info("Thread {} executing checkWeather()", Thread.currentThread().getName());
-        if (Game.getCurrent().getCurrentMap().isWeatherSystem()) {
+        if (Game.getCurrent().getCurrentMap().isWeatherSystem())
+        {
 
             Random rand = new Random();
             int number = rand.nextInt(getRandomness());
@@ -42,7 +47,8 @@ public abstract class AbstractWeatherSystem {
             // note to self, switch statements are evil, I had completely forgotten
             // that you
             // need breaks;
-            switch (number) {
+            switch (number)
+            {
                 case 0:
                     getCurrentWeather().setType(WeatherTypes.RAIN);
                     break;
@@ -67,33 +73,44 @@ public abstract class AbstractWeatherSystem {
                 default:
                     break;
             }
-        } else {
+        }
+        else
+        {
             logger.info("no weather, setting weather to none");
             getCurrentWeather().setType(WeatherTypes.NONE);
         }
     }
 
-    public Weather getCurrentWeather() {
+    public Weather getCurrentWeather()
+    {
         return Game.getCurrent().getCurrentMap().getWeather();
     }
 
 
-    public void setCurrentWeather(Weather currentWeather) {
+    public void setCurrentWeather(Weather currentWeather)
+    {
         Game.getCurrent().getCurrentMap().setWeather(currentWeather);
     }
 
     /**
      *
      */
-    public void checkWeather() {
-        if (Game.getCurrent().getCurrentMap().isWeatherSystem()) {
-            if (Game.getCurrent().getCurrentMap().getWeather() == null) {
+    public void checkWeather()
+    {
+        if (Game.getCurrent().getCurrentMap().isWeatherSystem())
+        {
+            if (Game.getCurrent().getCurrentMap().getWeather() == null)
+            {
                 getCurrentWeather().setType(WeatherTypes.NONE);
-            } else {
+            }
+            else
+            {
                 //awful but triggers the repaint()
                 getCurrentWeather().setType(getCurrentWeather().getType());
             }
-        } else {
+        }
+        else
+        {
             logger.info("no weather, setting weather to none");
             getCurrentWeather().setType(WeatherTypes.NONE);
         }

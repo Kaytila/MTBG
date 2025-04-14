@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.applications.Game;
 
 import java.awt.*;
 import java.util.concurrent.ConcurrentHashMap;

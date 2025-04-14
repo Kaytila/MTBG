@@ -3,8 +3,8 @@ package net.ck.mtbg.run;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.listeners.Controller;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
@@ -393,11 +393,13 @@ public class RunGame
                     logger.debug("open character editor");
                 }
                 javax.swing.SwingUtilities.invokeAndWait(() -> WindowBuilder.buildMapEditor());
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new RuntimeException(e);
             }
-        } else
+        }
+        else
         {
             WindowBuilder.buildMapEditor();
         }

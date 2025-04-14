@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.ui.actions.OKButtonAction;
 import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;
@@ -32,6 +33,7 @@ public class OKButton extends JButton implements MouseListener
         this.setVisible(true);
         hovered = false;
         this.addMouseListener(this);
+        this.setAction(new OKButtonAction());
     }
 
     /**

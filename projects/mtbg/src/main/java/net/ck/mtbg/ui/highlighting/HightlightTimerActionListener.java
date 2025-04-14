@@ -3,8 +3,8 @@ package net.ck.mtbg.ui.highlighting;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
@@ -29,6 +29,7 @@ public class HightlightTimerActionListener implements ActionListener
      * This defines how the highlighting frame is being drawn (i.e. how big).
      * if the timer is active and fired, make sure to post an event as well if we
      * use events
+     *
      * @param e the event to be processed
      */
     @Override

@@ -1,7 +1,7 @@
 package net.ck.mtbg.test;
 
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.game.Game;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.state.ItemManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;

@@ -1,9 +1,9 @@
 package net.ck.mtbg.util.ui;
 
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;

@@ -1,11 +1,11 @@
 package net.ck.mtbg.animation.lifeform;
 
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIStateMachine;

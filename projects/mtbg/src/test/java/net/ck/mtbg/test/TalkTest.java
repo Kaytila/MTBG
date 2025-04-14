@@ -1,9 +1,9 @@
 package net.ck.mtbg.test;
 
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
-import net.ck.mtbg.backend.game.Game;
 import net.ck.mtbg.run.RunGame;
 import org.junit.jupiter.api.*;
 
