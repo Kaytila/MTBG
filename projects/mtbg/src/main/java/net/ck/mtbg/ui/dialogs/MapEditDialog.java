@@ -3,12 +3,12 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.MapEditor;
 import net.ck.mtbg.map.MapProperty;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.LabeledEntryField;
 import net.ck.mtbg.ui.components.LabeledEntryFieldFactory;
-import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
@@ -46,7 +46,7 @@ public class MapEditDialog extends AbstractDialog
         //{
         //content.add(new LabeledEntryField(variable.getName(), String.valueOf(variable.getValue())));
         //}
-        for (MapProperty property : ((MapEditorFrame) owner).getCanvas().getMap().getProperties())
+        for (MapProperty property : MapEditor.getCurrent().getMap().getProperties())
         {
             logger.debug("property: {}", property);
             LabeledEntryField field = LabeledEntryFieldFactory.createDefault().create(property);

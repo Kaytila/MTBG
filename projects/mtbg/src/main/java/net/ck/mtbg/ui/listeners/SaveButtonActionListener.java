@@ -3,6 +3,7 @@ package net.ck.mtbg.ui.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.MapEditor;
 import net.ck.mtbg.ui.components.MapEditorCanvas;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -41,12 +42,12 @@ public class SaveButtonActionListener implements ActionListener
         int returnValue = fileChooser.showSaveDialog(mapEditorFrame);
         logger.debug("return value: {}", returnValue);
         File saveFile = fileChooser.getSelectedFile();
-        mapEditorCanvas.getMap().setName(saveFile.getName());
+        MapEditor.getCurrent().getMap().setName(saveFile.getName());
         logger.debug("saveFile: {}", saveFile);
 
         try
         {
-            MapUtils.writeMapToXML(mapEditorCanvas.getMap());
+            MapUtils.writeMapToXML(MapEditor.getCurrent().getMap());
         }
         catch (IOException ex)
         {

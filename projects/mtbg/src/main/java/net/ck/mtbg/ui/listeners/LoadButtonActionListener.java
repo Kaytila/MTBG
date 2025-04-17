@@ -3,6 +3,7 @@ package net.ck.mtbg.ui.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.MapEditor;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.ui.components.MapEditorCanvas;
@@ -46,7 +47,7 @@ public class LoadButtonActionListener implements ActionListener
             logger.debug("file: {}", file);
             Map map = RunXMLParser.parseMap(file.getPath());
 
-            mapEditorCanvas.setMap(map);
+            MapEditor.getCurrent().setMap(map);
             //mapEditorCanvas.setMinimumSize(new Dimension(map.getSize().x * GameConfiguration.tileSize, map.getSize().y * GameConfiguration.tileSize));
             mapEditorCanvas.setPreferredSize(new Dimension(map.getSize().x * GameConfiguration.tileSize, map.getSize().y * GameConfiguration.tileSize));
             mapEditorCanvas.getParent().setPreferredSize(mapEditorCanvas.getPreferredSize());
