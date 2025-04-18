@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.mainframes;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.applications.MapEditor;
+import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.state.ItemManager;
@@ -116,12 +116,12 @@ public class MapEditorFrame extends JFrame
     {
 
         canvas = new MapEditorCanvas(mapEditorController);
-        canvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditor.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditor.getCurrent().getMap().getSize().y));
+        canvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().y));
         JSplitPane splitPane;
         leftPanel = new JPanel();
         leftPanel.setBackground(Color.YELLOW);
         leftPanel.setMinimumSize(new Dimension(GameConfiguration.tileSize * 12, GameConfiguration.tileSize * 12));
-        leftPanel.setMaximumSize(new Dimension(MapEditor.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditor.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
+        leftPanel.setMaximumSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.CYAN);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);

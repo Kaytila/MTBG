@@ -3,12 +3,10 @@ package net.ck.mtbg.ui.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.applications.MapEditor;
+import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.map.Map;
 import net.ck.mtbg.ui.components.MapEditorCanvas;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
-import net.ck.mtbg.util.xml.RunXMLParser;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -42,17 +40,15 @@ public class LoadButtonActionListener implements ActionListener
         int returnValue = fileChooser.showOpenDialog(mapEditorFrame);
         logger.debug("return value: {}", returnValue);
         File file = fileChooser.getSelectedFile();
-        if (file != null)
+        boolean ret = MapEditorApplication.getCurrent().loadFile(file);
+
+        /**
+         * file was successfully loaded - repaint the bloody thing
+         */
+        if (ret == true)
         {
-            logger.debug("file: {}", file);
-            Map map = RunXMLParser.parseMap(file.getPath());
-
-            MapEditor.getCurrent().setMap(map);
-            //mapEditorCanvas.setMinimumSize(new Dimension(map.getSize().x * GameConfiguration.tileSize, map.getSize().y * GameConfiguration.tileSize));
-            mapEditorCanvas.setPreferredSize(new Dimension(map.getSize().x * GameConfiguration.tileSize, map.getSize().y * GameConfiguration.tileSize));
+            mapEditorCanvas.setPreferredSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
             mapEditorCanvas.getParent().setPreferredSize(mapEditorCanvas.getPreferredSize());
-            logger.debug("parent: {}", mapEditorCanvas.getParent());
-
             mapEditorCanvas.getParent().setMinimumSize(mapEditorCanvas.getPreferredSize());
             mapEditorCanvas.getParent().getParent().setMinimumSize(mapEditorCanvas.getPreferredSize());
             mapEditorFrame.setMinimumSize(new Dimension(1500, 1000));

@@ -1229,3 +1229,4 @@ History of the changes:
             Got some help on generic Button Actions, will need to see how that can be implemented properly.
             Thinking about having an action that has a datastructure in there that can be re-used.
 2025-04-17: created application class for mapeditor and started moving state into there to.
+2025-04-18: moved some application logic into the application class.

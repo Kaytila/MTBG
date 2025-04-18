@@ -3,9 +3,8 @@ package net.ck.mtbg.ui.components;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.applications.MapEditor;
+import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.listeners.MapEditorCanvasListener;
 import net.ck.mtbg.ui.listeners.MapEditorController;
@@ -33,38 +32,34 @@ public class MapEditorCanvas extends AbstractMapCanvas
         this.addMouseMotionListener(listener);
         this.addFocusListener(listener);
 
-        Map map = new Map();
-        map.setSize(new Point(13, 13));
-        MapTile[][] mapTiles = new MapTile[12][12];
-        map.setMapTiles(mapTiles);
-        MapEditor.getCurrent().setMap(map);
+
     }
 
     public void paintComponent(Graphics g)
     {
         long start = System.nanoTime();
         paintGridLines(g);
-        if (MapEditor.getCurrent().getMap() == null)
+        if (MapEditorApplication.getCurrent().getMap() == null)
         {
             return;
         }
 
-        int x = MapEditor.getCurrent().getMap().mapTiles[0].length;
-        int y = MapEditor.getCurrent().getMap().mapTiles[1].length;
+        int x = MapEditorApplication.getCurrent().getMap().mapTiles[0].length;
+        int y = MapEditorApplication.getCurrent().getMap().mapTiles[1].length;
 
-        MapUtils.calculateAllTileImages(MapEditor.getCurrent().getMap(), g, this, x, y);
+        MapUtils.calculateAllTileImages(MapEditorApplication.getCurrent().getMap(), g, this, x, y);
 
         for (int row = 0; row < y; row++)
         {
             for (int column = 0; column < x; column++)
             {
-                if (MapEditor.getCurrent().getMap().mapTiles[row][column] == null)
+                if (MapEditorApplication.getCurrent().getMap().mapTiles[row][column] == null)
                 {
                     g.drawImage(blackImage, (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
                     continue;
                 }
 
-                MapTile tile = MapEditor.getCurrent().getMap().mapTiles[row][column];
+                MapTile tile = MapEditorApplication.getCurrent().getMap().mapTiles[row][column];
                 g.drawImage(tile.getCalculatedImage(), (row * GameConfiguration.tileSize), (column * GameConfiguration.tileSize), this);
               /*  if (tile.getFurniture() != null)
                 {

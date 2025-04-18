@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.applications.MapEditor;
+import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCFactory;
 import net.ck.mtbg.graphics.TileTypes;
@@ -80,7 +80,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                             mapTile.setY(uiCoordinate.y);
                             mapTile.setType(protoMapTile.getType());
 
-                            MapEditor.getCurrent().getMap().mapTiles[mapTile.getMapPosition().x][mapTile.getMapPosition().y] = mapTile;
+                            MapEditorApplication.getCurrent().getMap().mapTiles[mapTile.getMapPosition().x][mapTile.getMapPosition().y] = mapTile;
                             logger.debug("maptile: {}", mapTile);
                         }
                     }
@@ -90,10 +90,10 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                         if (npc != null)
                         {
                             logger.debug("npc: {}", npc);
-                            MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditor.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
+                            MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditorApplication.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
                             npc.setMapPosition(uiCoordinate.x, uiCoordinate.y);
                             mapTile.setLifeForm(npc);
-                            MapEditor.getCurrent().getMap().mapTiles[mapTile.getMapPosition().x][mapTile.getMapPosition().y] = mapTile;
+                            MapEditorApplication.getCurrent().getMap().mapTiles[mapTile.getMapPosition().x][mapTile.getMapPosition().y] = mapTile;
                             logger.debug("maptile: {}", mapTile);
                         }
                     }
@@ -103,7 +103,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                         if (furnitureItem != null)
                         {
                             logger.debug("furniture item: {}", furnitureItem);
-                            MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditor.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
+                            MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditorApplication.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
                             mapTile.setFurniture(furnitureItem);
                             //canvas.getMap().mapTiles[mapTile.getMapPosition().x][mapTile.getMapPosition().y] = mapTile;
                             logger.debug("maptile: {}", mapTile);
@@ -115,7 +115,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
             }
             if (e.getClickCount() == 2)
             {
-                MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditor.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
+                MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditorApplication.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
                 logger.debug("double click in canvas on tile: {}", mapTile);
                 getCanvas().setSelectedTile(mapTile);
                 getCanvas().repaint();
