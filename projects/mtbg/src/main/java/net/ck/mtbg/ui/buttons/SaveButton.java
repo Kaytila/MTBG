@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 
 @Getter
@@ -28,7 +29,7 @@ public class SaveButton extends JButton implements MouseListener
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
         setText(label);
-        setBounds(p.x, p.y, 70, 30);
+        setBounds(p.x, p.y, GameConfiguration.preferredButtonSize.width, GameConfiguration.preferredButtonSize.height);
         this.setActionCommand(label);
         this.addActionListener(WindowBuilder.getController());
         hovered = false;
@@ -36,7 +37,7 @@ public class SaveButton extends JButton implements MouseListener
         this.setVisible(true);
     }
 
-    public SaveButton(ActionListener actionListener, Dimension preferredSize)
+    public SaveButton(ActionListener actionListener)
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
@@ -45,7 +46,9 @@ public class SaveButton extends JButton implements MouseListener
         this.addActionListener(actionListener);
         hovered = false;
         this.addMouseListener(this);
-        this.setPreferredSize(preferredSize);
+        this.setPreferredSize(GameConfiguration.preferredButtonSize);
+        this.setMinimumSize(GameConfiguration.preferredButtonSize);
+        this.setMaximumSize(GameConfiguration.preferredButtonSize);
         this.setVisible(true);
     }
 
@@ -58,7 +61,7 @@ public class SaveButton extends JButton implements MouseListener
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        /*if (hovered)
+        if (hovered)
         {
             g.setColor(Color.white);
         }
@@ -73,7 +76,7 @@ public class SaveButton extends JButton implements MouseListener
         int x = (this.getWidth() - (int) r.getWidth()) / 2;
         int y = (this.getHeight() - (int) r.getHeight()) / 2 + fm.getAscent();
         g.drawString(label, x, y);
-         */
+
     }
 
     @Override

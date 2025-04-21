@@ -80,6 +80,7 @@ public class GameConfiguration
     public static final boolean debugASTAR = false;
     public static final boolean debugAutoMap = false;
     public static final boolean debugBrightenImages = false;
+    public static final boolean debugDiscovered = false;
     public static final boolean debugEnvironmentalStoryTeller = false;
     public static final boolean debugEvents = false;
     public static final boolean debugGameState = false;
@@ -91,7 +92,6 @@ public class GameConfiguration
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
     public static final boolean debugSchedule = false;
-    public static final boolean debugDiscovered = false;
     /**
      * debug the splash startup
      */
@@ -363,6 +363,12 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
+
+
+    public static String mapEditorLocation = "C:\\Users\\Claus\\eclipse-workspace\\MyTurnBasedGame\\projects\\mtbg\\assets\\maps";
+
+
+    public static Dimension preferredButtonSize = new Dimension(70, 30);
 
 }
 

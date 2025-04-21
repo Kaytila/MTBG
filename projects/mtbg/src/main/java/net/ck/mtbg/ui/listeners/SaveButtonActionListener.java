@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.MapEditorApplication;
-import net.ck.mtbg.ui.components.MapEditorCanvas;
-import net.ck.mtbg.ui.mainframes.MapEditorFrame;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -19,25 +18,22 @@ import java.io.File;
 public class SaveButtonActionListener implements ActionListener
 {
 
-    MapEditorFrame mapEditorFrame;
-    MapEditorCanvas mapEditorCanvas;
 
-    public SaveButtonActionListener(MapEditorFrame frame, MapEditorCanvas canvas)
+    public SaveButtonActionListener()
     {
-        this.mapEditorFrame = frame;
-        this.mapEditorCanvas = canvas;
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        File start = new File("C:\\Users\\Claus\\eclipse-workspace\\MyTurnBasedGame\\projects\\mtbg\\assets\\maps");
+        File start = new File(GameConfiguration.mapEditorLocation);
         JFileChooser fileChooser = new JFileChooser(start);
 
         FileNameExtensionFilter filter = new FileNameExtensionFilter("XML only", "xml");
         fileChooser.setFileFilter(filter);
 
-        int returnValue = fileChooser.showSaveDialog(mapEditorFrame);
+        int returnValue = fileChooser.showSaveDialog(MapEditorController.getCurrent().getMapEditorFrame());
         logger.debug("return value: {}", returnValue);
 
         File saveFile = fileChooser.getSelectedFile();

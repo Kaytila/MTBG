@@ -24,12 +24,10 @@ import java.awt.event.*;
 public class MapEditorCanvasListener implements MouseListener, MouseMotionListener, FocusListener
 {
     MapEditorCanvas canvas;
-    MapEditorController mapEditorController;
     MapTile selectedTile;
 
-    public MapEditorCanvasListener(MapEditorCanvas canvas, MapEditorController controller)
+    public MapEditorCanvasListener(MapEditorCanvas canvas)
     {
-        this.mapEditorController = controller;
         this.canvas = canvas;
     }
 
@@ -64,14 +62,14 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
             Point uiCoordinate = MapUtils.getUICoordinateUnderCursor(e.getPoint());
             if (e.getClickCount() == 1)
             {
-                if (mapEditorController.getMapTilePane().getSelectedIndex() != -1)
+                if (MapEditorController.getCurrent().getMapTilePane().getSelectedIndex() != -1)
                 {
                     logger.info("relative: {}", e.getPoint());
                     //TODO here: switch based on selection in controller.
 
                     if (Selection.getSelectedItem() == "ProtoMapTile")
                     {
-                        ProtoMapTile protoMapTile = mapEditorController.getMapTilePane().getModel().getElementAt(mapEditorController.getMapTilePane().getSelectedIndex());
+                        ProtoMapTile protoMapTile = MapEditorController.getCurrent().getMapTilePane().getModel().getElementAt(MapEditorController.getCurrent().getMapTilePane().getSelectedIndex());
                         if (protoMapTile != null)
                         {
                             MapTile mapTile = new MapTile();
@@ -86,7 +84,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                     }
                     else if (Selection.getSelectedItem() == "NPC")
                     {
-                        NPC npc = NPCFactory.createNPC(mapEditorController.getNpcPane().getModel().getElementAt(mapEditorController.getNpcPane().getSelectedIndex()).getId());
+                        NPC npc = NPCFactory.createNPC(MapEditorController.getCurrent().getNpcPane().getModel().getElementAt(MapEditorController.getCurrent().getNpcPane().getSelectedIndex()).getId());
                         if (npc != null)
                         {
                             logger.debug("npc: {}", npc);
@@ -99,7 +97,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                     }
                     else if (Selection.getSelectedItem() == "FurnitureItem")
                     {
-                        FurnitureItem furnitureItem = mapEditorController.getFurnitureItemPane().getModel().getElementAt(mapEditorController.getFurnitureItemPane().getSelectedIndex());
+                        FurnitureItem furnitureItem = MapEditorController.getCurrent().getFurnitureItemPane().getModel().getElementAt(MapEditorController.getCurrent().getFurnitureItemPane().getSelectedIndex());
                         if (furnitureItem != null)
                         {
                             logger.debug("furniture item: {}", furnitureItem);

@@ -7,7 +7,6 @@ import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.listeners.MapEditorCanvasListener;
-import net.ck.mtbg.ui.listeners.MapEditorController;
 import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 
@@ -25,9 +24,9 @@ public class MapEditorCanvas extends AbstractMapCanvas
     private boolean dragEnabled;
     private MapTile selectedTile;
 
-    public MapEditorCanvas(MapEditorController mapEditorController)
+    public MapEditorCanvas()
     {
-        MapEditorCanvasListener listener = new MapEditorCanvasListener(this, mapEditorController);
+        MapEditorCanvasListener listener = new MapEditorCanvasListener(this);
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
         this.addFocusListener(listener);

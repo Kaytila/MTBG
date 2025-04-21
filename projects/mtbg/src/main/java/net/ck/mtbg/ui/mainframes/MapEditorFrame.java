@@ -47,28 +47,9 @@ import java.awt.event.*;
 @Log4j2
 public class MapEditorFrame extends JFrame
 {
-    private final MapEditorController mapEditorController;
-
     private DefaultListModel<ProtoMapTile> protoMapTileList;
     private DefaultListModel<FurnitureItem> furnitureItemList;
     private DefaultListModel<NPC> npcList;
-
-    private MapTilePane mapTilePane;
-    private MapEditorCanvas canvas;
-    private FurnitureItemPane furnitureItemPane;
-    //private JScrollBar horizontalScrollbar;
-    //private JScrollBar verticalScrollbar;
-    private JScrollPane scrollPane;
-    private NPCPane npcPane;
-
-    private LoadButton loadButton;
-    private SaveButton saveButton;
-
-    private JPanel leftPanel;
-    private JPanel rightPanel;
-
-
-    private Dimension preferredButtonSize = new Dimension(70, 30);
 
     public MapEditorFrame() throws HeadlessException
     {
@@ -93,7 +74,6 @@ public class MapEditorFrame extends JFrame
 
 
         this.setTitle("MTBG - Map Editor");
-        this.mapEditorController = new MapEditorController(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //this.setBounds(500, 500, GameConfiguration.UIwidth, GameConfiguration.UIheight);
         this.setPreferredSize(new Dimension(1500, 1000));
@@ -103,7 +83,7 @@ public class MapEditorFrame extends JFrame
         this.setUndecorated(false);
 
 
-        this.addWindowListener(mapEditorController);
+        this.addWindowListener(MapEditorController.getCurrent());
         //this.setLayout(null);
         this.pack();
         this.setVisible(true);
@@ -115,14 +95,14 @@ public class MapEditorFrame extends JFrame
     public void createUI()
     {
 
-        canvas = new MapEditorCanvas(mapEditorController);
-        canvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().y));
+        MapEditorCanvas mapEditorCanvas = new MapEditorCanvas();
+        mapEditorCanvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().y));
         JSplitPane splitPane;
-        leftPanel = new JPanel();
+        JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.YELLOW);
         leftPanel.setMinimumSize(new Dimension(GameConfiguration.tileSize * 12, GameConfiguration.tileSize * 12));
         leftPanel.setMaximumSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
-        rightPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.CYAN);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setLeftComponent(leftPanel);
@@ -133,7 +113,7 @@ public class MapEditorFrame extends JFrame
         this.add(splitPane);
         //list of map entries
         //fill from the list
-        mapTilePane = new MapTilePane(protoMapTileList);
+        MapTilePane mapTilePane = new MapTilePane(protoMapTileList);
         mapTilePane.setPreferredSize(new Dimension(200, 200));
         JScrollPane scrollPane = new JScrollPane(mapTilePane);
         rightPanel.add(scrollPane);
@@ -146,41 +126,35 @@ public class MapEditorFrame extends JFrame
 
 
         //list of furniture items?
-        furnitureItemPane = new FurnitureItemPane(furnitureItemList);
+        FurnitureItemPane furnitureItemPane = new FurnitureItemPane(furnitureItemList);
         furnitureItemPane.setForeground(Color.BLUE);
         furnitureItemPane.setBackground(Color.YELLOW);
         furnitureItemPane.setVisible(true);
         rightPanel.add(furnitureItemPane);
 
         //NPCs?
-        npcPane = new NPCPane(npcList);
+        NPCPane npcPane = new NPCPane(npcList);
         npcPane.setForeground(Color.YELLOW);
         npcPane.setBackground(Color.CYAN);
         npcPane.setVisible(true);
         rightPanel.add(npcPane);
 
-        SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener(this, canvas);
-        LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener(this, canvas);
-        EditMapButtonActionListener editMapButtonActionListener = new EditMapButtonActionListener(this);
+        SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
+        LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
+        EditMapButtonActionListener editMapButtonActionListener = new EditMapButtonActionListener();
 
         //make sure buttons have their listeners.
-        saveButton = new SaveButton(saveButtonActionListener, preferredButtonSize);
-        saveButton.setMinimumSize(preferredButtonSize);
-        saveButton.setMaximumSize(preferredButtonSize);
+        SaveButton saveButton = new SaveButton(saveButtonActionListener);
         rightPanel.add(saveButton);
 
-        loadButton = new LoadButton(loadButtonActionListener, preferredButtonSize);
-        loadButton.setMinimumSize(preferredButtonSize);
-        loadButton.setMaximumSize(preferredButtonSize);
+        LoadButton loadButton = new LoadButton(loadButtonActionListener);
         rightPanel.add(loadButton);
 
-        EditMapButton editMapButton = new EditMapButton(editMapButtonActionListener, preferredButtonSize);
-        editMapButton.setMinimumSize(preferredButtonSize);
-        editMapButton.setMaximumSize(preferredButtonSize);
+        EditMapButton editMapButton = new EditMapButton(editMapButtonActionListener);
         rightPanel.add(editMapButton);
 
-        scrollPane = new JScrollPane(canvas);
-        scrollPane.setViewportView(canvas);
+        scrollPane = new JScrollPane(mapEditorCanvas);
+        scrollPane.setViewportView(mapEditorCanvas);
         scrollPane.setVisible(true);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -453,10 +427,17 @@ public class MapEditorFrame extends JFrame
         });
 
 
-        mapEditorController.setMapTilePane(mapTilePane);
-        mapEditorController.setNpcPane(npcPane);
-        mapEditorController.setFurnitureItemPane(furnitureItemPane);
-
+        MapEditorController.getCurrent().setMapTilePane(mapTilePane);
+        MapEditorController.getCurrent().setNpcPane(npcPane);
+        MapEditorController.getCurrent().setFurnitureItemPane(furnitureItemPane);
+        MapEditorController.getCurrent().setMapEditorFrame(this);
+        MapEditorController.getCurrent().setLoadButton(loadButton);
+        MapEditorController.getCurrent().setSaveButton(saveButton);
+        MapEditorController.getCurrent().setEditMapButton(editMapButton);
+        MapEditorController.getCurrent().setMapEditorCanvas(mapEditorCanvas);
+        MapEditorController.getCurrent().setLeftPanel(leftPanel);
+        MapEditorController.getCurrent().setRightPanel(rightPanel);
+        MapEditorController.getCurrent().setSplitPane(splitPane);
         setLocationRelativeTo(null);
     }
 }

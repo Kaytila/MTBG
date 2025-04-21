@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.listeners.MapEditorController;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.xml.RunXMLParser;
@@ -50,6 +51,7 @@ public class MapEditorApplication
             public void run()
             {
                 MapEditorFrame mapEditorFrame = new MapEditorFrame();
+                MapEditorController.getCurrent().setMapEditorFrame(mapEditorFrame);
                 mapEditorFrame.pack();
                 mapEditorFrame.setVisible(true);
             }

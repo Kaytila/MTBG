@@ -23,7 +23,7 @@ public class EditMapButton extends JButton implements MouseListener
     private String label = "Edit Map";
 
 
-    public EditMapButton(ActionListener actionListener, Dimension preferredSize)
+    public EditMapButton(ActionListener actionListener)
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
@@ -32,7 +32,9 @@ public class EditMapButton extends JButton implements MouseListener
         this.addActionListener(actionListener);
         hovered = false;
         this.addMouseListener(this);
-        this.setPreferredSize(preferredSize);
+        this.setPreferredSize(GameConfiguration.preferredButtonSize);
+        this.setMinimumSize(GameConfiguration.preferredButtonSize);
+        this.setMaximumSize(GameConfiguration.preferredButtonSize);
         this.setVisible(true);
     }
 

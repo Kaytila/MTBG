@@ -38,7 +38,7 @@ public class LoadButton extends JButton implements MouseListener
     }
 
 
-    public LoadButton(ActionListener actionListener, Dimension preferredSize)
+    public LoadButton(ActionListener actionListener)
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
@@ -47,7 +47,9 @@ public class LoadButton extends JButton implements MouseListener
         this.addActionListener(actionListener);
         hovered = false;
         this.addMouseListener(this);
-        this.setPreferredSize(preferredSize);
+        this.setPreferredSize(GameConfiguration.preferredButtonSize);
+        this.setMinimumSize(GameConfiguration.preferredButtonSize);
+        this.setMaximumSize(GameConfiguration.preferredButtonSize);
         this.setVisible(true);
     }
 

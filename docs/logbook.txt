@@ -1230,3 +1230,7 @@ History of the changes:
             Thinking about having an action that has a datastructure in there that can be re-used.
 2025-04-17: created application class for mapeditor and started moving state into there to.
 2025-04-18: moved some application logic into the application class.
+2025-04-21: did some more refactoring - introduced another generic controller for the mapeditor, as otherwise, I find it
+            difficult and tedious to follow the code. The singleton approach is very useful here. As always.
+            Managed to fix a long-standing bug in MapEditor, as it now will update the Splitpane after a map has been
+            loaded to try to fit the size.
