@@ -109,15 +109,11 @@ public class MapEditorController implements WindowListener, ActionListener
     public void updateUIAfterLoadingMap()
     {
         //TODO
+        //ASKSIMON
         //why does this not properly update the SplitPane based on the preferred size?
+        //ok seriously, why do I need to do this on the child?
         mapEditorCanvas.setPreferredSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
-        //mapEditorCanvas.getParent().setPreferredSize(mapEditorCanvas.getPreferredSize());
-        //mapEditorCanvas.getParent().setMinimumSize(mapEditorCanvas.getPreferredSize());
-        //mapEditorCanvas.getParent().getParent().setMinimumSize(mapEditorCanvas.getPreferredSize());
-        //mapEditorFrame.setMinimumSize(new Dimension(1500, 1000));
-        //mapEditorCanvas.repaint();
-        //mapEditorFrame.repaint();
-        //splitPane.repaint();
+        //leftPanel.setPreferredSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
         splitPane.resetToPreferredSizes();
     }
 }

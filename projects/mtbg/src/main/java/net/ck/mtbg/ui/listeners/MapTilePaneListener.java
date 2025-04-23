@@ -25,8 +25,9 @@ public class MapTilePaneListener implements ListSelectionListener
         //last index contains the value as there is only one active.
         logger.info("value changed: {} {}", e.getFirstIndex(), e.getLastIndex());
         logger.info("selected maptile: {}", MapEditorController.getCurrent().getMapTilePane().getModel().getElementAt(e.getLastIndex()).getName());
-
         Selection.setSelectedItem(MapEditorController.getCurrent().getMapTilePane().getModel().getElementAt(e.getLastIndex()));
+        //TODO
+        //ASKSIMON
         MapEditorController.getCurrent().getMapTilePane().ensureIndexIsVisible(e.getLastIndex());
     }
 }

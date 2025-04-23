@@ -10,7 +10,6 @@ import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.ProtoMapTile;
-import net.ck.mtbg.ui.components.MapEditorCanvas;
 import net.ck.mtbg.util.utils.MapUtils;
 
 import javax.swing.*;
@@ -23,14 +22,6 @@ import java.awt.event.*;
 @Setter
 public class MapEditorCanvasListener implements MouseListener, MouseMotionListener, FocusListener
 {
-    MapEditorCanvas canvas;
-    MapTile selectedTile;
-
-    public MapEditorCanvasListener(MapEditorCanvas canvas)
-    {
-        this.canvas = canvas;
-    }
-
     @Override
     public void focusGained(FocusEvent e)
     {
@@ -108,21 +99,21 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                         }
                     }
                     logger.info("done adding field");
-                    canvas.repaint();
+                    MapEditorController.getCurrent().getMapEditorCanvas().repaint();
                 }
             }
             if (e.getClickCount() == 2)
             {
                 MapTile mapTile = MapUtils.getMapTileByCoordinates(MapEditorApplication.getCurrent().getMap(), uiCoordinate.x, uiCoordinate.y);
                 logger.debug("double click in canvas on tile: {}", mapTile);
-                getCanvas().setSelectedTile(mapTile);
-                getCanvas().repaint();
+                MapEditorController.getCurrent().getMapEditorCanvas().setSelectedTile(mapTile);
+                MapEditorController.getCurrent().getMapEditorCanvas().repaint();
             }
         }
 
         else if (e.getButton() == MouseEvent.BUTTON3)
         {
-            if (getCanvas().getSelectedTile() != null)
+            if (MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile() != null)
             {
                 //TODO add context menu here
                 logger.debug("open context menu");
@@ -137,21 +128,21 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                         if (source.getText().equals("remove npc"))
                         {
                             logger.debug("removing npc");
-                            getCanvas().getSelectedTile().setLifeForm(null);
+                            MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().setLifeForm(null);
 
                         }
                         else if (source.getText().equals("remove furniture"))
                         {
                             logger.debug("removing furniture");
-                            getCanvas().getSelectedTile().setFurniture(null);
+                            MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().setFurniture(null);
                         }
                         // now it must be a tile type
                         else
                         {
                             logger.debug("source: {}", source.getText());
-                            getCanvas().getSelectedTile().setType(TileTypes.valueOf(source.getText()));
+                            MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().setType(TileTypes.valueOf(source.getText()));
                         }
-                        getCanvas().repaint();
+                        MapEditorController.getCurrent().getMapEditorCanvas().repaint();
                     }
                 };
                 JMenu menuItem1 = new JMenu("change type");
@@ -205,13 +196,13 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
     {
         if (e.getButton() == MouseEvent.BUTTON1)
         {
-            if (canvas.isDragEnabled())
+            if (MapEditorController.getCurrent().getMapEditorCanvas().isDragEnabled())
             {
-                final TransferHandler transferHandler = canvas.getTransferHandler();
+                final TransferHandler transferHandler = MapEditorController.getCurrent().getMapEditorCanvas().getTransferHandler();
                 if (transferHandler != null)
                 {
                     // TODO here could be more "logic" to initiate the drag
-                    transferHandler.exportAsDrag(canvas, e, DnDConstants.ACTION_MOVE);
+                    transferHandler.exportAsDrag(MapEditorController.getCurrent().getMapEditorCanvas(), e, DnDConstants.ACTION_MOVE);
                 }
                 else
                 {

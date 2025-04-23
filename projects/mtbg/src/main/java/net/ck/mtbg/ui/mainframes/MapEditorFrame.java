@@ -75,6 +75,7 @@ public class MapEditorFrame extends JFrame
         leftPanel.setMaximumSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.CYAN);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setLeftComponent(leftPanel);
         splitPane.setRightComponent(rightPanel);
@@ -87,7 +88,7 @@ public class MapEditorFrame extends JFrame
         MapTilePane mapTilePane = new MapTilePane(MapEditorApplication.getCurrent().getProtoMapTileList());
         //mapTilePane.setPreferredSize(new Dimension(200, 200));
         JScrollPane scrollPane = new JScrollPane(mapTilePane);
-        scrollPane.setPreferredSize(new Dimension(250, 200));
+        scrollPane.setPreferredSize(new Dimension(200, 200));
         rightPanel.add(scrollPane);
 
         //canvas for showing the map will need to think about a new version that does not move
@@ -101,30 +102,34 @@ public class MapEditorFrame extends JFrame
         FurnitureItemPane furnitureItemPane = new FurnitureItemPane(MapEditorApplication.getCurrent().getFurnitureItemList());
         furnitureItemPane.setForeground(Color.BLUE);
         furnitureItemPane.setBackground(Color.YELLOW);
-        furnitureItemPane.setVisible(true);
-        rightPanel.add(furnitureItemPane);
+        JScrollPane scrollPaneItems = new JScrollPane(furnitureItemPane);
+        scrollPaneItems.setPreferredSize(new Dimension(200, 200));
+        rightPanel.add(scrollPaneItems);
 
         //NPCs?
         NPCPane npcPane = new NPCPane(MapEditorApplication.getCurrent().getNpcList());
         npcPane.setForeground(Color.YELLOW);
         npcPane.setBackground(Color.CYAN);
-        npcPane.setVisible(true);
-        rightPanel.add(npcPane);
-
+        JScrollPane scrollPaneNPCs = new JScrollPane(npcPane);
+        scrollPaneNPCs.setPreferredSize(new Dimension(200, 200));
+        rightPanel.add(scrollPaneNPCs);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
         LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
         EditMapButtonActionListener editMapButtonActionListener = new EditMapButtonActionListener();
 
         //make sure buttons have their listeners.
         SaveButton saveButton = new SaveButton(saveButtonActionListener);
-        rightPanel.add(saveButton);
+        buttonPanel.add(saveButton);
 
         LoadButton loadButton = new LoadButton(loadButtonActionListener);
-        rightPanel.add(loadButton);
+        buttonPanel.add(loadButton);
 
         EditMapButton editMapButton = new EditMapButton(editMapButtonActionListener);
-        rightPanel.add(editMapButton);
+        buttonPanel.add(editMapButton);
 
+        rightPanel.add(buttonPanel);
         scrollPane = new JScrollPane(mapEditorCanvas);
         scrollPane.setViewportView(mapEditorCanvas);
         scrollPane.setVisible(true);

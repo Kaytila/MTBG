@@ -1237,3 +1237,6 @@ History of the changes:
 2025-04-23: update for MapTilePane/MapTilePaneListener: finally fixed the issue with the list not scrolling properly.
             also moved the preferred button size to GameConfiguration.
             Also updated buttons not to use the standard labels as the text is drawn anyways in a paintComponent().
+2025-04-23: As an afterthought: changed the layout for MapEditorFrame to BoxLayout for the right side with another
+            BoxLayOut for the buttons: works just like it should, minimal effort. Also works properly in fullscreen now.
+            I can see this coming very soon for the GameFrame as well. Introduced ASKSIMON.

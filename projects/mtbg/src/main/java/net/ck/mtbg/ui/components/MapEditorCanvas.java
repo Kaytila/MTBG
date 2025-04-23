@@ -26,12 +26,10 @@ public class MapEditorCanvas extends AbstractMapCanvas
 
     public MapEditorCanvas()
     {
-        MapEditorCanvasListener listener = new MapEditorCanvasListener(this);
+        MapEditorCanvasListener listener = new MapEditorCanvasListener();
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
         this.addFocusListener(listener);
-
-
     }
 
     public void paintComponent(Graphics g)
