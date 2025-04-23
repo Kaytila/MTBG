@@ -6,7 +6,7 @@ think about how to persist game over time - save and restore
 adding additional commands - (a)ttack, (s)earch, save, restore, talk - need to figure out what command will change the cursor
 add additional cursors
 make cursor calculation more exact <-- done
-Make MainWindow to actual controller Class, have a WindowBuilder Class that does exactly that
+Make MainWindow to actual gameController Class, have a WindowBuilder Class that does exactly that
 make wrapping on the overworld actually work :D
 define character, or rather, make configurable
 define dexterity to make more moves

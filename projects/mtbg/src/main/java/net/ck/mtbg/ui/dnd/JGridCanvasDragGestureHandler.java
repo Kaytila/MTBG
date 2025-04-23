@@ -39,7 +39,7 @@ public class JGridCanvasDragGestureHandler implements DragGestureListener
      */
     public void dragGestureRecognized(DragGestureEvent dge)
     {
-        if (WindowBuilder.getController().isMousePressed())
+        if (WindowBuilder.getGameController().isMousePressed())
         {
             return;
         }

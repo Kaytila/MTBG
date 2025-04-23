@@ -29,7 +29,7 @@ public class CancelButton extends JButton implements MouseListener
         setText(label);
         //this.setToolTipText(getLogger().getName());
         this.setActionCommand(label);
-        this.addActionListener(WindowBuilder.getController());
+        this.addActionListener(WindowBuilder.getGameController());
         hovered = false;
         this.addMouseListener(this);
         this.setVisible(true);

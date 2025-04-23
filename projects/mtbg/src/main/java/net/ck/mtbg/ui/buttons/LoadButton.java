@@ -31,7 +31,7 @@ public class LoadButton extends JButton implements MouseListener
         setText(label);
         setBounds(p.x, p.y, 70, 30);
         this.setActionCommand(label);
-        this.addActionListener(WindowBuilder.getController());
+        this.addActionListener(WindowBuilder.getGameController());
         hovered = false;
         this.addMouseListener(this);
         this.setVisible(true);
@@ -42,7 +42,7 @@ public class LoadButton extends JButton implements MouseListener
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
-        setText(label);
+        //setText(label);
         this.setActionCommand(label);
         this.addActionListener(actionListener);
         hovered = false;

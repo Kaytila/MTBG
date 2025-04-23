@@ -12,11 +12,11 @@ import java.awt.event.ActionListener;
 @Setter
 public class MouseActionListener implements ActionListener
 {
-    Controller win;
+    GameController win;
 
-    public MouseActionListener(Controller controller)
+    public MouseActionListener(GameController gameController)
     {
-        win = controller;
+        win = gameController;
     }
 
 

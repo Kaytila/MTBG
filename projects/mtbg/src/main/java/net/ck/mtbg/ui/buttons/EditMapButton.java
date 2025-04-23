@@ -27,7 +27,7 @@ public class EditMapButton extends JButton implements MouseListener
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
-        setText(label);
+        //setText(label);
         this.setActionCommand(label);
         this.addActionListener(actionListener);
         hovered = false;

@@ -82,10 +82,10 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
     public void drop(DropTargetDropEvent dtde)
     {
         logger.info("drop");
-        WindowBuilder.getController().setCurrentAction(new DropAction());
-        if (!(WindowBuilder.getController().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
+        WindowBuilder.getGameController().setCurrentAction(new DropAction());
+        if (!(WindowBuilder.getGameController().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
         {
-            logger.info("current action: {}", WindowBuilder.getController().getCurrentAction());
+            logger.info("current action: {}", WindowBuilder.getGameController().getCurrentAction());
             return;
         }
         else

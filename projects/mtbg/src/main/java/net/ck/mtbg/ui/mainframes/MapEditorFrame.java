@@ -5,12 +5,6 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.entities.NPC;
-import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.backend.state.NPCManager;
-import net.ck.mtbg.graphics.TileTypes;
-import net.ck.mtbg.items.FurnitureItem;
-import net.ck.mtbg.map.ProtoMapTile;
 import net.ck.mtbg.ui.buttons.EditMapButton;
 import net.ck.mtbg.ui.buttons.LoadButton;
 import net.ck.mtbg.ui.buttons.SaveButton;
@@ -47,32 +41,10 @@ import java.awt.event.*;
 @Log4j2
 public class MapEditorFrame extends JFrame
 {
-    private DefaultListModel<ProtoMapTile> protoMapTileList;
-    private DefaultListModel<FurnitureItem> furnitureItemList;
-    private DefaultListModel<NPC> npcList;
+
 
     public MapEditorFrame() throws HeadlessException
     {
-        protoMapTileList = new DefaultListModel<>();
-        for (TileTypes type : TileTypes.values())
-        {
-            ProtoMapTile protoMapTile = new ProtoMapTile(type);
-            protoMapTileList.addElement(protoMapTile);
-        }
-
-        furnitureItemList = new DefaultListModel<>();
-        for (FurnitureItem fi : ItemManager.getFurnitureList().values())
-        {
-            furnitureItemList.addElement(fi);
-        }
-
-        npcList = new DefaultListModel<>();
-        for (NPC fi : NPCManager.getNpcList().values())
-        {
-            npcList.addElement(fi);
-        }
-
-
         this.setTitle("MTBG - Map Editor");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //this.setBounds(500, 500, GameConfiguration.UIwidth, GameConfiguration.UIheight);
@@ -94,7 +66,6 @@ public class MapEditorFrame extends JFrame
 
     public void createUI()
     {
-
         MapEditorCanvas mapEditorCanvas = new MapEditorCanvas();
         mapEditorCanvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().y));
         JSplitPane splitPane;
@@ -113,9 +84,10 @@ public class MapEditorFrame extends JFrame
         this.add(splitPane);
         //list of map entries
         //fill from the list
-        MapTilePane mapTilePane = new MapTilePane(protoMapTileList);
-        mapTilePane.setPreferredSize(new Dimension(200, 200));
+        MapTilePane mapTilePane = new MapTilePane(MapEditorApplication.getCurrent().getProtoMapTileList());
+        //mapTilePane.setPreferredSize(new Dimension(200, 200));
         JScrollPane scrollPane = new JScrollPane(mapTilePane);
+        scrollPane.setPreferredSize(new Dimension(250, 200));
         rightPanel.add(scrollPane);
 
         //canvas for showing the map will need to think about a new version that does not move
@@ -126,14 +98,14 @@ public class MapEditorFrame extends JFrame
 
 
         //list of furniture items?
-        FurnitureItemPane furnitureItemPane = new FurnitureItemPane(furnitureItemList);
+        FurnitureItemPane furnitureItemPane = new FurnitureItemPane(MapEditorApplication.getCurrent().getFurnitureItemList());
         furnitureItemPane.setForeground(Color.BLUE);
         furnitureItemPane.setBackground(Color.YELLOW);
         furnitureItemPane.setVisible(true);
         rightPanel.add(furnitureItemPane);
 
         //NPCs?
-        NPCPane npcPane = new NPCPane(npcList);
+        NPCPane npcPane = new NPCPane(MapEditorApplication.getCurrent().getNpcList());
         npcPane.setForeground(Color.YELLOW);
         npcPane.setBackground(Color.CYAN);
         npcPane.setVisible(true);

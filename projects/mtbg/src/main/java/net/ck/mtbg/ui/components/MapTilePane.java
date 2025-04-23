@@ -18,9 +18,9 @@ public class MapTilePane extends JList<ProtoMapTile>
 
     public MapTilePane(ListModel<ProtoMapTile> dataModel)
     {
-        super(dataModel);
-
-        MapTilePaneListener mapTilePaneListener = new MapTilePaneListener(this);
+        setModel(dataModel);
+        setAutoscrolls(true);
+        MapTilePaneListener mapTilePaneListener = new MapTilePaneListener();
 
         this.addListSelectionListener(mapTilePaneListener);
         this.setVisibleRowCount(5);
@@ -31,5 +31,6 @@ public class MapTilePane extends JList<ProtoMapTile>
         this.setCellRenderer(new MapTilePaneListRenderer());
         this.setDragEnabled(true);
         this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.invalidate();
     }
 }

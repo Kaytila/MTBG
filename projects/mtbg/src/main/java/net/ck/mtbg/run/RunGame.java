@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.listeners.Controller;
+import net.ck.mtbg.ui.listeners.GameController;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
@@ -34,7 +34,7 @@ public class RunGame
      */
     @Getter
     @Setter
-    private static Controller window;
+    private static GameController window;
 
     /**
      * progress value, used in the progress bar
@@ -246,7 +246,7 @@ public class RunGame
                 {
                     logger.debug("open game");
                 }
-                javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new Controller()));
+                javax.swing.SwingUtilities.invokeAndWait(() -> setWindow(new GameController()));
             }
             catch (Exception e)
             {
@@ -255,7 +255,7 @@ public class RunGame
         }
         else
         {
-            setWindow(new Controller());
+            setWindow(new GameController());
         }
         UIStateMachine.setUiState(UIState.OPENED);
         UIStateMachine.setUiOpen(true);

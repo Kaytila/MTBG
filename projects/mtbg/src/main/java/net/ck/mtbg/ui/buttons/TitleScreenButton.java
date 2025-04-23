@@ -27,10 +27,10 @@ public class TitleScreenButton extends JButton implements MouseListener
     {
         this.setFont(GameConfiguration.font);
         this.label = label;
-        setText(label);
+        //setText(label);
         setBounds(x, y, 150, 30);
         this.setActionCommand(label);
-        this.addActionListener(WindowBuilder.getController());
+        this.addActionListener(WindowBuilder.getGameController());
         hovered = false;
         this.addMouseListener(this);
         this.setVisible(true);

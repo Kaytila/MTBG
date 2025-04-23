@@ -128,7 +128,7 @@ public class InventoryPaneListener implements ActionListener, ItemListener, List
                     logger.debug("fire cursor event change");
                 }
                 EventBus.getDefault().post(new CursorChangeEvent(CursorUtils.createCustomCursorFromImage(getInventoryPane().getSelectedValue().getItemImage())));
-                WindowBuilder.getController().setCurrentItemInHand(getInventoryPane().getSelectedValue());
+                WindowBuilder.getGameController().setCurrentItemInHand(getInventoryPane().getSelectedValue());
                 WindowClosingAction close = new WindowClosingAction(getInventoryPane().getParentDialog());
                 close.actionPerformed(null);
 				

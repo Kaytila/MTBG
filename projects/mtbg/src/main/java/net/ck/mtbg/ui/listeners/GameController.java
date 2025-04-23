@@ -44,7 +44,7 @@ import java.io.*;
 @Log4j2
 @Getter
 @Setter
-public class Controller implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
+public class GameController implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
 
     /**
@@ -96,7 +96,7 @@ public class Controller implements WindowListener, ActionListener, MouseListener
     /**
      * standard constructor
      */
-    public Controller()
+    public GameController()
     {
         EventBus.getDefault().register(this);
         UIStateMachine.setMouseOutsideOfGrid(true);

@@ -108,7 +108,7 @@ History of the changes:
 2022-01-20:	partial rollback: "MainWindow" which is basically the Listener(Controller) class is back in action. MainFrame exists also.
 			No content pane and all controls are added to the frame in the listener class.
 			Controller class still exists but I need to ask myself why.
-			So MainWindow is now controller class and also UI Building Class - strikes me as very odd, but hey its working.
+			So MainWindow is now gameController class and also UI Building Class - strikes me as very odd, but hey its working.
 			Also, the minor changes to Weather/WeatherSystem/JWeatherCanvas lead to the weather appearing right away.
 			Perhaps there needs to be a check whether the UI is completely there, before firing messages over EventBus.
 			But that is to do. Still need to ask someone as to how the build order for a swing UI should actually be,
@@ -535,7 +535,7 @@ History of the changes:
             Ok, changed minor things in Animation Threads to have all only send messages if there is an ui.
             Changed all threads to do that.
             extended threadnames to have all thread names.
-            extend thread controller to handle all threads.
+            extend thread gameController to handle all threads.
             finally got soundplayer to work, guess two synchronized for the getter/setter were all that was missing.
             Also implemented increase/decrease Volume now.
             Need to think how to implement options menu.
@@ -731,7 +731,7 @@ History of the changes:
 2023-01-12: setup for switching mainwindow into pure listener and have window building outside.
             done with it. looks a little bit better now but needs to improve still.
 2023-01-13: Introduced UIStateMachine to get UI State out of game and MainWindow.
-            Finally Renaming MainWindow to controller.
+            Finally Renaming MainWindow to gameController.
 2023-01-14: did some calculations and remaking for identifying the visible tiles.
 2023-01-18: figuring out some things about how I identify visible and black tiles and stuff like that. There are bugs.
 2023-01-20: success! drawing background and empty tiles in one method is done and the bug is gone
@@ -795,7 +795,7 @@ History of the changes:
             next stop: calculate darkness tile before.
 2023-02-14: first stop: remove array list tilelist from Map - also removed east/south/west/north from Map and the lists
             also removed npcs from map.
-            Also removed players and npcs from game and controller.
+            Also removed players and npcs from game and gameController.
 2023-02-14: only send one repaint message per repaint cycle. removed more code from game.
 2023-02-14: changed random animation system to only deal with the currently visible lifeforms. initialize npc and player
             with an image, then this works fine.
@@ -863,7 +863,7 @@ History of the changes:
 2023-02-26: check which music to run in advanceTurn? moved to NoiseManager
 2023-02-26: introduced ItemManager.
 2023-02-27: moved commandqueue to Player where it belongs. took mousegrid state to UIStateMachine.
-            fixed a bug in runActions(). took controller out of game into WindowBuilder as this needs to be out of game
+            fixed a bug in runActions(). took gameController out of game into WindowBuilder as this needs to be out of game
             and all things gamey.
 2023-02-27: fixed one minor resource leak. added a few serializable statements.
 2023-02-28: first step to removing images from lifeforms is done. ImageManager is taking care of standard images now.
@@ -1016,7 +1016,7 @@ History of the changes:
 2023-12-05: did some lombok refactoring - definitely fixed a bug yesterday - npc returned 0 for health :)
 2023-12-05: did some lombok refactoring
 2023-12-07: bugfix due to refactoring: setMapPosition needs to check for blocking if the UI is open.
-            Also, controller missed a break
+            Also, gameController missed a break
 2023-12-13: did some refactoring: also fixed yet another bug with old get methods
 2023-12-13: some refactoring on dialogs, introduced skills dialog which is empty. created dialogfactory
 2023-12-14: small refactoring to move buttons to AbstractDialog. Finally updated DialogFactory for all dialogs.
@@ -1230,7 +1230,10 @@ History of the changes:
             Thinking about having an action that has a datastructure in there that can be re-used.
 2025-04-17: created application class for mapeditor and started moving state into there to.
 2025-04-18: moved some application logic into the application class.
-2025-04-21: did some more refactoring - introduced another generic controller for the mapeditor, as otherwise, I find it
+2025-04-21: did some more refactoring - introduced another generic gameController for the mapeditor, as otherwise, I find it
             difficult and tedious to follow the code. The singleton approach is very useful here. As always.
             Managed to fix a long-standing bug in MapEditor, as it now will update the Splitpane after a map has been
             loaded to try to fit the size.
+2025-04-23: update for MapTilePane/MapTilePaneListener: finally fixed the issue with the list not scrolling properly.
+            also moved the preferred button size to GameConfiguration.
+            Also updated buttons not to use the standard labels as the text is drawn anyways in a paintComponent().

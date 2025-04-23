@@ -3,13 +3,20 @@ package net.ck.mtbg.backend.applications;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.entities.entities.NPC;
+import net.ck.mtbg.backend.state.ItemManager;
+import net.ck.mtbg.backend.state.NPCManager;
+import net.ck.mtbg.graphics.TileTypes;
+import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.map.ProtoMapTile;
 import net.ck.mtbg.ui.listeners.MapEditorController;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.xml.RunXMLParser;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +32,9 @@ public class MapEditorApplication
      */
     private static final MapEditorApplication mapEditor = new MapEditorApplication();
     private Map map;
+    private DefaultListModel<ProtoMapTile> protoMapTileList;
+    private DefaultListModel<FurnitureItem> furnitureItemList;
+    private DefaultListModel<NPC> npcList;
 
     public MapEditorApplication()
     {
@@ -32,6 +42,27 @@ public class MapEditorApplication
         map.setSize(new Point(13, 13));
         MapTile[][] mapTiles = new MapTile[12][12];
         map.setMapTiles(mapTiles);
+
+        protoMapTileList = new DefaultListModel<>();
+        for (TileTypes type : TileTypes.values())
+        {
+            logger.debug("tile type: {}", type);
+            ProtoMapTile protoMapTile = new ProtoMapTile(type);
+            protoMapTileList.addElement(protoMapTile);
+        }
+
+        furnitureItemList = new DefaultListModel<>();
+        for (FurnitureItem fi : ItemManager.getFurnitureList().values())
+        {
+            furnitureItemList.addElement(fi);
+        }
+
+        npcList = new DefaultListModel<>();
+        for (NPC fi : NPCManager.getNpcList().values())
+        {
+            npcList.addElement(fi);
+        }
+
     }
 
     /**

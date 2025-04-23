@@ -8,7 +8,7 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.dialogs.DialogFactory;
-import net.ck.mtbg.ui.listeners.Controller;
+import net.ck.mtbg.ui.listeners.GameController;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.utils.CursorUtils;
@@ -21,7 +21,7 @@ import java.awt.event.WindowEvent;
 @Log4j2
 public class ControllerDelegator
 {
-    public static void handleKeyboardActionPUSH(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyboardActionPUSH(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -34,11 +34,11 @@ public class ControllerDelegator
 
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setHaveNPCAction(true);
 
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -53,11 +53,11 @@ public class ControllerDelegator
             UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleKeyBoardActionGET(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionGET(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -70,12 +70,12 @@ public class ControllerDelegator
                 return;
             }
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+            gameController.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -91,17 +91,17 @@ public class ControllerDelegator
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
     /**
      * takes care of look action, both initial pressing of L and pressing L a second time
      *
-     * @param controller the controller class
-     * @param action     keyboard action
+     * @param gameController the controller class
+     * @param action         keyboard action
      */
-    public static void handleKeyBoardActionLOOK(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionLOOK(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -113,12 +113,12 @@ public class ControllerDelegator
             }
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+            gameController.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
 
         }
         else
@@ -135,11 +135,11 @@ public class ControllerDelegator
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleKeyBoardActionTALK(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionTALK(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -151,12 +151,12 @@ public class ControllerDelegator
             }
 
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(false);
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-            DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), null, tile.getLifeForm());
+            gameController.getCurrentAction().setHaveNPCAction(false);
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, gameController.getCurrentAction(), null, tile.getLifeForm());
             logger.info("talk: {}", "");
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -171,11 +171,11 @@ public class ControllerDelegator
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleKeyBoardActionMOVE(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionMOVE(GameController gameController, AbstractKeyboardAction action)
     {
         logger.info("move");
         if (UIStateMachine.isMouseOutsideOfGrid() == true)
@@ -200,11 +200,11 @@ public class ControllerDelegator
             //TODO why is get currect Action null?
             //TODO action framework needs to be cleaned up
             action.setGetWhere(new Point(tile.getX(), tile.getY()));
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleKeyBoardActionATTACK(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionATTACK(GameController gameController, AbstractKeyboardAction action)
     {
         //second time a is pressed
         //action is already set
@@ -218,12 +218,12 @@ public class ControllerDelegator
             }
             logger.info("select tile is active, allow attack");
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+            gameController.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -250,7 +250,7 @@ public class ControllerDelegator
                     WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
                     CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                    controller.setCurrentAction(action);
+                    gameController.setCurrentAction(action);
                 }
                 //melee
                 else
@@ -261,7 +261,7 @@ public class ControllerDelegator
                     UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
                     WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
-                    controller.setCurrentAction(action);
+                    gameController.setCurrentAction(action);
                 }
             }
             //no weapon, also use melee for now
@@ -271,12 +271,12 @@ public class ControllerDelegator
                 CursorUtils.centerCursorOnPlayer();
                 UIStateMachine.setSelectTile(true);
                 //CursorUtils.limitMouseMovementToRange(1);
-                controller.setCurrentAction(action);
+                gameController.setCurrentAction(action);
             }
         }
     }
 
-    public static void handleKeyBoardActionSEARCH(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionSEARCH(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -285,21 +285,21 @@ public class ControllerDelegator
         else
         {
             action.setHaveNPCAction(false);
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleKeyBoardActionESC(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionESC(GameController gameController, AbstractKeyboardAction action)
     {
         //logger.info("ESC Pressed");
         if (UIStateMachine.isSelectTile() == true)
         {
             logger.info("selection is true");
             UIStateMachine.setSelectTile(false);
-            controller.setMovementForSelectTile(false);
+            gameController.setMovementForSelectTile(false);
             TimerManager.getIdleTimer().start();
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(null);
+            gameController.setCurrentAction(null);
         }
         else
         {
@@ -309,7 +309,7 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionENTER(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionENTER(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -321,7 +321,7 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionDROP(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionDROP(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -336,12 +336,12 @@ public class ControllerDelegator
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
             DialogFactory.createDialog(WindowBuilder.getFrame(), "Inventory", false, action, null, null);
         }
     }
 
-    public static void handleKeyBoardActionSPELLBOOK(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionSPELLBOOK(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -355,7 +355,7 @@ public class ControllerDelegator
             DialogFactory.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action, null, null);
             logger.info("spellbook dialog done");
 
-            if (WindowBuilder.getController().getCurrentSpellInHand() != null)
+            if (WindowBuilder.getGameController().getCurrentSpellInHand() != null)
             {
                 logger.debug(() -> "spell is in hand, do something with it");
                 logger.debug("test");
@@ -364,7 +364,7 @@ public class ControllerDelegator
                 WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                controller.setCurrentAction(action);
+                gameController.setCurrentAction(action);
             }
             else
             {
@@ -373,7 +373,7 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionCAST(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionCAST(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -381,7 +381,7 @@ public class ControllerDelegator
         }
         else
         {
-            if (controller.getCurrentSpellInHand() == null)
+            if (gameController.getCurrentSpellInHand() == null)
             {
                 logger.debug("no spell ready");
                 TimerManager.getIdleTimer().stop();
@@ -397,18 +397,18 @@ public class ControllerDelegator
                 WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                controller.setCurrentAction(action);
+                gameController.setCurrentAction(action);
             }
         }
     }
 
 
-    public static void handleKeyBoardActionMOVEMENT(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionMOVEMENT(GameController gameController, AbstractKeyboardAction action)
     {
 
     }
 
-    public static void handleKeyBoardActionZSTATS(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionZSTATS(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -425,7 +425,7 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionINVENTORY(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionINVENTORY(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -442,7 +442,7 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionYANK(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionYANK(GameController gameController, AbstractKeyboardAction action)
     {
         TimerManager.getIdleTimer().stop();
         //CursorUtils.centerCursorOnPlayer();
@@ -457,9 +457,9 @@ public class ControllerDelegator
             }
 
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-            controller.runActions(controller.getCurrentAction());
+            gameController.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -474,11 +474,11 @@ public class ControllerDelegator
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleKeyBoardActionEQ(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionEQ(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -492,12 +492,12 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionSPACE(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionSPACE(GameController gameController, AbstractKeyboardAction action)
     {
         action.setHaveNPCAction(true);
     }
 
-    public static void handleKeyBoardActionOPTIONS(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionOPTIONS(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -511,52 +511,52 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleMouseReleasedActionPUSH(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionPUSH(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
     }
 
-    public static void handleMouseReleasedActionYank(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionYank(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
     }
 
-    public static void handleMouseReleasedActionGET(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionGET(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
     }
 
-    public static void handleMouseReleasedActionLOOK(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionLOOK(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
     }
 
-    public static void handleMouseReleasedActionDROP(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionDROP(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-        controller.getCurrentAction().setAffectedItem(controller.getCurrentItemInHand());
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setAffectedItem(gameController.getCurrentItemInHand());
     }
 
 
-    public static void handleMouseReleasedActionTALK(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionTALK(GameController gameController, MapTile tile)
     {
         boolean found = false;
-        controller.getCurrentAction().setHaveNPCAction(false);
+        gameController.getCurrentAction().setHaveNPCAction(false);
         LifeForm npc = null;
         if (tile.getLifeForm() != null)
         {
@@ -570,14 +570,14 @@ public class ControllerDelegator
             UIStateMachine.setSelectTile(false);
 
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             if (UIStateMachine.isDialogOpened() == true)
             {
                 return;
             }
             else
             {
-                DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, controller.getCurrentAction(), null, npc);
+                DialogFactory.createDialog(WindowBuilder.getFrame(), "Talk", false, gameController.getCurrentAction(), null, npc);
                 logger.info("talk: {}", "");
                 TimerManager.getIdleTimer().stop();
             }
@@ -585,47 +585,47 @@ public class ControllerDelegator
         else
         {
             logger.info("no NPC here!");
-            controller.setCurrentAction(new AbstractKeyboardAction());
+            gameController.setCurrentAction(new AbstractKeyboardAction());
         }
     }
 
-    public static void handleMouseReleasedActionMOVE(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionMOVE(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(false);
+        gameController.getCurrentAction().setHaveNPCAction(false);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
     }
 
-    public static void handleMouseReleasedActionATTACK(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionATTACK(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
         Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-        controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+        gameController.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
     }
 
-    public static void handleMouseReleasedActionSPELLBOOK(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionSPELLBOOK(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-        controller.getCurrentAction().setCurrentSpell(controller.getCurrentSpellInHand());
+        gameController.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setCurrentSpell(gameController.getCurrentSpellInHand());
         logger.debug("calling click event");
     }
 
-    public static void handleMouseReleasedActionCAST(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionCAST(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-        controller.getCurrentAction().setCurrentSpell(controller.getCurrentSpellInHand());
+        gameController.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setCurrentSpell(gameController.getCurrentSpellInHand());
         logger.debug("calling click event");
     }
 
-    public static void handleKeyBoardActionSKILLTREE(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionSKILLTREE(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -639,7 +639,7 @@ public class ControllerDelegator
             DialogFactory.createDialog(WindowBuilder.getFrame(), "Skilltree", true, action, null, null);
             logger.info("skilltree dialog done");
 
-            if (WindowBuilder.getController().getCurrentSpellInHand() != null)
+            if (WindowBuilder.getGameController().getCurrentSpellInHand() != null)
             {
                 logger.debug(() -> "spell is in hand, do something with it");
                 logger.debug("test");
@@ -648,7 +648,7 @@ public class ControllerDelegator
                 WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
 
                 CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-                controller.setCurrentAction(action);
+                gameController.setCurrentAction(action);
             }
             else
             {
@@ -658,7 +658,7 @@ public class ControllerDelegator
 
     }
 
-    public static void handleKeyBoardActionOPEN(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionOPEN(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -670,13 +670,13 @@ public class ControllerDelegator
             }
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
-            controller.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+            gameController.getCurrentAction().setTargetCoordinates(new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
             action.setMapTile(tile);
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -691,20 +691,20 @@ public class ControllerDelegator
             UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
     }
 
-    public static void handleMouseReleasedActionOPEN(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionOPEN(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-        controller.getCurrentAction().setMapTile(tile);
+        gameController.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setMapTile(tile);
         logger.debug("calling click event");
     }
 
-    public static void handleKeyBoardActionMAP(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionMAP(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -718,7 +718,7 @@ public class ControllerDelegator
         }
     }
 
-    public static void handleKeyBoardActionJIMMY(Controller controller, AbstractKeyboardAction action)
+    public static void handleKeyBoardActionJIMMY(GameController gameController, AbstractKeyboardAction action)
     {
         if (UIStateMachine.isSelectTile() == true)
         {
@@ -731,11 +731,11 @@ public class ControllerDelegator
 
             //logger.info("select tile is active, dont do anything");
             UIStateMachine.setSelectTile(false);
-            controller.getCurrentAction().setHaveNPCAction(true);
+            gameController.getCurrentAction().setHaveNPCAction(true);
 
-            controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+            gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
             TimerManager.getIdleTimer().stop();
-            controller.runActions(controller.getCurrentAction());
+            gameController.runActions(gameController.getCurrentAction());
         }
         else
         {
@@ -750,17 +750,17 @@ public class ControllerDelegator
             UIStateMachine.setCurrentSelectedTile(MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation())));
             WindowBuilder.getGridCanvas().paint(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).x - 10, CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()).y - 10, GameConfiguration.tileSize + 20, GameConfiguration.tileSize + 20);
             CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-            controller.setCurrentAction(action);
+            gameController.setCurrentAction(action);
         }
 
     }
 
-    public static void handleMouseReleasedActionJIMMY(Controller controller, MapTile tile)
+    public static void handleMouseReleasedActionJIMMY(GameController gameController, MapTile tile)
     {
         UIStateMachine.setSelectTile(false);
-        controller.getCurrentAction().setHaveNPCAction(true);
+        gameController.getCurrentAction().setHaveNPCAction(true);
         CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
-        controller.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
-        controller.getCurrentAction().setMapTile(tile);
+        gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
+        gameController.getCurrentAction().setMapTile(tile);
     }
 }

@@ -50,7 +50,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
                 logger.info(() -> "double click - close dialog and go into crosshairs");
                 if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
                 {
-                    WindowBuilder.getController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
+                    WindowBuilder.getGameController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
                     e.consume();
                     WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
                     close.actionPerformed(null);
@@ -59,7 +59,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
             else if (e.getClickCount() == 1)
             {
                 logger.info(() -> "single click - dont close dialog, closing with ESC should start crosshairs");
-                WindowBuilder.getController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
+                WindowBuilder.getGameController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
             }
             else
             {

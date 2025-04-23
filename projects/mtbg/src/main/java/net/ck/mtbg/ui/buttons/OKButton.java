@@ -26,7 +26,7 @@ public class OKButton extends JButton implements MouseListener
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(getFont());
-        setText(getLabel());
+        //setText(getLabel());
         //this.setToolTipText(getLogger().getName());
         this.setActionCommand("OK");
         //this.addActionListener(WindowBuilder.getController());

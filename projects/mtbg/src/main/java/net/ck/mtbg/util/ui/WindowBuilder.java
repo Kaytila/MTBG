@@ -13,7 +13,7 @@ import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.mtbg.ui.dnd.JGridCanvasDropTargetHandler;
-import net.ck.mtbg.ui.listeners.Controller;
+import net.ck.mtbg.ui.listeners.GameController;
 import net.ck.mtbg.ui.listeners.MyFocusListener;
 import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.mainframes.GameFrame;
@@ -131,7 +131,7 @@ public class WindowBuilder
     /**
      * mainWindow is not the mainWindow, this is actually the controller
      */
-    private static Controller controller;
+    private static GameController gameController;
 
     @Getter
     @Setter
@@ -153,10 +153,10 @@ public class WindowBuilder
      * Will need to check how often the whole UI is built in the constructor
      * of the frame/dialog.
      */
-    public static void buildGameWindow(Controller mW)
+    public static void buildGameWindow(GameController mW)
     {
         logger.info("start: build window");
-        controller = mW;
+        gameController = mW;
         frame = new GameFrame();
         MyFocusListener myFocusListener = new MyFocusListener();
         undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
@@ -164,19 +164,19 @@ public class WindowBuilder
         frame.add(undoButton);
 
         stopMusicButton = new StopMusicButton(new Point(GameConfiguration.UIwidth - 400, GameConfiguration.UIheight - 100));
-        stopMusicButton.addActionListener(controller);
+        stopMusicButton.addActionListener(gameController);
         frame.add(stopMusicButton);
 
         startMusicButton = new StartMusicButton(new Point(GameConfiguration.UIwidth - 500, GameConfiguration.UIheight - 100));
-        startMusicButton.addActionListener(controller);
+        startMusicButton.addActionListener(gameController);
         frame.add(startMusicButton);
 
         increaseVolumeButton = new IncreaseVolumeButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 100));
-        increaseVolumeButton.addActionListener(controller);
+        increaseVolumeButton.addActionListener(gameController);
         frame.add(increaseVolumeButton);
 
         decreaseVolumeButton = new DecreaseVolumeButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 100));
-        decreaseVolumeButton.addActionListener(controller);
+        decreaseVolumeButton.addActionListener(gameController);
         frame.add(decreaseVolumeButton);
 
         /*
@@ -184,11 +184,11 @@ public class WindowBuilder
          */
 
         loadButton = new LoadButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 170));
-        loadButton.addActionListener(controller);
+        loadButton.addActionListener(gameController);
         frame.add(loadButton);
 
         saveButton = new SaveButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 170));
-        saveButton.addActionListener(controller);
+        saveButton.addActionListener(gameController);
         frame.add(saveButton);
 
 
@@ -209,18 +209,18 @@ public class WindowBuilder
         frame.add(weatherCanvas);
 
         logger.info("setting listeners");
-        frame.addWindowListener(controller);
+        frame.addWindowListener(gameController);
 
-        gridCanvas.addMouseListener(controller);
-        gridCanvas.addMouseMotionListener(controller);
-        undoButton.addActionListener(controller);
+        gridCanvas.addMouseListener(gameController);
+        gridCanvas.addMouseMotionListener(gameController);
+        undoButton.addActionListener(gameController);
 
         DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
 
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
 
-        WindowBuilder.setController(controller);
+        WindowBuilder.setGameController(gameController);
         frame.setVisible(true);
 
         logger.info("finish: build window: UI is open");
@@ -247,12 +247,12 @@ public class WindowBuilder
         JLabel title = new JLabel();
         title.setText("TITLE");
         title.setBounds(30, 30, 100, 50);
-        JButton characterEditorButton = new TitleScreenButton(100, 30, "Character Editor");
-        JButton newGameButton = new TitleScreenButton(100, 90, "New Game");
-        JButton loadGameButton = new TitleScreenButton(100, 150, "Load Game");
-        JButton creditsButton = new TitleScreenButton(100, 210, "Credits");
-        JButton optionsButton = new TitleScreenButton(100, 270, "Options");
-        JButton mapEditorButton = new TitleScreenButton(100, 330, "Map Editor");
+        TitleScreenButton characterEditorButton = new TitleScreenButton(100, 30, "Character Editor");
+        TitleScreenButton newGameButton = new TitleScreenButton(100, 90, "New Game");
+        TitleScreenButton loadGameButton = new TitleScreenButton(100, 150, "Load Game");
+        TitleScreenButton creditsButton = new TitleScreenButton(100, 210, "Credits");
+        TitleScreenButton optionsButton = new TitleScreenButton(100, 270, "Options");
+        TitleScreenButton mapEditorButton = new TitleScreenButton(100, 330, "Map Editor");
         //TODO
         titleFrame.add(title);
         titleFrame.add(characterEditorButton);
@@ -272,6 +272,4 @@ public class WindowBuilder
     {
         mapEditorFrame = new MapEditorFrame();
     }
-
-
 }

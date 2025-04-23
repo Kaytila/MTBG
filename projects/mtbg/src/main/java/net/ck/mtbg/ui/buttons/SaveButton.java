@@ -28,10 +28,10 @@ public class SaveButton extends JButton implements MouseListener
     {
         setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
         this.setFont(GameConfiguration.font);
-        setText(label);
+        //setText(label);
         setBounds(p.x, p.y, GameConfiguration.preferredButtonSize.width, GameConfiguration.preferredButtonSize.height);
         this.setActionCommand(label);
-        this.addActionListener(WindowBuilder.getController());
+        this.addActionListener(WindowBuilder.getGameController());
         hovered = false;
         this.addMouseListener(this);
         this.setVisible(true);

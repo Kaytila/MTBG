@@ -61,7 +61,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public boolean importData(TransferSupport support)
     {
-        WindowBuilder.getController().setCurrentAction(new DropAction());
+        WindowBuilder.getGameController().setCurrentAction(new DropAction());
         int x = MouseInfo.getPointerInfo().getLocation().x - getGridCanvas().getLocationOnScreen().x;
         int y = MouseInfo.getPointerInfo().getLocation().y - getGridCanvas().getLocationOnScreen().y;
         logger.info("mouse position: {}", new Point(x, y));
@@ -82,7 +82,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public boolean canImport(TransferSupport support)
     {
-        if (WindowBuilder.getController().getCurrentAction() != null)
+        if (WindowBuilder.getGameController().getCurrentAction() != null)
         {
             return false;
         }
