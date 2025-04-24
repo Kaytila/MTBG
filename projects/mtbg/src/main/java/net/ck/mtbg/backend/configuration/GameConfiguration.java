@@ -370,6 +370,10 @@ public class GameConfiguration
 
     public static Dimension preferredButtonSize = new Dimension(70, 30);
 
+    public static int editorScrollbarSize = 0;
+    public static Dimension preferredTitleButtonSize = new Dimension(150, 30);
+    public static String titleString = "HELLO, this is my DEMO";
+    public static int verticalTitleSpacer = 20;
 }
 
 

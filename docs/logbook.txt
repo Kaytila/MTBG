@@ -1240,3 +1240,5 @@ History of the changes:
 2025-04-23: As an afterthought: changed the layout for MapEditorFrame to BoxLayout for the right side with another
             BoxLayOut for the buttons: works just like it should, minimal effort. Also works properly in fullscreen now.
             I can see this coming very soon for the GameFrame as well. Introduced ASKSIMON.
+2025-04-24: Moved Creation of UI from Frame to WindowBuilder. Updated Buttons to inherit from one single class.
+            Simplified buttons. Added layout to TitleFrame. Learned about spacing for BoxLayout.

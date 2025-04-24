@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 @Log4j2
 @Getter
 @Setter
+/**
+ * try to find a generic way
+ */
 public class OKButtonAction extends AbstractAction
 {
     public OKButtonAction()
@@ -27,6 +30,6 @@ public class OKButtonAction extends AbstractAction
     @Override
     public void actionPerformed(ActionEvent e)
     {
-
+        logger.debug("Action");
     }
 }

@@ -18,12 +18,6 @@ import java.io.File;
 public class LoadButtonActionListener implements ActionListener
 {
 
-
-    public LoadButtonActionListener()
-    {
-
-    }
-
     @Override
     public void actionPerformed(ActionEvent e)
     {

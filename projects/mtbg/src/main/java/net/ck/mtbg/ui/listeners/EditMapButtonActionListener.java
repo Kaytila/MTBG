@@ -13,11 +13,6 @@ import java.awt.event.ActionListener;
 @Setter
 public class EditMapButtonActionListener implements ActionListener
 {
-
-    public EditMapButtonActionListener()
-    {
-    }
-
     @Override
     public void actionPerformed(ActionEvent e)
     {

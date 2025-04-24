@@ -33,19 +33,11 @@ public class MapEditDialog extends AbstractDialog
         root = this.getRootPane();
         root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeStroke, dispatchWindowClosingActionMapKey);
         root.getActionMap().put(dispatchWindowClosingActionMapKey, dispatchClosing);
-        //this.setUndecorated(true);
 
         final JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         this.add(content);
 
-
-        //labeledEntryField.setBounds(10, 10, 100, 100);
-        //gibt es so etwas in der Art?
-        //for (annotatedVariable variable : Editor.getMap().getSpeciallyAnnotatedVariables())
-        //{
-        //content.add(new LabeledEntryField(variable.getName(), String.valueOf(variable.getValue())));
-        //}
         for (MapProperty property : MapEditorApplication.getCurrent().getMap().getProperties())
         {
             logger.debug("property: {}", property);
@@ -80,14 +72,12 @@ public class MapEditDialog extends AbstractDialog
                 {
                     logger.info("OK - figure this out later");
                     //TODO add actual logic here what to do with the Editor contents
-                    //((MapEditorFrame) owner).getCanvas().getMap().setSize(new Point());
+
                     MapEditDialog.this.dispose();
                     UIStateMachine.setDialogOpened(false);
                 }
             }
         });
-        okButton.setSize(70, 30);
-        cancelButton.setSize(70, 30);
         content.add(cancelButton);
         content.add(okButton);
 

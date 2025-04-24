@@ -17,13 +17,6 @@ import java.io.File;
 @Setter
 public class SaveButtonActionListener implements ActionListener
 {
-
-
-    public SaveButtonActionListener()
-    {
-
-    }
-
     @Override
     public void actionPerformed(ActionEvent e)
     {

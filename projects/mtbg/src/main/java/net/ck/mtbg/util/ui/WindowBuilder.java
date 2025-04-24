@@ -3,18 +3,15 @@ package net.ck.mtbg.util.ui;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.buttons.*;
-import net.ck.mtbg.ui.components.InputField;
-import net.ck.mtbg.ui.components.JWeatherCanvas;
-import net.ck.mtbg.ui.components.MapCanvas;
-import net.ck.mtbg.ui.components.TextList;
+import net.ck.mtbg.ui.components.*;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.mtbg.ui.dnd.JGridCanvasDropTargetHandler;
-import net.ck.mtbg.ui.listeners.GameController;
-import net.ck.mtbg.ui.listeners.MyFocusListener;
+import net.ck.mtbg.ui.listeners.*;
 import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.mainframes.GameFrame;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
@@ -26,95 +23,111 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import static java.awt.Component.CENTER_ALIGNMENT;
 
 @Getter
 @Setter
 @Log4j2
 public class WindowBuilder
 {
-
-    @Getter
-    @Setter
     /**
      * stats Dialog - there will be one dialog only with exchanging JPanels
      */
-    private static StatsDialog statsDialog;
-
     @Getter
     @Setter
+    private static StatsDialog statsDialog;
+
+
     /**
      * mainframe
      */
-    private static JFrame frame;
-
     @Getter
     @Setter
+    private static JFrame frame;
+
+
     /**
      * left part, GRID Canvas
      */
-    private static MapCanvas gridCanvas;
-
     @Getter
     @Setter
+    private static MapCanvas gridCanvas;
+
+
     /**
      * inventoryDialog
      */
-    private static InventoryDialog inventoryDialog;
-
     @Getter
     @Setter
+    private static InventoryDialog inventoryDialog;
+
+
     /**
      * text area is the textlist where all the actions are stored
      */
-    private static TextList textArea;
-
     @Getter
     @Setter
+    private static TextList textArea;
+
+
     /**
      * shows the last command
      */
-    private static InputField textField;
-
     @Getter
     @Setter
+    private static InputField textField;
+
+
     /**
      * undo button for retracting turns
      */
-    private static JButton undoButton;
-
     @Getter
     @Setter
+    private static JButton undoButton;
+
+
     /**
      * weather canvas
      */
-    private static JWeatherCanvas weatherCanvas;
-
     @Getter
     @Setter
+    private static JWeatherCanvas weatherCanvas;
+
+
     /**
      * button for stopping music - will need to move into options menu once music works properly
      */
-    private static StopMusicButton stopMusicButton;
-
     @Getter
     @Setter
+    private static StopMusicButton stopMusicButton;
+
+
     /**
      * button for starting music - will need to move into options menu once music works properly
      */
-    private static StartMusicButton startMusicButton;
-
     @Getter
     @Setter
+    private static StartMusicButton startMusicButton;
+
+
     /**
      * button for increasing volume
      */
-    private static IncreaseVolumeButton increaseVolumeButton;
-
     @Getter
     @Setter
+    private static IncreaseVolumeButton increaseVolumeButton;
+
+
     /**
      * button for decreasing volume
      */
+    @Getter
+    @Setter
     private static DecreaseVolumeButton decreaseVolumeButton;
 
     @Getter
@@ -126,11 +139,11 @@ public class WindowBuilder
     private static LoadButton loadButton;
 
 
-    @Getter
-    @Setter
     /**
      * mainWindow is not the mainWindow, this is actually the controller
      */
+    @Getter
+    @Setter
     private static GameController gameController;
 
     @Getter
@@ -244,8 +257,11 @@ public class WindowBuilder
     public static void buildTitleScreen()
     {
         titleFrame = new TitleFrame();
+        JPanel content = (JPanel) titleFrame.getContentPane();
+        content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
         JLabel title = new JLabel();
-        title.setText("TITLE");
+        title.setText(GameConfiguration.titleString);
+        title.setAlignmentX(CENTER_ALIGNMENT);
         title.setBounds(30, 30, 100, 50);
         TitleScreenButton characterEditorButton = new TitleScreenButton(100, 30, "Character Editor");
         TitleScreenButton newGameButton = new TitleScreenButton(100, 90, "New Game");
@@ -254,13 +270,22 @@ public class WindowBuilder
         TitleScreenButton optionsButton = new TitleScreenButton(100, 270, "Options");
         TitleScreenButton mapEditorButton = new TitleScreenButton(100, 330, "Map Editor");
         //TODO
-        titleFrame.add(title);
-        titleFrame.add(characterEditorButton);
-        titleFrame.add(newGameButton);
-        titleFrame.add(loadGameButton);
-        titleFrame.add(creditsButton);
-        titleFrame.add(optionsButton);
-        titleFrame.add(mapEditorButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(title);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(characterEditorButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(newGameButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(loadGameButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(creditsButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(optionsButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.add(mapEditorButton);
+        content.add(Box.createVerticalStrut(GameConfiguration.verticalTitleSpacer));
+        content.setAlignmentX(CENTER_ALIGNMENT);
     }
 
     /**
@@ -271,5 +296,240 @@ public class WindowBuilder
     public static void buildMapEditor()
     {
         mapEditorFrame = new MapEditorFrame();
+    }
+
+    public static void createMapEditorUI(MapEditorFrame mapEditorFrame)
+    {
+
+        JPanel leftPanel = new JPanel();
+        //leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+        leftPanel.setBackground(Color.YELLOW);
+        //setting this for minimum size on the left panel will lead to this being the minimum size of the left panel??
+        //why not of the children?
+        //leftPanel.setMinimumSize(new Dimension(GameConfiguration.tileSize * 12, GameConfiguration.tileSize * 12));
+        //leftPanel.setMaximumSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setBackground(Color.CYAN);
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+        splitPane.setLeftComponent(leftPanel);
+        splitPane.setRightComponent(rightPanel);
+
+        splitPane.setDividerLocation(GameConfiguration.tileSize * 12);
+        splitPane.setPreferredSize(new Dimension(700, 700));
+        mapEditorFrame.add(splitPane);
+
+        logger.debug("building the right side of the map editor");
+        //list of map entries
+        //fill from the list
+        MapTilePane mapTilePane = new MapTilePane(MapEditorApplication.getCurrent().getProtoMapTileList());
+
+        JScrollPane scrollPane = new JScrollPane(mapTilePane);
+        scrollPane.setPreferredSize(new Dimension(200, 200));
+        rightPanel.add(scrollPane);
+
+        //list of furniture items?
+        FurnitureItemPane furnitureItemPane = new FurnitureItemPane(MapEditorApplication.getCurrent().getFurnitureItemList());
+        furnitureItemPane.setForeground(Color.BLUE);
+        furnitureItemPane.setBackground(Color.YELLOW);
+        JScrollPane scrollPaneItems = new JScrollPane(furnitureItemPane);
+        scrollPaneItems.setPreferredSize(new Dimension(200, 200));
+        rightPanel.add(scrollPaneItems);
+
+        //NPCs?
+        NPCPane npcPane = new NPCPane(MapEditorApplication.getCurrent().getNpcList());
+        npcPane.setForeground(Color.YELLOW);
+        npcPane.setBackground(Color.CYAN);
+        JScrollPane scrollPaneNPCs = new JScrollPane(npcPane);
+        scrollPaneNPCs.setPreferredSize(new Dimension(200, 200));
+        rightPanel.add(scrollPaneNPCs);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
+        LoadButtonActionListener loadButtonActionListener = new LoadButtonActionListener();
+        EditMapButtonActionListener editMapButtonActionListener = new EditMapButtonActionListener();
+
+        //make sure buttons have their listeners.
+        SaveButton saveButton = new SaveButton(saveButtonActionListener);
+        buttonPanel.add(saveButton);
+
+        LoadButton loadButton = new LoadButton(loadButtonActionListener);
+        buttonPanel.add(loadButton);
+
+        EditMapButton editMapButton = new EditMapButton(editMapButtonActionListener);
+        buttonPanel.add(editMapButton);
+
+        rightPanel.add(buttonPanel);
+        logger.debug("building the left side of the map editor");
+        MapEditorCanvas mapEditorCanvas = new MapEditorCanvas();
+        mapEditorCanvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().y));
+
+        JScrollPane scrollPaneCanvas = new JScrollPane(mapEditorCanvas);
+        scrollPaneCanvas.setViewportView(mapEditorCanvas);
+        scrollPaneCanvas.setVisible(true);
+        scrollPaneCanvas.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPaneCanvas.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPaneCanvas.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
+        scrollPaneCanvas.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 10));
+        leftPanel.add(scrollPaneCanvas);
+
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setBlockIncrement(1);
+        verticalScrollBar.setMinimum(0);
+        verticalScrollBar.setMaximum(21);
+        verticalScrollBar.addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                logger.debug("verticalScrollBar mouse event");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+                logger.debug("verticalScrollBar mouse event");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+                logger.debug("verticalScrollBar mouseEntered");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+                logger.debug("verticalScrollBar mouseExited");
+            }
+        });
+
+        verticalScrollBar.addAdjustmentListener(new AdjustmentListener()
+        {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e)
+            {
+                if (e.getValueIsAdjusting())
+                {
+                    logger.debug("verticalScrollBar Adjusting");
+                }
+
+                // The user clicked or adjusted the scrollbar
+                int value = e.getValue();  // Current position of the scrollbar
+                logger.debug("verticalScrollBar position: {}", e.getAdjustmentType());
+
+                if (e.getAdjustmentType() == AdjustmentEvent.UNIT_INCREMENT)
+                {
+                    System.out.println("Up arrow clicked or scrolled down");
+                }
+                else if (e.getAdjustmentType() == AdjustmentEvent.UNIT_DECREMENT)
+                {
+                    System.out.println("Down arrow clicked or scrolled up");
+                }
+
+                // If needed, increment the viewport (for example, scroll by a fixed amount)
+                if (e.getSource() == verticalScrollBar)
+                {
+                    if (value + 50 < verticalScrollBar.getMaximum())
+                    {
+                        verticalScrollBar.setValue(value + 50);  // Increment viewport by 50 units
+                    }
+                }
+            }
+        });
+
+
+        JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+        horizontalScrollBar.setBlockIncrement(1);
+        horizontalScrollBar.setMinimum(0);
+        horizontalScrollBar.setMaximum(21);
+
+        horizontalScrollBar.addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                logger.debug("horizontalScrollBar mouse event");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+                logger.debug("horizontalScrollBar mouse event");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+                logger.debug("horizontalScrollBar mouseEntered");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+                logger.debug("horizontalScrollBar mouseExited");
+            }
+        });
+
+        horizontalScrollBar.addAdjustmentListener(new AdjustmentListener()
+        {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e)
+            {
+                if (e.getValueIsAdjusting())
+                {
+                    logger.debug("horizontalScrollBar Adjusting");
+                }
+
+                // The user clicked or adjusted the scrollbar
+                int value = e.getValue();  // Current position of the scrollbar
+                logger.debug("horizontalScrollBar position: {}", e.getAdjustmentType());
+
+                if (e.getAdjustmentType() == AdjustmentEvent.UNIT_INCREMENT)
+                {
+                    System.out.println("Up arrow clicked or scrolled down");
+                }
+                else if (e.getAdjustmentType() == AdjustmentEvent.UNIT_DECREMENT)
+                {
+                    System.out.println("Down arrow clicked or scrolled up");
+                }
+
+                // If needed, increment the viewport (for example, scroll by a fixed amount)
+                if (e.getSource() == horizontalScrollBar)
+                {
+                    if (value + 50 < horizontalScrollBar.getMaximum())
+                    {
+                        horizontalScrollBar.setValue(value + 50);  // Increment viewport by 50 units
+                    }
+                }
+            }
+        });
+
+        MapEditorController.getCurrent().setMapTilePane(mapTilePane);
+        MapEditorController.getCurrent().setNpcPane(npcPane);
+        MapEditorController.getCurrent().setFurnitureItemPane(furnitureItemPane);
+        MapEditorController.getCurrent().setMapEditorFrame(mapEditorFrame);
+        MapEditorController.getCurrent().setLoadButton(loadButton);
+        MapEditorController.getCurrent().setSaveButton(saveButton);
+        MapEditorController.getCurrent().setEditMapButton(editMapButton);
+        MapEditorController.getCurrent().setMapEditorCanvas(mapEditorCanvas);
+        MapEditorController.getCurrent().setLeftPanel(leftPanel);
+        MapEditorController.getCurrent().setRightPanel(rightPanel);
+        MapEditorController.getCurrent().setSplitPane(splitPane);
+
     }
 }
