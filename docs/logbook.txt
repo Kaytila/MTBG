@@ -1245,3 +1245,6 @@ History of the changes:
 2025-04-25: Refactoring for Title Framework - made Controller a singleton. Moved all controllers to a separate package.
             Refactored CharacterEditor to adhere to the current coding standard. Updated WindowBuilder.
             Refactored GameController to use singleton instead. Made things a little easier now.
+2025-04-26: did some minor refactorings in Game/GameController.
+            added an example about geometric transformation. not sure whether this will be helpful, but lets see.
+            Not sure whether I actually need a transformation help as we are talking about a 2D system after all.

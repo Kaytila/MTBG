@@ -33,7 +33,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.*;
-import java.io.*;
 
 
 /**
@@ -188,69 +187,13 @@ public class GameController implements WindowListener, ActionListener, MouseList
         if (e.getActionCommand().equalsIgnoreCase("Save"))
         {
             logger.info("save");
-            FileOutputStream fileOutputStream = null;
-            ObjectOutputStream objectOutputStream;
-
-            try
-            {
-                fileOutputStream = new FileOutputStream("test.txt");
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-
-            try
-            {
-                objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-            try
-            {
-                objectOutputStream.writeObject(Game.getCurrent());
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-            try
-            {
-                objectOutputStream.close();
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
+            Game.getCurrent().saveGame();
         }
 
         if (e.getActionCommand().equalsIgnoreCase("Load"))
         {
             logger.info("load");
-            FileInputStream fileInputStream;
-            ObjectInputStream objectInputStream;
-
-            try
-            {
-                fileInputStream = new FileInputStream("test.txt");
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-
-            try
-            {
-                objectInputStream = new ObjectInputStream(fileInputStream);
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-            //TODO what to do here?
-
+            Game.getCurrent().loadGame();
         }
     }
 
@@ -498,7 +441,7 @@ public class GameController implements WindowListener, ActionListener, MouseList
 
             if (e.getButton() == MouseEvent.BUTTON3)
             {
-                //we are not in cross hair mode, need to figure out a way to identify drag drop!
+                //we are not in cross-hair mode, need to figure out a way to identify drag drop!
                 if (!UIStateMachine.isSelectTile())
                 {
                     int delay = 500; // milliseconds

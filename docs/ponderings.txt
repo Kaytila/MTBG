@@ -242,3 +242,11 @@ Now that I have - apart from scrolling - implemented the map editor, I can see t
 for a more elaborate re-write of the game canvas.
 And by doing that I actually have rewritten a big of the dialog system as well and learned some more about layouts and
 how much they suck.
+
+On Layouts
+==========
+
+I have to say after playing around more with #preferredSize, #minimumSize #maximumSize and BoxLayouts and Spacers, that
+this is actually pretty neat. MapEditor got from barely working in a fixed Size to basically working on 4k resolution.
+Still need to figure out how to deal with the scrollPane and how to factor that in as this is not really documented very
+well nor understood by me either.

@@ -1,6 +1,6 @@
 package net.ck.mtbg.weather;
 
-public enum SeasonType
+public enum SeasonTypes
 {
 	SPRING, SUMMER, AUTUMN, WINTER
 }

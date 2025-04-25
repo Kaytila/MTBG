@@ -34,7 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -671,6 +671,72 @@ public class Game implements Runnable, Serializable
         }
         //TODO currently stupid, but as the calculation does not work properly do it this way instead
         MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap(), WindowBuilder.getGridCanvas().getGraphics(), WindowBuilder.getGridCanvas());
+    }
+
+    public void saveGame()
+    {
+        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream;
+        try
+        {
+            fileOutputStream = new FileOutputStream("test.txt");
+        }
+        catch (FileNotFoundException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        try
+        {
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+        try
+        {
+            objectOutputStream.writeObject(this);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+        try
+        {
+            objectOutputStream.close();
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void loadGame()
+    {
+        FileInputStream fileInputStream;
+        ObjectInputStream objectInputStream;
+
+        try
+        {
+            fileInputStream = new FileInputStream("test.txt");
+        }
+        catch (FileNotFoundException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        try
+        {
+            objectInputStream = new ObjectInputStream(fileInputStream);
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+        //TODO what to do here?
+
+
     }
 }
 

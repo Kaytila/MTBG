@@ -67,3 +67,5 @@ BUGS:
 2025-04-23: FIXED in MapEditor, maptilepane did not calculate scrollbar properly. adding the #ensureIndexIsVisible to
             the listselection listener for it solved it.
 2025-04-23: FIXED long standing bug in the buttons - I am drawing the button text anyways, no need to set the label.
+2025-04-26: In MapEditor, there is a bug in selection with highlighting of the selectedItem and rather de-highlighting
+            the other entries.
