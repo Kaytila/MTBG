@@ -6,10 +6,10 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.soundeffects.SoundEffects;
 import net.ck.mtbg.ui.components.SpellbookPane;
+import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.CursorUtils;
 
 import javax.swing.*;
@@ -50,7 +50,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
                 logger.info(() -> "double click - close dialog and go into crosshairs");
                 if (getAction().getType().equals(KeyboardActionType.SPELLBOOK))
                 {
-                    WindowBuilder.getGameController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
+                    GameController.getCurrent().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
                     e.consume();
                     WindowClosingAction close = new WindowClosingAction(getSpellbookPane().getParentDialog());
                     close.actionPerformed(null);
@@ -59,7 +59,7 @@ public class SpellBookListener implements MouseListener, MouseMotionListener, Li
             else if (e.getClickCount() == 1)
             {
                 logger.info(() -> "single click - dont close dialog, closing with ESC should start crosshairs");
-                WindowBuilder.getGameController().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
+                GameController.getCurrent().setCurrentSpellInHand(((SpellbookPane) e.getSource()).getSelectedValue());
             }
             else
             {

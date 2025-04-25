@@ -6,7 +6,7 @@ import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;
-import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.util.utils.MapUtils;
 
 import java.awt.dnd.DragGestureEvent;
@@ -39,7 +39,7 @@ public class JGridCanvasDragGestureHandler implements DragGestureListener
      */
     public void dragGestureRecognized(DragGestureEvent dge)
     {
-        if (WindowBuilder.getGameController().isMousePressed())
+        if (GameController.getCurrent().isMousePressed())
         {
             return;
         }

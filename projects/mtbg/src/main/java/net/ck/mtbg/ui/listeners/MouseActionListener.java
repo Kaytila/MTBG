@@ -3,6 +3,7 @@ package net.ck.mtbg.ui.listeners;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.ui.controllers.GameController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

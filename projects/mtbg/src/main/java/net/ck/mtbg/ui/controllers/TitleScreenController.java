@@ -1,11 +1,10 @@
-package net.ck.mtbg.ui.listeners;
+package net.ck.mtbg.ui.controllers;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.music.TitleMusicPlayerNoThread;
-import net.ck.mtbg.ui.mainframes.TitleFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,14 +16,20 @@ import java.nio.file.Paths;
 @Log4j2
 @Getter
 @Setter
-public class TitleController implements WindowListener, ActionListener
+public class TitleScreenController implements WindowListener, ActionListener
 {
-    TitleFrame titleFrame;
+    private static final TitleScreenController TITLE_SCREEN_CONTROLLER = new TitleScreenController();
+
     TitleMusicPlayerNoThread titleMusicPlayerNoThread;
 
-    public TitleController(TitleFrame titleFrame)
+    public TitleScreenController()
     {
-        this.titleFrame = titleFrame;
+
+    }
+
+    public static TitleScreenController getCurrent()
+    {
+        return TITLE_SCREEN_CONTROLLER;
     }
 
     @Override
@@ -34,6 +39,7 @@ public class TitleController implements WindowListener, ActionListener
         {
             titleMusicPlayerNoThread = new TitleMusicPlayerNoThread();
             Path titleTrack = Paths.get("assets\\music\\STONES\\stones5.wav");
+            titleMusicPlayerNoThread.playSong(titleTrack);
         }
     }
 

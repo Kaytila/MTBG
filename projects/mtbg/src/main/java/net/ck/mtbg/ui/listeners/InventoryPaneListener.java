@@ -7,12 +7,12 @@ import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.items.Utility;
 import net.ck.mtbg.ui.components.InventoryPane;
+import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.ui.dialogs.ContainerDialog;
 import net.ck.mtbg.util.communication.graphics.CursorChangeEvent;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.CursorUtils;
 import org.greenrobot.eventbus.EventBus;
 
@@ -128,7 +128,7 @@ public class InventoryPaneListener implements ActionListener, ItemListener, List
                     logger.debug("fire cursor event change");
                 }
                 EventBus.getDefault().post(new CursorChangeEvent(CursorUtils.createCustomCursorFromImage(getInventoryPane().getSelectedValue().getItemImage())));
-                WindowBuilder.getGameController().setCurrentItemInHand(getInventoryPane().getSelectedValue());
+                GameController.getCurrent().setCurrentItemInHand(getInventoryPane().getSelectedValue());
                 WindowClosingAction close = new WindowClosingAction(getInventoryPane().getParentDialog());
                 close.actionPerformed(null);
 				

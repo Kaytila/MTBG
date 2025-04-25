@@ -11,7 +11,7 @@ import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.ProtoMapTile;
-import net.ck.mtbg.ui.listeners.MapEditorController;
+import net.ck.mtbg.ui.controllers.MapEditorController;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.xml.RunXMLParser;

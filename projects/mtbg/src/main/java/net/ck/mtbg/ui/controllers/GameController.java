@@ -1,4 +1,4 @@
-package net.ck.mtbg.ui.listeners;
+package net.ck.mtbg.ui.controllers;
 
 
 import lombok.Getter;
@@ -15,6 +15,7 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
+import net.ck.mtbg.ui.listeners.MouseActionListener;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -46,6 +47,7 @@ import java.io.*;
 @Setter
 public class GameController implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
+    private static final GameController gameController = new GameController();
 
     /**
      * pressed mouse button timer
@@ -93,14 +95,19 @@ public class GameController implements WindowListener, ActionListener, MouseList
      */
     private boolean dragEnabled;
 
-    /**
-     * standard constructor
-     */
     public GameController()
     {
         EventBus.getDefault().register(this);
         UIStateMachine.setMouseOutsideOfGrid(true);
-        WindowBuilder.buildGameWindow(this);
+    }
+
+    /**
+     * standard constructor
+     */
+
+    public static GameController getCurrent()
+    {
+        return gameController;
     }
 
     public synchronized AbstractSpell getCurrentSpellInHand()

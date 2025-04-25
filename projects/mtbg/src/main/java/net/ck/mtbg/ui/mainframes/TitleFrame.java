@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.listeners.TitleController;
+import net.ck.mtbg.ui.controllers.TitleScreenController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,19 +14,15 @@ import java.awt.*;
 @Log4j2
 public class TitleFrame extends JFrame
 {
-    TitleController titleController;
-
     public TitleFrame() throws HeadlessException
     {
-        this.titleController = new TitleController(this);
+        this.setTitle(GameConfiguration.titleString);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(500, 500, GameConfiguration.UIwidth, GameConfiguration.UIheight);
-        //logger.info("bound: {}", this.getBounds());
         this.setLocationRelativeTo(null);
         this.setFocusable(false);
         this.setUndecorated(false);
-        this.setLayout(null);
         this.setVisible(true);
-        this.addWindowListener(titleController);
+        this.addWindowListener(TitleScreenController.getCurrent());
     }
 }

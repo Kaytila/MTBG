@@ -7,6 +7,8 @@ import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.buttons.*;
 import net.ck.mtbg.ui.components.*;
+import net.ck.mtbg.ui.controllers.GameController;
+import net.ck.mtbg.ui.controllers.MapEditorController;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.dnd.JGridCanvasDragGestureHandler;
@@ -16,6 +18,9 @@ import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.mainframes.GameFrame;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 import net.ck.mtbg.ui.mainframes.TitleFrame;
+import net.ck.mtbg.ui.models.CharacterPortraitColor;
+import net.ck.mtbg.ui.models.CharacterPortraitModel;
+import net.ck.mtbg.ui.renderers.ComboBoxRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -138,14 +143,6 @@ public class WindowBuilder
     @Setter
     private static LoadButton loadButton;
 
-
-    /**
-     * mainWindow is not the mainWindow, this is actually the controller
-     */
-    @Getter
-    @Setter
-    private static GameController gameController;
-
     @Getter
     @Setter
     private static TitleFrame titleFrame;
@@ -158,6 +155,20 @@ public class WindowBuilder
     @Setter
     private static MapEditorFrame mapEditorFrame;
 
+
+    private static CharacterPortraitModel characterPortraitModel;
+    private static CharacterCanvas characterCanvas;
+    private static CharacterTinyCanvas characterTinyCanvas;
+    private static JComboBox hairColorComboBox;
+    private static JComboBox eyeColorComboBox;
+    private static JComboBox genderComboBox;
+    private static JLabel hairColorLabel;
+    private static JLabel eyeColorLabel;
+    private static JLabel genderLabel;
+    private static JLabel characterCanvasLabel;
+    private static JLabel characterTinyCanvasLabel;
+
+
     /**
      * in smalltalk fashion, using buildGameWindow: :D
      * for creating the actual ui
@@ -166,10 +177,10 @@ public class WindowBuilder
      * Will need to check how often the whole UI is built in the constructor
      * of the frame/dialog.
      */
-    public static void buildGameWindow(GameController mW)
+    public static void buildGameWindow()
     {
         logger.info("start: build window");
-        gameController = mW;
+
         frame = new GameFrame();
         MyFocusListener myFocusListener = new MyFocusListener();
         undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
@@ -177,19 +188,19 @@ public class WindowBuilder
         frame.add(undoButton);
 
         stopMusicButton = new StopMusicButton(new Point(GameConfiguration.UIwidth - 400, GameConfiguration.UIheight - 100));
-        stopMusicButton.addActionListener(gameController);
+        stopMusicButton.addActionListener(GameController.getCurrent());
         frame.add(stopMusicButton);
 
         startMusicButton = new StartMusicButton(new Point(GameConfiguration.UIwidth - 500, GameConfiguration.UIheight - 100));
-        startMusicButton.addActionListener(gameController);
+        startMusicButton.addActionListener(GameController.getCurrent());
         frame.add(startMusicButton);
 
         increaseVolumeButton = new IncreaseVolumeButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 100));
-        increaseVolumeButton.addActionListener(gameController);
+        increaseVolumeButton.addActionListener(GameController.getCurrent());
         frame.add(increaseVolumeButton);
 
         decreaseVolumeButton = new DecreaseVolumeButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 100));
-        decreaseVolumeButton.addActionListener(gameController);
+        decreaseVolumeButton.addActionListener(GameController.getCurrent());
         frame.add(decreaseVolumeButton);
 
         /*
@@ -197,11 +208,11 @@ public class WindowBuilder
          */
 
         loadButton = new LoadButton(new Point(GameConfiguration.UIwidth - 600, GameConfiguration.UIheight - 170));
-        loadButton.addActionListener(gameController);
+        loadButton.addActionListener(GameController.getCurrent());
         frame.add(loadButton);
 
         saveButton = new SaveButton(new Point(GameConfiguration.UIwidth - 700, GameConfiguration.UIheight - 170));
-        saveButton.addActionListener(gameController);
+        saveButton.addActionListener(GameController.getCurrent());
         frame.add(saveButton);
 
 
@@ -222,18 +233,17 @@ public class WindowBuilder
         frame.add(weatherCanvas);
 
         logger.info("setting listeners");
-        frame.addWindowListener(gameController);
+        frame.addWindowListener(GameController.getCurrent());
 
-        gridCanvas.addMouseListener(gameController);
-        gridCanvas.addMouseMotionListener(gameController);
-        undoButton.addActionListener(gameController);
+        gridCanvas.addMouseListener(GameController.getCurrent());
+        gridCanvas.addMouseMotionListener(GameController.getCurrent());
+        undoButton.addActionListener(GameController.getCurrent());
 
         DragGestureRecognizer dgr = DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDragGestureHandler(gridCanvas));
 
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
-
-        WindowBuilder.setGameController(gameController);
+        
         frame.setVisible(true);
 
         logger.info("finish: build window: UI is open");
@@ -247,6 +257,76 @@ public class WindowBuilder
     public static void buildCharacterEditor()
     {
         characterEditorFrame = new CharacterEditorFrame();
+        characterPortraitModel = new CharacterPortraitModel();
+
+        ComboBoxRenderer renderer = new ComboBoxRenderer();
+
+        genderLabel = new JLabel("Gender");
+        genderLabel.setBounds(400, 20, 100, 20);
+        characterEditorFrame.add(genderLabel);
+
+        genderComboBox = new JComboBox<>();
+        genderComboBox.setBounds(400, 50, 100, 20);
+        genderComboBox.addItem("male");
+        genderComboBox.addItem("female");
+        GenderComboBoxListener genderComboBoxListener = new GenderComboBoxListener(characterPortraitModel);
+        genderComboBox.addActionListener(genderComboBoxListener);
+        genderComboBox.addItemListener(genderComboBoxListener);
+        characterEditorFrame.add(genderComboBox);
+
+        hairColorLabel = new JLabel("Hair Color");
+        hairColorLabel.setBounds(400, 150, 100, 20);
+        characterEditorFrame.add(hairColorLabel);
+
+        hairColorComboBox = new JComboBox<>();
+        hairColorComboBox.setBounds(400, 200, 100, 20);
+        hairColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK));
+        hairColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.YELLOW));
+        hairColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.DARK_GRAY));
+        hairColorComboBox.setSelectedIndex(0);
+        HairColorComboBoxListener hairColorComboBoxListener = new HairColorComboBoxListener(characterPortraitModel);
+        hairColorComboBox.addActionListener(hairColorComboBoxListener);
+        hairColorComboBox.addItemListener(hairColorComboBoxListener);
+        hairColorComboBox.setRenderer(renderer);
+        characterEditorFrame.add(hairColorComboBox);
+
+        eyeColorLabel = new JLabel("Eye Color");
+        eyeColorLabel.setBounds(400, 300, 100, 20);
+        characterEditorFrame.add(eyeColorLabel);
+
+        eyeColorComboBox = new JComboBox<>();
+        eyeColorComboBox.setBounds(400, 350, 100, 20);
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLACK));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.GREEN));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.BLUE));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.RED));
+        eyeColorComboBox.addItem(CharacterPortraitColor.getCharacterPortraitColorFromColor(Color.DARK_GRAY));
+        eyeColorComboBox.setSelectedIndex(0);
+        EyeColorComboBoxListener eyeColorComboBoxListener = new EyeColorComboBoxListener(characterPortraitModel);
+        eyeColorComboBox.addItemListener(eyeColorComboBoxListener);
+        eyeColorComboBox.addActionListener(eyeColorComboBoxListener);
+        eyeColorComboBox.setRenderer(renderer);
+        characterEditorFrame.add(eyeColorComboBox);
+
+
+        characterCanvasLabel = new JLabel("Character Portrait");
+        characterCanvasLabel.setBounds(10, 0, 150, 20);
+        characterEditorFrame.add(characterCanvasLabel);
+
+        characterCanvas = new CharacterCanvas(characterPortraitModel);
+        characterCanvas.setBounds(10, 50, 100, 100);
+        characterEditorFrame.add(characterCanvas);
+
+        characterTinyCanvasLabel = new JLabel("Character View");
+        characterTinyCanvasLabel.setBounds(10, 230, 150, 20);
+        characterEditorFrame.add(characterTinyCanvasLabel);
+
+        characterTinyCanvas = new CharacterTinyCanvas(characterPortraitModel);
+        characterTinyCanvas.setBounds(10, 280, GameConfiguration.tileSize * 5, GameConfiguration.tileSize * 5);
+        characterEditorFrame.add(characterTinyCanvas);
+
+        characterPortraitModel.setCharacterCanvas(characterCanvas);
+        characterPortraitModel.setCharacterTinyCanvas(characterTinyCanvas);
     }
 
     /**
@@ -296,10 +376,6 @@ public class WindowBuilder
     public static void buildMapEditor()
     {
         mapEditorFrame = new MapEditorFrame();
-    }
-
-    public static void createMapEditorUI(MapEditorFrame mapEditorFrame)
-    {
 
         JPanel leftPanel = new JPanel();
         //leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
@@ -531,5 +607,7 @@ public class WindowBuilder
         MapEditorController.getCurrent().setRightPanel(rightPanel);
         MapEditorController.getCurrent().setSplitPane(splitPane);
 
+        MapEditorController.getCurrent().updateUIAfterLoadingMap();
     }
+
 }

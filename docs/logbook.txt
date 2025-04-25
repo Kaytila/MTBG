@@ -1242,3 +1242,6 @@ History of the changes:
             I can see this coming very soon for the GameFrame as well. Introduced ASKSIMON.
 2025-04-24: Moved Creation of UI from Frame to WindowBuilder. Updated Buttons to inherit from one single class.
             Simplified buttons. Added layout to TitleFrame. Learned about spacing for BoxLayout.
+2025-04-25: Refactoring for Title Framework - made Controller a singleton. Moved all controllers to a separate package.
+            Refactored CharacterEditor to adhere to the current coding standard. Updated WindowBuilder.
+            Refactored GameController to use singleton instead. Made things a little easier now.

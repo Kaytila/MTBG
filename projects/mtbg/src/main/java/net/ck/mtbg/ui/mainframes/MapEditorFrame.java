@@ -3,8 +3,7 @@ package net.ck.mtbg.ui.mainframes;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.listeners.MapEditorController;
-import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.ui.controllers.MapEditorController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,8 +28,6 @@ import java.awt.*;
 @Log4j2
 public class MapEditorFrame extends JFrame
 {
-
-
     public MapEditorFrame() throws HeadlessException
     {
         this.setTitle("MTBG - Map Editor");
@@ -44,8 +41,6 @@ public class MapEditorFrame extends JFrame
         this.addWindowListener(MapEditorController.getCurrent());
         this.pack();
         this.setVisible(true);
-        WindowBuilder.createMapEditorUI(this);
-        MapEditorController.getCurrent().updateUIAfterLoadingMap();
         setLocationRelativeTo(null);
     }
 

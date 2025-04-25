@@ -1,4 +1,4 @@
-package net.ck.mtbg.ui.listeners;
+package net.ck.mtbg.ui.controllers;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +12,7 @@ import net.ck.mtbg.ui.components.FurnitureItemPane;
 import net.ck.mtbg.ui.components.MapEditorCanvas;
 import net.ck.mtbg.ui.components.MapTilePane;
 import net.ck.mtbg.ui.components.NPCPane;
+import net.ck.mtbg.ui.listeners.Selection;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 
 import javax.swing.*;

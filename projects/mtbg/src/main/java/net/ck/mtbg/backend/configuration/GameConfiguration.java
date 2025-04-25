@@ -133,6 +133,10 @@ public class GameConfiguration
      */
     public static final boolean drawTileOnce = true;
     /**
+     * how big is the scrollbar used for the map canvas in map editor? to be used later
+     */
+    public static final int editorScrollbarSize = 0;
+    /**
      * this is used for drawing the circles in the equipment dialog
      */
     public static final int elipseSize = 25;
@@ -156,6 +160,10 @@ public class GameConfiguration
      * how big are the images, check this somewhere.
      */
     public static final Point imageSize = new Point(16, 16);
+    /**
+     * start location for the map editor - needs to be updated based on installation
+     */
+    public static final String mapEditorLocation = "C:\\Users\\Claus\\eclipse-workspace\\MyTurnBasedGame\\projects\\mtbg\\assets\\maps";
     /**
      * describes the max distance a lightsource may have an effect on the surroundings
      */
@@ -235,7 +243,7 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = false;
+    public static final boolean playMusic = true;
     /**
      * do we want to play sound effects?
      */
@@ -244,6 +252,14 @@ public class GameConfiguration
      * where are the player images
      */
     public static final String playerImages = out + File.separator + "graphics" + File.separator + "players" + File.separator + "player" + File.separator;
+    /**
+     * size of the normal buttons - this is important as they are depending on an underlying PNG to draw text on
+     */
+    public static final Dimension preferredButtonSize = new Dimension(70, 30);
+    /**
+     * how big are the buttons on the title screen?
+     */
+    public static final Dimension preferredTitleButtonSize = new Dimension(150, 30);
     /**
      * how long to wait until to pick the next command queued up
      */
@@ -310,6 +326,10 @@ public class GameConfiguration
      */
     public static final int UIwidth = ((GameConfiguration.numberOfTiles * GameConfiguration.tileSize) + 200);
     /**
+     * Title Screen String
+     */
+    public static final String titleString = "HELLO, this is my DEMO";
+    /**
      * in case there are text maps available, shall these be translated?
      */
     public static final boolean translateTextMaps = false;
@@ -342,6 +362,10 @@ public class GameConfiguration
      */
     public static final boolean useUtilTimerForAnimation = true;
     /**
+     * vertical spacer used on the title screen
+     */
+    public static final int verticalTitleSpacer = 20;
+    /**
      * how many turns to wait until music switches back to before from victory fanfare music?
      */
     public static final int waitTurns = 3;
@@ -363,17 +387,6 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
-
-
-    public static String mapEditorLocation = "C:\\Users\\Claus\\eclipse-workspace\\MyTurnBasedGame\\projects\\mtbg\\assets\\maps";
-
-
-    public static Dimension preferredButtonSize = new Dimension(70, 30);
-
-    public static int editorScrollbarSize = 0;
-    public static Dimension preferredTitleButtonSize = new Dimension(150, 30);
-    public static String titleString = "HELLO, this is my DEMO";
-    public static int verticalTitleSpacer = 20;
 }
 
 

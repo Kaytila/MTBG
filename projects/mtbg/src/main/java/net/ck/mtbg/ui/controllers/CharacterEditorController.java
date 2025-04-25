@@ -1,4 +1,4 @@
-package net.ck.mtbg.ui.listeners;
+package net.ck.mtbg.ui.controllers;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,13 +16,19 @@ import java.awt.event.WindowListener;
 @Setter
 public class CharacterEditorController implements WindowListener
 {
-
+    private static final CharacterEditorController characterEditorController = new CharacterEditorController();
     CharacterEditorFrame characterEditorFrame;
 
-    public CharacterEditorController(CharacterEditorFrame characterEditorFrame)
+    public CharacterEditorController()
     {
-        this.characterEditorFrame = characterEditorFrame;
+
     }
+
+    public static CharacterEditorController getCurrent()
+    {
+        return characterEditorController;
+    }
+
 
     @Override
     public void windowOpened(WindowEvent e)

@@ -7,9 +7,9 @@ import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;
+import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.util.communication.keyboard.DropAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.MapUtils;
 
 import java.awt.*;
@@ -82,10 +82,10 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
     public void drop(DropTargetDropEvent dtde)
     {
         logger.info("drop");
-        WindowBuilder.getGameController().setCurrentAction(new DropAction());
-        if (!(WindowBuilder.getGameController().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
+        GameController.getCurrent().setCurrentAction(new DropAction());
+        if (!(GameController.getCurrent().getCurrentAction().getType().equals(KeyboardActionType.DROP)))
         {
-            logger.info("current action: {}", WindowBuilder.getGameController().getCurrentAction());
+            logger.info("current action: {}", GameController.getCurrent().getCurrentAction());
             return;
         }
         else

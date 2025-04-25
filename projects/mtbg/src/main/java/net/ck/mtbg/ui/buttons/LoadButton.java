@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.buttons;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.ui.controllers.GameController;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ public class LoadButton extends AbstractFancyButton
         super();
         setLabel("Load");
         this.setActionCommand(label);
-        this.addActionListener(WindowBuilder.getGameController());
+        this.addActionListener(GameController.getCurrent());
     }
 
 

@@ -71,4 +71,5 @@ open module net.ck.mtbg
 
     exports net.ck.mtbg.util.communication.time;
     exports net.ck.mtbg.backend.applications;
+    exports net.ck.mtbg.ui.controllers;
 }

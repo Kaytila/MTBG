@@ -7,8 +7,8 @@ import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.ui.dialogs.DialogFactory;
-import net.ck.mtbg.ui.listeners.GameController;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.utils.CursorUtils;
@@ -355,7 +355,7 @@ public class ControllerDelegator
             DialogFactory.createDialog(WindowBuilder.getFrame(), "Spellbook", true, action, null, null);
             logger.info("spellbook dialog done");
 
-            if (WindowBuilder.getGameController().getCurrentSpellInHand() != null)
+            if (GameController.getCurrent().getCurrentSpellInHand() != null)
             {
                 logger.debug(() -> "spell is in hand, do something with it");
                 logger.debug("test");
@@ -639,7 +639,7 @@ public class ControllerDelegator
             DialogFactory.createDialog(WindowBuilder.getFrame(), "Skilltree", true, action, null, null);
             logger.info("skilltree dialog done");
 
-            if (WindowBuilder.getGameController().getCurrentSpellInHand() != null)
+            if (GameController.getCurrent().getCurrentSpellInHand() != null)
             {
                 logger.debug(() -> "spell is in hand, do something with it");
                 logger.debug("test");

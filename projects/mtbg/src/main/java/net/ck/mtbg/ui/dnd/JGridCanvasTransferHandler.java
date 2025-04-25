@@ -7,8 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;
+import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.util.communication.keyboard.DropAction;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.MapUtils;
 
 import javax.swing.*;
@@ -61,7 +61,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public boolean importData(TransferSupport support)
     {
-        WindowBuilder.getGameController().setCurrentAction(new DropAction());
+        GameController.getCurrent().setCurrentAction(new DropAction());
         int x = MouseInfo.getPointerInfo().getLocation().x - getGridCanvas().getLocationOnScreen().x;
         int y = MouseInfo.getPointerInfo().getLocation().y - getGridCanvas().getLocationOnScreen().y;
         logger.info("mouse position: {}", new Point(x, y));
@@ -82,7 +82,7 @@ public class JGridCanvasTransferHandler extends TransferHandler
     @Override
     public boolean canImport(TransferSupport support)
     {
-        if (WindowBuilder.getGameController().getCurrentAction() != null)
+        if (GameController.getCurrent().getCurrentAction() != null)
         {
             return false;
         }
