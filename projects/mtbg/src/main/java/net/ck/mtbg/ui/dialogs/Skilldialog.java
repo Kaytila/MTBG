@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.components.SkillTree;
-import net.ck.mtbg.ui.listeners.*;
+import net.ck.mtbg.ui.listeners.game.*;
 import net.ck.mtbg.ui.models.SkillTreeDataModel;
 import net.ck.mtbg.ui.renderers.SkillTreeTreeItemRenderer;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;

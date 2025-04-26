@@ -1,7 +1,7 @@
 package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.backend.entities.entities.NPC;
-import net.ck.mtbg.ui.listeners.NPCPaneListener;
+import net.ck.mtbg.ui.listeners.mapeditor.NPCPaneListener;
 import net.ck.mtbg.ui.renderers.NPCPaneListCellRenderer;
 
 import javax.swing.*;

@@ -15,11 +15,10 @@ public class SaveButton extends AbstractFancyButton
 {
     public SaveButton(Point p)
     {
-        super();
+        super(p);
         setLabel("Save");
         this.setActionCommand(label);
         this.addActionListener(GameController.getCurrent());
-        this.setVisible(true);
     }
 
     public SaveButton(ActionListener actionListener)
@@ -28,6 +27,5 @@ public class SaveButton extends AbstractFancyButton
         setLabel("Save");
         this.setActionCommand(label);
         this.addActionListener(actionListener);
-        this.setVisible(true);
     }
 }

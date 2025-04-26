@@ -8,8 +8,8 @@ import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.dnd.InventoryPaneTransferHandler;
-import net.ck.mtbg.ui.listeners.DialogPopupListener;
-import net.ck.mtbg.ui.listeners.InventoryPaneListener;
+import net.ck.mtbg.ui.listeners.game.DialogPopupListener;
+import net.ck.mtbg.ui.listeners.game.InventoryPaneListener;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 
 import javax.swing.*;

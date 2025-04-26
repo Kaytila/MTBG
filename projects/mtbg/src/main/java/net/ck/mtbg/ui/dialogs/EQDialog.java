@@ -10,8 +10,8 @@ import net.ck.mtbg.ui.components.EQPanel;
 import net.ck.mtbg.ui.components.InventoryImagePanel;
 import net.ck.mtbg.ui.components.WeaponPanel;
 import net.ck.mtbg.ui.dnd.EQPanelTransferHandler;
-import net.ck.mtbg.ui.listeners.EQPanelMouseListener;
-import net.ck.mtbg.ui.listeners.WindowClosingListener;
+import net.ck.mtbg.ui.listeners.game.EQPanelMouseListener;
+import net.ck.mtbg.ui.listeners.game.WindowClosingListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 import net.ck.mtbg.util.utils.ImageUtils;
 

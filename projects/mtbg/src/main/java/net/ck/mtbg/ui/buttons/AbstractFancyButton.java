@@ -32,6 +32,19 @@ public abstract class AbstractFancyButton extends JButton implements MouseListen
         hovered = false;
     }
 
+    public AbstractFancyButton(Point p)
+    {
+        setIcon(ImageUtils.createImageIcon(GameConfiguration.miscImages + "BUTTONS" + File.separator + "cleanButton.png", ""));
+        setBounds(p.x, p.y, GameConfiguration.preferredButtonSize.width, GameConfiguration.preferredButtonSize.height);
+        setFont(GameConfiguration.font);
+        this.addMouseListener(this);
+        this.setPreferredSize(GameConfiguration.preferredButtonSize);
+        this.setMinimumSize(GameConfiguration.preferredButtonSize);
+        this.setMaximumSize(GameConfiguration.preferredButtonSize);
+        hovered = false;
+    }
+
+
     /**
      * with a little help from stackoverflow again
      * <p>

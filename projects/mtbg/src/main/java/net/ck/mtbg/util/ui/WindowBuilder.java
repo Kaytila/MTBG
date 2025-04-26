@@ -13,7 +13,13 @@ import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.dnd.JGridCanvasDragGestureHandler;
 import net.ck.mtbg.ui.dnd.JGridCanvasDropTargetHandler;
-import net.ck.mtbg.ui.listeners.*;
+import net.ck.mtbg.ui.listeners.charactereditor.EyeColorComboBoxListener;
+import net.ck.mtbg.ui.listeners.charactereditor.GenderComboBoxListener;
+import net.ck.mtbg.ui.listeners.charactereditor.HairColorComboBoxListener;
+import net.ck.mtbg.ui.listeners.game.GameWindowFocusListener;
+import net.ck.mtbg.ui.listeners.game.LoadButtonActionListener;
+import net.ck.mtbg.ui.listeners.game.SaveButtonActionListener;
+import net.ck.mtbg.ui.listeners.mapeditor.EditMapButtonActionListener;
 import net.ck.mtbg.ui.mainframes.CharacterEditorFrame;
 import net.ck.mtbg.ui.mainframes.GameFrame;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
@@ -182,9 +188,8 @@ public class WindowBuilder
         logger.info("start: build window");
 
         frame = new GameFrame();
-        MyFocusListener myFocusListener = new MyFocusListener();
+        GameWindowFocusListener gameWindowFocusListener = new GameWindowFocusListener();
         undoButton = new UndoButton(new Point(GameConfiguration.UIwidth - 300, GameConfiguration.UIheight - 100));
-        undoButton.addFocusListener(myFocusListener);
         frame.add(undoButton);
 
         stopMusicButton = new StopMusicButton(new Point(GameConfiguration.UIwidth - 400, GameConfiguration.UIheight - 100));
@@ -217,19 +222,19 @@ public class WindowBuilder
 
 
         gridCanvas = new MapCanvas();
-        gridCanvas.addFocusListener(myFocusListener);
+        gridCanvas.addFocusListener(gameWindowFocusListener);
         frame.add(gridCanvas);
 
         textArea = new TextList();
-        textArea.addFocusListener(myFocusListener);
+        textArea.addFocusListener(gameWindowFocusListener);
         frame.add(textArea.initializeScrollPane());
 
         textField = new InputField();
-        textField.addFocusListener(myFocusListener);
+        textField.addFocusListener(gameWindowFocusListener);
         frame.add(textField);
 
         weatherCanvas = new JWeatherCanvas();
-        weatherCanvas.addFocusListener(myFocusListener);
+        weatherCanvas.addFocusListener(gameWindowFocusListener);
         frame.add(weatherCanvas);
 
         logger.info("setting listeners");
@@ -243,7 +248,7 @@ public class WindowBuilder
 
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
-        
+
         frame.setVisible(true);
 
         logger.info("finish: build window: UI is open");

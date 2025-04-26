@@ -12,7 +12,7 @@ import net.ck.mtbg.ui.components.FurnitureItemPane;
 import net.ck.mtbg.ui.components.MapEditorCanvas;
 import net.ck.mtbg.ui.components.MapTilePane;
 import net.ck.mtbg.ui.components.NPCPane;
-import net.ck.mtbg.ui.listeners.Selection;
+import net.ck.mtbg.ui.listeners.mapeditor.MapEditorListsSelection;
 import net.ck.mtbg.ui.mainframes.MapEditorFrame;
 
 import javax.swing.*;
@@ -45,7 +45,7 @@ public class MapEditorController implements WindowListener, ActionListener
 
     private boolean initiallyOpened = true;
     //TODO add selection item to check from what pane the selection is happening
-    private Selection selectedItem;
+    private MapEditorListsSelection selectedItem;
 
 
     public MapEditorController()

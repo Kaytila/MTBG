@@ -1248,3 +1248,6 @@ History of the changes:
 2025-04-26: did some minor refactorings in Game/GameController.
             added an example about geometric transformation. not sure whether this will be helpful, but lets see.
             Not sure whether I actually need a transformation help as we are talking about a 2D system after all.
+2025-04-26: Some minor refactoring - I am at a stage where I am trying to get rid of a few classes which only serve one
+            purpose. Some more refactoring on Button hierarchy. I think I can get rif of most of them in a while.
+            Once I have made up my mind how I want to do that properly.

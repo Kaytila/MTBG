@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.ProtoMapTile;
-import net.ck.mtbg.ui.listeners.MapTilePaneListener;
+import net.ck.mtbg.ui.listeners.mapeditor.MapTilePaneListener;
 import net.ck.mtbg.ui.renderers.MapTilePaneListRenderer;
 
 import javax.swing.*;

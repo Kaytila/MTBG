@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.listeners.MapLabelTextFieldListener;
+import net.ck.mtbg.ui.listeners.game.MapLabelTextFieldListener;
 
 import javax.swing.*;
 

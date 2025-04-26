@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
-import net.ck.mtbg.ui.listeners.InputFieldListener;
+import net.ck.mtbg.ui.listeners.game.ChatInputFieldListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
@@ -66,7 +66,7 @@ public class TalkDialog extends AbstractDialog
         sp.setVisible(true);
         this.add(sp);
 
-        textField.addActionListener(new InputFieldListener(this, textField, textArea, n));
+        textField.addActionListener(new ChatInputFieldListener(this, textField, textArea, n));
 
         GroupLayout layout = new GroupLayout(getContentPane());
         this.getContentPane().setLayout(layout);

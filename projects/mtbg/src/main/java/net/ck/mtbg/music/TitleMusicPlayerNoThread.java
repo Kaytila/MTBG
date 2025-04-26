@@ -44,7 +44,6 @@ public class TitleMusicPlayerNoThread
         try
         {
             setCurrentMusic(AudioSystem.getClip());
-            // getCurrentMusic().addLineListener(new SoundLineListener());
         }
         catch (LineUnavailableException e)
         {
@@ -59,8 +58,6 @@ public class TitleMusicPlayerNoThread
             throw new RuntimeException(e);
         }
         getCurrentMusic().setFramePosition(0);
-
-        //getCurrentMusic().start();
         getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
     }
 

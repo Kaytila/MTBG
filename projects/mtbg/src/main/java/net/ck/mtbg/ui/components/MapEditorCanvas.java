@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.listeners.MapEditorCanvasListener;
+import net.ck.mtbg.ui.listeners.mapeditor.MapEditorCanvasListener;
 import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 

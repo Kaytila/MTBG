@@ -16,7 +16,7 @@ public class LoadButton extends AbstractFancyButton
 
     public LoadButton(Point p)
     {
-        super();
+        super(p);
         setLabel("Load");
         this.setActionCommand(label);
         this.addActionListener(GameController.getCurrent());
@@ -29,6 +29,5 @@ public class LoadButton extends AbstractFancyButton
         setLabel("Load");
         this.setActionCommand(label);
         this.addActionListener(actionListener);
-        this.setVisible(true);
     }
 }

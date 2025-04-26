@@ -15,7 +15,6 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;
 import net.ck.mtbg.ui.dialogs.InventoryDialog;
 import net.ck.mtbg.ui.dialogs.StatsDialog;
-import net.ck.mtbg.ui.listeners.MouseActionListener;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -144,24 +143,21 @@ public class GameController implements WindowListener, ActionListener, MouseList
             logger.info("OK");
         }
 
-        if (e.getActionCommand().equalsIgnoreCase("StartMusic"))
+        if (e.getActionCommand().equalsIgnoreCase("Start Music"))
         {
             logger.info("start music");
             if (GameConfiguration.playMusic)
             {
-                //Game.getCurrent().getSoundSystem().startMusic();
                 NoiseManager.getMusicSystemNoThread().continueMusic();
-                //EventBus.getDefault().post(new GameStateChanged(GameState.WORLD));
             }
 
         }
 
-        if (e.getActionCommand().equalsIgnoreCase("StopMusic"))
+        if (e.getActionCommand().equalsIgnoreCase("Stop Music"))
         {
             logger.info("stop music");
             if (GameConfiguration.playMusic)
             {
-                //Game.getCurrent().getSoundSystem().stopMusic();
                 NoiseManager.getMusicSystemNoThread().pauseMusic();
             }
         }
@@ -446,7 +442,17 @@ public class GameController implements WindowListener, ActionListener, MouseList
                 {
                     int delay = 500; // milliseconds
                     logger.info("we are in movement mode with mouse 3");
-                    ActionListener taskPerformer = new MouseActionListener(this);
+                    //ActionListener taskPerformer = new DelayMovementMouseActionListener();
+                    ActionListener taskPerformer = new ActionListener()
+                    {
+                        @Override
+                        public void actionPerformed(ActionEvent e)
+                        {
+                            logger.info("mouse pressed");
+                            GameController.getCurrent().setMousePressed(true);
+                            GameController.getCurrent().createMovement();
+                        }
+                    };
                     pressedTimer = new Timer(delay, taskPerformer);
                     pressedTimer.setRepeats(true);
                     pressedTimer.start();

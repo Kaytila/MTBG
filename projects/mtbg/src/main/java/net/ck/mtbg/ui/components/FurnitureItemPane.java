@@ -1,7 +1,7 @@
 package net.ck.mtbg.ui.components;
 
 import net.ck.mtbg.items.FurnitureItem;
-import net.ck.mtbg.ui.listeners.FurnitureItemPaneListener;
+import net.ck.mtbg.ui.listeners.mapeditor.FurnitureItemPaneListener;
 import net.ck.mtbg.ui.renderers.FurnitureItemPaneListCellRenderer;
 
 import javax.swing.*;

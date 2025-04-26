@@ -7,7 +7,7 @@ import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.map.AutoMap;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.ui.components.AutoMapCanvas;
-import net.ck.mtbg.ui.listeners.AutoMapCanvasMouseListener;
+import net.ck.mtbg.ui.listeners.game.AutoMapCanvasMouseListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;
