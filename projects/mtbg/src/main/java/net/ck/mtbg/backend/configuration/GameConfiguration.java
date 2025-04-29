@@ -387,6 +387,9 @@ public class GameConfiguration
     @Getter
     @Setter
     public static int victoryWait = 7000;
+
+
+    public static String titleTrack = "";//out + File.separator + "music" + File.separator + "STONES" + File.separator + "stones5.wav";
 }
 
 

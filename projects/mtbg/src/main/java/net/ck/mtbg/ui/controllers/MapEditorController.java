@@ -32,8 +32,6 @@ public class MapEditorController implements WindowListener, ActionListener
     private MapTilePane mapTilePane;
     private MapEditorCanvas mapEditorCanvas;
     private FurnitureItemPane furnitureItemPane;
-    //private JScrollBar horizontalScrollbar;
-    //private JScrollBar verticalScrollbar;
     private JScrollPane scrollPane;
     private NPCPane npcPane;
     private LoadButton loadButton;

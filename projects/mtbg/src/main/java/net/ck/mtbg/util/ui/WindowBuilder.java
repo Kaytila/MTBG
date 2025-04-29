@@ -38,6 +38,8 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import static java.awt.Component.CENTER_ALIGNMENT;
 
@@ -384,14 +386,14 @@ public class WindowBuilder
 
         JPanel leftPanel = new JPanel();
         //leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-        leftPanel.setBackground(Color.YELLOW);
+        leftPanel.setBackground(Color.lightGray);
         //setting this for minimum size on the left panel will lead to this being the minimum size of the left panel??
         //why not of the children?
         //leftPanel.setMinimumSize(new Dimension(GameConfiguration.tileSize * 12, GameConfiguration.tileSize * 12));
         //leftPanel.setMaximumSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
 
         JPanel rightPanel = new JPanel();
-        rightPanel.setBackground(Color.CYAN);
+        rightPanel.setBackground(Color.lightGray);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
@@ -400,16 +402,24 @@ public class WindowBuilder
 
         splitPane.setDividerLocation(GameConfiguration.tileSize * 12);
         splitPane.setPreferredSize(new Dimension(700, 700));
+        splitPane.setResizeWeight(1);
+        splitPane.addPropertyChangeListener("TEST", new PropertyChangeListener()
+        {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt)
+            {
+                logger.debug("evt: {}", evt.getNewValue());
+            }
+        });
         mapEditorFrame.add(splitPane);
 
         logger.debug("building the right side of the map editor");
         //list of map entries
         //fill from the list
         MapTilePane mapTilePane = new MapTilePane(MapEditorApplication.getCurrent().getProtoMapTileList());
-
-        JScrollPane scrollPane = new JScrollPane(mapTilePane);
-        scrollPane.setPreferredSize(new Dimension(200, 200));
-        rightPanel.add(scrollPane);
+        JScrollPane scrollPaneMaptiles = new JScrollPane(mapTilePane);
+        scrollPaneMaptiles.setPreferredSize(new Dimension(200, 200));
+        rightPanel.add(scrollPaneMaptiles);
 
         //list of furniture items?
         FurnitureItemPane furnitureItemPane = new FurnitureItemPane(MapEditorApplication.getCurrent().getFurnitureItemList());
@@ -426,6 +436,8 @@ public class WindowBuilder
         JScrollPane scrollPaneNPCs = new JScrollPane(npcPane);
         scrollPaneNPCs.setPreferredSize(new Dimension(200, 200));
         rightPanel.add(scrollPaneNPCs);
+
+        //Panel for the buttons to have them next to each other and not beneath
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         SaveButtonActionListener saveButtonActionListener = new SaveButtonActionListener();
@@ -443,6 +455,7 @@ public class WindowBuilder
         buttonPanel.add(editMapButton);
 
         rightPanel.add(buttonPanel);
+
         logger.debug("building the left side of the map editor");
         MapEditorCanvas mapEditorCanvas = new MapEditorCanvas();
         mapEditorCanvas.setPreferredSize(new Dimension(GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().x, GameConfiguration.tileSize * MapEditorApplication.getCurrent().getMap().getSize().y));
@@ -456,7 +469,7 @@ public class WindowBuilder
         scrollPaneCanvas.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 10));
         leftPanel.add(scrollPaneCanvas);
 
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        JScrollBar verticalScrollBar = scrollPaneCanvas.getVerticalScrollBar();
         verticalScrollBar.setBlockIncrement(1);
         verticalScrollBar.setMinimum(0);
         verticalScrollBar.setMaximum(21);
@@ -528,7 +541,7 @@ public class WindowBuilder
         });
 
 
-        JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+        JScrollBar horizontalScrollBar = scrollPaneCanvas.getHorizontalScrollBar();
         horizontalScrollBar.setBlockIncrement(1);
         horizontalScrollBar.setMinimum(0);
         horizontalScrollBar.setMaximum(21);

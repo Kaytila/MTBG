@@ -37,9 +37,12 @@ public class TitleScreenController implements WindowListener, ActionListener
     {
         if (GameConfiguration.playMusic == true)
         {
-            titleMusicPlayerNoThread = new TitleMusicPlayerNoThread();
-            Path titleTrack = Paths.get("assets\\music\\STONES\\stones5.wav");
-            titleMusicPlayerNoThread.playSong(titleTrack);
+            if (!(GameConfiguration.titleTrack.isEmpty()))
+            {
+                titleMusicPlayerNoThread = new TitleMusicPlayerNoThread();
+                Path titleTrack = Paths.get(GameConfiguration.titleTrack);
+                titleMusicPlayerNoThread.playSong(titleTrack);
+            }
         }
     }
 
@@ -48,7 +51,10 @@ public class TitleScreenController implements WindowListener, ActionListener
     {
         if (GameConfiguration.playMusic == true)
         {
-            titleMusicPlayerNoThread.pauseMusic();
+            if (!(GameConfiguration.titleTrack.isEmpty()))
+            {
+                titleMusicPlayerNoThread.pauseMusic();
+            }
         }
     }
 
@@ -57,7 +63,10 @@ public class TitleScreenController implements WindowListener, ActionListener
     {
         if (GameConfiguration.playMusic == true)
         {
-            titleMusicPlayerNoThread.pauseMusic();
+            if (!(GameConfiguration.titleTrack.isEmpty()))
+            {
+                titleMusicPlayerNoThread.pauseMusic();
+            }
         }
 
     }

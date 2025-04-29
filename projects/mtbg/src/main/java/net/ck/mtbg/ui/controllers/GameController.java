@@ -13,8 +13,6 @@ import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.MapCanvas;
-import net.ck.mtbg.ui.dialogs.InventoryDialog;
-import net.ck.mtbg.ui.dialogs.StatsDialog;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -45,12 +43,16 @@ import java.awt.event.*;
 @Setter
 public class GameController implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
+    /**
+     * singleton GameController
+     */
     private static final GameController gameController = new GameController();
 
     /**
      * pressed mouse button timer
      */
     Timer pressedTimer;
+
     /**
      * currentAction is used for the two-step actions.
      * standard action is handled in onMessageEvent (AbstractKeyboardAction), i.e. movement.
@@ -61,14 +63,12 @@ public class GameController implements WindowListener, ActionListener, MouseList
      * keyboard input (movement keys or even pressing "a" again)
      */
     private AbstractKeyboardAction currentAction;
-    /**
-     * inventoryDialog
-     */
-    private InventoryDialog inventoryDialog;
+
     /**
      * double-click in inventory dialog leads to this being filled.
      */
     private AbstractItem currentItemInHand;
+
     /**
      * double-click in spell book dialog leads to this being filled.
      */
@@ -84,15 +84,17 @@ public class GameController implements WindowListener, ActionListener, MouseList
      * i.e. it switched keyboard movement to cross-hair movement.
      */
     private boolean movementForSelectTile = false;
-    /**
-     * stats Dialog - there will be one dialog only with exchanging JPanels
-     */
-    private StatsDialog statsDialog;
+
     /**
      * is drag Enabled
      */
     private boolean dragEnabled;
 
+    /**
+     * constructor
+     * registers the class for eventbus - necessary
+     * initializes UIState - needs a rework probably - not sure if not one state is sufficient for all.
+     */
     public GameController()
     {
         EventBus.getDefault().register(this);
@@ -100,9 +102,8 @@ public class GameController implements WindowListener, ActionListener, MouseList
     }
 
     /**
-     * standard constructor
+     * standard accessor
      */
-
     public static GameController getCurrent()
     {
         return gameController;

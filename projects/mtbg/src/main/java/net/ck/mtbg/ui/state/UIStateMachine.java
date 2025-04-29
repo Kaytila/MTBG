@@ -92,6 +92,4 @@ public class UIStateMachine
     @Getter
     @Setter
     private static boolean mouseOnEmptyGridField;
-
-
 }
