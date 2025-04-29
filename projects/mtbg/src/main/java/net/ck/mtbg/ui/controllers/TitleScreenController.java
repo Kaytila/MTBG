@@ -74,25 +74,52 @@ public class TitleScreenController implements WindowListener, ActionListener
     @Override
     public void windowIconified(WindowEvent e)
     {
-
+        if (GameConfiguration.playMusic == true)
+        {
+            if (!(GameConfiguration.titleTrack.isEmpty()))
+            {
+                titleMusicPlayerNoThread.pauseMusic();
+            }
+        }
     }
 
     @Override
     public void windowDeiconified(WindowEvent e)
     {
-
+        if (GameConfiguration.playMusic == true)
+        {
+            if (!(GameConfiguration.titleTrack.isEmpty()))
+            {
+                titleMusicPlayerNoThread.continueMusic();
+            }
+        }
     }
 
     @Override
     public void windowActivated(WindowEvent e)
     {
-
+        if (titleMusicPlayerNoThread != null)
+        {
+            if (GameConfiguration.playMusic == true)
+            {
+                if (!(GameConfiguration.titleTrack.isEmpty()))
+                {
+                    titleMusicPlayerNoThread.continueMusic();
+                }
+            }
+        }
     }
 
     @Override
     public void windowDeactivated(WindowEvent e)
     {
-
+        if (GameConfiguration.playMusic == true)
+        {
+            if (!(GameConfiguration.titleTrack.isEmpty()))
+            {
+                titleMusicPlayerNoThread.pauseMusic();
+            }
+        }
     }
 
     @Override

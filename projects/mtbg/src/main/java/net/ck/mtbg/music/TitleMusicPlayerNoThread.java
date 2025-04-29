@@ -21,6 +21,8 @@ public class TitleMusicPlayerNoThread
 {
     AudioInputStream audioInputStream = null;
     private Clip currentMusic;
+    private int clipTime;
+    private boolean paused;
 
 
     public void playSong(Path path)
@@ -87,6 +89,10 @@ public class TitleMusicPlayerNoThread
         }
     }
 
+    /**
+     * <a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java">a href="https://stackoverflow.com/questions/16915241/how-do-i-pause-a-clip-java</a>
+     * <a href="https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback">https://stackoverflow.com/questions/1550396/pause-a-sourcedataline-playback</a>
+     */
     public void pauseMusic()
     {
         if (currentMusic == null)
@@ -94,6 +100,32 @@ public class TitleMusicPlayerNoThread
             return;
         }
         logger.info("pause music");
+        setPaused(true);
+        clipTime = currentMusic.getFramePosition();
         currentMusic.stop();
     }
+
+    public void continueMusic()
+    {
+        if (currentMusic == null)
+        {
+            return;
+        }
+        logger.info("continue music");
+        currentMusic.setFramePosition(clipTime);
+
+        try
+        {
+            currentMusic.open();
+
+        }
+        catch (LineUnavailableException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        currentMusic.start();
+        setPaused(false);
+    }
+
 }
