@@ -18,7 +18,9 @@ import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.utils.UILense;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -319,6 +321,12 @@ public class World extends AbstractEntity implements LifeForm
     public String toXML()
     {
         return "";
+    }
+
+    @Override
+    public Collection<NPCProperty> getProperties()
+    {
+        return List.of();
     }
 
     @Override

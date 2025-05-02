@@ -32,9 +32,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 
 @Log4j2
 @Getter
@@ -895,5 +894,14 @@ public class NPC extends AbstractEntity implements LifeForm
             action = new EnterAction();
         }
         return action;
+    }
+
+    @Override
+    public Collection<NPCProperty> getProperties()
+    {
+        return List.of(
+                new NPCPropertyImpl("level", getLevel(), int.class),
+                new NPCPropertyImpl("patrolling", patrolling, boolean.class)
+        );
     }
 }

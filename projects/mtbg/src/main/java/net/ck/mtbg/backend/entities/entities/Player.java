@@ -37,9 +37,8 @@ import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 
 @Log4j2
 @Getter
@@ -873,5 +872,11 @@ public class Player extends AbstractEntity implements LifeForm
     public String toXML()
     {
         return "";
+    }
+
+    @Override
+    public Collection<NPCProperty> getProperties()
+    {
+        return List.of();
     }
 }

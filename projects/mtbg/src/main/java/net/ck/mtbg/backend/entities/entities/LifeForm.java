@@ -12,6 +12,7 @@ import net.ck.mtbg.util.communication.keyboard.GetAction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Collection;
 import java.util.Hashtable;
 
 
@@ -129,4 +130,6 @@ public interface LifeForm
     void setDefaultImage(BufferedImage image);
 
     String toXML();
+
+    Collection<NPCProperty> getProperties();
 }

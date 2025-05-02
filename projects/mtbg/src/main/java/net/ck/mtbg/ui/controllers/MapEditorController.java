@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 
 @Getter
 @Setter
@@ -66,6 +67,9 @@ public class MapEditorController implements WindowListener, ActionListener
     @Override
     public void windowOpened(WindowEvent e)
     {
+        File file = new File(GameConfiguration.mapFileRootPath + File.separator + "outpost.xml");
+        boolean ret = MapEditorApplication.getCurrent().loadFile(file);
+        MapEditorController.getCurrent().updateUIAfterLoadingMap();
         mapEditorFrame.getContentPane().repaint();
     }
 

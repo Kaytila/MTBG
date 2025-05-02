@@ -3,12 +3,12 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.backend.applications.MapEditorApplication;
-import net.ck.mtbg.map.MapProperty;
+import net.ck.mtbg.backend.entities.entities.NPCProperty;
 import net.ck.mtbg.ui.buttons.CancelButton;
 import net.ck.mtbg.ui.buttons.OKButton;
 import net.ck.mtbg.ui.components.LabeledEntryField;
 import net.ck.mtbg.ui.components.LabeledEntryFieldFactory;
+import net.ck.mtbg.ui.controllers.MapEditorController;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
@@ -20,9 +20,10 @@ import java.awt.event.ActionListener;
 @Log4j2
 @Getter
 @Setter
-public class MapEditDialog extends AbstractDialog
+public class NPCEditDialog extends AbstractDialog
 {
-    public MapEditDialog(JFrame owner, String title, boolean modal)
+
+    public NPCEditDialog(JFrame owner, String title, boolean modal)
     {
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
@@ -38,7 +39,8 @@ public class MapEditDialog extends AbstractDialog
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         this.add(content);
 
-        for (MapProperty property : MapEditorApplication.getCurrent().getMap().getProperties())
+
+        for (NPCProperty property : MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().getLifeForm().getProperties())
         {
             logger.debug("property: {}", property);
             LabeledEntryField field = LabeledEntryFieldFactory.createDefault(property);
@@ -47,6 +49,7 @@ public class MapEditDialog extends AbstractDialog
                 content.add(field);
             }
         }
+
 
         cancelButton = new CancelButton();
         cancelButton.addActionListener(new ActionListener()
@@ -57,7 +60,7 @@ public class MapEditDialog extends AbstractDialog
                 if (e.getActionCommand().equalsIgnoreCase("Cancel"))
                 {
                     logger.info("Cancel");
-                    MapEditDialog.this.dispose();
+                    NPCEditDialog.this.dispose();
                     UIStateMachine.setDialogOpened(false);
                 }
             }
@@ -73,7 +76,7 @@ public class MapEditDialog extends AbstractDialog
                     logger.info("OK - figure this out later");
                     //TODO add actual logic here what to do with the Editor contents
 
-                    MapEditDialog.this.dispose();
+                    NPCEditDialog.this.dispose();
                     UIStateMachine.setDialogOpened(false);
                 }
             }
@@ -94,4 +97,5 @@ public class MapEditDialog extends AbstractDialog
         this.add(new JScrollPane(content));
         this.setVisible(true);
     }
+
 }

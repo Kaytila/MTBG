@@ -89,6 +89,12 @@ public class DialogFactory
             {
                 return new MapEditDialog(owner, title, modal);
             }
+
+            case "Edit NPC":
+            {
+                return new NPCEditDialog(owner, title, modal);
+            }
+
             default:
             {
                 throw new IllegalArgumentException("not expected value during Dialog Creation: " + title);

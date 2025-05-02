@@ -11,6 +11,7 @@ import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.ProtoMapTile;
 import net.ck.mtbg.ui.controllers.MapEditorController;
+import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.util.utils.MapUtils;
 
 import javax.swing.*;
@@ -140,6 +141,7 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                         else if (source.getText().equals("edit npc"))
                         {
                             logger.debug("open edit NPC Dialog here");
+                            DialogFactory.createDialog(MapEditorController.getCurrent().getMapEditorFrame(), "Edit NPC", false, null, null, null);
                         }
                         // now it must be a tile type all other types, better not use all of these individually
                         else
