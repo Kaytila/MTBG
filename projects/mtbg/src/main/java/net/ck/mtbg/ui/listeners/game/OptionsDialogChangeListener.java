@@ -23,8 +23,8 @@ public class OptionsDialogChangeListener implements ChangeListener
         if (!source.getValueIsAdjusting())
         {
             int fps = source.getValue();
-            GameConfiguration.setVictoryWait(fps * 1000);
-            logger.debug("victory wait: {}", GameConfiguration.getVictoryWait());
+            GameConfiguration.victoryWait = (fps * 1000);
+            logger.debug("victory wait: {}", GameConfiguration.victoryWait);
             GameUtils.initializeMusicTimer();
         }
     }

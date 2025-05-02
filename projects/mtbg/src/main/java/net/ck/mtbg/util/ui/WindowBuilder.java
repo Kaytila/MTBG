@@ -34,12 +34,7 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.*;
 
 import static java.awt.Component.CENTER_ALIGNMENT;
 
@@ -403,14 +398,75 @@ public class WindowBuilder
         splitPane.setDividerLocation(GameConfiguration.tileSize * 12);
         splitPane.setPreferredSize(new Dimension(700, 700));
         splitPane.setResizeWeight(1);
-        splitPane.addPropertyChangeListener("TEST", new PropertyChangeListener()
+        leftPanel.addComponentListener(new ComponentAdapter()
         {
             @Override
-            public void propertyChange(PropertyChangeEvent evt)
+            public void componentResized(ComponentEvent e)
             {
-                logger.debug("evt: {}", evt.getNewValue());
+                logger.debug("left panel width:{}  height: {}", e.getComponent().getWidth(), e.getComponent().getHeight());
+                //MapEditorController.getCurrent().calculateMaxMapSize();
             }
         });
+
+
+        rightPanel.addComponentListener(new ComponentAdapter()
+        {
+            @Override
+            public void componentResized(ComponentEvent e)
+            {
+                logger.debug("right panel width:{}  height: {}", e.getComponent().getWidth(), e.getComponent().getHeight());
+                //MapEditorController.getCurrent().calculateMaxMapSize();
+            }
+        });
+
+        splitPane.addComponentListener(new ComponentAdapter()
+        {
+            @Override
+            public void componentResized(ComponentEvent e)
+            {
+                logger.debug("splitPane panel width:{}  height: {}", e.getComponent().getWidth(), e.getComponent().getHeight());
+                logger.debug("Screen size: {}", Toolkit.getDefaultToolkit().getScreenSize());
+                //MapEditorController.getCurrent().calculateMaxMapSize();
+            }
+        });
+
+
+        splitPane.addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                if (e.getClickCount() == 2)
+                {
+                    logger.debug("double clicked split pane:");
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e)
+            {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e)
+            {
+
+            }
+        });
+
         mapEditorFrame.add(splitPane);
 
         logger.debug("building the right side of the map editor");

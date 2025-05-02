@@ -1253,3 +1253,4 @@ History of the changes:
             Once I have made up my mind how I want to do that properly.
 2025-04-29: updated TitleController to make sure that a titletrack can be empty although playMusic is true.
 2025-04-29: updated TitleController and TitleMusicPlayer to make sure the track is paused properly and continued.
+2025-05-02: MapEditor - updated popup menu to make sure the npc/furniture entries are only used if there is one.

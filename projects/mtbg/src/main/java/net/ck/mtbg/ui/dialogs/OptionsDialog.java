@@ -30,8 +30,7 @@ public class OptionsDialog extends AbstractDialog
         panel.setLayout(null);
         this.setContentPane(panel);
 
-        JSlider victoryWait = new JSlider(JSlider.HORIZONTAL,
-                1, 15, GameConfiguration.getVictoryWait() / 1000);
+        JSlider victoryWait = new JSlider(JSlider.HORIZONTAL, 1, 15, GameConfiguration.victoryWait / 1000);
         victoryWait.addChangeListener(new OptionsDialogChangeListener());
 
 

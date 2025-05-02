@@ -137,7 +137,11 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                             logger.debug("removing furniture");
                             MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().setFurniture(null);
                         }
-                        // now it must be a tile type
+                        else if (source.getText().equals("edit npc"))
+                        {
+                            logger.debug("open edit NPC Dialog here");
+                        }
+                        // now it must be a tile type all other types, better not use all of these individually
                         else
                         {
                             logger.debug("source: {}", source.getText());
@@ -155,15 +159,26 @@ public class MapEditorCanvasListener implements MouseListener, MouseMotionListen
                     menuItem1.add(menuItem);
 
                 }
-
-                menuItem1.addActionListener(actionListener);
-                JMenuItem menuItem2 = new JMenuItem("remove npc");
-                menuItem2.addActionListener(actionListener);
-                JMenuItem menuItem3 = new JMenuItem("remove furniture");
-                menuItem3.addActionListener(actionListener);
                 popupMenu.add(menuItem1);
-                popupMenu.add(menuItem2);
-                popupMenu.add(menuItem3);
+                popupMenu.addSeparator();
+                if (MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().getLifeForm() != null)
+                {
+                    menuItem1.addActionListener(actionListener);
+                    JMenuItem menuItem2 = new JMenuItem("remove npc");
+                    menuItem2.addActionListener(actionListener);
+                    popupMenu.add(menuItem2);
+                    JMenuItem menuItem3 = new JMenuItem("edit npc");
+                    menuItem3.addActionListener(actionListener);
+                    popupMenu.add(menuItem3);
+                }
+
+                if (MapEditorController.getCurrent().getMapEditorCanvas().getSelectedTile().getFurniture() != null)
+                {
+                    popupMenu.addSeparator();
+                    JMenuItem menuItem4 = new JMenuItem("remove furniture");
+                    menuItem4.addActionListener(actionListener);
+                    popupMenu.add(menuItem4);
+                }
 
                 if (e.isPopupTrigger())
                 {

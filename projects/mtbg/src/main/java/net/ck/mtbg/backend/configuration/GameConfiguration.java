@@ -1,7 +1,5 @@
 package net.ck.mtbg.backend.configuration;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
@@ -381,15 +379,14 @@ public class GameConfiguration
      * how many milliseconds to wait in case weather is async?
      */
     public static final int weatherWait = 10000;
+
     /**
      * how many miliseconds to wait until music switches back to before from victory fanfare music?
      */
-    @Getter
-    @Setter
+
     public static int victoryWait = 7000;
 
-
-    public static String titleTrack = out + File.separator + "music" + File.separator + "STONES" + File.separator + "stones5.wav";
+    public static String titleTrack;// = out + File.separator + "music" + File.separator + "STONES" + File.separator + "stones5.wav";
 }
 
 

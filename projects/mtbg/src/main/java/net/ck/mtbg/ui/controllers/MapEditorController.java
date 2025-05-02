@@ -116,4 +116,28 @@ public class MapEditorController implements WindowListener, ActionListener
         //leftPanel.setPreferredSize(new Dimension(MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize, MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize));
         splitPane.resetToPreferredSizes();
     }
+
+    public void calculateMaxMapSize()
+    {
+        int maxWidth = leftPanel.getPreferredSize().width;
+        int maxHeight = leftPanel.getPreferredSize().height;
+
+        int maxTilesWidth = (maxWidth - GameConfiguration.editorScrollbarSize) / GameConfiguration.tileSize;
+        int maxTilesHeight = (maxHeight - GameConfiguration.editorScrollbarSize) / GameConfiguration.tileSize;
+
+        logger.debug("left Panel preferred size: {}", leftPanel.getPreferredSize());
+        logger.debug("maxTilesWidth: {}", maxTilesWidth);
+        logger.debug("maxTilesHeight: {}", maxTilesHeight);
+
+        if (MapEditorApplication.getCurrent().getMap().getSize().x > maxTilesWidth)
+        {
+            logger.debug("Canvas needs scrolling left-right because of {}", maxTilesWidth);
+        }
+
+        if (MapEditorApplication.getCurrent().getMap().getSize().y > maxTilesHeight)
+        {
+            logger.debug("Canvas needs scrolling up-down because of {}", maxTilesHeight);
+        }
+    }
+
 }

@@ -57,15 +57,19 @@ BUGS:
 2024-01-15  drag'n'drop onto a wall works, kind of - wall does not accept it but item is gone anyawys
 2024-02-21  FIXED daynight cycle works, but light sources are currently ignored. Check in paintComponent whether this handled
 2024-04-24  for some reason furniture can be walked on. blocked should be false because of it during init.
-2024-04-24:  initial implementation of bufferedLense has an edge case issue.
+2024-04-24: initial implementation of bufferedLense has an edge case issue.
 2024-06-23: PC missiles are handled correctly, but NPC missiles are not.
             it is actually normal that NPC missiles are drawn after PC has moved already. HitOrMiss is drawn correctly,
             but the whole paint part (where missile starts and where it ends is currently incorrect. highlight drawing
             is correct however. Yes, it is that case.
-2024-06-26: when killing an enemy, PC will still shoot at the same target even if switching targets.
+2024-06-26: when killing an enemy, PC will still shoot at the same target even if switching targets. target is not
+            cleared properly.
 2024-07-11: FIXED IdleTimer no longer works after deactivating or iconifying game.
 2025-04-23: FIXED in MapEditor, maptilepane did not calculate scrollbar properly. adding the #ensureIndexIsVisible to
             the listselection listener for it solved it.
 2025-04-23: FIXED long standing bug in the buttons - I am drawing the button text anyways, no need to set the label.
 2025-04-26: In MapEditor, there is a bug in selection with highlighting of the selectedItem and rather de-highlighting
             the other entries.
+2025-05-02: MapEditor, adding an npc after dbl clicking a maptile does not work. You need to add a tile first, then you
+            can add an npc again.
+2025-05-02:
