@@ -46,6 +46,8 @@ public class MapEditorController implements WindowListener, ActionListener
     //TODO add selection item to check from what pane the selection is happening
     private MapEditorListsSelection selectedItem;
 
+    private int scrollPositionX = 0;
+    private int scrollPositionY = 0;
 
     public MapEditorController()
     {
@@ -144,4 +146,23 @@ public class MapEditorController implements WindowListener, ActionListener
         }
     }
 
+    public void incrementScrollPositionY()
+    {
+        scrollPositionY++;
+    }
+
+    public void decrementScrollPositionY()
+    {
+        scrollPositionY--;
+    }
+
+    public void decrementScrollPositionX()
+    {
+        scrollPositionX++;
+    }
+
+    public void incrementScrollPositionX()
+    {
+        scrollPositionX--;
+    }
 }

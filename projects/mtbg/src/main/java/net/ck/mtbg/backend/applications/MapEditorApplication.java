@@ -31,10 +31,32 @@ public class MapEditorApplication
      * Singleton
      */
     private static final MapEditorApplication mapEditor = new MapEditorApplication();
+
+    /**
+     * the currently edited map
+     */
     private Map map;
+
+    /**
+     * the list of possible maptiles
+     */
     private DefaultListModel<ProtoMapTile> protoMapTileList;
+
+    /**
+     * the list of furnutire items
+     */
     private DefaultListModel<FurnitureItem> furnitureItemList;
+
+    /**
+     * list of NPCs
+     */
     private DefaultListModel<NPC> npcList;
+
+    /**
+     *
+     */
+    private Point visibleTiles;
+
 
     public MapEditorApplication()
     {

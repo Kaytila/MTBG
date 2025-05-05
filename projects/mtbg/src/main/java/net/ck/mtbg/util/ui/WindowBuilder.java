@@ -592,10 +592,12 @@ public class WindowBuilder
                 if (e.getAdjustmentType() == AdjustmentEvent.UNIT_INCREMENT)
                 {
                     System.out.println("Up arrow clicked or scrolled down");
+                    MapEditorController.getCurrent().incrementScrollPositionY();
                 }
                 else if (e.getAdjustmentType() == AdjustmentEvent.UNIT_DECREMENT)
                 {
                     System.out.println("Down arrow clicked or scrolled up");
+                    MapEditorController.getCurrent().decrementScrollPositionY();
                 }
 
                 // If needed, increment the viewport (for example, scroll by a fixed amount)
@@ -665,10 +667,12 @@ public class WindowBuilder
                 if (e.getAdjustmentType() == AdjustmentEvent.UNIT_INCREMENT)
                 {
                     System.out.println("Up arrow clicked or scrolled down");
+                    MapEditorController.getCurrent().incrementScrollPositionX();
                 }
                 else if (e.getAdjustmentType() == AdjustmentEvent.UNIT_DECREMENT)
                 {
                     System.out.println("Down arrow clicked or scrolled up");
+                    MapEditorController.getCurrent().decrementScrollPositionX();
                 }
 
                 // If needed, increment the viewport (for example, scroll by a fixed amount)
