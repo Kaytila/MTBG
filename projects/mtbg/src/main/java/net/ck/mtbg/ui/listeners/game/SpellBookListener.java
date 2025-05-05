@@ -5,7 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.soundeffects.SoundEffects;
-import net.ck.mtbg.ui.components.SpellbookPane;
+import net.ck.mtbg.ui.components.game.SpellbookPane;
 import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;

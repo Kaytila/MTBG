@@ -3,11 +3,11 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.components.SpellbookPane;
+import net.ck.mtbg.ui.components.game.SpellbookPane;
 import net.ck.mtbg.ui.listeners.game.LeftSpellBookPagePanelMouseListener;
 import net.ck.mtbg.ui.listeners.game.RightSpellBookPageMouseListener;
 import net.ck.mtbg.ui.listeners.game.WindowClosingListener;
-import net.ck.mtbg.ui.renderers.SpellbookListCellRenderer;
+import net.ck.mtbg.ui.renderers.game.SpellbookListCellRenderer;
 import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 

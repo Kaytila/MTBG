@@ -1256,3 +1256,4 @@ History of the changes:
 2025-05-02: MapEditor - updated popup menu to make sure the npc/furniture entries are only used if there is one.
 2025-05-02: MapEditor - added initial edit npc dialog. added additional frameworks for properties.
 2025-05-05: Introduced new Version of UILense.
+2025-05-05: Some refactoring - added game, charactereditor, mapeditor package.

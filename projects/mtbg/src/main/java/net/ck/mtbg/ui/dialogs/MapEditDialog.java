@@ -5,10 +5,10 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.MapEditorApplication;
 import net.ck.mtbg.map.MapProperty;
-import net.ck.mtbg.ui.buttons.CancelButton;
-import net.ck.mtbg.ui.buttons.OKButton;
-import net.ck.mtbg.ui.components.LabeledEntryField;
-import net.ck.mtbg.ui.components.LabeledEntryFieldFactory;
+import net.ck.mtbg.ui.buttons.general.CancelButton;
+import net.ck.mtbg.ui.buttons.general.OKButton;
+import net.ck.mtbg.ui.components.mapeditor.LabeledEntryField;
+import net.ck.mtbg.ui.components.mapeditor.LabeledEntryFieldFactory;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 

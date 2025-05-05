@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.listeners.game;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.components.InventoryPane;
+import net.ck.mtbg.ui.components.game.InventoryPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

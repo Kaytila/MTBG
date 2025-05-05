@@ -12,7 +12,7 @@ import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.MapCanvas;
+import net.ck.mtbg.ui.components.game.MapCanvas;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;

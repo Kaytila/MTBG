@@ -3,7 +3,7 @@ package net.ck.mtbg.ui.listeners.charactereditor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.models.CharacterPortraitModel;
+import net.ck.mtbg.ui.models.charactereditor.CharacterPortraitModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

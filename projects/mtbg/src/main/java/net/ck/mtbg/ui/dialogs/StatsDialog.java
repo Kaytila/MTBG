@@ -3,8 +3,8 @@ package net.ck.mtbg.ui.dialogs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.ui.components.StatsPane;
-import net.ck.mtbg.ui.renderers.StatsPaneListCellRenderer;
+import net.ck.mtbg.ui.components.game.StatsPane;
+import net.ck.mtbg.ui.renderers.game.StatsPaneListCellRenderer;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 
 import javax.swing.*;

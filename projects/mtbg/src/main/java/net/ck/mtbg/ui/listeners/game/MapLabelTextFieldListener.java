@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.components.AutoMapCanvas;
-import net.ck.mtbg.ui.components.MapLabelTextField;
+import net.ck.mtbg.ui.components.game.AutoMapCanvas;
+import net.ck.mtbg.ui.components.game.MapLabelTextField;
 
 import java.awt.event.*;
 

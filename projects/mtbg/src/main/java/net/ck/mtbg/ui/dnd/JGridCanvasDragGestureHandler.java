@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.MapCanvas;
+import net.ck.mtbg.ui.components.game.MapCanvas;
 import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.util.utils.MapUtils;
 

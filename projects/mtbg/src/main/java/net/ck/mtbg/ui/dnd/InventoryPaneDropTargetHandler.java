@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.items.AbstractItem;
-import net.ck.mtbg.ui.components.InventoryPane;
+import net.ck.mtbg.ui.components.game.InventoryPane;
 
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;

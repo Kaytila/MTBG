@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.items.Armor;
-import net.ck.mtbg.ui.components.EQPanel;
+import net.ck.mtbg.ui.components.game.EQPanel;
 import net.ck.mtbg.util.utils.NPCUtils;
 
 import java.awt.event.MouseEvent;

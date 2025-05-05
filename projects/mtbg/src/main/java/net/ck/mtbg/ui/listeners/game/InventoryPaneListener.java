@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.items.Utility;
-import net.ck.mtbg.ui.components.InventoryPane;
+import net.ck.mtbg.ui.components.game.InventoryPane;
 import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.ui.dialogs.ContainerDialog;
 import net.ck.mtbg.util.communication.graphics.CursorChangeEvent;

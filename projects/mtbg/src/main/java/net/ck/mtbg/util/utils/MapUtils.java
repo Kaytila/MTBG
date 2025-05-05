@@ -13,7 +13,7 @@ import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.components.AbstractMapCanvas;
+import net.ck.mtbg.ui.components.game.AbstractMapCanvas;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.DayNight;

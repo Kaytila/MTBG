@@ -34,8 +34,6 @@ open module net.ck.mtbg
     exports net.ck.mtbg.backend.entities;
 
     exports net.ck.mtbg.ui.dialogs;
-    exports net.ck.mtbg.ui.components;
-    exports net.ck.mtbg.ui.buttons;
     exports net.ck.mtbg.ui.listeners.game;
     exports net.ck.mtbg.ui.listeners.charactereditor;
     exports net.ck.mtbg.ui.listeners.mapeditor;
@@ -74,5 +72,19 @@ open module net.ck.mtbg
     exports net.ck.mtbg.util.communication.time;
     exports net.ck.mtbg.backend.applications;
     exports net.ck.mtbg.ui.controllers;
+    exports net.ck.mtbg.ui.renderers.charactereditor;
+    exports net.ck.mtbg.ui.renderers.game;
+    exports net.ck.mtbg.ui.renderers.mapeditor;
+    exports net.ck.mtbg.ui.models.charactereditor;
+    exports net.ck.mtbg.ui.models.game;
+    exports net.ck.mtbg.ui.mainframes.mapeditor;
+    exports net.ck.mtbg.ui.mainframes.charactereditor;
+    exports net.ck.mtbg.ui.mainframes.game;
+    exports net.ck.mtbg.ui.components.game;
+    exports net.ck.mtbg.ui.components.charactereditor;
+    exports net.ck.mtbg.ui.components.mapeditor;
+    exports net.ck.mtbg.ui.buttons.game;
+    exports net.ck.mtbg.ui.buttons.mapeditor;
+    exports net.ck.mtbg.ui.buttons.general;
 
 }

@@ -24,7 +24,7 @@ import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.mainframes.SceneFrame;
+import net.ck.mtbg.ui.mainframes.game.SceneFrame;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.astar.AStar;

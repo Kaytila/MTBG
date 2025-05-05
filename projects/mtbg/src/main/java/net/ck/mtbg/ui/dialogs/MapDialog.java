@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.map.AutoMap;
 import net.ck.mtbg.map.Map;
-import net.ck.mtbg.ui.components.AutoMapCanvas;
+import net.ck.mtbg.ui.components.game.AutoMapCanvas;
 import net.ck.mtbg.ui.listeners.game.AutoMapCanvasMouseListener;
 import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
 

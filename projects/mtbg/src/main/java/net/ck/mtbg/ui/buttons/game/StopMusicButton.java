@@ -1,0 +1,21 @@
+package net.ck.mtbg.ui.buttons.game;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+
+import java.awt.*;
+
+@Getter
+@Setter
+@Log4j2
+public class StopMusicButton extends AbstractFancyButton
+{
+    public StopMusicButton(Point p)
+    {
+        super(p);
+        setLabel("Stop Music");
+        this.setActionCommand(label);
+        this.setFocusable(false);
+    }
+}
