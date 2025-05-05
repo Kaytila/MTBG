@@ -426,6 +426,7 @@ public class WindowBuilder
             {
                 logger.debug("splitPane panel width:{}  height: {}", e.getComponent().getWidth(), e.getComponent().getHeight());
                 logger.debug("Screen size: {}", Toolkit.getDefaultToolkit().getScreenSize());
+                logger.debug("Screen resolution: {}", Toolkit.getDefaultToolkit().getScreenResolution());
                 //MapEditorController.getCurrent().calculateMaxMapSize();
             }
         });

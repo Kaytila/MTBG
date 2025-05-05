@@ -30,6 +30,7 @@ distributions {
 tasks.getByName<CreateStartScripts>("startScripts") {
     defaultJvmOpts = listOf(
         "-splash:assets/graphics/splash/splash.jpg"
+
     )
 }
 
@@ -44,7 +45,8 @@ tasks.getByName<CreateStartScripts>("startScripts") {
 // for application run only
 tasks.getByName<JavaExec>("run") {
     jvmArgs = listOf(
-        "-splash:" + projectDir.absolutePath + "/assets/graphics/splash/splash.jpg"//, "quick", "startPosition:1@1"
+        "-splash:" + projectDir.absolutePath + "/assets/graphics/splash/splash.jpg", //, "quick", "startPosition:1@1"
+        "-XX:StartFlightRecording"
     )
 }
 
