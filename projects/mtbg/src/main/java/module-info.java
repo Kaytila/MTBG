@@ -15,6 +15,7 @@ open module net.ck.mtbg
     requires org.apache.commons.io;
     requires org.apache.tika.core;
     requires com.opencsv;
+    requires com.fasterxml.jackson.core;
 
     requires eventbus.java;
     requires imgscalr.lib;

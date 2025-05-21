@@ -1,20 +1,22 @@
-SSSSSSSSSGGSSSSSSSSS
-SwwwS..........SwwwS
-SwwwS..........SwwwS
-SwwwS..........SwwwS
-SSDSS..........SSDSS
-S..................S
-S..................S
-S..................S
-S..................S
-S..................S
-S..................S
-S..................S
-S..................S
-S..................S
-S..................S
-SSDSS..........SSDSS
-SwwwS..........SwwwS
-SwwwS..........SwwwS
-SwwwS..........SwwwS
-SSSSSSSSSGGSSSSSSSSS
+[],
+	['sw sw sw sw sw sw sw sw sw gc gc sw sw sw sw sw sw sw sw sw'],
+	['sw wf wf wf sw gs gs gs gs gs gs gs gs gs gs sw wf wf wf sw'],
+	['sw wf wf wf sw gs gs gs gs gs gs gs gs gs gs sw wf wf wf sw'],
+	['sw wf wf wf sw gs gs gs gs gs gs gs gs gs gs sw wf wf wf sw'],
+	['sw sw wc sw sw gs gs gs gs gs gs gs gs gs gs sw sw wc sw sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs gs sw'],
+	['sw sw wc sw sw gs gs gs gs gs gs gs gs gs gs sw sw wc sw sw'],
+	['sw wf wf wf sw gs gs gs gs gs gs gs gs gs gs sw wf wf wf sw'],
+	['sw wf wf wf sw gs gs gs gs gs gs gs gs gs gs sw wf wf wf sw'],
+	['sw wf wf wf sw gs gs gs gs gs gs gs gs gs gs sw wf wf wf sw'],
+	['sw sw sw sw sw sw sw sw sw gc gc sw sw sw sw sw sw sw sw sw'],
+]

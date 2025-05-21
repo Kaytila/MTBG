@@ -1259,3 +1259,8 @@ History of the changes:
 2025-05-05: Some refactoring - added game, charactereditor, mapeditor package.
 2025-05-05: UILense additional work on update methods. Introduced logic for scrolling MapCanvas. Now only the scrolling
             should work.
+2025-05-21: did some inital setup for swiching the maps to JSON. Fought Gradle and won, for one.
+            I could actually just do a simple line parser with a huge switch statement instead.
+            Which is probably faster and easier but still leaves the issue of furniture
+            and additional topics like adding npcs and the like.
+            And this way, I can add NPCs right away on top as well.

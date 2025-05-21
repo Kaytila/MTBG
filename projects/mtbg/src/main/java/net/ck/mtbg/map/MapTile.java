@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
-import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.FurnitureItem;
 
@@ -253,7 +252,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         {
             case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD,
                  WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST -> blocked;
-            case MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL,
+            case MOUNTAIN, OCEAN, CASTLEWEST, CASTLEEAST, STONEWALL, STONEWINDOW, WOODWALL,
                  WOODWINDOW, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST -> true;
             default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
         };
@@ -268,7 +267,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
         {
             case GATEOPEN, GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED, WOODDOOROPEN, STONEDOOROPEN -> true;
             case DIRTROAD, WOODFLOOR, STONEFLOOR, MARBLEFLOOR, DIRTFLOOR, CAVEENTRANCE, LIGHTFOREST, BUSHES, BUSH, DENSEFOREST, DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN,
-                 CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, MOUNTAIN, RIVERES, RIVEREE, RIVEREN, RIVERNE, OCEAN, RIVERNS, RIVERNW, RIVERSE, RIVERSS, RIVERSW, RIVERWN, RIVERWS, RIVERWW, CASTLEWEST,
+                 CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, MOUNTAIN, OCEAN, CASTLEWEST,
                  CASTLEEAST, PAVEDROAD, STONEWALL, STONEWINDOW, WOODWALL,
                  WOODWINDOW, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST -> false;
             default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
@@ -307,18 +306,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
             case MARBLEFLOOR:
             case OCEAN:
             case PAVEDROAD:
-            case RIVEREE:
-            case RIVEREN:
-            case RIVERES:
-            case RIVERNE:
-            case RIVERNS:
-            case RIVERNW:
-            case RIVERSE:
-            case RIVERSS:
-            case RIVERSW:
-            case RIVERWN:
-            case RIVERWS:
-            case RIVERWW:
             case STONEDOOROPEN:
             case STONEFLOOR:
             case STONEWINDOW:
@@ -452,18 +439,6 @@ public class MapTile implements Comparable<MapTile>, Serializable
             case LADDERDOWN:
             case LADDERUP:
             case OCEAN:
-            case RIVEREE:
-            case RIVEREN:
-            case RIVERES:
-            case RIVERNE:
-            case RIVERNS:
-            case RIVERNW:
-            case RIVERSE:
-            case RIVERSS:
-            case RIVERSW:
-            case RIVERWN:
-            case RIVERWS:
-            case RIVERWW:
             case STONEWINDOW:
             case TOWNENTRANCE:
             case VILLAGEENTRANCE:

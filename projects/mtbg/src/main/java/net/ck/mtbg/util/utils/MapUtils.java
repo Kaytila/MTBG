@@ -9,10 +9,10 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
-import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.map.TileTypes;
 import net.ck.mtbg.ui.components.game.AbstractMapCanvas;
 import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
@@ -1206,7 +1206,6 @@ public class MapUtils
         AtomicInteger ide = new AtomicInteger(id);
         line.chars().forEach(c ->
         {
-
             MapTile tile = new MapTile();
             tile.setY(lineIndex);
             tile.setX(rowIndex.getAndIncrement());
@@ -1216,6 +1215,65 @@ public class MapUtils
             tiles.add(tile);
         });
         return ide.intValue();
+    }
+
+    public static void translateJSONMap()
+    {
+        logger.debug("START: json map translate");
+        File folder = new File(GameConfiguration.txtMapRootFilePath);
+        File[] listOfFiles = folder.listFiles();
+
+        assert listOfFiles != null;
+        for (File file : listOfFiles)
+        {
+            logger.debug("File: {}", file.getName());
+            if (file.isFile())
+            {
+                //hopefully it is a valid map!
+                if (file.getName().endsWith(".txt"))
+                {
+                    logger.debug("START: parse map");
+                    ArrayList<MapTile> mapTiles = new ArrayList<>();
+                    Map map = new Map();
+                    map.setWeatherRandomness(0);
+                    map.setName(file.getName());
+                    try
+                    {
+                        int id = 0;
+                        BufferedReader reader = new BufferedReader(new FileReader(GameConfiguration.txtMapRootFilePath + File.separator + file.getName()));
+                        String line = reader.readLine();
+                        int lineIndex = 0;
+                        while (line != null)
+                        {
+                            id = parseMapLine(map, line, lineIndex, mapTiles, id);
+                            lineIndex++;
+                            line = reader.readLine();
+                        }
+                        map.setSize(calculateMapSize(mapTiles));
+                        map.setMapTiles(calculateMapTileArray(mapTiles, map.getSize()));
+                        //Game.getCurrent().getMaps().add(map);
+                        reader.close();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    logger.info("END: parse File");
+                    logger.info("START: write xml file");
+                    try
+                    {
+                        writeMapToXML(map);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    logger.info("END: write xml file");
+
+                }
+            }
+        }
+        logger.info("END: json map translate");
     }
 
     private static TileTypes mapTXTtoTerrainTypes(String s)

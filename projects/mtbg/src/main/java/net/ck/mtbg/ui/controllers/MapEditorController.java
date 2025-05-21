@@ -115,6 +115,8 @@ public class MapEditorController implements WindowListener, ActionListener
     {
         Dimension preferredSize = new Dimension((MapEditorApplication.getCurrent().getMap().getSize().x * GameConfiguration.tileSize) + GameConfiguration.editorScrollbarSize, (MapEditorApplication.getCurrent().getMap().getSize().y * GameConfiguration.tileSize) + GameConfiguration.editorScrollbarSize);
         logger.debug("preferred size: {}", preferredSize);
+        scrollPositionY = 0;
+        scrollPositionX = 0;
         mapEditorCanvas.setPreferredSize(preferredSize);
         //mapEditorCanvas.setMinimumSize(preferredSize);
         leftPanel.setMinimumSize(preferredSize);

@@ -72,4 +72,5 @@ BUGS:
             the other entries.
 2025-05-02: MapEditor, adding an npc after dbl clicking a maptile does not work. You need to add a tile first, then you
             can add an npc again.
-2025-05-02:
+2025-05-10: In MapEditor, opening a map does not automatically repaint correctly to show the map at max size even if it
+            fits.

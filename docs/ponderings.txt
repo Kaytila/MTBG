@@ -250,3 +250,11 @@ I have to say after playing around more with #preferredSize, #minimumSize #maxim
 this is actually pretty neat. MapEditor got from barely working in a fixed Size to basically working on 4k resolution.
 Still need to figure out how to deal with the scrollPane and how to factor that in as this is not really documented very
 well nor understood by me either.
+
+
+On Maps
+=======
+
+I think I have learned of a way better way how to set up the maps.
+I will abolish the XML, not quite go to CSV, but to JSON instead. That way, I can more easily load this into the game
+and also write them more graphically actually.

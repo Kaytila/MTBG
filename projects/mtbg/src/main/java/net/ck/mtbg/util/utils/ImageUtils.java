@@ -9,8 +9,8 @@ import net.ck.mtbg.backend.entities.entities.NPC;
 import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.entities.entities.Player;
 import net.ck.mtbg.graphics.ImagePair;
-import net.ck.mtbg.graphics.TileTypes;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.map.TileTypes;
 import net.ck.mtbg.weather.WeatherTypes;
 
 import javax.imageio.ImageIO;
