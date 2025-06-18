@@ -1345,7 +1345,7 @@ public class MapUtils
         }
     }
 
-    public static void calculateAllTileImages(Map map, Graphics graphics, AbstractMapCanvas canvas)
+    public static void calculateAllTileImages(Map map)
     {
         long start = System.nanoTime();
 
@@ -1369,7 +1369,7 @@ public class MapUtils
                 BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
                 Graphics g = image.getGraphics();
 
-                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(canvas.getCurrentBackgroundImage());
+                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
                 //g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
                 g.drawImage(bgImage, 0, 0, null);
 

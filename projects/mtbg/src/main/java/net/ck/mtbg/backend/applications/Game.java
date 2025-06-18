@@ -37,6 +37,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Game Main class also Y6MU+=A7B=NpmQSs
@@ -127,6 +128,7 @@ public class Game implements Runnable, Serializable
      */
     private PlayerAction playerAction;
 
+    private long startTime;
 
     /**
      * List of automaps - currently the whole map is generated. tomorrow, only the explored part will be visible.
@@ -164,6 +166,7 @@ public class Game implements Runnable, Serializable
         EventBus.getDefault().register(this);
         logger.info("game start with default settings finished");
 
+        startTime = System.currentTimeMillis();
     }
 
     /**
@@ -468,7 +471,6 @@ public class Game implements Runnable, Serializable
             UILense.getCurrent().identifyBufferedTiles();
             MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
             MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
-            //MapUtils.calculateAllTileImages(WindowBuilder.getGridCanvas().getGraphics());
             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
             {
                 WindowBuilder.getGridCanvas().paint();
@@ -478,6 +480,10 @@ public class Game implements Runnable, Serializable
 
     public synchronized void stopGame()
     {
+        logger.info("number of turns: {}", getTurnNumber());
+        long elapsedTime = System.currentTimeMillis() - startTime;
+
+        logger.info("time spent in game: {}", String.format("%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(elapsedTime), TimeUnit.MILLISECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(elapsedTime))));
         ThreadController.listThreads();
         GameUtils.listThreadTimes();
         setRunning(false);
@@ -670,7 +676,7 @@ public class Game implements Runnable, Serializable
             //}
         }
         //TODO currently stupid, but as the calculation does not work properly do it this way instead
-        MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap(), WindowBuilder.getGridCanvas().getGraphics(), WindowBuilder.getGridCanvas());
+        MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap());
     }
 
     public void saveGame()

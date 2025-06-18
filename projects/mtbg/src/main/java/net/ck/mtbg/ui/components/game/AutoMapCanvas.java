@@ -51,7 +51,7 @@ public class AutoMapCanvas extends JComponent
         long start = System.nanoTime();
         this.map = map;
         //TODO fix me
-        MapUtils.calculateAllTileImages(map, this.getGraphics(), null);
+        MapUtils.calculateAllTileImages(map);
         setSize(spacer + (map.getSize().x * GameConfiguration.autoMapTileSize), spacer + (map.getSize().y * GameConfiguration.autoMapTileSize));
         inital = true;
         for (int row = 0; row < map.getSize().y; row++)

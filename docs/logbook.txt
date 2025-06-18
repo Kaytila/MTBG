@@ -1264,3 +1264,5 @@ History of the changes:
             Which is probably faster and easier but still leaves the issue of furniture
             and additional topics like adding npcs and the like.
             And this way, I can add NPCs right away on top as well.
+2025-06-18: break due to vacation and other things like good weather. Fixed automap bug. Introduced small feature of
+            actually counting game time now. Will need to go into the save format. However that is going to look like.
