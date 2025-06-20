@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.listeners.game.OptionsDialogChangeListener;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
 
 import javax.swing.*;
 

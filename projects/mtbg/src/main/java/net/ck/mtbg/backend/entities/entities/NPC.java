@@ -22,7 +22,7 @@ import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.TileTypes;
 import net.ck.mtbg.util.astar.AStar;
-import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.communication.keyboard.gameactions.*;
 import net.ck.mtbg.util.communication.time.GameTimeChanged;
 import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;

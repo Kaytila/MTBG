@@ -232,3 +232,26 @@ looking forward when mapeditor can actually load an existing one.
 mapeditor needs to scroll. Will need to implement scrolling. one click per tile.
 also, when editor is opened: its "new" or "load".
 New will need to prompt for other input.
+map ID will just be x,y coordinate.
+
+TODO:
+Switch NPCs to Prototypes based on the TYPE, not on an ID
+
+
+TODO Sound backend:
+a range for sound effects - make actions have a range of sound
+i.e. walk 1
+cast 3
+attack 2
+yell 8
+and so on.
+
+TODO sound UI:
+will sounds be also shown on the tile as a tool tip or will they be shown in the command window only?
+
+TODO Game UI:
+
+1. Implement Layout to make the game UI more elegant and flexible
+2. Implement Game UI Effects:
+- earthquake (just translate x and y coordinates of GameCanvas
+- color effekcts

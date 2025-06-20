@@ -32,7 +32,7 @@ public class GameConfiguration
     /**
      * delay for the fore ground animation
      */
-    public static final int animationForeGroundDelay = 500;
+    public static final int animationForeGroundDelay = 1500;
 
     /**
      * delay for the life form animation

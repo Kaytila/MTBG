@@ -4,12 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
 
 /**
  * random action is something world is supposed to do.
- * @author Claus
  *
+ * @author Claus
  */
 @Log4j2
 @Getter
@@ -17,14 +17,14 @@ import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
 @ToString
 public class RandomAction extends AbstractAction
 {
-	public RandomAction()
-	{
-		super();
+    public RandomAction()
+    {
+        super();
 
-	}
+    }
 
-	public KeyboardActionType getType()
-	{
-		return KeyboardActionType.NULL;
-	}
+    public KeyboardActionType getType()
+    {
+        return KeyboardActionType.NULL;
+    }
 }

@@ -31,7 +31,9 @@ import net.ck.mtbg.util.astar.AStar;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
-import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.communication.keyboard.gameactions.*;
+import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.utils.GridUtils;
 import net.ck.mtbg.util.utils.ImageManager;
 import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -58,12 +60,14 @@ public class Player extends AbstractEntity implements LifeForm
     private int selectedSpellLevel = 1;
 
     /**
-     * constructor for the player player has two images types defined now.
+     * constructor for the player. player has two images types defined now.
      * standard image is what is used if animation is turned off moving image is
      * for whatever images is used to catch all images for the animation cycles.
      * there needs to be an image per animation cycle per player
      * to check for caller of method:
-     * <a href="https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection">...</a>
+     * <a href="https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection">
+     * https://stackoverflow.com/questions/421280/how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection
+     * </a>
      * parameters: player number
      */
     public Player(int number)
@@ -223,6 +227,8 @@ public class Player extends AbstractEntity implements LifeForm
 
         boolean success = false;
         action.setSuccess(false);
+
+        logger.debug("Doing action: {}", action.getType());
         switch (action.getType())
         {
             case PUSH:
@@ -272,6 +278,7 @@ public class Player extends AbstractEntity implements LifeForm
                 }
                 break;
             case ESC:
+
                 break;
             case NORTH:
                 // logger.info("p: {}", p.toString());
@@ -337,6 +344,8 @@ public class Player extends AbstractEntity implements LifeForm
                 }
                 break;
             case SPACE:
+                GridUtils.doEarthquake(WindowBuilder.getGridCanvas());
+                GridUtils.flashColor(WindowBuilder.getGridCanvas(), Color.RED);
                 success = true;
                 break;
             case GET:
@@ -348,8 +357,8 @@ public class Player extends AbstractEntity implements LifeForm
                 break;
 
             case TALK:
-                logger.info("doing talk action");
-                this.talk((MapUtils.getMapTileByCoordinates(action.getEvent().getGetWhere().x, action.getEvent().getGetWhere().y).getLifeForm()));
+
+                this.talk((MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere()).getLifeForm()));
                 break;
 
             case MOVE:

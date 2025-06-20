@@ -8,7 +8,7 @@ import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.components.game.MapCanvas;
 import net.ck.mtbg.ui.controllers.GameController;
-import net.ck.mtbg.util.communication.keyboard.DropAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.DropAction;
 import net.ck.mtbg.util.utils.MapUtils;
 
 import javax.swing.*;

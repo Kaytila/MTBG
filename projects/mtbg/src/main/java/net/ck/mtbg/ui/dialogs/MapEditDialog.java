@@ -10,7 +10,7 @@ import net.ck.mtbg.ui.buttons.general.OKButton;
 import net.ck.mtbg.ui.components.mapeditor.LabeledEntryField;
 import net.ck.mtbg.ui.components.mapeditor.LabeledEntryFieldFactory;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
 
 import javax.swing.*;
 import java.awt.*;

@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.ui.dialogs.TalkDialog;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;

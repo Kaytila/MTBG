@@ -15,7 +15,7 @@ import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.items.ItemFactory;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.*;
-import net.ck.mtbg.util.communication.keyboard.MoveAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.MoveAction;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.weather.WeatherTypes;
 import org.xml.sax.Attributes;

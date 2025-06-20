@@ -24,7 +24,7 @@ import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
-import net.ck.mtbg.util.communication.keyboard.GetAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.GetAction;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.utils.Directions;
 import net.ck.mtbg.util.utils.ImageManager;

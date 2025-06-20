@@ -1266,3 +1266,9 @@ History of the changes:
             And this way, I can add NPCs right away on top as well.
 2025-06-18: break due to vacation and other things like good weather. Fixed automap bug. Introduced small feature of
             actually counting game time now. Will need to go into the save format. However that is going to look like.
+2025-06-18: wrote additional todos based on my ponderings from vacation.
+2025-06-19: gave actions a sound reach - not sure how well I did that, but lets see.
+            Did move around the actions and set them to two different packages.
+2025-06-20: implemented Earthquake effect - this relies on a NULL layout unfortunately. So works for now.
+            implemented flashing light effect - will take color as argument to set the color - animation system creates
+            actually creates a flash, not really a need for a redraw.

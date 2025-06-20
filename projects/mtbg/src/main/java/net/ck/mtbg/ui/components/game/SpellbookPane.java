@@ -8,7 +8,7 @@ import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.listeners.game.SpellBookListener;
 import net.ck.mtbg.ui.models.game.SpellBookListDataModel;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 
 import javax.swing.*;
 import java.awt.*;

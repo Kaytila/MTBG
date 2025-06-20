@@ -10,9 +10,9 @@ import net.ck.mtbg.ui.components.game.InventoryPane;
 import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.ui.dialogs.ContainerDialog;
 import net.ck.mtbg.util.communication.graphics.CursorChangeEvent;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 import net.ck.mtbg.util.utils.CursorUtils;
 import org.greenrobot.eventbus.EventBus;
 

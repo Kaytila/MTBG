@@ -14,7 +14,7 @@ import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.TileTypes;
 import net.ck.mtbg.ui.components.game.AbstractMapCanvas;
-import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.weather.DayNight;
 import org.apache.commons.lang3.Range;

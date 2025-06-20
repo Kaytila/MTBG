@@ -12,7 +12,7 @@ import net.ck.mtbg.ui.components.game.WeaponPanel;
 import net.ck.mtbg.ui.dnd.EQPanelTransferHandler;
 import net.ck.mtbg.ui.listeners.game.EQPanelMouseListener;
 import net.ck.mtbg.ui.listeners.game.WindowClosingListener;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
 import net.ck.mtbg.util.utils.ImageUtils;
 
 import javax.swing.*;

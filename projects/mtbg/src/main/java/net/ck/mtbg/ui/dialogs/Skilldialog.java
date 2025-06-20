@@ -7,8 +7,8 @@ import net.ck.mtbg.ui.components.game.SkillTree;
 import net.ck.mtbg.ui.listeners.game.*;
 import net.ck.mtbg.ui.models.game.SkillTreeDataModel;
 import net.ck.mtbg.ui.renderers.game.SkillTreeTreeItemRenderer;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 
 import javax.swing.*;
 import javax.swing.tree.TreeSelectionModel;

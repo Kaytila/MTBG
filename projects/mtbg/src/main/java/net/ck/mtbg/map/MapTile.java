@@ -277,55 +277,17 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     public boolean isBlocksLOS()
     {
-        switch (getType())
+        return switch (getType())
         {
-            case CASTLEEAST:
-            case CASTLEENTRANCE:
-            case CASTLEWEST:
-            case CAVEENTRANCE:
-            case FOUNTAIN:
-            case GATECLOSED:
-            case MOUNTAIN:
-            case STAIRSDOWN:
-            case STAIRSUP:
-            case STONEDOORCLOSED:
-            case STONEWALL:
-            case WOODDOORCLOSED:
-            case WOODWALL:
-            case DENSEFOREST:
-                return true;
-
-            case DESERT:
-            case DIRTFLOOR:
-            case DIRTROAD:
-            case GATEOPEN:
-            case GRASS:
-            case HILL:
-            case LADDERDOWN:
-            case LADDERUP:
-            case MARBLEFLOOR:
-            case OCEAN:
-            case PAVEDROAD:
-            case STONEDOOROPEN:
-            case STONEFLOOR:
-            case STONEWINDOW:
-            case TOWNENTRANCE:
-            case VILLAGEENTRANCE:
-            case SWAMP:
-            case WELL:
-            case WOODDOOROPEN:
-            case WOODWINDOW:
-            case WOODFLOOR:
-            case BUSH:
-            case SHALLOWOCEAN:
-            case REEF:
-            case SIGNPOST:
-                return false;
-
-            default:
+            case CASTLEEAST, CASTLEENTRANCE, CASTLEWEST, CAVEENTRANCE, FOUNTAIN, GATECLOSED, MOUNTAIN, STAIRSDOWN, STAIRSUP, STONEDOORCLOSED, STONEWALL, WOODDOORCLOSED, WOODWALL, DENSEFOREST -> true;
+            case DESERT, DIRTFLOOR, DIRTROAD, GATEOPEN, GRASS, HILL, LADDERDOWN, LADDERUP, MARBLEFLOOR, OCEAN, PAVEDROAD, STONEDOOROPEN, STONEFLOOR, STONEWINDOW, TOWNENTRANCE, VILLAGEENTRANCE, SWAMP,
+                 WELL, WOODDOOROPEN, WOODWINDOW, WOODFLOOR, BUSH, SHALLOWOCEAN, REEF, SIGNPOST -> false;
+            default ->
+            {
                 logger.error("forgotten a tile type in isblockedLOS - this one? {}", getType().toString());
-                return blocksLOS;
-        }
+                yield blocksLOS;
+            }
+        };
     }
 
     public void setFurniture(FurnitureItem furniture)
@@ -415,64 +377,23 @@ public class MapTile implements Comparable<MapTile>, Serializable
      * helper method used in making sure you can only drop items in places that are valid for it
      * no inventory on walls and so on
      *
-     * @return
+     * @return does the tile have the possibility to have an inventory?
      */
     public boolean hasInventory()
     {
-        switch (getType())
+        return switch (getType())
         {
-            case CASTLEEAST:
-            case CASTLEENTRANCE:
-            case CASTLEWEST:
-            case CAVEENTRANCE:
-            case FOUNTAIN:
-            case GATECLOSED:
-            case MOUNTAIN:
-            case STAIRSDOWN:
-            case STAIRSUP:
-            case STONEDOORCLOSED:
-            case STONEWALL:
-            case WOODDOORCLOSED:
-            case WOODWALL:
-            case GATEOPEN:
-            case HILL:
-            case LADDERDOWN:
-            case LADDERUP:
-            case OCEAN:
-            case STONEWINDOW:
-            case TOWNENTRANCE:
-            case VILLAGEENTRANCE:
-            case SWAMP:
-            case WELL:
-            case WOODDOOROPEN:
-            case WOODWINDOW:
-            case SHALLOWOCEAN:
-            case REEF:
-            case STONEDOOROPEN:
-            case SIGNPOST:
-            case LAVA:
-            case STEEPMOUNTAIN:
-                //deep forest? you wont find it again.
-            case DENSEFOREST:
-                return false;
-
-            case DESERT:
-            case DIRTFLOOR:
-            case DIRTROAD:
-            case GRASS:
-            case MARBLEFLOOR:
-            case PAVEDROAD:
-            case STONEFLOOR:
-            case WOODFLOOR:
-            case BUSH:
-            case BUSHES:
-            case LIGHTFOREST:
-                return true;
-
-            default:
+            //deep forest? you wont find it again.
+            case CASTLEEAST, CASTLEENTRANCE, CASTLEWEST, CAVEENTRANCE, FOUNTAIN, GATECLOSED, MOUNTAIN, STAIRSDOWN, STAIRSUP, STONEDOORCLOSED, STONEWALL, WOODDOORCLOSED, WOODWALL, GATEOPEN, HILL,
+                 LADDERDOWN, LADDERUP, OCEAN, STONEWINDOW, TOWNENTRANCE, VILLAGEENTRANCE, SWAMP, WELL, WOODDOOROPEN, WOODWINDOW, SHALLOWOCEAN, REEF, STONEDOOROPEN, SIGNPOST, LAVA, STEEPMOUNTAIN,
+                 DENSEFOREST -> false;
+            case DESERT, DIRTFLOOR, DIRTROAD, GRASS, MARBLEFLOOR, PAVEDROAD, STONEFLOOR, WOODFLOOR, BUSH, BUSHES, LIGHTFOREST -> true;
+            default ->
+            {
                 logger.error("forgotten a tile type in hasInventory - this one? {}", getType().toString());
-                return false;
-        }
+                yield false;
+            }
+        };
     }
 
 

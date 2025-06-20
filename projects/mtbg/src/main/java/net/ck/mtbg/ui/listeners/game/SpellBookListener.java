@@ -7,9 +7,9 @@ import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.soundeffects.SoundEffects;
 import net.ck.mtbg.ui.components.game.SpellbookPane;
 import net.ck.mtbg.ui.controllers.GameController;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 import net.ck.mtbg.util.utils.CursorUtils;
 
 import javax.swing.*;

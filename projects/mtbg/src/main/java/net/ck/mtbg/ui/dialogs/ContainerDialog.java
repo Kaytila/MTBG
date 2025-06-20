@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.entities.Inventory;
 import net.ck.mtbg.ui.components.game.InventoryPane;
 import net.ck.mtbg.ui.renderers.game.InventoryPaneListCellRenderer;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
 
 import javax.swing.*;
 

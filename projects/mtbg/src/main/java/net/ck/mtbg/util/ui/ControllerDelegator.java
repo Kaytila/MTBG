@@ -10,7 +10,7 @@ import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.controllers.GameController;
 import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 import net.ck.mtbg.util.utils.CursorUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.util.utils.NPCUtils;

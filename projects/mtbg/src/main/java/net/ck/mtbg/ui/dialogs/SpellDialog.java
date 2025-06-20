@@ -8,8 +8,8 @@ import net.ck.mtbg.ui.listeners.game.LeftSpellBookPagePanelMouseListener;
 import net.ck.mtbg.ui.listeners.game.RightSpellBookPageMouseListener;
 import net.ck.mtbg.ui.listeners.game.WindowClosingListener;
 import net.ck.mtbg.ui.renderers.game.SpellbookListCellRenderer;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 
 import javax.swing.*;
 import java.awt.*;

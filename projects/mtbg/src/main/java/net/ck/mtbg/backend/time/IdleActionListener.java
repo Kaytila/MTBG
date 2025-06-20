@@ -9,9 +9,9 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
-import net.ck.mtbg.util.communication.keyboard.ActionFactory;
-import net.ck.mtbg.util.communication.keyboard.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.framework.ActionFactory;
+import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.event.ActionEvent;

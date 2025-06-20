@@ -10,7 +10,7 @@ import net.ck.mtbg.ui.dialogs.AbstractDialog;
 import net.ck.mtbg.ui.dnd.InventoryPaneTransferHandler;
 import net.ck.mtbg.ui.listeners.game.DialogPopupListener;
 import net.ck.mtbg.ui.listeners.game.InventoryPaneListener;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 
 import javax.swing.*;
 import javax.swing.border.Border;

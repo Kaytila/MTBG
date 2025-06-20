@@ -9,7 +9,7 @@ import net.ck.mtbg.backend.entities.entities.NPCType;
 import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.backend.queuing.ScheduleActivity;
 import net.ck.mtbg.backend.time.GameTime;
-import net.ck.mtbg.util.communication.keyboard.MoveAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.MoveAction;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.awt.*;

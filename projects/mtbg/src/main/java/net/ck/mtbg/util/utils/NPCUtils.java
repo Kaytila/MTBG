@@ -14,7 +14,7 @@ import net.ck.mtbg.items.Armor;
 import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.util.astar.AStar;
-import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.communication.keyboard.gameactions.*;
 import org.apache.commons.lang3.Range;
 
 import java.awt.*;

@@ -10,7 +10,7 @@ import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.run.RunGame;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
-import net.ck.mtbg.util.communication.keyboard.*;
+import net.ck.mtbg.util.communication.keyboard.gameactions.*;
 import org.greenrobot.eventbus.EventBus;
 import org.junit.jupiter.api.*;
 

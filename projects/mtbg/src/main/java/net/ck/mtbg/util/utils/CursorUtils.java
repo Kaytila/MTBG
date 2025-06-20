@@ -9,7 +9,7 @@ import net.ck.mtbg.backend.entities.entities.AbstractEntity;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.CursorChangeEvent;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import org.apache.commons.lang3.Range;
 import org.greenrobot.eventbus.EventBus;

@@ -7,7 +7,7 @@ import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.communication.keyboard.AbstractKeyboardAction;
+import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 
 import javax.swing.*;
 

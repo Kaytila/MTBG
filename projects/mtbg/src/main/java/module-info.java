@@ -46,7 +46,6 @@ open module net.ck.mtbg
     exports net.ck.mtbg.music;
     exports net.ck.mtbg.items;
     exports net.ck.mtbg.soundeffects;
-    exports net.ck.mtbg.util.communication.keyboard;
     exports net.ck.mtbg.util.communication.graphics;
     exports net.ck.mtbg.util.communication.sound;
     exports net.ck.mtbg.backend.entities.attributes;
@@ -70,4 +69,6 @@ open module net.ck.mtbg
     exports net.ck.mtbg.ui.buttons.game;
     exports net.ck.mtbg.ui.buttons.mapeditor;
     exports net.ck.mtbg.ui.buttons.general;
+    exports net.ck.mtbg.util.communication.keyboard.framework;
+    exports net.ck.mtbg.util.communication.keyboard.gameactions;
 }
