@@ -179,6 +179,8 @@ public class MapCanvas extends AbstractMapCanvas
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_J, 0), "jimmy");
         this.getActionMap().put("jimmy", new JimmyAction());
 
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, 0), "yell");
+        this.getActionMap().put("yell", new YellAction());
     }
 
     public void paintComponent(Graphics g)
@@ -234,16 +236,17 @@ public class MapCanvas extends AbstractMapCanvas
                     //if tile is hidden, do not paint NPC
                     if ((tile.getLifeForm() != null) && (!(tile.isHidden())) && (!(tile.getLifeForm().isPlayer())))
                     {
+                        BufferedImage bufferedImage;
                         if (GameConfiguration.tileSize == GameConfiguration.imageSize.x & (GameConfiguration.tileSize == GameConfiguration.imageSize.y))
                         {
-                            BufferedImage bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
+                            bufferedImage = ImageManager.getLifeformImages().get(tile.getLifeForm().getType())[tile.getLifeForm().getCurrImage()];
                             g.drawImage(bufferedImage, row * GameConfiguration.tileSize, column * GameConfiguration.tileSize, this);
+
                         }
                         else
                         {
                             if (GameConfiguration.tileSize / GameConfiguration.imageSize.x == 2)
                             {
-                                BufferedImage bufferedImage;
                                 try
                                 {
                                     if (tile.getLifeForm().getType() == null)
@@ -266,6 +269,9 @@ public class MapCanvas extends AbstractMapCanvas
                                 g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
                             }
                         }
+                        //logger.debug("tile: {} has NPC: {} has action string: {}", tile.getMapPosition(), tile.getLifeForm(), tile.getLifeForm().getCurrentAction().getType().toString());
+                        g.setColor(Color.WHITE);
+                        g.drawString(tile.getLifeForm().getCurrentAction().getType().toString(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)));
                     }
 
 

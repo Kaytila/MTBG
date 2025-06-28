@@ -855,6 +855,11 @@ public class GameController implements WindowListener, ActionListener, MouseList
 
             case JIMMY:
                 ControllerDelegator.handleKeyBoardActionJIMMY(this, action);
+                break;
+
+            case YELL:
+                ControllerDelegator.handleKeyBoardActionYELL(this, action);
+                break;
 
             default:
             {

@@ -157,6 +157,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     private boolean spawned;
 
 
+    private AbstractAction currentAction;
+
     public AbstractEntity()
     {
         spells = new CopyOnWriteArrayList<>();

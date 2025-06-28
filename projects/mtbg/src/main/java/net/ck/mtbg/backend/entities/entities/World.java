@@ -434,4 +434,5 @@ public class World extends AbstractEntity implements LifeForm
             logger.debug("spawning NPC end");
         }
     }
+
 }

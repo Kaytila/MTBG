@@ -1272,3 +1272,8 @@ History of the changes:
 2025-06-20: implemented Earthquake effect - this relies on a NULL layout unfortunately. So works for now.
             implemented flashing light effect - will take color as argument to set the color - animation system creates
             actually creates a flash, not really a need for a redraw.
+2025-06-28: trying to add a layer for UI flashing effects. This needs a layeredPane. Not even started.
+            Found that NPCs do player actions sometimes instead of NPC action. I wonder what the difference is and why
+            I did that. Need to think about it.
+            Started implementing Yell - this needs an argument which brings up either a dialog or a prompt or something.
+            That is yet missing.

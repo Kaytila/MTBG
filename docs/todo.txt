@@ -254,4 +254,7 @@ TODO Game UI:
 1. Implement Layout to make the game UI more elegant and flexible
 2. Implement Game UI Effects:
 - earthquake (just translate x and y coordinates of GameCanvas
-- color effekcts
+- color effects
+
+TODO Game UI:
+add Layered PAne

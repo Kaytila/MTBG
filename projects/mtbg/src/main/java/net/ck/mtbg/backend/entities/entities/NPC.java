@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.AbstractAction;
-import net.ck.mtbg.backend.actions.PlayerAction;
+import net.ck.mtbg.backend.actions.NPCAction;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Inventory;
@@ -412,6 +412,11 @@ public class NPC extends AbstractEntity implements LifeForm
      */
     public void doAction(AbstractAction action)
     {
+        if (action.getClass().getSimpleName().equalsIgnoreCase("PlayerAction"))
+        {
+            logger.error("this is wrong: {}", action.getClass().getSimpleName());
+        }
+        setCurrentAction(action);
         if (NPCUtils.isActive(this) == false)
         {
             return;
@@ -818,7 +823,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     if (getQueuedActions().peek() != null)
                     {
                         //TODO
-                        doAction(new PlayerAction(getQueuedActions().poll()));
+                        doAction(new NPCAction(getQueuedActions().poll()));
                     }
                 }
             }

@@ -763,4 +763,12 @@ public class ControllerDelegator
         gameController.getCurrentAction().setGetWhere(new Point(tile.getX(), tile.getY()));
         gameController.getCurrentAction().setMapTile(tile);
     }
+
+    public static void handleKeyBoardActionYELL(GameController gameController, AbstractKeyboardAction action)
+    {
+        gameController.setCurrentAction(action);
+        UIStateMachine.setSelectTile(false);
+        gameController.getCurrentAction().setHaveNPCAction(true);
+        CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), MouseInfo.getPointerInfo().getLocation());
+    }
 }

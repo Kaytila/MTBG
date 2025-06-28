@@ -32,7 +32,6 @@ import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.gameactions.*;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.GridUtils;
 import net.ck.mtbg.util.utils.ImageManager;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -200,6 +199,7 @@ public class Player extends AbstractEntity implements LifeForm
      */
     public void doAction(AbstractAction action)
     {
+        setCurrentAction(action);
         if (getQueuedActions() != null)
         {
             if (!(getQueuedActions().isEmpty()))
@@ -344,8 +344,6 @@ public class Player extends AbstractEntity implements LifeForm
                 }
                 break;
             case SPACE:
-                GridUtils.doEarthquake(WindowBuilder.getGridCanvas());
-                GridUtils.flashColor(WindowBuilder.getGridCanvas(), Color.RED);
                 success = true;
                 break;
             case GET:
@@ -391,6 +389,14 @@ public class Player extends AbstractEntity implements LifeForm
             case JIMMY:
             {
                 this.unlockDoor(action);
+                break;
+            }
+
+            case YELL:
+            {
+                //GridUtils.doEarthquake(WindowBuilder.getGridCanvas(), 5);
+                //GridUtils.flashColor(WindowBuilder.getGridCanvas(), Color.RED, 2);
+                GridUtils.overlayColor(Color.RED, 5000);
                 break;
             }
 

@@ -11,10 +11,7 @@ import net.ck.mtbg.ui.buttons.mapeditor.LoadButton;
 import net.ck.mtbg.ui.buttons.mapeditor.SaveButton;
 import net.ck.mtbg.ui.components.charactereditor.CharacterCanvas;
 import net.ck.mtbg.ui.components.charactereditor.CharacterTinyCanvas;
-import net.ck.mtbg.ui.components.game.InputField;
-import net.ck.mtbg.ui.components.game.JWeatherCanvas;
-import net.ck.mtbg.ui.components.game.MapCanvas;
-import net.ck.mtbg.ui.components.game.TextList;
+import net.ck.mtbg.ui.components.game.*;
 import net.ck.mtbg.ui.components.mapeditor.FurnitureItemPane;
 import net.ck.mtbg.ui.components.mapeditor.MapEditorCanvas;
 import net.ck.mtbg.ui.components.mapeditor.MapTilePane;
@@ -183,6 +180,9 @@ public class WindowBuilder
     private static JLabel characterCanvasLabel;
     private static JLabel characterTinyCanvasLabel;
 
+    @Getter
+    @Setter
+    private static EffectsOverlay effectsOverlay;
 
     /**
      * in smalltalk fashion, using buildGameWindow: :D
@@ -257,6 +257,9 @@ public class WindowBuilder
 
         DropTarget dt = new DropTarget(gridCanvas, DnDConstants.ACTION_COPY_OR_MOVE, new JGridCanvasDropTargetHandler(gridCanvas), true);
         gridCanvas.setDropTarget(dt);
+
+        effectsOverlay = new EffectsOverlay(gridCanvas);
+        frame.add(effectsOverlay);
 
         frame.setVisible(true);
 

@@ -132,4 +132,6 @@ public interface LifeForm
     String toXML();
 
     Collection<NPCProperty> getProperties();
+
+    AbstractAction getCurrentAction();
 }
