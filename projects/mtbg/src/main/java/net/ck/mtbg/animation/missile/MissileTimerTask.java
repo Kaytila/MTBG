@@ -2,7 +2,6 @@ package net.ck.mtbg.animation.missile;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Synchronized;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
@@ -23,8 +22,8 @@ import java.util.TimerTask;
 @ToString
 public class MissileTimerTask extends TimerTask
 {
-    @Getter(onMethod_ = {@Synchronized})
-    @Setter(onMethod_ = {@Synchronized})
+    @Getter//(onMethod_ = {@Synchronized})
+    @Setter//(onMethod_ = {@Synchronized})
     private boolean running;
 
 

@@ -246,6 +246,10 @@ attack 2
 yell 8
 and so on.
 
+Implement more louder/more quiet system for music and sound effects based on range?
+Overkill or interesting feature to implement?
+OR just say like above, each action has a reach of x fields?
+
 TODO sound UI:
 will sounds be also shown on the tile as a tool tip or will they be shown in the command window only?
 

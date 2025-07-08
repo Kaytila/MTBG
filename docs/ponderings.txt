@@ -230,7 +230,6 @@ time yes, but there are certain base topics that I would need to handle properly
 as I simply do not understand at least parts of my own framework anymore really.
 It works 99%, but not completely. I will need to tackle this properly when the weather is bad.
 
-
 On Map Editor
 =============
 
@@ -258,3 +257,46 @@ On Maps
 I think I have learned of a way better way how to set up the maps.
 I will abolish the XML, not quite go to CSV, but to JSON instead. That way, I can more easily load this into the game
 and also write them more graphically actually.
+
+
+On graphical effects
+====================
+
+I saw the earthquake effect on Goldenflame's project and thought: "I should be able to do this."
+Turns out, yes, it is actually pretty simple in a UI framework - just move the Canvas a bit to the right and to the left
+I also got inspired by an overlay idea to either flash or really overlay the game canvas.
+With a layered Pane that works pretty swell and after all.
+I will however need to decide where to do things in the end. At the moment, this is in
+GridUtils, not sure I want this to be called from within the NPC command frame work?
+
+
+On keys and locks
+=================
+
+In memoriam of multimud, doors have an int that has one of the following values:
+0 - opened
+1 - closed
+2 - locked (can jimmy)
+3 - really shut (question is why I keep that)
+greater than that - Do you have the key for the door in the inventory?
+                    The number here is the id of the key which opens the door.
+                    That should always work.
+
+At least that is the glorious idea. I am not completely sure I have implemented
+it just that way? Not yet? Or did I already? Does not really matter
+
+
+Plans for the UI
+================
+
+I wonder how I can make nice non-java looking details.
+I think I need buttons of dynamic size at least.
+That should be drawable on its own with the text on top of it depending on size.
+Or I just prepare one or two additional button graphics which I can use to draw on.
+Other than that, the Game UI needs adaption to a Layout Manager.
+I wonder whether it is possible to do a null layout within a layout?
+Otherwise the Game UI will need to stay hard-coded which I immensively dislike.
+But this would give me more options for hard-coding borders with prepared decorations.
+Decisions, decisions...
+
+

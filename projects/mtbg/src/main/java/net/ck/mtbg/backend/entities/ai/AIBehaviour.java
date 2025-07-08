@@ -23,6 +23,7 @@ import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
+@SuppressWarnings("PointlessBooleanExpression")
 @Log4j2
 @Setter
 @Getter
@@ -32,6 +33,7 @@ public class AIBehaviour
     {
         if (Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(e.getMapPosition())).isHidden())
         {
+            //noinspection PointlessBooleanExpression
             if (GameConfiguration.debugNPC == true)
             {
                 logger.debug("npc {} at position: {} moving towards player", e.getId(), e.getMapPosition());
@@ -173,7 +175,7 @@ public class AIBehaviour
             logger.debug("NPC {} target position: {}", e.getId(), e.getTargetMapPosition());
             logger.debug("NPC {} original target position: {}", e.getId(), e.getOriginalTargetMapPosition());
         }
-        if (e.getQueuedActions().size() > 0)
+        if (!e.getQueuedActions().isEmpty())
         {
             if (GameConfiguration.debugNPC == true)
             {
@@ -245,7 +247,7 @@ public class AIBehaviour
 
             if (e.getSchedule() != null)
             {
-                if (e.getSchedule().getActivities().size() > 0)
+                if (!e.getSchedule().getActivities().isEmpty())
                 {
                     if (e.getSchedule().getCurrentlyActiveActivity().isActive())
                     {
@@ -301,8 +303,7 @@ public class AIBehaviour
                 }
                 AIBehaviour.determineMove(e);
             }
-        }
-        else if (e.getQueuedActions().size() > 0)
+        } else if (!e.getQueuedActions().isEmpty())
         {
             if (GameConfiguration.debugNPC == true)
             {
@@ -368,6 +369,7 @@ public class AIBehaviour
                         {
                             if (e.getSchedule().getCurrentScheduleActivityIndex() == 0)
                             {
+                                logger.debug("first action is already active");
                                 //first one is already set active
                             }
                             else

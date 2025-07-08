@@ -1277,3 +1277,4 @@ History of the changes:
             I did that. Need to think about it.
             Started implementing Yell - this needs an argument which brings up either a dialog or a prompt or something.
             That is yet missing.
+2025-07-08: Gradle Update, thanks Simon.

@@ -25,3 +25,6 @@ character editor
 automap with labels
 lockable doors/gates
 map editor
+UI effect Earthquake
+UI effect color overlay
+UI effect flashing screen in configurable color
