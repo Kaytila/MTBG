@@ -396,7 +396,8 @@ public class Player extends AbstractEntity implements LifeForm
             {
                 //GridUtils.doEarthquake(WindowBuilder.getGridCanvas(), 5);
                 //GridUtils.flashColor(WindowBuilder.getGridCanvas(), Color.RED, 2);
-                GridUtils.overlayColor(Color.RED, 5000);
+                GridUtils.overlayColor(Color.YELLOW, 10000);
+
                 break;
             }
 

@@ -455,10 +455,15 @@ public class Game implements Runnable, Serializable
         {
             logger.info("do nothing, wait");
         }
+        else if (UIStateMachine.getUiState().equals(UIState.OVERLAY))
+        {
+            logger.info("in overlay dont start idle timer");
+        }
         else
         {
             TimerManager.getIdleTimer().start();
         }
+
         if (UIStateMachine.isUiOpen())
         {
             TimerManager.getHighlightTimer().start();

@@ -182,7 +182,17 @@ public class WindowBuilder
 
     @Getter
     @Setter
+    /**
+     * this is the effects overlay
+     */
     private static EffectsOverlay effectsOverlay;
+
+    @Getter
+    @Setter
+    /**
+     * this is for the overlay on the main UI
+     */
+    private static JLayeredPane layeredPane;
 
     /**
      * in smalltalk fashion, using buildGameWindow: :D
@@ -232,7 +242,7 @@ public class WindowBuilder
 
         gridCanvas = new MapCanvas();
         gridCanvas.addFocusListener(gameWindowFocusListener);
-        frame.add(gridCanvas);
+        //frame.add(gridCanvas);
 
         textArea = new TextList();
         textArea.addFocusListener(gameWindowFocusListener);
@@ -259,7 +269,11 @@ public class WindowBuilder
         gridCanvas.setDropTarget(dt);
 
         effectsOverlay = new EffectsOverlay(gridCanvas);
-        frame.add(effectsOverlay);
+        //frame.add(effectsOverlay);
+
+        layeredPane = frame.getLayeredPane();
+        layeredPane.add(gridCanvas, 0);
+        layeredPane.add(effectsOverlay, 1);
 
         frame.setVisible(true);
 

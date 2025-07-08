@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.util.ui.WindowBuilder;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
 @ToString
 public class HighlightTimer extends Timer
 {
-
+    private boolean paused = false;
 
     /**
      * Creates a {@code Timer} and initializes both the initial delay and
@@ -38,7 +39,51 @@ public class HighlightTimer extends Timer
     @Override
     public void start()
     {
-        super.start();
-        WindowBuilder.getGridCanvas().setHighlightCount(0);
+        if (isPaused())
+        {
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("timer is paused, dont start again");
+                return;
+            }
+        }
+
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("starting HighlightTimer timer");
+        }
+        if (isRunning() == true)
+        {
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("HighlightTimer timer already running, dont start again");
+            }
+        }
+        else
+        {
+            super.start();
+            WindowBuilder.getGridCanvas().setHighlightCount(0);
+        }
     }
+
+    @Override
+    public void stop()
+    {
+        if (GameConfiguration.debugTimers == true)
+        {
+            logger.debug("stopping idle timer");
+        }
+        if (isRunning() == true)
+        {
+            super.stop();
+        }
+        else
+        {
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("timer already stopped, dont stop again");
+            }
+        }
+    }
+
 }

@@ -3,7 +3,10 @@ package net.ck.mtbg.util.utils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.ui.components.game.AbstractMapCanvas;
+import net.ck.mtbg.ui.state.UIState;
+import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.ui.WindowBuilder;
 
 import javax.swing.*;
@@ -137,14 +140,28 @@ public class GridUtils
 
     public static void overlayColor(Color color, int timeInMilliseconds)
     {
-        logger.debug("setting overlay to true, flash color");
-        Color col = new Color(color.getRed(), color.getRed(), color.getBlue(), 20);
+        logger.debug("setting overlay to true, flash color: {}", color);
+        UIStateMachine.setUiState(UIState.OVERLAY);
+        TimerManager.getIdleTimer().stop();
+        TimerManager.getIdleTimer().setPaused(true);
+        TimerManager.getHighlightTimer().stop();
+        TimerManager.getHighlightTimer().setPaused(true);
+        Color col = new Color(color.getRed(), color.getRed(), color.getBlue(), 80);
         WindowBuilder.getEffectsOverlay().setBackground(col);
         WindowBuilder.getEffectsOverlay().setVisible(true);
+        WindowBuilder.getLayeredPane().moveToFront(WindowBuilder.getEffectsOverlay());
         ActionListener listener = e ->
         {
             logger.debug("fire action to hide");
             WindowBuilder.getEffectsOverlay().setVisible(false);
+            WindowBuilder.getLayeredPane().moveToBack(WindowBuilder.getEffectsOverlay());
+
+            TimerManager.getIdleTimer().setPaused(false);
+            TimerManager.getHighlightTimer().setPaused(false);
+
+            TimerManager.getIdleTimer().start();
+            TimerManager.getHighlightTimer().start();
+            UIStateMachine.setUiState(UIState.OPENED);
         };
         Timer timer = new Timer(timeInMilliseconds, listener);
         timer.setRepeats(false);

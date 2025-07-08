@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 @Setter
 public class IdleTimer extends Timer
 {
+    private boolean paused = false;
+
     public IdleTimer(int delay, ActionListener listener)
     {
         super(delay, listener);
@@ -29,6 +31,14 @@ public class IdleTimer extends Timer
     @Override
     public void start()
     {
+        if (isPaused())
+        {
+            if (GameConfiguration.debugTimers == true)
+            {
+                logger.debug("timer is paused, dont start again");
+                return;
+            }
+        }
         if (GameConfiguration.debugTimers == true)
         {
             logger.debug("starting idle timer");
