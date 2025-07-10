@@ -1,17 +1,17 @@
 BUGS:
 2022-09-01 FIXED paint furniture has a bug, it renders furniture twice, light effects are correct though.
 2022-09-01 FIXED raytracing for LoS has a bug where too many tiles are hidden
-2022-09-01 wanderer npc does not keep to wandering box
+2022-09-01 GITHUB wanderer npc does not keep to wandering box
 2022-09-01 FIXED sound skips at startup
 2022-09-01 FIXED music does stop and is completely restarted instead of pausing
 2022-09-01 FIXED hit animation is not centered
-2022-09-01 missile combat is possible with melee person
-2022-09-01  recursive aStar does not work yet
-2022-09-01  AStar for calculating moving towards player only returns space
+2022-09-01 GITHUB missile combat is possible with melee person
+2022-09-01  GITHUB recursive aStar does not work yet
+2022-09-01  GITHUB AStar for calculating moving towards player only returns space
 2022-09-01  FIXED pressing space does not give NPCs a round
-2022-09-01  player can move while hit animation is still running
+2022-09-01  GITHUB player can move while hit animation is still running
 2022-09-10  FIXED music switch between COMBAT and VICTORY back to standard does not work yet.
-2022-09-14  schedules stay active when map switches
+2022-09-14  GITHUB schedules stay active when map switches
 2022-09-14  FIXED Highlighting count does not properly go from 0, 2, 4 without repetitions
 2022-10-06  FIXED enter command does not have npc action.
 2022-11-02  FIXED keyboard movement does not repaint fast enough - need to check where the delay comes from.
@@ -20,11 +20,11 @@ BUGS:
 2022-11-29  FIXED game initialize does not calculate visibility correct
 2022-11-29  FIXED Inventory does not work twice?
 2022-11-29  FIXED Drop into the world does no longer work
-2022-11-29  music does stop rather abruptly - perhaps turn off the turn counter for switch from victory back to map?
+2022-11-29  GITHUB music does stop rather abruptly - perhaps turn off the turn counter for switch from victory back to map?
 2022-11-30  FIXED music skips slightly on startup
-2022-11-30  drag'n'drop DROP works differently than double click drop
-2022-12-31  commandsuccessmachine does not play hit sound
-2022-12-31  sound effect for player hit is miss instead
+2022-11-30  GITHUB drag'n'drop DROP works differently than double click drop
+2022-12-31  GITHUB commandsuccessmachine does not play hit sound
+2022-12-31  GITHUB sound effect for player hit is miss instead
 2023-01-06  FIXED LOS calculation is off somewhere. Need to experiment more with terrain types and probably roll my own
             LOS calculation. sigh.
 2023-01-10  FIXED NPCs sometimes are not drawn correctly, if I do not calculate the UI position during drawing, sometimes they
@@ -33,7 +33,7 @@ BUGS:
 2023-01-14  FIXED somehow schedules for all NPCs are being checked instead of the ones on the current map.
 2023-01-20  FIXED on map switch, getWeatherSystem returns null - wonder how and why
 2023-01-22  FIXED drawing tiles has a bug if a map is not a rectangle the map 2d array will not work of course
-2023-01-31  moveTo for Player is horribly broken
+2023-01-31  GITHUB moveTo for Player is horribly broken
 2023-02-08  FIXED NPCs - using prototypes which to spawn during map does make it problematic. they share traits they should not.
 2023-02-08  FIXED patrol is broken again  - not the faintest idea why.
 2023-02-10  FIXED LoS is broken when looking from east to west. Why?
@@ -46,33 +46,33 @@ BUGS:
             visibility
 2023-04-02  FIXED npcs are being initialized even if the map is not active. this caused a schedule to break as a
             non-properly initialized npc was causing a draw error
-2023-05-10  when moving crosshair with keyboard, you cannot get past what you should - if you use mouse, you can get
+2023-05-10  GITHUB when moving crosshair with keyboard, you cannot get past what you should - if you use mouse, you can get
             one step beyond.
 2023-09-02  FIXED when switching maps - player is not redrawn, this is because of NPC that has switched before
-2023-09-02  when a npc switches maps, not quite sure where it ends up at this is still a problem. perhaps dont allow that
+2023-09-02  GITHUB when a npc switches maps, not quite sure where it ends up at this is still a problem. perhaps dont allow that
 2023-09-30  FIXED Dialog can only be opened once, not again. Closing with ESC works, x-ing creates issue
-2023-11-25  when command is active, other commands can be run on top creating a huge mess. need to make sure that this
+2023-11-25  GITHUB when command is active, other commands can be run on top creating a huge mess. need to make sure that this
             is handled generally in the framework, not on command by command basis.
 2023-11-27  FIXED closing spellbook always assumes there is an active spell afterwards.
-2024-01-15  drag'n'drop onto a wall works, kind of - wall does not accept it but item is gone anyawys
+2024-01-15  GITHUB drag'n'drop onto a wall works, kind of - wall does not accept it but item is gone anyawys
 2024-02-21  FIXED daynight cycle works, but light sources are currently ignored. Check in paintComponent whether this handled
-2024-04-24  for some reason furniture can be walked on. blocked should be false because of it during init.
-2024-04-24: initial implementation of bufferedLense has an edge case issue.
-2024-06-23: PC missiles are handled correctly, but NPC missiles are not.
+2024-04-24  FIXED for some reason furniture can be walked on. blocked should be false because of it during init.
+2024-04-24: GITHUB initial implementation of bufferedLense has an edge case issue.
+2024-06-23: GITHUB PC missiles are handled correctly, but NPC missiles are not.
             it is actually normal that NPC missiles are drawn after PC has moved already. HitOrMiss is drawn correctly,
             but the whole paint part (where missile starts and where it ends is currently incorrect. highlight drawing
             is correct however. Yes, it is that case.
-2024-06-26: when killing an enemy, PC will still shoot at the same target even if switching targets. target is not
+2024-06-26: GITHUB when killing an enemy, PC will still shoot at the same target even if switching targets. target is not
             cleared properly.
 2024-07-11: FIXED IdleTimer no longer works after deactivating or iconifying game.
 2025-04-23: FIXED in MapEditor, maptilepane did not calculate scrollbar properly. adding the #ensureIndexIsVisible to
             the listselection listener for it solved it.
 2025-04-23: FIXED long standing bug in the buttons - I am drawing the button text anyways, no need to set the label.
-2025-04-26: In MapEditor, there is a bug in selection with highlighting of the selectedItem and rather de-highlighting
+2025-04-26: GITHUB In MapEditor, there is a bug in selection with highlighting of the selectedItem and rather de-highlighting
             the other entries.
-2025-05-02: MapEditor, adding an npc after dbl clicking a maptile does not work. You need to add a tile first, then you
+2025-05-02: GITHUB MapEditor, adding an npc after dbl clicking a maptile does not work. You need to add a tile first, then you
             can add an npc again.
-2025-05-10: In MapEditor, opening a map does not automatically repaint correctly to show the map at max size even if it
+2025-05-10: GITHUB In MapEditor, opening a map does not automatically repaint correctly to show the map at max size even if it
             fits.
 2025-07-10: FIXED on startup, game state was always null. This was because there was no gamestate in the maps and also, there
             was no code in the XML parser to take care of that. That is now rectified.
