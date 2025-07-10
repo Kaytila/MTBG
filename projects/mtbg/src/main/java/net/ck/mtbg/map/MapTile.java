@@ -246,8 +246,20 @@ public class MapTile implements Comparable<MapTile>, Serializable
         return getX();
     }
 
+    /**
+     * if there is furniture on the tile, tile is blocked.
+     * if the tile type is of a list of types, like closed doors, or well, or ocean and so on, it is blocked.
+     * for the other types, it is blocked if there is an NPC standing on it.
+     *
+     * @return true if blocked, false if not blocked
+     */
     public boolean isBlocked()
     {
+        if (getFurniture() != null)
+        {
+            return true;
+        }
+
         return switch (getType())
         {
             case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD,
