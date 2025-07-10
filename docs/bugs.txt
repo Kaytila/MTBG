@@ -74,3 +74,5 @@ BUGS:
             can add an npc again.
 2025-05-10: In MapEditor, opening a map does not automatically repaint correctly to show the map at max size even if it
             fits.
+2025-07-10: FIXED on startup, game state was always null. This was because there was no gamestate in the maps and also, there
+            was no code in the XML parser to take care of that. That is now rectified.

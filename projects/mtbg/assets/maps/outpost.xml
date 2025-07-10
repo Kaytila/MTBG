@@ -7,6 +7,7 @@
         <name>outpost</name>
         <visibility>10</visibility>
         <parent>null</parent>
+        <gameState>WORLD</gameState>
     </meta>
     <tiles>
         <tile>

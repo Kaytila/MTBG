@@ -157,7 +157,9 @@ public class MapXMLReader extends DefaultHandler
                 gameMap.getLifeForms().add(npc);
                 gameMap.mapTiles[npc.getMapPosition().x][npc.getMapPosition().y].setLifeForm(npc);
             }
+
         }
+        gameMap.setGameState(gameState);
     }
 
 
@@ -272,6 +274,9 @@ public class MapXMLReader extends DefaultHandler
                 break;
             case "startTime":
                 startTime = new GameTime();
+                break;
+            case "gameState":
+                gameState = null;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);
@@ -484,6 +489,10 @@ public class MapXMLReader extends DefaultHandler
                 }
                 targetPosition = false;
                 break;
+            case "gameState":
+                gameState = GameState.valueOf(data.toString());
+                break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + qName);
         }

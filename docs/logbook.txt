@@ -1281,3 +1281,6 @@ History of the changes:
 2025-07-08: updated overlay to have an extra state in StateMachine to take care of this. Only question I have is how
             to encapsulate this as good as possible and where. If I can set state from everywhere, will that not break
             everything? That is probably where the music bug on startup is coming from.
+2025-07-10: No, the music bug came from a stupid mistake: on startup, game state was always null.
+            This was because there was no gamestate in the maps and also, there was no code in the XML parser
+            to take care of that. That is now rectified.
