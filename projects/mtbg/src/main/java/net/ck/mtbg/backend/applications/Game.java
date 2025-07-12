@@ -3,6 +3,7 @@ package net.ck.mtbg.backend.applications;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
@@ -47,6 +48,7 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class Game implements Runnable, Serializable
 {
     /**
@@ -257,7 +259,6 @@ public class Game implements Runnable, Serializable
         {
             if (TimerManager.getMissileUtilTimer() != null)
             {
-                //noinspection StatementWithEmptyBody
                 while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
                 {
                     //logger.debug("missile is on its way");
@@ -269,7 +270,6 @@ public class Game implements Runnable, Serializable
         {
             if (TimerManager.getMissileTimer() != null)
             {
-                //noinspection StatementWithEmptyBody
                 while (TimerManager.getMissileTimer().isRunning())
                 {
                     //logger.debug("missile is on its way");
@@ -392,7 +392,6 @@ public class Game implements Runnable, Serializable
                         {
                             if (TimerManager.getMissileUtilTimer() != null)
                             {
-                                //noinspection StatementWithEmptyBody
                                 while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
                                 {
                                     if (GameConfiguration.debugTurn == true)
@@ -407,7 +406,6 @@ public class Game implements Runnable, Serializable
                         {
                             if (TimerManager.getMissileTimer() != null)
                             {
-                                //noinspection StatementWithEmptyBody
                                 while (TimerManager.getMissileTimer().isRunning())
                                 {
                                     logger.debug("missile is on its way");
@@ -537,29 +535,6 @@ public class Game implements Runnable, Serializable
 
     /**
      * <a href="https://www.youtube.com/watch?v=VpH33Uw-_0E">https://www.youtube.com/watch?v=VpH33Uw-_0E</a>
-     * <p>
-     * public void runOLD ()
-     * {
-     * double drawInterval = Math.floorDiv(1000000000, 60);
-     * double nextDrawTime = System.nanoTime() + drawInterval;
-     * <p>
-     * update();
-     * repaint();
-     * <p>
-     * Game.getCurrent().getController().getFrame().repaint();
-     * <p>
-     * double remainingTime = nextDrawTime - System.nanoTime();
-     * try
-     * {
-     * logger.info("sleep");
-     * Thread.sleep((long) remainingTime);
-     * }
-     * catch (InterruptedException e)
-     * {
-     * e.printStackTrace();
-     * }
-     * }
-     * <p>
      * This is the run method, i.e. the big cheese or the main game loop.
      */
 

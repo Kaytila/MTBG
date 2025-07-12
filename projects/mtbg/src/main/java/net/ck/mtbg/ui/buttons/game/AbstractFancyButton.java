@@ -2,6 +2,7 @@ package net.ck.mtbg.ui.buttons.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.util.utils.ImageUtils;
@@ -16,6 +17,7 @@ import java.io.File;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public abstract class AbstractFancyButton extends JButton implements MouseListener
 {
     protected boolean hovered;
@@ -48,7 +50,9 @@ public abstract class AbstractFancyButton extends JButton implements MouseListen
     /**
      * with a little help from stackoverflow again
      * <p>
+     * <a href="https://stackoverflow.com/questions/14284754/java-center-text-in-rectangle/14287270#14287270">
      * https://stackoverflow.com/questions/14284754/java-center-text-in-rectangle/14287270#14287270
+     * </a>
      */
     protected void paintComponent(Graphics g)
     {

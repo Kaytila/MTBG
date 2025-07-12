@@ -46,6 +46,8 @@ public class MapCanvas extends AbstractMapCanvas
      */
     private boolean updating;
 
+    private int count = 0;
+
     private int highlightCount;
 
     public MapCanvas()
@@ -190,10 +192,21 @@ public class MapCanvas extends AbstractMapCanvas
 
         if (updating == true)
         {
-            logger.info("already drawing, dont do again");
-            //Game.getCurrent().stopGame();
-            return;
+            count++;
+
+            if (count == 5)
+            {
+                logger.error("break update lock after 5 tries - this should never happen anyways");
+                updating = false;
+                count = 0;
+            }
+            else
+            {
+                logger.error("already drawing, do not do again");
+                return;
+            }
         }
+
         updating = true;
 
         if (GameConfiguration.drawTileOnce == true)

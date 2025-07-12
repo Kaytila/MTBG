@@ -50,7 +50,7 @@ public class CommandQueue implements Queue, Serializable
     @Override
     public Iterator iterator()
     {
-        return getActionList().iterator();
+        return Objects.requireNonNull(getActionList().iterator());
     }
 
     @Override
@@ -168,24 +168,24 @@ public class CommandQueue implements Queue, Serializable
     @Override
     public AbstractKeyboardAction remove()
     {
-        return getActionList().remove(0);
+        return getActionList().removeFirst();
     }
 
     @Override
     public AbstractKeyboardAction poll()
     {
-        return getActionList().remove(0);
+        return getActionList().removeFirst();
     }
 
     @Override
     public AbstractKeyboardAction element()
     {
-        return getActionList().get(0);
+        return getActionList().getFirst();
     }
 
     @Override
     public AbstractKeyboardAction peek()
     {
-        return getActionList().get(0);
+        return getActionList().getFirst();
     }
 }

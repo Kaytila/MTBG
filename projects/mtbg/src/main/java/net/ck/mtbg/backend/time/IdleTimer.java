@@ -2,6 +2,7 @@ package net.ck.mtbg.backend.time;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 
@@ -15,6 +16,7 @@ import java.awt.event.ActionListener;
 @Log4j2
 @Getter
 @Setter
+@ToString
 public class IdleTimer extends Timer
 {
     private boolean paused = false;
