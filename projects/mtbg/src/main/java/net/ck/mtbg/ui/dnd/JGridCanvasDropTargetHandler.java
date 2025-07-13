@@ -41,7 +41,7 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
     @Override
     public void dragOver(DropTargetDragEvent dtde)
     {
-        //logger.info("dragOver: {}", dtde.getLocation());
+        logger.info("dragOver: {}", dtde.getLocation());
         MapTile tile = MapUtils.calculateMapTileUnderCursor(dtde.getLocation());
         if (Game.getCurrent().getCurrentPlayer().getMapPosition().equals(tile.getMapPosition()))
         {
@@ -129,6 +129,7 @@ public class JGridCanvasDropTargetHandler implements DropTargetListener
                                 {
                                     logger.info("tile is available, drop");
                                     tile.getInventory().add(item);
+                                    logger.debug("inventory: {}", tile.getInventory().get(0));
                                 }
                             }
                             dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);

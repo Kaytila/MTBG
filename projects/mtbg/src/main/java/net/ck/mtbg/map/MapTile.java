@@ -386,13 +386,37 @@ public class MapTile implements Comparable<MapTile>, Serializable
     }
 
     /**
-     * helper method used in making sure you can only drop items in places that are valid for it
+     * helper method used in making sure you can only drop items in places that are valid.
+     *
      * no inventory on walls and so on
+     * Also if there is furniture already, do not drop on top of it.
      *
      * @return does the tile have the possibility to have an inventory?
+     * - false if tile has a furniture
+     * - false if tile has a lifeform who is not player
+     * - false based on the tile type
      */
     public boolean hasInventory()
     {
+        /**
+         *  furniture on the tile means: dont drop
+         */
+        if (getFurniture() != null)
+        {
+            return false;
+        }
+
+        /**
+         * do not drop on top of a lifeform apart from player potentially
+         */
+        if (getLifeForm() != null)
+        {
+            if (getLifeForm().isPlayer() == false)
+            {
+                return false;
+            }
+        }
+
         return switch (getType())
         {
             //deep forest? you wont find it again.
