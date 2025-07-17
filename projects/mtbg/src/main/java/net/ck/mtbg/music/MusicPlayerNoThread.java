@@ -182,8 +182,7 @@ public class MusicPlayerNoThread
         try
         {
             getCurrentMusic().open(audioInputStream);
-        }
-        catch (LineUnavailableException | IOException e)
+        } catch (Exception e)
         {
             throw new RuntimeException(e);
         }

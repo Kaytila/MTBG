@@ -1290,3 +1290,4 @@ History of the changes:
             instead. This should never happen anyways, but as it appears to happen sometimes, well.
 2025-07-13: small bug in maptile: hasinventory would have returned true for a tile with furniture on it.
 2025-07-17: small bugfix for drag'n'drop: drop nothing onto an empty tile led to a stack trace. Stupid case, but still
+2025-07-17: fixed issue in playSong() by removing an aac file that should not have been there in the first place.
