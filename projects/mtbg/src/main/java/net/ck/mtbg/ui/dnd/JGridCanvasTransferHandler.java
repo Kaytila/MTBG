@@ -115,10 +115,13 @@ public class JGridCanvasTransferHandler extends TransferHandler
         int y = MouseInfo.getPointerInfo().getLocation().y - getGridCanvas().getLocationOnScreen().y;
         logger.info("mouse position: {}", new Point(x, y));
         sourceMapTile = MapUtils.calculateMapTileUnderCursor(new Point(x, y));
-        if (sourceMapTile.getInventory().getSize() > 0)
+        if (sourceMapTile.hasInventory())
         {
-            setDragImage(sourceMapTile.getInventory().get(0).getItemImage());
-            return new ItemTransferable(sourceMapTile.getInventory().get(0));
+            if (!(sourceMapTile.getInventory().isEmpty()))
+            {
+                setDragImage(sourceMapTile.getInventory().get(0).getItemImage());
+                return new ItemTransferable(sourceMapTile.getInventory().get(0));
+            }
         }
         return null;
     }
