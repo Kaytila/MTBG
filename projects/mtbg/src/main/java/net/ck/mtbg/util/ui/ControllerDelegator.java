@@ -105,7 +105,16 @@ public class ControllerDelegator
     {
         if (UIStateMachine.isSelectTile() == true)
         {
+            if (UIStateMachine.isMouseOutsideOfGrid() == true)
+            {
+                CursorUtils.centerCursorOnPlayer();
+            }
             MapTile tile = MapUtils.calculateMapTileUnderCursor(CursorUtils.calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation()));
+            if (tile == null)
+            {
+                logger.debug("null tile");
+                return;
+            }
             if (tile.isHidden())
             {
                 logger.debug("hidden tile");

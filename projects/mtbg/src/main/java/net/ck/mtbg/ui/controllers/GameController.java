@@ -834,6 +834,7 @@ public class GameController implements WindowListener, ActionListener, MouseList
                 else
                 {
                     //logger.info("movement");
+                    CursorUtils.centerCursorOnPlayer();
                     action.setHaveNPCAction(true);
                 }
                 break;

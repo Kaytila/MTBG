@@ -448,4 +448,12 @@ public class CursorUtils
         CursorUtils.moveMouse(new Point(Px + relativePoint.x, Py + relativePoint.y));
         UIStateMachine.setMouseOutsideOfGrid(false);
     }
+
+    public static void calulateCursorPosition()
+    {
+        if (MapUtils.calculateMapTileUnderCursor(MouseInfo.getPointerInfo().getLocation()) == null)
+        {
+            UIStateMachine.setMouseOutsideOfGrid(true);
+        }
+    }
 }

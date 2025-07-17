@@ -228,6 +228,10 @@ public class Game implements Runnable, Serializable
         }
         else
         {
+            //TODO it fixes the issue but not quite I think
+            //fixed it in Controller movement right away.
+            //moving means mouse will center on cursor again.
+            //CursorUtils.calulateCursorPosition();
             //logger.info("advance turn");
             setNextTurn(true);
         }

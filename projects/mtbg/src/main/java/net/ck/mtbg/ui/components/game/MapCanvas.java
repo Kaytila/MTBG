@@ -284,7 +284,10 @@ public class MapCanvas extends AbstractMapCanvas
                         }
                         //logger.debug("tile: {} has NPC: {} has action string: {}", tile.getMapPosition(), tile.getLifeForm(), tile.getLifeForm().getCurrentAction().getType().toString());
                         g.setColor(Color.WHITE);
-                        g.drawString(tile.getLifeForm().getCurrentAction().getType().toString(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)));
+                        if (tile.getLifeForm().getCurrentAction() != null)
+                        {
+                            g.drawString(tile.getLifeForm().getCurrentAction().getType().toString(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)));
+                        }
                     }
 
 
