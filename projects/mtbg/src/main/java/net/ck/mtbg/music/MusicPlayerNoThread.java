@@ -182,14 +182,18 @@ public class MusicPlayerNoThread
         try
         {
             getCurrentMusic().open(audioInputStream);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new RuntimeException(e);
         }
         getCurrentMusic().setFramePosition(0);
 
         getCurrentMusic().start();
-        //getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
+        if (GameConfiguration.loopMusic == true)
+        {
+            getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
+        }
     }
 
     private int betterSelectRandomSong(ArrayList<Path> list)

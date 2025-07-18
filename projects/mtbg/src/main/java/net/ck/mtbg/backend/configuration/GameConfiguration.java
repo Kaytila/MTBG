@@ -363,14 +363,17 @@ public class GameConfiguration
      * vertical spacer used on the title screen
      */
     public static final int verticalTitleSpacer = 20;
+
     /**
      * how many turns to wait until music switches back to before from victory fanfare music?
      */
     public static final int waitTurns = 3;
+
     /**
      * path to weather images
      */
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
+
     /**
      * path to weather type images
      */
@@ -383,10 +386,22 @@ public class GameConfiguration
     /**
      * how many miliseconds to wait until music switches back to before from victory fanfare music?
      */
-
     public static int victoryWait = 7000;
 
+    /**
+     * what is the title track to be played?
+     */
     public static String titleTrack = "";// = out + File.separator + "music" + File.separator + "STONES" + File.separator + "stones5.wav";
+
+    /**
+     * does the music in game loop?
+     */
+    public static boolean loopMusic = true;
+
+    /**
+     * does the music in the title screen loop?
+     */
+    public static boolean loopTitleMusic = true;
 }
 
 

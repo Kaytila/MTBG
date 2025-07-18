@@ -1292,3 +1292,4 @@ History of the changes:
 2025-07-17: small bugfix for drag'n'drop: drop nothing onto an empty tile led to a stack trace. Stupid case, but still
 2025-07-17: fixed issue in playSong() by removing an aac file that should not have been there in the first place.
 2025-07-17: when moving with keyboard, the mouse is centered again on player right away.
+2025-07-18: music is now looping if defined as such.

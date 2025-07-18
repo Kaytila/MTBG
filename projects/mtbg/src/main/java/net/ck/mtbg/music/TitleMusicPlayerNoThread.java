@@ -3,6 +3,7 @@ package net.ck.mtbg.music;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -60,7 +61,10 @@ public class TitleMusicPlayerNoThread
             throw new RuntimeException(e);
         }
         getCurrentMusic().setFramePosition(0);
-        getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
+        if (GameConfiguration.loopTitleMusic == true)
+        {
+            getCurrentMusic().loop(Clip.LOOP_CONTINUOUSLY);
+        }
     }
 
 
