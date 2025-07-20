@@ -31,7 +31,8 @@ public class OptionsDialog extends AbstractDialog
         this.setContentPane(panel);
 
         JSlider victoryWait = new JSlider(JSlider.HORIZONTAL, 1, 15, GameConfiguration.victoryWait / 1000);
-        victoryWait.addChangeListener(new OptionsDialogChangeListener());
+        OptionsDialogChangeListener listener = new OptionsDialogChangeListener();
+        victoryWait.addChangeListener(listener);
 
 
         victoryWait.setMajorTickSpacing(1);
@@ -41,6 +42,12 @@ public class OptionsDialog extends AbstractDialog
         victoryWait.setVisible(true);
         victoryWait.setBounds(0, 0, 300, 200);
         this.add(victoryWait);
+
+        JCheckBox loopMusic = new JCheckBox("Loop Music");
+        loopMusic.setBounds(0, 300, 50, 50);
+        loopMusic.addItemListener(listener);
+        this.add(loopMusic);
+
 
         addButtons();
         this.setVisible(true);
