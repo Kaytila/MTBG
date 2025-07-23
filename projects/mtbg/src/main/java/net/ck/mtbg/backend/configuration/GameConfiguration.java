@@ -1,5 +1,7 @@
 package net.ck.mtbg.backend.configuration;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
@@ -396,11 +398,15 @@ public class GameConfiguration
     /**
      * does the music in game loop?
      */
+    @Getter
+    @Setter
     public static boolean loopMusic = true;
 
     /**
      * does the music in the title screen loop?
      */
+    @Getter
+    @Setter
     public static boolean loopTitleMusic = true;
 }
 

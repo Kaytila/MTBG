@@ -23,6 +23,7 @@ public class OptionsDialogChangeListener implements ChangeListener, ItemListener
     {
         if (e.getSource().getClass().equals(JSlider.class))
         {
+            logger.debug("we are in the state changed");
             JSlider source = (JSlider) e.getSource();
             if (!source.getValueIsAdjusting())
             {
@@ -41,9 +42,41 @@ public class OptionsDialogChangeListener implements ChangeListener, ItemListener
     {
         if (e.getSource().getClass().equals(JCheckBox.class))
         {
+            logger.debug("we are in the item state changed");
             JCheckBox source = (JCheckBox) e.getSource();
-
             //TODO
+            if (source.getText().equalsIgnoreCase("Loop Music"))
+            {
+                logger.debug("loop music");
+                if (e.getStateChange() == ItemEvent.DESELECTED)
+                {
+                    GameConfiguration.setLoopMusic(false);
+                }
+
+                if (e.getStateChange() == ItemEvent.SELECTED)
+                {
+                    GameConfiguration.setLoopMusic(true);
+
+                }
+                GameUtils.initializeMusicSystemNoThread();
+                logger.debug("Loop music state: {}", GameConfiguration.loopMusic);
+            }
+
+            if (source.getText().equalsIgnoreCase("Loop Title Music"))
+            {
+                logger.debug("loop title music");
+                if (e.getStateChange() == ItemEvent.DESELECTED)
+                {
+                    GameConfiguration.setLoopTitleMusic(false);
+                }
+
+                if (e.getStateChange() == ItemEvent.SELECTED)
+                {
+                    GameConfiguration.setLoopTitleMusic(true);
+                }
+                logger.debug("Loop title music state: {}", GameConfiguration.loopTitleMusic);
+            }
+
         }
     }
 }

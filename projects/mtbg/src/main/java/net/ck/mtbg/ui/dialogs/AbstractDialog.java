@@ -51,4 +51,17 @@ public class AbstractDialog extends JDialog
         this.add(cancelButton);
         this.add(okButton);
     }
+
+    public JPanel addButtonswithLayout()
+    {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        cancelButton = new CancelButton();
+        okButton = new OKButton();
+        buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
+        return buttonPanel;
+    }
+
 }

@@ -1294,3 +1294,5 @@ History of the changes:
 2025-07-17: when moving with keyboard, the mouse is centered again on player right away.
 2025-07-18: music is now looping if defined as such.
 2025-07-20: trying to get some more options into options dialog. only halfway done. commit due to safety.
+2025-07-23: updating options dialog to include music options. Learning more about Layouts. Nice bug in the Options Dialog
+            layout.

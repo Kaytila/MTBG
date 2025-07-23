@@ -31,6 +31,7 @@ public abstract class AbstractFancyButton extends JButton implements MouseListen
         this.setPreferredSize(GameConfiguration.preferredButtonSize);
         this.setMinimumSize(GameConfiguration.preferredButtonSize);
         this.setMaximumSize(GameConfiguration.preferredButtonSize);
+        this.setAlignmentX(Component.LEFT_ALIGNMENT);
         hovered = false;
     }
 
