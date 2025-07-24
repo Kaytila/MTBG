@@ -18,8 +18,8 @@ public class OptionsDialog extends AbstractDialog
     public OptionsDialog(JFrame owner, String title, boolean modal)
     {
         setTitle(title);
-        this.setBounds(0, 0, 300, 500);
-
+        //why does this need to be there?
+        this.setBounds(0, 0, 300, 300);
         this.setLocationRelativeTo(owner);
         final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
         root = this.getRootPane();
@@ -30,11 +30,15 @@ public class OptionsDialog extends AbstractDialog
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         this.setContentPane(panel);
 
+        /**
+         * victory wait option
+         */
         JPanel victoryPanel = new JPanel();
         victoryPanel.setLayout(new BoxLayout(victoryPanel, BoxLayout.X_AXIS));
         JLabel victoryLabel = new JLabel("Victory music time:");
         victoryPanel.add(victoryLabel);
         JSlider victoryWait = new JSlider(JSlider.HORIZONTAL, 1, 15, GameConfiguration.victoryWait / 1000);
+        victoryWait.setToolTipText("victory");
         OptionsDialogChangeListener listener = new OptionsDialogChangeListener();
         victoryWait.addChangeListener(listener);
         victoryWait.setMajorTickSpacing(1);
@@ -42,9 +46,28 @@ public class OptionsDialog extends AbstractDialog
         victoryWait.setPaintTicks(true);
         victoryWait.setPaintLabels(true);
         victoryWait.setVisible(true);
-        //victoryWait.setBounds(0, 0, 300, 200);
         victoryPanel.add(victoryWait);
         this.add(victoryPanel);
+
+        /**
+         * music volume option
+         */
+
+        JPanel volumePanel = new JPanel();
+        volumePanel.setLayout(new BoxLayout(volumePanel, BoxLayout.X_AXIS));
+        JLabel volumeLabel = new JLabel("Volume:");
+        victoryPanel.add(volumeLabel);
+        JSlider volumeWait = new JSlider(JSlider.HORIZONTAL, 0, 10, GameConfiguration.volume);
+        volumeWait.setToolTipText("volume");
+        volumeWait.addChangeListener(listener);
+        volumeWait.setMajorTickSpacing(1);
+        volumeWait.setMinorTickSpacing(1);
+        volumeWait.setPaintTicks(true);
+        volumeWait.setPaintLabels(true);
+        volumeWait.setVisible(true);
+        volumePanel.add(volumeWait);
+        this.add(volumePanel);
+
 
         JPanel loopMusicPanel = new JPanel();
         loopMusicPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
@@ -68,13 +91,13 @@ public class OptionsDialog extends AbstractDialog
         loopTitleMusicPanel.add(loopTitleMusicCheckbox);
         this.add(loopTitleMusicPanel);
 
-
+        this.add(addButtonswithLayout());
         for (Component comp : panel.getComponents())
         {
             ((JComponent) comp).setAlignmentX(Component.LEFT_ALIGNMENT);
         }
 
-        this.add(addButtonswithLayout());
+
         this.setVisible(true);
     }
 }

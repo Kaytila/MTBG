@@ -209,8 +209,9 @@ public class MusicPlayerNoThread
     {
         //TODO decrease volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
-        //logger.info("Current value: {}", gainControl.getValue());
-        gainControl.setValue(gainControl.getValue() - 1.0f); // Reduce volume by 10 decibels.
+        logger.info("Current value: {}", gainControl.getValue());
+        gainControl.setValue(gainControl.getValue() - 5.0f); // Reduce volume by 10 decibels.
+        logger.info("New value: {}", gainControl.getValue());
     }
 
     /**
@@ -221,7 +222,7 @@ public class MusicPlayerNoThread
         //TODO increase volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         //logger.info("Current value: {}", gainControl.getValue());
-        if ((gainControl.getValue() + 1.0f) < 6.0f)
+        if ((gainControl.getValue() + 1.0f) < 10.0f)
         {
             gainControl.setValue(gainControl.getValue() + 1.0f); // increase volume by 10 decibels.
         }

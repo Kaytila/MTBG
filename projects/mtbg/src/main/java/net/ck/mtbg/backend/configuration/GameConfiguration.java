@@ -408,6 +408,14 @@ public class GameConfiguration
     @Getter
     @Setter
     public static boolean loopTitleMusic = true;
+
+
+    /**
+     * music volume
+     */
+    @Getter
+    @Setter
+    public static int volume = 5;
 }
 
 

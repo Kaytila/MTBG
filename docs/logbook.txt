@@ -1296,3 +1296,4 @@ History of the changes:
 2025-07-20: trying to get some more options into options dialog. only halfway done. commit due to safety.
 2025-07-23: updating options dialog to include music options. Learning more about Layouts. Nice bug in the Options Dialog
             layout.
+2025-07-24: added volume control to options dialog. Still need to figure out volume management properly.
