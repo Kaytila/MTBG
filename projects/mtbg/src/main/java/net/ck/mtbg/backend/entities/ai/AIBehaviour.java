@@ -274,6 +274,10 @@ public class AIBehaviour
     {
         if (NPCUtils.isActive(e) == false)
         {
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.debug("npc {} is not active, because it is: {}", e, e.getState());
+            }
             return;
         }
 
@@ -303,7 +307,8 @@ public class AIBehaviour
                 }
                 AIBehaviour.determineMove(e);
             }
-        } else if (!e.getQueuedActions().isEmpty())
+        }
+        else if (!e.getQueuedActions().isEmpty())
         {
             if (GameConfiguration.debugNPC == true)
             {

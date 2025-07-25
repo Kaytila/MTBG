@@ -369,6 +369,7 @@ public class Player extends AbstractEntity implements LifeForm
 
             case ATTACK:
                 success = attack(Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(action.getEvent().getGetWhere())));
+                action.setSuccess(success);
                 break;
 
             case LOOK:
