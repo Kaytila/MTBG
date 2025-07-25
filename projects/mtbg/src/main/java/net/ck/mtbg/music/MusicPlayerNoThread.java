@@ -41,6 +41,7 @@ public class MusicPlayerNoThread
 
     private SongListMap resultMap = new SongListMap();
 
+    private float stepVolume;
 
     public MusicPlayerNoThread()
     {
@@ -189,6 +190,14 @@ public class MusicPlayerNoThread
         }
         getCurrentMusic().setFramePosition(0);
 
+        FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
+
+        float minVolume = gainControl.getMinimum();
+        float maxVoume = gainControl.getMaximum();
+        stepVolume = (maxVoume - minVolume) / 10;
+        //this is 50%
+        gainControl.setValue(stepVolume * 5);
+
         getCurrentMusic().start();
         if (GameConfiguration.loopMusic == true)
         {
@@ -210,7 +219,7 @@ public class MusicPlayerNoThread
         //TODO decrease volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         logger.info("Current value: {}", gainControl.getValue());
-        gainControl.setValue(gainControl.getValue() - 5.0f); // Reduce volume by 10 decibels.
+        gainControl.setValue(gainControl.getValue() - stepVolume); // Reduce volume by 10 decibels.
         logger.info("New value: {}", gainControl.getValue());
     }
 
@@ -222,10 +231,7 @@ public class MusicPlayerNoThread
         //TODO increase volume properly
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
         //logger.info("Current value: {}", gainControl.getValue());
-        if ((gainControl.getValue() + 1.0f) < 10.0f)
-        {
-            gainControl.setValue(gainControl.getValue() + 1.0f); // increase volume by 10 decibels.
-        }
+        gainControl.setValue(gainControl.getValue() + stepVolume); // increase volume by 10 decibels.
     }
 
     @Subscribe
