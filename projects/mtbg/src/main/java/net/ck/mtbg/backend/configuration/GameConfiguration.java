@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
 import java.io.File;
+import java.nio.file.Path;
 
 /**
  * game configuration class - currently only using final public - but as this will need to go into a
@@ -200,6 +201,8 @@ public class GameConfiguration
      * path to the misc images
      */
     public static final String miscImages = out + File.separator + "graphics" + File.separator + "misc" + File.separator;
+    public static final Path MISC_IMAGES = Path.of(out, "graphics", "misc");
+    public static final Path MISC_IMAGES_BUTTONS = MISC_IMAGES.resolve("BUTTONS");
     /**
      * path to the cursors
      */

@@ -2,8 +2,8 @@
 # https://mvnrepository.com/artifact/com.google.guava/guava
 google-guava = "33.2.1-jre"
 # https://mvnrepository.com/artifact/org.junit.jupiter
-junit-general = "5.10.3"
-junit-sub = "1.10.1"
+junit-general = "5.13.4"
+junit-sub = "1.13.4"
 # https://mvnrepository.com/artifact/org.greenrobot/eventbus
 greenrobot = "3.3.1"
 # https://mvnrepository.com/artifact/info.picocli/picocli
@@ -36,6 +36,7 @@ tika = { module = "org.apache.tika:tika-core", version.ref = "tika" }
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-general" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-general" }
 junit-suite-api = { module = "org.junit.platform:junit-platform-suite-api", version.ref = "junit-sub" }
 junit-suite-engine = { module = "org.junit.platform:junit-platform-suite-engine", version.ref = "junit-sub" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
@@ -45,7 +46,7 @@ jackson = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "j
 #openimaj-core-image = { module = "org.openimaj:core-image", version.ref = "core-image" }
 
 [bundles]
-junit = ["junit-jupiter", "junit-suite-api", "junit-suite-engine"]
+junit = ["junit-jupiter", "junit-jupiter-params", "junit-suite-api", "junit-suite-engine"]
 log4j = ["log4j-api", "log4j-core"]
 #openimaj = ["openimaj-core", "openimaj-core-image"]
 
