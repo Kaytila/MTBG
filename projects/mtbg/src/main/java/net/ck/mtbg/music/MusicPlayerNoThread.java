@@ -191,12 +191,13 @@ public class MusicPlayerNoThread
         getCurrentMusic().setFramePosition(0);
 
         FloatControl gainControl = (FloatControl) currentMusic.getControl(FloatControl.Type.MASTER_GAIN);
-
+        //TODO this is not working properly
         float minVolume = gainControl.getMinimum();
         float maxVoume = gainControl.getMaximum();
-        stepVolume = (maxVoume - minVolume) / 10;
+        stepVolume = (maxVoume - Math.abs(minVolume)) / 10;
+        logger.debug("min: {} and max: {}, stepvolume: {}", minVolume, maxVoume, stepVolume);
         //this is 50%
-        gainControl.setValue(stepVolume * 5);
+        gainControl.setValue(6f);
 
         getCurrentMusic().start();
         if (GameConfiguration.loopMusic == true)

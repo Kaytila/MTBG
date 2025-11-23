@@ -250,7 +250,7 @@ public class GameConfiguration
     /**
      * do we want to play sound effects?
      */
-    public static final boolean playSound = true;
+    public static final boolean playSound = false;
     /**
      * where are the player images
      */

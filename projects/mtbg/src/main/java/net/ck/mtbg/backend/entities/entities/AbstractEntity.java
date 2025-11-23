@@ -527,7 +527,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         {
                             if (GameConfiguration.debugNPC == true)
                             {
-                                logger.debug("hit");
+                                logger.debug("ranged hit");
                             }
                             n.decreaseHealth(5);
                             if (GameConfiguration.debugEvents == true)
@@ -574,7 +574,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         if (GameConfiguration.debugNPC == true)
                         {
-                            logger.debug("hit");
+                            logger.debug("melee hit");
                         }
                         n.decreaseHealth(5);
                         return true;

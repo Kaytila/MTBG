@@ -197,7 +197,10 @@ public class MapTile implements Comparable<MapTile>, Serializable
     {
         if (this.discovered != discovered)
         {
-            logger.debug("Maptile {} {}, {}", x, y, discovered);
+            if (GameConfiguration.debugMap == true)
+            {
+                logger.debug("Maptile {} {}, {}", x, y, discovered);
+            }
         }
         this.discovered = discovered;
     }
@@ -387,7 +390,7 @@ public class MapTile implements Comparable<MapTile>, Serializable
 
     /**
      * helper method used in making sure you can only drop items in places that are valid.
-     *
+     * <p>
      * no inventory on walls and so on
      * Also if there is furniture already, do not drop on top of it.
      *

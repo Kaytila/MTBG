@@ -52,6 +52,12 @@ public class AbstractDialog extends JDialog
         this.add(okButton);
     }
 
+    /**
+     * ideally the buttons are right aligned at the lower right corner of the dialog.
+     * but this does not work for some reason
+     *
+     * @return a JPanel right aligned with two buttons.
+     */
     public JPanel addButtonswithLayout()
     {
         JPanel buttonPanel = new JPanel();
