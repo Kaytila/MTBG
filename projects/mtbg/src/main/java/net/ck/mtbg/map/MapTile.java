@@ -69,6 +69,11 @@ public class MapTile implements Comparable<MapTile>, Serializable
     private boolean openable;
 
     /**
+     * is the tile actually open?
+     */
+    private boolean open;
+
+    /**
      * does this block the LoS?
      */
     private boolean blocksLOS;
@@ -286,6 +291,15 @@ public class MapTile implements Comparable<MapTile>, Serializable
                  CASTLEEAST, PAVEDROAD, STONEWALL, STONEWINDOW, WOODWALL,
                  WOODWINDOW, FOUNTAIN, WELL, SHALLOWOCEAN, REEF, LAVA, STEEPMOUNTAIN, SIGNPOST -> false;
             default -> throw new IllegalStateException("Unexpected value in isblocked: " + getType());
+        };
+    }
+
+    public boolean isOpen()
+    {
+        return switch (getType())
+        {
+            case GATEOPEN, WOODDOOROPEN, STONEDOOROPEN -> true;
+            default -> false;
         };
     }
 

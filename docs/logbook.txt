@@ -1299,3 +1299,4 @@ History of the changes:
 2025-07-24: added volume control to options dialog. Still need to figure out volume management properly.
 2025-07-25: simply took min and max value of the volume, divide by 10 vor step. use 5* step as starting point.
 2025-07-25: action command did not return into the action framework, that is why hit sound was not played.
+2026-01-21: Mini-Update: fixed a bug for (J)immy. Or two or three. Introduced probably a new one.

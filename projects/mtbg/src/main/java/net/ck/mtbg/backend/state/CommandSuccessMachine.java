@@ -44,6 +44,20 @@ public class CommandSuccessMachine
                         NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.ATTACK);
                     }
                     break;
+
+
+                case JIMMY:
+                case OPEN:
+                    logger.debug(action.isSuccess());
+                    if (action.isSuccess())
+                    {
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
+                    }
+                    else
+                    {
+                        NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.BLOCKED);
+                    }
+                    break;
                 default:
                     //logger.info("do nothing");
             }
@@ -70,7 +84,8 @@ public class CommandSuccessMachine
                     if (action.isSuccess())
                     {
                         NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);
-                    } else
+                    }
+                    else
                     {
                         NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.CAST);
                     }

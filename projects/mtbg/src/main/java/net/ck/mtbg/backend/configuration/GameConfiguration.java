@@ -89,7 +89,7 @@ public class GameConfiguration
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = false;
-    public static final boolean debugNPC = true;
+    public static final Path MISC_IMAGES = Path.of(out, "graphics", "misc");
     public static final boolean debugPC = false;
     public static final boolean debugPaint = false;
     public static final boolean debugSchedule = false;
@@ -201,12 +201,12 @@ public class GameConfiguration
      * path to the misc images
      */
     public static final String miscImages = out + File.separator + "graphics" + File.separator + "misc" + File.separator;
-    public static final Path MISC_IMAGES = Path.of(out, "graphics", "misc");
-    public static final Path MISC_IMAGES_BUTTONS = MISC_IMAGES.resolve("BUTTONS");
     /**
      * path to the cursors
      */
     public static final String cursorPath = miscImages + "CURSORS" + File.separator;
+    public static final Path MISC_IMAGES_BUTTONS = MISC_IMAGES.resolve("BUTTONS");
+    public static final boolean debugNPC = false;
     /**
      * general root path to the graphics
      */
@@ -250,7 +250,7 @@ public class GameConfiguration
     /**
      * do we want to play sound effects?
      */
-    public static final boolean playSound = false;
+    public static final boolean playSound = true;
     /**
      * where are the player images
      */

@@ -383,13 +383,13 @@ public class Player extends AbstractEntity implements LifeForm
                 break;
             case OPEN:
             {
-                this.openDoor(action);
+                action.setSuccess(this.openDoor(action));
                 break;
             }
 
             case JIMMY:
             {
-                this.unlockDoor(action);
+                action.setSuccess(this.unlockDoor(action));
                 break;
             }
 
@@ -441,32 +441,47 @@ public class Player extends AbstractEntity implements LifeForm
         //Game.getCurrent().getController().setCurrentAction(null);
     }
 
-    private void unlockDoor(AbstractAction action)
+    private boolean unlockDoor(AbstractAction action)
     {
         logger.debug("UNLOCK DOOR");
         //TODO properly this is just simple
         MapTile tile = action.getEvent().getMapTile();
 
+        if (tile == null)
+        {
+            return false;
+        }
+
         if (tile.isOpenable())
         {
+            if (tile.isOpen())
+            {
+                logger.debug("you cannot lock or unlock an open door");
+                return false;
+            }
+
             if (tile.isLocked())
             {
                 logger.debug("unlocked");
                 tile.setLock(null);
+                return true;
             }
             else
             {
                 logger.debug("already unlocked");
+                tile.setLock(0);
+                return false;
             }
         }
         else
         {
             logger.debug("nothing openable!");
+            return false;
         }
 
     }
 
-    private void openDoor(AbstractAction action)
+    private boolean openDoor(AbstractAction action)
     {
         logger.info("open door");
         MapTile tile = action.getEvent().getMapTile();
@@ -474,7 +489,7 @@ public class Player extends AbstractEntity implements LifeForm
         if (tile.isLocked())
         {
             logger.debug("locked!");
-            return;
+            return false;
         }
 
         if (tile.getType().equals(TileTypes.GATECLOSED))
@@ -482,6 +497,7 @@ public class Player extends AbstractEntity implements LifeForm
 
             logger.info("opening gate");
             tile.setType(TileTypes.GATEOPEN);
+            return true;
 
         }
 
@@ -489,34 +505,41 @@ public class Player extends AbstractEntity implements LifeForm
         {
             logger.info("opening wooden door");
             tile.setType(TileTypes.WOODDOOROPEN);
+            return true;
         }
 
         else if (tile.getType().equals(TileTypes.STONEDOORCLOSED))
         {
             logger.info("opening stone door");
             tile.setType(TileTypes.STONEDOOROPEN);
+            return true;
         }
 
         else if (tile.getType().equals(TileTypes.GATEOPEN))
         {
             logger.info("closing gate");
             tile.setType(TileTypes.GATECLOSED);
+            return true;
         }
 
         else if (tile.getType().equals(TileTypes.WOODDOOROPEN))
         {
             logger.info("closing wooden door");
             tile.setType(TileTypes.WOODDOORCLOSED);
+            return true;
+
         }
 
         else if (tile.getType().equals(TileTypes.STONEDOOROPEN))
         {
             logger.info("closing stone door");
             tile.setType(TileTypes.STONEDOORCLOSED);
+            return true;
         }
         else
         {
             logger.error("No door or gate here!");
+            return false;
         }
 
     }
