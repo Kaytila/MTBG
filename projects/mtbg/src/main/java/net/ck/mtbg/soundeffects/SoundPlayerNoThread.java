@@ -66,7 +66,7 @@ public class SoundPlayerNoThread
 
             try
             {
-                Clip clip = loadClipAsPcm(f);
+                Clip clip = Clip clip = loadClipAsPcmWithFade(f, 44100f, 2, 5.0); // 5ms Fade-In
                 clipCache.put(effect, clip);
                 logger.debug("Preloaded {} from {}", effect, f.getName());
                 primeClipSilent(clip);
@@ -323,6 +323,84 @@ public class SoundPlayerNoThread
 
         }
 
+    }
+
+    private Clip loadClipAsPcmWithFade(File file, float targetSampleRate, int targetChannels, double fadeInMs)
+            throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+        try (AudioInputStream aisRaw = AudioSystem.getAudioInputStream(file)) {
+
+            // Einheitliches Zielformat für ALLE Clips -> weniger Knacksen durch Umschalten
+            AudioFormat target = new AudioFormat(
+                    AudioFormat.Encoding.PCM_SIGNED,
+                    targetSampleRate,
+                    16,
+                    targetChannels,
+                    targetChannels * 2,         // 16-bit -> 2 bytes pro channel
+                    targetSampleRate,
+                    false                       // little endian
+            );
+
+            try (AudioInputStream aisPcm = AudioSystem.getAudioInputStream(target, aisRaw)) {
+
+                byte[] audioBytes = readAllBytes(aisPcm);
+
+                // Fade-In anwenden (z.B. 5ms)
+                applyFadeIn16bitLE(audioBytes, target, fadeInMs);
+
+                Clip clip = AudioSystem.getClip();
+                clip.open(target, audioBytes, 0, audioBytes.length);
+                return clip;
+            }
+        }
+    }
+
+    private static byte[] readAllBytes(AudioInputStream ais) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buffer = new byte[8192];
+        int n;
+        while ((n = ais.read(buffer)) != -1) {
+            out.write(buffer, 0, n);
+        }
+        return out.toByteArray();
+    }
+
+    /**
+     * Linear Fade-In auf 16-bit PCM signed little-endian.
+     * Wir skalieren die ersten fadeSamplesFrames Frames von 0..1.
+     */
+    private static void applyFadeIn16bitLE(byte[] data, AudioFormat fmt, double fadeMs) {
+        if (fadeMs <= 0) return;
+        if (fmt.getSampleSizeInBits() != 16) return;
+        if (fmt.isBigEndian()) return;
+        if (!AudioFormat.Encoding.PCM_SIGNED.equals(fmt.getEncoding())) return;
+
+        int frameSize = fmt.getFrameSize(); // bytes per frame (channels*2)
+        float sr = fmt.getSampleRate();
+        int fadeFrames = (int) Math.max(1, Math.round((fadeMs / 1000.0) * sr));
+
+        int maxFrames = data.length / frameSize;
+        fadeFrames = Math.min(fadeFrames, maxFrames);
+
+        // Für jeden Frame im Fade-Bereich: alle Channels skalieren
+        for (int i = 0; i < fadeFrames; i++) {
+            double gain = (double) i / (double) fadeFrames; // 0..(fast)1
+            int frameOffset = i * frameSize;
+
+            // jedes 16-bit sample im Frame bearbeiten
+            for (int b = 0; b < frameSize; b += 2) {
+                int lo = data[frameOffset + b] & 0xFF;
+                int hi = data[frameOffset + b + 1]; // signed
+                short sample = (short) ((hi << 8) | lo);
+
+                int scaled = (int) Math.round(sample * gain);
+                if (scaled > Short.MAX_VALUE) scaled = Short.MAX_VALUE;
+                if (scaled < Short.MIN_VALUE) scaled = Short.MIN_VALUE;
+
+                data[frameOffset + b]     = (byte) (scaled & 0xFF);
+                data[frameOffset + b + 1] = (byte) ((scaled >> 8) & 0xFF);
+            }
+        }
     }
 
 
