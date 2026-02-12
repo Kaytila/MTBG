@@ -14,51 +14,103 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Log4j2
 @ToString
+/**
+ * plays the sound effects based on
+ * - action
+ * - success indicated by commandsuccessmachine
+ *
+ * <b>known bug:</b>
+ * the first sound effect that is not walking will not work properly.
+ * if you walk first, then it will work as it should.
+ * Something somewhere is off, but based at least on the debug information,
+ * it is the right sample that is being played. It just arrives broken.
+ */
 public class SoundPlayerNoThread
 {
+    private final Map<SoundEffects, Clip> clipCache = new EnumMap<>(SoundEffects.class);
     AudioInputStream audioInputStream = null;
     private ArrayList<Path> soundEffects;
-    private Hashtable<SoundEffects, Path> effectsList;
+    private Hashtable<SoundEffects, File> effectsList;
     private Clip currentSound;
 
 
     public SoundPlayerNoThread()
     {
         super();
-        //getLogger().info("initialize sound player no threaded");
-        // EventBus.getDefault().register(this);
         soundEffects = new ArrayList<>();
         effectsList = new Hashtable<>(SoundEffects.values().length);
         readSoundEffectDirectory(GameConfiguration.soundeffectsPath);
+        preloadAllClips();
+
     }
+
+    private void preloadAllClips()
+    {
+        for (SoundEffects effect : SoundEffects.values())
+        {
+            File f = effectsList.get(effect);
+            if (f == null)
+            {
+                logger.warn("No file mapped for effect {}", effect);
+                continue;
+            }
+
+            try
+            {
+                Clip clip = loadClipAsPcm(f);
+                clipCache.put(effect, clip);
+                logger.debug("Preloaded {} from {}", effect, f.getName());
+                primeClipSilent(clip);
+            }
+            catch (Exception e)
+            {
+                logger.error("Failed to preload {} from {}", effect, f, e);
+            }
+        }
+        // Optional: einmal kurz "anpingen" um Mixer zu initialisieren
+        warmUp();
+    }
+
 
     private void readSoundEffectDirectory(String soundBasePath)
     {
-        try
+        try (var paths = Files.list(Paths.get(soundBasePath)))
         {
-            for (File f : Files.list(Paths.get(soundBasePath)).map(Path::toFile).collect(Collectors.toList()))
+
+            for (Path p : paths.collect(Collectors.toList()))
             {
-                //logger.info("File f: {}", f);
-                if (SoundUtils.detectFileType(Paths.get(f.toURI())).getBaseType().toString().contains("audio"))
+
+                File f = p.toFile();
+
+                if (!f.isFile())
                 {
-                    //logger.info("Sound effect: {}", Paths.get(f.toURI()));
-                    soundEffects.add(Paths.get(f.toURI()));
-                    String shortName = f.getName().substring(0, f.getName().length() - 4);
+                    continue;
+                }
+                if (SoundUtils.detectFileType(p).getBaseType().toString().contains("audio"))
+                {
+
+                    String name = f.getName();
+
+                    int dot = name.lastIndexOf('.');
+
+                    String shortName = (dot > 0) ? name.substring(0, dot) : name;
                     for (SoundEffects ef : SoundEffects.values())
                     {
-                        if (ef.toString().equals(shortName))
+
+                        if (ef.name().equalsIgnoreCase(shortName))
                         {
-                            effectsList.put(ef, Paths.get(f.toURI()));
+                            effectsList.put(ef, f);
                         }
                     }
-
                 }
             }
         }
@@ -66,58 +118,212 @@ public class SoundPlayerNoThread
         {
             throw new RuntimeException(e);
         }
-        //Game.getCurrent().stopGame();
+
         for (SoundEffects ef : effectsList.keySet())
         {
             logger.debug("key: {}, value: {}", ef, effectsList.get(ef));
         }
     }
 
-    /*@Subscribe
-    public void onMessageEvent(GameStateChanged gameStat)
-    {
-        logger.info("nothing");
-    }*/
 
     public synchronized void playSoundEffect(SoundEffects type)
     {
-        Path path = effectsList.get(type);
 
-        //logger.info("playing song: {}", path);
+        Clip clip = clipCache.get(type);
 
-        try
-        {
-            audioInputStream = AudioSystem.getAudioInputStream(new File(path.toUri()));
 
-        }
-        catch (UnsupportedAudioFileException e)
+        if (clip == null)
         {
-            logger.error("cannot play file: {}", path);
-        }
-        catch (IOException e)
-        {
-            logger.error("IO Exception: {} for {}", e, path);
+
+            logger.warn("Clip not preloaded for {}", type);
+
+            return;
+
         }
 
-        try
-        {
-            currentSound = (AudioSystem.getClip());
-        }
-        catch (LineUnavailableException e)
-        {
-            throw new RuntimeException(e);
-        }
-        try
-        {
-            currentSound.open(audioInputStream);
-        }
-        catch (LineUnavailableException | IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        currentSound.setFramePosition(0);
 
-        currentSound.start();
+        // Vorherigen Sound sauber stoppen (reduziert Übergangs-Clicks)
+
+        if (currentSound != null)
+        {
+
+            try
+            {
+
+                currentSound.stop();
+
+                currentSound.flush();
+
+                currentSound.setFramePosition(0);
+
+            }
+            catch (Exception ignored)
+            {
+            }
+
+        }
+
+
+        currentSound = clip;
+
+
+        // Ziel-Clip sauber resetten
+
+        clip.stop();
+
+        clip.flush();                 // <-- wichtig gegen Knackser/Restbuffer
+
+        clip.setFramePosition(0);
+
+        clip.start();
+
     }
+
+    /**
+     * Lädt Datei, konvertiert robust zu PCM 16-bit und öffnet den Clip
+     */
+
+    private Clip loadClipAsPcm(File file) throws UnsupportedAudioFileException, IOException, LineUnavailableException
+    {
+
+        try (AudioInputStream aisRaw = AudioSystem.getAudioInputStream(file))
+        {
+
+            AudioFormat base = aisRaw.getFormat();
+
+
+            AudioFormat pcm = new AudioFormat(
+
+                    AudioFormat.Encoding.PCM_SIGNED,
+
+                    base.getSampleRate(),
+
+                    16,
+
+                    base.getChannels(),
+
+                    base.getChannels() * 2,
+
+                    base.getSampleRate(),
+
+                    false
+
+            );
+
+
+            try (AudioInputStream aisPcm = AudioSystem.getAudioInputStream(pcm, aisRaw))
+            {
+
+                Clip clip = AudioSystem.getClip();
+
+                clip.open(aisPcm); // liest Daten komplett in den Speicher (bei Clip üblich)
+
+                return clip;
+
+            }
+
+        }
+
+    }
+
+
+    public void warmUp()
+    {
+        try
+        {
+            Clip c = AudioSystem.getClip();
+            c.open(new AudioFormat(44100, 16, 2, true, false), new byte[4], 0, 4);
+            c.start();
+            c.stop();
+            c.close();
+            logger.debug("Audio system warmed up");
+        }
+        catch (Exception e)
+        {
+            logger.warn("Warm-up failed", e);
+        }
+    }
+
+    /**
+     * Beim Shutdown aufrufen!
+     */
+
+    public void shutdown()
+    {
+
+        for (Clip c : clipCache.values())
+        {
+
+            try
+            {
+                c.stop();
+            }
+            catch (Exception ignored)
+            {
+            }
+
+            try
+            {
+                c.close();
+            }
+            catch (Exception ignored)
+            {
+            }
+
+        }
+
+        clipCache.clear();
+
+    }
+
+    private void primeClipSilent(Clip clip)
+    {
+
+        FloatControl gain = null;
+        float old = 0f;
+        try
+        {
+
+            if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
+            {
+
+                gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                old = gain.getValue();
+                gain.setValue(gain.getMinimum()); // praktisch stumm
+            }
+            clip.stop();
+            clip.flush();
+            clip.setFramePosition(0);
+            clip.start();
+            clip.stop();
+            clip.flush();
+            clip.setFramePosition(0);
+        }
+        catch (Exception e)
+        {
+
+            logger.debug("Silent prime failed: {}", e.toString());
+
+        }
+        finally
+        {
+
+            if (gain != null)
+            {
+
+                try
+                {
+                    gain.setValue(old);
+                }
+                catch (Exception ignored)
+                {
+                }
+
+            }
+
+        }
+
+    }
+
 
 }

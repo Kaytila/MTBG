@@ -16,6 +16,7 @@ public class CommandSuccessMachine
 {
     public static void calculateSoundEffect(AbstractAction action)
     {
+        logger.debug("success: " + action.isSuccess());
         if (GameConfiguration.playSound == true)
         {
             switch (action.getType())
@@ -48,7 +49,6 @@ public class CommandSuccessMachine
 
                 case JIMMY:
                 case OPEN:
-                    logger.debug(action.isSuccess());
                     if (action.isSuccess())
                     {
                         NoiseManager.getSoundPlayerNoThread().playSoundEffect(SoundEffects.HIT);

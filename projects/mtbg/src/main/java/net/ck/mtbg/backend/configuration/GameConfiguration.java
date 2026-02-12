@@ -197,6 +197,8 @@ public class GameConfiguration
      * general path to the assets
      */
     public static final String out = "assets";
+    public static final Path MISC_IMAGES_BUTTONS = MISC_IMAGES.resolve("BUTTONS");
+    public static final boolean debugNPC = false;
     /**
      * path to the misc images
      */
@@ -205,8 +207,6 @@ public class GameConfiguration
      * path to the cursors
      */
     public static final String cursorPath = miscImages + "CURSORS" + File.separator;
-    public static final Path MISC_IMAGES_BUTTONS = MISC_IMAGES.resolve("BUTTONS");
-    public static final boolean debugNPC = false;
     /**
      * general root path to the graphics
      */
