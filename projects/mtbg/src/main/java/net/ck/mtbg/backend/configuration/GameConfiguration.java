@@ -89,9 +89,9 @@ public class GameConfiguration
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
     public static final boolean debugMapPosition = false;
-    public static final Path MISC_IMAGES = Path.of(out, "graphics", "misc");
+    public static final boolean debugNPC = false;
     public static final boolean debugPC = false;
-    public static final boolean debugPaint = false;
+    public static final boolean debugPaint = true;
     public static final boolean debugSchedule = false;
     /**
      * debug the splash startup
@@ -197,8 +197,8 @@ public class GameConfiguration
      * general path to the assets
      */
     public static final String out = "assets";
+    public static final Path MISC_IMAGES = Path.of(out, "graphics", "misc");
     public static final Path MISC_IMAGES_BUTTONS = MISC_IMAGES.resolve("BUTTONS");
-    public static final boolean debugNPC = false;
     /**
      * path to the misc images
      */
