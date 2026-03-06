@@ -270,7 +270,7 @@ public class GameConfiguration
     /**
      * ignore the startup screen
      */
-    public static final boolean quickstart = true;
+    public static final boolean quickstart = false;
     /**
      * where are the images for the skills
      */
