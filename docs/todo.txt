@@ -262,3 +262,30 @@ TODO Game UI:
 
 TODO Game UI:
 add Layered PAne
+
+
+TODO MAP:
+JSON variant or even text variant for faster build of maps
+
+MapUtils: text -> JSON, XML -> JSON
+
+TODO UI:
+Close to Death effect - reddish overlay in case health drops low
+
+TODO Quest objects:
+checkpoints
+triggers
+name
+journal text
+
+
+TODO Checkpoints:
+condition
+precondition
+successor
+velocity templates for easy logic?
+
+TODO NPCS:
+change NPC prototypes, ID will be used in quests, does not make sense to use it in prototypes themselves
+that way NPCs can always start from 1 on the map
+NPC Prototype will have i.e. WARRIOR as name, i.e. what is currently the type will be the ID.
