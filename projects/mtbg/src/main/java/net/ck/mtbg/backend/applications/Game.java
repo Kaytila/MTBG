@@ -238,6 +238,15 @@ public class Game implements Runnable, Serializable
     }
 
 
+    public void assertNotEdt(String msg)
+    {
+        if (javax.swing.SwingUtilities.isEventDispatchThread())
+        {
+            throw new IllegalStateException("On EDT: " + msg);
+        }
+    }
+
+
     /**
      * advance one turn - the end of the rollover in civ for instance. all npcs act, environment acts, idle timer for passing the turn starts.
      * need to think about implementing double speed, either due to DEX or due to transport
@@ -248,6 +257,9 @@ public class Game implements Runnable, Serializable
      */
     public synchronized void advanceTurn(PlayerAction action)
     {
+        Game.getCurrent().assertNotEdt(action.toString());
+
+
         Game.getCurrent().getCurrentPlayer().doAction(action);
         if (GameConfiguration.debugEvents == true)
         {

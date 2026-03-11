@@ -198,22 +198,16 @@ public class SoundPlayerNoThread
 
     public synchronized void playSoundEffect(SoundEffects type)
     {
-
         Clip clip = clipCache.get(type);
-
 
         if (clip == null)
         {
-
             logger.warn("Clip not preloaded for {}", type);
-
             return;
-
         }
 
 
         // Vorherigen Sound sauber stoppen (reduziert Übergangs-Clicks)
-
         if (currentSound != null)
         {
 
@@ -232,21 +226,11 @@ public class SoundPlayerNoThread
             }
 
         }
-
-
-        currentSound = clip;
-
-
-        // Ziel-Clip sauber resetten
-
-        clip.stop();
-
-        clip.flush();                 // <-- wichtig gegen Knackser/Restbuffer
-
-        clip.setFramePosition(0);
-
-        clip.start();
-
+        else
+        {
+            currentSound = clip;
+            currentSound.start();
+        }
     }
 
     /**
