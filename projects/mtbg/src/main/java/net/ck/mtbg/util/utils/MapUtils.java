@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
@@ -137,7 +138,7 @@ public class MapUtils
 
     /**
      * creates a map, all of type grassland or ocean in random with a little help from stackoverflow:
-     * <a href="https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio">https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio</a>
+     * <a href="https://stackoverflow.com/questions/7366266/best-way-to-write-string-to-file-using-java-nio">https://stackoverflow.com/questions/7366266/best-way-to/write-string-to/file-using-java-nio</a>
      *
      * @param x size (zero indexed, so size 12 is 11)
      * @param y size (zero indexed, so size 12 is 11)
@@ -792,6 +793,7 @@ public class MapUtils
 //        long start = System.nanoTime();
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
         int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
+        int visibilityRange = Game.getCurrent().getCurrentMap().getVisibilityRange();
 
         for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
         {
@@ -806,6 +808,17 @@ public class MapUtils
                     continue;
                 }
 
+                // Keep legacy pipeline consistent with visibility-limited nights/dawn/dusk.
+                // Exception: tiles illuminated by a nearby light source remain visible.
+                if (Math.abs(row - pX) > visibilityRange || Math.abs(column - pY) > visibilityRange)
+                {
+                    if (t.getBrightenFactor() <= 0)
+                    {
+                        t.setHidden(true);
+                        continue;
+                    }
+                    // tile is lit by a nearby light source - let LOS decide below
+                }
 
                 if (GameConfiguration.calculateBrightenUpImageInPaint == false)
                 {
@@ -819,15 +832,39 @@ public class MapUtils
                 if (t.getFurniture() != null)
                 {
                     FurnitureItem item = t.getFurniture();
-                    if (item.isLightSource() == true)
+                    if (item.isLightSource())
                     {
-                        if (item.isBurning() == true)
+                        if (item.isBurning())
                         {
                             int lightrange = item.getLightRange();
                             ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
                             for (MapTile tile : tiles)
                             {
-                                // logger.debug("tile: {}", tile);
+                                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
+                                {
+                                    tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
+                                }
+                                else
+                                {
+                                    tile.setBrightenFactor(1);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // check items in the tile inventory as light sources (e.g. torch on the floor)
+                if (!t.getInventory().isEmpty())
+                {
+                    for (int invIdx = 0; invIdx < t.getInventory().getSize(); invIdx++)
+                    {
+                        AbstractItem invItem = t.getInventory().get(invIdx);
+                        if (invItem instanceof FurnitureItem lightItem && lightItem.isLightSource() && lightItem.isBurning())
+                        {
+                            int lightrange = lightItem.getLightRange();
+                            ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
+                            for (MapTile tile : tiles)
+                            {
                                 if (GameConfiguration.calculateBrightenUpImageInPaint == false)
                                 {
                                     tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
@@ -937,14 +974,14 @@ public class MapUtils
                             //logger.info("Maptile {} is hidden", t);
                         }
                     }
-                    else
+                }
+
+                if (!t.isHidden())
+                {
+                    t.setDiscovered(true);
+                    if (GameConfiguration.debugDiscovered)
                     {
-                        //TODO
-                        t.setDiscovered(true);
-                        if (GameConfiguration.debugDiscovered)
-                        {
-                            g.drawString("D", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
-                        }
+                        g.drawString("D", row * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), column * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
                     }
                 }
             }
@@ -961,6 +998,7 @@ public class MapUtils
         ArrayList<MapTile> mapTiles = getMapTilesAroundPointByDistance(t, GameConfiguration.maxLightSourceDistance);
         for (MapTile tile : mapTiles)
         {
+            // check furniture on the tile
             if (tile.getFurniture() != null)
             {
                 if (tile.getFurniture().isLightSource())
@@ -971,6 +1009,26 @@ public class MapUtils
                         if (calculateMaxDistance(t.getMapPosition(), tile.getMapPosition()) <= lightRange)
                         {
                             return true;
+                        }
+                    }
+                }
+            }
+
+            // check items in the tile's inventory (e.g. a torch lying on the floor)
+            if (!tile.getInventory().isEmpty())
+            {
+                for (int i = 0; i < tile.getInventory().getSize(); i++)
+                {
+                    AbstractItem item = tile.getInventory().get(i);
+                    if (item instanceof FurnitureItem lightItem)
+                    {
+                        if (lightItem.isLightSource() && lightItem.isBurning())
+                        {
+                            int lightRange = lightItem.getLightRange();
+                            if (calculateMaxDistance(t.getMapPosition(), tile.getMapPosition()) <= lightRange)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -1479,4 +1537,209 @@ public class MapUtils
         logger.debug("UI Coordinate: {}", uiCoordinate);
         return uiCoordinate;
     }
+
+
+    public static void calculateVisibleTilesAroundPlayer(Graphics graphics)
+    {
+        final long start = System.nanoTime();
+
+        // --- shared invariants (hot lookups cached once) ---
+        final int tileSize = GameConfiguration.tileSize;
+        final int numberOfTiles = GameConfiguration.numberOfTiles;
+        final int half = numberOfTiles / 2;
+        final Point playerMapPos = Game.getCurrent().getCurrentPlayer().getMapPosition();
+        final Point mapSize = Game.getCurrent().getCurrentMap().getSize();
+        final int visibilityRange = Game.getCurrent().getCurrentMap().getVisibilityRange();
+        final MapTile[][] world = Game.getCurrent().getCurrentMap().mapTiles;
+        final MapTile[][] lense = UILense.getCurrent().mapTiles;
+        final int bgIndex = WindowBuilder.getGridCanvas().getCurrentBackgroundImage();
+        final BufferedImage blackTile = ImageUtils.createImage(Color.BLACK, tileSize);
+        final int originX = playerMapPos.x - half;
+        final int originY = playerMapPos.y - half;
+
+        // ============================================================
+        // PASS 1 - refresh lense + reset visibility / brighten factor
+        // ============================================================
+        for (int uiRow = 0; uiRow < numberOfTiles; uiRow++)
+        {
+            final int mapX = originX + uiRow;
+            for (int uiCol = 0; uiCol < numberOfTiles; uiCol++)
+            {
+                final int mapY = originY + uiCol;
+
+                if (mapX < 0 || mapY < 0 || mapX >= mapSize.x || mapY >= mapSize.y)
+                {
+                    lense[uiRow][uiCol] = null; // outside the world
+                    continue;
+                }
+
+                final MapTile tile = world[mapX][mapY];
+                lense[uiRow][uiCol] = tile;
+                if (tile == null)
+                {
+                    continue;
+                }
+
+                tile.setHidden(false);
+                tile.setBrightenFactor(checkForLightSourceAround(tile) ? 1 : 0);
+            }
+        }
+
+        // ============================================================
+        // PASS 2 - LoS (Bresenham, allocation-free, in lense coordinates)
+        // ============================================================
+        // The player sits at (half, half) in lense coordinates by construction.
+        final int playerUiX = half;
+        final int playerUiY = half;
+
+        for (int uiRow = 0; uiRow < numberOfTiles; uiRow++)
+        {
+            for (int uiCol = 0; uiCol < numberOfTiles; uiCol++)
+            {
+                final MapTile target = lense[uiRow][uiCol];
+                if (target == null)
+                {
+                    continue;
+                }
+
+                // Visibility-range gate (e.g. darkness/night): tiles outside range stay hidden,
+                // UNLESS a light source (furniture or inventory item) already illuminated them in Pass 1.
+                if (Math.abs(uiRow - playerUiX) > visibilityRange || Math.abs(uiCol - playerUiY) > visibilityRange)
+                {
+                    if (target.getBrightenFactor() <= 0)
+                    {
+                        target.setHidden(true);
+                        continue;
+                    }
+                    // tile is lit by a nearby light source - let LOS decide visibility below
+                }
+
+                // Bresenham from player -> (uiRow, uiCol)
+                int x0 = playerUiX;
+                int y0 = playerUiY;
+                final int x1 = uiRow;
+                final int y1 = uiCol;
+                final int dxAbs = Math.abs(x1 - x0);
+                final int dyAbsNeg = -Math.abs(y1 - y0);
+                final int sx = x0 < x1 ? 1 : -1;
+                final int sy = y0 < y1 ? 1 : -1;
+                int err = dxAbs + dyAbsNeg;
+
+                boolean blocked = false;
+                boolean firstStep = true;
+
+                while (true)
+                {
+                    final MapTile tl = lense[x0][y0];
+                    if (tl != null)
+                    {
+                        if (tl.isBlocksLOS())
+                        {
+                            // first step is the player tile itself - never block on it
+                            if (firstStep)
+                            {
+                                firstStep = false;
+                            }
+                            else if (!isAdjacentInLense(x0, y0, playerUiX, playerUiY))
+                            {
+                                tl.setHidden(true);
+                            }
+                            blocked = true;
+                        }
+                        else if (blocked && !isAdjacentInLense(x0, y0, playerUiX, playerUiY))
+                        {
+                            tl.setHidden(true);
+                        }
+                    }
+
+                    if (x0 == x1 && y0 == y1)
+                    {
+                        break;
+                    }
+                    final int e2 = 2 * err;
+                    if (e2 >= dyAbsNeg)
+                    {
+                        err += dyAbsNeg;
+                        x0 += sx;
+                    }
+                    if (e2 <= dxAbs)
+                    {
+                        err += dxAbs;
+                        y0 += sy;
+                    }
+                }
+
+                if (!target.isHidden())
+                {
+                    target.setDiscovered(true);
+                }
+            }
+        }
+
+        // ============================================================
+        // PASS 3 - per-tile rendering using the now-correct hidden flag
+        // ============================================================
+        for (int uiRow = 0; uiRow < numberOfTiles; uiRow++)
+        {
+            for (int uiCol = 0; uiCol < numberOfTiles; uiCol++)
+            {
+                final MapTile tile = lense[uiRow][uiCol];
+                if (tile == null)
+                {
+                    continue;
+                }
+                tile.setCalculatedImage(buildTileImage(tile, tileSize, bgIndex, blackTile));
+            }
+        }
+
+        if (GameConfiguration.debugPaint)
+        {
+            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+            logger.debug("calculateVisibleTilesAroundPlayer (LoS+render): {} ms", convert);
+        }
+    }
+
+    /**
+     * Fast adjacency check in lense coordinates (player-to-tile), avoids the * {@code Range.of(...)} allocation that {@link #isAdjacent(Point, Point)} does.
+     */
+    private static boolean isAdjacentInLense(int ax, int ay, int bx, int by)
+    {
+        final int dx = ax - bx;
+        final int dy = ay - by;
+        return dx >= -1 && dx <= 1 && dy >= -1 && dy <= 1;
+    }
+
+    /**
+     * Builds the composite image for a single visible {@link MapTile}: hidden tiles * return a shared black image; visible tiles get a brightened background plus * furniture or first inventory item overlay.
+     */
+    private static BufferedImage buildTileImage(MapTile tile, int tileSize, int bgIndex, BufferedImage blackTile)
+    {
+        if (tile.isHidden())
+        {
+            return blackTile;
+        }
+
+        final BufferedImage image = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_ARGB);
+        final Graphics g = image.getGraphics();
+        try
+        {
+            final BufferedImage bg = ImageUtils.getTileTypeImages().get(tile.getType()).get(bgIndex);
+            g.drawImage(ImageUtils.brightenUpImage(bg, tile.getBrightenFactor(), tile.getBrightenFactor()), 0, 0, null);
+
+            if (tile.getFurniture() != null)
+            {
+                g.drawImage(tile.getFurniture().getItemImage(), 0, 0, null);
+            }
+            else if (!tile.getInventory().isEmpty() && tile.getInventory().get(0) != null)
+            {
+                g.drawImage(tile.getInventory().get(0).getItemImage(), 0, 0, null);
+            }
+        }
+        finally
+        {
+            g.dispose();
+        }
+        return image;
+    }
+
 }

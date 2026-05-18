@@ -31,7 +31,7 @@ public class WeatherUtils
         if (getTypes() == null)
         {
             logger.info("initializing weather images");
-            types = new Hashtable<WeatherTypes, BufferedImage>();
+            types = new Hashtable<>();
             for (WeatherTypes wt : WeatherTypes.values())
             {
                 types.put(wt, ImageUtils.loadWeatherImage(wt));

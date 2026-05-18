@@ -53,6 +53,9 @@ public class MapDialog extends AbstractDialog
             autoMap = new AutoMap(map);
         }
 
+        // Keep cached AutoMap instances in sync with current discovered state.
+        autoMap.syncDiscoveredFrom(map);
+
         AutoMapCanvas autoMapCanvas = new AutoMapCanvas(autoMap);
         autoMapCanvas.addMouseListener(new AutoMapCanvasMouseListener(autoMapCanvas));
         autoMapCanvas.setVisible(true);

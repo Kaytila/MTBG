@@ -3,6 +3,8 @@ package net.ck.mtbg.animation.lifeform;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.applications.Game;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
@@ -36,6 +38,10 @@ public class HitMissImageTimerTask extends TimerTask
         else
         {
             getLifeForm().setCurrImage(0);
+        }
+        if (GameConfiguration.useRenderClock)
+        {
+            Game.getCurrent().getRenderClock().markDirty();
         }
         //logger.info("HitMissImageTimerTask is finished");
     }

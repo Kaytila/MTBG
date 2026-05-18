@@ -42,6 +42,7 @@ import net.ck.mtbg.ui.highlighting.HighlightTimer;
 import net.ck.mtbg.ui.highlighting.HightlightTimerActionListener;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
+import net.ck.mtbg.util.ui.RenderClock;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.xml.RunXMLParser;
 import net.ck.mtbg.weather.*;
@@ -165,6 +166,14 @@ public class GameUtils
         TimerManager.setHighlightTimer(new HighlightTimer(GameConfiguration.highlightDelay, actionListener));
         TimerManager.getHighlightTimer().setRepeats(true);
     }
+
+
+    public static void initializeRenderclock()
+    {
+        logger.info("initializing RenderClock");
+        TimerManager.setRenderClock(new RenderClock(WindowBuilder.getGridCanvas()));
+    }
+
 
     public static void initializeMusicTimer()
     {
@@ -568,7 +577,6 @@ public class GameUtils
      */
     public static synchronized void initializeRest()
     {
-
         TimerManager.getHighlightTimer().start();
         if (GameConfiguration.debugEvents == true)
         {
@@ -594,17 +602,17 @@ public class GameUtils
             }
 
         }
-        UILense.getCurrent().identifyVisibleTilesBest();
+        /*UILense.getCurrent().identifyVisibleTilesBest();
         UILense.getCurrent().identifyBufferedTiles();
         MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
-        MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
+        MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());*/
+        MapUtils.calculateVisibleTilesAroundPlayer(WindowBuilder.getGridCanvas().getGraphics());
         //MapUtils.calculateAllTileImages(WindowBuilder.getGridCanvas().getGraphics());
         //for testing to workaround the errors during tile image pre-generation - simply build all tiles now.
         //TODO
         //MapUtils.calculateAllTileImages(Game.getCurrent().getCurrentMap(), WindowBuilder.getGridCanvas().getGraphics());
         Game.getCurrent().getCurrentPlayer().setMapPosition(Game.getCurrent().getCurrentPlayer().getMapPosition());
-
-
+        initializeRenderclock();
     }
 
     public static void listMaps()

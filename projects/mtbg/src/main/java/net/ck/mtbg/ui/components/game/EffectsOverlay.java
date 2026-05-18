@@ -13,15 +13,16 @@ import java.awt.*;
 public class EffectsOverlay extends JPanel
 {
     private final int alpha = 100;
-    Color col;
+    private Color col;
     private boolean paint = false;
 
+    @SuppressWarnings("unused")
     public EffectsOverlay(AbstractMapCanvas canvas, Color color)
     {
         this.setLocation(canvas.getLocation());
         this.setSize(canvas.getSize());
         canvas.getParent().add(this);
-        col = new Color(color.getRed(), color.getRed(), color.getBlue(), alpha);
+        col = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
         this.setBackground(col);
         this.setVisible(true);
     }
@@ -36,7 +37,7 @@ public class EffectsOverlay extends JPanel
     @Override
     protected void paintComponent(Graphics g)
     {
-        if (paint)
+        if (paint && col != null)
         {
             g.setColor(col);
             g.fillRect(0, 0, this.getWidth(), this.getHeight());

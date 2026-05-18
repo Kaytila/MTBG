@@ -14,6 +14,7 @@ import net.ck.mtbg.backend.time.IdleTimer;
 import net.ck.mtbg.backend.time.QuequeTimer;
 import net.ck.mtbg.music.MusicTimer;
 import net.ck.mtbg.ui.highlighting.HighlightTimer;
+import net.ck.mtbg.util.ui.RenderClock;
 
 /**
  * as ObjectOutputStream so eloquently tells me, the Timers need to go out of game and into a separate class where they
@@ -91,5 +92,10 @@ public class TimerManager
     @Getter
     @Setter
     private static HitMissImageTimer hitMissImageTimer;
+
+
+    @Getter
+    @Setter
+    private static RenderClock renderClock;
 
 }

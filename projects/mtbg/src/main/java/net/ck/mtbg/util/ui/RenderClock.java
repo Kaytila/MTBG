@@ -3,6 +3,8 @@ package net.ck.mtbg.util.ui;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.ui.components.game.MapCanvas;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,9 +18,9 @@ public final class RenderClock
 {
     private final Timer timer;
     private final AtomicBoolean dirty = new AtomicBoolean(true);
-    private final javax.swing.JComponent canvas;
+    private final MapCanvas canvas;
 
-    public RenderClock(javax.swing.JComponent canvas)
+    public RenderClock(MapCanvas canvas)
     {
         this.canvas = canvas;
         int delay = Math.max(1, 1000 / fps);
@@ -26,6 +28,10 @@ public final class RenderClock
         {
             if (dirty.getAndSet(false))
             {
+                if (GameConfiguration.debugPaint == true)
+                {
+                    logger.debug("request repaint");
+                }
                 canvas.repaint();
             }
         });

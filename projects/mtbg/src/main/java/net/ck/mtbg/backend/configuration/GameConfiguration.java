@@ -352,6 +352,8 @@ public class GameConfiguration
      * use a thread for Game or not - if not, where does it run?
      */
     public static final boolean useGameThread = true;
+
+    public static final boolean useRenderClock = false;
     /**
      * use an util timer or a thread
      */
@@ -368,17 +370,14 @@ public class GameConfiguration
      * vertical spacer used on the title screen
      */
     public static final int verticalTitleSpacer = 20;
-
     /**
      * how many turns to wait until music switches back to before from victory fanfare music?
      */
     public static final int waitTurns = 3;
-
     /**
      * path to weather images
      */
     public static final String weatherImagesPath = out + File.separator + "graphics" + File.separator + "weather" + File.separator;
-
     /**
      * path to weather type images
      */
@@ -387,38 +386,33 @@ public class GameConfiguration
      * how many milliseconds to wait in case weather is async?
      */
     public static final int weatherWait = 10000;
-
     /**
      * how many miliseconds to wait until music switches back to before from victory fanfare music?
      */
     public static int victoryWait = 7000;
-
     /**
      * what is the title track to be played?
      */
     public static String titleTrack = "";// = out + File.separator + "music" + File.separator + "STONES" + File.separator + "stones5.wav";
-
     /**
      * does the music in game loop?
      */
     @Getter
     @Setter
     public static boolean loopMusic = true;
-
     /**
      * does the music in the title screen loop?
      */
     @Getter
     @Setter
     public static boolean loopTitleMusic = true;
-
-
     /**
      * music volume
      */
     @Getter
     @Setter
     public static int volume = 5;
+
 }
 
 

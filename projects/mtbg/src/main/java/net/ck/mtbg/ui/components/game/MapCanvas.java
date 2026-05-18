@@ -187,10 +187,11 @@ public class MapCanvas extends AbstractMapCanvas
 
     public void paintComponent(Graphics g)
     {
+        super.paintComponent(g);
         //logger.debug("start: painting");
         long start = System.nanoTime();
 
-        if (updating == true)
+        if (updating)
         {
             count++;
 
@@ -209,7 +210,7 @@ public class MapCanvas extends AbstractMapCanvas
 
         updating = true;
 
-        if (GameConfiguration.drawTileOnce == true)
+        if (GameConfiguration.drawTileOnce)
         {
             int frameTop = Game.getCurrent().getCurrentPlayer().getUIPosition().y - Game.getCurrent().getCurrentMap().getVisibilityRange();
             int frameBottom = Game.getCurrent().getCurrentPlayer().getUIPosition().y + Game.getCurrent().getCurrentMap().getVisibilityRange();
@@ -233,7 +234,7 @@ public class MapCanvas extends AbstractMapCanvas
                     //paint darkness
                     if ((row < frameTop) || (row > frameBottom) || (column < frameLeft) || (column > frameRight))
                     {
-                        if (GameConfiguration.calculateBrightenUpImageInPaint == true)
+                        if (GameConfiguration.calculateBrightenUpImageInPaint)
                         {
                             if (tile.getBrightenFactor() != 1)
                             {
@@ -321,7 +322,7 @@ public class MapCanvas extends AbstractMapCanvas
              * - highlighting
              * - highlight maptile
              */
-            if (GameConfiguration.paintGridLines == true)
+            if (GameConfiguration.paintGridLines)
             {
                 GridUtils.paintLines(this, g, GameConfiguration.tileSize);
             }
@@ -339,7 +340,7 @@ public class MapCanvas extends AbstractMapCanvas
         }
 
         updating = false;
-        if (GameConfiguration.debugPaint == true)
+        if (GameConfiguration.debugPaint)
         {
             long end = System.nanoTime() - start;
             GameLogs.getPaintTimes().add(end);
@@ -354,7 +355,7 @@ public class MapCanvas extends AbstractMapCanvas
         {
             if (UIStateMachine.getCurrentSelectedTile() != null)
             {
-                if (UIStateMachine.getCurrentSelectedTile().isHidden() == false)
+                if (!UIStateMachine.getCurrentSelectedTile().isHidden())
                 {
                     Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(UIStateMachine.getCurrentSelectedTile().getMapPosition());
                     g.setColor(Color.WHITE);
@@ -366,6 +367,7 @@ public class MapCanvas extends AbstractMapCanvas
     }
 
 
+    @SuppressWarnings("unused")
     private void paintHighlighting(Graphics g)
     {
         if (getHighlightPosition() != null)
@@ -385,7 +387,7 @@ public class MapCanvas extends AbstractMapCanvas
         }
     }
 
-    /**
+    /*
      * private synchronized void paintFurniture(Graphics g)
      * <p>
      * {
@@ -479,6 +481,7 @@ public class MapCanvas extends AbstractMapCanvas
      * @param g graphics context
      */
 
+    @SuppressWarnings("unused")
     private void paintMissilesTileBased(Graphics g)
     {
         for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
@@ -499,14 +502,15 @@ public class MapCanvas extends AbstractMapCanvas
     }
 
 
+    @SuppressWarnings("unused")
     private void paintMissiles(Graphics g)
     {
         logger.info("paint missile called");
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().size() == 0))
+        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().isEmpty()))
         {
             return;
         }
-        Missile m = Game.getCurrent().getCurrentMap().getMissiles().get(0);
+        Missile m = Game.getCurrent().getCurrentMap().getMissiles().getFirst();
         g.drawImage(m.getStandardImage(), m.getCurrentPosition().x, m.getCurrentPosition().y, this);
         //logger.info(" missiles: {}", Game.getCurrent().getCurrentMap().getMissiles());
 
@@ -576,10 +580,7 @@ public class MapCanvas extends AbstractMapCanvas
     public synchronized void onMessageEvent(PlayerPositionChanged event)
     {
         //logger.info("player position changed, lets see whether this is also called for NPCs");
-        javax.swing.SwingUtilities.invokeLater(() ->
-        {
-            this.paint();
-        });
+        javax.swing.SwingUtilities.invokeLater(this::paint);
     }
 
 
@@ -592,10 +593,7 @@ public class MapCanvas extends AbstractMapCanvas
         //logger.debug("npc changed");
         if (GameConfiguration.useEvents)
         {
-            javax.swing.SwingUtilities.invokeLater(() ->
-            {
-                this.paint();
-            });
+            javax.swing.SwingUtilities.invokeLater(this::paint);
         }
     }
 
@@ -623,18 +621,12 @@ public class MapCanvas extends AbstractMapCanvas
     public void paint()
     {
         //logger.debug("paint: {}", CodeUtils.getCallingMethodName());
-        javax.swing.SwingUtilities.invokeLater(() ->
-        {
-            this.repaint();
-        });
+        javax.swing.SwingUtilities.invokeLater(this::repaint);
     }
 
     public void paint(int x, int y, int width, int height)
     {
-        javax.swing.SwingUtilities.invokeLater(() ->
-        {
-            this.repaint(0, x, y, width, height);
-        });
+        javax.swing.SwingUtilities.invokeLater(() -> this.repaint(0, x, y, width, height));
     }
 
 
@@ -646,9 +638,9 @@ public class MapCanvas extends AbstractMapCanvas
     {
         if (Game.getCurrent().getCurrentMap().getMissiles() != null)
         {
-            if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
+            if (!Game.getCurrent().getCurrentMap().getMissiles().isEmpty())
             {
-                Missile m = Game.getCurrent().getCurrentMap().getMissiles().get(0);
+                Missile m = Game.getCurrent().getCurrentMap().getMissiles().getFirst();
                 this.getGraphics().drawImage(m.getStandardImage(), m.getCurrentPosition().x, m.getCurrentPosition().y, this);
                 this.paint(m.getCurrentPosition().x - (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().y - (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().x + (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().y + (GameConfiguration.skippedPixelsForDrawingMissiles * 2));
             }
@@ -690,10 +682,7 @@ public class MapCanvas extends AbstractMapCanvas
     @Subscribe
     public synchronized void onMessageEvent(CursorChangeEvent event)
     {
-        javax.swing.SwingUtilities.invokeLater(() ->
-        {
-            setCursor(event.getCursor());
-        });
+        javax.swing.SwingUtilities.invokeLater(() -> setCursor(event.getCursor()));
     }
 
 
@@ -706,6 +695,7 @@ public class MapCanvas extends AbstractMapCanvas
      *
      * @param g graphics
      */
+    @SuppressWarnings("unused")
     private void paintBackgroundNew(Graphics g)
     {
         int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
@@ -723,39 +713,28 @@ public class MapCanvas extends AbstractMapCanvas
             }
             else
             {
-                if (p.x >= (Game.getCurrent().getCurrentMap().getSize().x))
-                {
-                    g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                }
-                else if (p.y >= (Game.getCurrent().getCurrentMap().getSize().y))
+                //logger.debug("point p here: {}", p);
+                MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
+
+                /*
+                 * this is only necessary if a map does not have fully filled out row and columns. like test map :(
+                 */
+                if (tile == null)
                 {
                     g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
                 }
                 else
                 {
-                    //logger.debug("point p here: {}", p);
-                    MapTile tile = Game.getCurrent().getCurrentMap().mapTiles[p.x][p.y];
-
-                    /*
-                     * this is only necessary if a map does not have fully filled out row and columns. like test map :(
-                     */
-                    if (tile == null)
+                    BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
+                    if (img == null)
                     {
-                        g.drawImage(blackImage, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
+                        logger.error("tile has no image: {}", tile);
                     }
-                    else
-                    {
-                        BufferedImage img = ImageUtils.getTileTypeImages().get(tile.getType()).get(getCurrentBackgroundImage());
-                        if (img == null)
-                        {
-                            logger.error("tile has no image: {}", tile);
-                        }
-                        // logger.info("buffered image: {}", img.toString());
-                        int absX = Math.abs(pX - screenPosition.x);
-                        int absY = Math.abs(pY - screenPosition.y);
-                        img = ImageUtils.brightenUpImage(img, absX, absY);
-                        g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
-                    }
+                    // logger.info("buffered image: {}", img.toString());
+                    int absX = Math.abs(pX - screenPosition.x);
+                    int absY = Math.abs(pY - screenPosition.y);
+                    img = ImageUtils.brightenUpImage(img, absX, absY);
+                    g.drawImage(img, (screenPosition.x * GameConfiguration.tileSize), (screenPosition.y * GameConfiguration.tileSize), this);
                 }
             }
         }
@@ -837,11 +816,9 @@ public class MapCanvas extends AbstractMapCanvas
 
     }
 
-    /**
+    /*
      * use the Bresenhaim algorithm to calculate LoS
      * should investigate <a href="https://www.redblobgames.com/articles/visibility/">https://www.redblobgames.com/articles/visibility</a>
-     *
-     * @param
      */
     /*private void paintLoS(Graphics g)
     {
@@ -877,6 +854,7 @@ public class MapCanvas extends AbstractMapCanvas
         return highlightPosition;
     }
 
+    @SuppressWarnings("unused")
     public synchronized void setHighlightPosition(Point highlightPosition)
     {
         //logger.info("set highlight position: {}", SwingUtilities.isEventDispatchThread());

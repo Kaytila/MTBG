@@ -26,10 +26,10 @@ import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
+import net.ck.mtbg.util.ui.RenderClock;
 import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.GameUtils;
 import net.ck.mtbg.util.utils.MapUtils;
-import net.ck.mtbg.util.utils.UILense;
 import net.ck.mtbg.weather.WeatherManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -136,6 +136,12 @@ public class Game implements Runnable, Serializable
      * List of automaps - currently the whole map is generated. tomorrow, only the explored part will be visible.
      */
     private ArrayList<AutoMap> automaps = new ArrayList<>();
+
+
+    /**
+     * RenderClock
+     */
+    private RenderClock renderClock;
 
     /**
      * standard constructor: initializes turns, game map, weather system, players weathersystem synchonized is handled by gamemap animation by game itself probably needs a rewrite in the future
@@ -273,12 +279,19 @@ public class Game implements Runnable, Serializable
         //logger.info("waiting for missile to finish");
         if (GameConfiguration.useTimerForMissiles == true)
         {
-            if (TimerManager.getMissileUtilTimer() != null)
+            if (GameConfiguration.useRenderClock)
             {
-                while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
+                logger.info("render clock paints");
+            }
+            else
+            {
+                if (TimerManager.getMissileUtilTimer() != null)
                 {
-                    //logger.debug("missile is on its way");
-                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                    while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
+                    {
+                        //logger.debug("missile is on its way");
+                        ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                    }
                 }
             }
         }
@@ -296,15 +309,23 @@ public class Game implements Runnable, Serializable
         //logger.info("waiting for hit animation to run");
         if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
         {
-            while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+            if (GameConfiguration.useRenderClock)
             {
-                //logger.debug("waiting for animation to finish");
-                ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                logger.info("render clock paints");
+            }
+            else
+            {
+                while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+                {
+                    //logger.debug("waiting for animation to finish");
+                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+
+                }
             }
         }
         //logger.info("hit animation has finished");
         TimerManager.getHitMissImageTimer().purge();
-        WindowBuilder.getGridCanvas().paint();
+
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
 
@@ -391,7 +412,6 @@ public class Game implements Runnable, Serializable
                             logger.debug("first done");
                         }
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                        WindowBuilder.getGridCanvas().paint();
                         ThreadController.sleep(300, ThreadNames.GAME_THREAD);
                         AIBehaviour.determineAction(e);
                         if (GameConfiguration.debugTurn == true)
@@ -408,13 +428,20 @@ public class Game implements Runnable, Serializable
                         {
                             if (TimerManager.getMissileUtilTimer() != null)
                             {
-                                while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
+                                if (GameConfiguration.useRenderClock)
                                 {
-                                    if (GameConfiguration.debugTurn == true)
+                                    logger.info("render clock paints");
+                                }
+                                else
+                                {
+                                    while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
                                     {
-                                        logger.debug("missile is on its way");
+                                        if (GameConfiguration.debugTurn == true)
+                                        {
+                                            logger.debug("missile is on its way");
+                                        }
+                                        ThreadController.sleep(50, ThreadNames.GAME_THREAD);
                                     }
-                                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
                                 }
                             }
                         }
@@ -425,23 +452,32 @@ public class Game implements Runnable, Serializable
                                 while (TimerManager.getMissileTimer().isRunning())
                                 {
                                     logger.debug("missile is on its way");
-                                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                                    /*ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+                                    renderClock.markDirty();*/
                                 }
                             }
                         }
                         // logger.info("waiting for hit animation to run");
-                        if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
+                        if (GameConfiguration.useRenderClock)
                         {
-                            while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
-                            {
-                                //logger.debug("waiting for animation to finish");
-                                ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-                            }
+                            logger.info("render clock paints");
                         }
-                        //logger.info("hit animation has finished");
-                        TimerManager.getHitMissImageTimer().purge();
-                        WindowBuilder.getGridCanvas().paint();
-                        //logger.info("setting UI position: {}", e.getMapPosition());
+                        else
+                        {
+                            if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
+                            {
+                                while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
+                                {
+                                    //logger.debug("waiting for animation to finish");
+                                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
+
+                                }
+                            }
+                            //logger.info("hit animation has finished");
+                            TimerManager.getHitMissImageTimer().purge();
+
+                            //logger.info("setting UI position: {}", e.getMapPosition());
+                        }
                         e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
                     }
                 }
@@ -486,10 +522,13 @@ public class Game implements Runnable, Serializable
                 logger.debug("fire highlighting event in advanceTurn");
             }
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
-            UILense.getCurrent().identifyVisibleTilesBest();
+            /*UILense.getCurrent().identifyVisibleTilesBest();
             UILense.getCurrent().identifyBufferedTiles();
             MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
             MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
+            */
+            MapUtils.calculateVisibleTilesAroundPlayer(WindowBuilder.getGridCanvas().getGraphics());
+
             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
             {
                 WindowBuilder.getGridCanvas().paint();
@@ -562,16 +601,18 @@ public class Game implements Runnable, Serializable
 
             if (isNextTurn() == true)
             {
-                //logger.info("running advance turn");
+                logger.info("running advance turn");
                 advanceTurn(getPlayerAction());
                 setNextTurn(false);
                 setNpcAction(false);
+
             }
 
             if (GameConfiguration.useEvents == false)
             {
                 if (UIStateMachine.isUiOpen())
                 {
+                    //TimerManager.getRenderClock().markDirty();
                     WindowBuilder.getGridCanvas().paint();
                     long timeTaken = System.nanoTime() - startTime;
 

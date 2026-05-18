@@ -43,6 +43,10 @@ public class MissileTimerTask extends TimerTask
                     //Paint method will need to do only the drawing of missile at its correct place
                     //missile will need to know about everything
                     calculateMissile();
+                    if (GameConfiguration.useRenderClock)
+                    {
+                        Game.getCurrent().getRenderClock().markDirty();
+                    }
                 }
                 else
                 {
