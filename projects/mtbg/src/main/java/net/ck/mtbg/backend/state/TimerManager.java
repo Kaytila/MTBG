@@ -16,6 +16,8 @@ import net.ck.mtbg.music.MusicTimer;
 import net.ck.mtbg.ui.highlighting.HighlightTimer;
 import net.ck.mtbg.util.ui.RenderClock;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * as ObjectOutputStream so eloquently tells me, the Timers need to go out of game and into a separate class where they
  * are statically referenced
@@ -23,6 +25,11 @@ import net.ck.mtbg.util.ui.RenderClock;
 @Log4j2
 public class TimerManager
 {
+    @Getter
+    private static final AtomicBoolean missileInFlight = new AtomicBoolean(false);
+
+    private static final AtomicBoolean hitMissInFlight = new AtomicBoolean(false);
+
     /**
      * how many milliseconds until the turn is passed?
      */
@@ -92,10 +99,35 @@ public class TimerManager
     @Getter
     @Setter
     private static HitMissImageTimer hitMissImageTimer;
-
-
     @Getter
     @Setter
     private static RenderClock renderClock;
 
+    public static boolean isMissileInFlight()
+    {
+        return missileInFlight.get();
+    }
+
+    public static void setMissileInFlight(boolean inFlight)
+    {
+        missileInFlight.set(inFlight);
+    }
+
+    public static boolean isHitMissInFlight()
+    {
+        return hitMissInFlight.get();
+    }
+
+    public static void setHitMissInFlight(boolean inFlight)
+    {
+        hitMissInFlight.set(inFlight);
+    }
+
+    /**
+     * Zentraler Guard fuer Keyboard/Maus
+     */
+    public static boolean isInputBlocked()
+    {
+        return missileInFlight.get() || hitMissInFlight.get();
+    }
 }

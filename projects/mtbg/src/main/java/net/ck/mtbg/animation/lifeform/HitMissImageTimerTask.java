@@ -8,6 +8,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
+import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.util.utils.ImageManager;
 
 import java.util.TimerTask;
@@ -24,26 +25,33 @@ public class HitMissImageTimerTask extends TimerTask
     {
         setLifeForm(n);
         setRunning(true);
+        TimerManager.setHitMissInFlight(true); // Anzeige ist geplant/aktiv
     }
 
     @Override
     public void run()
     {
-        //logger.info("HitMissImageTimerTask is running");
-        setRunning(false);
-        if (getLifeForm().getState().equals(LifeFormState.DEAD))
+        try
         {
-            getLifeForm().setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
+            setRunning(false);
+            if (getLifeForm().getState().equals(LifeFormState.DEAD))
+            {
+                getLifeForm().setCurrImage(ImageManager.getActionImage(ActionStates.KILL));
+            }
+            else
+            {
+                getLifeForm().setCurrImage(0);
+            }
+
+            if (GameConfiguration.useRenderClock)
+            {
+                Game.getCurrent().getRenderClock().markDirty();
+            }
         }
-        else
+        finally
         {
-            getLifeForm().setCurrImage(0);
+            TimerManager.setHitMissInFlight(false); // jetzt darf Input wieder durch
         }
-        if (GameConfiguration.useRenderClock)
-        {
-            Game.getCurrent().getRenderClock().markDirty();
-        }
-        //logger.info("HitMissImageTimerTask is finished");
     }
 
     public synchronized boolean isRunning()

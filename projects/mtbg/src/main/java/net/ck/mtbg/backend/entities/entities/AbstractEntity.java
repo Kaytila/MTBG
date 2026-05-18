@@ -511,6 +511,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     }
                     catch (Exception e)
                     {
+                        TimerManager.setHitMissInFlight(false);
                         if (GameConfiguration.debugTimers == true)
                         {
                             logger.debug("there is an issue with setting the timer for the hit animation: {}", e.toString());

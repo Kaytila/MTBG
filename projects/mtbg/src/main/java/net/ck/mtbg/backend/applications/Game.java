@@ -338,7 +338,7 @@ public class Game implements Runnable, Serializable
                 {
                     logger.debug("player has moved twice, now world is allowed to");
                 }
-                if (action.isHaveNPCAction())
+                if (action.isHaveNPCAction() && Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
                 {
                     for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
                     {
@@ -388,7 +388,7 @@ public class Game implements Runnable, Serializable
         }
         else
         {
-            if (action.isHaveNPCAction())
+            if (action.isHaveNPCAction() && Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
             {
                 for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
                 {
@@ -690,19 +690,25 @@ public class Game implements Runnable, Serializable
         EventBus.getDefault().post(new GameStateChanged(Game.getCurrent().getCurrentMap().getGameState()));
         TimerManager.getIdleTimer().start();
         //TODO clear running schedules? how? currently they are on NPC.
-        for (LifeForm f : oldMap.getLifeForms())
+        if (oldMap.getLifeForms() != null && !oldMap.getLifeForms().isEmpty())
         {
-            if (f.getSchedule() != null)
+            for (LifeForm f : oldMap.getLifeForms())
             {
-                f.getSchedule().setActive(false);
+                if (f.getSchedule() != null)
+                {
+                    f.getSchedule().setActive(false);
+                }
             }
         }
         //enable current schedules
-        for (LifeForm f : Game.getCurrent().getCurrentMap().getLifeForms())
+        if (Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
         {
-            if (f.getSchedule() != null)
+            for (LifeForm f : Game.getCurrent().getCurrentMap().getLifeForms())
             {
-                f.getSchedule().setActive(true);
+                if (f.getSchedule() != null)
+                {
+                    f.getSchedule().setActive(true);
+                }
             }
 
 

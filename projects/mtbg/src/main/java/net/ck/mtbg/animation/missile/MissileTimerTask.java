@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
+import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.util.communication.graphics.MissilePositionChanged;
 import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -30,34 +31,52 @@ public class MissileTimerTask extends TimerTask
     @Override
     public void run()
     {
-        if (Game.getCurrent().isRunning())
+        if (!Game.getCurrent().isRunning())
         {
-            if (Game.getCurrent().getCurrentMap().getMissiles() != null)
+            setRunning(false);
+            TimerManager.setMissileInFlight(false);
+            return;
+        }
+
+        boolean hasMissilesAtStart = hasActiveMissiles();
+        if (!hasMissilesAtStart)
+        {
+            setRunning(false);
+            TimerManager.setMissileInFlight(false);
+            return;
+        }
+
+        TimerManager.setMissileInFlight(true);
+        setRunning(true);
+
+        try
+        {
+            calculateMissile();
+            if (GameConfiguration.useRenderClock)
             {
-                if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
-                {
-                    //logger.info("posting message");
-                    setRunning(true);
-                    //EventBus.getDefault().post(new MissilePositionChanged());
-                    //TODO do calculation for missiles here actually instead of in Paint method
-                    //Paint method will need to do only the drawing of missile at its correct place
-                    //missile will need to know about everything
-                    calculateMissile();
-                    if (GameConfiguration.useRenderClock)
-                    {
-                        Game.getCurrent().getRenderClock().markDirty();
-                    }
-                }
-                else
-                {
-                    setRunning(false);
-                }
-            }
-            else
-            {
-                setRunning(false);
+                Game.getCurrent().getRenderClock().markDirty();
             }
         }
+        catch (Exception e)
+        {
+            setRunning(false);
+            TimerManager.setMissileInFlight(false);
+            throw new RuntimeException(e);
+        }
+        finally
+        {
+            boolean stillHasMissiles = hasActiveMissiles();
+            setRunning(stillHasMissiles);
+            // Wichtig: nur freigeben, wenn wirklich keine Missile mehr aktiv ist
+            TimerManager.setMissileInFlight(stillHasMissiles);
+        }
+    }
+
+    private boolean hasActiveMissiles()
+    {
+        return Game.getCurrent().getCurrentMap() != null
+                && Game.getCurrent().getCurrentMap().getMissiles() != null
+                && !Game.getCurrent().getCurrentMap().getMissiles().isEmpty();
     }
 
 

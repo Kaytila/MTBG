@@ -43,6 +43,11 @@ import java.awt.event.*;
 @Setter
 public class GameController implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
+    private boolean isPlayerInputLocked()
+    {
+        return TimerManager.isInputBlocked();
+    }
+
     /**
      * singleton GameController
      */
@@ -128,6 +133,11 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
+
         if (e.getActionCommand().equalsIgnoreCase("Debug"))
         {
             logger.info("Debug");
@@ -201,6 +211,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
      */
     public void createMovement()
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         //logger.info("mouse position: {}", MouseInfo.getPointerInfo().getLocation());
         if (CursorUtils.getCursor() != null)
         {
@@ -253,6 +267,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void mouseClicked(MouseEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         //logger.info("mouse clicked at: {}, {}", e.getX(), e.getY());
     }
 
@@ -264,7 +282,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
      */
     public void mouseDragged(MouseEvent e)
     {
-
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         //logger.info("mouse dragged:");
         /*
          * if (!isSelectTile()) { CursorUtils.calculateCursorFromGridPosition(Game.getCurrent().getCurrentPlayer(), new Point(e.getX(), e.getY())); }
@@ -299,6 +320,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void mouseEntered(MouseEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         UIStateMachine.setCurrentMousePosition(MouseInfo.getPointerInfo().getLocation());
         UIStateMachine.setMouseOutsideOfGrid(false);
         WindowBuilder.getGridCanvas().requestFocusInWindow();
@@ -308,6 +333,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void mouseExited(MouseEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         if (UIStateMachine.isSelectTile())
         {
             /*
@@ -338,6 +367,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void mouseMoved(MouseEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         UIStateMachine.setCurrentMousePosition(MouseInfo.getPointerInfo().getLocation());
         //
         if (UIStateMachine.isSelectTile() == true)
@@ -401,6 +434,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void mousePressed(MouseEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         logger.info("mouse pressed");
         if (this.getCurrentAction() != null)
         {
@@ -449,6 +486,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
                         @Override
                         public void actionPerformed(ActionEvent e)
                         {
+                            if (isPlayerInputLocked())
+                            {
+                                return;
+                            }
                             logger.info("mouse pressed");
                             GameController.getCurrent().setMousePressed(true);
                             GameController.getCurrent().createMovement();
@@ -469,6 +510,15 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Override
     public void mouseReleased(MouseEvent e)
     {
+        if (isPlayerInputLocked())
+        {
+            if (pressedTimer != null)
+            {
+                pressedTimer.stop();
+            }
+            setMousePressed(false);
+            return;
+        }
         logger.info("calling mouse released event");
         // we are in movement mode
         if (e.getButton() == MouseEvent.BUTTON3)
@@ -618,6 +668,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
 
     public void runActions(AbstractKeyboardAction action)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
         //WindowBuilder.getTextArea().append(action.getType().name());
         //WindowBuilder.getTextArea().append("\n");
         //WindowBuilder.getTextField().setText(action.getType().name());
@@ -646,6 +700,11 @@ public class GameController implements WindowListener, ActionListener, MouseList
     @Subscribe
     public void onMessageEvent(AbstractKeyboardAction action)
     {
+        if (isPlayerInputLocked())
+        {
+            return;
+        }
+
         /*
          * TODO make sure that only ESC is allowed to cancel crosshairs, but no other action is valid while getCurrentAction() is not empty.
          * TODO fix this properly

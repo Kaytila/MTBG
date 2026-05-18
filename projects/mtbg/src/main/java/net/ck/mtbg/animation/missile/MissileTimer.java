@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.Missile;
+import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.util.communication.graphics.MissilePositionChanged;
 import net.ck.mtbg.util.utils.ImageUtils;
 import net.ck.mtbg.util.utils.MapUtils;
@@ -58,6 +59,7 @@ public class MissileTimer implements Runnable
                 if (Game.getCurrent().getCurrentMap().getMissiles().size() > 0)
                 {
                     //logger.info("posting message");
+                    TimerManager.setMissileInFlight(true);
                     setRunning(true);
                     //EventBus.getDefault().post(new MissilePositionChanged());
                     //TODO do calculation for missiles here actually instead of in Paint method
@@ -69,12 +71,14 @@ public class MissileTimer implements Runnable
                 else
                 {
                     setRunning(false);
+                    TimerManager.setMissileInFlight(false);
                     continue;
                 }
             }
             else
             {
                 setRunning(false);
+                TimerManager.setMissileInFlight(false);
                 continue;
             }
             try
@@ -86,6 +90,7 @@ public class MissileTimer implements Runnable
                 throw new RuntimeException(e);
             }
         }
+        TimerManager.setMissileInFlight(false);
     }
 
     //TODO properly handle this - nice that we paint 60 frames, but missile will need to appear at least a little bit :D
