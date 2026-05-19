@@ -892,8 +892,9 @@ public class GameController implements WindowListener, ActionListener, MouseList
                 }
                 else
                 {
-                    //logger.info("movement");
-                    CursorUtils.centerCursorOnPlayer();
+                    // Keep normal movement without forced recentering.
+                    // Cursor recenter still happens via the existing valid checks
+                    // (isMouseOutsideOfGrid / isMouseOnEmptyGridField) above when needed.
                     action.setHaveNPCAction(true);
                 }
                 break;

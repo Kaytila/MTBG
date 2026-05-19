@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.threading.ThreadController;
-import net.ck.mtbg.backend.threading.ThreadNames;
+
+import java.util.concurrent.locks.LockSupport;
 
 @Log4j2
 @Getter
@@ -28,21 +28,9 @@ public class AsyncWeatherSystem extends AbstractWeatherSystem implements Runnabl
         while (Game.getCurrent().isRunning() == true)
         {
             switchWeather();
-            try
-            {
-                for (Thread t : ThreadController.getThreads())
-                {
-                    if (t.getName().equalsIgnoreCase("Weather System Thread"))
-                    {
-                        ThreadController.sleep(GameConfiguration.weatherWait, ThreadNames.WEATHER_ANIMATION);
-                    }
-                }
+            // Non-blocking sleep instead of ThreadController.sleep()
+            LockSupport.parkNanos(GameConfiguration.weatherWait * 1_000_000L);
 
-            }
-            catch (Exception e)
-            {
-                logger.error("e {}", e.getMessage());
-            }
         }
         logger.info("game no longer running, thread {} is closing hopefully?", "Weather System Thread");
     }

@@ -39,6 +39,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * Game Main class also Y6MU+=A7B=NpmQSs
@@ -277,54 +278,7 @@ public class Game implements Runnable, Serializable
         TimerManager.getHighlightTimer().stop();
 
         //logger.info("waiting for missile to finish");
-        if (GameConfiguration.useTimerForMissiles == true)
-        {
-            if (GameConfiguration.useRenderClock)
-            {
-                logger.info("render clock paints");
-            }
-            else
-            {
-                if (TimerManager.getMissileUtilTimer() != null)
-                {
-                    while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
-                    {
-                        //logger.debug("missile is on its way");
-                        ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (TimerManager.getMissileTimer() != null)
-            {
-                while (TimerManager.getMissileTimer().isRunning())
-                {
-                    //logger.debug("missile is on its way");
-                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-                }
-            }
-        }
-        //logger.info("waiting for hit animation to run");
-        if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
-        {
-            if (GameConfiguration.useRenderClock)
-            {
-                logger.info("render clock paints");
-            }
-            else
-            {
-                while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
-                {
-                    //logger.debug("waiting for animation to finish");
-                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-
-                }
-            }
-        }
-        //logger.info("hit animation has finished");
-        TimerManager.getHitMissImageTimer().purge();
+        waitForAnimationsToComplete();
 
 
         Game.getCurrent().getEn().doAction(Game.getCurrent().getEn().createRandomEvent(action));
@@ -338,42 +292,9 @@ public class Game implements Runnable, Serializable
                 {
                     logger.debug("player has moved twice, now world is allowed to");
                 }
-                if (action.isHaveNPCAction() && Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
+                if (action.isHaveNPCAction())
                 {
-                    for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
-                    {
-                        if (e instanceof Player)
-                        {
-                            //logger.info("found player, continue");
-                            continue;
-                        }
-                        if (e.hasTwoActions())
-                        {
-                            if (GameConfiguration.debugTurn == true)
-                            {
-                                logger.debug("two actions");
-                            }
-                            AIBehaviour.determineAction(e);
-                            if (GameConfiguration.debugTurn == true)
-                            {
-                                logger.debug("first done");
-                            }
-                            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                            AIBehaviour.determineAction(e);
-                            if (GameConfiguration.debugTurn == true)
-                            {
-                                logger.debug("second done");
-                            }
-                            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                        }
-                        else
-                        {
-                            AIBehaviour.determineAction(e);
-                            //logger.info("setting UI position: {}", e.getMapPosition());
-                            e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                        }
-                    }
-                    // logger.info("environment action");
+                    processNPCActions(true);
                     playerMovedTwice = true;
                 }
             }
@@ -388,99 +309,9 @@ public class Game implements Runnable, Serializable
         }
         else
         {
-            if (action.isHaveNPCAction() && Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
+            if (action.isHaveNPCAction())
             {
-                for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
-                {
-                    if (e instanceof Player)
-                    {
-                        //logger.info("found player, continue");
-                        continue;
-                    }
-                    // logger.info("npc: {}", e);
-                    //EventBus.getDefault().post(new HighlightEvent(e.getMapPosition()));
-                    //getThreadController().sleep(100, ThreadNames.GAME_THREAD);
-                    if (e.hasTwoActions())
-                    {
-                        if (GameConfiguration.debugTurn == true)
-                        {
-                            logger.debug("two actions");
-                        }
-                        AIBehaviour.determineAction(e);
-                        if (GameConfiguration.debugTurn == true)
-                        {
-                            logger.debug("first done");
-                        }
-                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                        ThreadController.sleep(300, ThreadNames.GAME_THREAD);
-                        AIBehaviour.determineAction(e);
-                        if (GameConfiguration.debugTurn == true)
-                        {
-                            logger.debug("second done");
-                        }
-                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                    }
-                    else
-                    {
-                        AIBehaviour.determineAction(e);
-                        //NPCs can shoot missiles as well!
-                        if (GameConfiguration.useTimerForMissiles == true)
-                        {
-                            if (TimerManager.getMissileUtilTimer() != null)
-                            {
-                                if (GameConfiguration.useRenderClock)
-                                {
-                                    logger.info("render clock paints");
-                                }
-                                else
-                                {
-                                    while (TimerManager.getMissileUtilTimer().getMissileTimerTask().isRunning())
-                                    {
-                                        if (GameConfiguration.debugTurn == true)
-                                        {
-                                            logger.debug("missile is on its way");
-                                        }
-                                        ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (TimerManager.getMissileTimer() != null)
-                            {
-                                while (TimerManager.getMissileTimer().isRunning())
-                                {
-                                    logger.debug("missile is on its way");
-                                    /*ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-                                    renderClock.markDirty();*/
-                                }
-                            }
-                        }
-                        // logger.info("waiting for hit animation to run");
-                        if (GameConfiguration.useRenderClock)
-                        {
-                            logger.info("render clock paints");
-                        }
-                        else
-                        {
-                            if (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask() != null)
-                            {
-                                while (TimerManager.getHitMissImageTimer().getHitMissImageTimerTask().isRunning() == true)
-                                {
-                                    //logger.debug("waiting for animation to finish");
-                                    ThreadController.sleep(50, ThreadNames.GAME_THREAD);
-
-                                }
-                            }
-                            //logger.info("hit animation has finished");
-                            TimerManager.getHitMissImageTimer().purge();
-
-                            //logger.info("setting UI position: {}", e.getMapPosition());
-                        }
-                        e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
-                    }
-                }
+                processNPCActions(false);
             }
         }
 
@@ -532,6 +363,78 @@ public class Game implements Runnable, Serializable
             if (GameConfiguration.calculateBrightenUpImageInPaint == false)
             {
                 WindowBuilder.getGridCanvas().paint();
+            }
+        }
+    }
+
+    private void waitForAnimationsToComplete()
+    {
+        // Wait until all missile/hit-miss animations complete
+        // Instead of polling individual timers, use centralized input-block flag
+        // Adaptive sleep: start fast (10ms) for quick animations, back off to 50ms for longer waits
+        // Use LockSupport.parkNanos() instead of ThreadController.sleep() for non-blocking efficiency
+        long sleepNanos = 10_000_000L; // Start with 10ms in nanoseconds
+        final long maxSleepNanos = 50_000_000L; // Max 50ms
+        while (TimerManager.isInputBlocked())
+        {
+            LockSupport.parkNanos(sleepNanos);
+            // Gradually increase sleep time if animation is still running
+            if (sleepNanos < maxSleepNanos)
+            {
+                sleepNanos = Math.min(sleepNanos + 10_000_000L, maxSleepNanos);
+            }
+        }
+
+        // Cleanup hit/miss displayed image
+        if (TimerManager.getHitMissImageTimer() != null)
+        {
+            TimerManager.getHitMissImageTimer().purge();
+        }
+    }
+
+    private void processNPCActions(boolean hasTwoActions)
+    {
+        if (Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
+        {
+            for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
+            {
+                if (e instanceof Player)
+                {
+                    continue;
+                }
+                if (e.hasTwoActions())
+                {
+                    if (GameConfiguration.debugTurn)
+                    {
+                        logger.debug("two actions");
+                    }
+                    AIBehaviour.determineAction(e);
+                    if (GameConfiguration.debugTurn)
+                    {
+                        logger.debug("first done");
+                    }
+                    e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                    if (!hasTwoActions)
+                    {
+                        // Intentional delay between first and second NPC action
+                        LockSupport.parkNanos(300_000_000L); // 300ms in nanoseconds
+                    }
+                    AIBehaviour.determineAction(e);
+                    if (GameConfiguration.debugTurn)
+                    {
+                        logger.debug("second done");
+                    }
+                    e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                }
+                else
+                {
+                    AIBehaviour.determineAction(e);
+                    if (!hasTwoActions)
+                    {
+                        waitForAnimationsToComplete();
+                    }
+                    e.setUIPosition(MapUtils.calculateUIPositionFromMapOffset(e.getMapPosition()));
+                }
             }
         }
     }
@@ -618,7 +521,8 @@ public class Game implements Runnable, Serializable
 
                     if (timeTaken < GameConfiguration.targetTime)
                     {
-                        ThreadController.sleep((int) ((GameConfiguration.targetTime - timeTaken) / 1000000), ThreadNames.GAME_THREAD);
+                        // Frame-rate control: park until target frame time is reached
+                        LockSupport.parkNanos(GameConfiguration.targetTime - timeTaken);
                     }
                 }
             }

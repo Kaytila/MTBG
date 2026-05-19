@@ -5,14 +5,12 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.threading.ThreadController;
-import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.BackgroundRepresentationChanged;
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ConcurrentModificationException;
+import java.util.concurrent.locks.LockSupport;
 
 @Log4j2
 @Getter
@@ -55,18 +53,8 @@ public class BackgroundAnimationSystem implements Runnable
                     }
                     EventBus.getDefault().post(new BackgroundRepresentationChanged(getCurrentBackgroundImage()));
                 }
-                try
-                {
-                    ThreadController.sleep(GameConfiguration.animationBackGroundDelay, ThreadNames.BACKGROUND_ANIMATION);
-                }
-                catch (ConcurrentModificationException e)
-                {
-                    logger.error("caught ConcurrentModificationException");
-                }
-                catch (Throwable e)
-                {
-                    e.printStackTrace();
-                }
+                // Non-blocking sleep instead of ThreadController.sleep()
+                LockSupport.parkNanos(GameConfiguration.animationBackGroundDelay * 1_000_000L);
             }
         }
     }

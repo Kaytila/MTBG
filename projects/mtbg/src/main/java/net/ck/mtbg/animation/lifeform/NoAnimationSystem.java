@@ -6,12 +6,12 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
-import net.ck.mtbg.backend.threading.ThreadController;
-import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.utils.ImageManager;
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * NoAnimationSystem currently is a bit of a fluke, as it would actually do animation
@@ -53,14 +53,8 @@ public class NoAnimationSystem extends AnimationSystem
                 }
             }
 
-            try
-            {
-                ThreadController.sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            // Non-blocking sleep instead of ThreadController.sleep()
+            LockSupport.parkNanos(GameConfiguration.animationLifeformDelay * 1_000_000L);
         }
         logger.error("game no longer running, thread {} is closing hopefully?", "Animation Thread");
     }

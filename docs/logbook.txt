@@ -1302,3 +1302,5 @@ History of the changes:
 2026-01-21: Mini-Update: fixed a bug for (J)immy. Or two or three. Introduced probably a new one.
 2026-03-11: mini-fix for sound, added a check for Thread safety added a renderclock that i might use later on.
 2026-05-18: fixed a few bugs with LOS and darkness visibility and automap visibility with the help of co-pilot.
+2026-05-19: fixed a bug with CenterCursorOnPlayer. Switched All Thread.sleep() to LockSupport.parkNanos() for better
+            performance and less CPU usage.

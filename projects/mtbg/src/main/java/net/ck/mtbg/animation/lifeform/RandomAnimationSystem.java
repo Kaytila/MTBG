@@ -6,7 +6,6 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
-import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIStateMachine;
@@ -16,6 +15,7 @@ import net.ck.mtbg.util.utils.UILense;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Random;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * RandomAnimationSystem takes all lifeforms on map and
@@ -75,14 +75,8 @@ public class RandomAnimationSystem extends AnimationSystem implements Runnable
                 EventBus.getDefault().post(new AnimatedRepresentationChanged(null));
             }
 
-            try
-            {
-                ThreadController.sleep(GameConfiguration.animationLifeformDelay, ThreadNames.LIFEFORM_ANIMATION);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            // Non-blocking sleep instead of ThreadController.sleep()
+            LockSupport.parkNanos(GameConfiguration.animationLifeformDelay * 1_000_000L);
         }
         logger.error("game no longer running, thread {} is closing hopefully?", ThreadNames.LIFEFORM_ANIMATION);
     }
