@@ -12,10 +12,13 @@ import net.ck.mtbg.backend.state.NoiseManager;
 import net.ck.mtbg.backend.state.TimerManager;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.map.Message;
 import net.ck.mtbg.ui.components.game.MapCanvas;
+import net.ck.mtbg.ui.dialogs.DialogFactory;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
+import net.ck.mtbg.util.communication.graphics.StoryMessageRequestedEvent;
 import net.ck.mtbg.util.communication.keyboard.framework.ActionFactory;
 import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
 import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
@@ -948,6 +951,24 @@ public class GameController implements WindowListener, ActionListener, MouseList
                 runActions(action);
             }
         }
+    }
+
+    @Subscribe
+    public void onMessageEvent(StoryMessageRequestedEvent event)
+    {
+        Message message = event.getMessage();
+        if (message == null)
+        {
+            return;
+        }
+
+        if (!UIStateMachine.isUiOpen())
+        {
+            return;
+        }
+
+        javax.swing.SwingUtilities.invokeLater(() ->
+                DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, message, null));
     }
 
     public void moveCursorOnGrid(AbstractKeyboardAction action)

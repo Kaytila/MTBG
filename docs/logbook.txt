@@ -1305,3 +1305,4 @@ History of the changes:
 2026-05-19: fixed a bug with CenterCursorOnPlayer. Switched All Thread.sleep() to LockSupport.parkNanos() for better
             performance and less CPU usage.
 2026-05-20: added decoupling for GAME and UI. added JSON format and importer exporter.
+2026-05-20: decoupled storyteller and UI from GAME.

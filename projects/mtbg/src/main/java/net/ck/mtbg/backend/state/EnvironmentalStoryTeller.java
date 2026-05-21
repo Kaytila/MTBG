@@ -7,9 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.MessageTypes;
-import net.ck.mtbg.ui.dialogs.DialogFactory;
-import net.ck.mtbg.ui.state.UIStateMachine;
-import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.communication.graphics.StoryMessageRequestedEvent;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 @ToString
 public class EnvironmentalStoryTeller
 {
-
     @Getter
     @Setter
     private static ArrayList<MapTile> noRepeatMapTilesLeave = new ArrayList<>();
@@ -34,10 +32,7 @@ public class EnvironmentalStoryTeller
             {
                 if (tile.getMessage().isRepeat())
                 {
-                    if (UIStateMachine.isUiOpen())
-                    {
-                        DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-                    }
+                    EventBus.getDefault().post(new StoryMessageRequestedEvent(tile.getMessage(), tile));
                     if (GameConfiguration.debugEnvironmentalStoryTeller == true)
                     {
                         logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
@@ -54,10 +49,7 @@ public class EnvironmentalStoryTeller
                     }
                     else
                     {
-                        if (UIStateMachine.isUiOpen())
-                        {
-                            DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-                        }
+                        EventBus.getDefault().post(new StoryMessageRequestedEvent(tile.getMessage(), tile));
                         if (GameConfiguration.debugEnvironmentalStoryTeller == true)
                         {
                             logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
@@ -69,7 +61,6 @@ public class EnvironmentalStoryTeller
         }
     }
 
-
     public static void tellStoryEnter(MapTile tile)
     {
         if (tile.getMessage() != null)
@@ -78,10 +69,7 @@ public class EnvironmentalStoryTeller
             {
                 if (tile.getMessage().isRepeat())
                 {
-                    if (UIStateMachine.isUiOpen())
-                    {
-                        DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-                    }
+                    EventBus.getDefault().post(new StoryMessageRequestedEvent(tile.getMessage(), tile));
                     logger.debug("maptile: {} : enter message: {}", tile, tile.getMessage().getDescription());
                 }
                 else
@@ -92,10 +80,7 @@ public class EnvironmentalStoryTeller
                     }
                     else
                     {
-                        if (UIStateMachine.isUiOpen())
-                        {
-                            DialogFactory.createDialog(WindowBuilder.getFrame(), "Message", false, null, tile.getMessage(), null);
-                        }
+                        EventBus.getDefault().post(new StoryMessageRequestedEvent(tile.getMessage(), tile));
                         logger.debug("maptile: {} : leave message: {}", tile, tile.getMessage().getDescription());
                         noRepeatMapTilesEnter.add(tile);
                     }
@@ -104,6 +89,3 @@ public class EnvironmentalStoryTeller
         }
     }
 }
-
-
-
