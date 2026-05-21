@@ -685,6 +685,28 @@ public class MapCanvas extends AbstractMapCanvas
         javax.swing.SwingUtilities.invokeLater(() -> setCursor(event.getCursor()));
     }
 
+    @Subscribe
+    public synchronized void onMessageEvent(MapRenderRequestedEvent event)
+    {
+        javax.swing.SwingUtilities.invokeLater(() ->
+        {
+            Graphics graphics = getGraphics();
+            if (graphics != null)
+            {
+                MapUtils.calculateVisibleTilesAroundPlayer(graphics);
+            }
+
+            if (event.isFullRepaint())
+            {
+                paint();
+            }
+            else
+            {
+                repaint();
+            }
+        });
+    }
+
 
     /**
      * step two in creating a better draw system

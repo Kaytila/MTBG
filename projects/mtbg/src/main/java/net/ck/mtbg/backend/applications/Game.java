@@ -24,10 +24,10 @@ import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
 import net.ck.mtbg.util.communication.graphics.HighlightEvent;
+import net.ck.mtbg.util.communication.graphics.MapRenderRequestedEvent;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
 import net.ck.mtbg.util.ui.RenderClock;
-import net.ck.mtbg.util.ui.WindowBuilder;
 import net.ck.mtbg.util.utils.GameUtils;
 import net.ck.mtbg.util.utils.MapUtils;
 import net.ck.mtbg.weather.WeatherManager;
@@ -353,17 +353,7 @@ public class Game implements Runnable, Serializable
                 logger.debug("fire highlighting event in advanceTurn");
             }
             EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
-            /*UILense.getCurrent().identifyVisibleTilesBest();
-            UILense.getCurrent().identifyBufferedTiles();
-            MapUtils.calculateTiles(WindowBuilder.getGridCanvas().getGraphics());
-            MapUtils.calculateVisibleTileImages(WindowBuilder.getGridCanvas().getGraphics());
-            */
-            MapUtils.calculateVisibleTilesAroundPlayer(WindowBuilder.getGridCanvas().getGraphics());
-
-            if (GameConfiguration.calculateBrightenUpImageInPaint == false)
-            {
-                WindowBuilder.getGridCanvas().paint();
-            }
+            EventBus.getDefault().post(new MapRenderRequestedEvent(true, "advanceTurn"));
         }
     }
 
@@ -515,8 +505,7 @@ public class Game implements Runnable, Serializable
             {
                 if (UIStateMachine.isUiOpen())
                 {
-                    //TimerManager.getRenderClock().markDirty();
-                    WindowBuilder.getGridCanvas().paint();
+                    EventBus.getDefault().post(new MapRenderRequestedEvent(false, "gameLoop"));
                     long timeTaken = System.nanoTime() - startTime;
 
                     if (timeTaken < GameConfiguration.targetTime)

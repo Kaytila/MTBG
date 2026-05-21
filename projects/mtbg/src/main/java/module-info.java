@@ -42,6 +42,7 @@ open module net.ck.mtbg
     exports net.ck.mtbg.animation.lifeform;
     exports net.ck.mtbg.graphics;
     exports net.ck.mtbg.map;
+    exports net.ck.mtbg.map.json;
     exports net.ck.mtbg.weather;
     exports net.ck.mtbg.music;
     exports net.ck.mtbg.items;

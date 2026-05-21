@@ -14,9 +14,12 @@ import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.TileTypes;
+import net.ck.mtbg.map.json.MapJsonV2;
+import net.ck.mtbg.map.json.MapJsonV2IO;
 import net.ck.mtbg.ui.components.game.AbstractMapCanvas;
 import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
 import net.ck.mtbg.util.ui.WindowBuilder;
+import net.ck.mtbg.util.xml.RunXMLParser;
 import net.ck.mtbg.weather.DayNight;
 import org.apache.commons.lang3.Range;
 import org.w3c.dom.Document;
@@ -673,6 +676,35 @@ public class MapUtils
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Integration method for the new JSON v2 format.
+     * Exports the current in-memory map to the given JSON file.
+     */
+    public static void exportCurrentMapAsJsonV2(Path jsonFile) throws IOException
+    {
+        Map currentMap = Game.getCurrent().getCurrentMap();
+        if (currentMap == null)
+        {
+            throw new IOException("No current map available for JSON export");
+        }
+        MapJsonV2 model = MapJsonV2.fromMap(currentMap);
+        MapJsonV2IO.writeToFile(model, jsonFile);
+    }
+
+    /**
+     * Translation method from legacy XML map format to JSON schema v2.
+     */
+    public static void translateXmlMapToJsonV2(Path xmlFile, Path jsonFile) throws IOException
+    {
+        Map parsedMap = RunXMLParser.parseMap(xmlFile.toFile().getAbsolutePath());
+        if (parsedMap == null)
+        {
+            throw new IOException("Failed to parse XML map: " + xmlFile);
+        }
+        MapJsonV2 model = MapJsonV2.fromMap(parsedMap);
+        MapJsonV2IO.writeToFile(model, jsonFile);
     }
 
     private static void prettyPrint(Document document, String fileName) throws TransformerException

@@ -12,6 +12,7 @@ import net.ck.mtbg.items.FurnitureItem;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Claus each individual tile, has x and y coordinates, connectors in
@@ -380,9 +381,33 @@ public class MapTile implements Comparable<MapTile>, Serializable
     }
 
 
-    public boolean equals(MapTile arg0)
+    @Override
+    public boolean equals(Object obj)
     {
-        return this.getId() == arg0.getId();
+        if (this == obj)
+        {
+            return true;
+        }
+        if (!(obj instanceof MapTile))
+        {
+            return false;
+        }
+        MapTile other = (MapTile) obj;
+        if (getMapPosition() != null && other.getMapPosition() != null)
+        {
+            return getMapPosition().equals(other.getMapPosition());
+        }
+        return this.getId() == other.getId();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        if (getMapPosition() != null)
+        {
+            return Objects.hash(getMapPosition().x, getMapPosition().y);
+        }
+        return Objects.hash(getId());
     }
 
 

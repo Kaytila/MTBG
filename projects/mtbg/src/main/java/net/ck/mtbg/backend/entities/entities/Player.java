@@ -263,8 +263,8 @@ public class Player extends AbstractEntity implements LifeForm
                 MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
                 assert exit != null;
                 String mapName = exit.getTargetMap();
-                int targetTileID = exit.getTargetID();
-                if (mapName != null && targetTileID != -1)
+                Point targetCoordinates = exit.getTargetCoordinates();
+                if (mapName != null && targetCoordinates != null)
                 {
                     logger.info("loading new map");
                     switchMap();
