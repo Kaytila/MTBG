@@ -25,7 +25,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -274,20 +273,13 @@ public class MapCanvas extends AbstractMapCanvas
                                 catch (Exception e)
                                 {
                                     logger.debug("tile: {}", tile);
-                                    // logger.debug(("tile.getLifeForm() {}"), tile.getLifeForm());
-                                    //logger.debug("lifeform image: {}", tile.getLifeForm().getCurrImage());
-                                    //logger.debug("tile.getLifeForm().getType() {}", tile.getLifeForm().getType());
                                     logger.debug("ImageManager.getLifeformImages() {}", ImageManager.getLifeformImages());
                                     throw new RuntimeException(e);
                                 }
-                                g.drawImage(bufferedImage, ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)), this);
+                                int drawPixelX = ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4));
+                                int drawPixelY = ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4));
+                                g.drawImage(bufferedImage, drawPixelX, drawPixelY, this);
                             }
-                        }
-                        //logger.debug("tile: {} has NPC: {} has action string: {}", tile.getMapPosition(), tile.getLifeForm(), tile.getLifeForm().getCurrentAction().getType().toString());
-                        g.setColor(Color.WHITE);
-                        if (tile.getLifeForm().getCurrentAction() != null)
-                        {
-                            g.drawString(tile.getLifeForm().getCurrentAction().getType().toString(), ((GameConfiguration.tileSize * row) + (GameConfiguration.tileSize / 4)), ((GameConfiguration.tileSize * column) + (GameConfiguration.tileSize / 4)));
                         }
                     }
 
@@ -301,7 +293,7 @@ public class MapCanvas extends AbstractMapCanvas
                     if (GameConfiguration.debugLOS)
                     {
                         g.setColor(Color.YELLOW);
-                        g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), (row * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2));
+                        g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), (row * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2), (column * GameConfiguration.tileSize) + (GameConfiguration.tileSize / 2));
                     }
 
                     if (GameConfiguration.debugMapPosition)
@@ -334,6 +326,7 @@ public class MapCanvas extends AbstractMapCanvas
 
             //start2 = System.nanoTime();
             paintHighlightedMapTile(g);
+            paintActiveMissiles(g);
             //MapUtils.calculateHiddenTiles(g);
             //logger.debug("end paint highlighted tile: {}", System.nanoTime() - start2);
             //paintDarkness(g);
@@ -457,7 +450,6 @@ public class MapCanvas extends AbstractMapCanvas
      * }
      * }
      * }
-     * }
      * else
      * {
      * //logger.info("no light source");
@@ -473,81 +465,7 @@ public class MapCanvas extends AbstractMapCanvas
      */
 
 
-    /**
-     * tile based paints a missile based on the tiles it is crossing,
-     * this is the cheap implementation but looks weird as a missile is only
-     * drawn once each tile
-     *
-     * @param g graphics context
-     */
-
-    @SuppressWarnings("unused")
-    private void paintMissilesTileBased(Graphics g)
-    {
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
-        {
-            if (m.getCurrentPosition() == null)
-            {
-                m.setCurrentPosition(MapUtils.calculateUIPositionFromMapOffset(m.getSourceTile().getMapPosition()));
-            }
-
-            ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), MapUtils.calculateUIPositionFromMapOffset(m.getTargetTile().getMapPosition()));
-            for (Point p : line)
-            {
-                logger.info("p:{}", p);
-                g.drawImage(m.getStandardImage(), ((GameConfiguration.tileSize * p.x) + (GameConfiguration.tileSize / 2)), ((GameConfiguration.tileSize * p.y) + (GameConfiguration.tileSize / 2)), this);
-                m.setCurrentPosition(p);
-            }
-        }
-    }
-
-
-    @SuppressWarnings("unused")
-    private void paintMissiles(Graphics g)
-    {
-        logger.info("paint missile called");
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().isEmpty()))
-        {
-            return;
-        }
-        Missile m = Game.getCurrent().getCurrentMap().getMissiles().getFirst();
-        g.drawImage(m.getStandardImage(), m.getCurrentPosition().x, m.getCurrentPosition().y, this);
-        //logger.info(" missiles: {}", Game.getCurrent().getCurrentMap().getMissiles());
-
-    }
-
-    /**
-     * this method paints a missile in one full line going from source to target
-     *
-     * @param g graphics context
-     */
-    @SuppressWarnings("unused")
-    private void paintMissilesFullLineAtOnce(Graphics g)
-    {
-        ArrayList<Missile> finishedMissiles = new ArrayList<>();
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
-        {
-            if (m.getCurrentPosition() == null)
-            {
-                m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
-            }
-
-            ArrayList<Point> line = MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates());
-            for (Point p : line)
-            {
-                //logger.info("p:{}", p );
-                g.drawImage(m.getStandardImage(), p.x, p.y, this);
-                m.setCurrentPosition(p);
-                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
-                {
-                    m.setFinished(true);
-                    finishedMissiles.add(m);
-                }
-            }
-        }
-        Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
-        //Game.getCurrent().getMissileTimer().stop();
-    }
+    // ...existing code...
 
 
     /*private void paintWeather(Graphics g)
@@ -636,15 +554,43 @@ public class MapCanvas extends AbstractMapCanvas
     @Subscribe
     public synchronized void onMessageEvent(MissilePositionChanged event)
     {
-        if (Game.getCurrent().getCurrentMap().getMissiles() != null)
+        javax.swing.SwingUtilities.invokeLater(() ->
         {
-            if (!Game.getCurrent().getCurrentMap().getMissiles().isEmpty())
+            Missile m = Game.getCurrent().getCurrentMap().getActiveMissile();
+            if ((m == null) || (m.getCurrentPosition() == null) || (m.getStandardImage() == null))
             {
-                Missile m = Game.getCurrent().getCurrentMap().getMissiles().getFirst();
-                this.getGraphics().drawImage(m.getStandardImage(), m.getCurrentPosition().x, m.getCurrentPosition().y, this);
-                this.paint(m.getCurrentPosition().x - (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().y - (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().x + (GameConfiguration.skippedPixelsForDrawingMissiles * 2), m.getCurrentPosition().y + (GameConfiguration.skippedPixelsForDrawingMissiles * 2));
+                repaint();
+                return;
             }
+
+            int imageWidth = m.getStandardImage().getWidth();
+            int imageHeight = m.getStandardImage().getHeight();
+            int drawX = m.getCurrentPosition().x - (imageWidth / 2);
+            int drawY = m.getCurrentPosition().y - (imageHeight / 2);
+            int margin = Math.max(GameConfiguration.skippedPixelsForDrawingMissiles * 2, 8);
+            repaint(drawX - margin, drawY - margin, imageWidth + (margin * 2), imageHeight + (margin * 2));
+        });
+    }
+
+    private void paintActiveMissiles(Graphics g)
+    {
+        Missile m = Game.getCurrent().getCurrentMap().getActiveMissile();
+        if ((m == null) || (m.getCurrentPosition() == null) || (m.getStandardImage() == null))
+        {
+            return;
         }
+
+        int imageWidth = m.getStandardImage().getWidth();
+        int imageHeight = m.getStandardImage().getHeight();
+        int drawX = m.getCurrentPosition().x - (imageWidth / 2);
+        int drawY = m.getCurrentPosition().y - (imageHeight / 2);
+
+        if (GameConfiguration.debugNPC)
+        {
+            logger.debug("missile render: center={}, drawTopLeft=({}, {}), imageSize={}x{}", m.getCurrentPosition(), drawX, drawY, imageWidth, imageHeight);
+        }
+
+        g.drawImage(m.getStandardImage(), drawX, drawY, this);
     }
 
 
@@ -917,3 +863,5 @@ public class MapCanvas extends AbstractMapCanvas
         }
     }
 }
+
+

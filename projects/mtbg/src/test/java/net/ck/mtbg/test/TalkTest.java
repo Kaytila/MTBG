@@ -9,6 +9,9 @@ import org.junit.jupiter.api.*;
 
 import java.awt.*;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 @Log4j2
 public class TalkTest
 {
@@ -26,7 +29,7 @@ public class TalkTest
     public static void tearDownAfterClass()
     {
         logger.info("GameTest - shutting down everything hopefully");
-        Game.getCurrent().stopGame();
+        Game.getCurrent().setRunning(false);
     }
 
     @BeforeEach
@@ -53,10 +56,10 @@ public class TalkTest
         n1.initialize();
         n1.getMobasks().put("hello", "Hello!");
         String answer = Game.getCurrent().getCurrentPlayer().talk(n1, "hello");
-        assert (!(answer.isEmpty()));
+        assertFalse(answer.isEmpty(), "Antwort auf bekanntes Stichwort sollte nicht leer sein");
 
         answer = Game.getCurrent().getCurrentPlayer().talk(n1, "fuck");
-        assert (answer == null);
+        assertNull(answer, "Unbekanntes Stichwort sollte null zurückgeben");
     }
 }
 

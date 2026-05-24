@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.state.UIStateMachine;
+import net.ck.mtbg.backend.state.BackendUIStateManager;
 import net.ck.mtbg.util.communication.graphics.WeatherChangedEvent;
 import net.ck.mtbg.util.utils.WeatherUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -52,7 +52,7 @@ public class Weather implements Serializable
     public void setType(WeatherTypes typ)
     {
         this.type = typ;
-        if (UIStateMachine.isUiOpen())
+        if (BackendUIStateManager.isUIActive())
         {
             if (GameConfiguration.debugEvents == true)
             {

@@ -6,7 +6,7 @@ import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.ActionStates;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.backend.entities.entities.LifeFormState;
-import net.ck.mtbg.ui.state.UIStateMachine;
+import net.ck.mtbg.backend.state.BackendUIStateManager;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.utils.ImageManager;
 import org.greenrobot.eventbus.EventBus;
@@ -43,7 +43,7 @@ public class NoAnimationSystem extends AnimationSystem
                     p.setCurrImage(0);
                 }
 
-                if (UIStateMachine.isUiOpen())
+                if (BackendUIStateManager.isUIActive())
                 {
                     if (GameConfiguration.debugEvents == true)
                     {

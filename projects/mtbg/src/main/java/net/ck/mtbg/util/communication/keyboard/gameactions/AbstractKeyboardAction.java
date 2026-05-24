@@ -76,21 +76,9 @@ public class AbstractKeyboardAction extends AbstractAction
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if (TimerManager.getMissileTimer() != null)
+        if (TimerManager.isMissileInFlight())
         {
-            if (TimerManager.getMissileTimer().isRunning())
-            {
-                logger.info("missile timer dont run, ignore command");
-            }
-            else
-            {
-                //logger.info(getType() + " pressed");
-                if (GameConfiguration.debugEvents == true)
-                {
-                    logger.debug("fire new event?");
-                }
-                EventBus.getDefault().post(this);
-            }
+            logger.info("missile in flight, ignore command");
         }
         else
         {

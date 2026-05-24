@@ -1305,4 +1305,35 @@ History of the changes:
 2026-05-19: fixed a bug with CenterCursorOnPlayer. Switched All Thread.sleep() to LockSupport.parkNanos() for better
             performance and less CPU usage.
 2026-05-20: added decoupling for GAME and UI. added JSON format and importer exporter.
-2026-05-20: decoupled storyteller and UI from GAME.
+Schritt 4: Idle-Timer an Game-Mode statt UI-State koppeln
+
+2026-05-21: Schritt 3 implementation: Decoupling UIStateMachine from battle/animation logic
+             Created new backend architecture:
+             1. BackendAnimationState enum: tracks animation states independent of UI
+             2. AnimationStateManager: manages backend animation state (replaces UIStateMachine.setHitAnimationRunning)
+             3. BackendUIStateManager: provides UI state to backend without UIStateMachine dependency
+             4. BackendAnimationStateChanged event: posts animation state changes as backend events
+             5. UIStateMachineSynchronizer: bridges UI and backend state changes
+
+             Refactored files to remove UIStateMachine dependency:
+             - AbstractEntity.attack(): now uses AnimationStateManager + BackendAnimationStateChanged event
+             - AbstractEntity.setMapPosition(): now uses BackendUIStateManager.isUIActive()
+             - Weather.setType(): uses BackendUIStateManager instead of UIStateMachine
+             - NoAnimationSystem.run(): uses BackendUIStateManager
+             - RandomAnimationSystem.run(): uses BackendUIStateManager
+             - ForegroundAnimationSystem.run(): uses BackendUIStateManager
+             - BackgroundAnimationSystem.run(): uses BackendUIStateManager
+             - BackgroundAnimationSystemActionListener: uses BackendUIStateManager
+
+             Benefits:
+             - Backend logic can now run without UI/UIStateMachine
+             - Animation system is truly decoupled from UI
+             - Enables headless testing and non-UI game runs
+             - Animation state changes are now proper backend events
+             - Foundation for further architectural improvements
+2026-05-24: reworked test classes and added lots of tests, most are running but some are still broken due to the
+            changes. will need to fix those and then we have a good test coverage for the backend logic
+            without UI dependency. also added some tests for the new backend architecture components.
+            overall, this is a big step towards a more modular and testable codebase.
+            next steps will be to further decouple remaining UI dependencies and to implement more
+            features using this new architecture.

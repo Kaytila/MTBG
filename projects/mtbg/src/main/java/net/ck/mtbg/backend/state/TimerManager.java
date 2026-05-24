@@ -10,6 +10,7 @@ import net.ck.mtbg.animation.lifeform.AnimationSystemUtilTimer;
 import net.ck.mtbg.animation.lifeform.HitMissImageTimer;
 import net.ck.mtbg.animation.missile.MissileTimer;
 import net.ck.mtbg.animation.missile.MissileUtilTimer;
+import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.time.IdleTimer;
 import net.ck.mtbg.backend.time.QuequeTimer;
 import net.ck.mtbg.music.MusicTimer;
@@ -129,5 +130,19 @@ public class TimerManager
     public static boolean isInputBlocked()
     {
         return missileInFlight.get() || hitMissInFlight.get();
+    }
+
+    public static boolean isPlayerMovementInProgress()
+    {
+        if (Game.getCurrent() == null || Game.getCurrent().getCurrentPlayer() == null)
+        {
+            return false;
+        }
+
+        boolean queueTimerRunning = getQuequeTimer() != null && getQuequeTimer().isRunning();
+        boolean queuedPlayerSteps = Game.getCurrent().getCurrentPlayer().getQueuedActions() != null
+                && !Game.getCurrent().getCurrentPlayer().getQueuedActions().isEmpty();
+
+        return queueTimerRunning || queuedPlayerSteps;
     }
 }

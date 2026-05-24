@@ -16,13 +16,11 @@ import net.ck.mtbg.backend.entities.attributes.Attributes;
 import net.ck.mtbg.backend.entities.skills.AbstractSkill;
 import net.ck.mtbg.backend.entities.skills.AbstractSpell;
 import net.ck.mtbg.backend.queuing.CommandQueue;
-import net.ck.mtbg.backend.state.GameState;
-import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.backend.state.TimerManager;
+import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.items.*;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
-import net.ck.mtbg.ui.state.UIStateMachine;
+import net.ck.mtbg.util.communication.backend.BackendAnimationStateChanged;
 import net.ck.mtbg.util.communication.graphics.AnimatedRepresentationChanged;
 import net.ck.mtbg.util.communication.keyboard.gameactions.GetAction;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
@@ -158,6 +156,16 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
 
     private AbstractAction currentAction;
+
+    /**
+     * Position before the latest move; used for missile spawn when attack follows movement in the same turn.
+     */
+    private Point mapPositionBeforeLastMove;
+
+    /**
+     * Turn number in which the latest move happened.
+     */
+    private int lastMoveTurnNumber = -1;
 
     public AbstractEntity()
     {
@@ -370,6 +378,11 @@ public abstract class AbstractEntity implements LifeForm, Serializable
      */
     public void move(int x, int y)
     {
+        if (this.getMapPosition() != null)
+        {
+            setMapPositionBeforeLastMove(new Point(this.getMapPosition().x, this.getMapPosition().y));
+            setLastMoveTurnNumber(Game.getCurrent().getTurnNumber());
+        }
         Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
         MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
         this.getMapPosition().move(x, y);
@@ -471,15 +484,37 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                     {
                         logger.debug("here at ranged attack");
                     }
-                    Point sourcePosition = NPCUtils.calculateScreenPositionFromMapPosition(this.getMapPosition());
-                    Point targetPosition = NPCUtils.calculateScreenPositionFromMapPosition(tile.getMapPosition());
+                    Point sourceMapPosition = this.getMapPosition();
+                    Point sourceUIPosition;
+                    if (this.isPlayer())
+                    {
+                        sourceUIPosition = Game.getCurrent().getCurrentPlayer().getUIPosition();
+                    }
+                    else
+                    {
+                        sourceUIPosition = MapUtils.calculateUIPositionFromMapOffset(sourceMapPosition);
+                    }
+
+                    Point targetUIPosition = MapUtils.calculateUIPositionFromMapOffset(tile.getMapPosition());
+
+                    Point sourcePosition = new Point(
+                            sourceUIPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2),
+                            sourceUIPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)
+                    );
+                    Point targetPosition = new Point(
+                            targetUIPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2),
+                            targetUIPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)
+                    );
                     Missile m = new Missile(sourcePosition, targetPosition);
-                    Game.getCurrent().getCurrentMap().getMissiles().add(m);
+                    Game.getCurrent().getCurrentMap().setActiveMissile(m);
 
                     try
                     {
-                        //TODO heavily broken design - during attack of the npc I set the timers for the animation
-                        UIStateMachine.setHitAnimationRunning(true);
+                        //TODO design improved - animation state now managed by backend AnimationStateManager
+                        // Post backend animation state change event
+                        AnimationStateManager.setHitMissAnimationRunning(true);
+                        EventBus.getDefault().post(new BackendAnimationStateChanged(AnimationStateManager.getAnimationState()));
+                        
                         HitMissImageTimerTask task = new HitMissImageTimerTask(n);
                         TimerManager.getHitMissImageTimer().setHitMissImageTimerTask(task);
                         TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
@@ -494,7 +529,8 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                             TimerManager.setAnimationSystemUtilTimer(new AnimationSystemUtilTimer());
                             AnimationSystemTimerTask animationSystemTimerTask = new AnimationSystemTimerTask();
                             TimerManager.getAnimationSystemUtilTimer().schedule(animationSystemTimerTask, GameConfiguration.animationLifeformDelay, GameConfiguration.animationLifeformDelay);
-                            UIStateMachine.setHitAnimationRunning(false);
+                            AnimationStateManager.setHitMissAnimationRunning(false);
+                            EventBus.getDefault().post(new BackendAnimationStateChanged(AnimationStateManager.getAnimationState()));
                         }
                         else
                         {
@@ -506,12 +542,14 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                             TimerManager.setAnimationSystemTimer(new AnimationSystemTimer(GameConfiguration.animationLifeformDelay, animationSystemActionListener));
                             TimerManager.getAnimationSystemTimer().setRepeats(true);
                             TimerManager.getAnimationSystemTimer().start();
-                            UIStateMachine.setHitAnimationRunning(false);
+                            AnimationStateManager.setHitMissAnimationRunning(false);
+                            EventBus.getDefault().post(new BackendAnimationStateChanged(AnimationStateManager.getAnimationState()));
                         }
                     }
                     catch (Exception e)
                     {
                         TimerManager.setHitMissInFlight(false);
+                        AnimationStateManager.resetAnimationState();
                         if (GameConfiguration.debugTimers == true)
                         {
                             logger.debug("there is an issue with setting the timer for the hit animation: {}", e.toString());
@@ -745,18 +783,17 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     {
         logger.info("start: switching map");
 
-        MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
-        String mapName = null;
-        if (exit != null)
+        Map oldMap = Game.getCurrent().getCurrentMap();
+        Point currentPosition = new Point(this.getMapPosition().x, this.getMapPosition().y);
+        MapTile exit = MapUtils.getMapTileByCoordinates(oldMap, currentPosition.x, currentPosition.y);
+        if (exit == null || exit.getTargetMap() == null || exit.getTargetCoordinates() == null)
         {
-            mapName = exit.getTargetMap();
+            logger.warn("map switch aborted: missing exit target on {}", currentPosition);
+            return false;
         }
-        Point target = new Point();
 
-        if (exit != null)
-        {
-            target = exit.getTargetCoordinates();
-        }
+        String mapName = exit.getTargetMap();
+        Point target = exit.getTargetCoordinates();
         logger.info("mapname: {}, target Tile coordinates: {}", mapName, target);
 
         for (Map m : Game.getCurrent().getMaps())
@@ -766,27 +803,48 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                 m.initialize();
                 logger.debug("mapname: {}", mapName);
                 logger.debug("current map before: {}", Game.getCurrent().getCurrentMap());
+                MapTile oldTile = MapUtils.getMapTileByCoordinates(oldMap, currentPosition.x, currentPosition.y);
                 MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
+                if (targetTile == null)
+                {
+                    logger.warn("map switch aborted: target tile {},{} not found on map {}", target.x, target.y, mapName);
+                    return false;
+                }
+                if (targetTile.isBlocked())
+                {
+                    logger.warn("map switch aborted: target tile {},{} on map {} is blocked", target.x, target.y, mapName);
+                    return false;
+                }
+
+                if (oldTile != null)
+                {
+                    oldTile.setBlocked(false);
+                    oldTile.setLifeForm(null);
+                }
+                oldMap.getLifeForms().remove(this);
                 Game.getCurrent().setCurrentMap(m);
                 logger.debug("current map after: {}", Game.getCurrent().getCurrentMap());
-                assert targetTile != null;
-                Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(false);
-                MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
                 this.getMapPosition().move(targetTile.x, targetTile.y);
-                Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition())).setBlocked(true);
+                targetTile.setBlocked(true);
                 logger.info("player map pos: {}", this.getMapPosition());
                 logger.debug("target tile: {}", targetTile);
-                MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(this);
+                targetTile.setLifeForm(this);
+                if (!m.getLifeForms().contains(this))
+                {
+                    m.getLifeForms().add(this);
+                }
                 //EventBus.getDefault().post(new PlayerPositionChanged(Game.getCurrent().getCurrentPlayer()));
 
                 logger.debug("new position: {}", this.getMapPosition());
-                break;
+                logger.info("end: switching map");
+                return true;
                 //setAnimatedEntities(animatedEntities = new ArrayList<>());
                 //addAnimatedEntities();
             }
         }
+        logger.warn("map switch aborted: target map {} not found", mapName);
         logger.info("end: switching map");
-        return true;
+        return false;
     }
 
     protected void castSpell(AbstractAction action)
@@ -832,7 +890,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
         }
 
         this.mapPosition = position;
-        if (UIStateMachine.isUiOpen())
+        if (BackendUIStateManager.isUIActive())
         {
             Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(position)).setBlocked(true);
         }
@@ -842,7 +900,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
     {
         Point pos = new Point(x, y);
         this.mapPosition = pos;
-        if (UIStateMachine.isUiOpen())
+        if (BackendUIStateManager.isUIActive())
         {
             Objects.requireNonNull(MapUtils.getMapTileByCoordinatesAsPoint(pos)).setBlocked(true);
         }

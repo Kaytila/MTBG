@@ -89,7 +89,7 @@ public class NPC extends AbstractEntity implements LifeForm
         setMapPosition(new Point(p.x, p.y));
 
         setQueuedActions(new CommandQueue());
-        EventBus.getDefault().register(this);
+        registerForEventsIfNeeded();
 
         if (getAttributes().get(AttributeTypes.STRENGTH).getValue() == 0)
         {
@@ -126,7 +126,7 @@ public class NPC extends AbstractEntity implements LifeForm
         setArmorClass(0);
         getInventory().add(ItemManager.getWeaponList().get(3));
         wieldWeapon(ItemManager.getWeaponList().get(1));
-        EventBus.getDefault().register(this);
+        registerForEventsIfNeeded();
 
     }
 
@@ -165,7 +165,7 @@ public class NPC extends AbstractEntity implements LifeForm
         this.setType(type);
         setStatic(false);
         setQueuedActions(new CommandQueue());
-        EventBus.getDefault().register(this);
+        registerForEventsIfNeeded();
 
         if (getAttributes().get(AttributeTypes.STRENGTH).getValue() == 0)
         {
@@ -240,7 +240,7 @@ public class NPC extends AbstractEntity implements LifeForm
     {
         setStatic(false);
         setQueuedActions(new CommandQueue());
-        EventBus.getDefault().register(this);
+        registerForEventsIfNeeded();
         getAttributes().get(AttributeTypes.STRENGTH).setValue(10);
         getAttributes().get(AttributeTypes.DEXTERITY).setValue(10);
         getAttributes().get(AttributeTypes.CONSTITUTION).setValue(10);
@@ -269,6 +269,15 @@ public class NPC extends AbstractEntity implements LifeForm
             {
                 setOriginalMapPosition(new Point(getMapPosition()));
             }
+        }
+    }
+
+    private void registerForEventsIfNeeded()
+    {
+        EventBus eventBus = EventBus.getDefault();
+        if (!eventBus.isRegistered(this))
+        {
+            eventBus.register(this);
         }
     }
 
@@ -845,18 +854,16 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             logger.debug("NPC {} start: switching map", this.getId());
         }
-        MapTile exit = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
-        String mapName = null;
-        if (exit != null)
-
+        Map oldMap = Game.getCurrent().getCurrentMap();
+        Point currentPosition = new Point(this.getMapPosition().x, this.getMapPosition().y);
+        MapTile exit = MapUtils.getMapTileByCoordinates(oldMap, currentPosition.x, currentPosition.y);
+        if (exit == null || exit.getTargetMap() == null || exit.getTargetCoordinates() == null)
         {
-            mapName = exit.getTargetMap();
+            logger.warn("NPC {} map switch aborted: missing exit target on {}", this.getId(), currentPosition);
+            return false;
         }
-        Point target = new Point();
-        if (exit != null)
-        {
-            target = exit.getTargetCoordinates();
-        }
+        String mapName = exit.getTargetMap();
+        Point target = exit.getTargetCoordinates();
         if (GameConfiguration.debugNPC == true)
         {
             logger.debug("NPC {} map name: {}, target Tile: {}", this.getId(), mapName, target);
@@ -865,18 +872,37 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             if (m.getName().equalsIgnoreCase(mapName))
             {
+                MapTile oldTile = MapUtils.getMapTileByCoordinates(oldMap, currentPosition.x, currentPosition.y);
                 MapTile targetTile = MapUtils.getMapTileByCoordinates(m, target.x, target.y);
+                if (targetTile == null)
+                {
+                    logger.warn("NPC {} map switch aborted: target tile {},{} not found on map {}", this.getId(), target.x, target.y, mapName);
+                    return false;
+                }
+                if (targetTile.isBlocked())
+                {
+                    logger.warn("NPC {} map switch aborted: target tile {},{} on map {} is blocked", this.getId(), target.x, target.y, mapName);
+                    return false;
+                }
 
-                Game.getCurrent().getCurrentMap().getLifeForms().remove(this);
-                MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setLifeForm(null);
-                m.getLifeForms().add(this);
-                assert targetTile != null;
+                oldMap.getLifeForms().remove(this);
+                if (oldTile != null)
+                {
+                    oldTile.setBlocked(false);
+                    oldTile.setLifeForm(null);
+                }
+                if (!m.getLifeForms().contains(this))
+                {
+                    m.getLifeForms().add(this);
+                }
                 this.setMapPosition(new Point(targetTile.x, targetTile.y));
+                targetTile.setBlocked(true);
                 targetTile.setLifeForm(this);
                 if (GameConfiguration.debugNPC == true)
                 {
                     logger.debug("NPC {} new position: {}", this.getId(), this.getMapPosition());
                 }
+                return true;
                 //setAnimatedEntities(animatedEntities = new ArrayList<>());
                 //addAnimatedEntities();
             }
@@ -885,7 +911,8 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             logger.debug("NPC {} end: switching map", this.getId());
         }
-        return true;
+        logger.warn("NPC {} map switch aborted: target map {} not found", this.getId(), mapName);
+        return false;
     }
 
     public EnterAction lookForExit()

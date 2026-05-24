@@ -3,6 +3,7 @@ package net.ck.mtbg.util.communication.keyboard.framework;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.state.BackendUIStateManager;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.ui.WindowBuilder;
 
@@ -41,6 +42,7 @@ public class WindowClosingAction extends AbstractAction
         logger.info("Window closing action sent");
         getComponent().dispatchEvent(new WindowEvent(getComponent(), WindowEvent.WINDOW_CLOSING));
         UIStateMachine.setDialogOpened(false);
+        BackendUIStateManager.applyUiState(UIStateMachine.getUiState());
         if (UIStateMachine.isUiOpen())
         {
             WindowBuilder.getGridCanvas().requestFocusInWindow();

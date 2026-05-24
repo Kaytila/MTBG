@@ -89,10 +89,9 @@ public class Map extends AbstractMap implements MapPropertySupport
     private WeatherTypes fixedWeather;
 
     /**
-     * List of the active missiles on the map
-     * I think this can always only be one, but lets see
+     * Exactly one active missile can exist at a time on the map.
      */
-    private ArrayList<Missile> missiles;
+    private Missile activeMissile;
 
     private boolean spawnMobs = true;
 
@@ -105,9 +104,20 @@ public class Map extends AbstractMap implements MapPropertySupport
     public Map()
     {
         //setName(null);
-        setMissiles(new ArrayList<>());
+        setActiveMissile(null);
         lifeForms = new CopyOnWriteArrayList<>();
     }
+
+    public synchronized Missile getActiveMissile()
+    {
+        return activeMissile;
+    }
+
+    public synchronized void setActiveMissile(Missile activeMissile)
+    {
+        this.activeMissile = activeMissile;
+    }
+
 
     /**
      * initializing the map before use - to make sure all moving parts are set properly.
@@ -176,7 +186,7 @@ public class Map extends AbstractMap implements MapPropertySupport
                 ", visibilityRange=" + visibilityRange +
                 ", minutesPerTurn=" + minutesPerTurn +
                 ", fixedWeather=" + fixedWeather +
-                ", missiles=" + missiles +
+                ", activeMissile=" + activeMissile +
                 '}';
     }
 

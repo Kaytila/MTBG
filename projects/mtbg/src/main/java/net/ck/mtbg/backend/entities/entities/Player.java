@@ -877,7 +877,11 @@ public class Player extends AbstractEntity implements LifeForm
             logger.debug("switching map");
         }
         Map oldMap = Game.getCurrent().getCurrentMap();
-        super.switchMap();
+        boolean switched = super.switchMap();
+        if (!switched)
+        {
+            return false;
+        }
         //TODO this one is kind of ugly - can this be handled otherwise?
         Game.getCurrent().finishMapSwitch(oldMap);
         return true;

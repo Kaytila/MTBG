@@ -14,7 +14,6 @@ import net.ck.mtbg.util.utils.MapUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.TimerTask;
 
 @Log4j2
@@ -33,6 +32,14 @@ public class MissileTimerTask extends TimerTask
     {
         if (!Game.getCurrent().isRunning())
         {
+            setRunning(false);
+            TimerManager.setMissileInFlight(false);
+            return;
+        }
+
+        if (TimerManager.isPlayerMovementInProgress())
+        {
+            // Missile rendering is deferred until movement queue/step execution is complete.
             setRunning(false);
             TimerManager.setMissileInFlight(false);
             return;
@@ -75,79 +82,77 @@ public class MissileTimerTask extends TimerTask
     private boolean hasActiveMissiles()
     {
         return Game.getCurrent().getCurrentMap() != null
-                && Game.getCurrent().getCurrentMap().getMissiles() != null
-                && !Game.getCurrent().getCurrentMap().getMissiles().isEmpty();
+                && Game.getCurrent().getCurrentMap().getActiveMissile() != null;
     }
 
 
-    //TODO properly handle this - nice that we paint 60 frames, but missile will need to appear at least a little bit :D
+
     private void calculateMissile()
     {
-        ArrayList<Missile> finishedMissiles = new ArrayList<>();
-        if ((Game.getCurrent().getCurrentMap().getMissiles() == null) || (Game.getCurrent().getCurrentMap().getMissiles().isEmpty()))
+        Missile m = Game.getCurrent().getCurrentMap().getActiveMissile();
+        if (m == null)
         {
             return;
         }
-        for (Missile m : Game.getCurrent().getCurrentMap().getMissiles())
+
+        boolean justInitialized = false;
+        if (m.getSourceCoordinates() == null)
         {
-            if (m.getSourceCoordinates() == null)
+            logger.error("missile has no source");
+            Game.getCurrent().stopGame();
+        }
+
+        if (m.getLine() == null)
+        {
+            if (m.getCurrentPosition() == null)
             {
-                logger.error("missile has no source");
-                Game.getCurrent().stopGame();
+                m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
             }
-            //logger.info("m: {}", m);
-            //logger.info("m image: {}", m.getAppearance().getStandardImage());
-            if (m.getLine() == null)
+            m.setLine(MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates()));
+            justInitialized = true;
+        }
+
+        // Keep the initial source position visible for one render tick.
+        if (justInitialized)
+        {
+            EventBus.getDefault().post(new MissilePositionChanged());
+            return;
+        }
+
+        if (m.getLine().size() == 0)
+        {
+            if (m.isSuccess())
             {
-                if (m.getCurrentPosition() == null)
-                {
-                    m.setCurrentPosition(new Point(m.getSourceCoordinates().x, m.getSourceCoordinates().y));
-                }
-                m.setLine(MapUtils.getLine(m.getCurrentPosition(), m.getTargetCoordinates()));
+                m.setStandardImage(ImageUtils.loadImage("combat", "explosion"));
             }
+            m.setFinished(true);
+            Game.getCurrent().getCurrentMap().setActiveMissile(null);
+            EventBus.getDefault().post(new MissilePositionChanged());
+            return;
+        }
 
-            if (m.getLine().size() == 0)
+        Point p = m.getLine().get(0);
+        m.setCurrentPosition(p);
+
+        if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
+        {
+            if (m.isSuccess())
             {
-                if (m.isSuccess())
-                {
-                    m.setStandardImage(ImageUtils.loadImage("combat", "explosion"));
-                }
-                //logger.info("finished missile");
-                m.setFinished(true);
-                finishedMissiles.add(m);
+                m.setStandardImage(ImageUtils.loadImage("combat", "explosion"));
             }
-            else
+            m.setFinished(true);
+            Game.getCurrent().getCurrentMap().setActiveMissile(null);
+        }
+
+        //only paint missile every configured pixel
+        for (int i = 0; i <= (GameConfiguration.skippedPixelsForDrawingMissiles - 1); i++)
+        {
+            if (m.getLine().size() > 0)
             {
-                Point p = m.getLine().get(0);
-                m.setCurrentPosition(p);
-
-                if (m.getCurrentPosition().equals(m.getTargetCoordinates()))
-                {
-                    if (m.isSuccess())
-                    {
-                        m.setStandardImage(ImageUtils.loadImage("combat", "explosion"));
-                    }
-                    m.setFinished(true);
-                    finishedMissiles.add(m);
-                }
-
-                //only paint missile every configured pixel
-                for (int i = 0; i <= (GameConfiguration.skippedPixelsForDrawingMissiles - 1); i++)
-                {
-                    if (m.getLine().size() > 0)
-                    {
-                        m.getLine().remove(0);
-                    }
-                }
-
+                m.getLine().remove(0);
             }
         }
 
-        if (finishedMissiles.size() > 0)
-        {
-            //logger.info("finished missiles: {}", finishedMissiles);
-            Game.getCurrent().getCurrentMap().getMissiles().removeAll(finishedMissiles);
-        }
         if (GameConfiguration.debugEvents == true)
         {
             logger.debug("fire new missile position");

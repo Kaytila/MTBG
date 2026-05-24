@@ -20,6 +20,7 @@ java {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+    jvmArgs("-Dmtbg.testMode=true")
     testLogging.events = setOf(
         TestLogEvent.PASSED,
         TestLogEvent.FAILED,

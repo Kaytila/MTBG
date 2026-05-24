@@ -46,21 +46,14 @@ import java.awt.event.*;
 @Setter
 public class GameController implements WindowListener, ActionListener, MouseListener, MouseMotionListener, FocusListener
 {
-    private boolean isPlayerInputLocked()
-    {
-        return TimerManager.isInputBlocked();
-    }
-
     /**
      * singleton GameController
      */
     private static final GameController gameController = new GameController();
-
     /**
      * pressed mouse button timer
      */
     Timer pressedTimer;
-
     /**
      * currentAction is used for the two-step actions.
      * standard action is handled in onMessageEvent (AbstractKeyboardAction), i.e. movement.
@@ -71,12 +64,10 @@ public class GameController implements WindowListener, ActionListener, MouseList
      * keyboard input (movement keys or even pressing "a" again)
      */
     private AbstractKeyboardAction currentAction;
-
     /**
      * double-click in inventory dialog leads to this being filled.
      */
     private AbstractItem currentItemInHand;
-
     /**
      * double-click in spell book dialog leads to this being filled.
      */
@@ -92,7 +83,6 @@ public class GameController implements WindowListener, ActionListener, MouseList
      * i.e. it switched keyboard movement to cross-hair movement.
      */
     private boolean movementForSelectTile = false;
-
     /**
      * is drag Enabled
      */
@@ -115,6 +105,11 @@ public class GameController implements WindowListener, ActionListener, MouseList
     public static GameController getCurrent()
     {
         return gameController;
+    }
+
+    private boolean isPlayerInputLocked()
+    {
+        return TimerManager.isInputBlocked();
     }
 
     public synchronized AbstractSpell getCurrentSpellInHand()

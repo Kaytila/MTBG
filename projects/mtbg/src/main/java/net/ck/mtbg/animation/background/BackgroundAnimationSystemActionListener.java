@@ -5,8 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.state.UIState;
-import net.ck.mtbg.ui.state.UIStateMachine;
+import net.ck.mtbg.backend.state.BackendUIStateManager;
 import net.ck.mtbg.util.communication.graphics.BackgroundRepresentationChanged;
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,7 +31,7 @@ public class BackgroundAnimationSystemActionListener implements ActionListener
     {
         if (Game.getCurrent().isRunning() == true)
         {
-            if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
+            if (BackendUIStateManager.isUIActive())
             {
                 if (GameConfiguration.animated == true)
                 {
@@ -51,7 +50,7 @@ public class BackgroundAnimationSystemActionListener implements ActionListener
                     setCurrentBackgroundImage(0);
                 }
             }
-            if ((UIStateMachine.getUiState().equals(UIState.ACTIVATED)) || (UIStateMachine.getUiState().equals(UIState.OPENED)))
+            if (BackendUIStateManager.isUIActive())
             {
                 if (GameConfiguration.debugTimers == true)
                 {

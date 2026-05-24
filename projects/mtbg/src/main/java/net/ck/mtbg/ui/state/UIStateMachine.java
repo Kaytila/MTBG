@@ -3,6 +3,7 @@ package net.ck.mtbg.ui.state;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.ck.mtbg.backend.state.BackendUIStateManager;
 import net.ck.mtbg.map.MapTile;
 
 import java.awt.*;
@@ -58,8 +59,6 @@ public class UIStateMachine
      * what state is the ui in?
      * opened, deactivated ...
      */
-    @Getter
-    @Setter
     private static UIState uiState;
 
     /**
@@ -92,4 +91,15 @@ public class UIStateMachine
     @Getter
     @Setter
     private static boolean mouseOnEmptyGridField;
+
+    public static UIState getUiState()
+    {
+        return uiState;
+    }
+
+    public static void setUiState(UIState state)
+    {
+        uiState = state;
+        BackendUIStateManager.applyUiState(state);
+    }
 }

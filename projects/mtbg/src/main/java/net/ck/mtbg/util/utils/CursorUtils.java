@@ -451,7 +451,9 @@ public class CursorUtils
 
     public static void calulateCursorPosition()
     {
-        if (MapUtils.calculateMapTileUnderCursor(MouseInfo.getPointerInfo().getLocation()) == null)
+        // Must use relative (JComponent-local) coordinates, not absolute screen coordinates
+        Point relative = calculateRelativeMousePosition(MouseInfo.getPointerInfo().getLocation());
+        if (MapUtils.calculateMapTileUnderCursor(relative) == null)
         {
             UIStateMachine.setMouseOutsideOfGrid(true);
         }

@@ -13,6 +13,8 @@ import org.junit.jupiter.api.*;
 
 import java.awt.*;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @Log4j2
 @Getter
 @Setter
@@ -33,7 +35,7 @@ public class BattleTest
     public static void tearDownAfterClass()
     {
         logger.info("GameTest - shutting down everything hopefully");
-        Game.getCurrent().stopGame();
+        Game.getCurrent().setRunning(false);
     }
 
     @BeforeEach
@@ -59,7 +61,13 @@ public class BattleTest
         Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
         n1.setMapPosition(new Point(3, 2));
         n1.initialize();
+
+        int playerHealthBefore = Game.getCurrent().getCurrentPlayer().getHealth();
         n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(Game.getCurrent().getCurrentPlayer().getMapPosition()));
+        int playerHealthAfter = Game.getCurrent().getCurrentPlayer().getHealth();
+
+        assertTrue(playerHealthAfter <= playerHealthBefore,
+                "Spieler-Health darf nach NPC-Melee-Angriff nicht gestiegen sein");
     }
 
 
@@ -73,7 +81,13 @@ public class BattleTest
         n1.setMapPosition(new Point(4, 2));
         n1.initialize();
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
+
+        int playerHealthBefore = Game.getCurrent().getCurrentPlayer().getHealth();
         n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(Game.getCurrent().getCurrentPlayer().getMapPosition()));
+        int playerHealthAfter = Game.getCurrent().getCurrentPlayer().getHealth();
+
+        assertTrue(playerHealthAfter <= playerHealthBefore,
+                "Spieler-Health darf nach NPC-Fernkampf-Angriff nicht gestiegen sein");
     }
 
 
@@ -88,7 +102,13 @@ public class BattleTest
         Game.getCurrent().getCurrentMap().mapTiles[4][2].setLifeForm(n1);
         n1.initialize();
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
+
+        int npcHealthBefore = n1.getHealth();
         Game.getCurrent().getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
+        int npcHealthAfter = n1.getHealth();
+
+        assertTrue(npcHealthAfter <= npcHealthBefore,
+                "NPC-Health darf nach Spieler-Fernkampf-Angriff nicht gestiegen sein");
     }
 
 
@@ -103,6 +123,12 @@ public class BattleTest
         Game.getCurrent().getCurrentMap().mapTiles[3][2].setLifeForm(n1);
         n1.initialize();
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
+
+        int npcHealthBefore = n1.getHealth();
         Game.getCurrent().getCurrentPlayer().attack(MapUtils.getMapTileByCoordinatesAsPoint(n1.getMapPosition()));
+        int npcHealthAfter = n1.getHealth();
+
+        assertTrue(npcHealthAfter <= npcHealthBefore,
+                "NPC-Health darf nach Spieler-Melee-Angriff nicht gestiegen sein");
     }
 }

@@ -20,6 +20,7 @@ import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.AutoMap;
 import net.ck.mtbg.map.Map;
+import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -38,6 +39,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -56,81 +58,74 @@ public class Game implements Runnable, Serializable
      * Singleton
      */
     private static final Game game = new Game();
-
+    /**
+     * Snapshot per NPC for the start of its processing in the current turn.
+     * Used to keep missile origin stable when NPC moves and attacks in the same turn.
+     */
+    private final java.util.Map<LifeForm, Point> npcMapPositionAtTurnStart = new ConcurrentHashMap<>();
     /**
      * the arraylist holds all the maps
      * not sure if I do need to do that or can load from disk on demand,
      * but the average map won't be that big
      */
-    ArrayList<Map> maps = new ArrayList<>();
-
+    ArrayList<net.ck.mtbg.map.Map> maps = new ArrayList<>();
     /*
      * holds the current map, might be game map, might be any map
      */
     private Map currentMap;
-
-
     /**
      * is the game still running or shutting down?
      */
     private boolean running;
-
     /**
      * which is the currently active player, PC, NPCs are treated differently, but same :D
      */
     private Player currentPlayer;
-
     /**
      * which turn is the current turn, filled up with each doAction(), rolled over in advanceTurn() or retractTurn()
      */
     private Turn currentTurn;
-
     /**
      * world is doing the random events
      */
     private World en;
-
     /**
      * turn number
      */
     private int turnNumber;
-
     /**
      * the list of turn objects
      */
     private ArrayList<Turn> turns = new ArrayList<>();
-
     /**
      * this holds the actual game time which is increasing with time
      */
     private GameTime gameTime;
-
     /**
      * previous game state - where are we once we enter cutscene/combat and so on
      */
     private GameState previousGameState;
-
-
     /**
      * ready for next turn?
      */
     private boolean nextTurn;
-
     /**
      * does the player action cause npc action? i.e. does the turn roll over?
      */
     private boolean npcAction;
-
     /**
      * has the player enough dex to move twice per turn?
      */
     private boolean playerMovedTwice = true;
-
+    /**
+     * Snapshot of player map position before executing the player action of the current turn.
+     * Used by effects/projectiles that must align with the pre-move viewport.
+     */
+    private Point playerMapPositionAtTurnStart;
     /**
      * what is the player action for this round
      */
     private PlayerAction playerAction;
-
     private long startTime;
 
     /**
@@ -266,8 +261,15 @@ public class Game implements Runnable, Serializable
     {
         Game.getCurrent().assertNotEdt(action.toString());
 
+        if (Game.getCurrent().getCurrentPlayer() != null && Game.getCurrent().getCurrentPlayer().getMapPosition() != null)
+        {
+            Point currentPlayerPos = Game.getCurrent().getCurrentPlayer().getMapPosition();
+            setPlayerMapPositionAtTurnStart(new Point(currentPlayerPos.x, currentPlayerPos.y));
+        }
+
 
         Game.getCurrent().getCurrentPlayer().doAction(action);
+        waitForPlayerMovementToComplete();
         if (GameConfiguration.debugEvents == true)
         {
             logger.debug("fire highlighting event in advanceTurn");
@@ -332,17 +334,13 @@ public class Game implements Runnable, Serializable
         logger.info("TURN ENDS");
         logger.info("Current Game Time: {}", getGameTime().toString());
         logger.info("=======================================================================================");
-        if (UIStateMachine.isDialogOpened())
+        if (BackendUIStateManager.isIdleTimerAllowed())
         {
-            logger.info("do nothing, wait");
-        }
-        else if (UIStateMachine.getUiState().equals(UIState.OVERLAY))
-        {
-            logger.info("in overlay dont start idle timer");
+            TimerManager.getIdleTimer().start();
         }
         else
         {
-            TimerManager.getIdleTimer().start();
+            logger.info("idle timer blocked by game mode: {}", BackendUIStateManager.getGameMode());
         }
 
         if (UIStateMachine.isUiOpen())
@@ -382,8 +380,24 @@ public class Game implements Runnable, Serializable
         }
     }
 
+    private void waitForPlayerMovementToComplete()
+    {
+        long sleepNanos = 5_000_000L; // 5ms
+        final long maxSleepNanos = 25_000_000L; // 25ms
+
+        while (TimerManager.isPlayerMovementInProgress())
+        {
+            LockSupport.parkNanos(sleepNanos);
+            if (sleepNanos < maxSleepNanos)
+            {
+                sleepNanos = Math.min(sleepNanos + 5_000_000L, maxSleepNanos);
+            }
+        }
+    }
+
     private void processNPCActions(boolean hasTwoActions)
     {
+        npcMapPositionAtTurnStart.clear();
         if (Game.getCurrent().getCurrentMap().getLifeForms() != null && !Game.getCurrent().getCurrentMap().getLifeForms().isEmpty())
         {
             for (LifeForm e : Game.getCurrent().getCurrentMap().getLifeForms())
@@ -391,6 +405,14 @@ public class Game implements Runnable, Serializable
                 if (e instanceof Player)
                 {
                     continue;
+                }
+                if (e.getMapPosition() != null)
+                {
+                    npcMapPositionAtTurnStart.put(e, new Point(e.getMapPosition().x, e.getMapPosition().y));
+                    if (GameConfiguration.debugNPC)
+                    {
+                        logger.debug("npc turn-start snapshot: npcId={}, pos={}", e.getId(), e.getMapPosition());
+                    }
                 }
                 if (e.hasTwoActions())
                 {
@@ -429,6 +451,16 @@ public class Game implements Runnable, Serializable
         }
     }
 
+    public Point getNpcMapPositionAtTurnStart(LifeForm npc)
+    {
+        Point p = npcMapPositionAtTurnStart.get(npc);
+        if (p == null)
+        {
+            return null;
+        }
+        return new Point(p.x, p.y);
+    }
+
     public synchronized void stopGame()
     {
         logger.info("number of turns: {}", getTurnNumber());
@@ -438,6 +470,11 @@ public class Game implements Runnable, Serializable
         ThreadController.listThreads();
         GameUtils.listThreadTimes();
         setRunning(false);
+        if (Boolean.getBoolean("mtbg.testMode"))
+        {
+            logger.info("test mode active: skip System.exit in stopGame()");
+            return;
+        }
         System.exit(0);
     }
 
@@ -448,6 +485,21 @@ public class Game implements Runnable, Serializable
      */
     public void addPlayers(Point startPosition)
     {
+        if (getCurrentPlayer() != null)
+        {
+            logger.info("player already initialized, reusing existing player");
+            Point target = startPosition != null ? new Point(startPosition) : new Point(2, 2);
+            getCurrentPlayer().setMapPosition(target);
+            MapTile playerTile = Game.getCurrent().getCurrentMap().mapTiles[target.x][target.y];
+            playerTile.setLifeForm(getCurrentPlayer());
+            playerTile.setBlocked(true);
+            if (!Game.getCurrent().getCurrentMap().getLifeForms().contains(getCurrentPlayer()))
+            {
+                Game.getCurrent().getCurrentMap().getLifeForms().add(getCurrentPlayer());
+            }
+            return;
+        }
+
         logger.info("adding player");
         Player p1 = new Player(0);
         Weapon sling = ItemManager.getWeaponList().get(3);

@@ -88,10 +88,10 @@ public class GameConfiguration
     public static final boolean debugLOS = false;
     public static final boolean debugMap = false;
     public static final boolean debugMapParser = false;
-    public static final boolean debugMapPosition = false;
-    public static final boolean debugNPC = false;
-    public static final boolean debugPC = false;
-    public static final boolean debugPaint = true;
+    public static final boolean debugMapPosition = true;
+    public static final boolean debugNPC = true;
+    public static final boolean debugPC = true;
+    public static final boolean debugPaint = false;
     public static final boolean debugSchedule = false;
     /**
      * debug the splash startup
@@ -246,11 +246,11 @@ public class GameConfiguration
     /**
      * shall music be played?
      */
-    public static final boolean playMusic = true;
+    public static final boolean playMusic = false;
     /**
      * do we want to play sound effects?
      */
-    public static final boolean playSound = true;
+    public static final boolean playSound = false;
     /**
      * where are the player images
      */

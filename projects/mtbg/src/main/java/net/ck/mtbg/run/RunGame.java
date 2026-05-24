@@ -44,6 +44,10 @@ public class RunGame
      * singleton by design, i am so good :P
      */
     private static Game game;
+    /**
+     * Test startup should bootstrap static game data once and then reuse it.
+     */
+    private static boolean testBootstrapDone;
 
     //TODO
     //https://stackoverflow.com/questions/29290178/gui-has-to-wait-until-splashscreen-finishes-executing
@@ -64,6 +68,15 @@ public class RunGame
      */
     public static void startGame(boolean startTitle)
     {
+        game = Game.getCurrent();
+        game.setRunning(true);
+
+        if (isTestRun(startTitle))
+        {
+            startGameForTests();
+            return;
+        }
+
         SplashScreen splash = SplashScreen.getSplashScreen();
         Graphics2D g = null;
         Dimension size = null;
@@ -91,7 +104,6 @@ public class RunGame
         {
             logger.debug("initialize game");
         }
-        game = Game.getCurrent();
         if (game != null)
         {
             if (generate)
@@ -179,6 +191,45 @@ public class RunGame
         {
             GameUtils.initializeRest();
         }
+    }
+
+    private static boolean isTestRun(boolean startTitle)
+    {
+        return !startTitle || Boolean.getBoolean("mtbg.testMode");
+    }
+
+    /**
+     * Lightweight startup path used by tests.
+     * Skips UI, animation, timers and background threads to keep tests deterministic and fast.
+     */
+    private static synchronized void startGameForTests()
+    {
+        if (game == null)
+        {
+            logger.error("game is null, how did this happen?");
+            return;
+        }
+        if (testBootstrapDone)
+        {
+            return;
+        }
+
+        logger.info("start: test bootstrap");
+        GameUtils.initializeAllItems();
+        GameUtils.initializeSpells();
+        GameUtils.initializeSkills();
+        GameUtils.initializeNPCs();
+        game.getMaps().clear();
+        GameUtils.initializeMaps();
+        GameUtils.setStartMap();
+
+        if (game.getCurrentPlayer() == null)
+        {
+            game.addPlayers(GameConfiguration.startPosition);
+        }
+        GameUtils.initializeWeatherSystem();
+        testBootstrapDone = true;
+        logger.info("finish: test bootstrap");
     }
 
 

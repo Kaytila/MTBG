@@ -6,8 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.ui.state.UIState;
-import net.ck.mtbg.ui.state.UIStateMachine;
+import net.ck.mtbg.backend.state.BackendUIStateManager;
 import net.ck.mtbg.util.communication.graphics.PlayerPositionChanged;
 import net.ck.mtbg.util.communication.keyboard.framework.ActionFactory;
 import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
@@ -30,8 +29,7 @@ public class IdleActionListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        //TODO do I need to keep activated as a separate state?
-        if ((UIStateMachine.getUiState().equals(UIState.OPENED)) || (UIStateMachine.getUiState().equals(UIState.ACTIVATED)))
+        if (BackendUIStateManager.isIdleTimerAllowed())
         {
             if (GameConfiguration.debugTimers == true)
             {

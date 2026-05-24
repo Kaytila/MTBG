@@ -1,33 +1,22 @@
 package net.ck.mtbg.util.utils;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
-import net.ck.mtbg.backend.entities.entities.LifeForm;
 import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.FurnitureItem;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
 import net.ck.mtbg.map.TileTypes;
-import net.ck.mtbg.map.json.MapJsonV2;
-import net.ck.mtbg.map.json.MapJsonV2IO;
 import net.ck.mtbg.ui.components.game.AbstractMapCanvas;
 import net.ck.mtbg.util.communication.keyboard.framework.KeyboardActionType;
-import net.ck.mtbg.util.ui.WindowBuilder;
-import net.ck.mtbg.util.xml.RunXMLParser;
 import net.ck.mtbg.weather.DayNight;
 import org.apache.commons.lang3.Range;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -36,16 +25,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Log4j2
 @Getter
@@ -148,54 +132,7 @@ public class MapUtils
      */
     public static void createMap(int x, int y, TileTypes type)
     {
-        logger.info("begin creating Map with (zero-indexed) x: {} and y: {} and type: {}", x, y, type);
-        int id;
-
-        String fileName = ("maps" + File.separator + "Testmap2.xml");
-        StringBuilder contents = new StringBuilder("""
-                <?xml version="1.0" encoding="UTF-8"?>\r
-                <map>\r
-                \t<meta>\r
-                \t\t<weather>true</weather>\r
-                \t\t<weatherrandomness>10</weatherrandomness>\r
-                \t\t<wrapping>true</wrapping>\r
-                \t\t<name>testname</name>\r
-                \t\t<parent></parent>\r
-                \t</meta>\r
-                \t<tiles>
-                """);
-
-        for (int j = 0; j <= y; j++)
-        {
-            for (int i = 0; i <= x; i++)
-            {
-                id = (i + 1) + ((y + 1) * j);
-
-                if (id % 2 == 0)
-                {
-                    type = TileTypes.GRASS;
-                }
-                else
-                {
-                    type = TileTypes.OCEAN;
-                }
-
-
-                contents.append("\t\t<tile>\r\n").append("\t\t\t<id>").append(id).append("</id>\r\n").append("\t\t\t<type>").append(type).append("</type>\r\n").append("\t\t\t<x>").append(i).append("</x>\r\n").append("\t\t\t<y>").append(j).append("</y>\r\n").append("\t\t</tile>\r\n");
-            }
-        }
-
-        contents.append("	</tiles>\r\n").append("</map>");
-
-        try
-        {
-            Files.writeString(Paths.get(fileName), contents.toString(), StandardCharsets.UTF_8);
-        }
-        catch (IOException e)
-        {
-            logger.error("issue writing map file");
-        }
-        logger.info("finished writing map");
+        MapPersistenceUtils.createMap(x, y, type);
     }
 
     /**
@@ -219,28 +156,7 @@ public class MapUtils
 
     public static ArrayList<MapTile> calculateVisibleTiles(MapTile tile, int range)
     {
-        ArrayList<MapTile> visibleTiles = new ArrayList<>();
-        Rectangle visibleRect = new Rectangle(tile.x - range, tile.y - range, range + range, range + range);
-        Range<Integer> rangeX = Range.of(visibleRect.x, visibleRect.x + (int) visibleRect.getWidth());
-        Range<Integer> rangeY = Range.of(visibleRect.y, visibleRect.y + (int) visibleRect.getHeight());
-
-        for (int row = 0; row < GameConfiguration.numberOfTiles; row++)
-        {
-            for (int column = 0; column < GameConfiguration.numberOfTiles; column++)
-            {
-                if (UILense.getCurrent().mapTiles[row][column] == null)
-                {
-                    continue;
-                }
-                if ((rangeY.contains(UILense.getCurrent().mapTiles[row][column].getY()) && (rangeX.contains(UILense.getCurrent().mapTiles[row][column].getX()))))
-                {
-                    //logger.debug("tile: {}", UILense.getCurrent().mapTiles[row][column]);
-                    visibleTiles.add(UILense.getCurrent().mapTiles[row][column]);
-                }
-
-            }
-        }
-        return visibleTiles;
+        return MapRenderUtils.calculateVisibleTiles(tile, range);
     }
 
     /**
@@ -395,185 +311,13 @@ public class MapUtils
 
     public static Map importUltima4MapFromCSV()
     {
-        Map ultima4Map = new Map();
-        ultima4Map.setName("Ultima4");
-        ultima4Map.setWrapping(false);
-        ultima4Map.setWeatherSystem(true);
-        ultima4Map.setSyncedWeatherSystem(false);
-        ultima4Map.setWeatherRandomness(10);
-        ultima4Map.setSize(new Point(255, 255));
-        MapTile[][] mapTiles = new MapTile[255][255];
-        try (CSVReader reader = new CSVReader(new FileReader("maps" + File.separator + "ultima4._Clean terrain.csv")))
-        {
-            List<String[]> r = reader.readAll();
-            //r.forEach(x -> logger.info(Arrays.toString(x)));
-            int row = 0;
-            int id = 0;
-            for (String[] line : r)
-            {
-
-                for (int column = 0; column <= 255; column++)
-                {
-                    MapTile tile = new MapTile();
-                    tile.setMapPosition(new Point(column, row));
-                    tile.setX(column);
-                    tile.setY(row);
-                    tile.setId(id);
-                    tile.setTargetID(-1);
-                    tile.setTargetMap("");
-                    switch (line[column])
-                    {
-                        case "1":
-                            tile.setType(TileTypes.OCEAN);
-                            break;
-                        case "2":
-                            tile.setType(TileTypes.SHALLOWOCEAN);
-                            break;
-                        case "3":
-                            tile.setType(TileTypes.REEF);
-                            break;
-                        case "4":
-                            tile.setType(TileTypes.SWAMP);
-                            break;
-                        case "5":
-                            tile.setType(TileTypes.GRASS);
-                            break;
-                        case "6":
-                            tile.setType(TileTypes.BUSH);
-                            break;
-                        case "9":
-                            tile.setType(TileTypes.DENSEFOREST);
-                            break;
-                        case "11":
-                            tile.setType(TileTypes.HILL);
-                            break;
-                        case "12":
-                            tile.setType(TileTypes.MOUNTAIN);
-                            break;
-                        case "13":
-                            tile.setType(TileTypes.STEEPMOUNTAIN);
-                            break;
-                        case "143":
-                            tile.setType(TileTypes.LAVA);
-                            break;
-                        default:
-                            logger.info("value: {} still unknown", line[column]);
-                            break;
-                    }
-                    //logger.info("tile: {}", tile);
-                    mapTiles[column][row] = tile;
-                    id++;
-                }
-                row++;
-            }
-        }
-        catch (IOException | CsvException e)
-        {
-            logger.error("Error reading ultima 4 map file");
-        }
-        try
-        {
-            MapUtils.writeMapToXML(ultima4Map);
-        }
-        catch (IOException e)
-        {
-            logger.error("Error writing ultima 4 xml file");
-        }
-        ultima4Map.setMapTiles(mapTiles);
-        return ultima4Map;
+        return MapPersistenceUtils.importUltima4MapFromCSV();
     }
 
 
     public static Map importMapFromTXT()
     {
-        Map map = new Map();
-        map.setName("Ultima4");
-        map.setWrapping(false);
-        map.setWeatherSystem(true);
-        map.setSyncedWeatherSystem(false);
-        map.setWeatherRandomness(10);
-        map.setSize(new Point(255, 255));
-        MapTile[][] mapTiles = new MapTile[255][255];
-        try (CSVReader reader = new CSVReader(new FileReader("maps" + File.separator + "ultima4._Clean terrain.csv")))
-        {
-            List<String[]> r = reader.readAll();
-            //r.forEach(x -> logger.info(Arrays.toString(x)));
-            int row = 0;
-            int id = 0;
-            for (String[] line : r)
-            {
-
-                for (int column = 0; column <= 255; column++)
-                {
-                    MapTile tile = new MapTile();
-                    tile.setMapPosition(new Point(column, row));
-                    tile.setX(column);
-                    tile.setY(row);
-                    tile.setId(id);
-                    tile.setTargetID(-1);
-                    tile.setTargetMap("");
-                    switch (line[column])
-                    {
-                        case "1":
-                            tile.setType(TileTypes.OCEAN);
-                            break;
-                        case "2":
-                            tile.setType(TileTypes.SHALLOWOCEAN);
-                            break;
-                        case "3":
-                            tile.setType(TileTypes.REEF);
-                            break;
-                        case "4":
-                            tile.setType(TileTypes.SWAMP);
-                            break;
-                        case "5":
-                            tile.setType(TileTypes.GRASS);
-                            break;
-                        case "6":
-                            tile.setType(TileTypes.BUSH);
-                            break;
-                        case "9":
-                            tile.setType(TileTypes.DENSEFOREST);
-                            break;
-                        case "11":
-                            tile.setType(TileTypes.HILL);
-                            break;
-                        case "12":
-                            tile.setType(TileTypes.MOUNTAIN);
-                            break;
-                        case "13":
-                            tile.setType(TileTypes.STEEPMOUNTAIN);
-                            break;
-                        case "143":
-                            tile.setType(TileTypes.LAVA);
-                            break;
-                        default:
-                            logger.debug("value: {} still unknown", line[column]);
-                            break;
-                    }
-                    //logger.info("tile: {}", tile);
-                    mapTiles[column][row] = tile;
-                    id++;
-                }
-                row++;
-            }
-        }
-        catch (IOException | CsvException e)
-        {
-            //e.printStackTrace();
-            logger.debug("issue here: {}", e.toString());
-        }
-        try
-        {
-            MapUtils.writeMapToXML(map);
-        }
-        catch (IOException e)
-        {
-            logger.debug("issue here: {}", e.toString());
-            //e.printStackTrace();
-        }
-        map.setMapTiles(mapTiles);
-        return map;
+        return MapPersistenceUtils.importMapFromTXT();
     }
 
 
@@ -591,91 +335,7 @@ public class MapUtils
      */
     public static void writeMapToXML(Map map) throws IOException
     {
-        ArrayList<LifeForm> npcs = new ArrayList<>();
-        BufferedWriter writer = null;
-        String fileName = GameConfiguration.mapFileRootPath + File.separator + CodeUtils.removeFileExtension(map.getName(), true) + ".xml";
-
-        Path filePath = Paths.get(fileName);
-        if (Files.exists(filePath))
-        {
-            logger.debug("Map: {} already exists", fileName);
-            //return;
-        }
-        try
-        {
-            writer = new BufferedWriter(new FileWriter(fileName));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        Objects.requireNonNull(writer).write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        writer.write("<map>");
-        writer.write("<meta>");
-        writer.write("<weather>" + map.isWeatherSystem() + "</weather>");
-        writer.write("<weatherrandomness>10</weatherrandomness>");
-        writer.write("<wrapping>false</wrapping>");
-        writer.write("<name>" + CodeUtils.removeFileExtension(map.getName(), true) + "</name>");
-        writer.write("<visibility>1</visibility>");
-        writer.write("<visibility>1</visibility>");
-        writer.write("<parent>" + map.getParentMap() + "</parent>");
-        writer.write("</meta>");
-        writer.write("<tiles>");
-
-
-        for (int x = 0; x < map.getSize().x; x++)
-        {
-            for (int y = 0; y < map.getSize().y; y++)
-            {
-                MapTile tile = map.mapTiles[x][y];
-                if (tile.getLifeForm() != null)
-                {
-                    npcs.add(tile.getLifeForm());
-                }
-                writer.write(tile.toXML());
-            }
-        }
-        writer.write("</tiles>");
-        writer.write("<npcs>");
-        for (LifeForm n : npcs)
-        {
-            writer.write(n.toXML());
-        }
-        writer.write("</npcs>");
-        writer.write("</map>");
-        writer.close();
-
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setValidating(false);
-        DocumentBuilder db = null;
-        try
-        {
-            db = dbf.newDocumentBuilder();
-        }
-        catch (ParserConfigurationException e)
-        {
-            e.printStackTrace();
-        }
-
-        Document doc = null;
-        try
-        {
-            doc = Objects.requireNonNull(db).parse(new FileInputStream(fileName));
-        }
-        catch (SAXException e)
-        {
-            e.printStackTrace();
-        }
-        try
-        {
-            prettyPrint(doc, fileName);
-        }
-        catch (TransformerException e)
-        {
-            e.printStackTrace();
-        }
-
+        MapPersistenceUtils.writeMapToXML(map);
     }
 
     /**
@@ -684,13 +344,7 @@ public class MapUtils
      */
     public static void exportCurrentMapAsJsonV2(Path jsonFile) throws IOException
     {
-        Map currentMap = Game.getCurrent().getCurrentMap();
-        if (currentMap == null)
-        {
-            throw new IOException("No current map available for JSON export");
-        }
-        MapJsonV2 model = MapJsonV2.fromMap(currentMap);
-        MapJsonV2IO.writeToFile(model, jsonFile);
+        MapPersistenceUtils.exportCurrentMapAsJsonV2(jsonFile);
     }
 
     /**
@@ -698,13 +352,7 @@ public class MapUtils
      */
     public static void translateXmlMapToJsonV2(Path xmlFile, Path jsonFile) throws IOException
     {
-        Map parsedMap = RunXMLParser.parseMap(xmlFile.toFile().getAbsolutePath());
-        if (parsedMap == null)
-        {
-            throw new IOException("Failed to parse XML map: " + xmlFile);
-        }
-        MapJsonV2 model = MapJsonV2.fromMap(parsedMap);
-        MapJsonV2IO.writeToFile(model, jsonFile);
+        MapPersistenceUtils.translateXmlMapToJsonV2(xmlFile, jsonFile);
     }
 
     private static void prettyPrint(Document document, String fileName) throws TransformerException
@@ -793,232 +441,7 @@ public class MapUtils
      */
     public static void calculateTiles(Graphics g)
     {
-        //reset
-        for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
-        {
-            for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
-            {
-                MapTile t = UILense.getCurrent().bufferedMapTiles[row][column];
-
-                if (t == null)
-                {
-                    //this is null for all the empty tiles that are drawn at the outer limits to fill out the blank space between the end of the map
-                    //and the end of the UI element
-                    //logger.debug("null tile");
-                    continue;
-                }
-                t.setHidden(false);
-                t.setBrightenFactor(0);
-
-                if (MapUtils.checkForLightSourceAround(t))
-                {
-                    t.setBrightenFactor(1);
-                }
-
-                /*else
-                {
-                    t.setBrightenFactor(0);
-                }*/
-            }
-        }
-        //paint LoS
-//        long start = System.nanoTime();
-        int pX = Game.getCurrent().getCurrentPlayer().getUIPosition().x;
-        int pY = Game.getCurrent().getCurrentPlayer().getUIPosition().y;
-        int visibilityRange = Game.getCurrent().getCurrentMap().getVisibilityRange();
-
-        for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
-        {
-            for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
-            {
-                boolean blocked = false;
-                boolean first = true;
-                BufferedImage img;
-                MapTile t = UILense.getCurrent().bufferedMapTiles[row][column];
-                if (t == null)
-                {
-                    continue;
-                }
-
-                // Keep legacy pipeline consistent with visibility-limited nights/dawn/dusk.
-                // Exception: tiles illuminated by a nearby light source remain visible.
-                if (Math.abs(row - pX) > visibilityRange || Math.abs(column - pY) > visibilityRange)
-                {
-                    if (t.getBrightenFactor() <= 0)
-                    {
-                        t.setHidden(true);
-                        continue;
-                    }
-                    // tile is lit by a nearby light source - let LOS decide below
-                }
-
-                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
-                {
-                    t.setBrightenedImage(null);
-                    img = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
-                }
-                /*
-                 * identify the light range
-                 * pre-brighten the images
-                 */
-                if (t.getFurniture() != null)
-                {
-                    FurnitureItem item = t.getFurniture();
-                    if (item.isLightSource())
-                    {
-                        if (item.isBurning())
-                        {
-                            int lightrange = item.getLightRange();
-                            ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
-                            for (MapTile tile : tiles)
-                            {
-                                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
-                                {
-                                    tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
-                                }
-                                else
-                                {
-                                    tile.setBrightenFactor(1);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // check items in the tile inventory as light sources (e.g. torch on the floor)
-                if (!t.getInventory().isEmpty())
-                {
-                    for (int invIdx = 0; invIdx < t.getInventory().getSize(); invIdx++)
-                    {
-                        AbstractItem invItem = t.getInventory().get(invIdx);
-                        if (invItem instanceof FurnitureItem lightItem && lightItem.isLightSource() && lightItem.isBurning())
-                        {
-                            int lightrange = lightItem.getLightRange();
-                            ArrayList<MapTile> tiles = MapUtils.calculateVisibleTiles(t, lightrange);
-                            for (MapTile tile : tiles)
-                            {
-                                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
-                                {
-                                    tile.setBrightenedImage(ImageUtils.brightenUpImage(img, tile.getBrightenFactor(), tile.getBrightenFactor()));
-                                }
-                                else
-                                {
-                                    tile.setBrightenFactor(1);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (GameConfiguration.calculateBrightenUpImageInPaint == false)
-                {
-                    if (t.getBrightenedImage() == null)
-                    {
-                        int absX = Math.abs(pX - row);
-                        int absY = Math.abs(pY - column);
-                        t.setBrightenedImage(ImageUtils.brightenUpImage(img, absX, absY));
-                    }
-                }
-                else
-                {
-                    /*if (checkForLightSourceAround(t))
-                    {
-                        t.setBrightenFactor(1);
-                    }*/
-
-
-                    if (t.getBrightenFactor() > 0)
-                    {
-
-                    }
-                    else
-                    {
-                        int absX = Math.abs(pX - row);
-                        int absY = Math.abs(pY - column);
-                        //logger.debug("t: {} {}", t, Math.max(absX, absY));
-                        t.setBrightenFactor(Math.max(absX, absY));
-                    }
-                }
-                /*
-                 * raycasting starts here
-                 */
-                ArrayList<Point> line = MapUtils.getLine(Game.getCurrent().getCurrentPlayer().getUIPosition(), new Point(row, column));
-                for (Point po : line)
-                {
-                    MapTile tl = UILense.getCurrent().bufferedMapTiles[po.x][po.y];
-
-                    if (tl == null)
-                    {
-                        continue;
-                    }
-                    if (GameConfiguration.debugLOS)
-                    {
-                        g.setColor(Color.YELLOW);
-                        g.drawLine(Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), Game.getCurrent().getCurrentPlayer().getUIPosition().x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
-                    }
-                    if (tl.isBlocksLOS())
-                    {
-                        //logger.info("t: {}", t);
-                        blocked = true;
-                        if (first)
-                        {
-                            first = false;
-                            continue;
-                        }
-                        else
-                        {
-                            if (isAdjacent(tl.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
-                            {
-                                if (GameConfiguration.debugLOS)
-                                {
-                                    logger.debug("next to player, do not block");
-                                }
-                            }
-                            else
-                            {
-                                tl.setHidden(true);
-                                if (GameConfiguration.debugLOS)
-                                {
-                                    g.setColor(Color.GRAY);
-                                    g.drawString("B", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
-                                }
-                            }
-                        }
-
-                    }
-                    if (blocked)
-                    {
-                        if (isAdjacent(tl.getMapPosition(), Game.getCurrent().getCurrentPlayer().getMapPosition()))
-                        {
-                            if (GameConfiguration.debugLOS)
-                            {
-                                logger.debug("next to player, do not block");
-                            }
-                        }
-                        else
-                        {
-                            tl.setHidden(true);
-                            if (GameConfiguration.debugLOS)
-                            {
-                                g.setColor(Color.GRAY);
-                                g.drawString("B", po.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), po.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
-                            }
-                            //logger.info("Maptile {} is hidden", t);
-                        }
-                    }
-                }
-
-                if (!t.isHidden())
-                {
-                    t.setDiscovered(true);
-                    if (GameConfiguration.debugDiscovered)
-                    {
-                        g.drawString("D", row * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), column * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2));
-                    }
-                }
-            }
-        }
-        //logger.info("raycasting calculation takes: {} nanoseconds", System.nanoTime() - start);
+        MapRenderUtils.calculateTiles(g);
     }
 
     /**
@@ -1090,23 +513,7 @@ public class MapUtils
 
     public static Point calculateMapSize(ArrayList<MapTile> maptiles)
     {
-        int x = 0;
-        int y = 0;
-        for (MapTile tile : maptiles)
-        {
-            if (tile.x > x)
-            {
-                x = tile.x;
-            }
-
-            if (tile.y > y)
-            {
-                y = tile.y;
-            }
-        }
-        return new Point(x + 1, y + 1);
-
-
+        return MapPersistenceUtils.calculateMapSize(maptiles);
     }
 
     /**
@@ -1216,61 +623,7 @@ public class MapUtils
 
     public static void translateTextMaps()
     {
-        logger.debug("START: text map translate");
-        File folder = new File(GameConfiguration.txtMapRootFilePath);
-        File[] listOfFiles = folder.listFiles();
-
-        assert listOfFiles != null;
-        for (File file : listOfFiles)
-        {
-            logger.debug("File: {}", file.getName());
-            if (file.isFile())
-            {
-                //hopefully it is a valid map!
-                if (file.getName().endsWith(".txt"))
-                {
-                    logger.debug("START: parse map");
-                    ArrayList<MapTile> mapTiles = new ArrayList<>();
-                    Map map = new Map();
-                    map.setWeatherRandomness(0);
-                    map.setName(file.getName());
-                    try
-                    {
-                        int id = 0;
-                        BufferedReader reader = new BufferedReader(new FileReader(GameConfiguration.txtMapRootFilePath + File.separator + file.getName()));
-                        String line = reader.readLine();
-                        int lineIndex = 0;
-                        while (line != null)
-                        {
-                            id = parseMapLine(map, line, lineIndex, mapTiles, id);
-                            lineIndex++;
-                            line = reader.readLine();
-                        }
-                        map.setSize(calculateMapSize(mapTiles));
-                        map.setMapTiles(calculateMapTileArray(mapTiles, map.getSize()));
-                        //Game.getCurrent().getMaps().add(map);
-                        reader.close();
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    logger.info("END: parse File");
-                    logger.info("START: write xml file");
-                    try
-                    {
-                        writeMapToXML(map);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    logger.info("END: write xml file");
-
-                }
-            }
-        }
-        logger.info("END: text map translate");
+        MapPersistenceUtils.translateTextMaps();
     }
 
     /**
@@ -1292,78 +645,12 @@ public class MapUtils
 
     public static int parseMapLine(Map map, String line, int lineIndex, ArrayList<MapTile> tiles, int id)
     {
-        AtomicInteger rowIndex = new AtomicInteger();
-        AtomicInteger ide = new AtomicInteger(id);
-        line.chars().forEach(c ->
-        {
-            MapTile tile = new MapTile();
-            tile.setY(lineIndex);
-            tile.setX(rowIndex.getAndIncrement());
-            tile.setId(ide.getAndIncrement());
-            tile.setMapPosition(new Point(tile.getX(), tile.getY()));
-            tile.setType(mapTXTtoTerrainTypes((String.valueOf((char) c))));
-            tiles.add(tile);
-        });
-        return ide.intValue();
+        return MapPersistenceUtils.parseMapLine(map, line, lineIndex, tiles, id);
     }
 
     public static void translateJSONMap()
     {
-        logger.debug("START: json map translate");
-        File folder = new File(GameConfiguration.txtMapRootFilePath);
-        File[] listOfFiles = folder.listFiles();
-
-        assert listOfFiles != null;
-        for (File file : listOfFiles)
-        {
-            logger.debug("File: {}", file.getName());
-            if (file.isFile())
-            {
-                //hopefully it is a valid map!
-                if (file.getName().endsWith(".txt"))
-                {
-                    logger.debug("START: parse map");
-                    ArrayList<MapTile> mapTiles = new ArrayList<>();
-                    Map map = new Map();
-                    map.setWeatherRandomness(0);
-                    map.setName(file.getName());
-                    try
-                    {
-                        int id = 0;
-                        BufferedReader reader = new BufferedReader(new FileReader(GameConfiguration.txtMapRootFilePath + File.separator + file.getName()));
-                        String line = reader.readLine();
-                        int lineIndex = 0;
-                        while (line != null)
-                        {
-                            id = parseMapLine(map, line, lineIndex, mapTiles, id);
-                            lineIndex++;
-                            line = reader.readLine();
-                        }
-                        map.setSize(calculateMapSize(mapTiles));
-                        map.setMapTiles(calculateMapTileArray(mapTiles, map.getSize()));
-                        //Game.getCurrent().getMaps().add(map);
-                        reader.close();
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    logger.info("END: parse File");
-                    logger.info("START: write xml file");
-                    try
-                    {
-                        writeMapToXML(map);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    logger.info("END: write xml file");
-
-                }
-            }
-        }
-        logger.info("END: json map translate");
+        MapPersistenceUtils.translateJSONMap();
     }
 
     private static TileTypes mapTXTtoTerrainTypes(String s)
@@ -1381,156 +668,17 @@ public class MapUtils
 
     public static void calculateVisibleTileImages(Graphics graphics)
     {
-        long start = System.nanoTime();
-        for (int row = 0; row < GameConfiguration.numberOfTiles + 2; row++)
-        {
-            for (int column = 0; column < GameConfiguration.numberOfTiles + 2; column++)
-            {
-                MapTile t = UILense.getCurrent().bufferedMapTiles[row][column];
-                if (t == null)
-                {
-                    //not existing tiles, we need to handle somewhere else probably
-                    continue;
-                }
-
-                if (t.isHidden())
-                {
-                    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
-                }
-                else
-                {
-                    BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
-                    Graphics g = image.getGraphics();
-
-                    BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
-                    g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
-
-                    /*if (t.getLifeForm() != null)
-                    {
-                        if (GameConfiguration.useImageManager == true)
-                        {
-                            BufferedImage bufferedImage = ImageManager.getLifeformImages().get(t.getLifeForm().getType())[t.getLifeForm().getCurrImage()];
-                            g.drawImage(bufferedImage, (GameConfiguration.tileSize / 4), (GameConfiguration.tileSize / 4), null);
-
-                        }
-                    }
-                    else*/
-                    if (t.getFurniture() != null)
-                    {
-                        g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);
-                    }
-                    else if ((t.getInventory().isEmpty() == false) && (t.getInventory().get(0) != null))
-                    {
-                        g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
-                    }
-                    t.setCalculatedImage(image);
-                    t.setDiscovered(true);
-                }
-            }
-        }
-        if (GameConfiguration.debugPaint == true)
-        {
-            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-            logger.debug("calculation time: {}", convert);
-        }
+        MapRenderUtils.calculateVisibleTileImages(graphics);
     }
 
     public static void calculateAllTileImages(Map map)
     {
-        long start = System.nanoTime();
-
-        for (int row = 0; row < map.getSize().y; row++)
-        {
-            for (int column = 0; column < map.getSize().x; column++)
-            {
-                MapTile t = map.mapTiles[row][column];
-                if (t == null)
-                {
-                    //not existing tiles, we need to handle somewhere else probably
-                    continue;
-                }
-
-                //if (t.isHidden())
-                //{
-                //    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
-                //}
-                //else
-                //{
-                BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
-                Graphics g = image.getGraphics();
-
-                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(WindowBuilder.getGridCanvas().getCurrentBackgroundImage());
-                //g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
-                g.drawImage(bgImage, 0, 0, null);
-
-                if (GameConfiguration.drawFurnitureOnAutoMap == true)
-                {
-                    if (t.getFurniture() != null)
-                    {
-                        g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);
-                    }
-                    else if ((t.getInventory().isEmpty() == false) && (t.getInventory().get(0) != null))
-                    {
-                        g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
-                    }
-                    t.setCalculatedImage(image);
-                }
-            }
-        }
-        if (GameConfiguration.debugPaint == true)
-        {
-            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-            logger.debug("calculation time: {}", convert);
-        }
+        MapRenderUtils.calculateAllTileImages(map);
     }
 
     public static void calculateAllTileImages(Map map, Graphics graphics, AbstractMapCanvas canvas, int x, int y)
     {
-        long start = System.nanoTime();
-
-        for (int row = 0; row < y; row++)
-        {
-            for (int column = 0; column < x; column++)
-            {
-                MapTile t = map.mapTiles[row][column];
-                if (t == null)
-                {
-                    //not existing tiles, we need to handle somewhere else probably
-                    continue;
-                }
-
-                //if (t.isHidden())
-                //{
-                //    t.setCalculatedImage(ImageUtils.createImage(Color.BLACK, GameConfiguration.tileSize));
-                //}
-                //else
-                //{
-                BufferedImage image = new BufferedImage(GameConfiguration.tileSize, GameConfiguration.tileSize, BufferedImage.TYPE_INT_ARGB);
-                Graphics g = image.getGraphics();
-
-                BufferedImage bgImage = ImageUtils.getTileTypeImages().get(t.getType()).get(canvas.getCurrentBackgroundImage());
-                //g.drawImage(ImageUtils.brightenUpImage(bgImage, t.getBrightenFactor(), t.getBrightenFactor()), 0, 0, null);
-                g.drawImage(bgImage, 0, 0, null);
-
-                if (GameConfiguration.drawFurnitureOnAutoMap == true)
-                {
-                    if (t.getFurniture() != null)
-                    {
-                        g.drawImage(t.getFurniture().getItemImage(), 0, 0, null);
-                    }
-                    else if ((t.getInventory().isEmpty() == false) && (t.getInventory().get(0) != null))
-                    {
-                        g.drawImage(t.getInventory().get(0).getItemImage(), 0, 0, null);
-                    }
-                    t.setCalculatedImage(image);
-                }
-            }
-        }
-        if (GameConfiguration.debugPaint == true)
-        {
-            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-            logger.debug("calculation time: {}", convert);
-        }
+        MapRenderUtils.calculateAllTileImages(map, graphics, canvas, x, y);
     }
 
 
@@ -1543,23 +691,7 @@ public class MapUtils
      */
     public static MapTile getClosestLightSourceInVicinity(MapTile tile, int range, boolean burning)
     {
-        ArrayList<MapTile> visibleTiles = getMapTilesAroundPointByDistance(tile, range);
-
-        for (MapTile t : visibleTiles)
-        {
-            if (t.getFurniture() != null)
-            {
-                if (t.getFurniture().isLightSource())
-                {
-                    if (t.getFurniture().isBurning() == burning)
-                    {
-                        return t;
-                    }
-                }
-            }
-        }
-
-        return null;
+        return MapRenderUtils.getClosestLightSourceInVicinity(tile, range, burning);
     }
 
 
@@ -1573,162 +705,7 @@ public class MapUtils
 
     public static void calculateVisibleTilesAroundPlayer(Graphics graphics)
     {
-        final long start = System.nanoTime();
-
-        // --- shared invariants (hot lookups cached once) ---
-        final int tileSize = GameConfiguration.tileSize;
-        final int numberOfTiles = GameConfiguration.numberOfTiles;
-        final int half = numberOfTiles / 2;
-        final Point playerMapPos = Game.getCurrent().getCurrentPlayer().getMapPosition();
-        final Point mapSize = Game.getCurrent().getCurrentMap().getSize();
-        final int visibilityRange = Game.getCurrent().getCurrentMap().getVisibilityRange();
-        final MapTile[][] world = Game.getCurrent().getCurrentMap().mapTiles;
-        final MapTile[][] lense = UILense.getCurrent().mapTiles;
-        final int bgIndex = WindowBuilder.getGridCanvas().getCurrentBackgroundImage();
-        final BufferedImage blackTile = ImageUtils.createImage(Color.BLACK, tileSize);
-        final int originX = playerMapPos.x - half;
-        final int originY = playerMapPos.y - half;
-
-        // ============================================================
-        // PASS 1 - refresh lense + reset visibility / brighten factor
-        // ============================================================
-        for (int uiRow = 0; uiRow < numberOfTiles; uiRow++)
-        {
-            final int mapX = originX + uiRow;
-            for (int uiCol = 0; uiCol < numberOfTiles; uiCol++)
-            {
-                final int mapY = originY + uiCol;
-
-                if (mapX < 0 || mapY < 0 || mapX >= mapSize.x || mapY >= mapSize.y)
-                {
-                    lense[uiRow][uiCol] = null; // outside the world
-                    continue;
-                }
-
-                final MapTile tile = world[mapX][mapY];
-                lense[uiRow][uiCol] = tile;
-                if (tile == null)
-                {
-                    continue;
-                }
-
-                tile.setHidden(false);
-                tile.setBrightenFactor(checkForLightSourceAround(tile) ? 1 : 0);
-            }
-        }
-
-        // ============================================================
-        // PASS 2 - LoS (Bresenham, allocation-free, in lense coordinates)
-        // ============================================================
-        // The player sits at (half, half) in lense coordinates by construction.
-        final int playerUiX = half;
-        final int playerUiY = half;
-
-        for (int uiRow = 0; uiRow < numberOfTiles; uiRow++)
-        {
-            for (int uiCol = 0; uiCol < numberOfTiles; uiCol++)
-            {
-                final MapTile target = lense[uiRow][uiCol];
-                if (target == null)
-                {
-                    continue;
-                }
-
-                // Visibility-range gate (e.g. darkness/night): tiles outside range stay hidden,
-                // UNLESS a light source (furniture or inventory item) already illuminated them in Pass 1.
-                if (Math.abs(uiRow - playerUiX) > visibilityRange || Math.abs(uiCol - playerUiY) > visibilityRange)
-                {
-                    if (target.getBrightenFactor() <= 0)
-                    {
-                        target.setHidden(true);
-                        continue;
-                    }
-                    // tile is lit by a nearby light source - let LOS decide visibility below
-                }
-
-                // Bresenham from player -> (uiRow, uiCol)
-                int x0 = playerUiX;
-                int y0 = playerUiY;
-                final int x1 = uiRow;
-                final int y1 = uiCol;
-                final int dxAbs = Math.abs(x1 - x0);
-                final int dyAbsNeg = -Math.abs(y1 - y0);
-                final int sx = x0 < x1 ? 1 : -1;
-                final int sy = y0 < y1 ? 1 : -1;
-                int err = dxAbs + dyAbsNeg;
-
-                boolean blocked = false;
-                boolean firstStep = true;
-
-                while (true)
-                {
-                    final MapTile tl = lense[x0][y0];
-                    if (tl != null)
-                    {
-                        if (tl.isBlocksLOS())
-                        {
-                            // first step is the player tile itself - never block on it
-                            if (firstStep)
-                            {
-                                firstStep = false;
-                            }
-                            else if (!isAdjacentInLense(x0, y0, playerUiX, playerUiY))
-                            {
-                                tl.setHidden(true);
-                            }
-                            blocked = true;
-                        }
-                        else if (blocked && !isAdjacentInLense(x0, y0, playerUiX, playerUiY))
-                        {
-                            tl.setHidden(true);
-                        }
-                    }
-
-                    if (x0 == x1 && y0 == y1)
-                    {
-                        break;
-                    }
-                    final int e2 = 2 * err;
-                    if (e2 >= dyAbsNeg)
-                    {
-                        err += dyAbsNeg;
-                        x0 += sx;
-                    }
-                    if (e2 <= dxAbs)
-                    {
-                        err += dxAbs;
-                        y0 += sy;
-                    }
-                }
-
-                if (!target.isHidden())
-                {
-                    target.setDiscovered(true);
-                }
-            }
-        }
-
-        // ============================================================
-        // PASS 3 - per-tile rendering using the now-correct hidden flag
-        // ============================================================
-        for (int uiRow = 0; uiRow < numberOfTiles; uiRow++)
-        {
-            for (int uiCol = 0; uiCol < numberOfTiles; uiCol++)
-            {
-                final MapTile tile = lense[uiRow][uiCol];
-                if (tile == null)
-                {
-                    continue;
-                }
-                tile.setCalculatedImage(buildTileImage(tile, tileSize, bgIndex, blackTile));
-            }
-        }
-
-        if (GameConfiguration.debugPaint)
-        {
-            long convert = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-            logger.debug("calculateVisibleTilesAroundPlayer (LoS+render): {} ms", convert);
-        }
+        MapRenderUtils.calculateVisibleTilesAroundPlayer(graphics);
     }
 
     /**

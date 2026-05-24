@@ -197,6 +197,19 @@ public class NPCUtils
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(sourcePoint), MapUtils.getMapTileByCoordinatesAsPoint(targetPoint), Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
 
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug("A* path result: size={}", path.size());
+        }
+        if (path.isEmpty())
+        {
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.warn("A* returned empty path from {} to {}. NPC waits.", sourcePoint, targetPoint);
+            }
+            return new NPCAction(new SpaceAction());
+        }
+
         for (MapTile node : path)
         {
             logger.info(node);
@@ -239,8 +252,46 @@ public class NPCUtils
      */
     public static Point calculateScreenPositionFromMapPosition(Point mapPoint)
     {
-        Point screenPosition = MapUtils.calculateUIPositionFromMapOffset(mapPoint);
-        return (new Point(screenPosition.x * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2), screenPosition.y * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)));
+        final Point playerMapPosition = Game.getCurrent().getCurrentPlayer().getMapPosition();
+        return calculateScreenPositionFromMapPosition(mapPoint, playerMapPosition);
+    }
+
+    public static Point calculateScreenPositionFromMapPosition(Point mapPoint, Point playerMapPosition)
+    {
+        if (playerMapPosition == null)
+        {
+            Point fallback = Game.getCurrent().getCurrentPlayer().getMapPosition();
+            playerMapPosition = new Point(fallback.x, fallback.y);
+            if (GameConfiguration.debugNPC == true)
+            {
+                logger.debug("calculateScreenPositionFromMapPosition: playerMapPosition was null, fallback used: {}", playerMapPosition);
+            }
+        }
+
+        // Use the exact same transform as entity/tile rendering: player UI anchor + map delta.
+        final Point playerUIPosition = Game.getCurrent().getCurrentPlayer().getUIPosition();
+        final int uiX = playerUIPosition.x + (mapPoint.x - playerMapPosition.x);
+        final int uiY = playerUIPosition.y + (mapPoint.y - playerMapPosition.y);
+
+        final Point result = new Point(
+                uiX * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2),
+                uiY * GameConfiguration.tileSize + (GameConfiguration.tileSize / 2)
+        );
+
+        if (GameConfiguration.debugNPC == true)
+        {
+            logger.debug(
+                    "calculateScreenPositionFromMapPosition: mapPoint={}, playerMapPosition={}, playerUIPosition={}, ui=({}, {}), screen={}",
+                    mapPoint,
+                    playerMapPosition,
+                    playerUIPosition,
+                    uiX,
+                    uiY,
+                    result
+            );
+        }
+
+        return result;
     }
 
     public static Point calculatePlayerPosition()

@@ -168,24 +168,40 @@ public class CommandQueue implements Queue, Serializable
     @Override
     public AbstractKeyboardAction remove()
     {
-        return getActionList().removeFirst();
+        if (getActionList().isEmpty())
+        {
+            throw new NoSuchElementException("CommandQueue is empty");
+        }
+        return getActionList().remove(0);
     }
 
     @Override
     public AbstractKeyboardAction poll()
     {
-        return getActionList().removeFirst();
+        if (getActionList().isEmpty())
+        {
+            return null;
+        }
+        return getActionList().remove(0);
     }
 
     @Override
     public AbstractKeyboardAction element()
     {
-        return getActionList().getFirst();
+        if (getActionList().isEmpty())
+        {
+            throw new NoSuchElementException("CommandQueue is empty");
+        }
+        return getActionList().get(0);
     }
 
     @Override
     public AbstractKeyboardAction peek()
     {
-        return getActionList().getFirst();
+        if (getActionList().isEmpty())
+        {
+            return null;
+        }
+        return getActionList().get(0);
     }
 }

@@ -164,7 +164,16 @@ public class ImageManager
 
     public static Integer getActionImage(ActionStates state)
     {
-        return getActionImages().get(state);
+        Integer imageIndex = getActionImages().get(state);
+        if (imageIndex == null)
+        {
+            if (GameConfiguration.debugStartUp)
+            {
+                logger.debug("missing action image index for {}, fallback to frame 0", state);
+            }
+            return 0;
+        }
+        return imageIndex;
     }
 
 
