@@ -1337,3 +1337,4 @@ Schritt 4: Idle-Timer an Game-Mode statt UI-State koppeln
             overall, this is a big step towards a more modular and testable codebase.
             next steps will be to further decouple remaining UI dependencies and to implement more
             features using this new architecture.
+2026-05-25: all tests pass.

@@ -3,7 +3,6 @@ package net.ck.mtbg.test;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.state.ItemManager;
-import net.ck.mtbg.items.AbstractItem;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.run.RunGame;
 import org.junit.jupiter.api.*;
@@ -18,6 +17,7 @@ public class SearchGetDropTest
     public static void setUpBeforeClass()
     {
         logger.info("GameTest: setupBeforeClass begin");
+        System.setProperty("mtbg.testMode", "true");
         RunGame.startGame(false);
 
         Game.getCurrent().getCurrentMap().getLifeForms().clear();
@@ -78,12 +78,17 @@ public class SearchGetDropTest
     @Test
     public void testDrop()
     {
-        AbstractItem item = Game.getCurrent().getCurrentPlayer().getInventory().get(0);
-        Game.getCurrent().getCurrentPlayer().dropItem(item, Game.getCurrent().getCurrentMap().mapTiles[4][2]);
+        var player = Game.getCurrent().getCurrentPlayer();
+        var tile = Game.getCurrent().getCurrentMap().mapTiles[4][2];
 
-        assertFalse(Game.getCurrent().getCurrentPlayer().getInventory().contains(item),
+        // Use a dedicated copy so this test does not depend on shared global item instances.
+        Weapon droppedItem = new Weapon(ItemManager.getWeaponList().get(2));
+        player.getInventory().add(droppedItem);
+
+        assertTrue(player.dropItem(droppedItem, tile), "dropItem() sollte true liefern");
+        assertFalse(player.getInventory().contains(droppedItem),
                 "Gegenstand sollte nach Drop nicht mehr im Spieler-Inventar sein");
-        assertTrue(Game.getCurrent().getCurrentMap().mapTiles[4][2].getInventory().contains(item),
+        assertTrue(tile.getInventory().contains(droppedItem),
                 "Gegenstand sollte nach Drop im Tile-Inventar liegen");
     }
 

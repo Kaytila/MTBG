@@ -5,6 +5,9 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
+import net.ck.mtbg.backend.state.TimerManager;
+import net.ck.mtbg.backend.time.IdleTimer;
+import net.ck.mtbg.ui.highlighting.HighlightTimer;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.sound.GameStateChanged;
@@ -222,6 +225,7 @@ public class RunGame
         game.getMaps().clear();
         GameUtils.initializeMaps();
         GameUtils.setStartMap();
+        initializeTestTimers();
 
         if (game.getCurrentPlayer() == null)
         {
@@ -230,6 +234,24 @@ public class RunGame
         GameUtils.initializeWeatherSystem();
         testBootstrapDone = true;
         logger.info("finish: test bootstrap");
+    }
+
+    private static void initializeTestTimers()
+    {
+        if (TimerManager.getIdleTimer() == null)
+        {
+            TimerManager.setIdleTimer(new IdleTimer(1, e ->
+            {
+            }));
+            TimerManager.getIdleTimer().setRepeats(false);
+        }
+        if (TimerManager.getHighlightTimer() == null)
+        {
+            TimerManager.setHighlightTimer(new HighlightTimer(1, e ->
+            {
+            }));
+            TimerManager.getHighlightTimer().setRepeats(false);
+        }
     }
 
 

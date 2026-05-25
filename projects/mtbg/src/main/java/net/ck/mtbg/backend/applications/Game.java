@@ -16,11 +16,13 @@ import net.ck.mtbg.backend.state.*;
 import net.ck.mtbg.backend.threading.ThreadController;
 import net.ck.mtbg.backend.threading.ThreadNames;
 import net.ck.mtbg.backend.time.GameTime;
+import net.ck.mtbg.backend.time.IdleTimer;
 import net.ck.mtbg.items.ArmorPositions;
 import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.map.AutoMap;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.ui.highlighting.HighlightTimer;
 import net.ck.mtbg.ui.state.UIState;
 import net.ck.mtbg.ui.state.UIStateMachine;
 import net.ck.mtbg.util.communication.graphics.AdvanceTurnEvent;
@@ -260,6 +262,20 @@ public class Game implements Runnable, Serializable
     public synchronized void advanceTurn(PlayerAction action)
     {
         Game.getCurrent().assertNotEdt(action.toString());
+        setPlayerAction(action);
+        boolean testMode = Boolean.getBoolean("mtbg.testMode");
+        if (TimerManager.getIdleTimer() == null)
+        {
+            TimerManager.setIdleTimer(new IdleTimer(1, e ->
+            {
+            }));
+        }
+        if (TimerManager.getHighlightTimer() == null)
+        {
+            TimerManager.setHighlightTimer(new HighlightTimer(1, e ->
+            {
+            }));
+        }
 
         if (Game.getCurrent().getCurrentPlayer() != null && Game.getCurrent().getCurrentPlayer().getMapPosition() != null)
         {
@@ -276,8 +292,14 @@ public class Game implements Runnable, Serializable
         }
         EventBus.getDefault().post(new HighlightEvent(Game.getCurrent().getCurrentPlayer().getMapPosition()));
         Game.getCurrent().getCurrentTurn().setGameState(GameStateMachine.getCurrent().getCurrentState());
-        TimerManager.getIdleTimer().stop();
-        TimerManager.getHighlightTimer().stop();
+        if (!testMode && TimerManager.getIdleTimer() != null)
+        {
+            TimerManager.getIdleTimer().stop();
+        }
+        if (!testMode && TimerManager.getHighlightTimer() != null)
+        {
+            TimerManager.getHighlightTimer().stop();
+        }
 
         //logger.info("waiting for missile to finish");
         waitForAnimationsToComplete();
@@ -334,7 +356,7 @@ public class Game implements Runnable, Serializable
         logger.info("TURN ENDS");
         logger.info("Current Game Time: {}", getGameTime().toString());
         logger.info("=======================================================================================");
-        if (BackendUIStateManager.isIdleTimerAllowed())
+        if (!testMode && BackendUIStateManager.isIdleTimerAllowed() && TimerManager.getIdleTimer() != null)
         {
             TimerManager.getIdleTimer().start();
         }
@@ -343,9 +365,12 @@ public class Game implements Runnable, Serializable
             logger.info("idle timer blocked by game mode: {}", BackendUIStateManager.getGameMode());
         }
 
-        if (UIStateMachine.isUiOpen())
+        if (!testMode && UIStateMachine.isUiOpen())
         {
-            TimerManager.getHighlightTimer().start();
+            if (TimerManager.getHighlightTimer() != null)
+            {
+                TimerManager.getHighlightTimer().start();
+            }
             if (GameConfiguration.debugEvents == true)
             {
                 logger.debug("fire highlighting event in advanceTurn");

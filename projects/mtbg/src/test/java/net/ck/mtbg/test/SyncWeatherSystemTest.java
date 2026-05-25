@@ -15,6 +15,7 @@ public class SyncWeatherSystemTest
     @BeforeAll
     public static void setUpBeforeClass()
     {
+        System.setProperty("mtbg.testMode", "true");
         RunGame.startGame(false);
     }
 

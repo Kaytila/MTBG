@@ -189,8 +189,21 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public boolean dropItem(AbstractItem affectedItem, MapTile tile)
     {
+        if (affectedItem == null || tile == null || tile.getInventory() == null)
+        {
+            return false;
+        }
+        if (getInventory() == tile.getInventory())
+        {
+            logger.warn("dropItem aborted: source and target inventory are identical");
+            return false;
+        }
+        if (!this.dropItem(affectedItem))
+        {
+            return false;
+        }
         tile.getInventory().add(affectedItem);
-        return this.dropItem(affectedItem);
+        return true;
     }
 
 
@@ -327,8 +340,12 @@ public abstract class AbstractEntity implements LifeForm, Serializable
 
     public boolean dropItem(AbstractItem item)
     {
+        if (item == null || !getInventory().contains(item))
+        {
+            return false;
+        }
         getInventory().remove(item);
-        return true;
+        return !getInventory().contains(item);
     }
 
     public void equipItem(int selectionIndex)
@@ -514,7 +531,7 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         // Post backend animation state change event
                         AnimationStateManager.setHitMissAnimationRunning(true);
                         EventBus.getDefault().post(new BackendAnimationStateChanged(AnimationStateManager.getAnimationState()));
-                        
+
                         HitMissImageTimerTask task = new HitMissImageTimerTask(n);
                         TimerManager.getHitMissImageTimer().setHitMissImageTimerTask(task);
                         TimerManager.getHitMissImageTimer().schedule(TimerManager.getHitMissImageTimer().getHitMissImageTimerTask(), GameConfiguration.hitormissTimerDuration);
@@ -704,14 +721,22 @@ public abstract class AbstractEntity implements LifeForm, Serializable
             setState(LifeFormState.DEAD);
             setHostile(false);
         }
-        setHealth(-1);
-        setState(LifeFormState.DEAD);
-        setHostile(false);
 
         if (getState().equals(LifeFormState.DEAD))
         {
-            Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() - 1);
-            MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition()).setBlocked(false);
+            if (Game.getCurrent() != null && Game.getCurrent().getCurrentMap() != null)
+            {
+                Game.getCurrent().getCurrentMap().setSpawnCounter(Game.getCurrent().getCurrentMap().getSpawnCounter() - 1);
+            }
+            MapTile currentTile = null;
+            if (this.getMapPosition() != null)
+            {
+                currentTile = MapUtils.getMapTileByCoordinatesAsPoint(this.getMapPosition());
+            }
+            if (currentTile != null)
+            {
+                currentTile.setBlocked(false);
+            }
             setHostile(false);
         }
     }

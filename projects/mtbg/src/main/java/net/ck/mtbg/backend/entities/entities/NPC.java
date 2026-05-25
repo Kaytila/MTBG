@@ -111,8 +111,7 @@ public class NPC extends AbstractEntity implements LifeForm
         setHealth(GameConfiguration.baseHealth + (getLevel() * 10));
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
-        getInventory().add(ItemManager.getWeaponList().get(3));
-        wieldWeapon(ItemManager.getWeaponList().get(1));
+        equipDefaultWeapon();
     }
 
     public NPC()
@@ -124,8 +123,7 @@ public class NPC extends AbstractEntity implements LifeForm
         setHealth(GameConfiguration.baseHealth + (getLevel() * 10));
         setState(LifeFormState.ALIVE);
         setArmorClass(0);
-        getInventory().add(ItemManager.getWeaponList().get(3));
-        wieldWeapon(ItemManager.getWeaponList().get(1));
+        equipDefaultWeapon();
         registerForEventsIfNeeded();
 
     }
@@ -135,6 +133,23 @@ public class NPC extends AbstractEntity implements LifeForm
     {
 
         this(that.getId(), that.isStatic(), that.isRanged(), that.isHostile(), that.isPatrolling(), that.isLightSource(), that.getLevel(), that.getMapPosition(), that.getSchedule(), that.getAttributes(), that.getOriginalMapPosition(), that.getOriginalTargetMapPosition(), that.getTargetMapPosition(), that.getMobasks(), that.getRunningAction(), that.getArmorClass(), that.getQueuedActions(), that.getCurrImage(), that.getHealth(), that.getHoldEquipment(), that.getInventory(), that.getLightRange(), that.getState(), that.getType());
+    }
+
+    private void equipDefaultWeapon()
+    {
+        Weapon defaultWeapon = ItemManager.getWeaponList().get(1);
+        if (defaultWeapon == null)
+        {
+            return;
+        }
+        if (!getInventory().contains(defaultWeapon))
+        {
+            getInventory().add(defaultWeapon);
+        }
+        if (getWeapon() == null)
+        {
+            wieldWeapon(defaultWeapon);
+        }
     }
 
     public NPC(int id, boolean aStatic, boolean ranged, boolean hostile, boolean patrolling, boolean lightSource, int level, Point mapPosition, Schedule schedule, Attributes attributes, Point originalMapPosition, Point originalTargetMapPosition, Point targetMapPosition, Hashtable<String, String> mobasks, AbstractKeyboardAction runningAction, int armorClass, CommandQueue queuedActions, int currImage, int health, Hashtable<Weapon, AbstractItem> holdEquipment, Inventory inventory, int lightrange, LifeFormState state, NPCType type)

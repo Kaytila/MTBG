@@ -686,6 +686,9 @@ public class Player extends AbstractEntity implements LifeForm
             logger.debug("fire new life form animation");
         }
         EventBus.getDefault().post(new AnimatedRepresentationChanged(this));
+
+        // Keep player damage handling simple and deterministic for battle logic/tests.
+        setHealth(getHealth() - i);
     }
 
 

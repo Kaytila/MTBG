@@ -25,6 +25,7 @@ public class BattleTest
     public static void setUpBeforeClass()
     {
         logger.info("GameTest: setupBeforeClass begin");
+        System.setProperty("mtbg.testMode", "true");
         RunGame.startGame(false);
 
         Game.getCurrent().getCurrentMap().getLifeForms().clear();
@@ -60,7 +61,6 @@ public class BattleTest
         n1.setType(NPCType.WARRIOR);
         Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
         n1.setMapPosition(new Point(3, 2));
-        n1.initialize();
 
         int playerHealthBefore = Game.getCurrent().getCurrentPlayer().getHealth();
         n1.attack(MapUtils.getMapTileByCoordinatesAsPoint(Game.getCurrent().getCurrentPlayer().getMapPosition()));
@@ -79,7 +79,6 @@ public class BattleTest
         n1.setType(NPCType.WARRIOR);
         Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
         n1.setMapPosition(new Point(4, 2));
-        n1.initialize();
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
 
         int playerHealthBefore = Game.getCurrent().getCurrentPlayer().getHealth();
@@ -100,7 +99,6 @@ public class BattleTest
         Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
         n1.setMapPosition(new Point(4, 2));
         Game.getCurrent().getCurrentMap().mapTiles[4][2].setLifeForm(n1);
-        n1.initialize();
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
 
         int npcHealthBefore = n1.getHealth();
@@ -121,7 +119,6 @@ public class BattleTest
         Game.getCurrent().getCurrentMap().getLifeForms().add(n1);
         n1.setMapPosition(new Point(3, 2));
         Game.getCurrent().getCurrentMap().mapTiles[3][2].setLifeForm(n1);
-        n1.initialize();
         n1.wieldWeapon(ItemManager.getWeaponList().get(3));
 
         int npcHealthBefore = n1.getHealth();

@@ -20,6 +20,7 @@ public class TalkTest
     public static void setUpBeforeClass()
     {
         logger.info("GameTest: setupBeforeClass begin");
+        System.setProperty("mtbg.testMode", "true");
         RunGame.startGame(false);
         Game.getCurrent().getCurrentMap().getLifeForms().clear();
         logger.info("GameTest: setupBeforeClass end");

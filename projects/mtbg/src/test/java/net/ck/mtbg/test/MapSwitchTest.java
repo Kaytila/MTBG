@@ -10,6 +10,7 @@ import net.ck.mtbg.items.Weapon;
 import net.ck.mtbg.items.WeaponTypes;
 import net.ck.mtbg.map.Map;
 import net.ck.mtbg.map.MapTile;
+import net.ck.mtbg.map.TileTypes;
 import net.ck.mtbg.util.communication.keyboard.gameactions.AbstractKeyboardAction;
 import net.ck.mtbg.util.communication.keyboard.gameactions.EnterAction;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +41,7 @@ class MapSwitchTest
             {
                 MapTile tile = new MapTile(x, y);
                 tile.setMapPosition(new Point(x, y));
+                tile.setType(TileTypes.GRASS);
                 map.mapTiles[x][y] = tile;
             }
         }

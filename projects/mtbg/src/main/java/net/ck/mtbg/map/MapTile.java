@@ -269,6 +269,13 @@ public class MapTile implements Comparable<MapTile>, Serializable
             return true;
         }
 
+        // Some tests build minimal maps and only set blocked/lifeform state.
+        // In that setup, tile type can be null and should not crash movement checks.
+        if (getType() == null)
+        {
+            return blocked;
+        }
+
         return switch (getType())
         {
             case DESERT, HILL, GRASS, SWAMP, LADDERUP, LADDERDOWN, STAIRSUP, STAIRSDOWN, CASTLEENTRANCE, TOWNENTRANCE, VILLAGEENTRANCE, GATEOPEN, WOODDOOROPEN, STONEDOOROPEN, DIRTROAD, PAVEDROAD,
