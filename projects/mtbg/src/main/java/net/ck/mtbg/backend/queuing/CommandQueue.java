@@ -30,6 +30,11 @@ public class CommandQueue implements Queue, Serializable
         actionList = new ArrayList<>();
     }
 
+    public CommandQueue(CommandQueue that)
+    {
+        this.actionList = new ArrayList<>(that.getActionList());
+    }
+
     @Override
     public int size()
     {

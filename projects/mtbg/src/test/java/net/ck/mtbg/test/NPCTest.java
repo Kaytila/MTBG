@@ -709,6 +709,44 @@ public class NPCTest
     }
 
     @Test
+    void copyConstructorCreatesIndependentMutableState()
+    {
+        NPC original = new NPC();
+        original.setId(51);
+        original.setType(NPCType.WARRIOR);
+        original.setMapPosition(new Point(5, 6));
+        original.setOriginalMapPosition(new Point(5, 6));
+        original.setTargetMapPosition(new Point(6, 6));
+        original.getMobasks().put("key", "value");
+        original.getAttributes().get(AttributeTypes.STRENGTH).setValue(11);
+        original.getInventory().add(createWeapon(990, "copy-test-sword", WeaponTypes.MELEE));
+        original.getQueuedActions().addEntry(new EastAction());
+        Schedule schedule = new Schedule(original);
+        ScheduleActivity activity = new ScheduleActivity();
+        activity.setStartTime(new GameTime());
+        activity.setTargetLocation(new Point(7, 7));
+        schedule.add(activity);
+        original.setSchedule(schedule);
+
+        NPC copy = new NPC(original);
+        copy.getMapPosition().move(9, 9);
+        copy.getMobasks().put("new", "entry");
+        copy.getAttributes().get(AttributeTypes.STRENGTH).setValue(99);
+        copy.getInventory().getInventory().clear();
+        copy.getQueuedActions().clear();
+        copy.getSchedule().getActivities().get(0).setTargetLocation(new Point(1, 1));
+
+        assertAll(
+                () -> assertEquals(new Point(5, 6), original.getMapPosition(), "MapPosition sollte nicht geteilt werden"),
+                () -> assertFalse(original.getMobasks().containsKey("new"), "Mobasks sollte nicht geteilt werden"),
+                () -> assertEquals(11, original.getAttributes().get(AttributeTypes.STRENGTH).getValue(), "Attributes sollte nicht geteilt werden"),
+                () -> assertFalse(original.getInventory().isEmpty(), "Inventory sollte nicht geteilt werden"),
+                () -> assertFalse(original.getQueuedActions().isEmpty(), "CommandQueue sollte nicht geteilt werden"),
+                () -> assertEquals(new Point(7, 7), original.getSchedule().getActivities().get(0).getTargetLocation(), "ScheduleActivity targetLocation sollte nicht geteilt werden")
+        );
+    }
+
+    @Test
     void scheduleActivityNotActivatedBeforeStartTime()
     {
         NPC npc = new NPC();
@@ -832,4 +870,3 @@ public class NPCTest
         placeLifeForm(maps[0], Game.getCurrent().getCurrentPlayer(), 0, 0);
     }
 }
-

@@ -221,6 +221,7 @@ public class NPCXMLReader extends DefaultHandler
                 break;
             case "mobask":
                 mobasks.put(question, answer);
+                // intentional fallthrough: mobask is finalized by mobasks
             case "mobasks":
                 n.setMobasks(mobasks);
                 break;

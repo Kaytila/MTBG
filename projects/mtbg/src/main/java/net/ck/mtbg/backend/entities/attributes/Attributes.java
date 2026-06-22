@@ -27,6 +27,38 @@ public class Attributes implements ListModel<AbstractAttribute>, Serializable
 		getAttributes().add(new Constitution());
 	}
 
+	public Attributes(Attributes that)
+	{
+		attributes = new ArrayList<>();
+		for (AbstractAttribute source : that.attributes)
+		{
+			AbstractAttribute copy;
+			if (source instanceof Strength)
+			{
+				copy = new Strength();
+			}
+			else if (source instanceof Dexterity)
+			{
+				copy = new Dexterity();
+			}
+			else if (source instanceof Intelligence)
+			{
+				copy = new Intelligence();
+			}
+			else if (source instanceof Constitution)
+			{
+				copy = new Constitution();
+			}
+			else
+			{
+				throw new IllegalStateException("Unknown attribute type: " + source.getClass());
+			}
+			copy.setValue(source.getValue());
+			copy.setImageNumber(source.getImageNumber());
+			attributes.add(copy);
+		}
+	}
+
 	@Override
 	public int getSize()
 	{

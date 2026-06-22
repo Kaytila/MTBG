@@ -409,6 +409,7 @@ public class MapXMLReader extends DefaultHandler
                 gameMap.setTargetCoordinates(exitPos);
                 maptile.setTargetCoordinates(exitPos);
                 exit = false;
+                break;
             case "targetCoordinates":
                 break;
             case "repeat":
@@ -442,6 +443,7 @@ public class MapXMLReader extends DefaultHandler
             case "armor":
                 Armor armor = ItemFactory.createArmor(Integer.parseInt(data.toString()));
                 maptile.getInventory().add(armor);
+                break;
             case "startTime":
                 String[] strings = data.toString().split(":");
                 if (GameConfiguration.debugMapParser == true)

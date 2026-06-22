@@ -26,6 +26,13 @@ public class Inventory extends AbstractListModel<AbstractItem>
         inventory = new ArrayList<>();
     }
 
+    public Inventory(Inventory that)
+    {
+        this.inventory = new ArrayList<>(that.getInventory());
+        this.maxWeight = that.maxWeight;
+        this.currentWeight = that.currentWeight;
+    }
+
     @Override
     public int getSize()
     {

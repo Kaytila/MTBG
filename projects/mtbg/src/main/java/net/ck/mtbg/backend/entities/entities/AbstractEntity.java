@@ -434,14 +434,14 @@ public abstract class AbstractEntity implements LifeForm, Serializable
                         logger.info("do not close opening: {} because it is blocked", tile.getType());
                     }
                 }
-
+                break;
             case GATECLOSED, WOODDOORCLOSED, STONEDOORCLOSED:
                 if (GameConfiguration.debugNPC == true)
                 {
                     logger.info("opening {}", tile.getType());
                 }
                 tile.switchTileType();
-
+                break;
             default:
                 logger.error("No door or gate here!");
         }
