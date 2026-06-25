@@ -64,6 +64,22 @@ public class Schedule
         return copy;
     }
 
+    public static boolean hasReachedTime(GameTime current, GameTime start)
+    {
+        if (current == null || start == null)
+        {
+            return false;
+        }
+        int currentMinutes = current.getCurrentHour() * 60 + current.getCurrentMinute();
+        int startMinutes = start.getCurrentHour() * 60 + start.getCurrentMinute();
+        return currentMinutes >= startMinutes;
+    }
+
+    public void add(ScheduleActivity scheduleActivity)
+    {
+        getActivities().add(scheduleActivity);
+    }
+
     /**
      * either set the index to the next activity,
      * or if reached the final one, set to the
@@ -71,6 +87,11 @@ public class Schedule
      */
     public void moveToNextScheduleActivity()
     {
+        if (activities == null || activities.isEmpty())
+        {
+            currentScheduleActivityIndex = 0;
+            return;
+        }
         if (GameConfiguration.debugSchedule == true)
         {
             logger.debug("activities index: {}", currentScheduleActivityIndex);
@@ -85,13 +106,16 @@ public class Schedule
         }
     }
 
-    public void add(ScheduleActivity scheduleActivity)
-    {
-        getActivities().add(scheduleActivity);
-    }
-
     public ScheduleActivity getCurrentlyActiveActivity()
     {
-        return getActivities().get(currentScheduleActivityIndex);
+        if (activities == null || activities.isEmpty())
+        {
+            return null;
+        }
+        if (currentScheduleActivityIndex < 0 || currentScheduleActivityIndex >= activities.size())
+        {
+            currentScheduleActivityIndex = 0;
+        }
+        return activities.get(currentScheduleActivityIndex);
     }
 }

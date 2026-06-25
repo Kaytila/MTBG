@@ -1340,3 +1340,4 @@ Schritt 4: Idle-Timer an Game-Mode statt UI-State koppeln
 2026-05-25: all tests pass.
 2026-06-22: updated commandsuccessmachine with some AI help.
             fixed a few bugs with incorrect switch statements.
+2026-06-25: fixed a bug or two. updated roadmap. added stubs for scheduling, quests, dialogues.

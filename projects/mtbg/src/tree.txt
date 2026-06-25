@@ -1,0 +1,89 @@
+Auflistung der Ordnerpfade
+Volumeseriennummer : 8A51-82EB
+C:.
++---main
+¦   +---java
+¦   ¦   +---net
+¦   ¦       +---ck
+¦   ¦           +---mtbg
+¦   ¦               +---animation
+¦   ¦               ¦   +---background
+¦   ¦               ¦   +---foreground
+¦   ¦               ¦   +---lifeform
+¦   ¦               ¦   +---missile
+¦   ¦               +---backend
+¦   ¦               ¦   +---actions
+¦   ¦               ¦   +---applications
+¦   ¦               ¦   +---configuration
+¦   ¦               ¦   +---entities
+¦   ¦               ¦   ¦   +---ai
+¦   ¦               ¦   ¦   +---attributes
+¦   ¦               ¦   ¦   +---entities
+¦   ¦               ¦   ¦   +---skills
+¦   ¦               ¦   +---game
+¦   ¦               ¦   +---queuing
+¦   ¦               ¦   +---state
+¦   ¦               ¦   +---threading
+¦   ¦               ¦   +---time
+¦   ¦               +---items
+¦   ¦               +---map
+¦   ¦               +---music
+¦   ¦               +---run
+¦   ¦               +---soundeffects
+¦   ¦               +---ui
+¦   ¦               ¦   +---actions
+¦   ¦               ¦   +---buttons
+¦   ¦               ¦   ¦   +---charactereditor
+¦   ¦               ¦   ¦   +---game
+¦   ¦               ¦   ¦   +---general
+¦   ¦               ¦   ¦   +---mapeditor
+¦   ¦               ¦   +---components
+¦   ¦               ¦   ¦   +---charactereditor
+¦   ¦               ¦   ¦   +---game
+¦   ¦               ¦   ¦   +---mapeditor
+¦   ¦               ¦   +---context
+¦   ¦               ¦   +---controllers
+¦   ¦               ¦   +---dialogs
+¦   ¦               ¦   +---dnd
+¦   ¦               ¦   +---highlighting
+¦   ¦               ¦   +---listeners
+¦   ¦               ¦   ¦   +---charactereditor
+¦   ¦               ¦   ¦   +---game
+¦   ¦               ¦   ¦   +---mapeditor
+¦   ¦               ¦   +---mainframes
+¦   ¦               ¦   ¦   +---charactereditor
+¦   ¦               ¦   ¦   +---game
+¦   ¦               ¦   ¦   +---mapeditor
+¦   ¦               ¦   +---models
+¦   ¦               ¦   ¦   +---charactereditor
+¦   ¦               ¦   ¦   +---game
+¦   ¦               ¦   ¦   +---mapeditor
+¦   ¦               ¦   +---renderers
+¦   ¦               ¦   ¦   +---charactereditor
+¦   ¦               ¦   ¦   +---game
+¦   ¦               ¦   ¦   +---mapeditor
+¦   ¦               ¦   +---state
+¦   ¦               +---util
+¦   ¦               ¦   +---astar
+¦   ¦               ¦   +---communication
+¦   ¦               ¦   ¦   +---graphics
+¦   ¦               ¦   ¦   +---keyboard
+¦   ¦               ¦   ¦   ¦   +---framework
+¦   ¦               ¦   ¦   ¦   +---gameactions
+¦   ¦               ¦   ¦   +---sound
+¦   ¦               ¦   ¦   +---time
+¦   ¦               ¦   +---security
+¦   ¦               ¦   +---ui
+¦   ¦               ¦   +---utils
+¦   ¦               ¦   +---xml
+¦   ¦               +---weather
+¦   +---resources
++---test
+    +---java
+        +---net
+            +---ck
+                +---mtbg
+                    +---test
+                    +---ui
+                        +---context
+                            +---test

@@ -8,6 +8,7 @@ import net.ck.mtbg.backend.actions.PlayerAction;
 import net.ck.mtbg.backend.applications.Game;
 import net.ck.mtbg.backend.configuration.GameConfiguration;
 import net.ck.mtbg.backend.entities.entities.LifeForm;
+import net.ck.mtbg.backend.queuing.Schedule;
 import net.ck.mtbg.backend.queuing.ScheduleActivity;
 import net.ck.mtbg.backend.time.GameTime;
 import net.ck.mtbg.items.WeaponTypes;
@@ -249,13 +250,14 @@ public class AIBehaviour
             {
                 if (!e.getSchedule().getActivities().isEmpty())
                 {
-                    if (e.getSchedule().getCurrentlyActiveActivity().isActive())
+                    ScheduleActivity currentActivity = e.getSchedule().getCurrentlyActiveActivity();
+                    if (currentActivity != null && currentActivity.isActive())
                     {
                         if (GameConfiguration.debugSchedule)
                         {
                             logger.debug("npc: {} current activity reached, set inactive, move to next one", e.getId());
                         }
-                        e.getSchedule().getCurrentlyActiveActivity().setActive(false);
+                        currentActivity.setActive(false);
                         e.getSchedule().moveToNextScheduleActivity();
                     }
                 }
@@ -320,7 +322,7 @@ public class AIBehaviour
         //if i only check for schedule existing, npc will never to anything else
         //i need to determine here whether there is a schedule activity that needs to be run
         //now instead of doing that within the call
-        else if ((e.getSchedule() != null) && (e.getSchedule().getCurrentlyActiveActivity().isActive()))
+        else if ((e.getSchedule() != null) && e.getSchedule().isActive() && (e.getSchedule().getCurrentlyActiveActivity() != null))
         {
             if (GameConfiguration.debugSchedule == true)
             {
@@ -360,7 +362,11 @@ public class AIBehaviour
                         logger.debug("npc {} schedule has activities", e.getId());
                     }
 
-                    ScheduleActivity activity = e.getSchedule().getActivities().get(e.getSchedule().getCurrentScheduleActivityIndex());
+                    ScheduleActivity activity = e.getSchedule().getCurrentlyActiveActivity();
+                    if (activity == null)
+                    {
+                        return;
+                    }
 
                     GameTime startTime = activity.getStartTime();
                     if (GameConfiguration.debugSchedule == true)
@@ -368,26 +374,20 @@ public class AIBehaviour
                         logger.debug("npc {} game time: {}", e.getId(), Game.getCurrent().getGameTime());
                         logger.debug("npc {} activity start time: {}", e.getId(), startTime);
                     }
-                    if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
+                    if (Schedule.hasReachedTime(Game.getCurrent().getGameTime(), startTime))
                     {
-                        if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
+                        if (!activity.isActive())
                         {
-                            if (e.getSchedule().getCurrentScheduleActivityIndex() == 0)
-                            {
-                                logger.debug("first action is already active");
-                                //first one is already set active
-                            }
-                            else
-                            {
-                                activity.setActive(true);
-                            }
-                            if (GameConfiguration.debugSchedule == true)
-                            {
-                                logger.debug("npc {} activating activity: {}", e.getId(), activity);
-                            }
-
+                            activity.setActive(true);
+                        }
+                        if (GameConfiguration.debugSchedule == true)
+                        {
+                            logger.debug("npc {} activating activity: {}", e.getId(), activity);
+                        }
+                        if (activity.getAction() != null)
+                        {
                             e.setRunningAction(activity.getAction());
-                            e.doAction(new PlayerAction(activity.getAction()));
+                            e.doAction(new NPCAction(activity.getAction()));
                         }
                     }
 

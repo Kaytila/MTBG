@@ -45,7 +45,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Player extends AbstractEntity implements LifeForm
+public class Player extends AbstractEntity
 {
 
     /**
@@ -822,6 +822,10 @@ public class Player extends AbstractEntity implements LifeForm
     public boolean moveTo(MapTile tileByCoordinates)
     {
         setQueuedActions(new CommandQueue());
+        if (tileByCoordinates == null)
+        {
+            return false;
+        }
         if (GameConfiguration.debugPC == true)
         {
             logger.debug("start: {}", MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
@@ -830,6 +834,7 @@ public class Player extends AbstractEntity implements LifeForm
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
+        boolean plannedMove = false;
         for (MapTile node : path)
         {
             if (node.getMapPosition().equals(getMapPosition()))
@@ -845,21 +850,25 @@ public class Player extends AbstractEntity implements LifeForm
                 {
                     getQueuedActions().addEntry(new EastAction());
                     futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
+                    plannedMove = true;
                 }
                 else if (node.x < futureMapPosition.x)
                 {
                     getQueuedActions().addEntry(new WestAction());
                     futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
+                    plannedMove = true;
                 }
                 else if (node.y > futureMapPosition.y)
                 {
                     getQueuedActions().addEntry(new SouthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
+                    plannedMove = true;
                 }
                 else if (node.y < futureMapPosition.y)
                 {
                     getQueuedActions().addEntry(new NorthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
+                    plannedMove = true;
                 }
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
@@ -868,9 +877,10 @@ public class Player extends AbstractEntity implements LifeForm
                 {
                     logger.debug("target can be reached");
                 }
+                return true;
             }
         }
-        return false;
+        return plannedMove;
     }
 
     public boolean switchMap()

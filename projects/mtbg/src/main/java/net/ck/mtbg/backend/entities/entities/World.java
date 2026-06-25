@@ -31,10 +31,8 @@ import java.util.Random;
 @Log4j2
 @Getter
 @Setter
-public class World extends AbstractEntity implements LifeForm
+public class World extends AbstractEntity
 {
-    private boolean spawned = false;
-
     public World()
     {
         super();

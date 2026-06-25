@@ -39,7 +39,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class NPC extends AbstractEntity implements LifeForm
+public class NPC extends AbstractEntity
 {
     private Hashtable<String, String> mobasks;
 
@@ -336,22 +336,13 @@ public class NPC extends AbstractEntity implements LifeForm
         {
             if (this.getSchedule().isActive())
             {
-                if (!this.getSchedule().getActivities().isEmpty())
+                ScheduleActivity currentActivity = this.getSchedule().getCurrentlyActiveActivity();
+                if (currentActivity != null)
                 {
-                    for (ScheduleActivity scheduleActivity : this.getSchedule().getActivities())
+                    GameTime startTime = currentActivity.getStartTime();
+                    if (Schedule.hasReachedTime(Game.getCurrent().getGameTime(), startTime))
                     {
-                        GameTime startTime = scheduleActivity.getStartTime();
-
-                        if (Game.getCurrent().getGameTime().getCurrentHour() >= startTime.getCurrentHour())
-                        {
-                            if (Game.getCurrent().getGameTime().getCurrentMinute() >= startTime.getCurrentMinute())
-                            {
-                                if (!scheduleActivity.isActive())
-                                {
-                                    scheduleActivity.setActive(true);
-                                }
-                            }
-                        }
+                        currentActivity.setActive(true);
                     }
                 }
             }
@@ -484,7 +475,7 @@ public class NPC extends AbstractEntity implements LifeForm
             case EAST:
                 // logger.info("p: {}", p.toString());
 
-                if (p.x + 1 <= xBorder)
+                if (p.x + 1 < xBorder)
                 {
                     if (!(MapUtils.lookAhead((p.x + 1), (p.y))))
                     {
@@ -582,7 +573,7 @@ public class NPC extends AbstractEntity implements LifeForm
                 break;
             case SOUTH:
                 // logger.info("p: {}", p.toString());
-                if (p.y + 1 <= yBorder)
+                if (p.y + 1 < yBorder)
                 {
                     if (!(MapUtils.lookAhead((p.x), (p.y + 1))))
                     {
@@ -779,6 +770,10 @@ public class NPC extends AbstractEntity implements LifeForm
     public boolean moveTo(MapTile tileByCoordinates)
     {
         setQueuedActions(new CommandQueue());
+        if (tileByCoordinates == null)
+        {
+            return false;
+        }
         if (GameConfiguration.debugNPC)
         {
             logger.debug("NPC {} start: {}", this.getId(), MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()));
@@ -793,6 +788,7 @@ public class NPC extends AbstractEntity implements LifeForm
         AStar.initialize(Game.getCurrent().getCurrentMap().getSize().y, Game.getCurrent().getCurrentMap().getSize().x, MapUtils.getMapTileByCoordinatesAsPoint(getMapPosition()), tileByCoordinates, Game.getCurrent().getCurrentMap());
         ArrayList<MapTile> path = (ArrayList<MapTile>) AStar.findPath();
         Point futureMapPosition = new Point(getMapPosition().x, getMapPosition().y);
+        boolean plannedMove = false;
         for (MapTile node : path)
         {
             if (node.getMapPosition().equals(getMapPosition()))
@@ -812,6 +808,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     }
                     queuedActions.addEntry(new EastAction());
                     futureMapPosition.move(futureMapPosition.x + 1, futureMapPosition.y);
+                    plannedMove = true;
                 }
                 else if (node.x < futureMapPosition.x)
                 {
@@ -821,6 +818,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     }
                     queuedActions.addEntry(new WestAction());
                     futureMapPosition.move(futureMapPosition.x - 1, futureMapPosition.y);
+                    plannedMove = true;
                 }
                 else if (node.y > futureMapPosition.y)
                 {
@@ -830,6 +828,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     }
                     queuedActions.addEntry(new SouthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y + 1);
+                    plannedMove = true;
                 }
                 else if (node.y < futureMapPosition.y)
                 {
@@ -839,6 +838,7 @@ public class NPC extends AbstractEntity implements LifeForm
                     }
                     queuedActions.addEntry(new NorthAction());
                     futureMapPosition.move(futureMapPosition.x, futureMapPosition.y - 1);
+                    plannedMove = true;
                 }
             }
             if (node.getMapPosition().equals(tileByCoordinates.getMapPosition()))
@@ -853,9 +853,10 @@ public class NPC extends AbstractEntity implements LifeForm
                     //TODO
                     doAction(new NPCAction(queuedActions.poll()));
                 }
+                return true;
             }
         }
-        return false;
+        return plannedMove;
     }
 
     /**
