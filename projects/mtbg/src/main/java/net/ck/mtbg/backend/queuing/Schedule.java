@@ -44,6 +44,17 @@ public class Schedule
         this.currentScheduleActivityIndex = that.currentScheduleActivityIndex;
     }
 
+    public static boolean hasReachedTime(GameTime current, GameTime start)
+    {
+        if (current == null || start == null)
+        {
+            return false;
+        }
+        int currentMinutes = current.getCurrentHour() * 60 + current.getCurrentMinute();
+        int startMinutes = start.getCurrentHour() * 60 + start.getCurrentMinute();
+        return currentMinutes >= startMinutes;
+    }
+
     private GameTime copyGameTime(GameTime source)
     {
         if (source == null)
@@ -62,17 +73,6 @@ public class Schedule
         copy.setOldMonth(source.getOldMonth());
         copy.setOldYear(source.getOldYear());
         return copy;
-    }
-
-    public static boolean hasReachedTime(GameTime current, GameTime start)
-    {
-        if (current == null || start == null)
-        {
-            return false;
-        }
-        int currentMinutes = current.getCurrentHour() * 60 + current.getCurrentMinute();
-        int startMinutes = start.getCurrentHour() * 60 + start.getCurrentMinute();
-        return currentMinutes >= startMinutes;
     }
 
     public void add(ScheduleActivity scheduleActivity)

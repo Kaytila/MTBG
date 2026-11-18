@@ -25,6 +25,7 @@ public class NPCEditDialog extends AbstractDialog
 
     public NPCEditDialog(JFrame owner, String title, boolean modal)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
 

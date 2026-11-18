@@ -18,6 +18,7 @@ public class StatsDialog extends AbstractDialog
 
     public StatsDialog(JFrame owner, String title, boolean modal)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(null);

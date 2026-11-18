@@ -22,6 +22,7 @@ public class SpellDialog extends AbstractDialog
 
     public SpellDialog(JFrame owner, String title, boolean modal, AbstractKeyboardAction action)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(new GridLayout(1, 0));

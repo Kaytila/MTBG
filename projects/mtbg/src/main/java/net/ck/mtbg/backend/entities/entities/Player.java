@@ -143,9 +143,9 @@ public class Player extends AbstractEntity
         skill2.setId(2);
 
         AbstractSkill skill3 = new AbstractSkill();
-        skill2.setName("Kick");
-        skill2.setLevel(2);
-        skill2.setId(3);
+        skill3.setName("Kick");
+        skill3.setLevel(2);
+        skill3.setId(3);
 
         getSkills().add(skill1);
         getSkills().add(skill2);

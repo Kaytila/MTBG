@@ -16,12 +16,6 @@ import javax.swing.*;
 public class ContainerDialog extends AbstractDialog
 {
 
-
-    public ContainerDialog()
-    {
-
-    }
-
     /**
      * Might be that I can reuse the full inventory dialog again
      * <a href="https://stackoverflow.com/questions/8976874/show-two-dialogs-on-top-of-each-other-using-java-swing">
@@ -34,6 +28,7 @@ public class ContainerDialog extends AbstractDialog
      */
     public ContainerDialog(JFrame owner, String title, boolean modal, Inventory inventory)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(null);

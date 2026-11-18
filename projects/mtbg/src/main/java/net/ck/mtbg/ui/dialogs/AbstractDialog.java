@@ -5,9 +5,11 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import net.ck.mtbg.ui.buttons.general.CancelButton;
 import net.ck.mtbg.ui.buttons.general.OKButton;
+import net.ck.mtbg.ui.components.game.FantasyPanel;
 import net.ck.mtbg.util.communication.keyboard.framework.WindowClosingAction;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 @Log4j2
@@ -18,15 +20,11 @@ public class AbstractDialog extends JDialog
 
     public static final String dispatchWindowClosingActionMapKey = "WINDOW_CLOSING";
     protected static final KeyStroke escapeStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+
+    protected final JPanel contentPanel = new JPanel(new BorderLayout(12, 12));
     public CancelButton cancelButton;
     public OKButton okButton;
     protected JRootPane root;
-
-
-    public AbstractDialog()
-    {
-
-    }
 
 
     public AbstractDialog(JFrame owner, String title, boolean modal)
@@ -34,7 +32,11 @@ public class AbstractDialog extends JDialog
         super(owner, title, true);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
-
+        JPanel frame = new FantasyPanel();
+        frame.setLayout(new BorderLayout(12, 12));
+        frame.setBorder(BorderFactory.createEmptyBorder(18, 22, 22, 22));
+        setContentPane(frame);
+        this.setUndecorated(true);
         this.setLocationRelativeTo(owner);
         final WindowClosingAction dispatchClosing = new WindowClosingAction(this);
         root = this.getRootPane();
@@ -48,8 +50,8 @@ public class AbstractDialog extends JDialog
         okButton = new OKButton();
         okButton.setBounds(getWidth() - 160, getHeight() - 70, 70, 30);
         cancelButton.setBounds(getWidth() - 90, getHeight() - 70, 70, 30);
-        this.add(cancelButton);
-        this.add(okButton);
+        getContentPane().add(cancelButton);
+        getContentPane().add(okButton);
     }
 
     /**

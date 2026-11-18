@@ -18,6 +18,7 @@ public class MessageDialog extends AbstractDialog
 
     public MessageDialog(JFrame owner, String title, boolean modal, Message message1)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, 300, 300);
         this.setLayout(null);

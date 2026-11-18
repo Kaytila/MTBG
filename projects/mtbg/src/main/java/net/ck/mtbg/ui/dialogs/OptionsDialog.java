@@ -17,6 +17,7 @@ public class OptionsDialog extends AbstractDialog
 {
     public OptionsDialog(JFrame owner, String title, boolean modal)
     {
+        super(owner, title, modal);
         setTitle(title);
         //why does this need to be there?
         this.setBounds(0, 0, 300, 500);
@@ -95,7 +96,7 @@ public class OptionsDialog extends AbstractDialog
         {
             ((JComponent) comp).setAlignmentX(Component.LEFT_ALIGNMENT);
         }
-        
+
         this.setVisible(true);
     }
 }

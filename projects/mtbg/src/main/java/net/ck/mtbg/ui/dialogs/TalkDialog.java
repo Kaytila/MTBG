@@ -25,6 +25,7 @@ public class TalkDialog extends AbstractDialog
 
     public TalkDialog(JFrame owner, String title, boolean modal, LifeForm n)
     {
+        super(owner, title, modal);
         setTitle(title);
         setNpc(n);
         this.setBounds(0, 200, 700, 700);

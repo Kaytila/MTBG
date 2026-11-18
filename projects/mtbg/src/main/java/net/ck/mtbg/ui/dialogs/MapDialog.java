@@ -21,6 +21,7 @@ public class MapDialog extends AbstractDialog
 {
     public MapDialog(JFrame owner, String title, boolean modal, Map map)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, 500, 500);
         this.setLayout(null);

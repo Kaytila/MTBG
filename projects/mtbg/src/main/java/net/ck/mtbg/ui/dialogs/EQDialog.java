@@ -26,6 +26,7 @@ public class EQDialog extends AbstractDialog
 
     public EQDialog(JFrame owner, String title, boolean modal)
     {
+        super(owner, title, modal);
         setTitle(title);
         this.setBounds(0, 0, GameConfiguration.dialogWidth, GameConfiguration.dialogHeight);
         this.setLayout(null);
